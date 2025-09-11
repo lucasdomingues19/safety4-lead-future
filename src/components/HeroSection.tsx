@@ -35,13 +35,13 @@ export const HeroSection = () => {
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          {/* Logo Section */}
-          <div className="text-center mb-12 animate-fade-in">
-            <div className="flex justify-center mb-6">
+          {/* Logo Section - Left Aligned & Bigger */}
+          <div className="mb-16 animate-fade-in">
+            <div className="flex justify-start mb-8">
               <img 
-                src="/lovable-uploads/049acaaf-1bd3-4d4f-9946-bdba05a354cf.png" 
+                src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
                 alt="Safety 4.0 Academy Logo" 
-                className="h-20 w-auto"
+                className="h-32 w-auto"
               />
             </div>
           </div>
@@ -55,7 +55,7 @@ export const HeroSection = () => {
                   <span className="text-sm">Future-Ready Safety Leadership</span>
                 </div>
                 
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight">
+                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight text-white">
                   Master <span className="text-secondary block lg:inline">AI-Powered Safety,</span>
                   <br className="hidden lg:block" />
                   Lead the <span className="text-primary">Digital Revolution</span>
