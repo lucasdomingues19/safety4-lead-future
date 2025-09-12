@@ -14,36 +14,22 @@ export const HeroSection = () => {
   
   return (
     <section className="min-h-screen bg-background relative overflow-hidden">
-      {/* Enhanced gradient background with multiple layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-purple-900/50 via-slate-900 to-black"></div>
-      <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/30 via-transparent to-indigo-900/20"></div>
+      {/* Black to dark blue gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
-      {/* Enhanced flowing animated blobs with more purple elements */}
+      {/* Floating purple elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Blob 1 - Enhanced Purple/Pink flowing gradient */}
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/40 via-pink-500/30 to-purple-600/25 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
+        {/* Main purple blob - Top left */}
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/30 via-purple-600/25 to-violet-500/20 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
         
-        {/* Blob 2 - Purple/Blue flowing gradient */}
-        <div className="absolute top-1/3 -right-40 w-80 h-80 rounded-full bg-gradient-to-br from-purple-400/30 via-violet-500/25 to-purple-600/20 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
+        {/* Purple blob - Top right */}
+        <div className="absolute top-1/3 -right-40 w-80 h-80 rounded-full bg-gradient-to-br from-purple-400/25 via-violet-500/30 to-purple-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
         
-        {/* Blob 3 - Purple center flowing */}
-        <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/25 via-purple-500/30 to-purple-400/20 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
-        
-        {/* New Purple floating element - Top right */}
-        <div className="absolute top-20 right-1/4 w-60 h-60 rounded-full bg-gradient-to-br from-purple-400/20 via-violet-400/25 to-purple-500/15 blur-3xl animate-[float_35s_ease-in-out_infinite]"></div>
-        
-        {/* New Purple floating element - Left center */}
-        <div className="absolute top-1/2 -left-20 w-80 h-80 rounded-full bg-gradient-to-br from-purple-500/15 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_40s_ease-in-out_infinite_reverse]"></div>
-        
-        {/* New Purple floating element - Bottom right */}
-        <div className="absolute bottom-20 right-10 w-48 h-48 rounded-full bg-gradient-to-br from-violet-400/25 via-purple-400/20 to-purple-500/15 blur-2xl animate-[float_28s_ease-in-out_infinite]"></div>
+        {/* Purple blob - Bottom center */}
+        <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/20 via-purple-500/25 to-purple-400/15 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
         
         {/* Central purple accent */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-purple-400/20 via-violet-500/25 to-purple-600/15 blur-2xl animate-[pulse_15s_ease-in-out_infinite]"></div>
-        
-        {/* Subtle purple overlay elements */}
-        <div className="absolute top-3/4 left-1/4 w-40 h-40 rounded-full bg-purple-500/10 blur-2xl animate-[float_22s_ease-in-out_infinite]"></div>
-        <div className="absolute top-1/4 left-3/4 w-32 h-32 rounded-full bg-violet-400/15 blur-xl animate-[float_32s_ease-in-out_infinite_reverse]"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-purple-400/15 via-violet-500/20 to-purple-600/10 blur-2xl animate-[pulse_15s_ease-in-out_infinite]"></div>
       </div>
       
       {/* Subtle grid pattern */}
