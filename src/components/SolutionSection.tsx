@@ -34,14 +34,41 @@ export const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-hero">
-      <div className="container mx-auto px-4">
+    <section className="py-20 relative overflow-hidden">
+      {/* Black to dark blue gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
+      
+      {/* Floating purple elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Purple blob - Top left */}
+        <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_18s_ease-in-out_infinite]"></div>
+        
+        {/* Purple blob - Top right */}
+        <div className="absolute -top-10 -right-32 w-64 h-64 rounded-full bg-gradient-to-br from-violet-400/20 via-purple-500/25 to-purple-600/15 blur-3xl animate-[float_24s_ease-in-out_infinite_reverse]"></div>
+        
+        {/* Purple blob - Bottom center */}
+        <div className="absolute -bottom-20 left-1/2 transform -translate-x-1/2 w-80 h-80 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-400/20 to-violet-500/15 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
+        
+        {/* Small accent elements */}
+        <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-full bg-purple-500/15 blur-2xl animate-[float_26s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 rounded-full bg-violet-400/10 blur-2xl animate-[float_22s_ease-in-out_infinite_reverse]"></div>
+      </div>
+      
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
-          <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-8">
-            The Solution: <span className="text-primary">Safety 4.0 Academy</span>
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
+            The Solution: <span className="text-lime-400">Safety 4.0 Academy</span>
           </h2>
           
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="text-xl text-gray-300 leading-relaxed">
             We've created the world's first comprehensive digital safety leadership program 
             that transforms traditional safety professionals into future-ready leaders.
           </p>
@@ -53,28 +80,28 @@ export const SolutionSection = () => {
             return (
               <Card 
                 key={index}
-                className={`p-8 border-0 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 animate-slide-up bg-gradient-to-br ${benefit.gradient}`}
+                className="p-8 border border-white/20 bg-white/5 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up"
                 style={{animationDelay: `${index * 0.2}s`}}
               >
                 <CardContent className="p-0">
                   <div className="flex items-start space-x-6">
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-glow">
+                      <div className="w-16 h-16 bg-gradient-to-br from-lime-500 to-lime-600 rounded-2xl flex items-center justify-center shadow-lg">
                         <Icon className="w-8 h-8 text-white" />
                       </div>
                     </div>
                     
                     <div className="space-y-3">
                       <div>
-                        <h3 className="text-2xl font-bold text-secondary leading-tight">
+                        <h3 className="text-2xl font-bold text-white leading-tight">
                           {benefit.title}
                         </h3>
-                        <p className="text-primary font-semibold text-lg">
+                        <p className="text-lime-400 font-semibold text-lg">
                           {benefit.subtitle}
                         </p>
                       </div>
                       
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-gray-300 leading-relaxed">
                         {benefit.description}
                       </p>
                     </div>
