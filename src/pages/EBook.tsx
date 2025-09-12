@@ -27,11 +27,11 @@ const EBook = () => {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Left Side - eBook Cover and Info */}
             <div className="space-y-8">
               {/* eBook Cover Placeholder */}
-              <div className="relative max-w-md mx-auto lg:mx-0">
+              <div className="relative max-w-sm mx-auto lg:mx-0">
                 <div className="aspect-[3/4] bg-gradient-to-br from-pink-500/20 to-lime-500/20 rounded-2xl border border-white/20 flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-lime-500/10"></div>
                   <div className="relative z-10 text-center p-8">
@@ -95,7 +95,7 @@ const EBook = () => {
 
             {/* Right Side - Download Form */}
             <div className="space-y-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 h-fit">
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-white mb-4">
                     Download Your Free Copy
