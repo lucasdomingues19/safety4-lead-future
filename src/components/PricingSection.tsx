@@ -44,7 +44,7 @@ export const PricingSection = () => {
         "Priority support",
         "Cohort completion certificate",
       ],
-      cta: "Join Next Cohort",
+      cta: "Coming Soon",
       popular: false,
       gradient: "from-pink-500/20 to-purple-500/20",
       borderColor: "border-pink-500/50",
