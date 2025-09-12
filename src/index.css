@@ -112,6 +112,8 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    background: linear-gradient(to bottom right, #11113a, #000000);
+    @apply text-foreground;
+    min-height: 100vh;
   }
 }
