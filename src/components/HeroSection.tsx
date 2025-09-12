@@ -143,17 +143,20 @@ export const HeroSection = () => {
           {/* Video Presentation Placeholder */}
           <div className="max-w-4xl mx-auto mb-12">
             <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-              <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative group cursor-pointer">
-                <div className="absolute inset-0 bg-black/20"></div>
-                
-                {/* Video Content */}
-                <div className="relative z-10 text-center">
-                  <div className="w-24 h-24 bg-lime-500 hover:bg-lime-600 rounded-full flex items-center justify-center mb-6 mx-auto shadow-2xl group-hover:scale-110 transition-all duration-300">
-                    <Play className="w-10 h-10 text-white ml-1" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Course Introduction</h3>
-                  <p className="text-white/90 text-lg">Discover how Safety 4.0 will transform your career</p>
-                </div>
+              <video 
+                className="w-full aspect-video rounded-xl"
+                controls
+                poster="/videos/course-intro-poster.jpg" // You can add a poster image later
+                preload="metadata"
+              >
+                <source src="/videos/course-intro.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              
+              {/* Video Info Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">Course Introduction</h3>
+                <p className="text-white/90 text-lg">Discover how Safety 4.0 will transform your career</p>
               </div>
             </div>
           </div>
