@@ -6,6 +6,7 @@ import { SocialProofSection } from "@/components/SocialProofSection";
 import { ProgramSection } from "@/components/ProgramSection";
 import { UrgencySection } from "@/components/UrgencySection";
 import { FinalCTASection } from "@/components/FinalCTASection";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -18,6 +19,7 @@ const Index = () => {
       <ProgramSection />
       <UrgencySection />
       <FinalCTASection />
+      <Footer />
     </div>
   );
 };
