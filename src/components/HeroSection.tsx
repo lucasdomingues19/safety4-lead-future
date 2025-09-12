@@ -4,8 +4,8 @@ import { ArrowRight, Shield, Zap, Play } from "lucide-react";
 export const HeroSection = () => {
   return (
     <section className="min-h-screen bg-background relative overflow-hidden">
-      {/* Dark gradient background similar to LeadPages */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+      {/* Dark gradient background with custom dark blue to black */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 opacity-10">
