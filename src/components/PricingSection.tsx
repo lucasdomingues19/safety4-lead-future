@@ -6,6 +6,7 @@ export const PricingSection = () => {
     {
       name: "eLearning",
       price: "$497",
+      originalPrice: "$697",
       period: "one-time",
       description: "Self-paced online learning with lifetime access",
       icon: BookOpen,
@@ -27,7 +28,8 @@ export const PricingSection = () => {
     },
     {
       name: "Cohort",
-      price: "$1,497",
+      price: "$997",
+      originalPrice: "$1,297",
       period: "per person",
       description: "Live group training with expert guidance and peer interaction",
       icon: Users,
@@ -112,7 +114,14 @@ export const PricingSection = () => {
                 <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
                 <p className="text-gray-300 text-sm mb-4">{tier.description}</p>
                 <div className="flex items-baseline justify-center space-x-2">
-                  <span className="text-4xl font-bold text-white">{tier.price}</span>
+                  {tier.originalPrice ? (
+                    <div className="flex flex-col items-center">
+                      <span className="text-gray-400 text-lg line-through mb-1">{tier.originalPrice}</span>
+                      <span className="text-4xl font-bold text-white">{tier.price}</span>
+                    </div>
+                  ) : (
+                    <span className="text-4xl font-bold text-white">{tier.price}</span>
+                  )}
                   <span className="text-gray-400 text-lg">{tier.period}</span>
                 </div>
               </div>
