@@ -87,6 +87,66 @@ export const HeroSection = () => {
             </Button>
           </div>
 
+          {/* Testimonials Banner */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 mb-16 border border-white/10">
+            <h3 className="text-center text-white text-xl font-semibold mb-8">What Safety Professionals Are Saying</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Testimonial 1 */}
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">JS</span>
+                </div>
+                <p className="text-gray-300 text-sm italic">"This program transformed my understanding of digital safety leadership completely."</p>
+                <div className="text-white text-xs font-medium">John Smith, Safety Manager</div>
+              </div>
+
+              {/* Testimonial 2 */}
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">MJ</span>
+                </div>
+                <p className="text-gray-300 text-sm italic">"The AI analytics module opened up new career opportunities I never imagined."</p>
+                <div className="text-white text-xs font-medium">Maria Johnson, HSE Director</div>
+              </div>
+
+              {/* Testimonial 3 */}
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">DW</span>
+                </div>
+                <p className="text-gray-300 text-sm italic">"Industry 4.0 ready certification that actually delivers on its promise."</p>
+                <div className="text-white text-xs font-medium">David Wilson, Safety Consultant</div>
+              </div>
+
+              {/* Testimonial 4 */}
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">SL</span>
+                </div>
+                <p className="text-gray-300 text-sm italic">"The best investment I made for my safety career advancement."</p>
+                <div className="text-white text-xs font-medium">Sarah Lee, Safety Engineer</div>
+              </div>
+
+              {/* Testimonial 5 */}
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">RT</span>
+                </div>
+                <p className="text-gray-300 text-sm italic">"Global recognition and practical skills that work in real-world scenarios."</p>
+                <div className="text-white text-xs font-medium">Robert Taylor, Chief Safety Officer</div>
+              </div>
+
+              {/* Testimonial 6 */}
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mx-auto flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">AL</span>
+                </div>
+                <p className="text-gray-300 text-sm italic">"From traditional safety to digital leadership in just 12 weeks."</p>
+                <div className="text-white text-xs font-medium">Anna Lopez, Safety Specialist</div>
+              </div>
+            </div>
+          </div>
+
           {/* Showcase Section - Similar to LeadPages gallery */}
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Course Preview Card */}
