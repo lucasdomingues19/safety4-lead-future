@@ -3,177 +3,115 @@ import { ArrowRight, Shield, Zap, Play } from "lucide-react";
 
 export const HeroSection = () => {
   return (
-    <>
-      {/* Stats Bar */}
-      <section className="bg-card border-b border-border/20 py-6">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-3xl md:text-4xl font-bold text-primary">2,500+</div>
-              <div className="text-sm text-muted-foreground">Safety professionals trained</div>
+    <section className="min-h-screen bg-background relative overflow-hidden">
+      {/* Dark gradient background similar to LeadPages */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+      
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}></div>
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-20">
+        {/* Header with Logo */}
+        <div className="flex justify-between items-center mb-16">
+          <img 
+            src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
+            alt="Safety 4.0 Academy Logo" 
+            className="h-20 w-auto"
+          />
+          <div className="hidden md:flex items-center space-x-6 text-white/80 text-sm">
+            <span>2,500+ Professionals Trained</span>
+            <span>•</span>
+            <span>98% Career Advancement</span>
+            <span>•</span>
+            <span>50+ Countries</span>
+          </div>
+        </div>
+
+        {/* Main Content - Centered like LeadPages */}
+        <div className="text-center max-w-6xl mx-auto">
+          {/* Badge */}
+          <div className="inline-flex items-center space-x-2 text-pink-400 font-medium bg-pink-400/10 px-6 py-3 rounded-full border border-pink-400/20 mb-8">
+            <Shield className="w-4 h-4" />
+            <span>IOSH & CPD Approved Program</span>
+          </div>
+          
+          {/* Main Headline */}
+          <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-8">
+            Become the <span className="text-pink-500">Safety 4.0</span> Leader<br />
+            in the Digital Age
+          </h1>
+          
+          {/* Subheading */}
+          <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 font-light">
+            Transform from traditional safety professional to digital leader with the only Industry 4.0 safety program trusted by global organizations.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Button 
+              size="lg" 
+              className="bg-pink-500 hover:bg-pink-600 text-white text-lg px-12 py-6 font-semibold rounded-xl group shadow-2xl"
+            >
+              START YOUR TRANSFORMATION
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-2 border-white/30 text-white hover:bg-white/10 text-lg px-12 py-6 font-semibold rounded-xl"
+            >
+              EXPLORE CURRICULUM
+            </Button>
+          </div>
+
+          {/* Showcase Section - Similar to LeadPages gallery */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Course Preview Card */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+              <div className="aspect-video bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl mb-4 flex items-center justify-center">
+                <Play className="w-12 h-12 text-white/80" />
+              </div>
+              <h3 className="text-white font-semibold mb-2">AI Safety Analytics</h3>
+              <p className="text-gray-400 text-sm">Learn predictive safety modeling with AI</p>
             </div>
-            <div className="space-y-2">
-              <div className="text-3xl md:text-4xl font-bold text-secondary">98%</div>
-              <div className="text-sm text-muted-foreground">Career advancement rate</div>
+
+            {/* Digital Leadership Card */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+              <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl mb-4 flex items-center justify-center">
+                <Zap className="w-12 h-12 text-white/80" />
+              </div>
+              <h3 className="text-white font-semibold mb-2">Digital Leadership</h3>
+              <p className="text-gray-400 text-sm">Master Industry 4.0 safety technologies</p>
             </div>
-            <div className="space-y-2">
-              <div className="text-3xl md:text-4xl font-bold text-primary">50+</div>
-              <div className="text-sm text-muted-foreground">Countries represented</div>
+
+            {/* Certification Card */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+              <div className="aspect-video bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl mb-4 flex items-center justify-center">
+                <Shield className="w-12 h-12 text-white/80" />
+              </div>
+              <h3 className="text-white font-semibold mb-2">Global Certification</h3>
+              <p className="text-gray-400 text-sm">IOSH recognized worldwide credential</p>
+            </div>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="mt-16 pt-8 border-t border-white/10">
+            <p className="text-gray-400 text-sm mb-6">TRUSTED BY GLOBAL LEADERS</p>
+            <div className="flex items-center justify-center space-x-12 opacity-60">
+              <div className="text-white font-bold tracking-wider">SHELL</div>
+              <div className="text-white font-bold tracking-wider">BP</div>
+              <div className="text-white font-bold tracking-wider">SIEMENS</div>
+              <div className="text-white font-bold tracking-wider">3M</div>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Main Hero */}
-      <section className="min-h-screen bg-gradient-hero flex items-center py-20 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-10 w-32 h-32 border border-secondary rounded-full"></div>
-          <div className="absolute bottom-20 right-10 w-48 h-48 border border-primary rounded-full"></div>
-          <div className="absolute top-1/2 left-1/4 w-24 h-24 border border-secondary rounded-full"></div>
-          <div className="absolute top-1/3 right-1/3 w-16 h-16 border border-primary rounded-full"></div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Logo Section - Top & Bigger */}
-          <div className="mb-20 animate-fade-in pt-8">
-            <div className="flex justify-start mb-8">
-              <img 
-                src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
-                alt="Safety 4.0 Academy Logo" 
-                className="h-40 w-auto"
-              />
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content */}
-            <div className="space-y-10 animate-fade-in text-center lg:text-left">
-              <div className="space-y-8">
-                <div className="inline-flex items-center space-x-2 text-secondary font-medium bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20">
-                  <Shield className="w-4 h-4" />
-                  <span className="text-sm">Future-Ready Safety Leadership</span>
-                </div>
-                
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight text-white">
-                  Become the <span className="text-pink-500">Safety 4.0</span> Leader
-                  in the <span className="text-white">Digital Age</span>
-                </h1>
-                
-                <p className="text-xl lg:text-2xl text-muted-foreground max-w-2xl leading-relaxed mx-auto lg:mx-0 font-light">
-                  The only IOSH & CPD-approved program that transforms safety professionals into digital leaders ready for Industry 4.0.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button variant="hero" size="lg" className="group text-lg px-10 py-6 font-semibold">
-                  START YOUR TRANSFORMATION
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                
-                <Button variant="outline" size="lg" className="border-2 border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground text-lg px-10 py-6 font-semibold">
-                  EXPLORE CURRICULUM
-                </Button>
-              </div>
-
-              {/* Social Proof */}
-              <div className="space-y-4 pt-6">
-                <p className="text-sm text-muted-foreground font-medium">TRUSTED BY LEADING ORGANIZATIONS:</p>
-                <div className="flex items-center justify-center lg:justify-start space-x-8 opacity-60">
-                  <div className="text-xs font-bold tracking-wider">SHELL</div>
-                  <div className="text-xs font-bold tracking-wider">BP</div>
-                  <div className="text-xs font-bold tracking-wider">SIEMENS</div>
-                  <div className="text-xs font-bold tracking-wider">3M</div>
-                </div>
-              </div>
-
-              {/* Certifications */}
-              <div className="flex items-center justify-center lg:justify-start space-x-6 pt-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-16 h-12 bg-secondary rounded-xl flex items-center justify-center shadow-lg">
-                    <span className="text-white text-xs font-bold">IOSH</span>
-                  </div>
-                  <div className="text-left">
-                    <div className="text-sm font-semibold">IOSH Approved</div>
-                    <div className="text-xs text-muted-foreground">Globally Recognized</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-3">
-                  <div className="w-16 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg">
-                    <span className="text-background text-xs font-bold">CPD</span>
-                  </div>
-                  <div className="text-left">
-                    <div className="text-sm font-semibold">CPD Certified</div>
-                    <div className="text-xs text-muted-foreground">40 Hours Credit</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Video Placeholder */}
-            <div className="relative animate-slide-up">
-              <div className="relative bg-card rounded-3xl shadow-2xl overflow-hidden border border-border/20 hover:shadow-glow transition-all duration-500">
-                {/* Video Placeholder */}
-                <div className="aspect-video bg-gradient-secondary flex items-center justify-center relative group cursor-pointer hover:bg-gradient-primary transition-all duration-500">
-                  <div className="absolute inset-0 bg-black/30"></div>
-                  
-                  {/* Video Content */}
-                  <div className="relative z-10 text-center p-8">
-                    <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center mb-6 mx-auto shadow-glow group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
-                      <Play className="w-10 h-10 text-background ml-1" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-3">Watch Course Preview</h3>
-                    <p className="text-white/90 text-lg mb-4">Discover how Safety 4.0 will revolutionize your career</p>
-                    <div className="inline-flex items-center space-x-2 text-white/80 text-sm">
-                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                      <span>New: AI Safety Masterclass</span>
-                    </div>
-                  </div>
-                  
-                  {/* Play Button Glow Effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-radial from-primary/30 to-transparent"></div>
-                  </div>
-                </div>
-                
-                {/* Video Info Bar */}
-                <div className="p-6 bg-card border-t border-border/20">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-4 text-sm">
-                      <span className="font-medium">Duration: 5:30</span>
-                      <span className="text-muted-foreground">•</span>
-                      <span className="text-muted-foreground">Course Introduction</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Zap className="w-4 h-4 text-primary" />
-                      <span className="text-sm font-medium text-primary">Premium Content</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Floating Achievement Cards */}
-              <div className="absolute -top-8 -right-8 bg-card rounded-2xl p-4 shadow-card animate-glow-pulse border border-border/20 backdrop-blur-sm">
-                <div className="flex items-center space-x-3">
-                  <div className="w-4 h-4 bg-primary rounded-full animate-pulse"></div>
-                  <div className="text-sm">
-                    <div className="font-semibold">AI Analytics</div>
-                    <div className="text-xs text-muted-foreground">Real-time insights</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="absolute -bottom-8 -left-8 bg-secondary text-white rounded-2xl p-5 shadow-card border border-secondary/20">
-                <div className="text-center">
-                  <div className="font-bold text-2xl">98%</div>
-                  <div className="text-sm opacity-90">Success Rate</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
