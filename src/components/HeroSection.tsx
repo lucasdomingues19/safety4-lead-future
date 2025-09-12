@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Play, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { CountdownTimer } from "./CountdownTimer";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -116,6 +117,9 @@ export const HeroSection = () => {
           </div>
         )}
         </div>
+
+        {/* Countdown Timer */}
+        <CountdownTimer />
 
         {/* Main Content - Centered like LeadPages */}
         <div className="text-center max-w-6xl mx-auto">
