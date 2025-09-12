@@ -129,10 +129,16 @@ export const HeroSection = () => {
 
         {/* Main Content - Centered like LeadPages */}
         <div className="text-center max-w-6xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 text-pink-400 font-medium bg-pink-400/10 px-6 py-3 rounded-full border border-pink-400/20 mb-8">
-            <Shield className="w-4 h-4" />
-            <span>IOSH & CPD Approved Program</span>
+          {/* Badges */}
+          <div className="flex items-center justify-center gap-4 mb-8 flex-wrap">
+            <div className="inline-flex items-center space-x-2 text-pink-400 font-medium bg-pink-400/10 px-6 py-3 rounded-full border border-pink-400/20">
+              <Shield className="w-4 h-4" />
+              <span>IOSH Approved</span>
+            </div>
+            <div className="inline-flex items-center space-x-2 text-blue-400 font-medium bg-blue-400/10 px-6 py-3 rounded-full border border-blue-400/20">
+              <Shield className="w-4 h-4" />
+              <span>CPD Accredited</span>
+            </div>
           </div>
           
           {/* Main Headline */}
