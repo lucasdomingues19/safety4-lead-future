@@ -48,7 +48,7 @@ export const HeroSection = () => {
             <a href="/instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
             <a href="/certification" className="text-white/80 hover:text-white transition-colors text-sm font-medium">IOSH and CPD</a>
             <a href="/contact" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Get in Touch</a>
-            <a href="/affiliates" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Affiliates</a>
+            <a href="/faq" className="text-white/80 hover:text-white transition-colors text-sm font-medium">FAQ</a>
           </nav>
           
           {/* Mobile Menu Button */}
@@ -98,11 +98,11 @@ export const HeroSection = () => {
                 Get in Touch
               </a>
               <a 
-                href="/affiliates" 
+                href="/faq" 
                 className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Affiliates
+                FAQ
               </a>
             </nav>
           </div>
