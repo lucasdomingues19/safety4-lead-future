@@ -294,12 +294,6 @@ export const HeroSection = () => {
           {/* Trust Indicators */}
           <div className="mt-16 pt-8 border-t border-white/10">
             <p className="text-gray-400 text-sm mb-6">TRUSTED BY GLOBAL LEADERS</p>
-            <div className="flex items-center justify-center space-x-12 opacity-60">
-              <div className="text-white font-bold tracking-wider">SHELL</div>
-              <div className="text-white font-bold tracking-wider">BP</div>
-              <div className="text-white font-bold tracking-wider">SIEMENS</div>
-              <div className="text-white font-bold tracking-wider">3M</div>
-            </div>
           </div>
         </div>
       </div>
