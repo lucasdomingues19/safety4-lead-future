@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Zap, Play } from "lucide-react";
+import { ArrowRight, Shield, Zap, Play, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export const HeroSection = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
   return (
     <section className="min-h-screen bg-background relative overflow-hidden">
       {/* Dark gradient background with custom dark blue to black */}
@@ -31,13 +34,80 @@ export const HeroSection = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        {/* Header with Logo */}
+        {/* Header with Logo and Navigation */}
         <div className="flex justify-between items-center mb-16">
           <img 
             src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
             alt="Safety 4.0 Academy Logo" 
             className="h-20 w-auto"
           />
+          
+          {/* Navigation Menu */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            <a href="/about" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About Us</a>
+            <a href="/instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
+            <a href="/certification" className="text-white/80 hover:text-white transition-colors text-sm font-medium">IOSH and CPD</a>
+            <a href="/contact" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Get in Touch</a>
+            <a href="/affiliates" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Affiliates</a>
+          </nav>
+          
+          {/* Mobile Menu Button */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="lg:hidden border-white/30 text-white hover:bg-white/10"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </Button>
+          
+          <div className="hidden md:flex lg:hidden items-center space-x-6 text-white/80 text-sm">
+            <span>2,500+ Trained</span>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-[#11113a]/95 backdrop-blur-sm border-t border-white/20 z-50">
+            <nav className="container mx-auto px-4 py-6 space-y-4">
+              <a 
+                href="/about" 
+                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About Us
+              </a>
+              <a 
+                href="/instructor" 
+                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Meet Your Instructor
+              </a>
+              <a 
+                href="/certification" 
+                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                IOSH and CPD
+              </a>
+              <a 
+                href="/contact" 
+                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Get in Touch
+              </a>
+              <a 
+                href="/affiliates" 
+                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Affiliates
+              </a>
+            </nav>
+          </div>
+        )}
+          
           <div className="hidden md:flex items-center space-x-6 text-white/80 text-sm">
             <span>2,500+ Professionals Trained</span>
             <span>•</span>
