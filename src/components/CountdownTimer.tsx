@@ -48,7 +48,7 @@ export const CountdownTimer = () => {
     <div className="bg-gradient-to-r from-pink-500/20 to-lime-500/20 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-8">
       <div className="text-center">
         <h3 className="text-white text-lg font-semibold mb-4">
-          🚀 Course Launch
+          🚀 Academy Launching Soon
         </h3>
         <div className="grid grid-cols-4 gap-4 max-w-md mx-auto">
           <div className="bg-white/10 rounded-xl p-4 text-center">
