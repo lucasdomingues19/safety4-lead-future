@@ -89,7 +89,7 @@ export const HeroSection = () => {
 
           {/* Testimonials Banner */}
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 mb-16 border border-white/10 overflow-hidden">
-            <h3 className="text-center text-white text-xl font-semibold mb-8">What Safety Professionals Are Saying</h3>
+            <h3 className="text-center text-white text-xl font-semibold mb-8">What Safety Leaders Are Saying</h3>
             <div className="relative">
               <div className="flex animate-[scroll_20s_linear_infinite] space-x-8">
                 {/* Testimonial 1 */}
