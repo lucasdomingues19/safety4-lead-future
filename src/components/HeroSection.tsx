@@ -7,6 +7,21 @@ export const HeroSection = () => {
       {/* Dark gradient background with custom dark blue to black */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
+      {/* Flowing animated blobs inspired by the uploaded image */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Blob 1 - Purple/Pink flowing gradient */}
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-blue-500/30 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
+        
+        {/* Blob 2 - Blue flowing gradient */}
+        <div className="absolute top-1/3 -right-40 w-80 h-80 rounded-full bg-gradient-to-br from-blue-400/25 via-purple-400/20 to-indigo-500/25 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
+        
+        {/* Blob 3 - Purple center flowing */}
+        <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-gradient-to-br from-indigo-500/20 via-purple-500/25 to-pink-400/20 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
+        
+        {/* Additional flowing element */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-cyan-400/15 via-blue-500/20 to-purple-500/15 blur-2xl animate-[pulse_15s_ease-in-out_infinite]"></div>
+      </div>
+      
       {/* Subtle grid pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
