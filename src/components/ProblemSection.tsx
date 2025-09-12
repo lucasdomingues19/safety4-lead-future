@@ -2,8 +2,8 @@ import { AlertTriangle, Clock, TrendingDown } from "lucide-react";
 
 export const ProblemSection = () => {
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
-      {/* Dark gradient background matching hero section */}
+    <section className="py-20 relative overflow-hidden">
+      {/* Dark gradient background matching hero section exactly */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
       {/* Floating purple elements */}
@@ -21,44 +21,52 @@ export const ProblemSection = () => {
         <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-full bg-purple-500/15 blur-2xl animate-[float_26s_ease-in-out_infinite]"></div>
         <div className="absolute bottom-1/3 left-1/4 w-48 h-48 rounded-full bg-violet-400/10 blur-2xl animate-[float_22s_ease-in-out_infinite_reverse]"></div>
       </div>
+      
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}></div>
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto animate-fade-in">
           <div className="flex justify-center mb-6">
-            <AlertTriangle className="w-16 h-16 text-red-400" />
+            <AlertTriangle className="w-16 h-16 text-destructive" />
           </div>
           
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
+          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-8">
             Traditional Safety Certificates{" "}
-            <span className="text-red-400">Aren't Enough Anymore</span>
+            <span className="text-destructive">Aren't Enough Anymore</span>
           </h2>
           
-          <p className="text-xl text-gray-300 mb-12 leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
             The safety industry is rapidly evolving. While others struggle with outdated approaches, 
             forward-thinking safety leaders are mastering digital transformation to stay relevant and valuable.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 mt-16">
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <TrendingDown className="w-12 h-12 text-red-400 mx-auto" />
-              <h3 className="text-xl font-semibold text-white">Falling Behind</h3>
-              <p className="text-gray-300">
+              <TrendingDown className="w-12 h-12 text-destructive mx-auto" />
+              <h3 className="text-xl font-semibold text-foreground">Falling Behind</h3>
+              <p className="text-muted-foreground">
                 Traditional safety professionals are being outpaced by tech-savvy leaders
               </p>
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.2s'}}>
-              <Clock className="w-12 h-12 text-red-400 mx-auto" />
-              <h3 className="text-xl font-semibold text-white">Limited Career Growth</h3>
-              <p className="text-gray-300">
+              <Clock className="w-12 h-12 text-destructive mx-auto" />
+              <h3 className="text-xl font-semibold text-foreground">Limited Career Growth</h3>
+              <p className="text-muted-foreground">
                 Without digital skills, career advancement opportunities become scarce
               </p>
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.4s'}}>
-              <AlertTriangle className="w-12 h-12 text-red-400 mx-auto" />
-              <h3 className="text-xl font-semibold text-white">Obsolete Methods</h3>
-              <p className="text-gray-300">
+              <AlertTriangle className="w-12 h-12 text-destructive mx-auto" />
+              <h3 className="text-xl font-semibold text-foreground">Obsolete Methods</h3>
+              <p className="text-muted-foreground">
                 Old-school safety management can't compete with AI-driven approaches
               </p>
             </div>
