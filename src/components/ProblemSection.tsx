@@ -33,40 +33,40 @@ export const ProblemSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto animate-fade-in">
           <div className="flex justify-center mb-6">
-            <AlertTriangle className="w-16 h-16 text-destructive" />
+            <AlertTriangle className="w-16 h-16 text-red-400" />
           </div>
           
-          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-8">
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
             Traditional Safety Certificates{" "}
-            <span className="text-destructive">Aren't Enough Anymore</span>
+            <span className="text-red-400">Aren't Enough Anymore</span>
           </h2>
           
-          <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
+          <p className="text-xl text-gray-300 mb-12 leading-relaxed">
             The safety industry is rapidly evolving. While others struggle with outdated approaches, 
             forward-thinking safety leaders are mastering digital transformation to stay relevant and valuable.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 mt-16">
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <TrendingDown className="w-12 h-12 text-destructive mx-auto" />
-              <h3 className="text-xl font-semibold text-foreground">Falling Behind</h3>
-              <p className="text-muted-foreground">
+              <TrendingDown className="w-12 h-12 text-red-400 mx-auto" />
+              <h3 className="text-xl font-semibold text-white">Falling Behind</h3>
+              <p className="text-gray-300">
                 Traditional safety professionals are being outpaced by tech-savvy leaders
               </p>
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.2s'}}>
-              <Clock className="w-12 h-12 text-destructive mx-auto" />
-              <h3 className="text-xl font-semibold text-foreground">Limited Career Growth</h3>
-              <p className="text-muted-foreground">
+              <Clock className="w-12 h-12 text-red-400 mx-auto" />
+              <h3 className="text-xl font-semibold text-white">Limited Career Growth</h3>
+              <p className="text-gray-300">
                 Without digital skills, career advancement opportunities become scarce
               </p>
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.4s'}}>
-              <AlertTriangle className="w-12 h-12 text-destructive mx-auto" />
-              <h3 className="text-xl font-semibold text-foreground">Obsolete Methods</h3>
-              <p className="text-muted-foreground">
+              <AlertTriangle className="w-12 h-12 text-red-400 mx-auto" />
+              <h3 className="text-xl font-semibold text-white">Obsolete Methods</h3>
+              <p className="text-gray-300">
                 Old-school safety management can't compete with AI-driven approaches
               </p>
             </div>
