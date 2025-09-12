@@ -84,7 +84,7 @@ export const HeroSection = () => {
               size="lg" 
               className="border-2 border-white/30 text-white hover:bg-white/10 text-lg px-12 py-6 font-semibold rounded-xl"
             >
-              EXPLORE CURRICULUM
+              FREE SAFETY 4.0 SCORECARD
             </Button>
           </div>
 
