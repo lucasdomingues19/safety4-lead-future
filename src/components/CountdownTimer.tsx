@@ -59,21 +59,21 @@ export const CountdownTimer = () => {
           </div>
           
           <div className="bg-white/10 rounded-xl p-4 text-center">
-            <div className="text-2xl lg:text-3xl font-bold text-pink-400 mb-1">
+            <div className="text-2xl lg:text-3xl font-bold text-white mb-1">
               {timeLeft.hours.toString().padStart(2, '0')}
             </div>
             <div className="text-xs text-gray-300 uppercase tracking-wide">Hours</div>
           </div>
           
           <div className="bg-white/10 rounded-xl p-4 text-center">
-            <div className="text-2xl lg:text-3xl font-bold text-lime-400 mb-1">
+            <div className="text-2xl lg:text-3xl font-bold text-white mb-1">
               {timeLeft.minutes.toString().padStart(2, '0')}
             </div>
             <div className="text-xs text-gray-300 uppercase tracking-wide">Minutes</div>
           </div>
           
           <div className="bg-white/10 rounded-xl p-4 text-center">
-            <div className="text-2xl lg:text-3xl font-bold text-blue-400 mb-1">
+            <div className="text-2xl lg:text-3xl font-bold text-white mb-1">
               {timeLeft.seconds.toString().padStart(2, '0')}
             </div>
             <div className="text-xs text-gray-300 uppercase tracking-wide">Seconds</div>
