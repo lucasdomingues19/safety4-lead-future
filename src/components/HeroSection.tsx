@@ -287,33 +287,38 @@ export const HeroSection = () => {
             </div>
           </div>
 
-          {/* Showcase Section - Similar to LeadPages gallery */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Course Preview Card */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-              <div className="aspect-video bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl mb-4 flex items-center justify-center">
-                <Play className="w-12 h-12 text-white/80" />
+          {/* Course Preview Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-center text-white mb-12">
+              Course <span className="text-pink-500">Preview</span>
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {/* What is Safety 4.0 */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+                <div className="aspect-video bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl mb-4 flex items-center justify-center">
+                  <Play className="w-12 h-12 text-white/80" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">What is Safety 4.0</h3>
+                <p className="text-gray-400 text-sm">Understand the fundamentals of digital safety transformation</p>
               </div>
-              <h3 className="text-white font-semibold mb-2">AI Safety Analytics</h3>
-              <p className="text-gray-400 text-sm">Learn predictive safety modeling with AI</p>
-            </div>
 
-            {/* Digital Leadership Card */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-              <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl mb-4 flex items-center justify-center">
-                <Zap className="w-12 h-12 text-white/80" />
+              {/* AI Essentials for the Safety Leader */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+                <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl mb-4 flex items-center justify-center">
+                  <Zap className="w-12 h-12 text-white/80" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">AI Essentials for the Safety Leader</h3>
+                <p className="text-gray-400 text-sm">Master AI tools and analytics for predictive safety management</p>
               </div>
-              <h3 className="text-white font-semibold mb-2">Digital Leadership</h3>
-              <p className="text-gray-400 text-sm">Master Industry 4.0 safety technologies</p>
-            </div>
 
-            {/* Certification Card */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-              <div className="aspect-video bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl mb-4 flex items-center justify-center">
-                <Shield className="w-12 h-12 text-white/80" />
+              {/* Safety Digital Transformation */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+                <div className="aspect-video bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl mb-4 flex items-center justify-center">
+                  <Shield className="w-12 h-12 text-white/80" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Safety Digital Transformation</h3>
+                <p className="text-gray-400 text-sm">Lead organizational change with digital safety strategies</p>
               </div>
-              <h3 className="text-white font-semibold mb-2">Global Certification</h3>
-              <p className="text-gray-400 text-sm">IOSH recognized worldwide credential</p>
             </div>
           </div>
 
