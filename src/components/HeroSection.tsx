@@ -57,7 +57,6 @@ export const HeroSection = () => {
                 
                 <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight text-white">
                   Become the <span className="text-pink-500">Safety 4.0</span> Leader
-                  <br className="hidden lg:block" />
                   in the <span className="text-white">Digital Age</span>
                 </h1>
                 
