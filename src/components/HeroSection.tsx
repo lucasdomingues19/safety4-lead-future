@@ -107,14 +107,6 @@ export const HeroSection = () => {
             </nav>
           </div>
         )}
-          
-          <div className="hidden md:flex items-center space-x-6 text-white/80 text-sm">
-            <span>2,500+ Professionals Trained</span>
-            <span>•</span>
-            <span>98% Career Advancement</span>
-            <span>•</span>
-            <span>50+ Countries</span>
-          </div>
         </div>
 
         {/* Main Content - Centered like LeadPages */}
@@ -248,6 +240,24 @@ export const HeroSection = () => {
                   <div className="text-white text-xs font-medium">Maria Johnson, HSE Director</div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Stats Section - Moved Down */}
+          <div className="flex items-center justify-center space-x-8 text-white/80 text-lg mb-16 flex-wrap gap-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl lg:text-3xl font-bold text-pink-500">2,500+</span>
+              <span>Professionals Trained</span>
+            </div>
+            <span className="hidden sm:block">•</span>
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl lg:text-3xl font-bold text-lime-400">98%</span>
+              <span>Career Advancement</span>
+            </div>
+            <span className="hidden sm:block">•</span>
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl lg:text-3xl font-bold text-blue-400">50+</span>
+              <span>Countries</span>
             </div>
           </div>
 
