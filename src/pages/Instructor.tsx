@@ -36,6 +36,8 @@ const Instructor = () => {
                   src={instructorPhoto} 
                   alt="Dr. [Name] - Safety 4.0 Instructor" 
                   className="w-full h-full object-cover"
+                  loading="eager"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg'; }}
                 />
               </div>
             </div>
