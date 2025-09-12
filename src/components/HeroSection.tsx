@@ -2,6 +2,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Play, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { CountdownTimer } from "./CountdownTimer";
+import johnSmithPhoto from "../assets/testimonial-john-smith.jpg";
+import mariaJohnsonPhoto from "../assets/testimonial-maria-johnson.jpg";
+import davidWilsonPhoto from "../assets/testimonial-david-wilson.jpg";
+import sarahLeePhoto from "../assets/testimonial-sarah-lee.jpg";
+import robertTaylorPhoto from "../assets/testimonial-robert-taylor.jpg";
+import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -197,71 +203,55 @@ export const HeroSection = () => {
               <div className="flex animate-[scroll_20s_linear_infinite] space-x-8">
                 {/* Testimonial 1 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">JS</span>
-                  </div>
+                  <img src={johnSmithPhoto} alt="John Smith" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"This program transformed my understanding of digital safety leadership completely."</p>
                   <div className="text-white text-xs font-medium">John Smith, Safety Manager</div>
                 </div>
 
                 {/* Testimonial 2 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">MJ</span>
-                  </div>
+                  <img src={mariaJohnsonPhoto} alt="Maria Johnson" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"The AI analytics module opened up new career opportunities I never imagined."</p>
                   <div className="text-white text-xs font-medium">Maria Johnson, HSE Director</div>
                 </div>
 
                 {/* Testimonial 3 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">DW</span>
-                  </div>
+                  <img src={davidWilsonPhoto} alt="David Wilson" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"Industry 4.0 ready certification that actually delivers on its promise."</p>
                   <div className="text-white text-xs font-medium">David Wilson, Safety Consultant</div>
                 </div>
 
                 {/* Testimonial 4 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">SL</span>
-                  </div>
+                  <img src={sarahLeePhoto} alt="Sarah Lee" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"The best investment I made for my safety career advancement."</p>
                   <div className="text-white text-xs font-medium">Sarah Lee, Safety Engineer</div>
                 </div>
 
                 {/* Testimonial 5 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">RT</span>
-                  </div>
+                  <img src={robertTaylorPhoto} alt="Robert Taylor" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"Global recognition and practical skills that work in real-world scenarios."</p>
                   <div className="text-white text-xs font-medium">Robert Taylor, Chief Safety Officer</div>
                 </div>
 
                 {/* Testimonial 6 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">AL</span>
-                  </div>
+                  <img src={annaLopezPhoto} alt="Anna Lopez" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"From traditional safety to digital leadership in just 12 weeks."</p>
                   <div className="text-white text-xs font-medium">Anna Lopez, Safety Specialist</div>
                 </div>
 
                 {/* Duplicate set for seamless loop */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">JS</span>
-                  </div>
+                  <img src={johnSmithPhoto} alt="John Smith" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"This program transformed my understanding of digital safety leadership completely."</p>
                   <div className="text-white text-xs font-medium">John Smith, Safety Manager</div>
                 </div>
 
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full mx-auto flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">MJ</span>
-                  </div>
+                  <img src={mariaJohnsonPhoto} alt="Maria Johnson" className="w-16 h-16 rounded-full mx-auto object-cover" />
                   <p className="text-gray-300 text-sm italic">"The AI analytics module opened up new career opportunities I never imagined."</p>
                   <div className="text-white text-xs font-medium">Maria Johnson, HSE Director</div>
                 </div>
