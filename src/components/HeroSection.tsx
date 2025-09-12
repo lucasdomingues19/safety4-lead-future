@@ -48,8 +48,26 @@ export const HeroSection = () => {
           
           {/* Subheading */}
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 font-light">
-            Transform from traditional safety professional to digital leader with the only Industry 4.0 safety program trusted by global organizations.
+            Future-proof your career with the world's first Safety 4.0 safety program trusted by IOSH and global organisations
           </p>
+
+          {/* Video Presentation Placeholder */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+              <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative group cursor-pointer">
+                <div className="absolute inset-0 bg-black/20"></div>
+                
+                {/* Video Content */}
+                <div className="relative z-10 text-center">
+                  <div className="w-24 h-24 bg-lime-500 hover:bg-lime-600 rounded-full flex items-center justify-center mb-6 mx-auto shadow-2xl group-hover:scale-110 transition-all duration-300">
+                    <Play className="w-10 h-10 text-white ml-1" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Course Introduction</h3>
+                  <p className="text-white/90 text-lg">Discover how Safety 4.0 will transform your career</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
