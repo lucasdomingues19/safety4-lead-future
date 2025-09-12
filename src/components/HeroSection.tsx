@@ -146,17 +146,28 @@ export const HeroSection = () => {
               <video 
                 className="w-full aspect-video rounded-xl"
                 controls
-                poster="/videos/course-intro-poster.jpg" // You can add a poster image later
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/videos/course-intro-poster.jpg"
                 preload="metadata"
               >
                 <source src="/videos/course-intro.mp4" type="video/mp4" />
+                <track
+                  kind="subtitles"
+                  src="/videos/course-intro-subtitles.vtt"
+                  srcLang="en"
+                  label="English"
+                  default
+                />
                 Your browser does not support the video tag.
               </video>
               
-              {/* Video Info Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                <h3 className="text-2xl font-bold text-white mb-2">Course Introduction</h3>
-                <p className="text-white/90 text-lg">Discover how Safety 4.0 will transform your career</p>
+              {/* Course Introduction - Top Right */}
+              <div className="absolute top-6 right-6 bg-black/80 backdrop-blur-sm rounded-xl p-4 max-w-sm">
+                <h3 className="text-lg font-bold text-white mb-1">Course Introduction</h3>
+                <p className="text-white/90 text-sm">Discover how Safety 4.0 will transform your career</p>
               </div>
             </div>
           </div>
