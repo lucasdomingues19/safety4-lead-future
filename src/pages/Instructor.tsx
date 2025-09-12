@@ -1,5 +1,6 @@
 import { ArrowLeft, Award, Users, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import instructorPhoto from "../assets/instructor-photo.jpg";
 
 const Instructor = () => {
   return (
@@ -28,12 +29,14 @@ const Instructor = () => {
         {/* Main Instructor Profile */}
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
-            {/* Photo Placeholder */}
+            {/* Instructor Photo */}
             <div className="relative">
-              <div className="w-full aspect-square bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center border border-white/20">
-                <div className="w-48 h-48 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-6xl">DR</span>
-                </div>
+              <div className="w-full aspect-square bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-2xl overflow-hidden border border-white/20">
+                <img 
+                  src={instructorPhoto} 
+                  alt="Dr. [Name] - Safety 4.0 Instructor" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 
