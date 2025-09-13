@@ -45,7 +45,15 @@ export const AboutAcademySection = () => {
                 
                 <p className="text-xl text-white/90 leading-relaxed mb-8">
                   The world's first globally recognized academy dedicated to transforming safety professionals 
-                  into digital leaders. Trusted by industry giants and endorsed by IOSH.
+                  into digital leaders. Trusted by industry giants and endorsed by{" "}
+                  <a 
+                    href="https://www.iosh.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 underline transition-colors"
+                  >
+                    IOSH
+                  </a>.
                 </p>
                 
                 <p className="text-lg text-white/80 leading-relaxed">
