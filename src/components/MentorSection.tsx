@@ -3,6 +3,11 @@ import shield360Logo from "@/assets/shield360-logo.png";
 import zenobeLogo from "@/assets/zenobe-logo.png";
 import arrivalLogo from "@/assets/arrival-logo.png";
 import seadrillLogo from "@/assets/seadrill-logo.png";
+import imperialLogo from "@/assets/imperial-logo.png";
+import kingsLogo from "@/assets/kings-logo.png";
+import lbsLogo from "@/assets/lbs-logo.png";
+import ufrjLogo from "@/assets/ufrj-logo.png";
+import uffLogo from "@/assets/uff-logo.png";
 
 const MentorSection = () => {
   // Companies that move to the right
@@ -15,10 +20,11 @@ const MentorSection = () => {
 
   // Institutions that move to the left  
   const institutions = [
-    { name: "IOSH Certified", placeholder: "IOSH" },
-    { name: "University College", placeholder: "UCL" },
-    { name: "Safety Institute", placeholder: "OSHC" },
-    { name: "CPD Standards", placeholder: "CPD" },
+    { name: "Imperial Business School", placeholder: "IMPERIAL", logo: imperialLogo },
+    { name: "King's Business School", placeholder: "KING'S", logo: kingsLogo },
+    { name: "London Business School", placeholder: "LBS", logo: lbsLogo },
+    { name: "Federal University of Rio de Janeiro", placeholder: "UFRJ", logo: ufrjLogo },
+    { name: "Federal Fluminense University", placeholder: "UFF", logo: uffLogo },
   ];
 
   return (
@@ -132,8 +138,8 @@ const MentorSection = () => {
               <div className="flex animate-scroll-reverse space-x-8">
                 {institutions.map((institution, index) => (
                   <div key={index} className="flex-shrink-0 text-center w-32">
-                    <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
-                      <span className="text-secondary font-bold text-sm">{institution.placeholder}</span>
+                    <div className="w-24 h-16 bg-white rounded-lg flex items-center justify-center mb-2 mx-auto p-2">
+                      <img src={institution.logo} alt={institution.name} className="max-w-full max-h-full object-contain" />
                     </div>
                     <p className="text-xs text-gray-400 leading-tight">
                       {institution.name}
@@ -143,8 +149,8 @@ const MentorSection = () => {
                 {/* Duplicate set for seamless loop */}
                 {institutions.map((institution, index) => (
                   <div key={`duplicate-${index}`} className="flex-shrink-0 text-center w-32">
-                    <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
-                      <span className="text-secondary font-bold text-sm">{institution.placeholder}</span>
+                    <div className="w-24 h-16 bg-white rounded-lg flex items-center justify-center mb-2 mx-auto p-2">
+                      <img src={institution.logo} alt={institution.name} className="max-w-full max-h-full object-contain" />
                     </div>
                     <p className="text-xs text-gray-400 leading-tight">
                       {institution.name}
