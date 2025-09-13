@@ -86,8 +86,8 @@ const MentorSection = () => {
         </div>
 
         {/* Education & Experience Logos */}
-        <div className="text-center animate-fade-in">
-          <h3 className="text-2xl font-bold text-secondary mb-8">
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 animate-fade-in">
+          <h3 className="text-2xl font-bold text-secondary mb-8 text-center">
             Education & Experience
           </h3>
           
