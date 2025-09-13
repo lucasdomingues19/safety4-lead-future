@@ -1,4 +1,4 @@
-import { Linkedin, Youtube, Instagram } from "lucide-react";
+import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -108,7 +108,10 @@ export const Footer = () => {
             © 2024 Safety 4.0 Academy. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <span className="text-gray-400 text-sm">IOSH Approved</span>
+            <div className="flex items-center space-x-2">
+              <CheckCircle className="w-4 h-4 text-green-400" />
+              <span className="text-gray-400 text-sm">IOSH Approved</span>
+            </div>
             <span className="text-gray-400">•</span>
             <span className="text-gray-400 text-sm">CPD Accredited</span>
           </div>
