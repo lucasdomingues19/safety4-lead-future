@@ -1,14 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
-import shield360Logo from "@/assets/shield360-official.png";
-import zenobeLogo from "@/assets/zenobe-official.svg";
-import arrivalLogo from "@/assets/arrival-logo.png";
-import seadrillLogo from "@/assets/seadrill-logo.png";
-import sevanDrillingLogo from "@/assets/sevan-drilling-logo.png";
-import imperialLogo from "@/assets/imperial-college-official.png";
-import kingsLogo from "@/assets/kings-logo.png";
-import lbsLogo from "@/assets/lbs-logo.png";
-import ufrjLogo from "@/assets/ufrj-logo.png";
-import uffLogo from "@/assets/uff-logo.png";
+// Real company logos
+import shield360Logo from "@/assets/shield360-logo-real.png";
+import zenobeLogo from "@/assets/zenobe-logo-real.png";
+import arrivalLogo from "@/assets/arrival-logo-real.png";
+import seadrillLogo from "@/assets/seadrill-logo-real.svg";
+// Real university logos
+import imperialLogo from "@/assets/imperial-business-logo-real.png";
+import kingsLogo from "@/assets/kings-logo-real.png";
+import lbsLogo from "@/assets/lbs-logo-real.jpg";
+import ufrjLogo from "@/assets/ufrj-logo-real.png";
+import uffLogo from "@/assets/uff-logo-real.png";
 
 const MentorSection = () => {
   // Companies that move to the right
@@ -17,7 +18,6 @@ const MentorSection = () => {
     { name: "Zenobē", placeholder: "ZENOBĒ", logo: zenobeLogo },
     { name: "Arrival", placeholder: "ARRIVAL", logo: arrivalLogo },
     { name: "Seadrill", placeholder: "SEADRILL", logo: seadrillLogo },
-    { name: "Sevan Drilling", placeholder: "SEVAN", logo: sevanDrillingLogo },
   ];
 
   // Institutions that move to the left  
