@@ -18,13 +18,13 @@ const MentorSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-background to-secondary/20">
+    <section className="py-20 bg-gradient-to-br from-gray-900 via-slate-900 to-indigo-950 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
             Meet Your <span className="text-primary">Mentor</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Learn from an industry expert with years of experience in safety leadership and digital transformation
           </p>
         </div>
@@ -46,11 +46,11 @@ const MentorSection = () => {
           {/* Bio */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-3xl font-bold text-foreground mb-2">Lucas Domingues</h3>
+              <h3 className="text-3xl font-bold text-white mb-2">Lucas Domingues</h3>
               <p className="text-xl text-primary font-medium mb-4">MSc, IOSH</p>
             </div>
 
-            <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <div className="space-y-4 text-lg text-gray-300 leading-relaxed">
               <p>
                 Lucas brings over 15 years of experience in occupational health and safety, 
                 specializing in digital transformation and modern safety leadership practices.
@@ -87,13 +87,13 @@ const MentorSection = () => {
 
         {/* Education & Experience Logos */}
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 animate-fade-in">
-          <h3 className="text-2xl font-bold text-secondary mb-8 text-center">
+          <h3 className="text-2xl font-bold text-white mb-8 text-center">
             Education & Experience
           </h3>
           
           {/* Companies - Moving Right */}
           <div className="mb-8">
-            <h4 className="text-lg font-semibold text-muted-foreground mb-4">Industry Experience</h4>
+            <h4 className="text-lg font-semibold text-gray-300 mb-4">Industry Experience</h4>
             <div className="relative overflow-hidden">
               <div className="flex animate-scroll space-x-8">
                 {companies.map((company, index) => (
@@ -101,7 +101,7 @@ const MentorSection = () => {
                     <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
                       <span className="text-primary font-bold text-sm">{company.placeholder}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground leading-tight">
+                    <p className="text-xs text-gray-400 leading-tight">
                       {company.name}
                     </p>
                   </div>
@@ -112,7 +112,7 @@ const MentorSection = () => {
                     <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
                       <span className="text-primary font-bold text-sm">{company.placeholder}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground leading-tight">
+                    <p className="text-xs text-gray-400 leading-tight">
                       {company.name}
                     </p>
                   </div>
@@ -123,7 +123,7 @@ const MentorSection = () => {
 
           {/* Institutions - Moving Left */}
           <div>
-            <h4 className="text-lg font-semibold text-muted-foreground mb-4">Education & Certifications</h4>
+            <h4 className="text-lg font-semibold text-gray-300 mb-4">Education & Certifications</h4>
             <div className="relative overflow-hidden">
               <div className="flex animate-scroll-reverse space-x-8">
                 {institutions.map((institution, index) => (
@@ -131,7 +131,7 @@ const MentorSection = () => {
                     <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
                       <span className="text-secondary font-bold text-sm">{institution.placeholder}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground leading-tight">
+                    <p className="text-xs text-gray-400 leading-tight">
                       {institution.name}
                     </p>
                   </div>
@@ -142,7 +142,7 @@ const MentorSection = () => {
                     <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
                       <span className="text-secondary font-bold text-sm">{institution.placeholder}</span>
                     </div>
-                    <p className="text-xs text-muted-foreground leading-tight">
+                    <p className="text-xs text-gray-400 leading-tight">
                       {institution.name}
                     </p>
                   </div>
