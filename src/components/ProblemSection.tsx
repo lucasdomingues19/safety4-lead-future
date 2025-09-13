@@ -33,12 +33,12 @@ export const ProblemSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto animate-fade-in">
           <div className="flex justify-center mb-6">
-            <AlertTriangle className="w-16 h-16 text-red-400" />
+            <AlertTriangle className="w-16 h-16 text-pink-400" />
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
             Safety Leadership Without Digital Literacy{" "}
-            <span className="text-red-400">is a Liability</span>
+            <span className="text-pink-400">is a Liability</span>
           </h2>
           
           <p className="text-xl text-gray-300 mb-12 leading-relaxed">
@@ -64,7 +64,7 @@ export const ProblemSection = () => {
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.4s'}}>
-              <AlertTriangle className="w-12 h-12 text-red-400 mx-auto" />
+              <AlertTriangle className="w-12 h-12 text-pink-400 mx-auto" />
               <h3 className="text-xl font-semibold text-white">Obsolete Methods</h3>
               <p className="text-gray-300">
                 Old-school safety management can't compete with AI-driven approaches
