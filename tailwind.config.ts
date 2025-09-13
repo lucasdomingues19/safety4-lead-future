@@ -137,6 +137,14 @@ export default {
 						transform: 'translateX(-50%)'
 					}
 				},
+				'scroll-reverse': {
+					'0%': {
+						transform: 'translateX(-50%)'
+					},
+					'100%': {
+						transform: 'translateX(0)'
+					}
+				},
 				'float': {
 					'0%, 100%': {
 						transform: 'translateY(0px) rotate(0deg)'
@@ -156,6 +164,7 @@ export default {
 				'slide-up': 'slide-up 0.8s ease-out',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				'scroll': 'scroll 20s linear infinite',
+				'scroll-reverse': 'scroll-reverse 20s linear infinite',
 				'float': 'float 20s ease-in-out infinite'
 			}
 		}

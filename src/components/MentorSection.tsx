@@ -1,14 +1,20 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 const MentorSection = () => {
-  // Placeholder logos for institutions and companies
-  const logos = [
-    { name: "Institution 1", placeholder: "INST 1" },
-    { name: "Institution 2", placeholder: "INST 2" },
-    { name: "Company 1", placeholder: "COMP 1" },
-    { name: "Company 2", placeholder: "COMP 2" },
-    { name: "Company 3", placeholder: "COMP 3" },
-    { name: "Institution 3", placeholder: "INST 3" },
+  // Companies that move to the right
+  const companies = [
+    { name: "Shell Global", placeholder: "SHELL" },
+    { name: "Microsoft Corp", placeholder: "MSFT" },
+    { name: "Boeing Company", placeholder: "BOEING" },
+    { name: "Siemens AG", placeholder: "SIEMENS" },
+  ];
+
+  // Institutions that move to the left  
+  const institutions = [
+    { name: "IOSH Certified", placeholder: "IOSH" },
+    { name: "University College", placeholder: "UCL" },
+    { name: "Safety Institute", placeholder: "OSHC" },
+    { name: "CPD Standards", placeholder: "CPD" },
   ];
 
   return (
@@ -85,20 +91,64 @@ const MentorSection = () => {
             Education & Experience
           </h3>
           
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {logos.map((logo, index) => (
-              <div 
-                key={index}
-                className="text-center hover:opacity-100 transition-opacity duration-300"
-              >
-                <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2">
-                  <span className="text-secondary font-bold text-lg">{logo.placeholder}</span>
-                </div>
-                <p className="text-xs text-muted-foreground max-w-24 leading-tight">
-                  {logo.name}
-                </p>
+          {/* Companies - Moving Right */}
+          <div className="mb-8">
+            <h4 className="text-lg font-semibold text-muted-foreground mb-4">Industry Experience</h4>
+            <div className="relative overflow-hidden">
+              <div className="flex animate-scroll space-x-8">
+                {companies.map((company, index) => (
+                  <div key={index} className="flex-shrink-0 text-center w-32">
+                    <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
+                      <span className="text-primary font-bold text-sm">{company.placeholder}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-tight">
+                      {company.name}
+                    </p>
+                  </div>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {companies.map((company, index) => (
+                  <div key={`duplicate-${index}`} className="flex-shrink-0 text-center w-32">
+                    <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
+                      <span className="text-primary font-bold text-sm">{company.placeholder}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-tight">
+                      {company.name}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          </div>
+
+          {/* Institutions - Moving Left */}
+          <div>
+            <h4 className="text-lg font-semibold text-muted-foreground mb-4">Education & Certifications</h4>
+            <div className="relative overflow-hidden">
+              <div className="flex animate-scroll-reverse space-x-8">
+                {institutions.map((institution, index) => (
+                  <div key={index} className="flex-shrink-0 text-center w-32">
+                    <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
+                      <span className="text-secondary font-bold text-sm">{institution.placeholder}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-tight">
+                      {institution.name}
+                    </p>
+                  </div>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {institutions.map((institution, index) => (
+                  <div key={`duplicate-${index}`} className="flex-shrink-0 text-center w-32">
+                    <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
+                      <span className="text-secondary font-bold text-sm">{institution.placeholder}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-tight">
+                      {institution.name}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
