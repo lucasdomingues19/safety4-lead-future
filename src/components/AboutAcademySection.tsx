@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Globe, Award } from "lucide-react";
+import academyPhoto from "../assets/academy-photo.jpg";
 
 export const AboutAcademySection = () => {
   return (
@@ -115,16 +116,12 @@ export const AboutAcademySection = () => {
                 {/* Main image container */}
                 <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:border-primary/50 transition-all duration-300">
                   <div className="aspect-[4/5] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center overflow-hidden">
-                    {/* Photo placeholder */}
-                    <div className="text-white/60 text-center space-y-4">
-                      <div className="w-20 h-20 bg-white/20 rounded-full mx-auto flex items-center justify-center">
-                        <Users className="w-10 h-10" />
-                      </div>
-                      <div className="space-y-2">
-                        <div className="text-lg font-semibold">Academy Photo</div>
-                        <div className="text-sm text-white/50">Modern facilities & expert instructors</div>
-                      </div>
-                    </div>
+                    {/* Academy photo */}
+                    <img 
+                      src={academyPhoto}
+                      alt="Safety 4.0 Academy - Modern facilities and expert instruction"
+                      className="w-full h-full object-cover rounded-xl"
+                    />
                   </div>
                   
                   {/* Decorative badge */}
