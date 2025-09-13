@@ -32,10 +32,6 @@ export const ProblemSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto animate-fade-in">
-          <div className="flex justify-center mb-6">
-            <AlertTriangle className="w-16 h-16 text-pink-400" />
-          </div>
-          
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
             Safety Leadership Without Digital Literacy{" "}
             <span className="text-pink-400">is a Liability</span>
