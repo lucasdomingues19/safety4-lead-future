@@ -6,20 +6,20 @@ export const ProblemSection = () => {
       {/* Dark gradient background matching hero section exactly */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
-      {/* Floating purple elements */}
+      {/* Floating elements with design system colors */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Purple blob - Top left */}
-        <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_18s_ease-in-out_infinite]"></div>
+        {/* Primary lime blob - Top left */}
+        <div className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-primary/25 via-primary/20 to-primary/15 blur-3xl animate-[float_18s_ease-in-out_infinite]"></div>
         
-        {/* Purple blob - Top right */}
-        <div className="absolute -top-10 -right-32 w-64 h-64 rounded-full bg-gradient-to-br from-violet-400/20 via-purple-500/25 to-purple-600/15 blur-3xl animate-[float_24s_ease-in-out_infinite_reverse]"></div>
+        {/* Secondary pink blob - Top right */}
+        <div className="absolute -top-10 -right-32 w-64 h-64 rounded-full bg-gradient-to-br from-secondary/20 via-secondary/25 to-secondary/15 blur-3xl animate-[float_24s_ease-in-out_infinite_reverse]"></div>
         
-        {/* Purple blob - Bottom center */}
-        <div className="absolute -bottom-20 left-1/2 transform -translate-x-1/2 w-80 h-80 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-400/20 to-violet-500/15 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
+        {/* Mixed gradient blob - Bottom center */}
+        <div className="absolute -bottom-20 left-1/2 transform -translate-x-1/2 w-80 h-80 rounded-full bg-gradient-to-br from-primary/15 via-secondary/20 to-primary/15 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
         
         {/* Small accent elements */}
-        <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-full bg-purple-500/15 blur-2xl animate-[float_26s_ease-in-out_infinite]"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 rounded-full bg-violet-400/10 blur-2xl animate-[float_22s_ease-in-out_infinite_reverse]"></div>
+        <div className="absolute top-1/3 right-1/4 w-40 h-40 rounded-full bg-secondary/15 blur-2xl animate-[float_26s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 rounded-full bg-primary/10 blur-2xl animate-[float_22s_ease-in-out_infinite_reverse]"></div>
       </div>
       
       {/* Subtle grid pattern */}
