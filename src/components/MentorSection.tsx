@@ -1,12 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
+import shield360Logo from "@/assets/shield360-logo.png";
+import zenobeLogo from "@/assets/zenobe-logo.png";
+import arrivalLogo from "@/assets/arrival-logo.png";
+import seadrillLogo from "@/assets/seadrill-logo.png";
 
 const MentorSection = () => {
   // Companies that move to the right
   const companies = [
-    { name: "Shell Global", placeholder: "SHELL" },
-    { name: "Microsoft Corp", placeholder: "MSFT" },
-    { name: "Boeing Company", placeholder: "BOEING" },
-    { name: "Siemens AG", placeholder: "SIEMENS" },
+    { name: "Shield360", placeholder: "SHIELD", logo: shield360Logo },
+    { name: "Zenobē", placeholder: "ZENOBĒ", logo: zenobeLogo },
+    { name: "Arrival", placeholder: "ARRIVAL", logo: arrivalLogo },
+    { name: "Seadrill", placeholder: "SEADRILL", logo: seadrillLogo },
   ];
 
   // Institutions that move to the left  
@@ -98,8 +102,8 @@ const MentorSection = () => {
               <div className="flex animate-scroll space-x-8">
                 {companies.map((company, index) => (
                   <div key={index} className="flex-shrink-0 text-center w-32">
-                    <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
-                      <span className="text-primary font-bold text-sm">{company.placeholder}</span>
+                    <div className="w-24 h-16 bg-white rounded-lg flex items-center justify-center mb-2 mx-auto p-2">
+                      <img src={company.logo} alt={company.name} className="max-w-full max-h-full object-contain" />
                     </div>
                     <p className="text-xs text-gray-400 leading-tight">
                       {company.name}
@@ -109,8 +113,8 @@ const MentorSection = () => {
                 {/* Duplicate set for seamless loop */}
                 {companies.map((company, index) => (
                   <div key={`duplicate-${index}`} className="flex-shrink-0 text-center w-32">
-                    <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 mx-auto">
-                      <span className="text-primary font-bold text-sm">{company.placeholder}</span>
+                    <div className="w-24 h-16 bg-white rounded-lg flex items-center justify-center mb-2 mx-auto p-2">
+                      <img src={company.logo} alt={company.name} className="max-w-full max-h-full object-contain" />
                     </div>
                     <p className="text-xs text-gray-400 leading-tight">
                       {company.name}
