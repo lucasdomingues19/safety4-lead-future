@@ -114,13 +114,13 @@ export const AboutAcademySection = () => {
             <div className="animate-slide-up" style={{animationDelay: '0.3s'}}>
               <div className="relative">
                 {/* Main image container */}
-                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 hover:border-primary/50 transition-all duration-300">
-                  <div className="aspect-[4/5] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center overflow-hidden">
+                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-primary/50 transition-all duration-300">
+                  <div className="aspect-[4/5] overflow-hidden rounded-xl">
                     {/* Academy photo */}
                     <img 
                       src={academyPhoto}
                       alt="Safety 4.0 Academy - Modern facilities and expert instruction"
-                      className="w-full h-full object-cover rounded-xl"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                   
