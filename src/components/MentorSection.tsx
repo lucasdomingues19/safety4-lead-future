@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
-import shield360Logo from "@/assets/shield360-logo.png";
-import zenobeLogo from "@/assets/zenobe-logo.png";
+import shield360Logo from "@/assets/shield360-official.png";
+import zenobeLogo from "@/assets/zenobe-official.svg";
 import arrivalLogo from "@/assets/arrival-logo.png";
 import seadrillLogo from "@/assets/seadrill-logo.png";
 import sevanDrillingLogo from "@/assets/sevan-drilling-logo.png";
-import imperialLogo from "@/assets/imperial-logo.png";
+import imperialLogo from "@/assets/imperial-college-official.png";
 import kingsLogo from "@/assets/kings-logo.png";
 import lbsLogo from "@/assets/lbs-logo.png";
 import ufrjLogo from "@/assets/ufrj-logo.png";
