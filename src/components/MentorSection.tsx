@@ -32,11 +32,11 @@ const MentorSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           {/* Photo */}
           <div className="relative">
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 p-8 overflow-hidden">
+            <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 overflow-hidden">
               <img 
                 src="/lucas-domingues.jpeg" 
                 alt="Lucas Domingues, MSc, IOSH - Safety Leadership Mentor"
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
