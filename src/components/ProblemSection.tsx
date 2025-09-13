@@ -37,8 +37,8 @@ export const ProblemSection = () => {
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
-            Traditional Safety Certificates{" "}
-            <span className="text-red-400">Aren't Enough Anymore</span>
+            Safety Leadership Without Digital Literacy{" "}
+            <span className="text-red-400">is a Liability</span>
           </h2>
           
           <p className="text-xl text-gray-300 mb-12 leading-relaxed">
