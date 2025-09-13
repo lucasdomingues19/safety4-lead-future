@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Zap, Play, Menu, X } from "lucide-react";
+import { ArrowRight, Shield, Zap, Play, Menu, X, Award } from "lucide-react";
 import { useState } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 import johnSmithPhoto from "../assets/testimonial-john-smith.jpg";
@@ -132,7 +132,7 @@ export const HeroSection = () => {
           {/* Badges */}
           <div className="flex items-center justify-center gap-4 mb-8 flex-wrap">
             <div className="inline-flex items-center space-x-2 text-pink-400 font-medium bg-pink-400/10 px-6 py-3 rounded-full border border-pink-400/20">
-              <Shield className="w-4 h-4" />
+              <Award className="w-4 h-4" />
               <span>IOSH Approved</span>
             </div>
             <div className="inline-flex items-center space-x-2 text-blue-400 font-medium bg-blue-400/10 px-6 py-3 rounded-full border border-blue-400/20">
