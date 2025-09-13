@@ -92,6 +92,15 @@ const MentorSection = () => {
                 <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   Risk Management
                 </span>
+                <span className="px-4 py-2 bg-lime-400/10 text-lime-400 rounded-full text-sm font-medium">
+                  SafetyTech
+                </span>
+                <span className="px-4 py-2 bg-lime-400/10 text-lime-400 rounded-full text-sm font-medium">
+                  Career Transformation
+                </span>
+                <span className="px-4 py-2 bg-lime-400/10 text-lime-400 rounded-full text-sm font-medium">
+                  AI
+                </span>
               </div>
             </div>
           </div>
