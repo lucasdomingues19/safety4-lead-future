@@ -131,7 +131,7 @@ export const HeroSection = () => {
         <div className="text-center max-w-6xl mx-auto">
           {/* Badges */}
           <div className="flex items-center justify-center gap-4 mb-8 flex-wrap">
-            <div className="inline-flex items-center space-x-2 text-pink-400 font-medium bg-pink-400/10 px-6 py-3 rounded-full border border-pink-400/20">
+            <div className="inline-flex items-center space-x-2 text-primary font-medium bg-primary/10 px-6 py-3 rounded-full border border-primary/20">
               <Award className="w-4 h-4" />
               <span>IOSH Approved</span>
             </div>
