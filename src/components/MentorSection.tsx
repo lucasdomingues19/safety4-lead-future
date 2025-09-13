@@ -1,4 +1,4 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 
 const MentorSection = () => {
   // Placeholder logos for institutions and companies
@@ -79,34 +79,27 @@ const MentorSection = () => {
           </div>
         </div>
 
-        {/* Carousel for logos */}
-        <div className="relative">
-          <h4 className="text-2xl font-semibold text-center mb-8 text-foreground">
+        {/* Education & Experience Logos */}
+        <div className="text-center animate-fade-in">
+          <h3 className="text-2xl font-bold text-secondary mb-8">
             Education & Experience
-          </h4>
+          </h3>
           
-          <Carousel className="w-full max-w-5xl mx-auto">
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {logos.map((logo, index) => (
-                <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
-                  <div className="p-1">
-                    <div className="aspect-video bg-card border border-border rounded-lg flex items-center justify-center hover:shadow-md transition-shadow">
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-muted rounded-lg mx-auto mb-2 flex items-center justify-center">
-                          <span className="text-muted-foreground font-bold text-xs">
-                            {logo.placeholder}
-                          </span>
-                        </div>
-                        <span className="text-sm text-muted-foreground">{logo.name}</span>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-0" />
-            <CarouselNext className="right-0" />
-          </Carousel>
+          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+            {logos.map((logo, index) => (
+              <div 
+                key={index}
+                className="text-center hover:opacity-100 transition-opacity duration-300"
+              >
+                <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2">
+                  <span className="text-secondary font-bold text-lg">{logo.placeholder}</span>
+                </div>
+                <p className="text-xs text-muted-foreground max-w-24 leading-tight">
+                  {logo.name}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
