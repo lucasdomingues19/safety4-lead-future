@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Play, Menu, X, Award } from "lucide-react";
 import { useState } from "react";
 import { CountdownTimer } from "./CountdownTimer";
+import { Safety4AssessmentModal } from "./Safety4AssessmentModal";
 import johnSmithPhoto from "../assets/testimonial-john-smith.jpg";
 import mariaJohnsonPhoto from "../assets/testimonial-maria-johnson.jpg";
 import davidWilsonPhoto from "../assets/testimonial-david-wilson.jpg";
@@ -11,6 +12,7 @@ import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [assessmentModalOpen, setAssessmentModalOpen] = useState(false);
   
   return (
     <section className="min-h-screen bg-background relative overflow-hidden">
@@ -197,6 +199,7 @@ export const HeroSection = () => {
             <Button 
               size="lg" 
               className="bg-pink-500 hover:bg-pink-600 text-white text-lg px-12 py-6 font-semibold rounded-xl"
+              onClick={() => setAssessmentModalOpen(true)}
             >
               UNLOCK FREE SAFETY 4.0 SCORECARD
             </Button>
@@ -320,6 +323,12 @@ export const HeroSection = () => {
 
         </div>
       </div>
+
+      {/* Assessment Modal */}
+      <Safety4AssessmentModal 
+        isOpen={assessmentModalOpen} 
+        onClose={() => setAssessmentModalOpen(false)} 
+      />
     </section>
   );
 };
