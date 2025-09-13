@@ -4,6 +4,8 @@ import shield360Logo from "@/assets/shield360-logo-real.png";
 import zenobeLogo from "@/assets/zenobe-logo-real.png";
 import arrivalLogo from "@/assets/arrival-logo-real.png";
 import seadrillLogo from "@/assets/seadrill-logo-real.svg";
+import sevanDrillingLogo from "@/assets/sevan-drilling-logo-real.png";
+import andradeGuiterrezLogo from "@/assets/andrade-gutierrez-logo.jpeg";
 // Real university logos
 import imperialLogo from "@/assets/imperial-business-logo-real.png";
 import kingsLogo from "@/assets/kings-logo-real.png";
@@ -18,6 +20,8 @@ const MentorSection = () => {
     { name: "Zenobē", placeholder: "ZENOBĒ", logo: zenobeLogo },
     { name: "Arrival", placeholder: "ARRIVAL", logo: arrivalLogo },
     { name: "Seadrill", placeholder: "SEADRILL", logo: seadrillLogo },
+    { name: "Sevan Drilling", placeholder: "SEVAN", logo: sevanDrillingLogo },
+    { name: "Andrade Gutierrez", placeholder: "AG", logo: andradeGuiterrezLogo },
   ];
 
   // Institutions that move to the left  
