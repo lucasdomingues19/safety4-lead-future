@@ -3,6 +3,7 @@ import shield360Logo from "@/assets/shield360-logo.png";
 import zenobeLogo from "@/assets/zenobe-logo.png";
 import arrivalLogo from "@/assets/arrival-logo.png";
 import seadrillLogo from "@/assets/seadrill-logo.png";
+import sevanDrillingLogo from "@/assets/sevan-drilling-logo.png";
 import imperialLogo from "@/assets/imperial-logo.png";
 import kingsLogo from "@/assets/kings-logo.png";
 import lbsLogo from "@/assets/lbs-logo.png";
@@ -16,6 +17,7 @@ const MentorSection = () => {
     { name: "Zenobē", placeholder: "ZENOBĒ", logo: zenobeLogo },
     { name: "Arrival", placeholder: "ARRIVAL", logo: arrivalLogo },
     { name: "Seadrill", placeholder: "SEADRILL", logo: seadrillLogo },
+    { name: "Sevan Drilling", placeholder: "SEVAN", logo: sevanDrillingLogo },
   ];
 
   // Institutions that move to the left  
