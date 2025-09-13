@@ -28,7 +28,7 @@ const MentorSection = () => {
           <div className="relative">
             <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 p-8 overflow-hidden">
               <img 
-                src="/lucas-domingues.raw" 
+                src="/lucas-domingues.jpeg" 
                 alt="Lucas Domingues, MSc, IOSH - Safety Leadership Mentor"
                 className="w-full h-full object-cover rounded-xl"
               />
