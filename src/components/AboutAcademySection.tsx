@@ -69,7 +69,7 @@ export const AboutAcademySection = () => {
                   <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-white font-semibold mb-1">Industry-Leading Curriculum</h3>
-                    <p className="text-white/70">Developed with Fortune 500 companies and safety experts</p>
+                    <p className="text-white/70">Developed by safety and technology experts</p>
                   </div>
                 </div>
                 
