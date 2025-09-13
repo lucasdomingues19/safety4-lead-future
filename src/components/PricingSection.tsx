@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Users, Building, BookOpen, ArrowRight } from "lucide-react";
+import { CheckCircle, Users, Building, Tablet, ArrowRight } from "lucide-react";
 
 export const PricingSection = () => {
   const pricingTiers = [
@@ -9,7 +9,7 @@ export const PricingSection = () => {
       originalPrice: "$697",
       period: "one-time",
       description: "Self-paced online learning with lifetime access",
-      icon: BookOpen,
+      icon: Tablet,
       features: [
         "12 comprehensive modules",
         "50+ video lessons",
