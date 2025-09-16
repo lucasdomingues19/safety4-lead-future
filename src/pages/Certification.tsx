@@ -1,6 +1,7 @@
 import { ArrowLeft, Shield, Award, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
+import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 
 const Certification = () => {
   return (
@@ -30,7 +31,7 @@ const Certification = () => {
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* IOSH Section */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 relative">
               <div className="text-center mb-8">
                 <div className="w-24 h-18 bg-pink-500 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <span className="text-white text-2xl font-bold">IOSH</span>
@@ -56,6 +57,15 @@ const Certification = () => {
                   <CheckCircle className="w-5 h-5 text-pink-400" />
                   <span className="text-gray-300">Enhanced career advancement opportunities</span>
                 </div>
+              </div>
+              
+              {/* IOSH Logo in bottom right */}
+              <div className="absolute bottom-6 right-6">
+                <img 
+                  src={ioshApprovedLogo} 
+                  alt="IOSH Approved Training Provider Logo" 
+                  className="w-32 h-20 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                />
               </div>
             </div>
 
