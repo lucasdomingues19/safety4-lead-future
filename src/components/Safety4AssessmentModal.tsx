@@ -25,249 +25,249 @@ interface Question {
 }
 
 const questions: Question[] = [
-  // Digital Technology Integration (4 questions)
+  // Awareness & Mindset (4 questions)
   {
     id: 1,
-    category: "Digital Technology Integration",
-    text: "How familiar are you with IoT sensors for safety monitoring?",
+    category: "Awareness & Mindset",
+    text: "I understand Safety 4.0 fundamentals (Artificial Intelligence, Internet of Things, Automation, Big Data, etc).",
     options: [
-      { text: "I design and implement IoT safety systems", points: 5 },
-      { text: "I regularly use IoT data for safety decisions", points: 4 },
-      { text: "I understand IoT basics and have some experience", points: 3 },
-      { text: "I know what IoT is but haven't used it for safety", points: 2 },
-      { text: "I'm not familiar with IoT technology", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 2,
-    category: "Digital Technology Integration",
-    text: "How do you currently manage safety data and analytics?",
+    category: "Awareness & Mindset",
+    text: "I confidently interpret safety data for informed decisions.",
     options: [
-      { text: "Advanced predictive analytics with AI/ML models", points: 5 },
-      { text: "Real-time dashboards with automated reporting", points: 4 },
-      { text: "Digital systems with basic analytics", points: 3 },
-      { text: "Spreadsheets and simple databases", points: 2 },
-      { text: "Paper-based record keeping", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 3,
-    category: "Digital Technology Integration",
-    text: "What's your experience with wearable safety technology?",
+    category: "Awareness & Mindset",
+    text: "I stay updated on emerging digital safety trends.",
     options: [
-      { text: "I lead implementation of smart PPE programs", points: 5 },
-      { text: "I regularly analyze wearable safety data", points: 4 },
-      { text: "I've tested or piloted wearable safety devices", points: 3 },
-      { text: "I know about them but haven't used them", points: 2 },
-      { text: "I'm unfamiliar with wearable safety tech", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 4,
-    category: "Digital Technology Integration",
-    text: "How do you approach digital transformation in safety?",
+    category: "Awareness & Mindset",
+    text: "I confidently discuss digital safety with leadership and teams.",
     options: [
-      { text: "I lead organization-wide digital safety strategies", points: 5 },
-      { text: "I actively promote and implement digital solutions", points: 4 },
-      { text: "I support digital initiatives when proposed", points: 3 },
-      { text: "I'm cautious but open to digital changes", points: 2 },
-      { text: "I prefer traditional safety methods", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
-  // AI and Machine Learning (4 questions)
+  // Technology Adoption (4 questions)
   {
     id: 5,
-    category: "AI and Machine Learning",
-    text: "How do you use artificial intelligence in safety management?",
+    category: "Technology Adoption",
+    text: "I have hands-on experience with SafetyTech tools (e.g., wearables, AI tools like ChatGPT, etc).",
     options: [
-      { text: "I develop and implement AI-powered safety solutions", points: 5 },
-      { text: "I regularly use AI tools for risk assessment", points: 4 },
-      { text: "I have basic experience with AI safety applications", points: 3 },
-      { text: "I understand AI concepts but haven't applied them", points: 2 },
-      { text: "I'm not familiar with AI in safety", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 6,
-    category: "AI and Machine Learning",
-    text: "What's your experience with predictive safety analytics?",
+    category: "Technology Adoption",
+    text: "I understand how predictive analytics enhances safety.",
     options: [
-      { text: "I build predictive models to prevent incidents", points: 5 },
-      { text: "I use predictive analytics for risk forecasting", points: 4 },
-      { text: "I understand predictive concepts and use some tools", points: 3 },
-      { text: "I know what predictive analytics is but don't use it", points: 2 },
-      { text: "I rely on historical data and reactive measures", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 7,
-    category: "AI and Machine Learning",
-    text: "How do you handle automated safety monitoring systems?",
+    category: "Technology Adoption",
+    text: "I can evaluate and recommend SafetyTech solutions based on business needs.",
     options: [
-      { text: "I design and optimize AI-powered monitoring systems", points: 5 },
-      { text: "I manage automated systems with AI components", points: 4 },
-      { text: "I work with basic automated monitoring tools", points: 3 },
-      { text: "I use simple automated alerts and notifications", points: 2 },
-      { text: "I rely on manual monitoring and inspections", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 8,
-    category: "AI and Machine Learning",
-    text: "What's your approach to machine learning for incident analysis?",
+    category: "Technology Adoption",
+    text: "I recognise human and operational factors influencing SafetyTech success.",
     options: [
-      { text: "I use ML to identify patterns and prevent incidents", points: 5 },
-      { text: "I apply ML tools for root cause analysis", points: 4 },
-      { text: "I understand ML basics and use simple algorithms", points: 3 },
-      { text: "I know about ML but use traditional analysis methods", points: 2 },
-      { text: "I'm not familiar with machine learning", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
-  // Data Analytics and Visualization (4 questions)
+  // Risk & Compliance (4 questions)
   {
     id: 9,
-    category: "Data Analytics and Visualization",
-    text: "How sophisticated are your safety data visualization capabilities?",
+    category: "Risk & Compliance",
+    text: "I ensure safety technology aligns with compliance and ethical standards.",
     options: [
-      { text: "I create interactive dashboards with advanced analytics", points: 5 },
-      { text: "I build comprehensive safety dashboards regularly", points: 4 },
-      { text: "I use standard charts and basic visualization tools", points: 3 },
-      { text: "I create simple graphs and reports occasionally", points: 2 },
-      { text: "I primarily use text-based reports", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 10,
-    category: "Data Analytics and Visualization",
-    text: "What's your experience with real-time safety monitoring?",
+    category: "Risk & Compliance",
+    text: "I am aware of cybersecurity risks in digital safety solutions.",
     options: [
-      { text: "I manage real-time systems with instant alerts and responses", points: 5 },
-      { text: "I use real-time dashboards for safety oversight", points: 4 },
-      { text: "I have some real-time monitoring capabilities", points: 3 },
-      { text: "I check systems regularly but not in real-time", points: 2 },
-      { text: "I rely on periodic reports and manual checks", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 11,
-    category: "Data Analytics and Visualization",
-    text: "How do you analyze safety performance trends?",
+    category: "Risk & Compliance",
+    text: "I integrate human and operational factors into SafetyTech adoption strategies.",
     options: [
-      { text: "I use advanced statistical modeling and trend analysis", points: 5 },
-      { text: "I perform detailed trend analysis with multiple data sources", points: 4 },
-      { text: "I track basic trends and compare periods", points: 3 },
-      { text: "I look at simple metrics and basic comparisons", points: 2 },
-      { text: "I focus on current data without trend analysis", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 12,
-    category: "Data Analytics and Visualization",
-    text: "What's your approach to safety data integration?",
+    category: "Risk & Compliance",
+    text: "I know how to use AI for enhancing risk assessment and hazard identification.",
     options: [
-      { text: "I integrate multiple systems into comprehensive analytics platforms", points: 5 },
-      { text: "I combine data from several safety systems regularly", points: 4 },
-      { text: "I work with data from a few integrated systems", points: 3 },
-      { text: "I mainly use data from individual systems separately", points: 2 },
-      { text: "I work with isolated data sources", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
-  // Digital Leadership and Change Management (4 questions)
+  // Change Management (5 questions)
   {
     id: 13,
-    category: "Digital Leadership and Change Management",
-    text: "How do you lead digital transformation in safety culture?",
+    category: "Change Management",
+    text: "I confidently drive digital safety tool adoption and engage employees effectively.",
     options: [
-      { text: "I champion and drive organization-wide digital safety culture", points: 5 },
-      { text: "I actively promote digital adoption across teams", points: 4 },
-      { text: "I support digital initiatives and encourage adoption", points: 3 },
-      { text: "I adapt to digital changes when required", points: 2 },
-      { text: "I prefer traditional approaches and resist change", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 14,
-    category: "Digital Leadership and Change Management",
-    text: "What's your experience with training teams on new safety technologies?",
+    category: "Change Management",
+    text: "I manage workforce concerns about new technology positively.",
     options: [
-      { text: "I design and deliver comprehensive digital training programs", points: 5 },
-      { text: "I regularly train teams on new safety technologies", points: 4 },
-      { text: "I provide basic training on technology adoption", points: 3 },
-      { text: "I occasionally help colleagues with new tools", points: 2 },
-      { text: "I focus on learning new technologies myself", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 15,
-    category: "Digital Leadership and Change Management",
-    text: "How do you manage resistance to digital safety initiatives?",
+    category: "Change Management",
+    text: "I promote SafetyTech as an enabler of safer workplaces.",
     options: [
-      { text: "I expertly navigate and overcome organizational resistance", points: 5 },
-      { text: "I have strategies to address resistance effectively", points: 4 },
-      { text: "I work to convince skeptics with moderate success", points: 3 },
-      { text: "I struggle with resistance but try to address it", points: 2 },
-      { text: "I avoid confronting resistance to change", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 16,
-    category: "Digital Leadership and Change Management",
-    text: "What's your role in strategic safety technology decisions?",
+    category: "Change Management",
+    text: "I have implemented digital safety solutions successfully (i.e EHS software, etc).",
     options: [
-      { text: "I lead strategic technology planning and vendor selection", points: 5 },
-      { text: "I significantly influence technology strategy decisions", points: 4 },
-      { text: "I provide input on technology choices", points: 3 },
-      { text: "I implement decisions made by others", points: 2 },
-      { text: "I have minimal input on technology strategy", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
-  // Industry 4.0 Compliance and Standards (4 questions)
   {
     id: 17,
-    category: "Industry 4.0 Compliance and Standards",
-    text: "How familiar are you with Industry 4.0 safety standards?",
+    category: "Change Management",
+    text: "I position myself as a forward-thinking safety leader open to embrace the digital age.",
     options: [
-      { text: "I help develop and implement Industry 4.0 standards", points: 5 },
-      { text: "I'm well-versed in current Industry 4.0 safety standards", points: 4 },
-      { text: "I have good knowledge of relevant standards", points: 3 },
-      { text: "I know basic Industry 4.0 concepts", points: 2 },
-      { text: "I'm unfamiliar with Industry 4.0 standards", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
+  // Leadership & Future Readiness (3 questions)
   {
     id: 18,
-    category: "Industry 4.0 Compliance and Standards",
-    text: "What's your experience with cyber-security in safety systems?",
+    category: "Leadership & Future Readiness",
+    text: "I align Safety 4.0 initiatives with business goals and strategies.",
     options: [
-      { text: "I design and implement cyber-secure safety systems", points: 5 },
-      { text: "I actively manage cyber-security for safety systems", points: 4 },
-      { text: "I understand cyber-security basics for safety", points: 3 },
-      { text: "I'm aware of cyber-security but don't manage it", points: 2 },
-      { text: "I haven't considered cyber-security for safety systems", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 19,
-    category: "Industry 4.0 Compliance and Standards",
-    text: "How do you approach regulatory compliance in digital safety?",
+    category: "Leadership & Future Readiness",
+    text: "I proactively seek digital safety upskilling opportunities.",
     options: [
-      { text: "I lead compliance strategies for emerging digital regulations", points: 5 },
-      { text: "I ensure compliance with current digital safety regulations", points: 4 },
-      { text: "I work to maintain compliance with standard regulations", points: 3 },
-      { text: "I follow established compliance procedures", points: 2 },
-      { text: "I'm uncertain about digital safety compliance requirements", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   },
   {
     id: 20,
-    category: "Industry 4.0 Compliance and Standards",
-    text: "What's your experience with international safety 4.0 frameworks?",
+    category: "Leadership & Future Readiness",
+    text: "I lead digital transformation efforts in workplace safety confidently.",
     options: [
-      { text: "I contribute to international Safety 4.0 framework development", points: 5 },
-      { text: "I implement international Safety 4.0 frameworks", points: 4 },
-      { text: "I'm familiar with major international frameworks", points: 3 },
-      { text: "I know some international standards exist", points: 2 },
-      { text: "I focus mainly on local/national standards", points: 1 }
+      { text: "Strongly Agree", points: 5 },
+      { text: "Agree", points: 4 },
+      { text: "Neutral", points: 3 },
+      { text: "Disagree", points: 2 },
+      { text: "Strongly Disagree", points: 1 }
     ]
   }
 ];
@@ -314,7 +314,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   };
 
   const getCategoryScores = () => {
-    const categories = ['Digital Technology Integration', 'AI and Machine Learning', 'Data Analytics and Visualization', 'Digital Leadership and Change Management', 'Industry 4.0 Compliance and Standards'];
+    const categories = ['Awareness & Mindset', 'Technology Adoption', 'Risk & Compliance', 'Change Management', 'Leadership & Future Readiness'];
     
     return categories.map(category => {
       const categoryQuestions = questions.filter(q => q.category === category);
