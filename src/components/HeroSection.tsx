@@ -50,7 +50,7 @@ export const HeroSection = () => {
             <img 
               src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
               alt="Safety 4.0 Academy Logo" 
-              className="h-28 w-auto"
+              className="h-36 w-auto"
             />
             <img 
               src={cpdApprovedLogo} 
