@@ -1,6 +1,7 @@
 import { ArrowLeft, Download, BookOpen, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
 
 const EBook = () => {
   return (
@@ -30,17 +31,13 @@ const EBook = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Left Side - eBook Cover and Info */}
             <div className="space-y-8">
-              {/* eBook Cover Placeholder */}
+              {/* eBook Cover */}
               <div className="relative max-w-sm mx-auto lg:mx-0">
-                <div className="aspect-[3/4] bg-gradient-to-br from-pink-500/20 to-lime-500/20 rounded-2xl border border-white/20 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-lime-500/10"></div>
-                  <div className="relative z-10 text-center p-8">
-                    <BookOpen className="w-16 h-16 text-pink-400 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-white mb-2">Become the Safety 4.0 Leader</h3>
-                    <p className="text-lg text-gray-300 mb-4">Digital Leadership Guide</p>
-                    <div className="text-sm text-gray-400">Complete Handbook</div>
-                  </div>
-                </div>
+                <img 
+                  src={bookCover} 
+                  alt="Become the Safety 4.0 Leader eBook cover by Lucas Domingues"
+                  className="w-full h-auto rounded-2xl shadow-2xl border border-white/20"
+                />
               </div>
 
               {/* eBook Details */}
