@@ -361,8 +361,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         {step === 'capture' && (
           <div className="space-y-6 p-6">
             <div className="text-center mb-8">
-              <h3 className="text-xl font-semibold mb-4">Discover Your Safety 4.0 Readiness Level</h3>
-              <p className="text-gray-600 mb-6">Get your personalized assessment and unlock your path to becoming a Safety 4.0 leader. This comprehensive 20-question assessment will evaluate your expertise across 5 key areas.</p>
+              <h3 className="text-xl font-semibold mb-4 text-white">Discover Your Safety 4.0 Readiness Level</h3>
+              <p className="text-muted-foreground mb-6">Get your personalized assessment and unlock your path to becoming a Safety 4.0 leader. This comprehensive 20-question assessment will evaluate your expertise across 5 key areas.</p>
             </div>
 
             <div className="grid gap-4 max-w-md mx-auto">
@@ -414,8 +414,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           <div className="space-y-6 p-6">
             <div className="mb-6">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-600">Question {currentQuestion + 1} of {questions.length}</span>
-                <span className="text-sm font-medium">{questions[currentQuestion].category}</span>
+                <span className="text-sm text-muted-foreground">Question {currentQuestion + 1} of {questions.length}</span>
+                <span className="text-sm font-medium text-white">{questions[currentQuestion].category}</span>
               </div>
               <Progress value={progress} className="w-full" />
             </div>
@@ -428,8 +428,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   <button
                     key={idx}
                     onClick={() => handleAnswerSelect(option.points)}
-                    className={`w-full p-4 text-left border rounded-lg hover:bg-gray-50 transition-colors ${
-                      answers[currentQuestion] === option.points ? 'border-primary bg-primary/5' : 'border-gray-200'
+                    className={`w-full p-4 text-left border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-white ${
+                      answers[currentQuestion] === option.points ? 'border-primary bg-primary/20 text-primary-foreground' : 'border-border'
                     }`}
                   >
                     {option.text}
@@ -465,27 +465,27 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <div className={`text-4xl font-bold mb-2 ${results.color}`}>
                 {results.level}
               </div>
-              <p className="text-lg text-gray-600 mb-6">{results.description}</p>
+              <p className="text-lg text-muted-foreground mb-6">{results.description}</p>
               
-              <div className="bg-gray-50 rounded-lg p-6 mb-8">
-                <h4 className="font-semibold mb-4">Your Overall Score</h4>
+              <div className="bg-card border border-border rounded-lg p-6 mb-8">
+                <h4 className="font-semibold mb-4 text-card-foreground">Your Overall Score</h4>
                 <div className="text-3xl font-bold text-primary mb-2">
                   {Math.round((answers.reduce((sum, score) => sum + score, 0) / 100) * 100)}%
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   {answers.reduce((sum, score) => sum + score, 0)} out of 100 points
                 </p>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-6 text-center">Your Performance by Category</h4>
+              <h4 className="font-semibold mb-6 text-center text-white">Your Performance by Category</h4>
               <div className="space-y-4">
                 {categoryScores.map((cat, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <div key={idx} className="flex items-center justify-between p-4 bg-card border border-border rounded-lg">
                     <div className="flex-1">
-                      <div className="font-medium text-sm mb-1">{cat.category}</div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="font-medium text-sm mb-1 text-card-foreground">{cat.category}</div>
+                      <div className="w-full bg-muted rounded-full h-2">
                         <div 
                           className="bg-primary h-2 rounded-full transition-all duration-500"
                           style={{ width: `${cat.percentage}%` }}
@@ -494,7 +494,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                     </div>
                     <div className="ml-4 text-right">
                       <div className="font-bold text-primary">{cat.percentage}%</div>
-                      <div className="text-xs text-gray-500">{cat.score}/20</div>
+                      <div className="text-xs text-muted-foreground">{cat.score}/20</div>
                     </div>
                   </div>
                 ))}
@@ -502,11 +502,11 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             </div>
 
             <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg p-6 text-center">
-              <h4 className="font-semibold mb-3 flex items-center justify-center">
+              <h4 className="font-semibold mb-3 flex items-center justify-center text-white">
                 <Award className="w-5 h-5 mr-2" />
                 Ready to Advance Your Safety 4.0 Skills?
               </h4>
-              <p className="text-gray-600 mb-6">
+              <p className="text-muted-foreground mb-6">
                 Join our IOSH-approved Safety 4.0 Academy and transform your career with industry-leading digital safety expertise.
               </p>
               <Button size="lg" className="mb-4">
