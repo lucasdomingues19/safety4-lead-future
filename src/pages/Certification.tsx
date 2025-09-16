@@ -1,5 +1,6 @@
 import { ArrowLeft, Shield, Award, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 const Certification = () => {
   return (
@@ -62,7 +63,11 @@ const Certification = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
               <div className="text-center mb-8">
                 <div className="w-24 h-18 bg-lime-500 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <span className="text-white text-2xl font-bold">CPD</span>
+                  <img 
+                    src={cpdApprovedLogo} 
+                    alt="CPD Approved Logo" 
+                    className="w-20 h-12 object-contain"
+                  />
                 </div>
                 <h2 className="text-3xl font-bold text-lime-400 mb-4">Continuing Professional Development</h2>
                 <p className="text-gray-300">Structured approach to learning and professional growth</p>
