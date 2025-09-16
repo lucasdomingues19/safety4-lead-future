@@ -43,7 +43,7 @@ const Certification = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Certificate issued by IOSH</span>
+                  <span className="text-gray-300">Digital certificate issued by IOSH</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-pink-400" />
