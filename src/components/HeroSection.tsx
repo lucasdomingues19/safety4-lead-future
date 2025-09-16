@@ -52,11 +52,6 @@ export const HeroSection = () => {
               alt="Safety 4.0 Academy Logo" 
               className="h-36 w-auto"
             />
-            <img 
-              src={cpdApprovedLogo} 
-              alt="CPD Approved Member" 
-              className="h-16 w-auto"
-            />
           </div>
           
           {/* Navigation Menu */}
