@@ -36,7 +36,7 @@ const EBook = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-lime-500/10"></div>
                   <div className="relative z-10 text-center p-8">
                     <BookOpen className="w-16 h-16 text-pink-400 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-white mb-2">Safety 4.0</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2">Become the Safety 4.0 Leader</h3>
                     <p className="text-lg text-gray-300 mb-4">Digital Leadership Guide</p>
                     <div className="text-sm text-gray-400">Complete Handbook</div>
                   </div>
@@ -47,7 +47,7 @@ const EBook = () => {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-4">
-                    The Complete Safety 4.0 Leadership Guide
+                    Become the Safety 4.0 Leader
                   </h2>
                   <p className="text-lg text-gray-300 leading-relaxed">
                     A comprehensive 50-page guide that covers everything you need to know about 
