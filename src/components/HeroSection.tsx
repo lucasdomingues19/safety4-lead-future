@@ -9,6 +9,7 @@ import davidWilsonPhoto from "../assets/testimonial-david-wilson.jpg";
 import sarahLeePhoto from "../assets/testimonial-sarah-lee.jpg";
 import robertTaylorPhoto from "../assets/testimonial-robert-taylor.jpg";
 import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
+import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -45,11 +46,18 @@ export const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Header with Logo and Navigation */}
         <div className="flex justify-between items-center mb-16">
-          <img 
-            src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
-            alt="Safety 4.0 Academy Logo" 
-            className="h-28 w-auto"
-          />
+          <div className="flex items-center space-x-4">
+            <img 
+              src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
+              alt="Safety 4.0 Academy Logo" 
+              className="h-28 w-auto"
+            />
+            <img 
+              src={cpdApprovedLogo} 
+              alt="CPD Approved Member" 
+              className="h-16 w-auto"
+            />
+          </div>
           
           {/* Navigation Menu */}
           <nav className="hidden lg:flex items-center space-x-8">
