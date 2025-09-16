@@ -57,7 +57,7 @@ export const HeroSection = () => {
           {/* Navigation Menu */}
           <nav className="hidden lg:flex items-center space-x-8">
             <a href="/about" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About Us</a>
-            <a href="/instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
+            <a href="#instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
             <a href="/certification" className="text-white/80 hover:text-white transition-colors text-sm font-medium">IOSH and CPD</a>
             <a href="/ebook" className="text-white/80 hover:text-white transition-colors text-sm font-medium">eBook</a>
             <a href="/contact" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Get in Touch</a>
@@ -90,7 +90,7 @@ export const HeroSection = () => {
                 About Us
               </a>
               <a 
-                href="/instructor" 
+                href="#instructor" 
                 className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
