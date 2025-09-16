@@ -43,19 +43,19 @@ const Certification = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Chartered membership pathway available</span>
+                  <span className="text-gray-300">Certificate issued by IOSH</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Recognized in 130+ countries worldwide</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Continuous professional development credits</span>
+                  <span className="text-gray-300">Recognised in 130+ countries worldwide</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-pink-400" />
                   <span className="text-gray-300">Enhanced career advancement opportunities</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-pink-400" />
+                  <span className="text-gray-300">Strict quality standard met</span>
                 </div>
               </div>
               
