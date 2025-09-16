@@ -27,8 +27,8 @@ const EBook = () => {
           </p>
         </div>
 
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 items-start">
             {/* Left Side - eBook Cover and Info */}
             <div className="space-y-8">
               {/* eBook Cover */}
