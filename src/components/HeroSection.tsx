@@ -56,7 +56,7 @@ export const HeroSection = () => {
           
           {/* Navigation Menu */}
           <nav className="hidden lg:flex items-center space-x-8">
-            <a href="/about" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About Us</a>
+            <a href="#about-academy" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About Us</a>
             <a href="#instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
             <a href="/certification" className="text-white/80 hover:text-white transition-colors text-sm font-medium">IOSH and CPD</a>
             <a href="/ebook" className="text-white/80 hover:text-white transition-colors text-sm font-medium">eBook</a>
@@ -83,7 +83,7 @@ export const HeroSection = () => {
           <div className="lg:hidden absolute top-full left-0 right-0 bg-[#11113a]/95 backdrop-blur-sm border-t border-white/20 z-50">
             <nav className="container mx-auto px-4 py-6 space-y-4">
               <a 
-                href="/about" 
+                href="#about-academy" 
                 className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >

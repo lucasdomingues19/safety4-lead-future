@@ -4,7 +4,7 @@ import academyPhoto from "../assets/academy-photo.jpg";
 
 export const AboutAcademySection = () => {
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section id="about-academy" className="py-20 relative overflow-hidden">
       {/* Dark gradient background matching other sections */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
