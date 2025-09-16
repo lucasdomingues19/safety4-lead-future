@@ -64,7 +64,7 @@ const Certification = () => {
                 <img 
                   src={ioshApprovedLogo} 
                   alt="IOSH Approved Training Provider Logo" 
-                  className="w-32 h-20 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                  className="w-28 h-18 object-contain opacity-80 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
