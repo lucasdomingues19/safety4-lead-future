@@ -27,12 +27,12 @@ const EBook = () => {
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left Side - eBook Cover and Info */}
             <div className="space-y-8">
               {/* eBook Cover */}
-              <div className="relative max-w-sm mx-auto lg:mx-0">
+              <div className="relative max-w-md mx-auto lg:mx-0">
                 <img 
                   src={bookCover} 
                   alt="Become the Safety 4.0 Leader eBook cover by Lucas Domingues"
