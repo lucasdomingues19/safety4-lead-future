@@ -93,7 +93,7 @@ const Certification = () => {
                 <img 
                   src={cpdApprovedLogo} 
                   alt="CPD Approved Logo" 
-                  className="w-20 h-14 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                  className="w-32 h-20 object-contain opacity-80 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
