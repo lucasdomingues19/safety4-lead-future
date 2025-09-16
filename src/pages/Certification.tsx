@@ -60,14 +60,10 @@ const Certification = () => {
             </div>
 
             {/* CPD Section */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 relative">
               <div className="text-center mb-8">
                 <div className="w-24 h-18 bg-lime-500 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <img 
-                    src={cpdApprovedLogo} 
-                    alt="CPD Approved Logo" 
-                    className="w-20 h-12 object-contain"
-                  />
+                  <span className="text-white text-2xl font-bold">CPD</span>
                 </div>
                 <h2 className="text-3xl font-bold text-lime-400 mb-4">Continuing Professional Development</h2>
                 <p className="text-gray-300">Structured approach to learning and professional growth</p>
@@ -90,6 +86,15 @@ const Certification = () => {
                   <CheckCircle className="w-5 h-5 text-lime-400" />
                   <span className="text-gray-300">Required by many professional bodies</span>
                 </div>
+              </div>
+              
+              {/* CPD Logo in bottom right */}
+              <div className="absolute bottom-6 right-6">
+                <img 
+                  src={cpdApprovedLogo} 
+                  alt="CPD Approved Logo" 
+                  className="w-16 h-10 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                />
               </div>
             </div>
           </div>
