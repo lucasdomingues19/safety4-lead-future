@@ -465,14 +465,14 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <div className={`text-4xl font-bold mb-2 ${results.color}`}>
                 {results.level}
               </div>
-              <p className="text-lg text-muted-foreground mb-6">{results.description}</p>
+              <p className="text-lg text-white mb-6">{results.description}</p>
               
               <div className="bg-card border border-border rounded-lg p-6 mb-8">
                 <h4 className="font-semibold mb-4 text-card-foreground">Your Overall Score</h4>
                 <div className="text-3xl font-bold text-primary mb-2">
                   {Math.round((answers.reduce((sum, score) => sum + score, 0) / 100) * 100)}%
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-white">
                   {answers.reduce((sum, score) => sum + score, 0)} out of 100 points
                 </p>
               </div>
@@ -506,7 +506,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 <Award className="w-5 h-5 mr-2" />
                 Ready to Advance Your Safety 4.0 Skills?
               </h4>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-white mb-6">
                 Join our IOSH-approved Safety 4.0 Academy and transform your career with industry-leading digital safety expertise.
               </p>
               <Button size="lg" className="mb-4">
