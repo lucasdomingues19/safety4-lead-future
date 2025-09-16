@@ -46,7 +46,7 @@ export const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Header with Logo and Navigation */}
         <div className="flex justify-between items-center mb-16">
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col items-center space-y-2">
             <img 
               src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
               alt="Safety 4.0 Academy Logo" 
@@ -55,7 +55,7 @@ export const HeroSection = () => {
             <img 
               src={cpdApprovedLogo} 
               alt="CPD Approved Member" 
-              className="h-16 w-auto"
+              className="h-12 w-auto"
             />
           </div>
           
