@@ -50,8 +50,8 @@ const EBook = () => {
                     Become the Safety 4.0 Leader
                   </h2>
                   <p className="text-lg text-gray-300 leading-relaxed">
-                    A comprehensive 50-page guide that covers everything you need to know about 
-                    transitioning from traditional safety management to digital safety leadership 
+                    A comprehensive under 30-page guide that unpacks personal stories by Lucas, 
+                    case studies and deep research to develop digital safety leadership 
                     in the Industry 4.0 era.
                   </p>
                 </div>
