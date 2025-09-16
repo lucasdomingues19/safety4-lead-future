@@ -421,7 +421,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-xl font-semibold">{questions[currentQuestion].text}</h3>
+              <h3 className="text-xl font-semibold text-white">{questions[currentQuestion].text}</h3>
               
               <div className="space-y-3">
                 {questions[currentQuestion].options.map((option, idx) => (
