@@ -5,28 +5,28 @@ export const ProgramSection = () => {
   const modules = [
     {
       icon: Brain,
-      title: "Module 1",
+      title: "Welcome & Introduction",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-primary/70"
     },
     {
       icon: BarChart3,
-      title: "Module 2",
+      title: "What is Safety 4.0",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-secondary/70"
     },
     {
       icon: Cpu,
-      title: "Module 3",
+      title: "The Safety Status Quo is Broken",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-secondary"
     },
     {
       icon: Crown,
-      title: "Module 4",
+      title: "Skills of Safety Leaders in the Digital Age",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-primary"
