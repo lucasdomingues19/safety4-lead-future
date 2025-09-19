@@ -104,40 +104,40 @@ export const ProgramSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {modules.map((module, index) => {
             const Icon = module.icon;
             return (
               <Card 
                 key={index}
-                className="p-8 border-0 bg-white/10 backdrop-blur-sm shadow-2xl hover:bg-white/15 transition-all duration-300 hover:scale-105 animate-slide-up"
+                className="p-6 border-0 bg-white/10 backdrop-blur-sm shadow-2xl hover:bg-white/15 transition-all duration-300 hover:scale-105 animate-slide-up"
                 style={{animationDelay: `${index * 0.2}s`}}
               >
                 <CardContent className="p-0">
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-16 h-16 bg-gradient-to-r ${module.color} rounded-2xl flex items-center justify-center shadow-glow`}>
-                        <Icon className="w-8 h-8 text-white" />
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-12 h-12 bg-gradient-to-r ${module.color} rounded-xl flex items-center justify-center shadow-glow`}>
+                        <Icon className="w-6 h-6 text-white" />
                       </div>
                       
-                      <h3 className="text-2xl font-bold text-white">
+                      <h3 className="text-lg font-bold text-white">
                         {module.title}
                       </h3>
                     </div>
                     
-                    <p className="text-white/80 leading-relaxed">
+                    <p className="text-white/80 text-sm leading-relaxed">
                       {module.description}
                     </p>
                     
-                    <div className="space-y-3">
-                      <h4 className="text-primary font-semibold">Key Topics:</h4>
-                      <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-2">
+                      <h4 className="text-primary font-semibold text-sm">Key Topics:</h4>
+                      <div className="space-y-1">
                         {module.features.map((feature, featureIndex) => (
                           <div 
                             key={featureIndex}
-                            className="flex items-center space-x-2 text-sm text-white/90"
+                            className="flex items-center space-x-2 text-xs text-white/90"
                           >
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                             <span>{feature}</span>
                           </div>
                         ))}
