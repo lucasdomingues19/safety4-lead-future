@@ -33,49 +33,49 @@ export const ProgramSection = () => {
     },
     {
       icon: Brain,
-      title: "Module 5",
+      title: "SafetyTech Essentials",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-primary/70"
     },
     {
       icon: BarChart3,
-      title: "Module 6",
+      title: "The Essential Tech Toolkit",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-secondary/70"
     },
     {
       icon: Cpu,
-      title: "Module 7",
+      title: "Data Strategy (From chaos to clarity)",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-secondary"
     },
     {
       icon: Crown,
-      title: "Module 8",
+      title: "The AI Revolution",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-primary"
     },
     {
       icon: Brain,
-      title: "Module 9",
+      title: "Compliance, Risk and Governance",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-primary/70"
     },
     {
       icon: BarChart3,
-      title: "Module 10",
+      title: "Safety Digital Transformation",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-secondary/70"
     },
     {
       icon: Cpu,
-      title: "Bonus Masterclass 1",
+      title: "From Data Chaos to Clarity",
       description: "Bonus masterclass description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-secondary",
@@ -83,7 +83,7 @@ export const ProgramSection = () => {
     },
     {
       icon: Crown,
-      title: "Bonus Masterclass 2",
+      title: "Agentic Revolution",
       description: "Bonus masterclass description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-primary",
