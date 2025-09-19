@@ -5,31 +5,89 @@ export const ProgramSection = () => {
   const modules = [
     {
       icon: Brain,
-      title: "AI for Safety Leaders",
-      description: "Master artificial intelligence applications in safety management, predictive analytics, and automated risk assessment.",
-      features: ["Predictive Safety Analytics", "AI Risk Assessment", "Machine Learning Basics", "Automated Reporting"],
+      title: "Module 1",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-primary/70"
     },
     {
       icon: BarChart3,
-      title: "Data-Driven Safety",
-      description: "Learn to transform safety data into actionable insights using advanced analytics and visualization tools.",
-      features: ["Safety KPI Dashboards", "Trend Analysis", "Performance Metrics", "Data Visualization"],
+      title: "Module 2",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-secondary/70"
     },
     {
       icon: Cpu,
-      title: "SafetyTech Mastery",
-      description: "Explore IoT sensors, wearable tech, and digital safety solutions transforming workplace safety.",
-      features: ["IoT Safety Sensors", "Wearable Technology", "Digital Safety Systems", "Tech Integration"],
+      title: "Module 3",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-primary to-secondary"
     },
     {
       icon: Crown,
-      title: "Digital Leadership",
-      description: "Develop leadership skills for the digital age, managing remote teams and digital transformation initiatives.",
-      features: ["Change Management", "Digital Strategy", "Remote Team Leadership", "Innovation Management"],
+      title: "Module 4",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-secondary to-primary"
+    },
+    {
+      icon: Brain,
+      title: "Module 5",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-primary to-primary/70"
+    },
+    {
+      icon: BarChart3,
+      title: "Module 6",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-secondary to-secondary/70"
+    },
+    {
+      icon: Cpu,
+      title: "Module 7",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-primary to-secondary"
+    },
+    {
+      icon: Crown,
+      title: "Module 8",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-secondary to-primary"
+    },
+    {
+      icon: Brain,
+      title: "Module 9",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-primary to-primary/70"
+    },
+    {
+      icon: BarChart3,
+      title: "Module 10",
+      description: "Module description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-secondary to-secondary/70"
+    },
+    {
+      icon: Cpu,
+      title: "Bonus Masterclass 1",
+      description: "Bonus masterclass description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-primary to-secondary",
+      isBonus: true
+    },
+    {
+      icon: Crown,
+      title: "Bonus Masterclass 2",
+      description: "Bonus masterclass description - to be updated",
+      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      color: "from-secondary to-primary",
+      isBonus: true
     }
   ];
 
