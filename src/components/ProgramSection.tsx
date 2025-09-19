@@ -8,77 +8,77 @@ export const ProgramSection = () => {
       title: "Welcome & Introduction",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-primary to-primary/70"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: BarChart3,
       title: "What is Safety 4.0",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-secondary to-secondary/70"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Cpu,
       title: "The Safety Status Quo is Broken",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-primary to-secondary"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Crown,
       title: "Skills of Safety Leaders in the Digital Age",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-secondary to-primary"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Brain,
       title: "SafetyTech Essentials",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-primary to-primary/70"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: BarChart3,
       title: "The Essential Tech Toolkit",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-secondary to-secondary/70"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Cpu,
       title: "Data Strategy (From chaos to clarity)",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-primary to-secondary"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Crown,
       title: "The AI Revolution",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-secondary to-primary"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Brain,
       title: "Compliance, Risk and Governance",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-primary to-primary/70"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: BarChart3,
       title: "Safety Digital Transformation",
       description: "Module description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-secondary to-secondary/70"
+      color: "from-lime-500 to-lime-400"
     },
     {
       icon: Cpu,
       title: "From Data Chaos to Clarity",
       description: "Bonus masterclass description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-primary to-secondary",
+      color: "from-pink-500 to-pink-400",
       isBonus: true
     },
     {
@@ -86,7 +86,7 @@ export const ProgramSection = () => {
       title: "Agentic Revolution",
       description: "Bonus masterclass description - to be updated",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
-      color: "from-secondary to-primary",
+      color: "from-pink-500 to-pink-400",
       isBonus: true
     }
   ];
