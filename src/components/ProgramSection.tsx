@@ -1,5 +1,6 @@
 import { Brain, BarChart3, Cpu, Crown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import rhodriPhoto from "@/assets/rhodri-atkins.jpeg";
 
 export const ProgramSection = () => {
   const modules = [
@@ -75,11 +76,12 @@ export const ProgramSection = () => {
     },
     {
       icon: Cpu,
-      title: "From Data Chaos to Clarity",
-      description: "Bonus masterclass description - to be updated",
+      title: "Bonus Masterclass with Rhodri Atkins - CEO Pair Software",
+      description: "From Data Chaos to Clarity",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-pink-500 to-pink-400",
-      isBonus: true
+      isBonus: true,
+      photo: rhodriPhoto
     },
     {
       icon: Crown,
@@ -114,8 +116,17 @@ export const ProgramSection = () => {
                 style={{animationDelay: `${index * 0.2}s`}}
               >
                 <CardContent className="p-0">
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
+                  <div className="space-y-3 relative">
+                    {module.photo && (
+                      <div className="absolute top-0 right-0 w-12 h-12 rounded-lg overflow-hidden border-2 border-white/20">
+                        <img 
+                          src={module.photo} 
+                          alt="Instructor" 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center space-x-2 pr-14">
                       <div className={`w-10 h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow`}>
                         <Icon className="w-5 h-5 text-white" />
                       </div>
