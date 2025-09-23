@@ -76,7 +76,7 @@ export const ProgramSection = () => {
     },
     {
       icon: Cpu,
-      title: "Bonus Masterclass with Rhodri Atkins - CEO Pair Software",
+      title: "Hacking Everyday Tools to Escape the Reactive Safety Trap",
       description: "From Data Chaos to Clarity",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-pink-500 to-pink-400",
