@@ -77,7 +77,7 @@ export const ProgramSection = () => {
     {
       icon: Cpu,
       title: "Hacking Everyday Tools to Escape the Reactive Safety Trap",
-      description: "From Data Chaos to Clarity",
+      description: "Rhodri Atkins - CEO Pair Software",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-pink-500 to-pink-400",
       isBonus: true,
