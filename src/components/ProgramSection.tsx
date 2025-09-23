@@ -1,4 +1,4 @@
-import { Brain, BarChart3, Cpu, Crown } from "lucide-react";
+import { Brain, BarChart3, Cpu, Crown, Wrench } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import rhodriPhoto from "@/assets/rhodri-atkins.jpeg";
 import matildePhoto from "@/assets/matilde-damelio.png";
@@ -76,7 +76,7 @@ export const ProgramSection = () => {
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Cpu,
+      icon: Wrench,
       title: "Hacking Everyday Tools to Escape the Reactive Safety Trap",
       description: "Rhodri Atkins - CEO Pair Software",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
