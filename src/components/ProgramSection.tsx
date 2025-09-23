@@ -1,6 +1,7 @@
 import { Brain, BarChart3, Cpu, Crown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import rhodriPhoto from "@/assets/rhodri-atkins.jpeg";
+import matildePhoto from "@/assets/matilde-damelio.png";
 
 export const ProgramSection = () => {
   const modules = [
@@ -86,10 +87,11 @@ export const ProgramSection = () => {
     {
       icon: Crown,
       title: "Agentic Revolution",
-      description: "Bonus masterclass description - to be updated",
+      description: "Dr. Matilde D'Amelio - CEO Sophia Training & Consulting",
       features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-pink-500 to-pink-400",
-      isBonus: true
+      isBonus: true,
+      photo: matildePhoto
     }
   ];
 
