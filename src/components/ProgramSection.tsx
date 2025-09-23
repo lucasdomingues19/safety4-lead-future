@@ -128,7 +128,7 @@ export const ProgramSection = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center space-x-2 pr-14">
+                    <div className="flex items-center space-x-3 pr-14">
                       <div className={`w-10 h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow`}>
                         <Icon className="w-5 h-5 text-white flex-shrink-0" />
                       </div>
