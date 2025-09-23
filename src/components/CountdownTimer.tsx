@@ -80,9 +80,6 @@ export const CountdownTimer = () => {
           </div>
         </div>
         
-        <p className="text-gray-300 text-sm mt-4">
-          Don't miss out on these special pricing rates!
-        </p>
       </div>
     </div>
   );
