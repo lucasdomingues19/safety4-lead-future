@@ -10,6 +10,7 @@ import sarahLeePhoto from "../assets/testimonial-sarah-lee.jpg";
 import robertTaylorPhoto from "../assets/testimonial-robert-taylor.jpg";
 import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
 import manalAzziPhoto from "../assets/manal-azzi-photo.jpg";
+import rosieRussellPhoto from "../assets/rosie-russell-photo.jpeg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
@@ -223,9 +224,9 @@ export const HeroSection = () => {
 
                 {/* Testimonial 2 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={mariaJohnsonPhoto} alt="Maria Johnson" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"The AI analytics module opened up new career opportunities I never imagined."</p>
-                  <div className="text-white text-xs font-medium">Maria Johnson, HSE Director</div>
+                  <img src={rosieRussellPhoto} alt="Rosie Russell" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"Safety 4.0 represents the future of our profession - combining technology with human-centered approaches for better outcomes."</p>
+                  <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
                 </div>
 
                 {/* Testimonial 3 */}
@@ -264,9 +265,9 @@ export const HeroSection = () => {
                 </div>
 
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={mariaJohnsonPhoto} alt="Maria Johnson" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"The AI analytics module opened up new career opportunities I never imagined."</p>
-                  <div className="text-white text-xs font-medium">Maria Johnson, HSE Director</div>
+                  <img src={rosieRussellPhoto} alt="Rosie Russell" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"Safety 4.0 represents the future of our profession - combining technology with human-centered approaches for better outcomes."</p>
+                  <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
                 </div>
               </div>
             </div>
