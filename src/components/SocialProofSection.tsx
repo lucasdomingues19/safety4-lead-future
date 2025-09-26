@@ -4,11 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 export const SocialProofSection = () => {
   const testimonials = [
     {
-      name: "Sarah Chen",
-      role: "Safety Director, Microsoft",
-      content: "The Safety 4.0 Academy completely transformed how I approach safety leadership. The AI modules gave me insights I never thought possible.",
+      name: "Manal Azzi",
+      role: "ILO Team Lead",
+      content: "Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health.",
       rating: 5,
-      image: "SC"
+      image: "MA"
     },
     {
       name: "Michael Rodriguez",
