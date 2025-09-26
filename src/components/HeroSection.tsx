@@ -12,6 +12,7 @@ import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
 import manalAzziPhoto from "../assets/manal-azzi-photo.jpg";
 import rosieRussellPhoto from "../assets/rosie-russell-photo.jpeg";
 import julianaBleyPhoto from "../assets/juliana-bley-photo.jpeg";
+import jenniferMcnellyPhoto from "../assets/jennifer-mcnelly-photo.jpeg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
@@ -239,9 +240,9 @@ export const HeroSection = () => {
 
                 {/* Testimonial 4 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={sarahLeePhoto} alt="Sarah Lee" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"The best investment I made for my safety career advancement."</p>
-                  <div className="text-white text-xs font-medium">Sarah Lee, Safety Engineer</div>
+                  <img src={jenniferMcnellyPhoto} alt="Jennifer McNelly" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"Most professionals today on the AI maturity curve are in the learning and exploring stage. There are, and will be, as in all industries and professions, leaders, laggards and those in the middle."</p>
+                  <div className="text-white text-xs font-medium">Jennifer McNelly, ASSP CEO</div>
                 </div>
 
                 {/* Testimonial 5 */}
