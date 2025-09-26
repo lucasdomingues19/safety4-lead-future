@@ -1,5 +1,6 @@
 import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -8,7 +9,7 @@ export const SocialProofSection = () => {
       role: "ILO Team Lead",
       content: "Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health.",
       rating: 5,
-      image: "MA"
+      image: manalAzziPhoto
     },
     {
       name: "Michael Rodriguez",
@@ -69,9 +70,17 @@ export const SocialProofSection = () => {
                 </p>
                 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
-                    {testimonial.image}
-                  </div>
+                  {typeof testimonial.image === 'string' && testimonial.image.length <= 2 ? (
+                    <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
+                      {testimonial.image}
+                    </div>
+                  ) : (
+                    <img 
+                      src={testimonial.image} 
+                      alt={testimonial.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  )}
                   <div>
                     <p className="font-semibold text-foreground">{testimonial.name}</p>
                     <p className="text-sm text-muted-foreground">{testimonial.role}</p>
