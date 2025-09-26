@@ -13,6 +13,7 @@ import manalAzziPhoto from "../assets/manal-azzi-photo.jpg";
 import rosieRussellPhoto from "../assets/rosie-russell-photo.jpeg";
 import julianaBleyPhoto from "../assets/juliana-bley-photo.jpeg";
 import jenniferMcnellyPhoto from "../assets/jennifer-mcnelly-photo.jpeg";
+import stuartHughesPhoto from "../assets/stuart-hughes-photo.jpg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
@@ -247,9 +248,9 @@ export const HeroSection = () => {
 
                 {/* Testimonial 5 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={robertTaylorPhoto} alt="Robert Taylor" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"Global recognition and practical skills that work in real-world scenarios."</p>
-                  <div className="text-white text-xs font-medium">Robert Taylor, Chief Safety Officer</div>
+                  <img src={stuartHughesPhoto} alt="Stuart Hughes" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"You can shape the future and create healthy and safe working environments that enable employees to thrive, and drive the sustainability of your organisation forward."</p>
+                  <div className="text-white text-xs font-medium">Stuart Hughes, IOSH Past President</div>
                 </div>
 
                 {/* Testimonial 6 */}
