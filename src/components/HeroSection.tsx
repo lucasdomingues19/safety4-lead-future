@@ -9,6 +9,7 @@ import davidWilsonPhoto from "../assets/testimonial-david-wilson.jpg";
 import sarahLeePhoto from "../assets/testimonial-sarah-lee.jpg";
 import robertTaylorPhoto from "../assets/testimonial-robert-taylor.jpg";
 import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
+import manalAzziPhoto from "../assets/manal-azzi-photo.jpg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
@@ -210,14 +211,14 @@ export const HeroSection = () => {
 
           {/* Testimonials Banner */}
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 mb-16 border border-white/10 overflow-hidden">
-            <h3 className="text-center text-white text-xl font-semibold mb-8">What Safety Leaders Are Saying</h3>
+            <h3 className="text-center text-white text-xl font-semibold mb-8">What Global Safety Leaders Are Saying</h3>
             <div className="relative">
               <div className="flex animate-[scroll_20s_linear_infinite] space-x-8">
                 {/* Testimonial 1 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={johnSmithPhoto} alt="John Smith" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"This program transformed my understanding of digital safety leadership completely."</p>
-                  <div className="text-white text-xs font-medium">John Smith, Safety Manager</div>
+                  <img src={manalAzziPhoto} alt="Manal Azzi" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health."</p>
+                  <div className="text-white text-xs font-medium">Manal Azzi, ILO Team Lead</div>
                 </div>
 
                 {/* Testimonial 2 */}
@@ -257,9 +258,9 @@ export const HeroSection = () => {
 
                 {/* Duplicate set for seamless loop */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={johnSmithPhoto} alt="John Smith" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"This program transformed my understanding of digital safety leadership completely."</p>
-                  <div className="text-white text-xs font-medium">John Smith, Safety Manager</div>
+                  <img src={manalAzziPhoto} alt="Manal Azzi" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health."</p>
+                  <div className="text-white text-xs font-medium">Manal Azzi, ILO Team Lead</div>
                 </div>
 
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
