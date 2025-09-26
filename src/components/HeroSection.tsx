@@ -11,6 +11,7 @@ import robertTaylorPhoto from "../assets/testimonial-robert-taylor.jpg";
 import annaLopezPhoto from "../assets/testimonial-anna-lopez.jpg";
 import manalAzziPhoto from "../assets/manal-azzi-photo.jpg";
 import rosieRussellPhoto from "../assets/rosie-russell-photo.jpeg";
+import julianaBleyPhoto from "../assets/juliana-bley-photo.jpeg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
@@ -231,9 +232,9 @@ export const HeroSection = () => {
 
                 {/* Testimonial 3 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
-                  <img src={davidWilsonPhoto} alt="David Wilson" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"Industry 4.0 ready certification that actually delivers on its promise."</p>
-                  <div className="text-white text-xs font-medium">David Wilson, Safety Consultant</div>
+                  <img src={julianaBleyPhoto} alt="Juliana Bley" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"The psychology of safety in digital transformation requires new leadership approaches that this program masterfully teaches."</p>
+                  <div className="text-white text-xs font-medium">Juliana Bley, TEDx Speaker, Psychologist</div>
                 </div>
 
                 {/* Testimonial 4 */}
