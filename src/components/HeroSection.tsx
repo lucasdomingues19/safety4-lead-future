@@ -3,6 +3,7 @@ import { ArrowRight, Shield, Zap, Play, Menu, X, Award } from "lucide-react";
 import { useState } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 import { Safety4AssessmentModal } from "./Safety4AssessmentModal";
+import { VideoPreviewModal } from "./VideoPreviewModal";
 import johnSmithPhoto from "../assets/testimonial-john-smith.jpg";
 import mariaJohnsonPhoto from "../assets/testimonial-maria-johnson.jpg";
 import davidWilsonPhoto from "../assets/testimonial-david-wilson.jpg";
@@ -19,6 +20,56 @@ import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [assessmentModalOpen, setAssessmentModalOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<{
+    title: string;
+    description: string;
+    url?: string;
+  } | null>(null);
+
+  const videoPreviewData = [
+    {
+      id: "safety-40",
+      title: "What is Safety 4.0?",
+      description: "Discover how digital transformation is revolutionizing workplace safety. Learn about IoT sensors, AI-powered risk assessment, and how Safety 4.0 creates proactive, data-driven safety cultures that prevent incidents before they happen.",
+      shortDescription: "Understand the fundamentals of digital safety transformation",
+      icon: Play,
+      gradient: "from-pink-500/20 to-purple-500/20",
+    },
+    {
+      id: "why-matters",
+      title: "Why this course matter?",
+      description: "In today's rapidly evolving workplace, traditional safety approaches are no longer sufficient. This course positions you at the forefront of safety innovation, making you invaluable to organizations seeking digital transformation leaders.",
+      shortDescription: "Discover why Safety 4.0 is essential for your career growth",
+      icon: Zap,
+      gradient: "from-blue-500/20 to-cyan-500/20",
+    },
+    {
+      id: "what-learn",
+      title: "What you'll learn",
+      description: "Master cutting-edge competencies including AI-powered incident prediction, IoT implementation strategies, digital risk assessment frameworks, and leadership techniques for managing technological change in safety-critical environments.",
+      shortDescription: "Key competencies and skills you'll master in this program",
+      icon: Shield,
+      gradient: "from-green-500/20 to-emerald-500/20",
+    },
+    {
+      id: "iosh-cpd",
+      title: "About IOSH & CPD",
+      description: "Learn about our prestigious IOSH approval and CPD accreditation. Understand how this certification elevates your professional standing, meets continuing professional development requirements, and opens doors to advanced career opportunities.",
+      shortDescription: "Learn about our accreditations and professional recognition",
+      icon: Award,
+      gradient: "from-yellow-500/20 to-orange-500/20",
+    }
+  ];
+
+  const handleVideoPreview = (video: typeof videoPreviewData[0]) => {
+    setSelectedVideo({
+      title: video.title,
+      description: video.description,
+      url: undefined // No video URLs yet - showing placeholder
+    });
+    setVideoModalOpen(true);
+  };
   
   return (
     <section className="min-h-screen bg-background relative overflow-hidden">
@@ -283,41 +334,34 @@ export const HeroSection = () => {
               Course <span className="text-pink-500">Preview</span>
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-              {/* What is Safety 4.0 */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-                <div className="aspect-video bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl mb-4 flex items-center justify-center">
-                  <Play className="w-12 h-12 text-white/80" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">What is Safety 4.0?</h3>
-                <p className="text-gray-400 text-sm">Understand the fundamentals of digital safety transformation</p>
-              </div>
-
-              {/* Why this course matter? */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-                <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl mb-4 flex items-center justify-center">
-                  <Zap className="w-12 h-12 text-white/80" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">Why this course matter?</h3>
-                <p className="text-gray-400 text-sm">Discover why Safety 4.0 is essential for your career growth</p>
-              </div>
-
-              {/* What you'll learn */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-                <div className="aspect-video bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl mb-4 flex items-center justify-center">
-                  <Shield className="w-12 h-12 text-white/80" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">What you'll learn</h3>
-                <p className="text-gray-400 text-sm">Key competencies and skills you'll master in this program</p>
-              </div>
-
-              {/* About IOSH & CPD */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-                <div className="aspect-video bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl mb-4 flex items-center justify-center">
-                  <Award className="w-12 h-12 text-white/80" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">About IOSH & CPD</h3>
-                <p className="text-gray-400 text-sm">Learn about our accreditations and professional recognition</p>
-              </div>
+              {videoPreviewData.map((video) => {
+                const IconComponent = video.icon;
+                return (
+                  <div 
+                    key={video.id}
+                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-2xl"
+                    onClick={() => handleVideoPreview(video)}
+                  >
+                    <div className={`aspect-video bg-gradient-to-br ${video.gradient} rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <div className="relative">
+                        <IconComponent className="w-12 h-12 text-white/80" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <Play className="w-6 h-6 text-white ml-1" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <h3 className="text-white font-semibold mb-2 group-hover:text-pink-400 transition-colors duration-300">{video.title}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">{video.shortDescription}</p>
+                    
+                    <div className="mt-4 text-xs text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
+                      <Play className="w-3 h-3 mr-1" />
+                      Click to preview
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -328,6 +372,15 @@ export const HeroSection = () => {
       <Safety4AssessmentModal 
         isOpen={assessmentModalOpen} 
         onClose={() => setAssessmentModalOpen(false)} 
+      />
+
+      {/* Video Preview Modal */}
+      <VideoPreviewModal
+        isOpen={videoModalOpen}
+        onClose={() => setVideoModalOpen(false)}
+        videoTitle={selectedVideo?.title || ""}
+        videoDescription={selectedVideo?.description || ""}
+        videoUrl={selectedVideo?.url}
       />
     </section>
   );
