@@ -131,11 +131,6 @@ export const AboutAcademySection = () => {
                       className="w-full h-full object-contain p-4 bg-white/5"
                     />
                   </div>
-                  
-                  {/* Decorative badge */}
-                  <div className="absolute -top-4 -right-4 bg-primary text-background px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                    Est. 2020
-                  </div>
                 </div>
                 
                 {/* Floating accreditation badges */}
