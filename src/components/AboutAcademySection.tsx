@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Globe, Award } from "lucide-react";
-import academyPhoto from "../assets/academy-photo.jpg";
+import certificateSample from "../assets/certificate-sample.png";
 
 export const AboutAcademySection = () => {
   return (
@@ -124,11 +124,11 @@ export const AboutAcademySection = () => {
                 {/* Main image container */}
                 <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-primary/50 transition-all duration-300">
                   <div className="aspect-[4/5] overflow-hidden rounded-xl">
-                    {/* Academy photo */}
+                    {/* Certificate sample */}
                     <img 
-                      src={academyPhoto}
-                      alt="Safety 4.0 Academy - Modern facilities and expert instruction"
-                      className="w-full h-full object-cover"
+                      src={certificateSample}
+                      alt="Safety 4.0 Academy Certificate Sample - IOSH approved certification"
+                      className="w-full h-full object-contain p-4 bg-white/5"
                     />
                   </div>
                   
