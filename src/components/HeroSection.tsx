@@ -282,32 +282,41 @@ export const HeroSection = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-center text-white mb-12">
               Course <span className="text-pink-500">Preview</span>
             </h2>
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {/* What is Safety 4.0 */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
                 <div className="aspect-video bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl mb-4 flex items-center justify-center">
                   <Play className="w-12 h-12 text-white/80" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">What is Safety 4.0</h3>
+                <h3 className="text-white font-semibold mb-2">What is Safety 4.0?</h3>
                 <p className="text-gray-400 text-sm">Understand the fundamentals of digital safety transformation</p>
               </div>
 
-              {/* AI Essentials for the Safety Leader */}
+              {/* Why this course matter? */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
                 <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl mb-4 flex items-center justify-center">
                   <Zap className="w-12 h-12 text-white/80" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">AI Essentials for the Safety Leader</h3>
-                <p className="text-gray-400 text-sm">Master AI tools and analytics for predictive safety management</p>
+                <h3 className="text-white font-semibold mb-2">Why this course matter?</h3>
+                <p className="text-gray-400 text-sm">Discover why Safety 4.0 is essential for your career growth</p>
               </div>
 
-              {/* Safety Digital Transformation */}
+              {/* What you'll learn */}
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
                 <div className="aspect-video bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl mb-4 flex items-center justify-center">
                   <Shield className="w-12 h-12 text-white/80" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">Safety Digital Transformation</h3>
-                <p className="text-gray-400 text-sm">Lead organizational change with digital safety strategies</p>
+                <h3 className="text-white font-semibold mb-2">What you'll learn</h3>
+                <p className="text-gray-400 text-sm">Key competencies and skills you'll master in this program</p>
+              </div>
+
+              {/* About IOSH & CPD */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300">
+                <div className="aspect-video bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl mb-4 flex items-center justify-center">
+                  <Award className="w-12 h-12 text-white/80" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">About IOSH & CPD</h3>
+                <p className="text-gray-400 text-sm">Learn about our accreditations and professional recognition</p>
               </div>
             </div>
           </div>
