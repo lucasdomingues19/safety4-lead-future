@@ -92,6 +92,10 @@ export const VideoPreviewModal = ({
               <Button 
                 size="lg" 
                 className="bg-lime-500 hover:bg-lime-600 text-white font-semibold"
+                onClick={() => {
+                  onClose();
+                  document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Start Learning Now
               </Button>

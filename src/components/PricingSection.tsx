@@ -78,7 +78,7 @@ export const PricingSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-transparent to-black/20">
+    <section id="pricing" className="py-20 bg-gradient-to-b from-transparent to-black/20">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
