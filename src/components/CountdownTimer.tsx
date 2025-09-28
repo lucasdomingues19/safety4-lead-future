@@ -80,6 +80,11 @@ export const CountdownTimer = () => {
           </div>
         </div>
         
+        <div className="mt-6 text-center">
+          <p className="text-white font-medium text-lg">
+            Early Bird Special: Save $200 if you enroll today
+          </p>
+        </div>
       </div>
     </div>
   );
