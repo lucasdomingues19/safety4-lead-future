@@ -81,7 +81,7 @@ export const CountdownTimer = () => {
         </div>
         
         <div className="mt-6 text-center">
-          <p className="text-white font-medium text-lg">
+          <p className="text-white font-medium text-lg pulse">
             Early Bird Special: Save $200 if you enroll today
           </p>
         </div>
