@@ -24,15 +24,28 @@ export const SocialProofSection = () => {
       content: "This program bridges the gap between traditional safety and digital transformation perfectly. Highly recommend for any serious safety leader.",
       rating: 5,
       image: "AF"
+    },
+    {
+      name: "Sarah Chen",
+      role: "Construction Safety Manager, Bechtel",
+      content: "The AI-powered safety analytics module completely transformed how we predict and prevent incidents. Our accident rate dropped 75% in the first year.",
+      rating: 5,
+      image: "SC"
+    },
+    {
+      name: "James Thompson",
+      role: "Oil & Gas Safety Director, ExxonMobil",
+      content: "This program gave me the digital leadership skills to modernize our entire safety framework. Now I'm leading safety transformation across 3 continents.",
+      rating: 5,
+      image: "JT"
+    },
+    {
+      name: "Lisa Martinez",
+      role: "Manufacturing Safety Lead, General Electric",
+      content: "The ROI certification opened doors I never imagined. Within 6 months, I was headhunted for a C-suite role at a Fortune 500 company.",
+      rating: 5,
+      image: "LM"
     }
-  ];
-
-  const partners = [
-    { name: "IOSH", description: "Institution of Occupational Safety and Health" },
-    { name: "CPD", description: "Continuing Professional Development" },
-    { name: "Microsoft", description: "Technology Partner" },
-    { name: "Shell", description: "Industry Partner" },
-    { name: "Boeing", description: "Aviation Safety Partner" }
   ];
 
   return (
@@ -49,7 +62,7 @@ export const SocialProofSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <Card 
               key={index}
@@ -89,29 +102,6 @@ export const SocialProofSection = () => {
               </CardContent>
             </Card>
           ))}
-        </div>
-
-        {/* Partners */}
-        <div className="text-center animate-fade-in">
-          <h3 className="text-2xl font-bold text-secondary mb-8">
-            Recognized & Trusted By
-          </h3>
-          
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {partners.map((partner, index) => (
-              <div 
-                key={index}
-                className="text-center hover:opacity-100 transition-opacity duration-300"
-              >
-                <div className="w-24 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-2">
-                  <span className="text-secondary font-bold text-lg">{partner.name}</span>
-                </div>
-                <p className="text-xs text-muted-foreground max-w-24 leading-tight">
-                  {partner.description}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
