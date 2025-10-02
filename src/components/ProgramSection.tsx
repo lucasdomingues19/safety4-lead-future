@@ -1,4 +1,4 @@
-import { Brain, BarChart3, Cpu, Crown, Wrench } from "lucide-react";
+import { BookOpen, Target, AlertTriangle, Award, Smartphone, Wrench, Database, Sparkles, Shield, Rocket, Crown } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import rhodriPhoto from "@/assets/rhodri-atkins.jpeg";
 import matildePhoto from "@/assets/matilde-damelio.png";
@@ -6,80 +6,69 @@ import matildePhoto from "@/assets/matilde-damelio.png";
 export const ProgramSection = () => {
   const modules = [
     {
-      icon: Brain,
-      title: "Welcome & Introduction",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: BookOpen,
+      title: "Introduction & Orientation",
+      description: "Course overview, objectives, CPD & IOSH value, learner expectations",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: BarChart3,
-      title: "What is Safety 4.0",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Target,
+      title: "What is Safety 4.0?",
+      description: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Cpu,
+      icon: AlertTriangle,
       title: "The Safety Status Quo is Broken",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      description: "Compliance-heavy culture, lagging indicators, reactive safety trap",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Crown,
-      title: "Skills of Safety Leaders in the Digital Age",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Award,
+      title: "Skills for the Safety Leader in the Digital Age",
+      description: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Brain,
-      title: "SafetyTech Essentials",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Smartphone,
+      title: "Safetytech Practical Applications",
+      description: "Wearables, IoT, drones, mobile-first systems, computer vision",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: BarChart3,
-      title: "The Essential Tech Toolkit",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Wrench,
+      title: "Building your Digital Safety Toolkit",
+      description: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Cpu,
-      title: "Data Strategy (From chaos to clarity)",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Database,
+      title: "Data Strategy: From Chaos to Clarity",
+      description: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Crown,
-      title: "The AI Revolution",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Sparkles,
+      title: "AI Essentials for Safety Leaders",
+      description: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: Brain,
-      title: "Compliance, Risk and Governance",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Shield,
+      title: "Compliance, Risk & Governance Essentials",
+      description: "Digital compliance, regulation, governance frameworks, ethical AI",
       color: "from-lime-500 to-lime-400"
     },
     {
-      icon: BarChart3,
-      title: "Safety Digital Transformation",
-      description: "Module description - to be updated",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
+      icon: Rocket,
+      title: "Digital Safety Transformation Framework",
+      description: "ROI, executive influence, linking safety to business performance",
       color: "from-lime-500 to-lime-400"
     },
     {
       icon: Wrench,
       title: "Hacking Everyday Tools to Escape the Reactive Safety Trap",
       description: "Rhodri Atkins - CEO Pair Software",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-pink-500 to-pink-400",
       isBonus: true,
       photo: rhodriPhoto
@@ -88,7 +77,6 @@ export const ProgramSection = () => {
       icon: Crown,
       title: "Agentic Revolution",
       description: "Dr. Matilde D'Amelio - CEO Sophia Training & Consulting",
-      features: ["Topic 1", "Topic 2", "Topic 3", "Topic 4"],
       color: "from-pink-500 to-pink-400",
       isBonus: true,
       photo: matildePhoto
@@ -141,21 +129,6 @@ export const ProgramSection = () => {
                     <p className="text-white/80 text-xs leading-relaxed">
                       {module.description}
                     </p>
-                    
-                    <div className="space-y-2">
-                      <h4 className="text-primary font-semibold text-xs">Key Topics:</h4>
-                      <div className="space-y-1">
-                        {module.features.map((feature, featureIndex) => (
-                          <div 
-                            key={featureIndex}
-                            className="flex items-center space-x-1 text-xs text-white/90"
-                          >
-                            <div className="w-1 h-1 bg-primary rounded-full"></div>
-                            <span className="text-xs">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
