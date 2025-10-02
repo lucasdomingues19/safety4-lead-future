@@ -106,9 +106,9 @@ export const ProgramSection = () => {
                 style={{animationDelay: `${index * 0.2}s`}}
               >
                 <CardContent className="p-0">
-                  <div className="space-y-3 relative">
+                  <div className="space-y-3 relative" style={{ paddingRight: module.photo ? '72px' : '0' }}>
                     {module.photo && (
-                      <div className="absolute top-2 right-2 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
+                      <div className="absolute top-0 right-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
                         <img 
                           src={module.photo} 
                           alt="Instructor" 
@@ -116,7 +116,7 @@ export const ProgramSection = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center space-x-3" style={{ paddingRight: module.photo ? '72px' : '0' }}>
+                    <div className="flex items-center space-x-3">
                       <div className={`w-10 h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow`}>
                         <Icon className="w-5 h-5 text-white flex-shrink-0" />
                       </div>
