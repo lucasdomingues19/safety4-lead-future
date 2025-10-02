@@ -116,7 +116,7 @@ export const ProgramSection = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center space-x-3 pr-20">
+                    <div className="flex items-center space-x-3" style={{ paddingRight: module.photo ? '72px' : '0' }}>
                       <div className={`w-10 h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow`}>
                         <Icon className="w-5 h-5 text-white flex-shrink-0" />
                       </div>
