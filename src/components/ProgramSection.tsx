@@ -152,14 +152,14 @@ export const ProgramSection = () => {
                 <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <p className="font-semibold text-white">100% Money-Back Guarantee</p>
-                  <p className="text-sm text-white/70">30-day full refund policy</p>
+                  <p className="text-sm text-white/70">7-day full refund policy</p>
                 </div>
               </div>
               
               <div className="flex items-start space-x-3">
                 <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-white">Lifetime Access</p>
+                  <p className="font-semibold text-white">12-Month Access</p>
                   <p className="text-sm text-white/70">All updates & new content included</p>
                 </div>
               </div>
@@ -167,8 +167,8 @@ export const ProgramSection = () => {
               <div className="flex items-start space-x-3">
                 <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-white">Career Support</p>
-                  <p className="text-sm text-white/70">Job placement assistance included</p>
+                  <p className="font-semibold text-white">1:1 Coaching</p>
+                  <p className="text-sm text-white/70">Personalized guidance included</p>
                 </div>
               </div>
             </div>
