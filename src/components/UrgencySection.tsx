@@ -48,43 +48,6 @@ export const UrgencySection = () => {
             </Card>
           </div>
 
-          {/* Risk Reversal */}
-          <div className="bg-gradient-hero rounded-2xl p-8 mb-12 animate-slide-up">
-            <div className="flex items-center justify-center mb-6">
-              <Shield className="w-12 h-12 text-primary" />
-            </div>
-            
-            <h3 className="text-2xl font-bold text-secondary mb-6">
-              IOSH-approved, CPD-certified. Upskill with Zero Risk.
-            </h3>
-            
-            <div className="grid md:grid-cols-3 gap-6 text-left">
-              <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-secondary">100% Money-Back Guarantee</p>
-                  <p className="text-sm text-muted-foreground">30-day full refund policy</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-secondary">Lifetime Access</p>
-                  <p className="text-sm text-muted-foreground">All updates & new content included</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-secondary">Career Support</p>
-                  <p className="text-sm text-muted-foreground">Job placement assistance included</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="text-center">
             <p className="text-lg text-muted-foreground mb-8">
               The question isn't whether you should upskill — it's whether you'll do it before or after your competition.
