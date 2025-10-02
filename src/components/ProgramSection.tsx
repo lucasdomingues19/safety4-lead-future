@@ -108,7 +108,7 @@ export const ProgramSection = () => {
                 <CardContent className="p-0">
                   <div className="space-y-3 relative">
                     {module.photo && (
-                      <div className="absolute bottom-2 right-2 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
+                      <div className="absolute top-2 right-2 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
                         <img 
                           src={module.photo} 
                           alt="Instructor" 
