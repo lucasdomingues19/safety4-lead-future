@@ -108,7 +108,7 @@ export const ProgramSection = () => {
                 <CardContent className="p-0">
                   <div className="space-y-3 relative">
                     {module.photo && (
-                      <div className="absolute bottom-0 right-0 w-24 h-24 rounded-lg overflow-hidden border-2 border-white/20">
+                      <div className="absolute bottom-2 right-2 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
                         <img 
                           src={module.photo} 
                           alt="Instructor" 
@@ -116,7 +116,7 @@ export const ProgramSection = () => {
                         />
                       </div>
                     )}
-                    <div className="flex items-center space-x-3 pr-14">
+                    <div className="flex items-center space-x-3 pr-20">
                       <div className={`w-10 h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow`}>
                         <Icon className="w-5 h-5 text-white flex-shrink-0" />
                       </div>
@@ -134,17 +134,6 @@ export const ProgramSection = () => {
               </Card>
             );
           })}
-        </div>
-        
-        <div className="text-center mt-16 animate-fade-in">
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Program Duration</h3>
-            <p className="text-white/90 text-lg">
-              <span className="text-primary font-bold">12 weeks</span> of intensive training
-              <br />
-              <span className="text-sm">Flexible schedule • Online & Live sessions • Lifetime access</span>
-            </p>
-          </div>
         </div>
       </div>
     </section>
