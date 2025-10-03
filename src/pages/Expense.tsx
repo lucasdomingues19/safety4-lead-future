@@ -109,7 +109,7 @@ const Expense = () => {
                     <p className="text-gray-300 mb-6 leading-relaxed">
                       Once you complete the training program, we will email you the certificate that proves you completed the course.
                     </p>
-                    <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="bg-white/5 rounded-xl p-4 border border-white/10 max-w-md mx-auto">
                       <img
                         src={certificateSample}
                         alt="Example Certificate of Completion"
