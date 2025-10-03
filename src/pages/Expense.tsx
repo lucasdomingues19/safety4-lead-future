@@ -124,54 +124,6 @@ const Expense = () => {
           </div>
         </div>
 
-        {/* Social Proof Section */}
-        <div className="max-w-5xl mx-auto mb-20">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-12 border border-white/10">
-            <div className="text-center mb-12">
-              <h2 className="text-sm font-semibold text-lime-400 uppercase tracking-wider mb-4">
-                Your Peers
-              </h2>
-              <p className="text-xl text-gray-300 leading-relaxed mb-6">
-                Most of our participants get their courses reimbursed. Investing in yourself with professional training is a meaningful way to advance your career and amplify the impact of your work. If you need any help getting reimbursed,{" "}
-                <a href="/contact" className="text-pink-500 hover:text-pink-400 underline">
-                  get in touch
-                </a>
-                .
-              </p>
-              <p className="text-lg text-white font-semibold">
-                We look forward to seeing you join 500+ professionals from leading companies and institutions that have attended our training programs, including:
-              </p>
-            </div>
-
-            {/* Company Logos Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-items-center">
-              {[
-                { src: imperialLogo, alt: "Imperial College London" },
-                { src: lbsLogo, alt: "London Business School" },
-                { src: kingsLogo, alt: "King's College London" },
-                { src: ufrjLogo, alt: "UFRJ" },
-                { src: uffLogo, alt: "UFF" },
-                { src: seadrillLogo, alt: "Seadrill" },
-                { src: sevanDrillingLogo, alt: "Sevan Drilling" },
-                { src: zenobeLogo, alt: "Zenobe" },
-                { src: shield360Logo, alt: "Shield360" },
-                { src: andradeGutierrezLogo, alt: "Andrade Gutierrez" },
-              ].map((logo, index) => (
-                <div
-                  key={index}
-                  className="w-24 h-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-                >
-                  <img
-                    src={logo.src}
-                    alt={logo.alt}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Group Purchases CTA */}
         <div className="max-w-4xl mx-auto">
           <Card className="bg-gradient-to-br from-lime-500/20 to-pink-500/20 border-lime-500/30">
