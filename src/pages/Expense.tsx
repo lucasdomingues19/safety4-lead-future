@@ -34,7 +34,7 @@ const Expense = () => {
           </h1>
           <div className="max-w-4xl mx-auto space-y-6">
             <p className="text-lg text-gray-300 leading-relaxed">
-              <strong className="text-white">Employees:</strong> Our training program is just as valuable to your company as it is to you. Many organizations offer professional development or education budgets that cover the cost of our training. See the resources below to help you get reimbursed.
+              <strong className="text-white">Employees:</strong> Many professionals are required to maintain a CPD record and update it regularly in order to meet the requirements of the professional bodies within their industry. Our training program is CPD certified and IOSH approved. It means that this training is just as valuable to your company as it is to you. Your company may offer professional development or education budgets that cover the cost of our training. See the resources below to help you get reimbursed.
             </p>
             <p className="text-lg text-gray-300 leading-relaxed">
               <strong className="text-white">Independent Professionals</strong> and <strong className="text-white">Business Owners:</strong> Many participants have been able to deduct the cost of work-related training as a business expense. Consult with your accountant, and{" "}
