@@ -87,6 +87,21 @@ const Contact = () => {
                 </div>
 
                 <div>
+                  <label className="block text-sm font-medium text-white mb-2">Inquiry Type</label>
+                  <select 
+                    className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Select inquiry type</option>
+                    <option value="general">General Inquiry</option>
+                    <option value="discount">Request Individual Discount</option>
+                    <option value="group">Group Training</option>
+                    <option value="reimbursement">Reimbursement Help</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div>
                   <label className="block text-sm font-medium text-white mb-2">Message</label>
                   <Textarea 
                     placeholder="Tell us about your safety career goals and how we can help..."

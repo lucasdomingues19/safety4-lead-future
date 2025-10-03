@@ -88,6 +88,9 @@ export const PricingSection = () => {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Flexible training options designed to fit your schedule and learning preferences
           </p>
+          <p className="text-base text-gray-400 max-w-3xl mx-auto mt-4 leading-relaxed">
+            *Get <a href="/expense" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="#" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
+          </p>
         </div>
 
         {/* Pricing Cards */}
