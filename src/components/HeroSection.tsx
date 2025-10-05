@@ -236,12 +236,6 @@ export const HeroSection = () => {
                 />
                 Your browser does not support the video tag.
               </video>
-              
-              {/* Course Introduction - Top Right */}
-              <div className="absolute top-6 right-6 bg-black/80 backdrop-blur-sm rounded-xl p-4 max-w-sm">
-                <h3 className="text-lg font-bold text-white mb-1">Course Introduction</h3>
-                <p className="text-white/90 text-sm">Discover how Safety 4.0 will transform your career</p>
-              </div>
             </div>
           </div>
 
