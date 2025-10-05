@@ -214,7 +214,7 @@ Thank you for your consideration,
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold">Email Template for Manager Approval</DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-lime-400">
                 Customize this template as needed to request reimbursement for the Safety 4.0 training program.
               </DialogDescription>
             </DialogHeader>
