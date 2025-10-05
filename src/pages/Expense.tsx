@@ -227,7 +227,7 @@ Thank you for your consideration,
             
             <div className="mt-6">
               <div className="bg-muted/50 rounded-lg p-6 mb-6 max-h-96 overflow-y-auto">
-                <pre className="whitespace-pre-wrap text-sm font-mono">{emailTemplate}</pre>
+                <pre className="whitespace-pre-wrap text-sm font-mono text-white">{emailTemplate}</pre>
               </div>
               
               <div className="flex gap-4 justify-center">
