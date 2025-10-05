@@ -21,13 +21,11 @@ const Expense = () => {
 
   const emailTemplate = `Hi [Manager's Name],
 
-I'd like to register for the Safety 4.0 Leadership Training Program in [month], as I believe it will positively impact my work at [your company] and strengthen our safety culture.
+I'd like to register for the IOSH Approved Safety 4.0 - Leading Safety in the Digital Age in [month], as I believe it will positively impact my work at [your company] and strengthen our safety culture and performance.
 
-This comprehensive training focuses on digital transformation in safety management, covering Industry 4.0 technologies, data-driven safety leadership, and modern risk management approaches. It is CPD certified and IOSH approved, which means it meets professional development requirements and is recognized by leading industry bodies.
+This comprehensive training focuses on digital transformation in safety management, covering Industry 4.0 technologies, artificial intelligence, data-driven safety leadership, and modern risk management approaches. It is CPD certified and IOSH approved, which means it meets professional development requirements and is recognised by leading industry bodies.
 
-The program has been attended by safety professionals from organizations like Seadrill, Sevan Drilling, Zenobe Energy, Shield360, and Andrade Gutierrez, as well as academics from Imperial College London, London Business School, King's College London, UFRJ, and UFF.
-
-I will dedicate approximately [X] hours per week to complete the program, including live sessions, practical exercises, and studying recommended materials.
+The program has been attended by safety leaders from safety leaders ahe feedback has been excellent, so I believe that upskilling through this course will contribute to my professional growth. I will dedicate approximately [x] hours per to complete the program, including live sessions, practical exercises, and studying recommended materials.
 
 Key Benefits for Our Company:
 • Reduced incident rates through data-driven safety approaches
@@ -50,10 +48,6 @@ The program fee is [price], and includes:
 ✓ Access to exclusive safety resources and templates
 ✓ Networking with global safety leaders
 ✓ [Any additional benefits]
-
-As a CPD certified and IOSH approved program, this training is valuable not just for my professional development but also demonstrates our company's commitment to maintaining the highest safety standards.
-
-After reviewing the training details, I believe it will give me essential skills to strengthen safety leadership at our company and deliver measurable ROI through improved safety performance and risk reduction.
 
 Therefore, I'd like to request approval to submit the training fee as a reimbursable professional development expense.
 
