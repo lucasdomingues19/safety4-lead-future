@@ -1,6 +1,9 @@
-import { ArrowLeft, Download, CheckCircle, FileText, Mail, Award, Building2 } from "lucide-react";
+import { ArrowLeft, Download, CheckCircle, FileText, Mail, Award, Building2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useState } from "react";
+import { toast } from "sonner";
 import certificateSample from "@/assets/certificate-sample.png";
 import imperialLogo from "@/assets/imperial-logo.png";
 import lbsLogo from "@/assets/lbs-logo.png";
@@ -14,6 +17,67 @@ import shield360Logo from "@/assets/shield360-logo.png";
 import andradeGutierrezLogo from "@/assets/andrade-gutierrez-logo.jpeg";
 
 const Expense = () => {
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+
+  const emailTemplate = `Hi [Manager's Name],
+
+I'd like to register for the Safety 4.0 Leadership Training Program in [month], as I believe it will positively impact my work at [your company] and strengthen our safety culture.
+
+This comprehensive training focuses on digital transformation in safety management, covering Industry 4.0 technologies, data-driven safety leadership, and modern risk management approaches. It is CPD certified and IOSH approved, which means it meets professional development requirements and is recognized by leading industry bodies.
+
+The program has been attended by safety professionals from organizations like Seadrill, Sevan Drilling, Zenobe Energy, Shield360, and Andrade Gutierrez, as well as academics from Imperial College London, London Business School, King's College London, UFRJ, and UFF.
+
+I will dedicate approximately [X] hours per week to complete the program, including live sessions, practical exercises, and studying recommended materials.
+
+Key Benefits for Our Company:
+• Reduced incident rates through data-driven safety approaches
+• Enhanced compliance with modern safety regulations and standards
+• Implementation of predictive safety analytics and IoT monitoring
+• Leadership skills to drive safety culture transformation
+• ROI through proactive risk management and prevention
+
+The training covers:
+• Safety 4.0 fundamentals and digital transformation in safety
+• IoT, AI, and predictive analytics for safety management
+• Data-driven decision making and KPI optimization
+• Leadership strategies for safety culture change
+• Regulatory compliance and modern safety standards
+• Practical case studies from leading global organizations
+
+The program fee is [price], and includes:
+✓ Complete Safety 4.0 curriculum
+✓ Certificate of Completion (CPD certified & IOSH approved)
+✓ Access to exclusive safety resources and templates
+✓ Networking with global safety leaders
+✓ [Any additional benefits]
+
+As a CPD certified and IOSH approved program, this training is valuable not just for my professional development but also demonstrates our company's commitment to maintaining the highest safety standards.
+
+After reviewing the training details, I believe it will give me essential skills to strengthen safety leadership at our company and deliver measurable ROI through improved safety performance and risk reduction.
+
+Therefore, I'd like to request approval to submit the training fee as a reimbursable professional development expense.
+
+Thank you for your consideration,
+[Your Name]`;
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(emailTemplate);
+    toast.success("Email template copied to clipboard!");
+  };
+
+  const handleDownloadEmail = () => {
+    const blob = new Blob([emailTemplate], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'safety-4-0-training-reimbursement-email.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast.success("Email template downloaded!");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#11113a] via-slate-900 to-black text-white">
       <div className="container mx-auto px-4 py-20">
@@ -67,9 +131,12 @@ const Expense = () => {
                     <p className="text-gray-300 mb-6 leading-relaxed">
                       If you need manager approval, use our email template, customizing it as necessary. Let your manager know you're interested in a training that will improve your work, and frame it in terms of how it will benefit your company.
                     </p>
-                    <Button className="bg-pink-500 hover:bg-pink-600 text-white">
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Email Template
+                    <Button 
+                      className="bg-pink-500 hover:bg-pink-600 text-white"
+                      onClick={() => setIsEmailModalOpen(true)}
+                    >
+                      <Mail className="w-4 h-4 mr-2" />
+                      View Email Template
                     </Button>
                   </div>
                 </div>
@@ -147,6 +214,41 @@ const Expense = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Email Template Modal */}
+        <Dialog open={isEmailModalOpen} onOpenChange={setIsEmailModalOpen}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">Email Template for Manager Approval</DialogTitle>
+              <DialogDescription>
+                Customize this template as needed to request reimbursement for the Safety 4.0 training program.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="mt-6">
+              <div className="bg-muted/50 rounded-lg p-6 mb-6 max-h-96 overflow-y-auto">
+                <pre className="whitespace-pre-wrap text-sm font-mono">{emailTemplate}</pre>
+              </div>
+              
+              <div className="flex gap-4 justify-center">
+                <Button 
+                  onClick={handleCopyEmail}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy to Clipboard
+                </Button>
+                <Button 
+                  onClick={handleDownloadEmail}
+                  variant="outline"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download as .txt
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
