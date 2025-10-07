@@ -214,7 +214,7 @@ export const HeroSection = () => {
           
           {/* Subheading */}
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 font-light">
-            Future-proof your career with the <span className="font-bold text-lime-400">world's first Safety 4.0 safety program trusted by IOSH</span> and global organisations
+            Future-proof and transform your career with the <span className="font-bold text-lime-400">world's first Safety 4.0 safety program trusted by IOSH</span> and global organisations
           </p>
 
           {/* Video Presentation Placeholder */}
