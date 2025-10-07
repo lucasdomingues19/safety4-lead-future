@@ -61,15 +61,24 @@ export const VideoPreviewModal = ({
           {/* Video Player */}
           <div className="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center relative">
             {videoUrl ? (
-              <video 
-                className="w-full h-full"
-                controls
-                autoPlay
-                playsInline
-              >
-                <source src={videoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be') ? (
+                <iframe
+                  className="w-full h-full"
+                  src={videoUrl}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video 
+                  className="w-full h-full"
+                  controls
+                  autoPlay
+                  playsInline
+                >
+                  <source src={videoUrl} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              )
             ) : (
               // Placeholder for now
               <div className="flex flex-col items-center space-y-4 text-white">

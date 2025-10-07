@@ -63,10 +63,14 @@ export const HeroSection = () => {
   ];
 
   const handleVideoPreview = (video: typeof videoPreviewData[0]) => {
+    const videoUrl = video.id === "iosh-cpd" 
+      ? "https://www.youtube.com/embed/o71mLFPVQzo?autoplay=1&mute=1&loop=1&playlist=o71mLFPVQzo"
+      : undefined;
+    
     setSelectedVideo({
       title: video.title,
       description: video.description,
-      url: undefined // No video URLs yet - showing placeholder
+      url: videoUrl
     });
     setVideoModalOpen(true);
   };
