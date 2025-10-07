@@ -17,7 +17,7 @@ export const UrgencySection = () => {
             Don't Get Left Behind.
           </h2>
           
-          <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
+          <p className="text-xl text-white mb-12 leading-relaxed">
             AI skills in EHS functions remain relatively low, with 25% of practitioners having no AI skills or experience and 61% identifying as beginners. However, 77% of recruiter place some level of importance on tech skills when recruiting
           </p>
 
