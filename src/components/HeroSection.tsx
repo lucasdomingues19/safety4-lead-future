@@ -340,16 +340,29 @@ export const HeroSection = () => {
                     className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-2xl"
                     onClick={() => handleVideoPreview(video)}
                   >
-                    <div className={`aspect-video bg-gradient-to-br ${video.gradient} rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      <div className="relative">
-                        <IconComponent className="w-12 h-12 text-white/80" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <Play className="w-6 h-6 text-white ml-1" />
+                    {video.id === "iosh-cpd" ? (
+                      <div className="relative aspect-video rounded-xl mb-4 overflow-hidden group-hover:scale-110 transition-transform duration-300">
+                        <iframe
+                          className="absolute inset-0 w-full h-full pointer-events-none"
+                          src="https://www.youtube.com/embed/o71mLFPVQzo?autoplay=1&mute=1&loop=1&playlist=o71mLFPVQzo&controls=0&modestbranding=1&rel=0&playsinline=1"
+                          title="About IOSH and CPD video preview"
+                          allow="autoplay; encrypted-media; picture-in-picture"
+                          loading="lazy"
+                          allowFullScreen
+                        />
+                      </div>
+                    ) : (
+                      <div className={`aspect-video bg-gradient-to-br ${video.gradient} rounded-xl mb-4 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <div className="relative">
+                          <IconComponent className="w-12 h-12 text-white/80" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <Play className="w-6 h-6 text-white ml-1" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                     <h3 className="text-white font-semibold mb-2 group-hover:text-pink-400 transition-colors duration-300">{video.title}</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">{video.shortDescription}</p>
                     
