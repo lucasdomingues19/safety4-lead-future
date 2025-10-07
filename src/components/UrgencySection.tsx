@@ -18,8 +18,7 @@ export const UrgencySection = () => {
           </h2>
           
           <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
-            While you're reading this, forward-thinking safety leaders are already implementing 
-            AI-driven safety solutions and advancing their careers at unprecedented rates.
+            AI skills in EHS functions remain relatively low, with 25% of practitioners having no AI skills or experience and 61% identifying as beginners. However, 77% of recruiter place some level of importance on tech skills when recruiting
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-16">
