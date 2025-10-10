@@ -3,12 +3,31 @@ import { ArrowRight, Star, Users, Award } from "lucide-react";
 
 export const FinalCTASection = () => {
   return (
-    <section className="py-20 bg-gradient-secondary relative overflow-hidden">
-      {/* Background Pattern */}
+    <section className="py-20 relative overflow-hidden">
+      {/* Black to dark blue gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
+      
+      {/* Floating purple elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Main purple blob - Top left */}
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/30 via-purple-600/25 to-violet-500/20 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
+        
+        {/* Purple blob - Top right */}
+        <div className="absolute top-1/3 -right-40 w-80 h-80 rounded-full bg-gradient-to-br from-purple-400/25 via-violet-500/30 to-purple-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
+        
+        {/* Purple blob - Bottom center */}
+        <div className="absolute bottom-0 left-1/3 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/20 via-purple-500/25 to-purple-400/15 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
+        
+        {/* Central purple accent */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-gradient-to-br from-purple-400/15 via-violet-500/20 to-purple-600/10 blur-2xl animate-[pulse_15s_ease-in-out_infinite]"></div>
+      </div>
+      
+      {/* Subtle grid pattern */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-32 h-32 border border-white/20 rounded-full"></div>
-        <div className="absolute bottom-20 right-20 w-48 h-48 border border-white/20 rounded-full"></div>
-        <div className="absolute top-1/3 right-1/4 w-24 h-24 border border-white/20 rounded-full"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}></div>
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
