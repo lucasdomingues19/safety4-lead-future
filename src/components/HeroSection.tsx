@@ -277,7 +277,7 @@ export const HeroSection = () => {
                 {/* Testimonial 2 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
                   <img src={rosieRussellPhoto} alt="Rosie Russell" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"Safety 4.0 represents the future of our profession - combining technology with human-centered approaches for better outcomes."</p>
+                  <p className="text-gray-300 text-sm italic">"We need to make AI mainstream in our conversations, but we must also make sure people truly understand it before relying on it."</p>
                   <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
                 </div>
 
@@ -318,7 +318,7 @@ export const HeroSection = () => {
 
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
                   <img src={rosieRussellPhoto} alt="Rosie Russell" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"Safety 4.0 represents the future of our profession - combining technology with human-centered approaches for better outcomes."</p>
+                  <p className="text-gray-300 text-sm italic">"We need to make AI mainstream in our conversations, but we must also make sure people truly understand it before relying on it."</p>
                   <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
                 </div>
               </div>
