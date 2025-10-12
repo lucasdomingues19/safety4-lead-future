@@ -2,7 +2,7 @@ import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#11113a] border-t border-white/10 py-16">
+    <footer className="bg-black border-t border-white/10 py-8">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo and Description */}
@@ -70,6 +70,14 @@ export const Footer = () => {
                   Anti-Piracy Policy
                 </a>
               </li>
+              <li>
+                <a 
+                  href="/cookies-policy" 
+                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                >
+                  Cookies Policy
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -85,7 +93,9 @@ export const Footer = () => {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://www.youtube.com/@lucasdominguesoficial" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-400 text-gray-300 transition-all duration-300"
                 aria-label="YouTube"
               >
@@ -105,7 +115,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Safety 4.0 Academy. All rights reserved.
+            © 2025 Safety 4.0 Academy. All rights reserved.
           </p>
           <div className="flex items-center space-x-6 mt-4 md:mt-0">
             <div className="flex items-center space-x-2">
