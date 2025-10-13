@@ -9,10 +9,10 @@ export const LeadCaptureModal = () => {
   const [showAssessment, setShowAssessment] = useState(false);
 
   useEffect(() => {
-    // Open modal after 5 seconds
+    // Open modal after 1 minute
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 5000);
+    }, 60000);
 
     return () => clearTimeout(timer);
   }, []);
