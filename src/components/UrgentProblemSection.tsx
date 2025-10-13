@@ -12,7 +12,7 @@ export const UrgentProblemSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto animate-fade-in">
           {/* Urgent badge */}
-          <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 rounded-full px-6 py-2 mb-8 animate-pulse">
+          <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 rounded-full px-6 py-2 mb-8">
             <AlertCircle className="w-5 h-5 text-red-400" />
             <span className="text-red-300 font-semibold">URGENT: The Safety Industry is Transforming NOW</span>
           </div>
