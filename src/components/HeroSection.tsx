@@ -212,8 +212,7 @@ export const HeroSection = () => {
           
           {/* Main Headline */}
           <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-8">
-            Become the <span className="text-pink-500">Safety 4.0</span> Leader<br />
-            in the Digital Age
+            Are you ready to become the <span className="text-pink-500">Safety 4.0</span> Leader in the Digital Age?
           </h1>
           
           {/* Subheading */}
