@@ -241,7 +241,7 @@ export default function PrivacyPolicy() {
             </section>
 
             <p className="text-sm text-gray-400 pt-6 border-t border-white/10">
-              Last updated: January 2025
+              Last updated: October 2025
             </p>
           </div>
         </div>
