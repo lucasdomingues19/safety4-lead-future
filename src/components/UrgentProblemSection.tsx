@@ -14,7 +14,7 @@ export const UrgentProblemSection = () => {
           {/* Urgent badge */}
           <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 rounded-full px-6 py-2 mb-8">
             <AlertCircle className="w-5 h-5 text-red-400" />
-            <span className="text-red-300 font-semibold">URGENT: The Safety Industry is Transforming NOW</span>
+            <span className="text-red-300 font-semibold">The Safety Industry is Transforming NOW</span>
           </div>
 
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
