@@ -18,8 +18,8 @@ export const UrgentProblemSection = () => {
           </div>
 
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-            Your Safety Career is at a{" "}
-            <span className="text-red-400">Critical Crossroads</span>
+            Your Career is at an{" "}
+            <span className="text-red-400">Unprecedented Crossroads</span>
           </h2>
           
           <p className="text-xl text-gray-300 mb-12 leading-relaxed">
