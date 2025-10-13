@@ -14,6 +14,8 @@ import Expense from "./pages/Expense";
 import NotFound from "./pages/NotFound";
 import AntiPiracyPolicy from "./pages/AntiPiracyPolicy";
 import CookiesPolicy from "./pages/CookiesPolicy";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,8 @@ const App = () => (
           <Route path="/expense" element={<Expense />} />
           <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
           <Route path="/cookies-policy" element={<CookiesPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

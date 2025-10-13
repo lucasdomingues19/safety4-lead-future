@@ -24,7 +24,7 @@ export const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a 
-                  href="/support" 
+                  href="/contact" 
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Support
@@ -40,34 +40,10 @@ export const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="/acceptable-use-policy" 
+                  href="/terms-conditions" 
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
-                  Acceptable Use Policy
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="/sales-terms" 
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
-                >
-                  Sales Terms & Conditions
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="/website-terms" 
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
-                >
-                  Website Terms & Conditions
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="/anti-piracy-policy" 
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
-                >
-                  Anti-Piracy Policy
+                  Terms & Conditions
                 </a>
               </li>
               <li>
@@ -76,6 +52,14 @@ export const Footer = () => {
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Cookies Policy
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/anti-piracy-policy" 
+                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                >
+                  Anti-Piracy Policy
                 </a>
               </li>
             </ul>
