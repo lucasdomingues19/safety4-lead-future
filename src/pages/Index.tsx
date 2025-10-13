@@ -1,6 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
 import { PricingSection } from "@/components/PricingSection";
-import { ProblemSection } from "@/components/ProblemSection";
 import MentorSection from "@/components/MentorSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
@@ -17,7 +16,6 @@ const Index = () => {
       <LeadCaptureModal />
       <HeroSection />
       <AboutAcademySection />
-      <ProblemSection />
       <MentorSection />
       <SolutionSection />
       <PricingSection />
