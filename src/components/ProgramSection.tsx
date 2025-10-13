@@ -173,16 +173,6 @@ export const ProgramSection = () => {
               </div>
             </div>
           </div>
-          
-          {/* Urgency Indicator */}
-          <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-2xl p-6 animate-glow-pulse">
-            <p className="text-white font-semibold text-lg mb-2">
-              🔥 Limited Time: Next Cohort Starts in 14 Days
-            </p>
-            <p className="text-white/80 text-sm">
-              Only 47 spots remaining • Don't wait, prices increase after this week
-            </p>
-          </div>
         </div>
       </div>
     </section>
