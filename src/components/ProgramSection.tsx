@@ -181,7 +181,10 @@ export const ProgramSection = () => {
           <Button 
             variant="hero" 
             size="lg" 
-            className="bg-primary hover:bg-primary/90 text-white text-2xl font-bold py-6 px-12 h-auto group shadow-glow"
+            className="bg-primary hover:bg-primary/90 text-black text-2xl font-bold py-6 px-12 h-auto group shadow-glow"
+            onClick={() => {
+              document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             Join the Safety 4.0 Academy Now
             <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
