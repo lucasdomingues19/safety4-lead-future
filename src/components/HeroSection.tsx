@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Play, Menu, X, Award } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 import { Safety4AssessmentModal } from "./Safety4AssessmentModal";
 import { VideoPreviewModal } from "./VideoPreviewModal";
@@ -26,6 +26,20 @@ export const HeroSection = () => {
     description: string;
     url?: string;
   } | null>(null);
+  const [currentHeadline, setCurrentHeadline] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentHeadline((prev) => (prev + 1) % 2);
+        setIsTransitioning(false);
+      }, 500);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const videoPreviewData = [
     {
@@ -210,15 +224,32 @@ export const HeroSection = () => {
             </div>
           </div>
           
-          {/* Main Headline */}
-          <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-8">
-            Are you ready to become the <span className="text-pink-500">Safety 4.0</span> <span className="text-pink-500">Leader</span> in the Digital Age?
-          </h1>
-          
-          {/* Subheading */}
-          <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 font-light">
-            Future-proof and transform your career with the <span className="font-bold text-lime-400">world's first Safety 4.0 safety program trusted by IOSH</span> and global organisations
-          </p>
+          {/* Main Headline - Alternating with fade animation */}
+          <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+            {currentHeadline === 0 ? (
+              <>
+                <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-8">
+                  Safety Leadership Without <span className="text-pink-500">Digital Literacy</span> has Become a <span className="text-pink-500">Liability</span>
+                </h1>
+                
+                {/* Subheading */}
+                <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 font-light">
+                  The safety industry is rapidly evolving. While others struggle with outdated approaches, <span className="font-bold text-lime-400">forward-thinking safety leaders are mastering digital transformation</span> to stay ahead
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-8">
+                  Are you ready to become the <span className="text-pink-500">Safety 4.0</span> <span className="text-pink-500">Leader</span> in the Digital Age?
+                </h1>
+                
+                {/* Subheading */}
+                <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-12 font-light">
+                  Future-proof and transform your career with the <span className="font-bold text-lime-400">world's first Safety 4.0 safety program trusted by IOSH</span> and global organisations
+                </p>
+              </>
+            )}
+          </div>
 
           {/* Video Presentation Placeholder */}
           <div className="max-w-4xl mx-auto mb-12">
