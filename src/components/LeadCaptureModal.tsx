@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ClipboardCheck, X } from "lucide-react";
+import { Safety4AssessmentModal } from "@/components/Safety4AssessmentModal";
 
 export const LeadCaptureModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showAssessment, setShowAssessment] = useState(false);
 
   useEffect(() => {
     // Open modal after 5 seconds
@@ -65,7 +67,7 @@ export const LeadCaptureModal = () => {
             <Button
               onClick={() => {
                 setIsOpen(false);
-                document.getElementById('assessment-trigger')?.click();
+                setShowAssessment(true);
               }}
               className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-4 text-base font-semibold"
             >
@@ -85,6 +87,10 @@ export const LeadCaptureModal = () => {
           </p>
         </div>
       </DialogContent>
+      <Safety4AssessmentModal 
+        isOpen={showAssessment} 
+        onClose={() => setShowAssessment(false)} 
+      />
     </Dialog>
   );
 };
