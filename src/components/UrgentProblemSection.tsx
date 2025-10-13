@@ -28,15 +28,15 @@ export const UrgentProblemSection = () => {
           </p>
 
           {/* Urgent statistics */}
-          <div className="grid md:grid-cols-3 gap-8 mt-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30 hover:border-red-500/50 transition-all">
-                <TrendingDown className="w-12 h-12 text-red-400 mx-auto" />
-                <div className="text-4xl font-bold text-red-400">67%</div>
-                <h3 className="text-lg font-semibold text-white">At Risk</h3>
+                <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
+                <div className="text-4xl font-bold text-red-400">25%</div>
+                <h3 className="text-lg font-semibold text-white">No AI Skills</h3>
                 <p className="text-gray-300 text-sm">
-                  of traditional safety roles will be disrupted by AI within 3 years
+                  of EHS practitioners have no AI skills or experience
                 </p>
               </div>
             </div>
@@ -44,11 +44,11 @@ export const UrgentProblemSection = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/30 hover:border-orange-500/50 transition-all">
-                <Users className="w-12 h-12 text-orange-400 mx-auto" />
-                <div className="text-4xl font-bold text-orange-400">5X</div>
-                <h3 className="text-lg font-semibold text-white">Salary Gap</h3>
+                <TrendingDown className="w-12 h-12 text-orange-400 mx-auto" />
+                <div className="text-4xl font-bold text-orange-400">61%</div>
+                <h3 className="text-lg font-semibold text-white">Self-Identify as Beginners</h3>
                 <p className="text-gray-300 text-sm">
-                  Digital-savvy safety leaders earn 5x more than traditional roles
+                  of EHS professionals self-identify as beginners in AI
                 </p>
               </div>
             </div>
@@ -56,11 +56,23 @@ export const UrgentProblemSection = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-pink-500/30 hover:border-pink-500/50 transition-all">
-                <Clock className="w-12 h-12 text-pink-400 mx-auto" />
-                <div className="text-4xl font-bold text-pink-400">18 Months</div>
-                <h3 className="text-lg font-semibold text-white">Window Closing</h3>
+                <Users className="w-12 h-12 text-pink-400 mx-auto" />
+                <div className="text-4xl font-bold text-pink-400">49%</div>
+                <h3 className="text-lg font-semibold text-white">Investing in AI</h3>
                 <p className="text-gray-300 text-sm">
-                  You have less than 18 months to adapt or risk becoming obsolete
+                  of EHS functions plan to invest in AI within the next 12 months
+                </p>
+              </div>
+            </div>
+
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-red-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
+              <div className="relative text-center space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30 hover:border-purple-500/50 transition-all">
+                <Clock className="w-12 h-12 text-purple-400 mx-auto" />
+                <div className="text-4xl font-bold text-purple-400">77%</div>
+                <h3 className="text-lg font-semibold text-white">AI Skills Priority</h3>
+                <p className="text-gray-300 text-sm">
+                  of hiring managers prioritise AI skills when hiring
                 </p>
               </div>
             </div>
