@@ -123,8 +123,8 @@ export default function CookiesPolicy() {
               <h2 className="text-2xl font-semibold text-white mb-4">Contact Us</h2>
               <p>
                 If you have questions about our use of cookies, please contact us at{" "}
-                <a href="mailto:privacy@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                  privacy@safety40academy.com
+                <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
+                  hello@getshield360.com
                 </a>
               </p>
             </section>
