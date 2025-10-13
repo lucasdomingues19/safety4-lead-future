@@ -41,8 +41,8 @@ export default function PrivacyPolicy() {
               <p>
                 Safety 4.0 Academy is the data controller responsible for your personal data. If you have any 
                 questions about this policy or our data practices, please contact us at{" "}
-                <a href="mailto:privacy@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                  privacy@safety40academy.com
+                <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
+                  hello@getshield360.com
                 </a>
               </p>
             </section>
@@ -176,8 +176,8 @@ export default function PrivacyPolicy() {
               </ul>
               <p className="mt-3">
                 To exercise any of these rights, please contact us at{" "}
-                <a href="mailto:privacy@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                  privacy@safety40academy.com
+                <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
+                  hello@getshield360.com
                 </a>
               </p>
             </section>
@@ -208,7 +208,7 @@ export default function PrivacyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">Children's Privacy</h2>
               <p>
-                Our services are not intended for individuals under 16 years of age. We do not knowingly 
+                Our services are not intended for individuals under 18 years of age. We do not knowingly 
                 collect personal data from children. If we become aware that we have collected data from 
                 a child, we will take steps to delete it promptly.
               </p>
@@ -232,8 +232,8 @@ export default function PrivacyPolicy() {
               <div className="mt-3 space-y-2">
                 <p>
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:privacy@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                    privacy@safety40academy.com
+                  <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
+                    hello@getshield360.com
                   </a>
                 </p>
                 <p><strong>Data Protection Officer:</strong> Available upon request</p>
