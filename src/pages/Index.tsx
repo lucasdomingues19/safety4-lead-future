@@ -5,7 +5,6 @@ import { UrgentProblemSection } from "@/components/UrgentProblemSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
 import { ProgramSection } from "@/components/ProgramSection";
-import { UrgencySection } from "@/components/UrgencySection";
 import { FinalCTASection } from "@/components/FinalCTASection";
 import { Footer } from "@/components/Footer";
 import { AboutAcademySection } from "@/components/AboutAcademySection";
@@ -23,7 +22,6 @@ const Index = () => {
       <PricingSection />
       <SocialProofSection />
       <ProgramSection />
-      <UrgencySection />
       <FinalCTASection />
       <Footer />
     </div>
