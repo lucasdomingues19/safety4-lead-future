@@ -154,8 +154,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
-                    <p className="text-gray-300">info@safety4academy.com</p>
-                    <p className="text-gray-300">admissions@safety4academy.com</p>
+                    <p className="text-gray-300">hello@getshield360.com</p>
                   </div>
                 </div>
 
@@ -165,8 +164,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Phone</h3>
-                    <p className="text-gray-300">+44 (0) 20 7XXX XXXX</p>
-                    <p className="text-gray-300">+1 (555) XXX-XXXX</p>
+                    <p className="text-gray-300">+44 (0) 2033552560</p>
                   </div>
                 </div>
 
@@ -176,8 +174,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Address</h3>
-                    <p className="text-gray-300">Safety 4.0 Academy Headquarters</p>
-                    <p className="text-gray-300">London, United Kingdom</p>
+                    <p className="text-gray-300">20, Wenlock Rd, London, United Kingdom, N1 7GU</p>
                   </div>
                 </div>
 
@@ -188,7 +185,7 @@ const Contact = () => {
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Office Hours</h3>
                     <p className="text-gray-300">Monday - Friday: 9:00 AM - 6:00 PM GMT</p>
-                    <p className="text-gray-300">Weekend: Emergency support available</p>
+                    <p className="text-gray-300">Weekend: Technical support available</p>
                   </div>
                 </div>
               </div>
