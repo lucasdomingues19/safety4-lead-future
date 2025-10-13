@@ -63,9 +63,13 @@ export const HeroSection = () => {
   ];
 
   const handleVideoPreview = (video: typeof videoPreviewData[0]) => {
-    const videoUrl = video.id === "iosh-cpd" 
-      ? "https://www.youtube.com/embed/o71mLFPVQzo?autoplay=1&mute=1&loop=1&playlist=o71mLFPVQzo"
-      : undefined;
+    let videoUrl: string | undefined;
+    
+    if (video.id === "safety-40") {
+      videoUrl = "https://www.youtube.com/embed/OsKsyXCx8pc?autoplay=1&mute=1&loop=1&playlist=OsKsyXCx8pc";
+    } else if (video.id === "iosh-cpd") {
+      videoUrl = "https://www.youtube.com/embed/o71mLFPVQzo?autoplay=1&mute=1&loop=1&playlist=o71mLFPVQzo";
+    }
     
     setSelectedVideo({
       title: video.title,
