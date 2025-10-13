@@ -70,17 +70,8 @@ export const FinalCTASection = () => {
             </div>
           </div>
 
-          {/* Main CTA */}
+          {/* CTA Info */}
           <div className="space-y-8">
-            <Button 
-              variant="hero" 
-              size="lg" 
-              className="bg-primary hover:bg-primary/90 text-white text-2xl font-bold py-6 px-12 h-auto group shadow-glow"
-            >
-              Join the Safety 4.0 Academy Now
-              <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
-            </Button>
-            
             <div className="text-white/80 space-y-2">
               <p className="text-lg">
                 <span className="font-semibold">Early Bird Special:</span> Save 30% if you enroll today
