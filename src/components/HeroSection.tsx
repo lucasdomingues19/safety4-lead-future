@@ -368,12 +368,12 @@ export const HeroSection = () => {
                     className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:border-pink-400/50 transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-2xl"
                     onClick={() => handleVideoPreview(video)}
                   >
-                    {video.id === "iosh-cpd" ? (
+                    {(video.id === "iosh-cpd" || video.id === "safety-40") ? (
                       <div className="relative aspect-video rounded-xl mb-4 overflow-hidden group-hover:scale-110 transition-transform duration-300">
                         <iframe
                           className="absolute inset-0 w-full h-full pointer-events-none"
-                          src="https://www.youtube.com/embed/o71mLFPVQzo?autoplay=1&mute=1&loop=1&playlist=o71mLFPVQzo&controls=0&modestbranding=1&rel=0&playsinline=1"
-                          title="About IOSH and CPD video preview"
+                          src={`https://www.youtube.com/embed/${video.id === 'iosh-cpd' ? 'o71mLFPVQzo' : 'OsKsyXCx8pc'}?autoplay=1&mute=1&loop=1&playlist=${video.id === 'iosh-cpd' ? 'o71mLFPVQzo' : 'OsKsyXCx8pc'}&controls=0&modestbranding=1&rel=0&playsinline=1`}
+                          title={`${video.title} video preview`}
                           allow="autoplay; encrypted-media; picture-in-picture"
                           loading="lazy"
                           allowFullScreen
