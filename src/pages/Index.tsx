@@ -9,10 +9,12 @@ import { UrgencySection } from "@/components/UrgencySection";
 import { FinalCTASection } from "@/components/FinalCTASection";
 import { Footer } from "@/components/Footer";
 import { AboutAcademySection } from "@/components/AboutAcademySection";
+import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <LeadCaptureModal />
       <HeroSection />
       <AboutAcademySection />
       <ProblemSection />
