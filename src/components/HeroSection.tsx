@@ -325,6 +325,30 @@ export const HeroSection = () => {
                   <p className="text-gray-300 text-sm italic">"We need to make AI mainstream in our conversations, but we must also make sure people truly understand it before relying on it."</p>
                   <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
                 </div>
+
+                <div className="flex-shrink-0 text-center space-y-3 w-80">
+                  <img src={julianaBleyPhoto} alt="Juliana Bley" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"The psychology of safety in digital transformation requires new leadership approaches that this program masterfully teaches."</p>
+                  <div className="text-white text-xs font-medium">Juliana Bley, TEDx Speaker, Psychologist</div>
+                </div>
+
+                <div className="flex-shrink-0 text-center space-y-3 w-80">
+                  <img src={jenniferMcnellyPhoto} alt="Jennifer McNelly" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"Most professionals today on the AI maturity curve are in the learning and exploring stage. There are, and will be, as in all industries and professions, leaders, laggards and those in the middle."</p>
+                  <div className="text-white text-xs font-medium">Jennifer McNelly, ASSP CEO</div>
+                </div>
+
+                <div className="flex-shrink-0 text-center space-y-3 w-80">
+                  <img src={stuartHughesPhoto} alt="Stuart Hughes" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"You can shape the future and create healthy and safe working environments that enable employees to thrive, and drive the sustainability of your organisation forward."</p>
+                  <div className="text-white text-xs font-medium">Stuart Hughes, IOSH Past President</div>
+                </div>
+
+                <div className="flex-shrink-0 text-center space-y-3 w-80">
+                  <img src={annaLopezPhoto} alt="Anna Lopez" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                  <p className="text-gray-300 text-sm italic">"From traditional safety to digital leadership in just 12 weeks."</p>
+                  <div className="text-white text-xs font-medium">Anna Lopez, Safety Specialist</div>
+                </div>
               </div>
             </div>
           </div>
