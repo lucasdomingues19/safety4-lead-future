@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Shield, X } from "lucide-react";
+import { ClipboardCheck, X } from "lucide-react";
 
 export const LeadCaptureModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ export const LeadCaptureModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-pink-500/20">
+      <DialogContent className="max-w-lg bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-pink-500/20">
         <button
           onClick={() => setIsOpen(false)}
           className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
@@ -28,20 +28,20 @@ export const LeadCaptureModal = () => {
         
         <DialogHeader className="space-y-4">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
-            <Shield className="w-8 h-8 text-white" />
+            <ClipboardCheck className="w-8 h-8 text-white" />
           </div>
-          <DialogTitle className="text-3xl font-bold text-center text-white">
+          <DialogTitle className="text-2xl font-bold text-center text-white">
             Discover Your Safety 4.0 Readiness Score
           </DialogTitle>
-          <DialogDescription className="text-lg text-gray-300 text-center">
+          <DialogDescription className="text-base text-gray-300 text-center">
             Take our <span className="text-lime-400 font-semibold">FREE 2-minute assessment</span> and discover where you stand in the digital safety transformation
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 py-6">
-          <div className="bg-slate-800/50 rounded-lg p-6 space-y-4">
-            <h3 className="text-white font-semibold text-lg">You'll discover:</h3>
-            <ul className="space-y-3 text-gray-300">
+        <div className="space-y-4 py-4">
+          <div className="bg-slate-800/50 rounded-lg p-4 space-y-3">
+            <h3 className="text-white font-semibold text-base">You'll discover:</h3>
+            <ul className="space-y-2 text-gray-300 text-sm">
               <li className="flex items-start gap-3">
                 <span className="text-lime-400 font-bold">✓</span>
                 <span>Your current digital safety leadership capability level</span>
@@ -67,7 +67,7 @@ export const LeadCaptureModal = () => {
                 setIsOpen(false);
                 document.getElementById('assessment-trigger')?.click();
               }}
-              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-6 text-lg font-semibold"
+              className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white py-4 text-base font-semibold"
             >
               Take the FREE Assessment
             </Button>
