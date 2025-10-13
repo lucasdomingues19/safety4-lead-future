@@ -28,6 +28,10 @@ export default function TermsConditions() {
           <div className="space-y-6 text-gray-300 leading-relaxed">
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">1. Introduction and Acceptance</h2>
+              <p className="mb-4">
+                Safety 4.0 Academy is a product owned and operated by Shield360 Ltd, company number 16266290, 
+                registered in England.
+              </p>
               <p>
                 These Terms and Conditions ("Terms") govern your use of Safety 4.0 Academy's website, courses, 
                 and services. By accessing or using our services, you agree to be bound by these Terms. If you 
@@ -48,7 +52,7 @@ export default function TermsConditions() {
             <section>
               <h2 className="text-2xl font-semibold text-white mb-4">3. Account Registration and Eligibility</h2>
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">3.1 Eligibility</h3>
-              <p>You must be at least 16 years old to use our services. By registering, you represent that you meet this age requirement.</p>
+              <p>You must be at least 18 years old to use our services. By registering, you represent that you meet this age requirement.</p>
               
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">3.2 Account Creation</h3>
               <p>You agree to:</p>
@@ -115,15 +119,15 @@ export default function TermsConditions() {
               <h2 className="text-2xl font-semibold text-white mb-4">6. Refund and Cancellation Policy</h2>
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">6.1 Refund Eligibility</h3>
               <p>
-                We offer a 14-day money-back guarantee from the date of purchase, provided you have not 
+                We offer a 7-day money-back guarantee from the date of purchase, provided you have not 
                 completed more than 20% of the course content or obtained certification.
               </p>
 
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">6.2 Refund Process</h3>
               <p>
                 To request a refund, contact us at{" "}
-                <a href="mailto:support@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                  support@safety40academy.com
+                <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
+                  hello@getshield360.com
                 </a>
                 {" "}with your order details. Refunds are processed within 10-14 business days.
               </p>
@@ -173,7 +177,7 @@ export default function TermsConditions() {
 
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">8.2 Certificate Validity</h3>
               <p>
-                Certificates are issued by Safety 4.0 Academy and approved by IOSH and CPD. Certificate validity 
+                Certificates are issued by IOSH and CPD. Certificate validity 
                 and renewal requirements are specified in the course materials.
               </p>
 
@@ -323,21 +327,15 @@ export default function TermsConditions() {
               <div className="mt-3 space-y-2">
                 <p>
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:legal@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                    legal@safety40academy.com
-                  </a>
-                </p>
-                <p>
-                  <strong>Support:</strong>{" "}
-                  <a href="mailto:support@safety40academy.com" className="text-lime-400 hover:text-lime-300">
-                    support@safety40academy.com
+                  <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
+                    hello@getshield360.com
                   </a>
                 </p>
               </div>
             </section>
 
             <p className="text-sm text-gray-400 pt-6 border-t border-white/10">
-              Last updated: January 2025
+              Last updated: October 2025
             </p>
           </div>
         </div>
