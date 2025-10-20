@@ -54,6 +54,7 @@ const FAQ = () => {
   ];
 
   return (
+    <>
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
@@ -149,8 +150,9 @@ const FAQ = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
+    <Footer />
+    </>
   );
 };
 
