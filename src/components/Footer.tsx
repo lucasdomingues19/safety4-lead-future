@@ -1,4 +1,5 @@
 import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
+import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 export const Footer = () => {
   return (
@@ -8,7 +9,7 @@ export const Footer = () => {
           {/* Logo and Description */}
           <div className="lg:col-span-2">
             <img 
-              src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
+              src={safetyAcademyLogo} 
               alt="Safety 4.0 Academy Logo" 
               className="h-20 w-auto mb-6"
             />

@@ -16,6 +16,7 @@ import julianaBleyPhoto from "../assets/juliana-bley-photo.jpeg";
 import jenniferMcnellyPhoto from "../assets/jennifer-mcnelly-photo.jpeg";
 import stuartHughesPhoto from "../assets/stuart-hughes-photo.jpg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
+import safetyAcademyLogo from "../assets/safety-academy-logo.png";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -126,7 +127,7 @@ export const HeroSection = () => {
         <div className="flex justify-between items-center mb-16">
           <div className="flex flex-col items-start space-y-2">
             <img 
-              src="/lovable-uploads/b2270dc3-9eae-4580-8e94-747f6660bccc.png" 
+              src={safetyAcademyLogo} 
               alt="Safety 4.0 Academy Logo" 
               className="h-36 w-auto"
             />
