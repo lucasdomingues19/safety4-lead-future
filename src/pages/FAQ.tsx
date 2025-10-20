@@ -1,5 +1,6 @@
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/Footer";
 import { useState } from "react";
 
 const FAQ = () => {
@@ -148,6 +149,7 @@ const FAQ = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

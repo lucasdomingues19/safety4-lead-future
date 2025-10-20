@@ -1,6 +1,7 @@
 import { ArrowLeft, Download, BookOpen, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Footer } from "@/components/Footer";
 import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
 
 const EBook = () => {
@@ -305,6 +306,7 @@ const EBook = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
