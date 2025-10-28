@@ -3,23 +3,40 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
-import About from "./pages/About";
-import Instructor from "./pages/Instructor";
-import Certification from "./pages/Certification";
-import EBook from "./pages/EBook";
-import Contact from "./pages/Contact";
-import FAQ from "./pages/FAQ";
-import Expense from "./pages/Expense";
-import NotFound from "./pages/NotFound";
-import AntiPiracyPolicy from "./pages/AntiPiracyPolicy";
-import CookiesPolicy from "./pages/CookiesPolicy";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsConditions from "./pages/TermsConditions";
-import Auth from "./pages/Auth";
-import Admin from "./pages/Admin";
 
-const queryClient = new QueryClient();
+// Lazy load pages for better performance
+const About = lazy(() => import("./pages/About"));
+const Instructor = lazy(() => import("./pages/Instructor"));
+const Certification = lazy(() => import("./pages/Certification"));
+const EBook = lazy(() => import("./pages/EBook"));
+const Contact = lazy(() => import("./pages/Contact"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Expense = lazy(() => import("./pages/Expense"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AntiPiracyPolicy = lazy(() => import("./pages/AntiPiracyPolicy"));
+const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsConditions = lazy(() => import("./pages/TermsConditions"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Admin = lazy(() => import("./pages/Admin"));
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#11113a] via-slate-900 to-black">
+    <div className="text-white text-xl">Loading...</div>
+  </div>
+);
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      gcTime: 1000 * 60 * 10, // 10 minutes
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -27,24 +44,26 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/instructor" element={<Instructor />} />
-          <Route path="/certification" element={<Certification />} />
-          <Route path="/ebook" element={<EBook />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/expense" element={<Expense />} />
-          <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
-          <Route path="/cookies-policy" element={<CookiesPolicy />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-conditions" element={<TermsConditions />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin" element={<Admin />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/instructor" element={<Instructor />} />
+            <Route path="/certification" element={<Certification />} />
+            <Route path="/ebook" element={<EBook />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/expense" element={<Expense />} />
+            <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
+            <Route path="/cookies-policy" element={<CookiesPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-conditions" element={<TermsConditions />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<Admin />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
