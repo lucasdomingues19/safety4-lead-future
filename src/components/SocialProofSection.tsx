@@ -6,6 +6,7 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
 import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
 import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
+import alexSiedschlagPhoto from "@/assets/alex-siedschlag-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -50,6 +51,13 @@ export const SocialProofSection = () => {
       content: "The certification opened doors I never imagined. The comprehensive approach to digital safety transformation has been invaluable for advancing my career.",
       rating: 5,
       image: stephanieOsbornePhoto
+    },
+    {
+      name: "Alex Siedschlag",
+      role: "Performance Coach",
+      content: "The Safety 4.0 methodology has revolutionized how I coach teams on workplace safety. The digital tools provide incredible insights for performance optimization.",
+      rating: 5,
+      image: alexSiedschlagPhoto
     }
   ];
 
