@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
 import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
+import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -28,11 +29,11 @@ export const SocialProofSection = () => {
       image: eamonnDohertyPhoto
     },
     {
-      name: "Sarah Chen",
-      role: "Construction Safety Manager, Bechtel",
-      content: "The AI-powered safety analytics module completely transformed how we predict and prevent incidents. Our accident rate dropped 75% in the first year.",
+      name: "Ben Canterbury",
+      role: "Corporate Safety Manager",
+      content: "The AI-powered safety analytics completely transformed how we predict and prevent incidents. Our accident rate dropped significantly in the first year.",
       rating: 5,
-      image: "SC"
+      image: benCanterburyPhoto
     },
     {
       name: "James Thompson",
