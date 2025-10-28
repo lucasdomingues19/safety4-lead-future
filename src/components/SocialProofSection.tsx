@@ -133,7 +133,7 @@ export const SocialProofSection = () => {
                 
                 <Quote className="w-8 h-8 text-primary mb-4" />
                 
-                <p className="text-muted-foreground mb-6 leading-relaxed">
+                <p className="text-black mb-6 leading-relaxed">
                   "{testimonial.content}"
                 </p>
                 
