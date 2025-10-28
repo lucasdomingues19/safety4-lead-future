@@ -74,7 +74,7 @@ export const FinalCTASection = () => {
           <div className="space-y-8">
             <div className="text-white/80 space-y-2">
               <p className="text-lg">
-                <span className="font-semibold">Early Bird Special:</span> Save 30% if you enroll today
+                <span className="font-semibold">Founding Member Special:</span> Save 30% if you enroll today
               </p>
               <p className="text-sm">
                 IOSH & CPD Approved • Lifetime Access • 30-Day Money Back Guarantee
