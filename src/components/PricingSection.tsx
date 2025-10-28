@@ -8,7 +8,7 @@ export const PricingSection = () => {
       price: "£497",
       originalPrice: "£697",
       period: "one-time",
-      description: "Self-paced online learning with lifetime access",
+      description: "Self-paced online learning with 12-month access",
       icon: Tablet,
       features: [
         "IOSH & CPD certification",
