@@ -1,6 +1,6 @@
 import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
+import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
 import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
@@ -13,11 +13,11 @@ import alexDemingoPhoto from "@/assets/alex-demingo-photo.jpeg";
 export const SocialProofSection = () => {
   const testimonials = [
     {
-      name: "Manal Azzi",
-      role: "ILO Team Lead",
-      content: "Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health.",
+      name: "Shebin Abraham",
+      role: "Founder",
+      content: "Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health through innovative technology solutions.",
       rating: 5,
-      image: manalAzziPhoto
+      image: shebinAbrahamPhoto
     },
     {
       name: "Artur Aielo",
