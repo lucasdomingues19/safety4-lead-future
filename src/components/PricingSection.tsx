@@ -187,9 +187,11 @@ export const PricingSection = () => {
             <p className="text-gray-300 mb-6">
               Schedule a free consultation with our team to find the perfect training solution for your needs.
             </p>
-            <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg">
-              Schedule Free Consultation
-            </Button>
+            <a href="https://calendly.com/lucas-getshield360/30min" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg">
+                Schedule Free Consultation
+              </Button>
+            </a>
           </div>
         </div>
       </div>
