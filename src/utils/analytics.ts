@@ -10,6 +10,74 @@ const getSessionId = (): string => {
   return sessionId;
 };
 
+// Track custom events (clicks, form submissions, etc.)
+export const trackEvent = async (eventType: string, eventData?: Record<string, any>) => {
+  try {
+    const sessionId = getSessionId();
+    
+    await supabase.from('user_events').insert({
+      session_id: sessionId,
+      event_type: eventType,
+      event_data: eventData || {},
+      page_path: window.location.pathname,
+    });
+  } catch (error) {
+    console.error('Event tracking failed:', error);
+  }
+};
+
+// Track button/link clicks
+export const trackClick = (elementName: string, additionalData?: Record<string, any>) => {
+  trackEvent('click', { 
+    element: elementName, 
+    ...additionalData 
+  });
+};
+
+// Track scroll depth
+let maxScrollDepth = 0;
+export const initScrollTracking = () => {
+  const trackScroll = () => {
+    const scrollPercentage = Math.round(
+      (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100
+    );
+    
+    if (scrollPercentage > maxScrollDepth) {
+      maxScrollDepth = scrollPercentage;
+      
+      // Track at 25%, 50%, 75%, 100% milestones
+      if ([25, 50, 75, 100].includes(scrollPercentage)) {
+        trackEvent('scroll', { depth: scrollPercentage });
+      }
+    }
+  };
+  
+  window.addEventListener('scroll', trackScroll, { passive: true });
+  
+  return () => window.removeEventListener('scroll', trackScroll);
+};
+
+// Track time on page
+let pageStartTime: number;
+let pageViewId: string | null = null;
+
+export const startTimeTracking = () => {
+  pageStartTime = Date.now();
+};
+
+export const updateTimeOnPage = async () => {
+  if (!pageStartTime) return;
+  
+  const timeSpent = Math.floor((Date.now() - pageStartTime) / 1000); // in seconds
+  
+  try {
+    // Update the duration in page_views if we have the ID
+    trackEvent('time_on_page', { duration: timeSpent });
+  } catch (error) {
+    console.error('Time tracking update failed:', error);
+  }
+};
+
 // Parse user agent to extract device info
 const parseUserAgent = (ua: string) => {
   const isMobile = /Mobile|Android|iPhone/i.test(ua);
@@ -80,10 +148,27 @@ export const trackPageView = async (pagePath: string) => {
   }
 };
 
-// Hook to track page views automatically
+// Hook to track page views automatically with enhanced tracking
 export const usePageTracking = () => {
   const trackCurrentPage = () => {
     trackPageView(window.location.pathname);
+    startTimeTracking();
+    
+    // Initialize scroll tracking
+    const cleanup = initScrollTracking();
+    
+    // Track time on page when user leaves
+    const handleBeforeUnload = () => {
+      updateTimeOnPage();
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      cleanup();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      updateTimeOnPage();
+    };
   };
 
   return { trackCurrentPage };

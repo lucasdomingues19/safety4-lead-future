@@ -9,26 +9,44 @@ import { ProgramSection } from "@/components/ProgramSection";
 import { Footer } from "@/components/Footer";
 import { AboutAcademySection } from "@/components/AboutAcademySection";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
-import { trackPageView } from "@/utils/analytics";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
+    startTimeTracking();
+    
+    const cleanupScroll = initScrollTracking();
+    
+    const handleBeforeUnload = () => {
+      updateTimeOnPage();
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      cleanupScroll();
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      updateTimeOnPage();
+    };
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <LeadCaptureModal />
-      <HeroSection />
-      <AboutAcademySection />
-      <MentorSection />
-      <UrgentProblemSection />
-      <SolutionSection />
-      <PricingSection />
-      <SocialProofSection />
-      <ProgramSection />
-      <Footer />
-    </div>
+    <AnalyticsTracker>
+      <div className="min-h-screen">
+        <LeadCaptureModal />
+        <HeroSection />
+        <AboutAcademySection />
+        <MentorSection />
+        <UrgentProblemSection />
+        <SolutionSection />
+        <PricingSection />
+        <SocialProofSection />
+        <ProgramSection />
+        <Footer />
+      </div>
+    </AnalyticsTracker>
   );
 };
 

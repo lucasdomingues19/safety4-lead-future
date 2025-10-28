@@ -24,6 +24,7 @@ export type Database = {
           duration: number | null
           id: string
           language: string | null
+          last_active: string | null
           os: string | null
           page_path: string
           referrer: string | null
@@ -45,6 +46,7 @@ export type Database = {
           duration?: number | null
           id?: string
           language?: string | null
+          last_active?: string | null
           os?: string | null
           page_path: string
           referrer?: string | null
@@ -66,6 +68,7 @@ export type Database = {
           duration?: number | null
           id?: string
           language?: string | null
+          last_active?: string | null
           os?: string | null
           page_path?: string
           referrer?: string | null
@@ -95,6 +98,33 @@ export type Database = {
           created_at?: string | null
           email?: string | null
           id?: string
+        }
+        Relationships: []
+      }
+      user_events: {
+        Row: {
+          created_at: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          page_path: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          page_path: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          page_path?: string
+          session_id?: string
         }
         Relationships: []
       }
