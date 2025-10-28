@@ -5,6 +5,7 @@ import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
 import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
+import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -44,11 +45,11 @@ export const SocialProofSection = () => {
       image: veronicaScaranoPhoto
     },
     {
-      name: "Lisa Martinez",
-      role: "Manufacturing Safety Lead, General Electric",
-      content: "The ROI certification opened doors I never imagined. Within 6 months, I was headhunted for a C-suite role at a Fortune 500 company.",
+      name: "Stephanie Osborne",
+      role: "Health & Safety Leader",
+      content: "The certification opened doors I never imagined. The comprehensive approach to digital safety transformation has been invaluable for advancing my career.",
       rating: 5,
-      image: "LM"
+      image: stephanieOsbornePhoto
     }
   ];
 
