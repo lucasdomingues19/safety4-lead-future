@@ -2,6 +2,7 @@ import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
 import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
+import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -20,11 +21,11 @@ export const SocialProofSection = () => {
       image: arturAieloPhoto
     },
     {
-      name: "Dr. Amanda Foster",
-      role: "Chief Safety Officer, Boeing",
-      content: "This program bridges the gap between traditional safety and digital transformation perfectly. Highly recommend for any serious safety leader.",
+      name: "Eamonn Doherty",
+      role: "HSSEQ Director",
+      content: "This program bridges the gap between traditional safety and digital transformation perfectly. The practical applications have revolutionized our safety management systems.",
       rating: 5,
-      image: "AF"
+      image: eamonnDohertyPhoto
     },
     {
       name: "Sarah Chen",
