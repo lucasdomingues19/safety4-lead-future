@@ -168,10 +168,12 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              <Button className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
-                {tier.cta}
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <a href={tier.name === "In-Company" ? "/contact" : undefined}>
+                <Button className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
+                  {tier.cta}
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </a>
             </div>
           ))}
         </div>
