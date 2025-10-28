@@ -7,6 +7,7 @@ import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
 import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
 import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
 import alexSiedschlagPhoto from "@/assets/alex-siedschlag-photo.jpeg";
+import emilyHaasPhoto from "@/assets/emily-haas-photo.png";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -58,6 +59,13 @@ export const SocialProofSection = () => {
       content: "The Safety 4.0 methodology has revolutionized how I coach teams on workplace safety. The digital tools provide incredible insights for performance optimization.",
       rating: 5,
       image: alexSiedschlagPhoto
+    },
+    {
+      name: "Emily Haas",
+      role: "Associate Safety Director",
+      content: "This program equipped me with cutting-edge digital safety skills that set me apart in the industry. The practical applications are transforming our safety operations.",
+      rating: 5,
+      image: emilyHaasPhoto
     }
   ];
 
