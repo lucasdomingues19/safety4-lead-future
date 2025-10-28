@@ -8,6 +8,7 @@ import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
 import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
 import alexSiedschlagPhoto from "@/assets/alex-siedschlag-photo.jpeg";
 import emilyHaasPhoto from "@/assets/emily-haas-photo.png";
+import alexDemingoPhoto from "@/assets/alex-demingo-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -66,6 +67,13 @@ export const SocialProofSection = () => {
       content: "This program equipped me with cutting-edge digital safety skills that set me apart in the industry. The practical applications are transforming our safety operations.",
       rating: 5,
       image: emilyHaasPhoto
+    },
+    {
+      name: "Alex DeMingo",
+      role: "Technical Director",
+      content: "The integration of technology and safety leadership principles has been game-changing. This certification provides the technical depth needed for modern safety management.",
+      rating: 5,
+      image: alexDemingoPhoto
     }
   ];
 
