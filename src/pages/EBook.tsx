@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { ArrowLeft, Download, BookOpen, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Footer } from "@/components/Footer";
 import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
+import { trackPageView } from "@/utils/analytics";
 
 const EBook = () => {
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
+
   return (
     <>
     <div className="min-h-screen relative overflow-hidden">

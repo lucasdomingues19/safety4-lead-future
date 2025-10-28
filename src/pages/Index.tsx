@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { PricingSection } from "@/components/PricingSection";
 import MentorSection from "@/components/MentorSection";
@@ -8,8 +9,13 @@ import { ProgramSection } from "@/components/ProgramSection";
 import { Footer } from "@/components/Footer";
 import { AboutAcademySection } from "@/components/AboutAcademySection";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
+import { trackPageView } from "@/utils/analytics";
 
 const Index = () => {
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
+
   return (
     <div className="min-h-screen">
       <LeadCaptureModal />

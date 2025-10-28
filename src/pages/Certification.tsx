@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { ArrowLeft, Shield, Award, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
+import { trackPageView } from "@/utils/analytics";
 
 const Certification = () => {
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
+
   return (
     <>
     <div className="min-h-screen relative overflow-hidden">

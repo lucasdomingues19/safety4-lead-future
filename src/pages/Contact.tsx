@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Footer } from "@/components/Footer";
+import { trackPageView } from "@/utils/analytics";
 
 const Contact = () => {
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
+
   return (
     <>
     <div className="min-h-screen relative overflow-hidden">

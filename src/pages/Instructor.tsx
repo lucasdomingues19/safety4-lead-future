@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import { ArrowLeft, Award, Users, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import instructorPhoto from "../assets/instructor-photo.jpg";
+import { trackPageView } from "@/utils/analytics";
 
 const Instructor = () => {
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}

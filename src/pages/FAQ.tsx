@@ -1,10 +1,15 @@
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackPageView } from "@/utils/analytics";
 
 const FAQ = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
