@@ -1,6 +1,7 @@
 import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
+import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -12,11 +13,11 @@ export const SocialProofSection = () => {
       image: manalAzziPhoto
     },
     {
-      name: "Michael Rodriguez",
-      role: "VP Safety, Shell",
-      content: "Within 3 months of completing the program, I was promoted to VP level. The digital skills I learned made me indispensable.",
+      name: "Artur Aielo",
+      role: "HSE Manager",
+      content: "The Safety 4.0 Academy transformed how I approach workplace safety. The digital tools and methodologies have made our operations significantly safer and more efficient.",
       rating: 5,
-      image: "MR"
+      image: arturAieloPhoto
     },
     {
       name: "Dr. Amanda Foster",
