@@ -5,8 +5,8 @@ export const PricingSection = () => {
   const pricingTiers = [
     {
       name: "eLearning",
-      price: "$497",
-      originalPrice: "$697",
+      price: "£497",
+      originalPrice: "£697",
       period: "one-time",
       description: "Self-paced online learning with lifetime access",
       icon: Tablet,
@@ -30,8 +30,8 @@ export const PricingSection = () => {
     },
     {
       name: "Cohort",
-      price: "$997",
-      originalPrice: "$1,297",
+      price: "£997",
+      originalPrice: "£1,297",
       period: "per person",
       description: "Live group training with expert guidance and peer interaction",
       icon: Users,
