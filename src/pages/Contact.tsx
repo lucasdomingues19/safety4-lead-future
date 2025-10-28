@@ -289,14 +289,23 @@ const Contact = () => {
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                 <h3 className="text-xl font-semibold text-white mb-4">Quick Actions</h3>
                 <div className="space-y-3">
-                  <Button variant="outline" className="w-full border-lime-500/50 text-lime-400 hover:bg-lime-500/10">
-                    Download Program Brochure
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-lime-500/50 text-lime-400 hover:bg-lime-500/10"
+                    asChild
+                  >
+                    <a href="/Safety-4.0-Course-Brochure.pdf" download>
+                      Download Program Brochure
+                    </a>
                   </Button>
-                  <Button variant="outline" className="w-full border-pink-500/50 text-pink-400 hover:bg-pink-500/10">
-                    Schedule a Call
-                  </Button>
-                  <Button variant="outline" className="w-full border-blue-500/50 text-blue-400 hover:bg-blue-500/10">
-                    Join Our Webinar
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-pink-500/50 text-pink-400 hover:bg-pink-500/10"
+                    asChild
+                  >
+                    <a href="https://calendly.com/lucas-getshield360/30min" target="_blank" rel="noopener noreferrer">
+                      Schedule a Call
+                    </a>
                   </Button>
                 </div>
               </div>
