@@ -4,6 +4,7 @@ import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
 import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
+import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -36,11 +37,11 @@ export const SocialProofSection = () => {
       image: benCanterburyPhoto
     },
     {
-      name: "James Thompson",
-      role: "Oil & Gas Safety Director, ExxonMobil",
-      content: "This program gave me the digital leadership skills to modernize our entire safety framework. Now I'm leading safety transformation across 3 continents.",
+      name: "Veronica Scarano",
+      role: "HSE Manager",
+      content: "This program gave me the digital leadership skills to modernize our entire safety framework. The practical tools and insights are invaluable for modern safety management.",
       rating: 5,
-      image: "JT"
+      image: veronicaScaranoPhoto
     },
     {
       name: "Lisa Martinez",
