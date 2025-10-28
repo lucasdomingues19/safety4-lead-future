@@ -1,15 +1,72 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Footer } from "@/components/Footer";
 import { trackPageView } from "@/utils/analytics";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    role: "",
+    inquiryType: "",
+    message: "",
+  });
+
   useEffect(() => {
     trackPageView(window.location.pathname);
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: formData,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll get back to you as soon as possible.",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        role: "",
+        inquiryType: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Failed to send message",
+        description: "Please try again or contact us directly at lucas@getshield360.com",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -73,22 +130,30 @@ const Contact = () => {
                 </p>
               </div>
 
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">First Name</label>
                     <Input 
                       type="text" 
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
                       placeholder="Enter your first name"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
+                      required
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">Last Name</label>
                     <Input 
                       type="text" 
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
                       placeholder="Enter your last name"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
+                      required
                     />
                   </div>
                 </div>
@@ -97,8 +162,12 @@ const Contact = () => {
                   <label className="block text-sm font-medium text-white mb-2">Email Address</label>
                   <Input 
                     type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder="Enter your email address"
                     className="bg-white/10 border-white/20 text-white placeholder-gray-400"
+                    required
                   />
                 </div>
 
@@ -106,6 +175,9 @@ const Contact = () => {
                   <label className="block text-sm font-medium text-white mb-2">Phone Number (Optional)</label>
                   <Input 
                     type="tel" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
                     placeholder="Enter your phone number"
                     className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                   />
@@ -115,16 +187,23 @@ const Contact = () => {
                   <label className="block text-sm font-medium text-white mb-2">Current Role</label>
                   <Input 
                     type="text" 
+                    name="role"
+                    value={formData.role}
+                    onChange={handleInputChange}
                     placeholder="e.g., Safety Manager, HSE Officer"
                     className="bg-white/10 border-white/20 text-white placeholder-gray-400"
+                    required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">Inquiry Type</label>
                   <select 
+                    name="inquiryType"
+                    value={formData.inquiryType}
+                    onChange={handleInputChange}
                     className="w-full bg-white/10 border border-white/20 text-white rounded-md px-3 py-2"
-                    defaultValue=""
+                    required
                   >
                     <option value="" disabled>Select inquiry type</option>
                     <option value="general">General Inquiry</option>
@@ -138,13 +217,21 @@ const Contact = () => {
                 <div>
                   <label className="block text-sm font-medium text-white mb-2">Message</label>
                   <Textarea 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
                     placeholder="Tell us about your safety career goals and how we can help..."
                     className="bg-white/10 border-white/20 text-white placeholder-gray-400 min-h-[120px]"
+                    required
                   />
                 </div>
 
-                <Button className="w-full bg-pink-500 hover:bg-pink-600 text-white text-lg py-6">
-                  Send Message
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full bg-pink-500 hover:bg-pink-600 text-white text-lg py-6"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </div>
