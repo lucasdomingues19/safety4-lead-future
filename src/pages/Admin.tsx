@@ -4,8 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface PageView {
   id: string;
@@ -16,6 +17,15 @@ interface PageView {
   browser: string;
   visited_at: string;
   session_id: string;
+}
+
+interface Lead {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  source: string;
+  created_at: string;
 }
 
 interface Stats {
@@ -35,6 +45,8 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads'>('analytics');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,11 +78,78 @@ const Admin = () => {
 
       setIsAdmin(true);
       await fetchAnalytics();
+      await fetchLeads();
     } catch (error) {
       console.error("Admin access error:", error);
       navigate("/auth");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchLeads = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        setLeads(data);
+      }
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      toast.error("Failed to load leads data");
+    }
+  };
+
+  const exportLeadsToCSV = () => {
+    if (leads.length === 0) {
+      toast.error("No leads to export");
+      return;
+    }
+
+    const headers = ['Name', 'Email', 'Phone', 'Source', 'Date'];
+    const csvContent = [
+      headers.join(','),
+      ...leads.map(lead => [
+        `"${lead.name}"`,
+        `"${lead.email}"`,
+        `"${lead.phone || 'N/A'}"`,
+        `"${lead.source}"`,
+        `"${new Date(lead.created_at).toLocaleDateString()}"`
+      ].join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success("Leads exported successfully");
+  };
+
+  const deleteLead = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('leads')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setLeads(leads.filter(lead => lead.id !== id));
+      toast.success("Lead deleted successfully");
+    } catch (error) {
+      console.error("Error deleting lead:", error);
+      toast.error("Failed to delete lead");
     }
   };
 
@@ -188,15 +267,38 @@ const Admin = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#11113a] via-slate-900 to-black p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-white">Analytics Dashboard</h1>
+          <h1 className="text-4xl font-bold text-white">Admin Dashboard</h1>
           <Button onClick={handleLogout} variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
         </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {/* Tab Navigation */}
+        <div className="flex gap-4 mb-8">
+          <Button
+            onClick={() => setActiveTab('analytics')}
+            variant={activeTab === 'analytics' ? 'default' : 'outline'}
+            className={activeTab === 'analytics' ? '' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <Eye className="mr-2 h-4 w-4" />
+            Analytics
+          </Button>
+          <Button
+            onClick={() => setActiveTab('leads')}
+            variant={activeTab === 'leads' ? 'default' : 'outline'}
+            className={activeTab === 'leads' ? '' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <Users className="mr-2 h-4 w-4" />
+            Leads ({leads.length})
+          </Button>
+        </div>
+
+        {/* Analytics Tab */}
+        {activeTab === 'analytics' && (
+          <>
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-white">Total Page Views</CardTitle>
@@ -312,6 +414,86 @@ const Admin = () => {
             </CardContent>
           </Card>
         </div>
+          </>
+        )}
+
+        {/* Leads Tab */}
+        {activeTab === 'leads' && (
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle className="text-white">Lead Management</CardTitle>
+                  <CardDescription className="text-gray-300">
+                    View and export leads from assessment and contact form
+                  </CardDescription>
+                </div>
+                <Button
+                  onClick={exportLeadsToCSV}
+                  className="bg-lime-500 hover:bg-lime-600 text-black"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Export to Excel
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="rounded-md border border-white/20">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-white/20 hover:bg-white/5">
+                      <TableHead className="text-white">Name</TableHead>
+                      <TableHead className="text-white">Email</TableHead>
+                      <TableHead className="text-white">Phone</TableHead>
+                      <TableHead className="text-white">Source</TableHead>
+                      <TableHead className="text-white">Date</TableHead>
+                      <TableHead className="text-white">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {leads.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={6} className="text-center text-white/60 py-8">
+                          No leads captured yet
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      leads.map((lead) => (
+                        <TableRow key={lead.id} className="border-white/20 hover:bg-white/5">
+                          <TableCell className="text-white">{lead.name}</TableCell>
+                          <TableCell className="text-white">{lead.email}</TableCell>
+                          <TableCell className="text-white">{lead.phone || 'N/A'}</TableCell>
+                          <TableCell className="text-white">
+                            <span className={`px-2 py-1 rounded-full text-xs ${
+                              lead.source === 'assessment' 
+                                ? 'bg-blue-500/20 text-blue-300' 
+                                : 'bg-green-500/20 text-green-300'
+                            }`}>
+                              {lead.source === 'assessment' ? 'Assessment' : 'Contact Form'}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-white">
+                            {new Date(lead.created_at).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => deleteLead(lead.id)}
+                              className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

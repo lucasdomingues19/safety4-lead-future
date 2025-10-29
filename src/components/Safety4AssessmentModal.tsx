@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, ArrowRight, ArrowLeft, Award, TrendingUp, Zap } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface AssessmentModalProps {
   isOpen: boolean;
@@ -278,9 +280,32 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
 
-  const handleUserDataSubmit = () => {
+  const handleUserDataSubmit = async () => {
     if (userData.name && userData.email && userData.phone) {
-      setStep('assessment');
+      // Save lead to database
+      try {
+        const { error } = await supabase
+          .from('leads')
+          .insert([
+            {
+              name: userData.name,
+              email: userData.email,
+              phone: userData.phone,
+              source: 'assessment'
+            }
+          ]);
+
+        if (error) {
+          console.error('Error saving lead:', error);
+          toast.error('Failed to save your information');
+          return;
+        }
+
+        setStep('assessment');
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error('An error occurred');
+      }
     }
   };
 

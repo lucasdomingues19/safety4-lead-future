@@ -35,6 +35,23 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
+      // Save lead to database
+      const { error: leadError } = await supabase
+        .from('leads')
+        .insert([
+          {
+            name: `${formData.firstName} ${formData.lastName}`,
+            email: formData.email,
+            phone: formData.phone || null,
+            source: 'contact_form'
+          }
+        ]);
+
+      if (leadError) {
+        console.error('Error saving lead:', leadError);
+      }
+
+      // Send email
       const { data, error } = await supabase.functions.invoke("send-contact-email", {
         body: formData,
       });
