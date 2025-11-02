@@ -124,7 +124,7 @@ export const HeroSection = () => {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Header with Logo and Navigation */}
-        <div className="flex justify-between items-center mb-16">
+        <div className="relative flex justify-between items-center mb-16">
           <div className="flex flex-col items-start space-y-2">
             <img 
               src={safetyAcademyLogo} 
@@ -147,65 +147,61 @@ export const HeroSection = () => {
           <Button
             variant="outline"
             size="sm"
-            className="lg:hidden border-white/30 text-white hover:bg-white/10"
+            className="lg:hidden border-white/30 text-white hover:bg-white/10 z-50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </Button>
           
-          <div className="hidden md:flex lg:hidden items-center space-x-6 text-white/80 text-sm">
-            <span>2,500+ Trained</span>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-[#11113a]/95 backdrop-blur-sm border-t border-white/20 z-50">
-            <nav className="container mx-auto px-4 py-6 space-y-4">
-              <a 
-                href="#about-academy" 
-                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About Us
-              </a>
-              <a 
-                href="#instructor" 
-                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Meet Your Instructor
-              </a>
-              <a 
-                href="/certification" 
-                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                IOSH and CPD
-              </a>
-              <a 
-                href="/ebook" 
-                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                eBook
-              </a>
-              <a 
-                href="/contact" 
-                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Get in Touch
-              </a>
-              <a 
-                href="/faq" 
-                className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                FAQ
-              </a>
-            </nav>
-          </div>
-        )}
+          {/* Mobile Menu Overlay */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden fixed top-0 left-0 right-0 bg-[#11113a] backdrop-blur-sm border-b border-white/20 z-40 pt-32">
+              <nav className="container mx-auto px-4 py-6 space-y-4">
+                <a 
+                  href="#about-academy" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  About Us
+                </a>
+                <a 
+                  href="#instructor" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Meet Your Instructor
+                </a>
+                <a 
+                  href="/certification" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  IOSH and CPD
+                </a>
+                <a 
+                  href="/ebook" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  eBook
+                </a>
+                <a 
+                  href="/contact" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Get in Touch
+                </a>
+                <a 
+                  href="/faq" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  FAQ
+                </a>
+              </nav>
+            </div>
+          )}
         </div>
 
         {/* Countdown Timer */}
