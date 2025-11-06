@@ -44,7 +44,7 @@ export const AboutAcademySection = () => {
                 
                 <p className="text-xl text-white/90 leading-relaxed mb-8">
                   The world's first globally recognized academy dedicated to transforming safety professionals 
-                  into digital leaders. Trusted by industry giants and endorsed by{" "}
+                  into digital leaders. Trusted by industry giants and approved by{" "}
                   <a 
                     href="https://www.iosh.com" 
                     target="_blank" 
