@@ -77,7 +77,7 @@ const MentorSection = () => {
             <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 overflow-hidden">
               <img 
                 src="/lucas-domingues.jpeg" 
-                alt="Lucas Domingues, MSc, IOSH - Safety Leadership Mentor"
+                alt="Lucas Domingues, MSc, CMIOSH - Safety Leadership Mentor"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -89,7 +89,7 @@ const MentorSection = () => {
           <div className="space-y-6">
             <div>
               <h3 className="text-3xl font-bold text-white mb-2">Lucas Domingues</h3>
-              <p className="text-xl text-primary font-medium mb-4">MSc, IOSH</p>
+              <p className="text-xl text-primary font-medium mb-4">MSc, CMIOSH</p>
             </div>
 
             <div className="space-y-4 text-lg text-gray-300 leading-relaxed">
