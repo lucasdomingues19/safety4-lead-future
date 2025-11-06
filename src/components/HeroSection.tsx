@@ -315,7 +315,7 @@ export const HeroSection = () => {
                 {/* Testimonial 3 */}
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
                   <img src={julianaBleyPhoto} alt="Juliana Bley" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"The psychology of safety in digital transformation requires new leadership approaches that this program masterfully teaches."</p>
+                  <p className="text-gray-300 text-sm italic">"The psychology of safety in today's world require new skills to cope with the challenges, pressure and demands of a connected workplace."</p>
                   <div className="text-white text-xs font-medium">Juliana Bley, TEDx Speaker, Psychologist</div>
                 </div>
 
@@ -355,7 +355,7 @@ export const HeroSection = () => {
 
                 <div className="flex-shrink-0 text-center space-y-3 w-80">
                   <img src={julianaBleyPhoto} alt="Juliana Bley" className="w-16 h-16 rounded-full mx-auto object-cover" />
-                  <p className="text-gray-300 text-sm italic">"The psychology of safety in digital transformation requires new leadership approaches that this program masterfully teaches."</p>
+                  <p className="text-gray-300 text-sm italic">"The psychology of safety in today's world require new skills to cope with the challenges, pressure and demands of a connected workplace."</p>
                   <div className="text-white text-xs font-medium">Juliana Bley, TEDx Speaker, Psychologist</div>
                 </div>
 
