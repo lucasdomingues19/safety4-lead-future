@@ -64,7 +64,7 @@ export const SocialProofSection = () => {
     {
       name: "Emily Haas",
       role: "Associate Safety Director",
-      content: "This program equipped me with cutting-edge digital safety skills that set me apart in the industry. The practical applications are transforming our safety operations.",
+      content: "This course did a great job in bridging traditional safety management and the digital future that we're already living in. I enjoyed the later modules that dove into safetytech applications with things like wearables, computer vision, mobile report and AI. The lessons presented by Lucas made it clear that integrating data from multiple sources is critical to prevent harm before it happens. This course gives you the vision and the roadmap to make it happen.",
       rating: 5,
       image: emilyHaasPhoto
     },
