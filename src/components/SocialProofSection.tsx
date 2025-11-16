@@ -1,7 +1,7 @@
 import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
-import arturAieloPhoto from "@/assets/artur-aielo-photo.jpeg";
+import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
 import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
@@ -20,11 +20,11 @@ export const SocialProofSection = () => {
       image: shebinAbrahamPhoto
     },
     {
-      name: "Artur Aielo",
+      name: "Ana Coutinho",
       role: "HSE Manager",
       content: "The Safety 4.0 Academy transformed how I approach workplace safety. The digital tools and methodologies have made our operations significantly safer and more efficient.",
       rating: 5,
-      image: arturAieloPhoto
+      image: anaCoutinhoPhoto
     },
     {
       name: "Eamonn Doherty",
