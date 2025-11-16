@@ -29,6 +29,7 @@ export const HeroSection = () => {
   } | null>(null);
   const [currentHeadline, setCurrentHeadline] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -251,13 +252,33 @@ export const HeroSection = () => {
           {/* Video Presentation Placeholder */}
           <div className="max-w-4xl mx-auto mb-12">
             <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-              <iframe 
-                className="w-full aspect-video rounded-xl"
-                src="https://www.youtube.com/embed/GUT9G9hnBXI?autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1"
-                title="Safety 4.0 Course Introduction"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              {!videoLoaded ? (
+                <div 
+                  className="relative w-full aspect-video rounded-xl cursor-pointer group"
+                  onClick={() => setVideoLoaded(true)}
+                >
+                  <img
+                    src="https://img.youtube.com/vi/GUT9G9hnBXI/maxresdefault.jpg"
+                    alt="Safety 4.0 Course Introduction"
+                    className="w-full h-full object-cover rounded-xl"
+                    loading="eager"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+                    <div className="bg-red-600 hover:bg-red-700 rounded-full p-6 transition-all group-hover:scale-110">
+                      <Play className="w-12 h-12 text-white fill-white" />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <iframe 
+                  className="w-full aspect-video rounded-xl"
+                  src="https://www.youtube.com/embed/GUT9G9hnBXI?autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1"
+                  title="Safety 4.0 Course Introduction"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              )}
             </div>
           </div>
 
