@@ -251,26 +251,13 @@ export const HeroSection = () => {
           {/* Video Presentation Placeholder */}
           <div className="max-w-4xl mx-auto mb-12">
             <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-pink-400/50 transition-all duration-300">
-              <video 
+              <iframe 
                 className="w-full aspect-video rounded-xl"
-                controls
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster="/videos/course-intro-poster.jpg"
-                preload="metadata"
-              >
-                <source src="/videos/course-intro.mp4" type="video/mp4" />
-                <track
-                  kind="subtitles"
-                  src="/videos/course-intro-subtitles.vtt"
-                  srcLang="en"
-                  label="English"
-                  default
-                />
-                Your browser does not support the video tag.
-              </video>
+                src="https://www.youtube.com/embed/GUT9G9hnBXI?autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1"
+                title="Safety 4.0 Course Introduction"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
             </div>
           </div>
 
