@@ -4,7 +4,7 @@ import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import benCanterburyPhoto from "@/assets/ben-canterbury-photo.jpeg";
-import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
+import jacquelineCarrPhoto from "@/assets/jacqueline-carr-photo.jpeg";
 import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
 import alexSiedschlagPhoto from "@/assets/alex-siedschlag-photo.jpeg";
 import emilyHaasPhoto from "@/assets/emily-haas-photo.png";
@@ -41,11 +41,11 @@ export const SocialProofSection = () => {
       image: benCanterburyPhoto
     },
     {
-      name: "Veronica Scarano",
-      role: "HSE Manager",
-      content: "This program gave me the digital leadership skills to modernize our entire safety framework. The practical tools and insights are invaluable for modern safety management.",
+      name: "Jacqueline Carr",
+      role: "Global OSH Consultant, Siemens",
+      content: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. The content is clear, accessible, and supported by well-produced examples that make the concepts easy to follow. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
       rating: 5,
-      image: veronicaScaranoPhoto
+      image: jacquelineCarrPhoto
     },
     {
       name: "Stephanie Osborne",
