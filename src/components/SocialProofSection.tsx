@@ -22,7 +22,7 @@ export const SocialProofSection = () => {
     {
       name: "Ana Coutinho",
       role: "HSE Manager",
-      content: "The Safety 4.0 Academy transformed how I approach workplace safety. The digital tools and methodologies have made our operations significantly safer and more efficient.",
+      content: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject. I also really enjoyed the practical examples as they helped me understand the applications of SafetyTech better.",
       rating: 5,
       image: anaCoutinhoPhoto
     },
