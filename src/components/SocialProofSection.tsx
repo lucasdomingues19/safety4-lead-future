@@ -113,7 +113,7 @@ export const SocialProofSection = () => {
           </h2>
           
           <p className="text-xl text-muted-foreground">
-            Join thousands of safety professionals who have transformed their careers with Safety 4.0 Academy
+            Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
           </p>
         </div>
 
