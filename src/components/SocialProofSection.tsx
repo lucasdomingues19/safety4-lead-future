@@ -35,7 +35,7 @@ export const SocialProofSection = () => {
     },
     {
       name: "Ben Canterbury",
-      role: "Corporate Safety Manager",
+      role: "Corporate Safety Manager, OTC Technologies",
       content: "The AI-powered safety analytics completely transformed how we predict and prevent incidents. Our accident rate dropped significantly in the first year.",
       rating: 5,
       image: benCanterburyPhoto
