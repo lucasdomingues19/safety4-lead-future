@@ -28,7 +28,7 @@ export const SocialProofSection = () => {
     },
     {
       name: "Eamonn Doherty",
-      role: "HSSEQ Director",
+      role: "HSSEQ Director, SAMA Construction",
       content: "This program bridges the gap between traditional safety and digital transformation perfectly. The practical applications have revolutionized our safety management systems.",
       rating: 5,
       image: eamonnDohertyPhoto
