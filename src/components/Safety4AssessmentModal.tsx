@@ -282,22 +282,34 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
 
   const handleUserDataSubmit = async () => {
     if (userData.name && userData.email && userData.phone) {
-      // Save lead to database
+      // Save lead via validated edge function
       try {
-        const { error } = await supabase
-          .from('leads')
-          .insert([
-            {
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/capture-lead`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            },
+            body: JSON.stringify({
               name: userData.name,
               email: userData.email,
               phone: userData.phone,
               source: 'assessment'
-            }
-          ]);
+            }),
+          }
+        );
 
-        if (error) {
-          console.error('Error saving lead:', error);
-          toast.error('Failed to save your information');
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error('Error saving lead:', errorData);
+          
+          if (response.status === 429) {
+            toast.error('Too many submissions. Please try again later.');
+          } else {
+            toast.error('Failed to save your information');
+          }
           return;
         }
 
