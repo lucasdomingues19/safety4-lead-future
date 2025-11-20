@@ -82,7 +82,7 @@ export const CountdownTimer = () => {
         
         <div className="mt-6 text-center">
           <p className="text-white font-medium text-lg animate-pulse">
-            Founding Member Special: Save $200 if you enroll today
+            Founding Member Special: Save £200 if you enroll today
           </p>
         </div>
       </div>
