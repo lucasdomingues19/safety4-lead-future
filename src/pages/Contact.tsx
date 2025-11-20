@@ -35,20 +35,37 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Save lead to database
-      const { error: leadError } = await supabase
-        .from('leads')
-        .insert([
-          {
+      // Save lead via validated edge function
+      const leadResponse = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/capture-lead`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+          body: JSON.stringify({
             name: `${formData.firstName} ${formData.lastName}`,
             email: formData.email,
             phone: formData.phone || null,
             source: 'contact_form'
-          }
-        ]);
+          }),
+        }
+      );
 
-      if (leadError) {
-        console.error('Error saving lead:', leadError);
+      if (!leadResponse.ok) {
+        const errorData = await leadResponse.json().catch(() => ({}));
+        console.error('Error saving lead:', errorData);
+        
+        if (leadResponse.status === 429) {
+          toast({
+            title: "Too many submissions",
+            description: "Please try again later.",
+            variant: "destructive",
+          });
+          setIsSubmitting(false);
+          return;
+        }
       }
 
       // Send email
