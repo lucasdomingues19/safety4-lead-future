@@ -70,7 +70,7 @@ export const SocialProofSection = () => {
     },
     {
       name: "Johannes Buchmann",
-      role: "Global Health & Safety Manager",
+      role: "Global Health & Safety Manager, Siemens",
       content: "Safety 4.0 is a great entry-level course for EHS professionals starting their journey into Industry 4.0 and health & safety tech. It introduces AI concepts in a clear way and includes practical tips and tricks that make applying the knowledge easier.",
       rating: 5,
       image: johannesBuchmannPhoto
