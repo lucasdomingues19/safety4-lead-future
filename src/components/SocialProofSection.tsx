@@ -49,7 +49,7 @@ export const SocialProofSection = () => {
     },
     {
       name: "Stephanie Osborne",
-      role: "Health & Safety Leader",
+      role: "Health & Safety Leader, National Physics Laboratory",
       content: "The certification opened doors I never imagined. The comprehensive approach to digital safety transformation has been invaluable for advancing my career.",
       rating: 5,
       image: stephanieOsbornePhoto
