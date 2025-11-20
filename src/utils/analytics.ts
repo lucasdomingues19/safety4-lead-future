@@ -114,7 +114,7 @@ const parseUserAgent = (ua: string) => {
   return { deviceType, browser, browserVersion, os };
 };
 
-// Track page view
+// Track page view with validation and rate limiting
 export const trackPageView = async (pagePath: string) => {
   try {
     const sessionId = getSessionId();
@@ -138,10 +138,22 @@ export const trackPageView = async (pagePath: string) => {
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
-    const { error } = await supabase.from('page_views').insert(data);
-    
-    if (error) {
-      console.error('Analytics tracking error:', error);
+    // Use validated edge function instead of direct insert
+    const response = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-page-view`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Analytics tracking error:', errorData);
     }
   } catch (error) {
     console.error('Analytics tracking failed:', error);
