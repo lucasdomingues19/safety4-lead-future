@@ -8,7 +8,7 @@ import veronicaScaranoPhoto from "@/assets/veronica-scarano-photo.jpeg";
 import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
 import alexSiedschlagPhoto from "@/assets/alex-siedschlag-photo.jpeg";
 import emilyHaasPhoto from "@/assets/emily-haas-photo.png";
-import alexDemingoPhoto from "@/assets/alex-demingo-photo.jpeg";
+import johannesBuchmannPhoto from "@/assets/johannes-buchmann-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -69,11 +69,11 @@ export const SocialProofSection = () => {
       image: emilyHaasPhoto
     },
     {
-      name: "Alex DeMingo",
-      role: "Technical Director",
-      content: "The integration of technology and safety leadership principles has been game-changing. This certification provides the technical depth needed for modern safety management.",
+      name: "Johannes Buchmann",
+      role: "Global Health & Safety Manager",
+      content: "Safety 4.0 is a great entry-level course for EHS professionals starting their journey into Industry 4.0 and health & safety tech. It introduces AI concepts in a clear way and includes practical tips and tricks that make applying the knowledge easier.",
       rating: 5,
-      image: alexDemingoPhoto
+      image: johannesBuchmannPhoto
     }
   ];
 
