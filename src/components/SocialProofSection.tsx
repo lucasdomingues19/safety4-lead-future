@@ -49,8 +49,8 @@ export const SocialProofSection = () => {
     },
     {
       name: "Stephanie Osborne",
-      role: "Health & Safety Leader, National Physics Laboratory",
-      content: "The certification opened doors I never imagined. The comprehensive approach to digital safety transformation has been invaluable for advancing my career.",
+      role: "Health & Safety Leader",
+      content: "I've just completed Safety 4.0 - Leading Safety in the Digital Age. The course was relevant, easy to digest and thought provoking. It is aimed at organisations at all stages on their digital transformation journey so has something to offer, whatever the current progress in this area. Particularly like that it is IOSH Approved too.",
       rating: 5,
       image: stephanieOsbornePhoto
     },
