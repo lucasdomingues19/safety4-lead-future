@@ -96,7 +96,7 @@ export const AboutAcademySection = () => {
                     <Users className="w-8 h-8 text-secondary" />
                   </div>
                   <div className="text-2xl font-bold text-white">Trusted by</div>
-                  <div className="text-white/70 text-sm">Global EHS Leader</div>
+                  <div className="text-white/70 text-sm">Global EHS Leaders</div>
                 </div>
                 
                 <div className="text-center">
