@@ -96,7 +96,7 @@ export const AboutAcademySection = () => {
                     <Users className="w-8 h-8 text-secondary" />
                   </div>
                   <div className="text-2xl font-bold text-white">Trusted by</div>
-                  <div className="text-white/70 text-sm">Global EHS Leaders</div>
+                  <div className="text-white/70 text-sm font-bold">Global EHS Leaders</div>
                 </div>
                 
                 <div className="text-center">
@@ -104,7 +104,7 @@ export const AboutAcademySection = () => {
                     <Globe className="w-8 h-8 text-primary" />
                   </div>
                   <div className="text-2xl font-bold text-white">World&apos;s First</div>
-                  <div className="text-white/70 text-sm"></div>
+                  <div className="text-white/70 text-sm font-bold"></div>
                 </div>
                 
                 <div className="text-center">
@@ -112,7 +112,7 @@ export const AboutAcademySection = () => {
                     <Award className="w-8 h-8 text-secondary" />
                   </div>
                   <div className="text-2xl font-bold text-white">99%</div>
-                  <div className="text-white/70 text-sm">Satisfaction Rate</div>
+                  <div className="text-white/70 text-sm font-bold">Satisfaction Rate</div>
                 </div>
               </div>
             </div>
