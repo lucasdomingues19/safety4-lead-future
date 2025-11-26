@@ -53,8 +53,8 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
       if (emailError) throw emailError;
 
       toast({
-        title: "Spot Reserved! 🎉",
-        description: "We'll be in touch soon with more details about the cohort program.",
+        title: "Success!",
+        description: "We have your details and we'll be in touch soon. Thanks",
       });
 
       // Reset form and close modal
