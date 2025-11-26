@@ -91,28 +91,28 @@ export const AboutAcademySection = () => {
 
               {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-8">
-                <div className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Users className="w-8 h-8 text-secondary" />
+                <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-center justify-center mb-3">
+                    <Users className="w-10 h-10 text-secondary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">Trusted by</div>
-                  <div className="text-white/70 text-sm font-bold">Global EHS Leaders</div>
+                  <div className="text-lg font-semibold text-white/90 mb-1">Trusted by</div>
+                  <div className="text-xl font-bold text-white">Global EHS Leaders</div>
                 </div>
                 
-                <div className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Globe className="w-8 h-8 text-primary" />
+                <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-center justify-center mb-3">
+                    <Globe className="w-10 h-10 text-primary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">World&apos;s First</div>
-                  <div className="text-white/70 text-sm font-bold"></div>
+                  <div className="text-3xl font-bold text-white mb-1">World&apos;s First</div>
+                  <div className="text-sm font-medium text-white/70">Safety 4.0 Academy</div>
                 </div>
                 
-                <div className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Award className="w-8 h-8 text-secondary" />
+                <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-center justify-center mb-3">
+                    <Award className="w-10 h-10 text-secondary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">99%</div>
-                  <div className="text-white/70 text-sm font-bold">Satisfaction Rate</div>
+                  <div className="text-4xl font-bold text-white mb-1">99%</div>
+                  <div className="text-lg font-semibold text-white/90">Satisfaction Rate</div>
                 </div>
               </div>
             </div>
