@@ -13,13 +13,8 @@ export const CountdownTimer = () => {
       const now = new Date();
       const currentYear = now.getFullYear();
       
-      // Set target date to November 1st
-      let targetDate = new Date(currentYear, 10, 1); // Month 10 = November (0-indexed)
-      
-      // If November 1st has passed this year, set it to next year
-      if (now > targetDate) {
-        targetDate = new Date(currentYear + 1, 10, 1);
-      }
+      // Set target date to November 27, 2025
+      const targetDate = new Date(2025, 10, 27); // Month 10 = November (0-indexed), day 27
 
       const difference = targetDate.getTime() - now.getTime();
 
