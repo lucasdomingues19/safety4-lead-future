@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Users, Globe, Award } from "lucide-react";
+import { CheckCircle, Users, Globe, Award, Star } from "lucide-react";
 import certificateSample from "../assets/certificate-sample.png";
 
 export const AboutAcademySection = () => {
@@ -108,8 +108,12 @@ export const AboutAcademySection = () => {
                 </div>
                 
                 <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="flex items-center justify-center mb-3">
-                    <Award className="w-10 h-10 text-secondary" />
+                  <div className="flex items-center justify-center gap-1 mb-3">
+                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                   </div>
                   <div className="text-4xl font-bold text-white mb-1">99%</div>
                   <div className="text-lg font-semibold text-white/90">Satisfaction Rate</div>
