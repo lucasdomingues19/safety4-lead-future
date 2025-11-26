@@ -95,7 +95,7 @@ export const AboutAcademySection = () => {
                   <div className="flex items-center justify-center mb-3">
                     <Users className="w-10 h-10 text-secondary" />
                   </div>
-                  <div className="text-lg font-semibold text-white/90 mb-1">Trusted by</div>
+                  <div className="text-xl font-bold text-white">Trusted by</div>
                   <div className="text-xl font-bold text-white">Global EHS Leaders</div>
                 </div>
                 
