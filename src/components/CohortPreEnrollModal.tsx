@@ -124,7 +124,7 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
                 Reserving Your Spot...
               </>
             ) : (
-              "Reserve My Spot"
+              "Pre-reserve My Spot"
             )}
           </Button>
         </form>
