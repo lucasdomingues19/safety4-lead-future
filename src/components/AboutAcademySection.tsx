@@ -115,7 +115,7 @@ export const AboutAcademySection = () => {
                     <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                   </div>
                   <div className="text-4xl font-bold text-white mb-1">99%</div>
-                  <div className="text-lg font-semibold text-white/90">Satisfaction Rate</div>
+                  <div className="text-lg font-semibold text-white/90">Satisfaction</div>
                 </div>
               </div>
             </div>
