@@ -76,7 +76,7 @@ export const AboutAcademySection = () => {
                   <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="text-white font-semibold mb-1">Global Recognition</h3>
-                    <p className="text-white/70">IOSH approved and CPD accredited certification program</p>
+                    <p className="text-white/70">IOSH approved and CPD certified certification program</p>
                   </div>
                 </div>
                 
@@ -95,24 +95,24 @@ export const AboutAcademySection = () => {
                   <div className="flex items-center justify-center mb-2">
                     <Users className="w-8 h-8 text-secondary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">2,500+</div>
-                  <div className="text-white/70 text-sm">Professionals Trained</div>
+                  <div className="text-2xl font-bold text-white">Trusted by</div>
+                  <div className="text-white/70 text-sm">Global EHS Leader</div>
                 </div>
                 
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
                     <Globe className="w-8 h-8 text-primary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">50+</div>
-                  <div className="text-white/70 text-sm">Countries Reached</div>
+                  <div className="text-2xl font-bold text-white">World&apos;s First</div>
+                  <div className="text-white/70 text-sm"></div>
                 </div>
                 
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
                     <Award className="w-8 h-8 text-secondary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">98%</div>
-                  <div className="text-white/70 text-sm">Success Rate</div>
+                  <div className="text-2xl font-bold text-white">99%</div>
+                  <div className="text-white/70 text-sm">Satisfaction Rate</div>
                 </div>
               </div>
             </div>
