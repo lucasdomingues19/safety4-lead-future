@@ -20,7 +20,7 @@ export const SolutionSection = () => {
     {
       icon: Rocket,
       title: "Future-proof your career",
-      subtitle: "in weeks",
+      subtitle: "in hours",
       description: "Transform your safety career with skills that make you indispensable in the digital age.",
       gradient: "from-primary/20 to-secondary/20"
     },
