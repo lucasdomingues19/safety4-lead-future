@@ -1,6 +1,7 @@
 import { BookOpen, Target, AlertTriangle, Award, Smartphone, Wrench, Database, Sparkles, Shield, Rocket, Crown, CheckCircle, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CTAButton } from "@/components/CTAButton";
 import rhodriPhoto from "@/assets/rhodri-atkins.jpeg";
 import matildePhoto from "@/assets/matilde-damelio.png";
 
@@ -177,19 +178,7 @@ export const ProgramSection = () => {
         </div>
 
         {/* CTA Button */}
-        <div className="max-w-4xl mx-auto mt-12 text-center">
-          <Button 
-            variant="hero" 
-            size="lg" 
-            className="bg-primary hover:bg-primary/90 text-black text-2xl font-bold py-6 px-12 h-auto group shadow-glow"
-            onClick={() => {
-              document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-            }}
-          >
-            Join the Safety 4.0 Academy Now
-            <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
-          </Button>
-        </div>
+        <CTAButton className="mt-12" />
       </div>
     </section>
   );
