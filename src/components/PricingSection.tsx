@@ -168,7 +168,17 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              <a href={tier.name === "In-Company" ? "/contact" : undefined}>
+              <a 
+                href={
+                  tier.name === "eLearning" 
+                    ? "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV"
+                    : tier.name === "In-Company" 
+                    ? "/contact" 
+                    : undefined
+                }
+                target={tier.name === "eLearning" ? "_blank" : undefined}
+                rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}
+              >
                 <Button className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
                   {tier.cta}
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
