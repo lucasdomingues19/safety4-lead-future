@@ -1,7 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Building, Tablet, ArrowRight } from "lucide-react";
+import { CohortPreEnrollModal } from "./CohortPreEnrollModal";
 
 export const PricingSection = () => {
+  const [showCohortModal, setShowCohortModal] = useState(false);
+  
   const pricingTiers = [
     {
       name: "eLearning",
@@ -33,7 +37,7 @@ export const PricingSection = () => {
       price: "£997",
       originalPrice: "£1,297",
       period: "per person",
-      description: "Live group training with expert guidance and peer interaction",
+      description: "Live group + elearning training with expert guidance and peer interaction",
       icon: Users,
       features: [
         "Everything in eLearning",
@@ -46,7 +50,7 @@ export const PricingSection = () => {
         "Priority support",
         "Exclusive community membership",
       ],
-      cta: "Coming Soon",
+      cta: "Save your Spot",
       popular: false,
       gradient: "from-pink-500/20 to-purple-500/20",
       borderColor: "border-pink-500/50",
@@ -168,22 +172,32 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              <a 
-                href={
-                  tier.name === "eLearning" 
-                    ? "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV"
-                    : tier.name === "In-Company" 
-                    ? "/contact" 
-                    : undefined
-                }
-                target={tier.name === "eLearning" ? "_blank" : undefined}
-                rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}
-              >
-                <Button className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
+              {tier.name === "Cohort" ? (
+                <Button 
+                  onClick={() => setShowCohortModal(true)}
+                  className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}
+                >
                   {tier.cta}
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
-              </a>
+              ) : (
+                <a 
+                  href={
+                    tier.name === "eLearning" 
+                      ? "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV"
+                      : tier.name === "In-Company" 
+                      ? "/contact" 
+                      : undefined
+                  }
+                  target={tier.name === "eLearning" ? "_blank" : undefined}
+                  rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}
+                >
+                  <Button className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
+                    {tier.cta}
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </a>
+              )}
             </div>
           ))}
         </div>
@@ -204,6 +218,9 @@ export const PricingSection = () => {
             </a>
           </div>
         </div>
+
+        {/* Cohort Pre-Enrollment Modal */}
+        <CohortPreEnrollModal open={showCohortModal} onOpenChange={setShowCohortModal} />
       </div>
     </section>
   );
