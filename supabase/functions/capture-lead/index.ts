@@ -56,8 +56,8 @@ const validateLeadData = (data: any): { valid: boolean; errors: string[] } => {
   // Required: source
   if (!data.source || typeof data.source !== 'string') {
     errors.push('source is required and must be a string');
-  } else if (!['assessment', 'contact_form'].includes(data.source)) {
-    errors.push('source must be either "assessment" or "contact_form"');
+  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment'].includes(data.source)) {
+    errors.push('source must be one of: "assessment", "contact_form", or "cohort-pre-enrollment"');
   }
 
   return { valid: errors.length === 0, errors };
