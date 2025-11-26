@@ -10,6 +10,7 @@ import { Footer } from "@/components/Footer";
 import { AboutAcademySection } from "@/components/AboutAcademySection";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { CTAButton } from "@/components/CTAButton";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
@@ -38,9 +39,12 @@ const Index = () => {
         <LeadCaptureModal />
         <HeroSection />
         <AboutAcademySection />
+        <CTAButton className="py-16" />
         <MentorSection />
         <UrgentProblemSection />
+        <CTAButton className="py-16" />
         <SolutionSection />
+        <CTAButton className="py-16" />
         <PricingSection />
         <SocialProofSection />
         <ProgramSection />
