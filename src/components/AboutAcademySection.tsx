@@ -103,8 +103,7 @@ export const AboutAcademySection = () => {
                   <div className="flex items-center justify-center mb-3">
                     <Globe className="w-10 h-10 text-primary" />
                   </div>
-                  <div className="text-3xl font-bold text-white mb-1">World&apos;s First</div>
-                  <div className="text-sm font-medium text-white/70">Safety 4.0 Academy</div>
+                  <div className="text-3xl font-bold text-white">World&apos;s First</div>
                 </div>
                 
                 <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
