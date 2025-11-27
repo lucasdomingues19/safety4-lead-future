@@ -155,7 +155,7 @@ const Certification = () => {
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-white mb-2">Complete the Program</h3>
-                <p className="text-gray-300">Successfully finish all 12 modules of the Safety 4.0 Academy program with passing grades on all assessments.</p>
+                <p className="text-gray-300">Successfully finish all 10 modules of the Safety 4.0 Academy program with passing grades on all assessments.</p>
               </div>
             </div>
 
