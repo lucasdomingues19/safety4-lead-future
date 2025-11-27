@@ -26,6 +26,8 @@ interface PageViewData {
   viewport_height?: number;
   language?: string;
   timezone?: string;
+  country?: string;
+  city?: string;
 }
 
 const validatePageViewData = (data: any): { valid: boolean; errors: string[] } => {
@@ -75,6 +77,14 @@ const validatePageViewData = (data: any): { valid: boolean; errors: string[] } =
 
   if (data.timezone && (typeof data.timezone !== 'string' || data.timezone.length > 100)) {
     errors.push('timezone must be a string less than 100 characters');
+  }
+
+  if (data.country && (typeof data.country !== 'string' || data.country.length > 100)) {
+    errors.push('country must be a string less than 100 characters');
+  }
+
+  if (data.city && (typeof data.city !== 'string' || data.city.length > 100)) {
+    errors.push('city must be a string less than 100 characters');
   }
 
   // Numeric fields with reasonable limits
@@ -135,13 +145,24 @@ serve(async (req) => {
       );
     }
 
+    // Extract geolocation from headers (provided by Supabase/Cloudflare)
+    const country = req.headers.get('cf-ipcountry') || req.headers.get('x-vercel-ip-country') || undefined;
+    const city = req.headers.get('cf-ipcity') || req.headers.get('x-vercel-ip-city') || undefined;
+
     // Create Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Merge location data with submitted data
+    const pageViewData = {
+      ...data,
+      country,
+      city,
+    };
+
     // Insert validated data
-    const { error } = await supabase.from('page_views').insert(data);
+    const { error } = await supabase.from('page_views').insert(pageViewData);
 
     if (error) {
       throw error;
