@@ -145,9 +145,20 @@ serve(async (req) => {
       );
     }
 
-    // Extract geolocation from headers (provided by Supabase/Cloudflare)
-    const country = req.headers.get('cf-ipcountry') || req.headers.get('x-vercel-ip-country') || undefined;
-    const city = req.headers.get('cf-ipcity') || req.headers.get('x-vercel-ip-city') || undefined;
+    // Extract geolocation from headers
+    // Log all headers to debug what's available
+    console.log('Available headers:', Object.fromEntries(req.headers.entries()));
+    
+    const country = req.headers.get('cf-ipcountry') || 
+                    req.headers.get('x-vercel-ip-country') || 
+                    req.headers.get('x-forwarded-for-country') ||
+                    req.headers.get('cloudfront-viewer-country') ||
+                    undefined;
+    const city = req.headers.get('cf-ipcity') || 
+                 req.headers.get('x-vercel-ip-city') || 
+                 undefined;
+    
+    console.log('Extracted location:', { country, city });
 
     // Create Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
