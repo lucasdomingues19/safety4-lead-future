@@ -91,7 +91,7 @@ const EBook = () => {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-lime-400" />
-                    <span className="text-gray-300">50+ pages of expert insights</span>
+                    <span className="text-gray-300">30+ pages of expert insights</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-lime-400" />
