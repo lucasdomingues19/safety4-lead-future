@@ -145,20 +145,28 @@ serve(async (req) => {
       );
     }
 
-    // Extract geolocation from headers
-    // Log all headers to debug what's available
-    console.log('Available headers:', Object.fromEntries(req.headers.entries()));
+    // Extract IP address from headers
+    const ip = req.headers.get('cf-connecting-ip') || 
+               req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+               req.headers.get('x-real-ip');
     
-    const country = req.headers.get('cf-ipcountry') || 
-                    req.headers.get('x-vercel-ip-country') || 
-                    req.headers.get('x-forwarded-for-country') ||
-                    req.headers.get('cloudfront-viewer-country') ||
-                    undefined;
-    const city = req.headers.get('cf-ipcity') || 
-                 req.headers.get('x-vercel-ip-city') || 
-                 undefined;
+    // Get geolocation from IP using ipapi.co (free tier: 1000 requests/day)
+    let country = undefined;
+    let city = undefined;
     
-    console.log('Extracted location:', { country, city });
+    if (ip && ip !== '127.0.0.1' && ip !== '::1') {
+      try {
+        const geoResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+        if (geoResponse.ok) {
+          const geoData = await geoResponse.json();
+          country = geoData.country_name || undefined;
+          city = geoData.city || undefined;
+          console.log('Geolocation found:', { ip, country, city });
+        }
+      } catch (error) {
+        console.error('Geolocation lookup failed:', error);
+      }
+    }
 
     // Create Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
