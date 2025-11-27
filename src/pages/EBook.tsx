@@ -1,15 +1,75 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Download, BookOpen, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Footer } from "@/components/Footer";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
 import { trackPageView } from "@/utils/analytics";
 
 const EBook = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    jobTitle: "",
+  });
+
   useEffect(() => {
     trackPageView(window.location.pathname);
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Save lead to database
+      const { error } = await supabase.functions.invoke('capture-lead', {
+        body: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: null,
+          source: 'ebook_download'
+        }
+      });
+
+      if (error) throw error;
+
+      // Open ebook download link
+      window.open('https://drive.google.com/file/d/1Su_f1TARvklvsbJWcmTH3s3t7wFM_Zqt/view?usp=drive_link', '_blank');
+
+      toast({
+        title: "Success! Your download is starting",
+        description: "Check your downloads folder for the Safety 4.0 Leader eBook.",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        jobTitle: "",
+      });
+    } catch (error: any) {
+      console.error("Error downloading ebook:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -136,13 +196,16 @@ const EBook = () => {
                   </p>
                 </div>
 
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
                       First Name *
                     </label>
                     <Input 
-                      type="text" 
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
                       placeholder="Enter your first name"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                       required
@@ -154,7 +217,10 @@ const EBook = () => {
                       Last Name *
                     </label>
                     <Input 
-                      type="text" 
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
                       placeholder="Enter your last name"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                       required
@@ -166,7 +232,10 @@ const EBook = () => {
                       Email Address *
                     </label>
                     <Input 
-                      type="email" 
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       placeholder="Enter your email address"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                       required
@@ -178,15 +247,22 @@ const EBook = () => {
                       Job Title
                     </label>
                     <Input 
-                      type="text" 
+                      type="text"
+                      name="jobTitle"
+                      value={formData.jobTitle}
+                      onChange={handleInputChange}
                       placeholder="e.g., Safety Manager, HSE Officer"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                     />
                   </div>
 
-                  <Button className="w-full bg-pink-500 hover:bg-pink-600 text-white text-lg py-6 group">
+                  <Button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-pink-500 hover:bg-pink-600 text-white text-lg py-6 group"
+                  >
                     <Download className="w-5 h-5 mr-2 group-hover:translate-y-1 transition-transform" />
-                    Download Free eBook
+                    {isSubmitting ? "Processing..." : "Download Free eBook"}
                   </Button>
 
                   <p className="text-xs text-gray-400 text-center">
