@@ -15,7 +15,7 @@ export const SocialProofSection = () => {
     {
       name: "Shebin Abraham",
       role: "Founder",
-      content: "Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health through innovative technology solutions.",
+      content: "As an HSE leader, I found the content highly relevant to the current needs of the industry. The online training provided clear insights into modern HSE strategies and the latest safety technologies that organizations must start integrating. It was to the point, forward-thinking, and aligned with the real challenges HSE leaders face today. This program is an excellent opportunity for anyone looking to upgrade their knowledge, improve their implementation approach, and stay updated with the latest advancements in safety.",
       rating: 5,
       image: shebinAbrahamPhoto
     },
