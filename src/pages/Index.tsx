@@ -44,7 +44,6 @@ const Index = () => {
         <UrgentProblemSection />
         <CTAButton className="py-16" />
         <SolutionSection />
-        <CTAButton className="py-16" />
         <PricingSection />
         <SocialProofSection />
         <ProgramSection />
