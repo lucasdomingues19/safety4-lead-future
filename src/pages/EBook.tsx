@@ -278,8 +278,7 @@ const EBook = () => {
                   Bonus: Exclusive Access
                 </h4>
                 <p className="text-gray-300 text-sm">
-                  Download the eBook and get exclusive access to our monthly webinar series 
-                  "Safety Leaders Spotlight" featuring industry experts and case studies.
+                  Download the eBook and get exclusive invite to join our monthly masterclass series "Become the Safety 4.0 Leader" on LinkedIn
                 </p>
               </div>
             </div>
