@@ -266,6 +266,7 @@ export const HeroSection = () => {
             <Button 
               size="lg" 
               className="bg-lime-500 hover:bg-lime-600 text-white text-lg px-12 py-6 font-semibold rounded-xl group shadow-2xl"
+              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
             >
               START YOUR TRANSFORMATION
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
