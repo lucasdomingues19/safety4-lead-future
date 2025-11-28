@@ -42,7 +42,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to lucas@getshield360.com
     console.log('Attempting to send email with Resend...');
     const emailResponse = await resend.emails.send({
-      from: "Safety 4.0 Academy <hello@getshield360.com>",
+      from: "Safety 4.0 Academy <onboarding@resend.dev>",
       to: ["lucas@getshield360.com"],
       replyTo: formData.email,
       subject: `New Contact Form Submission - ${formData.inquiryType}`,
