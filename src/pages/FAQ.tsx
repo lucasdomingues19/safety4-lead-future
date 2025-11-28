@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { trackPageView } from "@/utils/analytics";
+import { SEOStructuredData } from "@/components/SEOStructuredData";
 
 const FAQ = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -60,6 +61,7 @@ const FAQ = () => {
 
   return (
     <>
+    <SEOStructuredData type="faq" faqItems={faqs} />
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
