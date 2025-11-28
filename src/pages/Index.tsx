@@ -11,6 +11,7 @@ import { AboutAcademySection } from "@/components/AboutAcademySection";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
+import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
@@ -35,6 +36,7 @@ const Index = () => {
 
   return (
     <AnalyticsTracker>
+      <SEOStructuredData type="course" />
       <div className="min-h-screen">
         <LeadCaptureModal />
         <HeroSection />
