@@ -13,6 +13,8 @@ const Certification = lazy(() => import("./pages/Certification"));
 const EBook = lazy(() => import("./pages/EBook"));
 const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Expense = lazy(() => import("./pages/Expense"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AntiPiracyPolicy = lazy(() => import("./pages/AntiPiracyPolicy"));
@@ -53,6 +55,8 @@ const App = () => (
             <Route path="/ebook" element={<EBook />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/expense" element={<Expense />} />
             <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />

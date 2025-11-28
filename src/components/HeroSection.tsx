@@ -138,6 +138,7 @@ export const HeroSection = () => {
             <a href="#about-academy" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About Us</a>
             <a href="#instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
             <a href="/certification" className="text-white/80 hover:text-white transition-colors text-sm font-medium">IOSH and CPD</a>
+            <a href="/blog" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Blog</a>
             <a href="/ebook" className="text-white/80 hover:text-white transition-colors text-sm font-medium">eBook</a>
             <a href="/contact" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Get in Touch</a>
             <a href="/faq" className="text-white/80 hover:text-white transition-colors text-sm font-medium">FAQ</a>
@@ -177,6 +178,13 @@ export const HeroSection = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   IOSH and CPD
+                </a>
+                <a 
+                  href="/blog" 
+                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blog
                 </a>
                 <a 
                   href="/ebook" 

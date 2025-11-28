@@ -21,8 +21,16 @@ export const Footer = () => {
 
           {/* Support Links */}
           <div>
-            <h4 className="text-white font-semibold text-lg mb-6">Support</h4>
+            <h4 className="text-white font-semibold text-lg mb-6">Resources</h4>
             <ul className="space-y-3">
+              <li>
+                <a 
+                  href="/blog" 
+                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                >
+                  Blog & Insights
+                </a>
+              </li>
               <li>
                 <a 
                   href="/contact" 
