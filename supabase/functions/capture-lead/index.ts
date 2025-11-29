@@ -16,6 +16,9 @@ interface LeadData {
   email: string;
   phone?: string | null;
   source: string;
+  message?: string;
+  role?: string;
+  inquiry_type?: string;
 }
 
 const validateEmail = (email: string): boolean => {
@@ -50,6 +53,33 @@ const validateLeadData = (data: any): { valid: boolean; errors: string[] } => {
       errors.push('phone must be a string');
     } else if (data.phone.length > 50) {
       errors.push('phone must be less than 50 characters');
+    }
+  }
+
+  // Optional: message
+  if (data.message !== undefined && data.message !== null) {
+    if (typeof data.message !== 'string') {
+      errors.push('message must be a string');
+    } else if (data.message.length > 5000) {
+      errors.push('message must be less than 5000 characters');
+    }
+  }
+
+  // Optional: role
+  if (data.role !== undefined && data.role !== null) {
+    if (typeof data.role !== 'string') {
+      errors.push('role must be a string');
+    } else if (data.role.length > 200) {
+      errors.push('role must be less than 200 characters');
+    }
+  }
+
+  // Optional: inquiry_type
+  if (data.inquiry_type !== undefined && data.inquiry_type !== null) {
+    if (typeof data.inquiry_type !== 'string') {
+      errors.push('inquiry_type must be a string');
+    } else if (data.inquiry_type.length > 100) {
+      errors.push('inquiry_type must be less than 100 characters');
     }
   }
 
@@ -128,6 +158,9 @@ serve(async (req) => {
       email: data.email.trim().toLowerCase(),
       phone: data.phone?.trim() || null,
       source: data.source,
+      message: data.message?.trim() || null,
+      role: data.role?.trim() || null,
+      inquiry_type: data.inquiry_type?.trim() || null,
     };
 
     const { error } = await supabase.from('leads').insert(sanitizedData);

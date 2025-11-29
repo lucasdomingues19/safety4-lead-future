@@ -19,24 +19,33 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          inquiry_type: string | null
+          message: string | null
           name: string
           phone: string | null
+          role: string | null
           source: string
         }
         Insert: {
           created_at?: string
           email: string
           id?: string
+          inquiry_type?: string | null
+          message?: string | null
           name: string
           phone?: string | null
+          role?: string | null
           source: string
         }
         Update: {
           created_at?: string
           email?: string
           id?: string
+          inquiry_type?: string | null
+          message?: string | null
           name?: string
           phone?: string | null
+          role?: string | null
           source?: string
         }
         Relationships: []

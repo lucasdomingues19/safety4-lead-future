@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -26,6 +27,9 @@ interface Lead {
   phone: string | null;
   source: string;
   created_at: string;
+  message?: string;
+  role?: string;
+  inquiry_type?: string;
 }
 
 interface Stats {
@@ -47,6 +51,7 @@ const Admin = () => {
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activeTab, setActiveTab] = useState<'analytics' | 'leads'>('analytics');
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -419,80 +424,158 @@ const Admin = () => {
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
-            <CardHeader>
-              <div className="flex justify-between items-center">
-                <div>
-                  <CardTitle className="text-white">Lead Management</CardTitle>
-                  <CardDescription className="text-gray-300">
-                    View and export leads from assessment and contact form
-                  </CardDescription>
+          <>
+            <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <CardTitle className="text-white">Lead Management</CardTitle>
+                    <CardDescription className="text-gray-300">
+                      View and export leads from assessment and contact form. Click any row to view full details.
+                    </CardDescription>
+                  </div>
+                  <Button
+                    onClick={exportLeadsToCSV}
+                    className="bg-lime-500 hover:bg-lime-600 text-black"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Export to Excel
+                  </Button>
                 </div>
-                <Button
-                  onClick={exportLeadsToCSV}
-                  className="bg-lime-500 hover:bg-lime-600 text-black"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Export to Excel
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="rounded-md border border-white/20">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-white/20 hover:bg-white/5">
-                      <TableHead className="text-white">Name</TableHead>
-                      <TableHead className="text-white">Email</TableHead>
-                      <TableHead className="text-white">Phone</TableHead>
-                      <TableHead className="text-white">Source</TableHead>
-                      <TableHead className="text-white">Date</TableHead>
-                      <TableHead className="text-white">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {leads.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={6} className="text-center text-white/60 py-8">
-                          No leads captured yet
-                        </TableCell>
+              </CardHeader>
+              <CardContent>
+                <div className="rounded-md border border-white/20">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-white/20 hover:bg-white/5">
+                        <TableHead className="text-white">Name</TableHead>
+                        <TableHead className="text-white">Email</TableHead>
+                        <TableHead className="text-white">Phone</TableHead>
+                        <TableHead className="text-white">Source</TableHead>
+                        <TableHead className="text-white">Date</TableHead>
+                        <TableHead className="text-white">Actions</TableHead>
                       </TableRow>
-                    ) : (
-                      leads.map((lead) => (
-                        <TableRow key={lead.id} className="border-white/20 hover:bg-white/5">
-                          <TableCell className="text-white">{lead.name}</TableCell>
-                          <TableCell className="text-white">{lead.email}</TableCell>
-                          <TableCell className="text-white">{lead.phone || 'N/A'}</TableCell>
-                          <TableCell className="text-white">
-                            <span className={`px-2 py-1 rounded-full text-xs ${
-                              lead.source === 'assessment' 
-                                ? 'bg-blue-500/20 text-blue-300' 
-                                : 'bg-green-500/20 text-green-300'
-                            }`}>
-                              {lead.source === 'assessment' ? 'Assessment' : 'Contact Form'}
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-white">
-                            {new Date(lead.created_at).toLocaleDateString()}
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => deleteLead(lead.id)}
-                              className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                    </TableHeader>
+                    <TableBody>
+                      {leads.length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center text-white/60 py-8">
+                            No leads captured yet
                           </TableCell>
                         </TableRow>
-                      ))
+                      ) : (
+                        leads.map((lead) => (
+                          <TableRow 
+                            key={lead.id} 
+                            className="border-white/20 hover:bg-white/5 cursor-pointer"
+                            onClick={() => setSelectedLead(lead)}
+                          >
+                            <TableCell className="text-white">{lead.name}</TableCell>
+                            <TableCell className="text-white">{lead.email}</TableCell>
+                            <TableCell className="text-white">{lead.phone || 'N/A'}</TableCell>
+                            <TableCell className="text-white">
+                              <span className={`px-2 py-1 rounded-full text-xs ${
+                                lead.source === 'assessment' 
+                                  ? 'bg-blue-500/20 text-blue-300' 
+                                  : lead.source === 'contact_form'
+                                  ? 'bg-green-500/20 text-green-300'
+                                  : lead.source === 'cohort-pre-enrollment'
+                                  ? 'bg-purple-500/20 text-purple-300'
+                                  : 'bg-orange-500/20 text-orange-300'
+                              }`}>
+                                {lead.source === 'assessment' ? 'Assessment' : 
+                                 lead.source === 'contact_form' ? 'Contact Form' :
+                                 lead.source === 'cohort-pre-enrollment' ? 'Cohort' : 'eBook'}
+                              </span>
+                            </TableCell>
+                            <TableCell className="text-white">
+                              {new Date(lead.created_at).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                              <Button
+                                onClick={() => deleteLead(lead.id)}
+                                variant="ghost"
+                                size="sm"
+                                className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Lead Detail Dialog */}
+            <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
+              <DialogContent className="bg-slate-900 border-white/20 text-white max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl">Lead Details</DialogTitle>
+                  <DialogDescription className="text-gray-300">
+                    Full information for this lead
+                  </DialogDescription>
+                </DialogHeader>
+                {selectedLead && (
+                  <div className="space-y-4 mt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm text-gray-400">Name</label>
+                        <p className="text-white font-medium">{selectedLead.name}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm text-gray-400">Email</label>
+                        <p className="text-white font-medium">{selectedLead.email}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm text-gray-400">Phone</label>
+                        <p className="text-white font-medium">{selectedLead.phone || 'N/A'}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm text-gray-400">Source</label>
+                        <p className="text-white font-medium capitalize">{selectedLead.source.replace('_', ' ')}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm text-gray-400">Date</label>
+                        <p className="text-white font-medium">
+                          {new Date(selectedLead.created_at).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                      {selectedLead.role && (
+                        <div>
+                          <label className="text-sm text-gray-400">Role</label>
+                          <p className="text-white font-medium">{selectedLead.role}</p>
+                        </div>
+                      )}
+                      {selectedLead.inquiry_type && (
+                        <div>
+                          <label className="text-sm text-gray-400">Inquiry Type</label>
+                          <p className="text-white font-medium capitalize">{selectedLead.inquiry_type.replace('_', ' ')}</p>
+                        </div>
+                      )}
+                    </div>
+                    {selectedLead.message && (
+                      <div className="col-span-2">
+                        <label className="text-sm text-gray-400">Message</label>
+                        <div className="mt-2 p-4 bg-white/5 rounded-lg border border-white/10">
+                          <p className="text-white whitespace-pre-wrap">{selectedLead.message}</p>
+                        </div>
+                      </div>
                     )}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
+          </>
         )}
       </div>
     </div>
