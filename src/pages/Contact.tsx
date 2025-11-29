@@ -68,12 +68,24 @@ const Contact = () => {
         }
       }
 
-      // Send email
-      const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: formData,
-      });
+      // Send email via edge function
+      const emailResponse = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-contact-email`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      if (error) throw error;
+      if (!emailResponse.ok) {
+        const errorData = await emailResponse.json().catch(() => ({}));
+        console.error('Error sending contact email:', errorData);
+        throw new Error(errorData.error || 'Failed to send contact email');
+      }
 
       toast({
         title: "Message sent successfully!",
