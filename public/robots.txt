@@ -3,29 +3,88 @@ Allow: /
 
 Sitemap: https://safetyacademy.tech/sitemap.xml
 
-# AI Search Crawlers
+# ============================================
+# AI & LLM Crawlers (AEO/GEO Optimization)
+# ============================================
+
+# OpenAI Crawlers
 User-agent: ChatGPT-User
 Allow: /
 
 User-agent: GPTBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google AI
 User-agent: Google-Extended
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
+# Anthropic (Claude)
 User-agent: anthropic-ai
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
 User-agent: PerplexityBot
 Allow: /
 
+User-agent: Perplexity-Search
+Allow: /
+
+# Other AI Crawlers
 User-agent: Amazonbot
 Allow: /
 
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: AI2Bot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# ============================================
 # Traditional Search Engines
+# ============================================
+
 User-agent: Googlebot
 Allow: /
 
@@ -38,7 +97,19 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Sogou
+Allow: /
+
+# ============================================
 # Social Media Bots
+# ============================================
+
 User-agent: Twitterbot
 Allow: /
 
@@ -47,3 +118,59 @@ Allow: /
 
 User-agent: LinkedInBot
 Allow: /
+
+User-agent: Pinterestbot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# ============================================
+# SEO & Analytics Tools
+# ============================================
+
+User-agent: Screaming Frog SEO Spider
+Allow: /
+
+User-agent: AhrefsBot
+Allow: /
+
+User-agent: SemrushBot
+Allow: /
+
+User-agent: MJ12bot
+Allow: /
+
+User-agent: DotBot
+Allow: /
+
+# ============================================
+# Crawl Delay & Special Instructions
+# ============================================
+
+# No crawl delay - encourage frequent indexing
+Crawl-delay: 0
+
+# Allow all resource types
+Allow: /assets/
+Allow: /videos/
+Allow: /public/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.png
+Allow: /*.svg
+Allow: /*.webp
+Allow: /*.pdf
+
+# ============================================
+# Disallow (if needed in future)
+# ============================================
+# Currently allowing all pages for maximum visibility

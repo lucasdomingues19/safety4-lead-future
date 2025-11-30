@@ -37,18 +37,36 @@ const Index = () => {
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
-      <div className="min-h-screen">
+      <div className="min-h-screen" role="main">
         <LeadCaptureModal />
         <HeroSection />
-        <AboutAcademySection />
-        <CTAButton className="py-16" />
-        <MentorSection />
-        <UrgentProblemSection />
-        <CTAButton className="py-16" />
-        <SolutionSection />
-        <PricingSection />
-        <SocialProofSection />
-        <ProgramSection />
+        <section id="about" aria-label="About Safety 4.0 Academy">
+          <AboutAcademySection />
+        </section>
+        <section aria-label="Call to action">
+          <CTAButton className="py-16" />
+        </section>
+        <section id="mentor" aria-label="Meet your instructor">
+          <MentorSection />
+        </section>
+        <section id="problem" aria-label="Industry challenges">
+          <UrgentProblemSection />
+        </section>
+        <section aria-label="Call to action">
+          <CTAButton className="py-16" />
+        </section>
+        <section id="solution" aria-label="Our solution">
+          <SolutionSection />
+        </section>
+        <section id="pricing" aria-label="Course pricing and enrollment">
+          <PricingSection />
+        </section>
+        <section id="testimonials" aria-label="Student testimonials">
+          <SocialProofSection />
+        </section>
+        <section id="program" aria-label="Program details">
+          <ProgramSection />
+        </section>
         <Footer />
       </div>
     </AnalyticsTracker>
