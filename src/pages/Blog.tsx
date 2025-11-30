@@ -61,7 +61,13 @@ const Blog = () => {
             <Link to={`/blog/${blogPosts[0].slug}`} className="block mb-16">
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 overflow-hidden hover:border-pink-400/50 transition-all duration-300 hover:scale-[1.02]">
                 <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="aspect-video lg:aspect-auto bg-gradient-to-br from-pink-500/20 to-purple-500/20"></div>
+                  <div className="aspect-video lg:aspect-auto overflow-hidden">
+                    <img 
+                      src={blogPosts[0].featuredImage} 
+                      alt={blogPosts[0].title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <div className="p-8 lg:p-12 flex flex-col justify-center">
                     <div className="flex items-center space-x-4 mb-4">
                       <span className="px-4 py-1 bg-pink-500/20 text-pink-400 rounded-full text-sm font-medium">

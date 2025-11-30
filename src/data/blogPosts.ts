@@ -23,7 +23,7 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Today, I'm proud to officially announce the launch of the Safety 4.0 Academy and our flagship programme: IOSH Approved Safety 4.0 – Leading Safely in the Digital Age. The world's first dedicated SafetyTech and digital transformation course for EHS leaders.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
-    publishDate: "2025-01-20",
+    publishDate: "2025-12-01",
     readTime: "6 min read",
     category: "Announcement",
     tags: ["Safety 4.0", "Academy Launch", "IOSH Approved", "SafetyTech", "Digital Transformation"],
