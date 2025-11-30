@@ -23,7 +23,7 @@ const FAQ = () => {
     },
     {
       question: "Is this program really IOSH and CPD certified?",
-      answer: "Yes, absolutely. We are fully accredited by both IOSH (Institution of Occupational Safety and Health) and CPD (Continuing Professional Development). This means your certification will be recognized globally by employers and professional bodies. You'll receive 40 hours of CPD credits upon completion."
+      answer: "Yes, absolutely. We are fully accredited by both IOSH (Institution of Occupational Safety and Health) and CPD (Continuing Professional Development). This means your certification will be recognized globally by employers and professional bodies. You'll receive 8+ hours of CPD credits upon completion."
     },
     {
       question: "Who should take this program?",
