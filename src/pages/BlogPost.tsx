@@ -5,13 +5,12 @@ import { useEffect } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
-import { getPostBySlug, getRecentPosts } from "@/data/blogPosts";
+import { getPostBySlug } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getPostBySlug(slug) : undefined;
-  const recentPosts = getRecentPosts(3).filter(p => p.slug !== slug);
 
   useEffect(() => {
     if (post) {
@@ -184,36 +183,6 @@ const BlogPost = () => {
             </div>
           </article>
 
-          {/* Related Posts */}
-          {recentPosts.length > 0 && (
-            <div className="max-w-6xl mx-auto mt-20">
-              <h2 className="text-3xl font-bold text-white mb-8">Related Articles</h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {recentPosts.map((relatedPost) => (
-                  <Link
-                    key={relatedPost.id}
-                    to={`/blog/${relatedPost.slug}`}
-                    className="block group"
-                  >
-                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 overflow-hidden hover:border-pink-400/50 transition-all duration-300 h-full flex flex-col group-hover:scale-105">
-                      <div className="aspect-video bg-gradient-to-br from-purple-500/20 to-lime-500/20"></div>
-                      <div className="p-6 flex-1 flex flex-col">
-                        <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-medium mb-3 self-start">
-                          {relatedPost.category}
-                        </span>
-                        <h3 className="text-lg font-bold text-white mb-3 group-hover:text-pink-400 transition-colors line-clamp-2">
-                          {relatedPost.title}
-                        </h3>
-                        <p className="text-gray-400 text-xs">
-                          {new Date(relatedPost.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
       <Footer />
