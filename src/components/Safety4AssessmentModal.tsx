@@ -546,7 +546,16 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <p className="text-white mb-6">
                 Join our IOSH-approved Safety 4.0 Academy and transform your career with industry-leading digital safety expertise.
               </p>
-              <Button size="lg" className="mb-4">
+              <Button 
+                size="lg" 
+                className="mb-4"
+                onClick={() => {
+                  handleClose();
+                  setTimeout(() => {
+                    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }}
+              >
                 Enroll in Safety 4.0 Academy
                 <TrendingUp className="w-4 h-4 ml-2" />
               </Button>
