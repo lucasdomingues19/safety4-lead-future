@@ -39,6 +39,7 @@ interface Stats {
   topPages: Array<{ page: string; views: number }>;
   deviceBreakdown: Array<{ name: string; value: number }>;
   dailyViews: Array<{ date: string; views: number }>;
+  dailyUniqueVisitors: Array<{ date: string; visitors: number }>;
   topCountries: Array<{ country: string; views: number }>;
   browserStats: Array<{ browser: string; views: number }>;
 }
@@ -206,15 +207,28 @@ const Admin = () => {
     });
 
     const dailyCount: Record<string, number> = {};
+    const dailySessionSets: Record<string, Set<string>> = {};
+    
     views.forEach(v => {
       const date = new Date(v.visited_at).toISOString().split('T')[0];
       if (last7Days.includes(date)) {
         dailyCount[date] = (dailyCount[date] || 0) + 1;
+        
+        if (!dailySessionSets[date]) {
+          dailySessionSets[date] = new Set();
+        }
+        dailySessionSets[date].add(v.session_id);
       }
     });
+    
     const dailyViews = last7Days.map(date => ({
       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       views: dailyCount[date] || 0
+    }));
+
+    const dailyUniqueVisitors = last7Days.map(date => ({
+      date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      visitors: dailySessionSets[date]?.size || 0
     }));
 
     // Top countries
@@ -247,6 +261,7 @@ const Admin = () => {
       topPages,
       deviceBreakdown,
       dailyViews,
+      dailyUniqueVisitors,
       topCountries,
       browserStats
     });
@@ -355,6 +370,28 @@ const Admin = () => {
             </CardContent>
           </Card>
 
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+            <CardHeader>
+              <CardTitle className="text-white">Unique Visitors (Last 7 Days)</CardTitle>
+              <CardDescription className="text-gray-300">Distinct visitors per day</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={stats.dailyUniqueVisitors}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                  <XAxis dataKey="date" stroke="#ffffff80" />
+                  <YAxis stroke="#ffffff80" />
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                  <Legend />
+                  <Line type="monotone" dataKey="visitors" stroke="#00C49F" strokeWidth={2} name="Unique Visitors" />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Third row - Device Breakdown */}
+        <div className="grid grid-cols-1 gap-6">
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-white">Device Breakdown</CardTitle>
