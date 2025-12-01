@@ -227,7 +227,7 @@ const Admin = () => {
     const topCountries = Object.entries(countryCount)
       .map(([country, views]) => ({ country, views }))
       .sort((a, b) => b.views - a.views)
-      .slice(0, 5);
+      .slice(0, 10);
 
     // Browser stats
     const browserCount: Record<string, number> = {};
