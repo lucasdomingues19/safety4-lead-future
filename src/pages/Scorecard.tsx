@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Helmet } from "react-helmet";
+import { useState, useEffect } from "react";
 import { Safety4AssessmentModal } from "@/components/Safety4AssessmentModal";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,20 +7,12 @@ import { ClipboardCheck } from "lucide-react";
 const Scorecard = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
 
+  useEffect(() => {
+    document.title = "Free Safety 4.0 Readiness Scorecard | Safety Academy";
+  }, []);
+
   return (
     <>
-      <Helmet>
-        <title>Free Safety 4.0 Readiness Scorecard | Safety Academy</title>
-        <meta 
-          name="description" 
-          content="Take the free Safety 4.0 Readiness Assessment and discover where you stand in the digital transformation of workplace safety. Get your personalized scorecard instantly." 
-        />
-        <meta property="og:title" content="Free Safety 4.0 Readiness Scorecard | Safety Academy" />
-        <meta property="og:description" content="Take the free Safety 4.0 Readiness Assessment and discover where you stand in the digital transformation of workplace safety." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.safetyacademy.tech/scorecard" />
-        <link rel="canonical" href="https://www.safetyacademy.tech/scorecard" />
-      </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#11113a] via-slate-900 to-black">
         <main className="flex-grow flex items-center justify-center px-4 py-16">
