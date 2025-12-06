@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2 } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -36,6 +36,7 @@ interface Stats {
   totalViews: number;
   uniqueVisitors: number;
   avgSessionDuration: number;
+  offerClicks: number;
   topPages: Array<{ page: string; views: number }>;
   deviceBreakdown: Array<{ name: string; value: number }>;
   dailyViews: Array<{ date: string; views: number }>;
@@ -161,15 +162,31 @@ const Admin = () => {
 
   const fetchAnalytics = async () => {
     try {
-      const { data: pageViews, error } = await supabase
-        .from('page_views')
-        .select('*')
-        .order('visited_at', { ascending: false });
+      const [pageViewsResult, offerClicksResult] = await Promise.all([
+        supabase
+          .from('page_views')
+          .select('*')
+          .order('visited_at', { ascending: false }),
+        supabase
+          .from('user_events')
+          .select('*')
+          .eq('event_type', 'click')
+      ]);
 
-      if (error) throw error;
+      if (pageViewsResult.error) throw pageViewsResult.error;
 
-      if (pageViews) {
-        processAnalytics(pageViews);
+      // Count offer-related clicks
+      const offerClicks = (offerClicksResult.data || []).filter(event => {
+        const eventData = JSON.stringify(event.event_data || {}).toLowerCase();
+        return eventData.includes('offer') || 
+               eventData.includes('enroll') || 
+               eventData.includes('start learning') || 
+               eventData.includes('founding') ||
+               eventData.includes('safetyacademy.mykajabi.com');
+      }).length;
+
+      if (pageViewsResult.data) {
+        processAnalytics(pageViewsResult.data, offerClicks);
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -177,7 +194,7 @@ const Admin = () => {
     }
   };
 
-  const processAnalytics = (views: PageView[]) => {
+  const processAnalytics = (views: PageView[], offerClicks: number = 0) => {
     const totalViews = views.length;
     const uniqueVisitors = new Set(views.map(v => v.session_id)).size;
 
@@ -258,6 +275,7 @@ const Admin = () => {
       totalViews,
       uniqueVisitors,
       avgSessionDuration: 0, // Can be calculated with duration tracking
+      offerClicks,
       topPages,
       deviceBreakdown,
       dailyViews,
@@ -318,7 +336,7 @@ const Admin = () => {
         {activeTab === 'analytics' && (
           <>
             {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-white">Total Page Views</CardTitle>
@@ -336,6 +354,17 @@ const Admin = () => {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-white">{stats.uniqueVisitors.toLocaleString()}</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/30">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-white">Offer Clicks</CardTitle>
+              <ShoppingCart className="h-4 w-4 text-lime-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-lime-400">{stats.offerClicks.toLocaleString()}</div>
+              <p className="text-xs text-white/60 mt-1">Enrollment button clicks</p>
             </CardContent>
           </Card>
 
