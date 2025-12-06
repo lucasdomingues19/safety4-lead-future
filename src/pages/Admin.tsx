@@ -37,6 +37,7 @@ interface Stats {
   uniqueVisitors: number;
   avgSessionDuration: number;
   offerClicks: number;
+  dailyOfferClicks: Array<{ date: string; clicks: number }>;
   topPages: Array<{ page: string; views: number }>;
   deviceBreakdown: Array<{ name: string; value: number }>;
   dailyViews: Array<{ date: string; views: number }>;
@@ -175,18 +176,20 @@ const Admin = () => {
 
       if (pageViewsResult.error) throw pageViewsResult.error;
 
-      // Count offer-related clicks
-      const offerClicks = (offerClicksResult.data || []).filter(event => {
+      // Filter offer-related clicks
+      const offerClickEvents = (offerClicksResult.data || []).filter(event => {
         const eventData = JSON.stringify(event.event_data || {}).toLowerCase();
         return eventData.includes('offer') || 
                eventData.includes('enroll') || 
                eventData.includes('start learning') || 
                eventData.includes('founding') ||
                eventData.includes('safetyacademy.mykajabi.com');
-      }).length;
+      });
+
+      const offerClicks = offerClickEvents.length;
 
       if (pageViewsResult.data) {
-        processAnalytics(pageViewsResult.data, offerClicks);
+        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents);
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -194,9 +197,29 @@ const Admin = () => {
     }
   };
 
-  const processAnalytics = (views: PageView[], offerClicks: number = 0) => {
+  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = []) => {
     const totalViews = views.length;
     const uniqueVisitors = new Set(views.map(v => v.session_id)).size;
+
+    // Calculate daily offer clicks (last 7 days)
+    const last7Days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - i));
+      return date.toISOString().split('T')[0];
+    });
+
+    const dailyOfferClickCount: Record<string, number> = {};
+    offerClickEvents.forEach(event => {
+      const date = new Date(event.created_at).toISOString().split('T')[0];
+      if (last7Days.includes(date)) {
+        dailyOfferClickCount[date] = (dailyOfferClickCount[date] || 0) + 1;
+      }
+    });
+
+    const dailyOfferClicks = last7Days.map(date => ({
+      date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      clicks: dailyOfferClickCount[date] || 0
+    }));
 
     // Top pages
     const pageCount: Record<string, number> = {};
@@ -216,12 +239,7 @@ const Admin = () => {
     });
     const deviceBreakdown = Object.entries(deviceCount).map(([name, value]) => ({ name, value }));
 
-    // Daily views (last 7 days)
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (6 - i));
-      return date.toISOString().split('T')[0];
-    });
+    // Daily views (last 7 days) - reuse last7Days from above
 
     const dailyCount: Record<string, number> = {};
     const dailySessionSets: Record<string, Set<string>> = {};
@@ -276,6 +294,7 @@ const Admin = () => {
       uniqueVisitors,
       avgSessionDuration: 0, // Can be calculated with duration tracking
       offerClicks,
+      dailyOfferClicks,
       topPages,
       deviceBreakdown,
       dailyViews,
@@ -419,8 +438,8 @@ const Admin = () => {
           </Card>
         </div>
 
-        {/* Third row - Device Breakdown */}
-        <div className="grid grid-cols-1 gap-6">
+        {/* Third row - Device Breakdown & Offer Clicks */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-white">Device Breakdown</CardTitle>
@@ -444,6 +463,25 @@ const Admin = () => {
                   </Pie>
                   <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
                 </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/20">
+            <CardHeader>
+              <CardTitle className="text-white">Offer Clicks (Last 7 Days)</CardTitle>
+              <CardDescription className="text-gray-300">Daily enrollment button clicks</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={stats.dailyOfferClicks}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                  <XAxis dataKey="date" stroke="#ffffff80" />
+                  <YAxis stroke="#ffffff80" allowDecimals={false} />
+                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                  <Legend />
+                  <Bar dataKey="clicks" fill="#84cc16" name="Offer Clicks" radius={[4, 4, 0, 0]} />
+                </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
