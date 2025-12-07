@@ -79,7 +79,7 @@ export const Footer = () => {
             <h4 className="text-white font-semibold text-lg mb-6">Follow Us</h4>
             <div className="flex space-x-4">
               <a 
-                href="https://www.linkedin.com/company/safety-4-0-academy/about/" 
+                href="https://www.linkedin.com/company/safety-40-academy" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-lime-500/20 hover:text-lime-400 text-gray-300 transition-all duration-300"
