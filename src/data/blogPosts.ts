@@ -16,6 +16,91 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "1",
+    slug: "what-is-safety-4-0",
+    title: "What Is Safety 4.0? A Practical Guide to the Future of Safety Leadership",
+    metaDescription: "Discover what Safety 4.0 means for modern EHS leaders. Learn how digital transformation, AI, and human-centred safety management are reshaping workplace safety.",
+    excerpt: "Safety 4.0 is a strategic evolution in how organisations protect people and manage risk. It blends people, process, technology, and data to enable proactive, predictive safety leadership.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2025-12-08",
+    readTime: "5 min read",
+    category: "Safety Leadership",
+    tags: ["Safety 4.0", "Digital Transformation", "EHS Leadership", "Industry 4.0", "SafetyTech"],
+    featuredImage: "/assets/blog/safety-4-guide.jpg",
+    content: `
+# What Is Safety 4.0?
+
+## A Practical Guide to the Future of Safety Leadership in the Digital Age
+
+Over the past decade, organisations around the world have accelerated their digital transformation efforts. Automation, cloud platforms, IoT sensors, wearables, drones, artificial intelligence, and mobile-first workflows have reshaped how companies operate.
+
+Yet in many organisations, safety has not kept pace.
+
+Many EHS teams still rely on manual processes, fragmented data, and reactive decision-making. The result? More admin, less time on the frontline, and a widening digital skills gap.
+
+**Safety 4.0 is the response to this shift** — a modern, human-centred framework that brings the principles of Industry 4.0 into the world of safety, health, and risk management.
+
+In this article, we'll explore what Safety 4.0 really means, why it matters, and how it transforms the role of today's safety leaders.
+
+## Safety 4.0: 90% About People, 10% Tech
+
+Safety 4.0 is not a software tool. It is not an app. And it is not a new set of buzzwords or a manifesto for AI.
+
+**Safety 4.0 is a strategic evolution in how organisations protect people and manage risk.**
+
+It blends four essential pillars:
+
+- **People** – skills, capabilities, digital literacy, and leadership
+- **Process** – streamlined workflows, automation, and clarity
+- **Technology** – smart tools that enhance (not replace) human expertise
+- **Data** – insights that enable proactive and predictive decision-making
+
+Rather than treating safety as an administrative function, Safety 4.0 positions it as a core enabler of performance, resilience, and innovation.
+
+## The Link Between Industry 4.0 and Safety 4.0
+
+Industry 4.0 introduced cyber-physical systems, data connectivity, automation, and intelligent machines. Workplaces are now more complex, more connected, and more dynamic.
+
+But complexity brings new risk.
+
+Safety 4.0 adapts safety practices to this new reality, focusing on:
+
+- Digital workflows instead of paper
+- Real-time data instead of lagging indicators
+- Predictive analytics instead of firefighting
+- Upskilled safety professionals instead of overwhelmed ones
+
+In essence, **if work changes, safety must change with it.**
+
+## Digital Literacy for Safety Leaders
+
+Digital literacy has become a core competency for modern safety leaders, not a technical bonus. As organisations adopt cloud platforms, mobile tools, automation, AI systems, and connected devices, EHS professionals must understand how these technologies work, where they add value, and how to use them responsibly.
+
+This doesn't mean becoming data scientists or software engineers — it means developing confidence in:
+
+- Reading digital information
+- Interpreting dashboards
+- Using AI tools for documentation and analysis
+- Understanding data flows
+- Recognising the risks and opportunities of emerging technologies
+
+A digitally literate safety leader can make faster, evidence-based decisions, streamline workflows, reduce administrative burden, and communicate more effectively with technical teams.
+
+Ultimately, **digital literacy empowers safety leaders to stay relevant, lead transformation, and elevate safety from a reactive function to a strategic, data-driven pillar of the organisation.**
+
+## Final Thoughts: Safety 4.0 Is the New Standard
+
+Safety 4.0 represents a shift toward smarter, more connected, and more human-centred safety management.
+
+It empowers organisations to prevent harm more effectively while enabling safety professionals to lead with greater clarity, influence, and impact.
+
+**As workplaces continue to evolve, Safety 4.0 is no longer optional — it is essential.**
+
+[Start Your Safety 4.0 Journey Today →](/)
+`
+  },
+  {
     id: "0",
     slug: "introducing-worlds-first-safety-4-academy",
     title: "Introducing the World's First Safety 4.0 Academy",
