@@ -30,12 +30,12 @@ const BlogPost = () => {
   }
 
   const handleShare = async () => {
+    const shareUrl = `https://www.safetyacademy.tech/blog/${post.slug}`;
     const shareData = {
       title: post.title,
       text: post.excerpt,
-      url: window.location.href,
+      url: shareUrl,
     };
-
     if (navigator.share) {
       try {
         await navigator.share(shareData);
@@ -51,8 +51,9 @@ const BlogPost = () => {
   };
 
   const copyToClipboard = async () => {
+    const shareUrl = `https://www.safetyacademy.tech/blog/${post.slug}`;
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard!");
     } catch (err) {
       toast.error("Failed to copy link");
