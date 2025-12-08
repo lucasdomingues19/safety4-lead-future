@@ -150,8 +150,8 @@ const FAQ = () => {
               <Button asChild className="bg-pink-500 hover:bg-pink-600 text-white text-lg px-8 py-6">
                 <a href="/contact">Contact Our Team</a>
               </Button>
-              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-6">
-                Schedule a Call
+              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-6" asChild>
+                <a href="https://calendly.com/lucas-getshield360/30min" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
               </Button>
             </div>
           </div>
