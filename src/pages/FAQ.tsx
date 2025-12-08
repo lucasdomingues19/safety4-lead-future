@@ -27,11 +27,11 @@ const FAQ = () => {
     },
     {
       question: "Who should take this program?",
-      answer: "This program is designed for safety professionals, managers, engineers, and consultants who want to advance their careers in the digital age. Whether you're a Safety Officer, HSE Manager, Risk Analyst, or Safety Consultant, this program will give you the skills to lead in Industry 4.0 environments."
+      answer: "This program is designed for senior EHS professionals at managerial, head of, director and VP levels."
     },
     {
       question: "How long does the program take to complete?",
-      answer: "The program is designed to be completed in 12 weeks with approximately 3-4 hours of study per week. However, it's self-paced, so you can complete it faster if you dedicate more time, or take longer if needed. You have 6 months access to all materials from enrollment."
+      answer: "The online course is self-paced and usually takes 8 hours to be completed. The hybrid cohort with live sessions are completed in 4 weeks."
     },
     {
       question: "What technology skills do I need to get started?",
@@ -39,7 +39,7 @@ const FAQ = () => {
     },
     {
       question: "What kind of career advancement can I expect?",
-      answer: "98% of our graduates report significant career advancement within 12 months. This includes promotions to senior safety roles, salary increases averaging 25-40%, and new opportunities in digital safety consulting. Many graduates become Safety 4.0 champions in their organizations."
+      answer: "Our graduates usually become Safety 4.0 champions in their organisations. The IOSH and CPD approval means that your credentials are recognised globally, opening new opportunities in the job market."
     },
     {
       question: "Is there ongoing support after completion?",
@@ -47,7 +47,7 @@ const FAQ = () => {
     },
     {
       question: "What if I'm not satisfied with the program?",
-      answer: "We offer a 30-day money-back guarantee. If you're not completely satisfied with the program within the first 30 days, we'll provide a full refund, no questions asked. We're confident in the value and quality of our training."
+      answer: "We offer a 14-day money-back guarantee. If you're not completely satisfied with the program within the first 14 days, we'll provide a full refund, no questions asked. We're confident in the value and quality of our training."
     },
     {
       question: "Can my company enroll multiple employees?",
