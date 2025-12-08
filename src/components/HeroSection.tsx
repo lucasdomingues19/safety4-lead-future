@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Play, Menu, X, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 import { CountdownTimer } from "./CountdownTimer";
+import { ScarcityIndicator } from "./ScarcityIndicator";
 import { Safety4AssessmentModal } from "./Safety4AssessmentModal";
 import { VideoPreviewModal } from "./VideoPreviewModal";
 import johnSmithPhoto from "../assets/testimonial-john-smith.jpg";
@@ -214,6 +215,11 @@ export const HeroSection = () => {
 
         {/* Countdown Timer */}
         <CountdownTimer />
+        
+        {/* Scarcity Indicator */}
+        <div className="flex justify-center mb-6">
+          <ScarcityIndicator variant="hero" spotsLeft={12} />
+        </div>
 
         {/* Main Content - Centered like LeadPages */}
         <div className="text-center max-w-6xl mx-auto">

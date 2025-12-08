@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Building, Tablet, ArrowRight } from "lucide-react";
 import { CohortPreEnrollModal } from "./CohortPreEnrollModal";
+import { ScarcityIndicator } from "./ScarcityIndicator";
 
 export const PricingSection = () => {
   const [showCohortModal, setShowCohortModal] = useState(false);
@@ -121,6 +122,11 @@ export const PricingSection = () => {
           <p className="text-base text-gray-400 max-w-3xl mx-auto mt-4 leading-relaxed">
             *Get <a href="/expense" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="#" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
           </p>
+        </div>
+
+        {/* Scarcity Indicator */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <ScarcityIndicator variant="pricing" spotsLeft={12} />
         </div>
 
         {/* Pricing Cards */}
