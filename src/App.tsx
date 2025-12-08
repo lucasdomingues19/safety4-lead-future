@@ -25,6 +25,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Scorecard = lazy(() => import("./pages/Scorecard"));
 const Syllabus = lazy(() => import("./pages/Syllabus"));
+const Offer = lazy(() => import("./pages/Offer"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -68,6 +69,7 @@ const App = () => (
             <Route path="/admin" element={<Admin />} />
             <Route path="/scorecard" element={<Scorecard />} />
             <Route path="/syllabus" element={<Syllabus />} />
+            <Route path="/offer" element={<Offer />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
