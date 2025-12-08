@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Users, Building, Tablet, ArrowRight } from "lucide-react";
 import { CohortPreEnrollModal } from "./CohortPreEnrollModal";
-import { ScarcityIndicator } from "./ScarcityIndicator";
+
 
 export const PricingSection = () => {
   const [showCohortModal, setShowCohortModal] = useState(false);
@@ -124,10 +124,6 @@ export const PricingSection = () => {
           </p>
         </div>
 
-        {/* Scarcity Indicator */}
-        <div className="max-w-2xl mx-auto mb-8">
-          <ScarcityIndicator variant="pricing" spotsLeft={12} />
-        </div>
 
         {/* Pricing Cards */}
         <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
