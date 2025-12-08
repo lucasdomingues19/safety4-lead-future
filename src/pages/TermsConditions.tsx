@@ -83,8 +83,8 @@ export default function TermsConditions() {
 
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">4.2 Access Duration</h3>
               <p>
-                Course access periods vary by program and are specified at the time of purchase. Generally, 
-                access is provided for 12 months from the date of enrollment, unless otherwise stated.
+                Upon enrollment, you are granted lifetime access to the course materials. This means you can 
+                access and revisit the content indefinitely, subject to the Platform remaining operational.
               </p>
 
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">4.3 Platform Availability</h3>
@@ -119,7 +119,7 @@ export default function TermsConditions() {
               <h2 className="text-2xl font-semibold text-white mb-4">6. Refund and Cancellation Policy</h2>
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">6.1 Refund Eligibility</h3>
               <p>
-                We offer a 7-day money-back guarantee from the date of purchase, provided you have not 
+                We offer a 14-day money-back guarantee from the date of purchase, provided you have not 
                 completed more than 20% of the course content or obtained certification.
               </p>
 
