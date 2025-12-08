@@ -1,12 +1,13 @@
-import { ArrowLeft, Clock, Calendar, Tag, Share2 } from "lucide-react";
+import { ArrowLeft, Clock, Calendar, Tag, Share2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { getPostBySlug } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
+import { toast } from "sonner";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -29,16 +30,32 @@ const BlogPost = () => {
   }
 
   const handleShare = async () => {
+    const shareData = {
+      title: post.title,
+      text: post.excerpt,
+      url: window.location.href,
+    };
+
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt,
-          url: window.location.href,
-        });
+        await navigator.share(shareData);
       } catch (err) {
-        console.log('Error sharing:', err);
+        // User cancelled or error - fall back to clipboard
+        if ((err as Error).name !== 'AbortError') {
+          await copyToClipboard();
+        }
       }
+    } else {
+      await copyToClipboard();
+    }
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("Link copied to clipboard!");
+    } catch (err) {
+      toast.error("Failed to copy link");
     }
   };
 
