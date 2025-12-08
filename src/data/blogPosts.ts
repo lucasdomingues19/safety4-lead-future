@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "5 min read",
     category: "Safety Leadership",
     tags: ["Safety 4.0", "Digital Transformation", "EHS Leadership", "Industry 4.0", "SafetyTech"],
-    featuredImage: "/assets/blog/safety-4-guide.jpg",
+    featuredImage: "/assets/blog/safety-4-guide-v2.jpg",
     content: `
 # What Is Safety 4.0?
 
