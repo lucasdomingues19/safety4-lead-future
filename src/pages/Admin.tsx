@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 
 interface PageView {
   id: string;
@@ -53,7 +54,7 @@ const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const navigate = useNavigate();
 
@@ -342,6 +343,14 @@ const Admin = () => {
             Analytics
           </Button>
           <Button
+            onClick={() => setActiveTab('hotleads')}
+            variant={activeTab === 'hotleads' ? 'default' : 'outline'}
+            className={activeTab === 'hotleads' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <Flame className="mr-2 h-4 w-4" />
+            Hot Leads
+          </Button>
+          <Button
             onClick={() => setActiveTab('leads')}
             variant={activeTab === 'leads' ? 'default' : 'outline'}
             className={activeTab === 'leads' ? '' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
@@ -525,6 +534,9 @@ const Admin = () => {
         </div>
           </>
         )}
+
+        {/* Hot Leads Tab */}
+        {activeTab === 'hotleads' && <HotLeadsTab />}
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (
