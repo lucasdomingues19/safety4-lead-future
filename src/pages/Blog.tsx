@@ -107,7 +107,13 @@ const Blog = () => {
                 className="block group"
               >
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 overflow-hidden hover:border-pink-400/50 transition-all duration-300 h-full flex flex-col group-hover:scale-105">
-                  <div className="aspect-video bg-gradient-to-br from-purple-500/20 to-lime-500/20"></div>
+                  <div className="aspect-video overflow-hidden">
+                    <img 
+                      src={post.featuredImage} 
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-center space-x-3 mb-3">
                       <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-medium">
