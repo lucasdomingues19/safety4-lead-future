@@ -13,6 +13,8 @@ import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import { SocialProofNotifications } from "@/components/SocialProofNotifications";
+import { StickyCTABar } from "@/components/StickyCTABar";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
@@ -41,6 +43,8 @@ const Index = () => {
       <div className="min-h-screen" role="main">
         <LeadCaptureModal />
         <ExitIntentPopup />
+        <SocialProofNotifications />
+        <StickyCTABar />
         <HeroSection />
         <section id="about" aria-label="About Safety 4.0 Academy">
           <AboutAcademySection />
