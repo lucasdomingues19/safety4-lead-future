@@ -420,18 +420,12 @@ export const HotLeadsTab = () => {
 
                           {/* Meta Info */}
                           <div className="flex items-center gap-4 text-xs text-white/50">
-                            {lead.country && (
-                              <span className="flex items-center gap-1">
-                                <MapPin className="h-3 w-3" />
-                                {lead.city ? `${lead.city}, ` : ''}{lead.country}
-                              </span>
-                            )}
-                            {lead.device && (
-                              <span className="flex items-center gap-1">
-                                <Monitor className="h-3 w-3" />
-                                {lead.device}
-                              </span>
-                            )}
+                            <span className="flex items-center gap-1">
+                              <MapPin className="h-3 w-3" />
+                              {lead.city && lead.country 
+                                ? `${lead.city}, ${lead.country}` 
+                                : lead.country || lead.city || 'Unknown location'}
+                            </span>
                             <span className="flex items-center gap-1">
                               <Eye className="h-3 w-3" />
                               {lead.page_views} pages
