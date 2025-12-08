@@ -96,7 +96,7 @@ const ExitIntentPopup = () => {
           </DialogTitle>
           
           <DialogDescription className="text-white/80 text-base">
-            We noticed you're interested in transforming your safety career. 
+            We noticed you're interested in transforming your career from rule keeper to changemaker. 
             Here's a special discount just for you!
           </DialogDescription>
         </DialogHeader>
