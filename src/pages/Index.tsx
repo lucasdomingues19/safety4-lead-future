@@ -12,6 +12,7 @@ import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
@@ -39,6 +40,7 @@ const Index = () => {
       <SEOStructuredData type="course" />
       <div className="min-h-screen" role="main">
         <LeadCaptureModal />
+        <ExitIntentPopup />
         <HeroSection />
         <section id="about" aria-label="About Safety 4.0 Academy">
           <AboutAcademySection />
