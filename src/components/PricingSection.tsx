@@ -112,27 +112,27 @@ export const PricingSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+        <div className="text-center mb-10 md:mb-16 px-2">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             Choose Your <span className="text-pink-500">Learning Path</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Flexible training options designed to fit your schedule and learning preferences
           </p>
-          <p className="text-base text-gray-400 max-w-3xl mx-auto mt-4 leading-relaxed">
+          <p className="text-sm md:text-base text-gray-400 max-w-3xl mx-auto mt-4 leading-relaxed">
             *Get <a href="/expense" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="#" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
           </p>
         </div>
 
 
         {/* Pricing Cards */}
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
           {pricingTiers.map((tier, index) => (
             <div
               key={index}
-              className={`relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 border ${tier.borderColor} ${
-                tier.popular ? "scale-105 lg:scale-110" : ""
-              } transition-all duration-300 hover:scale-105`}
+              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 border ${tier.borderColor} ${
+                tier.popular ? "md:scale-105 lg:scale-110 order-first md:order-none" : ""
+              } transition-all duration-300 hover:scale-[1.02] md:hover:scale-105`}
             >
               {/* Popular Badge */}
               {tier.popular && (
