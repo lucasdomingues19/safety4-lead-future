@@ -392,7 +392,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <h3 className={`text-3xl font-bold ${results.color}`}>{results.level}</h3>
               <p className="text-muted-foreground mt-2">{results.description}</p>
               <div className="mt-4 text-2xl font-bold text-white">
-                Score: {answers.reduce((sum, score) => sum + score, 0)}/{questions.length * 5}
+                Score: {Math.round((answers.reduce((sum, score) => sum + score, 0) / (questions.length * 5)) * 100)}/100
               </div>
             </div>
 
