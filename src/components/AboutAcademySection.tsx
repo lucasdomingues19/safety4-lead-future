@@ -4,7 +4,7 @@ import certificateSample from "../assets/certificate-sample.png";
 
 export const AboutAcademySection = () => {
   return (
-    <section id="about-academy" className="py-20 relative overflow-hidden">
+    <section id="about-academy" className="py-12 md:py-20 relative overflow-hidden">
       {/* Dark gradient background matching other sections */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
@@ -33,16 +33,16 @@ export const AboutAcademySection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
             
             {/* Left Column - Content */}
-            <div className="space-y-8 animate-fade-in">
+            <div className="space-y-6 md:space-y-8 animate-fade-in">
               <div>
-                <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
                   About the <span className="text-primary">Safety 4.0 Academy</span>
                 </h2>
                 
-                <p className="text-xl text-white/90 leading-relaxed mb-8">
+                <p className="text-lg md:text-xl text-white/90 leading-relaxed mb-6 md:mb-8">
                   The world's first globally recognized academy dedicated to transforming safety professionals 
                   into digital leaders. Trusted by industry giants and approved by{" "}
                   <a 
@@ -55,7 +55,7 @@ export const AboutAcademySection = () => {
                   </a>.
                 </p>
                 
-                <p className="text-lg text-white/80 leading-relaxed">
+                <p className="text-base md:text-lg text-white/80 leading-relaxed">
                   We bridge the gap between traditional safety management and the digital future, 
                   empowering professionals with cutting-edge AI, IoT, and data analytics skills 
                   that drive real organizational transformation.
@@ -63,59 +63,59 @@ export const AboutAcademySection = () => {
               </div>
 
               {/* Key Features */}
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 <div className="flex items-start space-x-3">
-                  <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-white font-semibold mb-1">Industry-Leading Curriculum</h3>
-                    <p className="text-white/70">Developed by safety and technology experts</p>
+                    <h3 className="text-white font-semibold mb-1 text-sm md:text-base">Industry-Leading Curriculum</h3>
+                    <p className="text-white/70 text-xs md:text-sm">Developed by safety and technology experts</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start space-x-3">
-                  <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-white font-semibold mb-1">Global Recognition</h3>
-                    <p className="text-white/70">IOSH approved and CPD certified certification program</p>
+                    <h3 className="text-white font-semibold mb-1 text-sm md:text-base">Global Recognition</h3>
+                    <p className="text-white/70 text-xs md:text-sm">IOSH approved and CPD certified certification program</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start space-x-3">
-                  <CheckCircle className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                  <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-primary mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-white font-semibold mb-1">Practical Implementation</h3>
-                    <p className="text-white/70">Real-world case studies and hands-on digital tools</p>
+                    <h3 className="text-white font-semibold mb-1 text-sm md:text-base">Practical Implementation</h3>
+                    <p className="text-white/70 text-xs md:text-sm">Real-world case studies and hands-on digital tools</p>
                   </div>
                 </div>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8">
-                <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="flex items-center justify-center mb-3">
-                    <Users className="w-10 h-10 text-secondary" />
+              <div className="grid grid-cols-3 gap-3 md:gap-6 pt-6 md:pt-8">
+                <div className="text-center p-3 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-center justify-center mb-2 md:mb-3">
+                    <Users className="w-6 h-6 md:w-10 md:h-10 text-secondary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">Trusted by</div>
-                  <div className="text-2xl font-bold text-white">Global EHS Leaders</div>
+                  <div className="text-xs md:text-lg lg:text-2xl font-bold text-white">Trusted by</div>
+                  <div className="text-xs md:text-lg lg:text-2xl font-bold text-white">Global EHS Leaders</div>
                 </div>
                 
-                <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="flex items-center justify-center mb-3">
-                    <Globe className="w-10 h-10 text-primary" />
+                <div className="text-center p-3 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-center justify-center mb-2 md:mb-3">
+                    <Globe className="w-6 h-6 md:w-10 md:h-10 text-primary" />
                   </div>
-                  <div className="text-2xl font-bold text-white">World&apos;s First</div>
+                  <div className="text-xs md:text-lg lg:text-2xl font-bold text-white">World&apos;s First</div>
                 </div>
                 
-                <div className="text-center p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                  <div className="flex items-center justify-center gap-1 mb-3">
-                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-                    <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                <div className="text-center p-3 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
+                  <div className="flex items-center justify-center gap-0.5 md:gap-1 mb-2 md:mb-3">
+                    <Star className="w-3 h-3 md:w-6 md:h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-3 h-3 md:w-6 md:h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-3 h-3 md:w-6 md:h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-3 h-3 md:w-6 md:h-6 text-yellow-400 fill-yellow-400" />
+                    <Star className="w-3 h-3 md:w-6 md:h-6 text-yellow-400 fill-yellow-400" />
                   </div>
-                  <div className="text-2xl font-bold text-white">99%</div>
-                  <div className="text-2xl font-bold text-white">Satisfaction</div>
+                  <div className="text-xs md:text-lg lg:text-2xl font-bold text-white">99%</div>
+                  <div className="text-xs md:text-lg lg:text-2xl font-bold text-white">Satisfaction</div>
                 </div>
               </div>
             </div>

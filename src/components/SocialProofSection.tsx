@@ -107,51 +107,51 @@ export const SocialProofSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Testimonials */}
-        <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
-          <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-8">
+        <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8">
             Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
           </h2>
           
-          <p className="text-xl text-muted-foreground">
+          <p className="text-lg md:text-xl text-muted-foreground px-2">
             Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {testimonials.map((testimonial, index) => (
             <Card 
               key={index}
-              className="p-6 shadow-card hover:shadow-glow transition-all duration-300 animate-slide-up border-0 bg-white"
+              className="p-4 md:p-6 shadow-card hover:shadow-glow transition-all duration-300 animate-slide-up border-0 bg-white"
               style={{animationDelay: `${index * 0.2}s`}}
             >
               <CardContent className="p-0">
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-3 md:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
                 
-                <Quote className="w-8 h-8 text-lime-500 fill-lime-500 mb-4" />
+                <Quote className="w-6 h-6 md:w-8 md:h-8 text-lime-500 fill-lime-500 mb-3 md:mb-4" />
                 
-                <p className="text-black mb-6 leading-relaxed">
+                <p className="text-black mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
                   "{testimonial.content}"
                 </p>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-3 md:space-x-4">
                   {typeof testimonial.image === 'string' && testimonial.image.length <= 2 ? (
-                    <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-sm md:text-base">
                       {testimonial.image}
                     </div>
                   ) : (
                     <img 
                       src={testimonial.image} 
                       alt={testimonial.name}
-                      className="w-12 h-12 rounded-full object-cover"
+                      className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover"
                     />
                   )}
                   <div>
-                    <p className="font-semibold text-foreground">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="font-semibold text-foreground text-sm md:text-base">{testimonial.name}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground">{testimonial.role}</p>
                   </div>
                 </div>
               </CardContent>
