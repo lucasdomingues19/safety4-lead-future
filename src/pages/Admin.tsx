@@ -164,7 +164,7 @@ const Admin = () => {
 
   const fetchAnalytics = async () => {
     try {
-      const [pageViewsResult, offerClicksResult] = await Promise.all([
+      const [pageViewsResult, offerClicksResult, timeOnPageResult] = await Promise.all([
         supabase
           .from('page_views')
           .select('*')
@@ -172,7 +172,11 @@ const Admin = () => {
         supabase
           .from('user_events')
           .select('*')
-          .eq('event_type', 'click')
+          .eq('event_type', 'click'),
+        supabase
+          .from('user_events')
+          .select('*')
+          .eq('event_type', 'time_on_page')
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
@@ -189,8 +193,26 @@ const Admin = () => {
 
       const offerClicks = offerClickEvents.length;
 
+      // Calculate average session duration from time_on_page events
+      let avgSessionDuration = 0;
+      if (timeOnPageResult.data && timeOnPageResult.data.length > 0) {
+        // Group by session and get max duration per session (capped at 30 min)
+        const sessionDurations: Record<string, number> = {};
+        timeOnPageResult.data.forEach(event => {
+          const duration = (event.event_data as any)?.duration || 0;
+          const cappedDuration = Math.min(duration, 1800); // Cap at 30 minutes (1800 seconds)
+          if (!sessionDurations[event.session_id] || cappedDuration > sessionDurations[event.session_id]) {
+            sessionDurations[event.session_id] = cappedDuration;
+          }
+        });
+        
+        const totalDuration = Object.values(sessionDurations).reduce((sum, d) => sum + d, 0);
+        const sessionCount = Object.keys(sessionDurations).length;
+        avgSessionDuration = sessionCount > 0 ? Math.round(totalDuration / sessionCount / 60) : 0; // Convert to minutes
+      }
+
       if (pageViewsResult.data) {
-        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents);
+        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents, avgSessionDuration);
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -198,7 +220,7 @@ const Admin = () => {
     }
   };
 
-  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = []) => {
+  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = [], avgSessionDuration: number = 0) => {
     const totalViews = views.length;
     const uniqueVisitors = new Set(views.map(v => v.session_id)).size;
 
@@ -293,7 +315,7 @@ const Admin = () => {
     setStats({
       totalViews,
       uniqueVisitors,
-      avgSessionDuration: 0, // Can be calculated with duration tracking
+      avgSessionDuration,
       offerClicks,
       dailyOfferClicks,
       topPages,
