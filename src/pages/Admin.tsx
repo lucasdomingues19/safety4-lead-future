@@ -200,7 +200,7 @@ const Admin = () => {
         const sessionDurations: Record<string, number> = {};
         timeOnPageResult.data.forEach(event => {
           const duration = (event.event_data as any)?.duration || 0;
-          const cappedDuration = Math.min(duration, 1800); // Cap at 30 minutes (1800 seconds)
+          const cappedDuration = Math.min(duration, 600); // Cap at 10 minutes (600 seconds) for realistic sessions
           if (!sessionDurations[event.session_id] || cappedDuration > sessionDurations[event.session_id]) {
             sessionDurations[event.session_id] = cappedDuration;
           }
