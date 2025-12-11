@@ -78,6 +78,16 @@ export const HotLeadsTab = () => {
       const userEvents = (userEventsResult.data || []) as UserEvent[];
       const convertedEmails = new Set((leadsResult.data || []).map(l => l.email));
 
+      // Filter out admin sessions (sessions that accessed /admin page)
+      const adminSessionIds = new Set(
+        pageViews
+          .filter(pv => pv.page_path === '/admin')
+          .map(pv => pv.session_id)
+      );
+
+      const filteredPageViews = pageViews.filter(pv => !adminSessionIds.has(pv.session_id));
+      const filteredUserEvents = userEvents.filter(e => !adminSessionIds.has(e.session_id));
+
       // Group by session
       const sessionMap = new Map<string, {
         views: PageView[];
@@ -86,7 +96,7 @@ export const HotLeadsTab = () => {
         lastSeen: Date;
       }>();
 
-      pageViews.forEach(pv => {
+      filteredPageViews.forEach(pv => {
         if (!sessionMap.has(pv.session_id)) {
           sessionMap.set(pv.session_id, {
             views: [],
@@ -102,7 +112,7 @@ export const HotLeadsTab = () => {
         if (visitDate > session.lastSeen) session.lastSeen = visitDate;
       });
 
-      userEvents.forEach(event => {
+      filteredUserEvents.forEach(event => {
         if (sessionMap.has(event.session_id)) {
           sessionMap.get(event.session_id)!.events.push(event);
         }
