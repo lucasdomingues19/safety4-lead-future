@@ -195,7 +195,9 @@ export const HotLeadsTab = () => {
             return eventStr.includes('offer') || 
                    eventStr.includes('enroll') || 
                    eventStr.includes('start learning') ||
-                   eventStr.includes('founding');
+                   eventStr.includes('founding') ||
+                   eventStr.includes('join the safety') ||
+                   eventStr.includes('join the academy');
           }
           return false;
         }).length;
