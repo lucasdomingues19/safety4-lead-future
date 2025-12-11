@@ -188,6 +188,8 @@ const Admin = () => {
                eventData.includes('enroll') || 
                eventData.includes('start learning') || 
                eventData.includes('founding') ||
+               eventData.includes('join the safety') ||
+               eventData.includes('join the academy') ||
                eventData.includes('safetyacademy.mykajabi.com');
       });
 
