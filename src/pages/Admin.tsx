@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
@@ -39,6 +39,9 @@ interface Stats {
   avgSessionDuration: number;
   offerClicks: number;
   dailyOfferClicks: Array<{ date: string; clicks: number }>;
+  kajabiClicks: number;
+  kajabiUniqueVisitors: number;
+  dailyKajabiClicks: Array<{ date: string; clicks: number; unique: number }>;
   topPages: Array<{ page: string; views: number }>;
   deviceBreakdown: Array<{ name: string; value: number }>;
   dailyViews: Array<{ date: string; views: number }>;
@@ -193,6 +196,12 @@ const Admin = () => {
                eventData.includes('safetyacademy.mykajabi.com');
       });
 
+      // Filter Kajabi portal clicks specifically
+      const kajabiClickEvents = (offerClicksResult.data || []).filter(event => {
+        const eventData = JSON.stringify(event.event_data || {}).toLowerCase();
+        return eventData.includes('mykajabi.com');
+      });
+
       const offerClicks = offerClickEvents.length;
 
       // Calculate average session duration from time_on_page events
@@ -214,7 +223,7 @@ const Admin = () => {
       }
 
       if (pageViewsResult.data) {
-        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents, avgSessionDuration);
+        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents, kajabiClickEvents, avgSessionDuration);
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -222,7 +231,7 @@ const Admin = () => {
     }
   };
 
-  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = [], avgSessionDuration: number = 0) => {
+  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = [], kajabiClickEvents: any[] = [], avgSessionDuration: number = 0) => {
     const totalViews = views.length;
     const uniqueVisitors = new Set(views.map(v => v.session_id)).size;
 
@@ -244,6 +253,29 @@ const Admin = () => {
     const dailyOfferClicks = last7Days.map(date => ({
       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       clicks: dailyOfferClickCount[date] || 0
+    }));
+
+    // Calculate Kajabi portal clicks
+    const kajabiClicks = kajabiClickEvents.length;
+    const kajabiUniqueVisitors = new Set(kajabiClickEvents.map(e => e.session_id)).size;
+
+    const dailyKajabiClickCount: Record<string, number> = {};
+    const dailyKajabiUniqueSessions: Record<string, Set<string>> = {};
+    kajabiClickEvents.forEach(event => {
+      const date = new Date(event.created_at).toISOString().split('T')[0];
+      if (last7Days.includes(date)) {
+        dailyKajabiClickCount[date] = (dailyKajabiClickCount[date] || 0) + 1;
+        if (!dailyKajabiUniqueSessions[date]) {
+          dailyKajabiUniqueSessions[date] = new Set();
+        }
+        dailyKajabiUniqueSessions[date].add(event.session_id);
+      }
+    });
+
+    const dailyKajabiClicks = last7Days.map(date => ({
+      date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      clicks: dailyKajabiClickCount[date] || 0,
+      unique: dailyKajabiUniqueSessions[date]?.size || 0
     }));
 
     // Top pages
@@ -320,6 +352,9 @@ const Admin = () => {
       avgSessionDuration,
       offerClicks,
       dailyOfferClicks,
+      kajabiClicks,
+      kajabiUniqueVisitors,
+      dailyKajabiClicks,
       topPages,
       deviceBreakdown,
       dailyViews,
@@ -417,6 +452,17 @@ const Admin = () => {
             <CardContent>
               <div className="text-3xl font-bold text-lime-400">{stats.offerClicks.toLocaleString()}</div>
               <p className="text-xs text-white/60 mt-1">Enrollment button clicks</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-orange-500/30">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-white">Kajabi Click-throughs</CardTitle>
+              <Target className="h-4 w-4 text-orange-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-orange-400">{stats.kajabiClicks.toLocaleString()}</div>
+              <p className="text-xs text-white/60 mt-1">{stats.kajabiUniqueVisitors} unique visitors</p>
             </CardContent>
           </Card>
 
@@ -519,6 +565,32 @@ const Admin = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Kajabi Click-throughs Chart */}
+        <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-orange-500/20 mb-8">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Target className="h-5 w-5 text-orange-400" />
+              Kajabi Portal Click-throughs (Last 7 Days)
+            </CardTitle>
+            <CardDescription className="text-gray-300">
+              Visitors who clicked through to the enrollment page • Total: {stats.kajabiClicks} clicks from {stats.kajabiUniqueVisitors} unique visitors
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={stats.dailyKajabiClicks}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                <XAxis dataKey="date" stroke="#ffffff80" />
+                <YAxis stroke="#ffffff80" allowDecimals={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                <Legend />
+                <Bar dataKey="clicks" fill="#f97316" name="Total Clicks" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="unique" fill="#fb923c" name="Unique Visitors" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
 
         {/* Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
