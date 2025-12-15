@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "3 min read",
     category: "Announcement",
     tags: ["Scholarship", "Safety 4.0", "EHS Training", "Career Development", "Accessibility"],
-    featuredImage: "/assets/blog/safety-academy-launch.jpg",
+    featuredImage: "/assets/blog/scholarships-announcement.png",
     content: `
 # 3 Scholarships to Join the Safety 4.0 Academy
 
