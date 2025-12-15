@@ -16,6 +16,105 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "2",
+    slug: "3-scholarships-safety-4-academy",
+    title: "3 Scholarships to Join the Safety 4.0 Academy",
+    metaDescription: "Apply for one of three scholarships to join the Safety 4.0 Academy. We're offering 25%, 50%, and 100% funded opportunities for EHS professionals ready to lead in the digital age.",
+    excerpt: "At the Safety 4.0 Academy, we believe the future of safety should be accessible, inclusive, and impact-driven. That's why we're offering three scholarships to support EHS professionals ready to lead in the digital age.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2025-12-15",
+    readTime: "3 min read",
+    category: "Announcement",
+    tags: ["Scholarship", "Safety 4.0", "EHS Training", "Career Development", "Accessibility"],
+    featuredImage: "/assets/blog/safety-academy-launch.jpg",
+    content: `
+# 3 Scholarships to Join the Safety 4.0 Academy
+
+At the Safety 4.0 Academy, we believe the future of safety should be **accessible, inclusive, and impact-driven**. Talent and potential should not be blocked by financial barriers — especially at a time when safety leaders must rapidly upskill in digital, AI, and SafetyTech capabilities.
+
+That is why we are offering **three scholarships** to support EHS professionals ready to lead in the digital age.
+
+---
+
+## The Catalyst Scholarship – 25% Funded
+
+For someone already active in EHS who needs a small push to advance their career and embrace Safety 4.0 principles.
+
+**Perfect for:** Working EHS professionals looking to upskill without the full financial commitment.
+
+---
+
+## The Accelerator Scholarship – 50% Funded
+
+For someone in career transition or facing financial challenges who still wants to invest in their professional development.
+
+**Perfect for:** Career changers, those between roles, or professionals in regions with currency disadvantages.
+
+---
+
+## The Transformation Scholarship – 100% Fully Funded
+
+For someone who dreams of becoming a Safety 4.0 Leader but simply cannot afford the course today.
+
+**Perfect for:** Passionate individuals with genuine financial hardship who demonstrate commitment to safety leadership.
+
+---
+
+## How to Apply
+
+Applying is simple. We ask you to fill out a short application form sharing:
+
+- Your current situation
+- Why you want to join the Safety 4.0 Academy
+- How this scholarship would impact your career
+
+**Applications close:** 23rd December 2024
+
+**Award announcement:** 24th December 2024
+
+**[Apply Here](https://tally.so/r/2EX7Bj)**
+
+---
+
+## Why This Matters
+
+Safety is evolving — and so must safety leaders.
+
+These scholarships are about **investing in people**, not just courses, and building a global community of future-ready Safety 4.0 leaders.
+
+We believe that:
+
+- **Talent exists everywhere** — opportunity does not always follow
+- **Financial barriers should not block potential**
+- **The safety profession needs diverse voices** leading digital transformation
+- **Investing in one leader** creates ripple effects across entire organisations
+
+---
+
+## Who Should Apply?
+
+If you:
+
+- Are passionate about safety and protecting people
+- Want to understand AI, SafetyTech, and digital transformation
+- Are committed to your professional development
+- Face genuine financial barriers to enrollment
+
+Then we encourage you to apply.
+
+---
+
+## Spread the Word
+
+If this sounds like you — or someone you know — **apply or share**.
+
+Help us find the next generation of Safety 4.0 leaders who deserve this opportunity.
+
+[Apply for a Scholarship](https://tally.so/r/2EX7Bj)
+`
+  },
+  {
     id: "1",
     slug: "what-is-safety-4-0",
     title: "What Is Safety 4.0? A Practical Guide to the Future of Safety Leadership",
