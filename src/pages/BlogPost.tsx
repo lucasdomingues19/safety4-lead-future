@@ -168,6 +168,27 @@ const BlogPost = () => {
                           {children}
                         </blockquote>
                       ),
+                      a: ({ href, children }) => {
+                        const text = String(children);
+                        const isApplyButton = text.includes("Apply");
+                        if (isApplyButton) {
+                          return (
+                            <a 
+                              href={href} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-block bg-lime-500 hover:bg-lime-600 text-black font-bold px-6 py-3 rounded-lg transition-colors no-underline"
+                            >
+                              {children}
+                            </a>
+                          );
+                        }
+                        return (
+                          <a href={href} className="text-pink-400 hover:text-pink-300 underline">
+                            {children}
+                          </a>
+                        );
+                      },
                     }}
                   >
                     {post.content}
