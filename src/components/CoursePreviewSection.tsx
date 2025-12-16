@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Play, Zap, Shield, Award } from "lucide-react";
 import { VideoPreviewModal } from "./VideoPreviewModal";
 import certificateSample from "@/assets/certificate-sample.png";
-import ioshLogo from "@/assets/iosh-approved-logo.jpg";
-import cpdLogo from "@/assets/cpd-approved-logo.png";
 
 export const CoursePreviewSection = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
@@ -133,15 +131,6 @@ export const CoursePreviewSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"></div>
               </div>
               
-              {/* Certification Logos */}
-              <div className="flex justify-center gap-4 mb-4">
-                <div className="bg-white rounded-lg p-2 w-20 h-14 flex items-center justify-center">
-                  <img src={ioshLogo} alt="IOSH Approved" className="max-w-full max-h-full object-contain" />
-                </div>
-                <div className="bg-white rounded-lg p-2 w-20 h-14 flex items-center justify-center">
-                  <img src={cpdLogo} alt="CPD Certified" className="max-w-full max-h-full object-contain" />
-                </div>
-              </div>
               
               {/* Benefits */}
               <div className="space-y-2 text-sm">
