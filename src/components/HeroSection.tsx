@@ -412,58 +412,6 @@ export const HeroSection = () => {
             })()}
           </div>
 
-          {/* About Academy Section - Inline */}
-          <div className="text-center max-w-5xl mx-auto mb-12 md:mb-16 animate-fade-in">
-            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 px-2">
-              About the <span className="text-primary">Safety 4.0 Academy</span>
-            </h2>
-            
-            <p className="text-base md:text-xl text-white/90 leading-relaxed mb-6 md:mb-8 px-2">
-              The world's first globally recognized academy dedicated to transforming safety professionals 
-              into digital leaders. Trusted by industry giants and approved by IOSH.
-            </p>
-
-            {/* Key Features */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-8 md:mb-10">
-              <div className="flex items-center justify-center space-x-2 p-3 md:p-4 rounded-xl bg-white/5 border border-white/10">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-white text-sm md:text-base font-medium">Industry-Leading Curriculum</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 p-3 md:p-4 rounded-xl bg-white/5 border border-white/10">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-white text-sm md:text-base font-medium">IOSH & CPD Certified</span>
-              </div>
-              <div className="flex items-center justify-center space-x-2 p-3 md:p-4 rounded-xl bg-white/5 border border-white/10">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-white text-sm md:text-base font-medium">Practical Implementation</span>
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3 md:gap-6">
-              <div className="text-center p-3 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                <Users className="w-6 h-6 md:w-8 md:h-8 text-secondary mx-auto mb-2" />
-                <div className="text-xs md:text-base font-bold text-white">Trusted by Global</div>
-                <div className="text-xs md:text-base font-bold text-white">EHS Leaders</div>
-              </div>
-              
-              <div className="text-center p-3 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                <Globe className="w-6 h-6 md:w-8 md:h-8 text-primary mx-auto mb-2" />
-                <div className="text-xs md:text-base font-bold text-white">World's First</div>
-              </div>
-              
-              <div className="text-center p-3 md:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all duration-300">
-                <div className="flex items-center justify-center gap-0.5 mb-2">
-                  <Star className="w-3 h-3 md:w-5 md:h-5 text-yellow-400 fill-yellow-400" />
-                  <Star className="w-3 h-3 md:w-5 md:h-5 text-yellow-400 fill-yellow-400" />
-                  <Star className="w-3 h-3 md:w-5 md:h-5 text-yellow-400 fill-yellow-400" />
-                  <Star className="w-3 h-3 md:w-5 md:h-5 text-yellow-400 fill-yellow-400" />
-                  <Star className="w-3 h-3 md:w-5 md:h-5 text-yellow-400 fill-yellow-400" />
-                </div>
-                <div className="text-xs md:text-base font-bold text-white">99% Satisfaction</div>
-              </div>
-            </div>
-          </div>
 
           {/* Testimonials Banner */}
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 md:p-8 mb-8 md:mb-16 border border-white/10 overflow-hidden">
