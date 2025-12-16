@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Zap, Play, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock } from "lucide-react";
+import { ArrowRight, Shield, Zap, Play, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock, Brain, Rocket, Users, PlayCircle, UserCheck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 
@@ -366,6 +366,49 @@ export const HeroSection = () => {
                 won't protect your career anymore. Companies are actively seeking safety 
                 leaders who can leverage AI and digital tools.
               </p>
+            </div>
+          </div>
+
+          {/* Solution Section - Inline */}
+          <div className="text-center max-w-6xl mx-auto mb-12 md:mb-16 animate-fade-in">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 px-2">
+              The Solution: <span className="text-lime-400">Safety 4.0 Academy</span>
+            </h2>
+            
+            <p className="text-base md:text-xl text-gray-300 leading-relaxed mb-8 md:mb-12 px-2">
+              The world's first comprehensive digital safety leadership program 
+              that transforms traditional safety professionals into future-ready leaders.
+            </p>
+
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+              {[
+                { icon: Brain, title: "Learn AI, IoT, & SafetyTech", subtitle: "without coding" },
+                { icon: Award, title: "IOSH & CPD Recognized", subtitle: "certification" },
+                { icon: Rocket, title: "Future-proof your career", subtitle: "in hours" },
+                { icon: Users, title: "Global safety leader", subtitle: "community" },
+                { icon: PlayCircle, title: "Masterclass Sessions", subtitle: "with experts" },
+                { icon: UserCheck, title: "1:1 Mentoring", subtitle: "personalized guidance" }
+              ].map((benefit, index) => {
+                const Icon = benefit.icon;
+                return (
+                  <div 
+                    key={index}
+                    className="p-4 md:p-6 border border-white/20 bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl hover:border-lime-400/50 transition-all duration-300"
+                  >
+                    <div className="flex flex-col items-center text-center space-y-2 md:space-y-3">
+                      <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-lime-500 to-lime-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg">
+                        <Icon className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                      </div>
+                      <h3 className="text-sm md:text-lg font-bold text-white leading-tight">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-lime-400 font-semibold text-xs md:text-base">
+                        {benefit.subtitle}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
