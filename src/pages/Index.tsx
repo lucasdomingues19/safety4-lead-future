@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { PricingSection } from "@/components/PricingSection";
 import MentorSection from "@/components/MentorSection";
-import { UrgentProblemSection } from "@/components/UrgentProblemSection";
+
 import { SolutionSection } from "@/components/SolutionSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
 import { ProgramSection } from "@/components/ProgramSection";
@@ -46,9 +46,6 @@ const Index = () => {
         <SocialProofNotifications />
         <StickyCTABar />
         <HeroSection />
-        <section id="problem" aria-label="Industry challenges">
-          <UrgentProblemSection />
-        </section>
         <section id="about" aria-label="About Safety 4.0 Academy">
           <AboutAcademySection />
         </section>
