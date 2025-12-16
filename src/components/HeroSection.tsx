@@ -270,17 +270,6 @@ export const HeroSection = () => {
             </div>
           </div>
 
-          {/* CTA Button */}
-          <div className="flex justify-center mb-8 md:mb-16 px-2">
-            <Button 
-              size="lg" 
-              className="bg-lime-500 hover:bg-lime-600 text-white text-sm md:text-lg px-6 md:px-12 py-4 md:py-6 font-semibold rounded-xl group shadow-2xl"
-              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              START YOUR TRANSFORMATION
-              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </div>
 
           {/* Urgent Problem Section - Inline */}
           <div className="text-center max-w-5xl mx-auto mb-12 md:mb-16 animate-fade-in">
