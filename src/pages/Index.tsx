@@ -44,11 +44,11 @@ const Index = () => {
         <SocialProofNotifications />
         <StickyCTABar />
         <HeroSection />
-        <section id="mentor" aria-label="Meet your instructor">
-          <MentorSection />
-        </section>
         <section aria-label="Course preview">
           <CoursePreviewSection />
+        </section>
+        <section id="mentor" aria-label="Meet your instructor">
+          <MentorSection />
         </section>
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
