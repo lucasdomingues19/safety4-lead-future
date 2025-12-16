@@ -35,8 +35,6 @@ const MentorSection = () => {
 
   return (
     <section id="instructor" className="pt-0 pb-20 relative overflow-hidden">
-      {/* Solid black background to match end of HeroSection gradient */}
-      <div className="absolute inset-0 bg-black"></div>
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">
