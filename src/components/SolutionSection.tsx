@@ -87,37 +87,38 @@ export const SolutionSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
               <Card 
                 key={index}
-                className="p-8 border border-white/20 bg-white/5 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up"
-                style={{animationDelay: `${index * 0.2}s`}}
+                className="p-6 border border-white/20 bg-white/5 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up h-full"
+                style={{animationDelay: `${index * 0.1}s`}}
               >
-                <CardContent className="p-0">
-                  <div className="flex items-start space-x-6">
-                    <div className="flex-shrink-0">
-                      <div className="w-16 h-16 bg-gradient-to-br from-lime-500 to-lime-600 rounded-2xl flex items-center justify-center shadow-lg">
-                        <Icon className="w-8 h-8 text-white" />
+                <CardContent className="p-0 h-full">
+                  <div className="flex flex-col h-full">
+                    {/* Icon */}
+                    <div className="mb-4">
+                      <div className="w-14 h-14 bg-gradient-to-br from-lime-500 to-lime-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <Icon className="w-7 h-7 text-white" />
                       </div>
                     </div>
                     
-                    <div className="space-y-3">
-                      <div>
-                        <h3 className="text-2xl font-bold text-white leading-tight">
-                          {benefit.title}
-                        </h3>
-                        <p className="text-lime-400 font-semibold text-lg">
-                          {benefit.subtitle}
-                        </p>
-                      </div>
-                      
-                      <p className="text-gray-300 leading-relaxed">
-                        {benefit.description}
+                    {/* Title & Subtitle */}
+                    <div className="mb-3">
+                      <h3 className="text-xl font-bold text-white leading-tight">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-lime-400 font-semibold text-base">
+                        {benefit.subtitle}
                       </p>
                     </div>
+                    
+                    {/* Description */}
+                    <p className="text-gray-300 text-sm leading-relaxed flex-grow">
+                      {benefit.description}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
