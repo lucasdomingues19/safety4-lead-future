@@ -112,6 +112,17 @@ export const SocialProofSection = () => {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Section Title */}
+        <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8">
+            Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
+          </h2>
+          
+          <p className="text-lg md:text-xl text-muted-foreground px-2">
+            Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
+          </p>
+        </div>
+
         {/* What Global Safety Leaders Are Saying - Scrolling Banner */}
         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 md:p-8 mb-8 md:mb-16 border border-white/10 overflow-hidden">
           <h3 className="text-center text-white text-lg md:text-xl font-semibold mb-4 md:mb-8">What Global Safety Leaders Are Saying</h3>
@@ -199,16 +210,7 @@ export const SocialProofSection = () => {
           </div>
         </div>
 
-        {/* Testimonials */}
-        <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8">
-            Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
-          </h2>
-          
-          <p className="text-lg md:text-xl text-muted-foreground px-2">
-            Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
-          </p>
-        </div>
+        {/* Testimonials Grid */}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {testimonials.map((testimonial, index) => (
