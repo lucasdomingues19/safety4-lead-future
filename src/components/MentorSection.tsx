@@ -34,7 +34,7 @@ const MentorSection = () => {
   ];
 
   return (
-    <section id="instructor" className="py-20 relative overflow-hidden">
+    <section id="instructor" className="pt-0 pb-20 relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
       
