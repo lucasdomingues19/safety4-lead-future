@@ -67,11 +67,13 @@ export const CoursePreviewSection = () => {
     <section className="py-16 relative overflow-hidden">
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center max-w-4xl mx-auto mb-16">
+        <div className="text-center max-w-4xl mx-auto mb-8">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
             Course <span className="text-pink-500">Preview</span>
           </h2>
-          <p className="text-xl text-gray-300 leading-relaxed">
+        </div>
+        <div className="max-w-7xl mx-auto mb-12">
+          <p className="text-xl text-gray-300 leading-relaxed text-justify">
             Professionally recorded in a studio, featuring over 60 high-quality video lessons for a premium learning experience. Designed by trusted educators and built on proven learning methods, the course makes SafetyTech and AI accessible, practical, and easy to understand for EHS professionals at any stage.
           </p>
         </div>
