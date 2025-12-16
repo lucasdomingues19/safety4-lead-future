@@ -9,6 +9,12 @@ import stephanieOsbornePhoto from "@/assets/stephanie-osborne-photo.jpeg";
 import alexSiedschlagPhoto from "@/assets/alex-siedschlag-photo.jpeg";
 import emilyHaasPhoto from "@/assets/emily-haas-photo.png";
 import johannesBuchmannPhoto from "@/assets/johannes-buchmann-photo.jpeg";
+import manalAzziPhoto from "@/assets/manal-azzi-photo.jpg";
+import rosieRussellPhoto from "@/assets/rosie-russell-photo.jpeg";
+import julianaBleyPhoto from "@/assets/juliana-bley-photo.jpeg";
+import jenniferMcnellyPhoto from "@/assets/jennifer-mcnelly-photo.jpeg";
+import stuartHughesPhoto from "@/assets/stuart-hughes-photo.jpg";
+import annaLopezPhoto from "@/assets/testimonial-anna-lopez.jpg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -106,6 +112,93 @@ export const SocialProofSection = () => {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* What Global Safety Leaders Are Saying - Scrolling Banner */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 md:p-8 mb-8 md:mb-16 border border-white/10 overflow-hidden">
+          <h3 className="text-center text-white text-lg md:text-xl font-semibold mb-4 md:mb-8">What Global Safety Leaders Are Saying</h3>
+          <div className="relative">
+            <div className="flex animate-[scroll_20s_linear_infinite] space-x-4 md:space-x-8">
+              {/* Testimonial 1 */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={manalAzziPhoto} alt="Manal Azzi" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health."</p>
+                <div className="text-white text-xs font-medium">Manal Azzi, ILO Team Lead</div>
+              </div>
+
+              {/* Testimonial 2 */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={rosieRussellPhoto} alt="Rosie Russell" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"We need to make AI mainstream in our conversations, but we must also make sure people truly understand it before relying on it."</p>
+                <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
+              </div>
+
+              {/* Testimonial 3 */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={julianaBleyPhoto} alt="Juliana Bley" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"The psychology of safety in today's world require new skills to cope with the challenges, pressure and demands of a connected workplace."</p>
+                <div className="text-white text-xs font-medium">Juliana Bley, TEDx Speaker, Psychologist</div>
+              </div>
+
+              {/* Testimonial 4 */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={jenniferMcnellyPhoto} alt="Jennifer McNelly" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"Most professionals today on the AI maturity curve are in the learning and exploring stage. There are, and will be, as in all industries and professions, leaders, laggards and those in the middle."</p>
+                <div className="text-white text-xs font-medium">Jennifer McNelly, ASSP CEO</div>
+              </div>
+
+              {/* Testimonial 5 */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={stuartHughesPhoto} alt="Stuart Hughes" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"You can shape the future and create healthy and safe working environments that enable employees to thrive, and drive the sustainability of your organisation forward."</p>
+                <div className="text-white text-xs font-medium">Stuart Hughes, IOSH Past President</div>
+              </div>
+
+              {/* Testimonial 6 */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={annaLopezPhoto} alt="Anna Lopez" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"From traditional safety to digital leadership in just 12 weeks."</p>
+                <div className="text-white text-xs font-medium">Anna Lopez, Safety Specialist</div>
+              </div>
+
+              {/* Duplicate set for seamless loop */}
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={manalAzziPhoto} alt="Manal Azzi" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"Digitalization and automation are transforming millions of jobs worldwide, creating powerful opportunities to enhance occupational safety and health."</p>
+                <div className="text-white text-xs font-medium">Manal Azzi, ILO Team Lead</div>
+              </div>
+
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={rosieRussellPhoto} alt="Rosie Russell" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"We need to make AI mainstream in our conversations, but we must also make sure people truly understand it before relying on it."</p>
+                <div className="text-white text-xs font-medium">Rosie Russell, IIRSM President</div>
+              </div>
+
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={julianaBleyPhoto} alt="Juliana Bley" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"The psychology of safety in today's world require new skills to cope with the challenges, pressure and demands of a connected workplace."</p>
+                <div className="text-white text-xs font-medium">Juliana Bley, TEDx Speaker, Psychologist</div>
+              </div>
+
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={jenniferMcnellyPhoto} alt="Jennifer McNelly" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"Most professionals today on the AI maturity curve are in the learning and exploring stage. There are, and will be, as in all industries and professions, leaders, laggards and those in the middle."</p>
+                <div className="text-white text-xs font-medium">Jennifer McNelly, ASSP CEO</div>
+              </div>
+
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={stuartHughesPhoto} alt="Stuart Hughes" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"You can shape the future and create healthy and safe working environments that enable employees to thrive, and drive the sustainability of your organisation forward."</p>
+                <div className="text-white text-xs font-medium">Stuart Hughes, IOSH Past President</div>
+              </div>
+
+              <div className="flex-shrink-0 text-center space-y-3 w-80">
+                <img src={annaLopezPhoto} alt="Anna Lopez" className="w-16 h-16 rounded-full mx-auto object-cover" />
+                <p className="text-gray-300 text-sm italic">"From traditional safety to digital leadership in just 12 weeks."</p>
+                <div className="text-white text-xs font-medium">Anna Lopez, Safety Specialist</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Testimonials */}
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8">
