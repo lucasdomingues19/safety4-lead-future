@@ -34,7 +34,7 @@ const MentorSection = () => {
   ];
 
   return (
-    <section id="instructor" className="py-20 relative overflow-hidden">
+    <section id="instructor" className="pt-12 pb-20 relative overflow-hidden">
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">
