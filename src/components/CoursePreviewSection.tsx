@@ -67,7 +67,7 @@ export const CoursePreviewSection = () => {
     <section className="py-16 relative overflow-hidden">
 
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-3xl lg:text-4xl font-bold text-center text-white mb-12">
+        <h2 className="text-4xl lg:text-5xl font-bold text-center text-white mb-12">
           Course <span className="text-pink-500">Preview</span>
         </h2>
         
