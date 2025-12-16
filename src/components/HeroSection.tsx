@@ -430,7 +430,7 @@ export const HeroSection = () => {
           </div>
 
           {/* Choose Your Learning Path Section */}
-          <div id="pricing" className="mb-12 md:mb-16">
+          <div id="pricing" className="mb-6 md:mb-8">
             <div className="text-center mb-10 md:mb-16 px-2">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
                 Choose Your <span className="text-pink-500">Learning Path</span>
