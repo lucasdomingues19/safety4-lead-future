@@ -78,7 +78,7 @@ export const SolutionSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
-            The Solution: <span className="text-lime-400">Safety 4.0 Academy</span>
+            The Solution: <span className="text-lime-400">You need new skills</span>
           </h2>
           
           <p className="text-xl text-gray-300 leading-relaxed">
