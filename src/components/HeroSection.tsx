@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Zap, Play, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock, Brain, Rocket, Users, PlayCircle, UserCheck, CheckCircle, Globe, Star } from "lucide-react";
+import { ArrowRight, Shield, Zap, Play, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock, Brain, Rocket, Users, PlayCircle, UserCheck, CheckCircle, Globe, Star, BookOpen, Target, AlertTriangle, Smartphone, Wrench, Database, Sparkles, Crown } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 
@@ -18,6 +19,8 @@ import jenniferMcnellyPhoto from "../assets/jennifer-mcnelly-photo.jpeg";
 import stuartHughesPhoto from "../assets/stuart-hughes-photo.jpg";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import safetyAcademyLogo from "../assets/safety-academy-logo.png";
+import rhodriPhoto from "../assets/rhodri-atkins.jpeg";
+import matildePhoto from "../assets/matilde-damelio.png";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -357,40 +360,56 @@ export const HeroSection = () => {
             </h2>
             
             <p className="text-base md:text-xl text-gray-300 leading-relaxed mb-8 md:mb-12 px-2">
-              The world's first comprehensive digital safety leadership program 
-              that transforms traditional safety professionals into future-ready leaders.
+              Our comprehensive program covers everything you need to become a digital safety leader
             </p>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-              {[
-                { icon: Brain, title: "Learn AI, IoT, & SafetyTech", subtitle: "without coding" },
-                { icon: Award, title: "IOSH & CPD Recognized", subtitle: "certification" },
-                { icon: Rocket, title: "Future-proof your career", subtitle: "in hours" },
-                { icon: Users, title: "Global safety leader", subtitle: "community" },
-                { icon: PlayCircle, title: "Masterclass Sessions", subtitle: "with experts" },
-                { icon: UserCheck, title: "1:1 Mentoring", subtitle: "personalized guidance" }
-              ].map((benefit, index) => {
-                const Icon = benefit.icon;
-                return (
-                  <div 
-                    key={index}
-                    className="p-4 md:p-6 border border-white/20 bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl hover:border-lime-400/50 transition-all duration-300"
-                  >
-                    <div className="flex flex-col items-center text-center space-y-2 md:space-y-3">
-                      <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-lime-500 to-lime-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg">
-                        <Icon className="w-6 h-6 md:w-7 md:h-7 text-white" />
-                      </div>
-                      <h3 className="text-sm md:text-lg font-bold text-white leading-tight">
-                        {benefit.title}
-                      </h3>
-                      <p className="text-lime-400 font-semibold text-xs md:text-base">
-                        {benefit.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            {(() => {
+              const modules = [
+                { icon: BookOpen, title: "Introduction & Orientation", description: "Course overview, objectives, CPD & IOSH value, learner expectations", color: "from-lime-500 to-lime-400" },
+                { icon: Target, title: "What is Safety 4.0?", description: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution", color: "from-lime-500 to-lime-400" },
+                { icon: AlertTriangle, title: "The Safety Status Quo is Broken", description: "Compliance-heavy culture, lagging indicators, reactive safety trap", color: "from-lime-500 to-lime-400" },
+                { icon: Award, title: "Skills for the Safety Leader in the Digital Age", description: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills", color: "from-lime-500 to-lime-400" },
+                { icon: Smartphone, title: "Safetytech Practical Applications", description: "Wearables, IoT, drones, mobile-first systems, computer vision", color: "from-lime-500 to-lime-400" },
+                { icon: Wrench, title: "Building your Digital Safety Toolkit", description: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes", color: "from-lime-500 to-lime-400" },
+                { icon: Database, title: "Data Strategy: From Chaos to Clarity", description: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits", color: "from-lime-500 to-lime-400" },
+                { icon: Sparkles, title: "AI Essentials for Safety Leaders", description: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks", color: "from-lime-500 to-lime-400" },
+                { icon: Shield, title: "Compliance, Risk & Governance Essentials", description: "Digital compliance, regulation, governance frameworks, ethical AI", color: "from-lime-500 to-lime-400" },
+                { icon: Rocket, title: "Digital Safety Transformation Framework", description: "ROI, executive influence, linking safety to business performance", color: "from-lime-500 to-lime-400" },
+                { icon: Wrench, title: "Hacking Everyday Tools to Escape the Reactive Safety Trap", description: "Rhodri Atkins - CEO Pair Software", color: "from-pink-500 to-pink-400", isBonus: true, photo: rhodriPhoto },
+                { icon: Crown, title: "Agentic Revolution", description: "Dr. Matilde D'Amelio - CEO Sophia Training & Consulting", color: "from-pink-500 to-pink-400", isBonus: true, photo: matildePhoto }
+              ];
+              
+              return (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-7xl mx-auto">
+                  {modules.map((module, index) => {
+                    const Icon = module.icon;
+                    return (
+                      <Card 
+                        key={index}
+                        className="p-3 md:p-4 border-0 bg-white/10 backdrop-blur-sm shadow-2xl hover:bg-white/15 transition-all duration-300 hover:scale-105"
+                      >
+                        <CardContent className="p-0">
+                          <div className="space-y-2 md:space-y-3 relative" style={{ paddingRight: module.photo ? '50px' : '0' }}>
+                            {module.photo && (
+                              <div className="absolute top-0 right-0 w-10 h-10 md:w-14 md:h-14 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
+                                <img src={module.photo} alt="Instructor" className="w-full h-full object-cover" />
+                              </div>
+                            )}
+                            <div className="flex items-center space-x-2 md:space-x-3">
+                              <div className={`w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow flex-shrink-0`}>
+                                <Icon className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                              </div>
+                              <h3 className="text-xs md:text-sm font-bold text-white leading-tight">{module.title}</h3>
+                            </div>
+                            <p className="text-white/80 text-[10px] md:text-xs leading-relaxed">{module.description}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </div>
 
           {/* About Academy Section - Inline */}
