@@ -70,10 +70,10 @@ export const CoursePreviewSection = () => {
         <h2 className="text-4xl lg:text-5xl font-bold text-center text-white mb-4">
           Course <span className="text-pink-500">Preview</span>
         </h2>
-        <p className="text-xl lg:text-2xl text-center text-gray-200 mb-4 max-w-4xl mx-auto">
+        <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed text-center mb-4">
           Professionally recorded in a studio, featuring over 60 high-quality video lessons for a premium learning experience.
         </p>
-        <p className="text-xl text-gray-300 mb-12 leading-relaxed text-center max-w-3xl mx-auto">
+        <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto text-justify mb-12">
           Designed by trusted educators and built on proven learning methods, the course makes SafetyTech and AI accessible, practical, and easy to understand for EHS professionals at any stage.
         </p>
         
