@@ -7,7 +7,7 @@ import MentorSection from "@/components/MentorSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
 import { ProgramSection } from "@/components/ProgramSection";
 import { Footer } from "@/components/Footer";
-import { AboutAcademySection } from "@/components/AboutAcademySection";
+
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
@@ -46,9 +46,6 @@ const Index = () => {
         <SocialProofNotifications />
         <StickyCTABar />
         <HeroSection />
-        <section id="about" aria-label="About Safety 4.0 Academy">
-          <AboutAcademySection />
-        </section>
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
         </section>
