@@ -86,7 +86,7 @@ export const ProgramSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#11113a] via-slate-900 to-black text-white">
+    <section className="py-20 text-white">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
           <h2 className="text-4xl lg:text-5xl font-bold mb-8">

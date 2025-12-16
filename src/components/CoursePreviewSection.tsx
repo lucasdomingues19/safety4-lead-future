@@ -64,14 +64,6 @@ export const CoursePreviewSection = () => {
 
   return (
     <section className="py-16 relative overflow-hidden">
-      {/* Black to dark blue gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
-      
-      {/* Floating elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-        <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-3xl lg:text-4xl font-bold text-center text-white mb-12">

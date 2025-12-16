@@ -37,7 +37,9 @@ const Index = () => {
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
-      <div className="min-h-screen" role="main">
+      <div className="min-h-screen relative" role="main">
+        {/* Global background for entire site */}
+        <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
         <LeadCaptureModal />
         <ExitIntentPopup />
         <SocialProofNotifications />
