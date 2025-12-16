@@ -523,7 +523,7 @@ export const HeroSection = () => {
             </div>
 
             {/* Bottom CTA */}
-            <div className="text-center mt-12 mb-0">
+            <div className="text-center py-16">
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
                 <h3 className="text-2xl font-bold text-white mb-4">
                   Not sure which option is right for you?
