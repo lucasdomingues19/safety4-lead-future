@@ -73,7 +73,7 @@ export const CoursePreviewSection = () => {
         <p className="text-xl lg:text-2xl text-center text-gray-200 mb-4 max-w-4xl mx-auto">
           Professionally recorded in a studio, featuring over 60 high-quality video lessons for a premium learning experience.
         </p>
-        <p className="text-base lg:text-lg text-center text-gray-400 mb-12 max-w-3xl mx-auto">
+        <p className="text-lg lg:text-xl text-center text-white mb-12 max-w-3xl mx-auto">
           Designed by trusted educators and built on proven learning methods, the course makes SafetyTech and AI accessible, practical, and easy to understand for EHS professionals at any stage.
         </p>
         
