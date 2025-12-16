@@ -3,7 +3,6 @@ import { HeroSection } from "@/components/HeroSection";
 import MentorSection from "@/components/MentorSection";
 import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
-import { ProgramSection } from "@/components/ProgramSection";
 import { Footer } from "@/components/Footer";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -53,12 +52,6 @@ const Index = () => {
         </section>
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
-        </section>
-        <section id="testimonials" aria-label="Student testimonials">
-          <SocialProofSection />
-        </section>
-        <section id="program" aria-label="Program details">
-          <ProgramSection />
         </section>
         <Footer />
       </div>
