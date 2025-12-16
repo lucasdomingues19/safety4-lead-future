@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
-import { PricingSection } from "@/components/PricingSection";
+
 import MentorSection from "@/components/MentorSection";
 
 
@@ -54,9 +54,6 @@ const Index = () => {
         </section>
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
-        </section>
-        <section id="pricing" aria-label="Course pricing and enrollment">
-          <PricingSection />
         </section>
         <section id="testimonials" aria-label="Student testimonials">
           <SocialProofSection />
