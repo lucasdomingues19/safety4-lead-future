@@ -356,11 +356,11 @@ export const HeroSection = () => {
           {/* Solution Section - Inline */}
           <div className="text-center max-w-6xl mx-auto mb-12 md:mb-16 animate-fade-in">
             <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 px-2">
-              The Solution: <span className="text-lime-400">Safety 4.0 Academy</span>
+              The Solution: <span className="text-lime-400">You need new skills!</span>
             </h2>
             
             <p className="text-base md:text-xl text-gray-300 leading-relaxed mb-8 md:mb-12 px-2">
-              Our comprehensive program covers everything you need to become a digital safety leader
+              Our comprehensive program covers everything you need to become a digital safety leader. The world's first globally recognized academy dedicated to transforming safety professionals into digital leaders. Trusted by industry giants and approved by IOSH.
             </p>
 
             {(() => {
