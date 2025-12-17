@@ -195,36 +195,59 @@ const Admin = () => {
         dateFilter = date.toISOString();
       }
       // 'alltime' means no filter
-      // Build queries with optional date filter (increase limit to get all data)
-      let pageViewsQuery = supabase
-        .from('page_views')
-        .select('*')
-        .order('visited_at', { ascending: false })
-        .limit(10000);
-      
-      let eventsClickQuery = supabase
-        .from('user_events')
-        .select('*')
-        .eq('event_type', 'click')
-        .limit(10000);
-      
-      let eventsTimeQuery = supabase
-        .from('user_events')
-        .select('*')
-        .eq('event_type', 'time_on_page')
-        .limit(10000);
+      // Build queries with optional date filter
+      const pageSize = 1000;
 
-      if (dateFilter) {
-        pageViewsQuery = pageViewsQuery.gte('visited_at', dateFilter);
-        eventsClickQuery = eventsClickQuery.gte('created_at', dateFilter);
-        eventsTimeQuery = eventsTimeQuery.gte('created_at', dateFilter);
-      }
+      const fetchAllPageViews = async () => {
+        let all: any[] = [];
+        for (let from = 0; ; from += pageSize) {
+          let q = supabase
+            .from('page_views')
+            .select('*')
+            .order('visited_at', { ascending: false })
+            .range(from, from + pageSize - 1);
 
-      const [pageViewsResult, offerClicksResult, timeOnPageResult] = await Promise.all([
-        pageViewsQuery,
-        eventsClickQuery,
-        eventsTimeQuery
+          if (dateFilter) q = q.gte('visited_at', dateFilter);
+
+          const res = await q;
+          if (res.error) throw res.error;
+          const batch = res.data || [];
+          all = all.concat(batch);
+          if (batch.length < pageSize) break;
+        }
+        return all;
+      };
+
+      const fetchAllUserEvents = async (eventType: string) => {
+        let all: any[] = [];
+        for (let from = 0; ; from += pageSize) {
+          let q = supabase
+            .from('user_events')
+            .select('*')
+            .eq('event_type', eventType)
+            .order('created_at', { ascending: false })
+            .range(from, from + pageSize - 1);
+
+          if (dateFilter) q = q.gte('created_at', dateFilter);
+
+          const res = await q;
+          if (res.error) throw res.error;
+          const batch = res.data || [];
+          all = all.concat(batch);
+          if (batch.length < pageSize) break;
+        }
+        return all;
+      };
+
+      const [pageViewsData, clickEventsData, timeEventsData] = await Promise.all([
+        fetchAllPageViews(),
+        fetchAllUserEvents('click'),
+        fetchAllUserEvents('time_on_page')
       ]);
+
+      const pageViewsResult = { data: pageViewsData as any[], error: null as any };
+      const offerClicksResult = { data: clickEventsData as any[], error: null as any };
+      const timeOnPageResult = { data: timeEventsData as any[], error: null as any };
 
       if (pageViewsResult.error) throw pageViewsResult.error;
 
