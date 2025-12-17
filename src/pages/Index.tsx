@@ -5,7 +5,7 @@ import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
 import { PricingSection } from "@/components/PricingSection";
 import { Footer } from "@/components/Footer";
-import { LeadCaptureModal } from "@/components/LeadCaptureModal";
+
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
@@ -41,7 +41,7 @@ const Index = () => {
       <div className="min-h-screen relative" role="main">
         {/* Global background for entire site */}
         <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
-        <LeadCaptureModal />
+        
         <ExitIntentPopup />
         <SocialProofNotifications />
         <StickyCTABar />
