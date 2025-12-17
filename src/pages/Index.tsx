@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/HeroSection";
 import MentorSection from "@/components/MentorSection";
 import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
+import { PricingSection } from "@/components/PricingSection";
 import { Footer } from "@/components/Footer";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -45,16 +46,25 @@ const Index = () => {
         <SocialProofNotifications />
         <StickyCTABar />
         <NewsletterPopup />
+        {/* Hero → Problem → Solution */}
         <HeroSection />
+        {/* Course Preview */}
         <section aria-label="Course preview">
           <CoursePreviewSection />
         </section>
-        <section id="mentor" aria-label="Meet your instructor">
-          <MentorSection />
-        </section>
+        {/* Testimonials */}
         <section aria-label="What safety leaders are saying">
           <SocialProofSection />
         </section>
+        {/* Mentor */}
+        <section id="mentor" aria-label="Meet your instructor">
+          <MentorSection />
+        </section>
+        {/* Pricing */}
+        <section aria-label="Pricing options">
+          <PricingSection />
+        </section>
+        {/* Final CTA */}
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
         </section>
