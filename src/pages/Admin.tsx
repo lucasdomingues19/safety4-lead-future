@@ -217,8 +217,28 @@ const Admin = () => {
 
       if (pageViewsResult.error) throw pageViewsResult.error;
 
+      // Get sessions that accessed /admin page (to exclude from analytics)
+      const adminSessions = new Set(
+        (pageViewsResult.data || [])
+          .filter(v => v.page_path === '/admin')
+          .map(v => v.session_id)
+      );
+
+      // Filter out admin sessions from page views
+      const filteredPageViews = (pageViewsResult.data || []).filter(
+        v => !adminSessions.has(v.session_id)
+      );
+
+      // Filter out admin sessions from events
+      const filteredClickEvents = (offerClicksResult.data || []).filter(
+        e => !adminSessions.has(e.session_id)
+      );
+      const filteredTimeEvents = (timeOnPageResult.data || []).filter(
+        e => !adminSessions.has(e.session_id)
+      );
+
       // Filter offer-related clicks
-      const offerClickEvents = (offerClicksResult.data || []).filter(event => {
+      const offerClickEvents = filteredClickEvents.filter(event => {
         const eventData = JSON.stringify(event.event_data || {}).toLowerCase();
         return eventData.includes('offer') || 
                eventData.includes('enroll') || 
@@ -230,19 +250,19 @@ const Admin = () => {
       });
 
       // Filter Kajabi portal clicks specifically
-      const kajabiClickEvents = (offerClicksResult.data || []).filter(event => {
+      const kajabiClickEvents = filteredClickEvents.filter(event => {
         const eventData = JSON.stringify(event.event_data || {}).toLowerCase();
         return eventData.includes('mykajabi.com');
       });
 
       const offerClicks = offerClickEvents.length;
 
-      // Calculate average session duration from time_on_page events
+      // Calculate average session duration from time_on_page events (excluding admin sessions)
       let avgSessionDuration = 0;
-      if (timeOnPageResult.data && timeOnPageResult.data.length > 0) {
-        // Group by session and get max duration per session (capped at 30 min)
+      if (filteredTimeEvents.length > 0) {
+        // Group by session and get max duration per session (capped at 10 min)
         const sessionDurations: Record<string, number> = {};
-        timeOnPageResult.data.forEach(event => {
+        filteredTimeEvents.forEach(event => {
           const duration = (event.event_data as any)?.duration || 0;
           const cappedDuration = Math.min(duration, 600); // Cap at 10 minutes (600 seconds) for realistic sessions
           if (!sessionDurations[event.session_id] || cappedDuration > sessionDurations[event.session_id]) {
@@ -255,8 +275,8 @@ const Admin = () => {
         avgSessionDuration = sessionCount > 0 ? Math.round(totalDuration / sessionCount / 60) : 0; // Convert to minutes
       }
 
-      if (pageViewsResult.data) {
-        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents, kajabiClickEvents, avgSessionDuration, range);
+      if (filteredPageViews.length > 0 || pageViewsResult.data) {
+        processAnalytics(filteredPageViews, offerClicks, offerClickEvents, kajabiClickEvents, avgSessionDuration, range);
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
