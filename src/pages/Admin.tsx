@@ -187,21 +187,24 @@ const Admin = () => {
         dateFilter = date.toISOString();
       }
       // 'alltime' means no filter
-      // Build queries with optional date filter
+      // Build queries with optional date filter (increase limit to get all data)
       let pageViewsQuery = supabase
         .from('page_views')
         .select('*')
-        .order('visited_at', { ascending: false });
+        .order('visited_at', { ascending: false })
+        .limit(10000);
       
       let eventsClickQuery = supabase
         .from('user_events')
         .select('*')
-        .eq('event_type', 'click');
+        .eq('event_type', 'click')
+        .limit(10000);
       
       let eventsTimeQuery = supabase
         .from('user_events')
         .select('*')
-        .eq('event_type', 'time_on_page');
+        .eq('event_type', 'time_on_page')
+        .limit(10000);
 
       if (dateFilter) {
         pageViewsQuery = pageViewsQuery.gte('visited_at', dateFilter);
