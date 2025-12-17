@@ -86,15 +86,13 @@ const About = () => {
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                 <h3 className="text-xl font-semibold text-pink-500 mb-4">Proven Results</h3>
                 <p className="text-gray-300">
-                  98% of our graduates report significant career advancement within 12 months of completing 
-                  the program.
+                  98% of our graduates report significant career impact and advancement.
                 </p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                 <h3 className="text-xl font-semibold text-blue-400 mb-4">Global Network</h3>
                 <p className="text-gray-300">
-                  Join a community of 2,500+ safety leaders across 50+ countries, all transforming their 
-                  industries through digital innovation.
+                  Join a global community of safety leaders, innovators and changemakers ready to transform their career.
                 </p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
