@@ -9,7 +9,7 @@ import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
-import ExitIntentPopup from "@/components/ExitIntentPopup";
+
 import { SocialProofNotifications } from "@/components/SocialProofNotifications";
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
@@ -42,7 +42,7 @@ const Index = () => {
         {/* Global background for entire site */}
         <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
         
-        <ExitIntentPopup />
+        
         <SocialProofNotifications />
         <StickyCTABar />
         <NewsletterPopup />
