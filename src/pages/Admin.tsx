@@ -52,6 +52,8 @@ interface Stats {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
+type DateRange = '7days' | '30days' | 'alltime';
+
 const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -59,11 +61,18 @@ const Admin = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [dateRange, setDateRange] = useState<DateRange>('30days');
   const navigate = useNavigate();
 
   useEffect(() => {
     checkAdminAccess();
   }, []);
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchAnalytics(dateRange);
+    }
+  }, [dateRange, isAdmin]);
 
   const checkAdminAccess = async () => {
     try {
@@ -89,7 +98,6 @@ const Admin = () => {
       }
 
       setIsAdmin(true);
-      await fetchAnalytics();
       await fetchLeads();
     } catch (error) {
       console.error("Admin access error:", error);
@@ -165,21 +173,46 @@ const Admin = () => {
     }
   };
 
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = async (range: DateRange) => {
     try {
+      // Calculate date filter based on range
+      let dateFilter: string | null = null;
+      if (range === '7days') {
+        const date = new Date();
+        date.setDate(date.getDate() - 7);
+        dateFilter = date.toISOString();
+      } else if (range === '30days') {
+        const date = new Date();
+        date.setDate(date.getDate() - 30);
+        dateFilter = date.toISOString();
+      }
+      // 'alltime' means no filter
+      // Build queries with optional date filter
+      let pageViewsQuery = supabase
+        .from('page_views')
+        .select('*')
+        .order('visited_at', { ascending: false });
+      
+      let eventsClickQuery = supabase
+        .from('user_events')
+        .select('*')
+        .eq('event_type', 'click');
+      
+      let eventsTimeQuery = supabase
+        .from('user_events')
+        .select('*')
+        .eq('event_type', 'time_on_page');
+
+      if (dateFilter) {
+        pageViewsQuery = pageViewsQuery.gte('visited_at', dateFilter);
+        eventsClickQuery = eventsClickQuery.gte('created_at', dateFilter);
+        eventsTimeQuery = eventsTimeQuery.gte('created_at', dateFilter);
+      }
+
       const [pageViewsResult, offerClicksResult, timeOnPageResult] = await Promise.all([
-        supabase
-          .from('page_views')
-          .select('*')
-          .order('visited_at', { ascending: false }),
-        supabase
-          .from('user_events')
-          .select('*')
-          .eq('event_type', 'click'),
-        supabase
-          .from('user_events')
-          .select('*')
-          .eq('event_type', 'time_on_page')
+        pageViewsQuery,
+        eventsClickQuery,
+        eventsTimeQuery
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
@@ -223,7 +256,7 @@ const Admin = () => {
       }
 
       if (pageViewsResult.data) {
-        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents, kajabiClickEvents, avgSessionDuration);
+        processAnalytics(pageViewsResult.data, offerClicks, offerClickEvents, kajabiClickEvents, avgSessionDuration, range);
       }
     } catch (error) {
       console.error("Error fetching analytics:", error);
@@ -231,26 +264,37 @@ const Admin = () => {
     }
   };
 
-  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = [], kajabiClickEvents: any[] = [], avgSessionDuration: number = 0) => {
+  const processAnalytics = (views: PageView[], offerClicks: number = 0, offerClickEvents: any[] = [], kajabiClickEvents: any[] = [], avgSessionDuration: number = 0, range: DateRange = '30days') => {
     const totalViews = views.length;
     const uniqueVisitors = new Set(views.map(v => v.session_id)).size;
 
-    // Calculate daily offer clicks (last 7 days)
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (6 - i));
-      return date.toISOString().split('T')[0];
-    });
+    // Calculate date range for charts
+    const getDaysArray = (numDays: number) => {
+      return Array.from({ length: numDays }, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - (numDays - 1 - i));
+        return date.toISOString().split('T')[0];
+      });
+    };
+
+    // For alltime, get all unique dates from data
+    const getAllDates = () => {
+      const dates = new Set<string>();
+      views.forEach(v => dates.add(new Date(v.visited_at).toISOString().split('T')[0]));
+      offerClickEvents.forEach(e => dates.add(new Date(e.created_at).toISOString().split('T')[0]));
+      kajabiClickEvents.forEach(e => dates.add(new Date(e.created_at).toISOString().split('T')[0]));
+      return Array.from(dates).sort();
+    };
+
+    const chartDays = range === '7days' ? getDaysArray(7) : range === '30days' ? getDaysArray(30) : getAllDates();
 
     const dailyOfferClickCount: Record<string, number> = {};
     offerClickEvents.forEach(event => {
       const date = new Date(event.created_at).toISOString().split('T')[0];
-      if (last7Days.includes(date)) {
-        dailyOfferClickCount[date] = (dailyOfferClickCount[date] || 0) + 1;
-      }
+      dailyOfferClickCount[date] = (dailyOfferClickCount[date] || 0) + 1;
     });
 
-    const dailyOfferClicks = last7Days.map(date => ({
+    const dailyOfferClicks = chartDays.map(date => ({
       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       clicks: dailyOfferClickCount[date] || 0
     }));
@@ -263,16 +307,14 @@ const Admin = () => {
     const dailyKajabiUniqueSessions: Record<string, Set<string>> = {};
     kajabiClickEvents.forEach(event => {
       const date = new Date(event.created_at).toISOString().split('T')[0];
-      if (last7Days.includes(date)) {
-        dailyKajabiClickCount[date] = (dailyKajabiClickCount[date] || 0) + 1;
-        if (!dailyKajabiUniqueSessions[date]) {
-          dailyKajabiUniqueSessions[date] = new Set();
-        }
-        dailyKajabiUniqueSessions[date].add(event.session_id);
+      dailyKajabiClickCount[date] = (dailyKajabiClickCount[date] || 0) + 1;
+      if (!dailyKajabiUniqueSessions[date]) {
+        dailyKajabiUniqueSessions[date] = new Set();
       }
+      dailyKajabiUniqueSessions[date].add(event.session_id);
     });
 
-    const dailyKajabiClicks = last7Days.map(date => ({
+    const dailyKajabiClicks = chartDays.map(date => ({
       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       clicks: dailyKajabiClickCount[date] || 0,
       unique: dailyKajabiUniqueSessions[date]?.size || 0
@@ -296,29 +338,26 @@ const Admin = () => {
     });
     const deviceBreakdown = Object.entries(deviceCount).map(([name, value]) => ({ name, value }));
 
-    // Daily views (last 7 days) - reuse last7Days from above
-
+    // Daily views
     const dailyCount: Record<string, number> = {};
     const dailySessionSets: Record<string, Set<string>> = {};
     
     views.forEach(v => {
       const date = new Date(v.visited_at).toISOString().split('T')[0];
-      if (last7Days.includes(date)) {
-        dailyCount[date] = (dailyCount[date] || 0) + 1;
-        
-        if (!dailySessionSets[date]) {
-          dailySessionSets[date] = new Set();
-        }
-        dailySessionSets[date].add(v.session_id);
+      dailyCount[date] = (dailyCount[date] || 0) + 1;
+      
+      if (!dailySessionSets[date]) {
+        dailySessionSets[date] = new Set();
       }
+      dailySessionSets[date].add(v.session_id);
     });
     
-    const dailyViews = last7Days.map(date => ({
+    const dailyViews = chartDays.map(date => ({
       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       views: dailyCount[date] || 0
     }));
 
-    const dailyUniqueVisitors = last7Days.map(date => ({
+    const dailyUniqueVisitors = chartDays.map(date => ({
       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       visitors: dailySessionSets[date]?.size || 0
     }));
@@ -422,6 +461,34 @@ const Admin = () => {
         {/* Analytics Tab */}
         {activeTab === 'analytics' && (
           <>
+            {/* Date Range Toggle */}
+            <div className="flex gap-2 mb-6">
+              <Button
+                onClick={() => setDateRange('7days')}
+                variant={dateRange === '7days' ? 'default' : 'outline'}
+                size="sm"
+                className={dateRange === '7days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+              >
+                Last 7 Days
+              </Button>
+              <Button
+                onClick={() => setDateRange('30days')}
+                variant={dateRange === '30days' ? 'default' : 'outline'}
+                size="sm"
+                className={dateRange === '30days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+              >
+                Last 30 Days
+              </Button>
+              <Button
+                onClick={() => setDateRange('alltime')}
+                variant={dateRange === 'alltime' ? 'default' : 'outline'}
+                size="sm"
+                className={dateRange === 'alltime' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+              >
+                All Time
+              </Button>
+            </div>
+
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
@@ -481,7 +548,7 @@ const Admin = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
-              <CardTitle className="text-white">Views Over Time (Last 7 Days)</CardTitle>
+              <CardTitle className="text-white">Views Over Time ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -499,7 +566,7 @@ const Admin = () => {
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
-              <CardTitle className="text-white">Unique Visitors (Last 7 Days)</CardTitle>
+              <CardTitle className="text-white">Unique Visitors ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
               <CardDescription className="text-gray-300">Distinct visitors per day</CardDescription>
             </CardHeader>
             <CardContent>
@@ -548,7 +615,7 @@ const Admin = () => {
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/20">
             <CardHeader>
-              <CardTitle className="text-white">Offer Clicks (Last 7 Days)</CardTitle>
+              <CardTitle className="text-white">Offer Clicks ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
               <CardDescription className="text-gray-300">Daily enrollment button clicks</CardDescription>
             </CardHeader>
             <CardContent>
@@ -571,7 +638,7 @@ const Admin = () => {
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Target className="h-5 w-5 text-orange-400" />
-              Kajabi Portal Click-throughs (Last 7 Days)
+              Kajabi Portal Click-throughs ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})
             </CardTitle>
             <CardDescription className="text-gray-300">
               Visitors who clicked through to the enrollment page • Total: {stats.kajabiClicks} clicks from {stats.kajabiUniqueVisitors} unique visitors
