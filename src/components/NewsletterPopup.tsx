@@ -1,0 +1,152 @@
+import { useState, useEffect } from "react";
+import { X, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+
+export const NewsletterPopup = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Check if user has already seen/dismissed the popup
+    const hasSeenPopup = localStorage.getItem("newsletter_popup_dismissed");
+    if (hasSeenPopup) return;
+
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 30000); // 30 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    localStorage.setItem("newsletter_popup_dismissed", "true");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim()) {
+      toast({
+        title: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase.functions.invoke("capture-lead", {
+        body: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          source: "newsletter_popup",
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Welcome to the community!",
+        description: "You've successfully subscribed to Safety Beyond Compliance.",
+      });
+
+      handleClose();
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-md bg-gradient-to-br from-[#11113a] via-slate-900 to-black border border-white/20 rounded-2xl p-8 shadow-2xl animate-scale-in">
+        {/* Close button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          aria-label="Close popup"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* Icon */}
+        <div className="flex justify-center mb-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-lime-500 to-lime-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <Mail className="w-8 h-8 text-white" />
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 className="text-2xl font-bold text-white text-center mb-2">
+          Safety Beyond Compliance
+        </h3>
+        <p className="text-lime-400 font-semibold text-center mb-4">
+          Newsletter
+        </p>
+
+        {/* Description */}
+        <p className="text-gray-300 text-center mb-6 leading-relaxed">
+          Join hundreds of safety innovators and changemakers receiving our bi-weekly newsletter.
+        </p>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              type="text"
+              placeholder="First Name"
+              value={formData.firstName}
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+            />
+            <Input
+              type="text"
+              placeholder="Last Name"
+              value={formData.lastName}
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+            />
+          </div>
+          <Input
+            type="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+          />
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white font-semibold py-3"
+          >
+            {isSubmitting ? "Subscribing..." : "Subscribe Now"}
+          </Button>
+        </form>
+
+        {/* Privacy note */}
+        <p className="text-xs text-gray-500 text-center mt-4">
+          We respect your privacy. Unsubscribe anytime.
+        </p>
+      </div>
+    </div>
+  );
+};

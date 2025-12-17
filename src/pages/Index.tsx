@@ -11,6 +11,7 @@ import { SEOStructuredData } from "@/components/SEOStructuredData";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
 import { SocialProofNotifications } from "@/components/SocialProofNotifications";
 import { StickyCTABar } from "@/components/StickyCTABar";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
@@ -43,6 +44,7 @@ const Index = () => {
         <ExitIntentPopup />
         <SocialProofNotifications />
         <StickyCTABar />
+        <NewsletterPopup />
         <HeroSection />
         <section aria-label="Course preview">
           <CoursePreviewSection />
