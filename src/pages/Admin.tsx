@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -64,15 +64,20 @@ const Admin = () => {
   const [dateRange, setDateRange] = useState<DateRange>('30days');
   const navigate = useNavigate();
 
+  const analyticsRequestIdRef = useRef(0);
+
   useEffect(() => {
     checkAdminAccess();
   }, []);
 
+  useEffect(() => {
+    if (isAdmin) {
+      fetchAnalytics(dateRange);
+    }
+  }, [isAdmin, dateRange]);
+
   const handleDateRangeChange = (range: DateRange) => {
     setDateRange(range);
-    if (isAdmin) {
-      fetchAnalytics(range);
-    }
   };
 
   const checkAdminAccess = async () => {
@@ -176,6 +181,7 @@ const Admin = () => {
   };
 
   const fetchAnalytics = async (range: DateRange) => {
+    const requestId = ++analyticsRequestIdRef.current;
     try {
       // Calculate date filter based on range
       let dateFilter: string | null = null;
@@ -280,7 +286,9 @@ const Admin = () => {
         avgSessionDuration = sessionCount > 0 ? Math.round(totalDuration / sessionCount / 60) : 0; // Convert to minutes
       }
 
-      if (filteredPageViews.length > 0 || pageViewsResult.data) {
+      if (requestId !== analyticsRequestIdRef.current) return;
+
+      if (filteredPageViews.length >= 0) {
         processAnalytics(filteredPageViews, offerClicks, offerClickEvents, kajabiClickEvents, avgSessionDuration, range);
       }
     } catch (error) {
