@@ -52,6 +52,9 @@ const Index = () => {
         <section id="mentor" aria-label="Meet your instructor">
           <MentorSection />
         </section>
+        <section aria-label="What safety leaders are saying">
+          <SocialProofSection />
+        </section>
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
         </section>
