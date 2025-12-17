@@ -86,8 +86,8 @@ const validateLeadData = (data: any): { valid: boolean; errors: string[] } => {
   // Required: source
   if (!data.source || typeof data.source !== 'string') {
     errors.push('source is required and must be a string');
-  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment', 'ebook_download'].includes(data.source)) {
-    errors.push('source must be one of: "assessment", "contact_form", "cohort-pre-enrollment", or "ebook_download"');
+  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment', 'ebook_download', 'newsletter_popup'].includes(data.source)) {
+    errors.push('source must be one of: "assessment", "contact_form", "cohort-pre-enrollment", "ebook_download", or "newsletter_popup"');
   }
 
   return { valid: errors.length === 0, errors };
