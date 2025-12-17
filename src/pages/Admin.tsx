@@ -68,11 +68,12 @@ const Admin = () => {
     checkAdminAccess();
   }, []);
 
-  useEffect(() => {
+  const handleDateRangeChange = (range: DateRange) => {
+    setDateRange(range);
     if (isAdmin) {
-      fetchAnalytics(dateRange);
+      fetchAnalytics(range);
     }
-  }, [dateRange, isAdmin]);
+  };
 
   const checkAdminAccess = async () => {
     try {
@@ -98,6 +99,7 @@ const Admin = () => {
       }
 
       setIsAdmin(true);
+      await fetchAnalytics(dateRange);
       await fetchLeads();
     } catch (error) {
       console.error("Admin access error:", error);
@@ -487,7 +489,7 @@ const Admin = () => {
             {/* Date Range Toggle */}
             <div className="flex gap-2 mb-6">
               <Button
-                onClick={() => setDateRange('7days')}
+                onClick={() => handleDateRangeChange('7days')}
                 variant={dateRange === '7days' ? 'default' : 'outline'}
                 size="sm"
                 className={dateRange === '7days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
@@ -495,7 +497,7 @@ const Admin = () => {
                 Last 7 Days
               </Button>
               <Button
-                onClick={() => setDateRange('30days')}
+                onClick={() => handleDateRangeChange('30days')}
                 variant={dateRange === '30days' ? 'default' : 'outline'}
                 size="sm"
                 className={dateRange === '30days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
@@ -503,7 +505,7 @@ const Admin = () => {
                 Last 30 Days
               </Button>
               <Button
-                onClick={() => setDateRange('alltime')}
+                onClick={() => handleDateRangeChange('alltime')}
                 variant={dateRange === 'alltime' ? 'default' : 'outline'}
                 size="sm"
                 className={dateRange === 'alltime' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
