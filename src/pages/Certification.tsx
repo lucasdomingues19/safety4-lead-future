@@ -209,7 +209,7 @@ const Certification = () => {
                 <Shield className="w-8 h-8 text-lime-400" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Career Advancement</h3>
-              <p className="text-gray-300">98% of certified professionals report career advancement within 12 months</p>
+              <p className="text-gray-300">98% of certified professionals report readiness for career advancement</p>
             </div>
 
             <div className="text-center">
