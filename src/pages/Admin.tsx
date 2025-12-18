@@ -816,11 +816,17 @@ const Admin = () => {
                                   ? 'bg-green-500/20 text-green-300'
                                   : lead.source === 'cohort-pre-enrollment'
                                   ? 'bg-purple-500/20 text-purple-300'
-                                  : 'bg-orange-500/20 text-orange-300'
+                                  : lead.source === 'newsletter_popup'
+                                  ? 'bg-pink-500/20 text-pink-300'
+                                  : lead.source === 'ebook_download'
+                                  ? 'bg-orange-500/20 text-orange-300'
+                                  : 'bg-gray-500/20 text-gray-300'
                               }`}>
                                 {lead.source === 'assessment' ? 'Assessment' : 
                                  lead.source === 'contact_form' ? 'Contact Form' :
-                                 lead.source === 'cohort-pre-enrollment' ? 'Cohort' : 'eBook'}
+                                 lead.source === 'cohort-pre-enrollment' ? 'Cohort' :
+                                 lead.source === 'newsletter_popup' ? 'Newsletter' :
+                                 lead.source === 'ebook_download' ? 'eBook' : lead.source}
                               </span>
                             </TableCell>
                             <TableCell className="text-white">
