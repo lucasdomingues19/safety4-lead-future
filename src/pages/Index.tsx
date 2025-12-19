@@ -13,6 +13,7 @@ import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { SocialProofNotifications } from "@/components/SocialProofNotifications";
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
+import EbookPopup from "@/components/EbookPopup";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 
 const Index = () => {
@@ -46,6 +47,7 @@ const Index = () => {
         <SocialProofNotifications />
         <StickyCTABar />
         <NewsletterPopup />
+        <EbookPopup />
         {/* Hero → Problem → Solution */}
         <HeroSection />
         {/* Course Preview */}
