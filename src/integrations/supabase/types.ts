@@ -20,6 +20,7 @@ export type Database = {
           email: string
           id: string
           inquiry_type: string | null
+          job_title: string | null
           message: string | null
           name: string
           phone: string | null
@@ -31,6 +32,7 @@ export type Database = {
           email: string
           id?: string
           inquiry_type?: string | null
+          job_title?: string | null
           message?: string | null
           name: string
           phone?: string | null
@@ -42,6 +44,7 @@ export type Database = {
           email?: string
           id?: string
           inquiry_type?: string | null
+          job_title?: string | null
           message?: string | null
           name?: string
           phone?: string | null

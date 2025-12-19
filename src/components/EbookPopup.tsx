@@ -13,7 +13,8 @@ const EbookPopup = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    jobTitle: ''
   });
   const { toast } = useToast();
 
@@ -36,7 +37,7 @@ const EbookPopup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.firstName || !formData.lastName || !formData.email) {
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle) {
       toast({
         title: "Please fill in all fields",
         variant: "destructive"
@@ -51,7 +52,8 @@ const EbookPopup = () => {
         body: {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
-          source: 'ebook_download'
+          source: 'ebook_download',
+          job_title: formData.jobTitle
         }
       });
 
@@ -127,6 +129,13 @@ const EbookPopup = () => {
                   className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
                 />
               </div>
+              <Input
+                type="text"
+                placeholder="Job Title"
+                value={formData.jobTitle}
+                onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+              />
               <Input
                 type="email"
                 placeholder="Email Address"
