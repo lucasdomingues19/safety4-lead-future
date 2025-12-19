@@ -1,5 +1,3 @@
-import { supabase } from "@/integrations/supabase/client";
-
 // Generate or retrieve session ID
 const getSessionId = (): string => {
   let sessionId = sessionStorage.getItem('analytics_session_id');
@@ -10,17 +8,33 @@ const getSessionId = (): string => {
   return sessionId;
 };
 
-// Track custom events (clicks, form submissions, etc.)
-export const trackEvent = async (eventType: string, eventData?: Record<string, any>) => {
+// Track custom events via secure edge function (clicks, form submissions, etc.)
+export const trackEvent = async (eventType: string, eventData?: Record<string, unknown>) => {
   try {
     const sessionId = getSessionId();
     
-    await supabase.from('user_events').insert({
-      session_id: sessionId,
-      event_type: eventType,
-      event_data: eventData || {},
-      page_path: window.location.pathname,
-    });
+    // Use validated edge function instead of direct insert
+    const response = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-user-event`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          event_type: eventType,
+          event_data: eventData || {},
+          page_path: window.location.pathname,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Event tracking error:', errorData);
+    }
   } catch (error) {
     console.error('Event tracking failed:', error);
   }

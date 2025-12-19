@@ -14,7 +14,8 @@ const EbookPopup = () => {
     firstName: '',
     lastName: '',
     email: '',
-    jobTitle: ''
+    jobTitle: '',
+    website: '' // Honeypot field - bots will fill this
   });
   const { toast } = useToast();
 
@@ -37,6 +38,17 @@ const EbookPopup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Honeypot check - if filled, silently reject (bot detected)
+    if (formData.website) {
+      console.log('Bot detected via honeypot');
+      toast({
+        title: "Success!",
+        description: "Your eBook download will start shortly."
+      });
+      setIsOpen(false);
+      return;
+    }
+    
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle) {
       toast({
         title: "Please fill in all fields",
@@ -53,7 +65,8 @@ const EbookPopup = () => {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
           source: 'ebook_download',
-          job_title: formData.jobTitle
+          job_title: formData.jobTitle,
+          _hp: formData.website // Pass honeypot to server for additional check
         }
       });
 
@@ -135,6 +148,24 @@ const EbookPopup = () => {
                 value={formData.jobTitle}
                 onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+              />
+              {/* Honeypot field - hidden from users, visible to bots */}
+              <input
+                type="text"
+                name="website"
+                value={formData.website}
+                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                autoComplete="off"
+                tabIndex={-1}
+                aria-hidden="true"
+                style={{ 
+                  position: 'absolute',
+                  left: '-9999px',
+                  opacity: 0,
+                  height: 0,
+                  width: 0,
+                  pointerEvents: 'none'
+                }}
               />
               <Input
                 type="email"

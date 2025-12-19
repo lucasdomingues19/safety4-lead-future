@@ -20,7 +20,15 @@ interface LeadData {
   role?: string;
   inquiry_type?: string;
   job_title?: string;
+  _hp?: string; // Honeypot field
 }
+
+// Known bot user agent patterns
+const BOT_PATTERNS = [
+  /bot/i, /crawler/i, /spider/i, /scraper/i,
+  /curl/i, /wget/i, /python/i, /java\//i,
+  /headless/i, /phantom/i, /selenium/i
+];
 
 const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -136,6 +144,27 @@ serve(async (req) => {
 
   try {
     const data: LeadData = await req.json();
+    
+    // Bot detection: Check honeypot field
+    if (data._hp && data._hp.length > 0) {
+      console.warn('Bot detected via honeypot field');
+      // Return success to avoid bot learning
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    // Bot detection: Check user agent
+    const userAgent = req.headers.get('user-agent') || '';
+    const isBot = BOT_PATTERNS.some(pattern => pattern.test(userAgent));
+    if (isBot) {
+      console.warn('Bot detected via user agent:', userAgent);
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Validate input
     const validation = validateLeadData(data);
