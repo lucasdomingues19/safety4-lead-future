@@ -19,6 +19,7 @@ interface LeadData {
   message?: string;
   role?: string;
   inquiry_type?: string;
+  job_title?: string;
 }
 
 const validateEmail = (email: string): boolean => {
@@ -80,6 +81,15 @@ const validateLeadData = (data: any): { valid: boolean; errors: string[] } => {
       errors.push('inquiry_type must be a string');
     } else if (data.inquiry_type.length > 100) {
       errors.push('inquiry_type must be less than 100 characters');
+    }
+  }
+
+  // Optional: job_title
+  if (data.job_title !== undefined && data.job_title !== null) {
+    if (typeof data.job_title !== 'string') {
+      errors.push('job_title must be a string');
+    } else if (data.job_title.length > 200) {
+      errors.push('job_title must be less than 200 characters');
     }
   }
 
@@ -161,6 +171,7 @@ serve(async (req) => {
       message: data.message?.trim() || null,
       role: data.role?.trim() || null,
       inquiry_type: data.inquiry_type?.trim() || null,
+      job_title: data.job_title?.trim() || null,
     };
 
     const { error } = await supabase.from('leads').insert(sanitizedData);
