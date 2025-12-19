@@ -12,6 +12,7 @@ export const NewsletterPopup = () => {
     firstName: "",
     lastName: "",
     email: "",
+    website: "" // Honeypot field - bots will fill this
   });
   const { toast } = useToast();
 
@@ -35,6 +36,17 @@ export const NewsletterPopup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Honeypot check - if filled, silently reject (bot detected)
+    if (formData.website) {
+      console.log('Bot detected via honeypot');
+      toast({
+        title: "Welcome to the community!",
+        description: "You've successfully subscribed to Safety Beyond Compliance.",
+      });
+      handleClose();
+      return;
+    }
+    
     if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim()) {
       toast({
         title: "Please fill in all fields",
@@ -51,6 +63,7 @@ export const NewsletterPopup = () => {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
           source: "newsletter_popup",
+          _hp: formData.website // Pass honeypot to server for additional check
         },
       });
 
@@ -126,6 +139,24 @@ export const NewsletterPopup = () => {
               className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
             />
           </div>
+          {/* Honeypot field - hidden from users, visible to bots */}
+          <input
+            type="text"
+            name="website"
+            value={formData.website}
+            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+            autoComplete="off"
+            tabIndex={-1}
+            aria-hidden="true"
+            style={{ 
+              position: 'absolute',
+              left: '-9999px',
+              opacity: 0,
+              height: 0,
+              width: 0,
+              pointerEvents: 'none'
+            }}
+          />
           <Input
             type="email"
             placeholder="Email Address"

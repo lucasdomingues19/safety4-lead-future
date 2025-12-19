@@ -11,6 +11,22 @@ const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 5000; // 5 seconds
 const MAX_REQUESTS_PER_WINDOW = 3; // Max 3 page views per 5 seconds per session
 
+// Known bot user agent patterns
+const BOT_PATTERNS = [
+  /bot/i, /crawler/i, /spider/i, /scraper/i,
+  /curl/i, /wget/i, /python/i, /java\//i,
+  /headless/i, /phantom/i, /selenium/i,
+  /puppeteer/i, /playwright/i, /slurp/i,
+  /googlebot/i, /bingbot/i, /yandex/i,
+  /baidu/i, /duckduckbot/i, /facebookexternalhit/i
+];
+
+// Suspicious referrer patterns (known fake referrers)
+const SUSPICIOUS_REFERRERS = [
+  /gigablast\.com/i, /hakia\.com/i, /cpanel\.net/i,
+  /semalt\.com/i, /buttons-for-website\.com/i
+];
+
 interface PageViewData {
   session_id: string;
   page_path: string;
@@ -127,6 +143,28 @@ serve(async (req) => {
 
   try {
     const data: PageViewData = await req.json();
+    
+    // Bot detection: Check user agent
+    const userAgent = data.user_agent || '';
+    const isBot = BOT_PATTERNS.some(pattern => pattern.test(userAgent));
+    if (isBot) {
+      console.log('Bot detected via user agent, ignoring page view');
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    // Bot detection: Check suspicious referrer
+    const referrer = data.referrer || '';
+    const isSuspiciousReferrer = SUSPICIOUS_REFERRERS.some(pattern => pattern.test(referrer));
+    if (isSuspiciousReferrer) {
+      console.log('Suspicious referrer detected, ignoring page view:', referrer);
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Validate input
     const validation = validatePageViewData(data);
