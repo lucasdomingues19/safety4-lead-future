@@ -65,7 +65,7 @@ const EbookPopup = () => {
       });
 
       // Trigger download
-      window.open('/Safety-4.0-Course-Brochure.pdf', '_blank');
+      window.open('https://drive.google.com/file/d/1Su_f1TARvklvsbJWcmTH3s3t7wFM_Zqt/view?usp=drive_link', '_blank');
       
       setIsOpen(false);
     } catch (error) {
