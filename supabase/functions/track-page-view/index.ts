@@ -145,17 +145,20 @@ serve(async (req) => {
       );
     }
 
-    // Get geolocation from Cloudflare headers (built into Supabase Edge Functions)
-    // These are more reliable than external IP lookup services
+    // Get geolocation from IP address
     let country: string | undefined = undefined;
     let city: string | undefined = undefined;
     
-    // Try Cloudflare headers first (most reliable)
+    // Extract IP address from headers
+    const ip = req.headers.get('cf-connecting-ip') || 
+               req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+               req.headers.get('x-real-ip');
+    
+    // Try Cloudflare headers first (may not be available in all environments)
     const cfCountry = req.headers.get('cf-ipcountry');
     const cfCity = req.headers.get('cf-ipcity');
     
     if (cfCountry && cfCountry !== 'XX') {
-      // Convert country code to full name
       try {
         const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
         country = regionNames.of(cfCountry) || cfCountry;
@@ -164,30 +167,22 @@ serve(async (req) => {
       }
       city = cfCity || undefined;
       console.log('Geolocation from CF headers:', { country, city });
-    } else {
-      // Fallback: try x-vercel-ip-country or similar headers
-      const vercelCountry = req.headers.get('x-vercel-ip-country');
-      const vercelCity = req.headers.get('x-vercel-ip-city');
-      
-      if (vercelCountry) {
-        try {
-          const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-          country = regionNames.of(vercelCountry) || vercelCountry;
-        } catch {
-          country = vercelCountry;
+    } else if (ip && ip !== '127.0.0.1' && ip !== '::1') {
+      // Fallback to ip-api.com (free, 45 req/min limit for non-commercial)
+      try {
+        const geoResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,city`);
+        if (geoResponse.ok) {
+          const geoData = await geoResponse.json();
+          if (geoData.status === 'success') {
+            country = geoData.country || undefined;
+            city = geoData.city || undefined;
+            console.log('Geolocation from IP lookup:', { ip, country, city });
+          }
         }
-        city = vercelCity || undefined;
-        console.log('Geolocation from Vercel headers:', { country, city });
+      } catch (error) {
+        console.error('Geolocation lookup failed:', error);
       }
     }
-    
-    // Log available headers for debugging (temporary)
-    console.log('Request headers for geo:', {
-      'cf-ipcountry': req.headers.get('cf-ipcountry'),
-      'cf-ipcity': req.headers.get('cf-ipcity'),
-      'cf-connecting-ip': req.headers.get('cf-connecting-ip'),
-      'x-forwarded-for': req.headers.get('x-forwarded-for'),
-    });
 
     // Create Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
