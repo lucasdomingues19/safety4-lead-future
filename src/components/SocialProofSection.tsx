@@ -84,7 +84,7 @@ export const SocialProofSection = () => {
     },
     {
       name: "Stewart Deary",
-      role: "HSE Leader",
+      role: "Global HSE Director",
       content: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
       rating: 5,
       image: stewartDearyPhoto
