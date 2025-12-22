@@ -15,6 +15,7 @@ import julianaBleyPhoto from "@/assets/juliana-bley-photo.jpeg";
 import jenniferMcnellyPhoto from "@/assets/jennifer-mcnelly-photo.jpeg";
 import stuartHughesPhoto from "@/assets/stuart-hughes-photo.jpg";
 import annaLopezPhoto from "@/assets/testimonial-anna-lopez.jpg";
+import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
 
 export const SocialProofSection = () => {
   const testimonials = [
@@ -80,6 +81,13 @@ export const SocialProofSection = () => {
       content: "Safety 4.0 is a great entry-level course for EHS professionals starting their journey into Industry 4.0 and health & safety tech. It introduces AI concepts in a clear way and includes practical tips and tricks that make applying the knowledge easier.",
       rating: 5,
       image: johannesBuchmannPhoto
+    },
+    {
+      name: "Stewart Deary",
+      role: "HSE Leader",
+      content: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
+      rating: 5,
+      image: stewartDearyPhoto
     }
   ];
 
