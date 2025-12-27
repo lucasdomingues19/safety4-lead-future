@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { MidboundPixel } from "@/components/MidboundPixel";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
@@ -48,6 +49,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      {/* Midbound pixel (runtime fallback). Primary install remains in index.html. */}
+      <MidboundPixel />
       <BrowserRouter>
         <Suspense fallback={<PageLoader />}>
           <Routes>
