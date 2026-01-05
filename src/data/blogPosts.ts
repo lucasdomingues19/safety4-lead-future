@@ -16,6 +16,97 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "3",
+    slug: "ehs-skills-for-2026",
+    title: "EHS Skills for 2026: The Upgrade Safety Leaders Need",
+    metaDescription: "Discover the essential EHS skills for 2026. Learn how AI literacy, practical prompting, and data confidence are reshaping safety leadership in the digital age.",
+    excerpt: "The World Economic Forum expects 39% of key skills to change by 2030. For EHS leaders, this means upgrading core competencies—AI literacy, practical prompting, and data confidence—while keeping safety fundamentals strong.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2026-01-05",
+    readTime: "4 min read",
+    category: "Safety Leadership",
+    tags: ["EHS Skills", "AI Literacy", "Digital Transformation", "Safety Leadership", "Future of Work"],
+    featuredImage: "/assets/blog/ehs-skills-2026.jpg",
+    content: `
+# EHS Skills for 2026: The Upgrade Safety Leaders Need
+
+A new year just got started: new goals and expectations, as usual.
+
+But in EHS, one thing has changed permanently: **the pace of work**. New technologies, new risks, faster decisions, more data, and higher expectations from leadership.
+
+The World Economic Forum's [Future of Jobs Report 2025](https://www.weforum.org/publications/the-future-of-jobs-report-2025/) is blunt about what's coming: employers expect **39% of key skills to change by 2030**, and AI and big data are among the fastest-growing skills.
+
+For EHS leaders, this doesn't mean abandoning the fundamentals. It means **upgrading them** on top of strong safety foundations.
+
+---
+
+## Why This Matters for Safety
+
+Safety has always been about managing risk in dynamic environments. When technology, processes, and workforce expectations shift, risk shifts too.
+
+EHS leaders who thrive in 2026 will be able to:
+
+- Make faster, better decisions with clearer information
+- Use AI responsibly (without blindly trusting outputs)
+- Connect safety strategy to business outcomes
+- Lead adoption so "digital transformation" actually sticks
+
+---
+
+## The EHS Skill Upgrade Stack for 2026
+
+### 1) AI Literacy (Without the Hype)
+
+You don't need to code. You need to understand:
+
+- **What AI is good for** — drafting, summarising, structuring, pattern spotting
+- **Where it fails** — hallucinations, missing context, overconfidence
+- **How to verify outputs** — evidence, sources, review steps
+
+This is now a core workplace skill—especially as AI becomes embedded into everyday tools.
+
+---
+
+### 2) Practical Prompting for Real EHS Work
+
+Prompting isn't a party trick. Done properly, it saves time and improves consistency.
+
+**High-value examples:**
+
+- Toolbox talks based on a near miss (draft → reviewed)
+- Inspection notes turned into structured reports
+- Investigation questions aligned to your process
+- First-draft communications for leadership updates
+
+**The rule:** AI drafts, humans decide.
+
+---
+
+### 3) Data Confidence (Leading + Lagging, with Insight)
+
+EHS teams have more data than ever. The gap is converting it into action.
+
+Data confidence means being able to:
+
+- Interpret trends (not just report numbers)
+- Strengthen leading indicators (not only lagging outcomes)
+- Ask better questions: *What changed? Where? Why now?*
+
+---
+
+## The Point
+
+This isn't about replacing hard-earned skills or your experience. It's about ensuring your expertise **stays effective** in an environment that is transforming rapidly.
+
+The professionals who invest in these capabilities now will be the ones shaping how safety evolves—not reacting to it.
+
+**Your fundamentals are your foundation. These upgrades are your edge.**
+
+[Upgrade Your Skills with Safety 4.0 →](/)
+`
+  },
+  {
     id: "2",
     slug: "3-scholarships-safety-4-academy",
     title: "3 Scholarships to Join the Safety 4.0 Academy",
