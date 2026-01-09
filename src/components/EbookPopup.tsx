@@ -78,7 +78,7 @@ const EbookPopup = () => {
       });
 
       // Trigger download
-      window.open('https://drive.google.com/file/d/1Su_f1TARvklvsbJWcmTH3s3t7wFM_Zqt/view?usp=drive_link', '_blank');
+      window.open('https://newsletter.getshield360.com/ebook', '_blank');
       
       setIsOpen(false);
     } catch (error) {
