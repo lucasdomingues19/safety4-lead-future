@@ -14,7 +14,7 @@ export const CountdownTimer = () => {
         </h3>
         
         <p className="text-lime-400 font-bold text-base md:text-lg mb-3 md:mb-4 animate-pulse">
-          Founding Member Special: Save £200 if you enroll today
+          ⏰ Founding Member special ends this week. Secure the best price now.
         </p>
         
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-5 text-xs md:text-sm text-gray-200">
