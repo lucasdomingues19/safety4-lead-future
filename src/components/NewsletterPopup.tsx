@@ -12,6 +12,7 @@ export const NewsletterPopup = () => {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     website: "" // Honeypot field - bots will fill this
   });
   const { toast } = useToast();
@@ -62,6 +63,7 @@ export const NewsletterPopup = () => {
         body: {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
+          phone: formData.phone || null,
           source: "newsletter_popup",
           _hp: formData.website // Pass honeypot to server for additional check
         },
@@ -162,6 +164,13 @@ export const NewsletterPopup = () => {
             placeholder="Email Address"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+          />
+          <Input
+            type="tel"
+            placeholder="Phone Number (optional)"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
           />
           <Button
