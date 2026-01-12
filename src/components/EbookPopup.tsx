@@ -14,7 +14,7 @@ const EbookPopup = () => {
     firstName: '',
     lastName: '',
     email: '',
-    jobTitle: '',
+    phone: '',
     website: '' // Honeypot field - bots will fill this
   });
   const { toast } = useToast();
@@ -49,7 +49,7 @@ const EbookPopup = () => {
       return;
     }
     
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle) {
+    if (!formData.firstName || !formData.lastName || !formData.email) {
       toast({
         title: "Please fill in all fields",
         variant: "destructive"
@@ -64,8 +64,8 @@ const EbookPopup = () => {
         body: {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
+          phone: formData.phone || null,
           source: 'ebook_download',
-          job_title: formData.jobTitle,
           _hp: formData.website // Pass honeypot to server for additional check
         }
       });
@@ -143,10 +143,10 @@ const EbookPopup = () => {
                 />
               </div>
               <Input
-                type="text"
-                placeholder="Job Title"
-                value={formData.jobTitle}
-                onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                type="tel"
+                placeholder="Phone Number (optional)"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
               />
               {/* Honeypot field - hidden from users, visible to bots */}
