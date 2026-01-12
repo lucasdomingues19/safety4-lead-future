@@ -16,6 +16,7 @@ interface UserData {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
 }
 
 interface Question {
@@ -156,7 +157,7 @@ const questions: Question[] = [
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
   // New flow: assessment -> capture -> results
   const [step, setStep] = useState<'assessment' | 'capture' | 'results'>('assessment');
-  const [userData, setUserData] = useState<UserData>({ firstName: '', lastName: '', email: '' });
+  const [userData, setUserData] = useState<UserData>({ firstName: '', lastName: '', email: '', phone: '' });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -195,7 +196,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             body: JSON.stringify({
               name: `${userData.firstName} ${userData.lastName}`,
               email: userData.email,
-              phone: '',
+              phone: userData.phone || null,
               source: 'assessment'
             }),
           }
@@ -257,7 +258,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep('assessment');
     setCurrentQuestion(0);
     setAnswers([]);
-    setUserData({ firstName: '', lastName: '', email: '' });
+    setUserData({ firstName: '', lastName: '', email: '', phone: '' });
   };
 
   const handleClose = () => {
@@ -370,6 +371,16 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                   placeholder="Enter your email address"
                   required
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone">Phone Number (optional)</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={userData.phone}
+                  onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+                  placeholder="Enter your phone number"
                 />
               </div>
               <Button 

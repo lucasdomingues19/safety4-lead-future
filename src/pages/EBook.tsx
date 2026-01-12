@@ -15,6 +15,7 @@ const EBook = () => {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     jobTitle: "",
   });
 
@@ -37,7 +38,7 @@ const EBook = () => {
         body: {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
-          phone: null,
+          phone: formData.phone || null,
           source: 'ebook_download'
         }
       });
@@ -57,6 +58,7 @@ const EBook = () => {
         firstName: "",
         lastName: "",
         email: "",
+        phone: "",
         jobTitle: "",
       });
     } catch (error: any) {
@@ -239,6 +241,20 @@ const EBook = () => {
                       placeholder="Enter your email address"
                       className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                       required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Phone Number (optional)
+                    </label>
+                    <Input 
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Enter your phone number"
+                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
                     />
                   </div>
 
