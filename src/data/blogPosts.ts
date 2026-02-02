@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "4 min read",
     category: "Partnership",
     tags: ["Soter AI", "Partnership", "AI in Safety", "SafetyTech", "Digital Transformation", "EHS Training"],
-    featuredImage: "/assets/blog/soter-ai-partnership.jpg",
+    featuredImage: "/assets/blog/soter-ai-partnership.png",
     content: `
 # Safety 4.0 Academy × Soter AI
 
