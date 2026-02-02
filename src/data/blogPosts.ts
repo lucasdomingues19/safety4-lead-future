@@ -16,6 +16,85 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "4",
+    slug: "safety-4-academy-soter-ai-partnership",
+    title: "Safety 4.0 Academy × Soter AI: Building AI-Ready Safety Leaders",
+    metaDescription: "Safety 4.0 Academy partners with Soter AI to build AI-ready safety leaders. Learn how this collaboration bridges the gap between AI technology and EHS competence.",
+    excerpt: "AI is already reshaping workplace safety — from computer vision to predictive risk insights. But one challenge keeps surfacing: safety leaders are expected to use AI without being trained to understand it. That's why Safety 4.0 Academy has partnered with Soter AI.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2026-02-02",
+    readTime: "4 min read",
+    category: "Partnership",
+    tags: ["Soter AI", "Partnership", "AI in Safety", "SafetyTech", "Digital Transformation", "EHS Training"],
+    featuredImage: "/assets/blog/soter-ai-partnership.jpg",
+    content: `
+# Safety 4.0 Academy × Soter AI
+
+## Building AI-Ready Safety Leaders to Leverage the Power of AI and Tech
+
+AI is already reshaping workplace safety — from computer vision to predictive risk insights. But one challenge keeps surfacing across organisations:
+
+**Safety leaders are expected to use AI without being trained to understand it.** The risks and opportunities often become an afterthought.
+
+That's why the **Safety 4.0 Academy** has partnered with **Soter AI** — the leading SafetyTech solution provider addressing specific workplace safety challenges, helping organisations prevent injuries, reduce costs, and create safer work environments.
+
+---
+
+## Why This Partnership Matters
+
+**Soter AI** delivers powerful, AI-driven safety technology.
+
+**The Safety 4.0 Academy** focuses on the missing piece: skills, confidence, and digital fluency for EHS leaders.
+
+Together, we help organisations move from:
+
+- **AI adoption → AI competence**
+- **Blind trust → Informed decision-making**
+- **Reactive safety → Digitally enabled proactive and predictive insights**
+
+This partnership ensures AI supports safety decisions — **without replacing human judgement**.
+
+---
+
+## From "AI-Powered" to "AI-Ready"
+
+Too often, the technology is ready, but people aren't.
+
+By combining best-in-class AI safety solutions with **IOSH-approved and CPD-certified training**, organisations can:
+
+- ✅ Build confidence in using AI responsibly
+- ✅ Reduce resistance and mistrust
+- ✅ Strengthen governance and oversight
+- ✅ Prepare safety leaders for the realities of modern, tech-enabled workplaces
+
+---
+
+## A Shared Vision
+
+The future of safety isn't just digital.
+
+It's **human-led, digitally fluent, and responsibly enabled by AI**.
+
+This partnership is a clear signal to the market:
+
+**Skills walk hand in hand with software.**
+
+---
+
+## What This Means for You
+
+Whether you're an organisation implementing Soter AI's technology or a safety professional looking to upskill, this partnership ensures you have access to both:
+
+1. **World-class AI safety technology** from Soter AI
+2. **Industry-recognised training** from the Safety 4.0 Academy
+
+Together, we're building a future where technology amplifies human expertise — not replaces it.
+
+[Learn More About Our Partnership →](/)
+`
+  },
+  {
     id: "3",
     slug: "ehs-skills-for-2026",
     title: "EHS Skills for 2026: The Upgrade Safety Leaders Need",
