@@ -61,11 +61,11 @@ const Blog = () => {
             <Link to={`/blog/${blogPosts[0].slug}`} className="block mb-16">
               <div className="bg-white/10 backdrop-blur-sm rounded-3xl border border-white/20 overflow-hidden hover:border-pink-400/50 transition-all duration-300 hover:scale-[1.02]">
                 <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="aspect-video lg:aspect-auto overflow-hidden">
+                  <div className="aspect-video overflow-hidden bg-slate-800/50">
                     <img 
                       src={blogPosts[0].featuredImage} 
                       alt={blogPosts[0].title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                   <div className="p-8 lg:p-12 flex flex-col justify-center">
