@@ -4,7 +4,6 @@ import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
-import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { getPostBySlug } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
@@ -18,11 +17,92 @@ const BlogPost = () => {
       trackPageView(window.location.pathname);
       // Update meta tags dynamically
       document.title = `${post.title} | Safety 4.0 Academy Blog`;
+      
+      // Update meta description
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
         metaDescription.setAttribute('content', post.metaDescription);
+      } else {
+        const newMeta = document.createElement('meta');
+        newMeta.name = 'description';
+        newMeta.content = post.metaDescription;
+        document.head.appendChild(newMeta);
       }
+
+      // Add Open Graph meta tags
+      const ogTags = [
+        { property: 'og:title', content: post.title },
+        { property: 'og:description', content: post.metaDescription },
+        { property: 'og:image', content: `https://safetyacademy.tech${post.featuredImage}` },
+        { property: 'og:url', content: `https://safetyacademy.tech/blog/${post.slug}` },
+        { property: 'og:type', content: 'article' },
+        { property: 'article:published_time', content: post.publishDate },
+        { property: 'article:author', content: post.author },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: post.title },
+        { name: 'twitter:description', content: post.metaDescription },
+        { name: 'twitter:image', content: `https://safetyacademy.tech${post.featuredImage}` },
+      ];
+
+      ogTags.forEach(tag => {
+        const selector = tag.property ? `meta[property="${tag.property}"]` : `meta[name="${tag.name}"]`;
+        let element = document.querySelector(selector);
+        if (!element) {
+          element = document.createElement('meta');
+          if (tag.property) element.setAttribute('property', tag.property);
+          if (tag.name) element.setAttribute('name', tag.name);
+          document.head.appendChild(element);
+        }
+        element.setAttribute('content', tag.content);
+      });
+
+      // Add BlogPosting structured data
+      const existingBlogSchema = document.querySelector('script[data-schema="blogpost"]');
+      if (existingBlogSchema) existingBlogSchema.remove();
+
+      const blogPostSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "description": post.metaDescription,
+        "image": `https://safetyacademy.tech${post.featuredImage}`,
+        "author": {
+          "@type": "Person",
+          "name": post.author,
+          "jobTitle": post.authorTitle,
+          "url": "https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Safety 4.0 Academy",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://safetyacademy.tech/safety-academy-logo.png"
+          }
+        },
+        "datePublished": post.publishDate,
+        "dateModified": post.publishDate,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `https://safetyacademy.tech/blog/${post.slug}`
+        },
+        "keywords": post.tags.join(", "),
+        "articleSection": post.category,
+        "wordCount": post.content.split(/\s+/).length,
+        "inLanguage": "en-US"
+      };
+
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-schema', 'blogpost');
+      script.text = JSON.stringify(blogPostSchema);
+      document.head.appendChild(script);
     }
+
+    return () => {
+      const blogSchema = document.querySelector('script[data-schema="blogpost"]');
+      if (blogSchema) blogSchema.remove();
+    };
   }, [post]);
 
   if (!post) {
@@ -62,7 +142,6 @@ const BlogPost = () => {
 
   return (
     <>
-      <SEOStructuredData type="organization" />
       <div className="min-h-screen relative overflow-hidden">
         {/* Black to dark blue gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
