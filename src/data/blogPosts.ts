@@ -18,15 +18,15 @@ export const blogPosts: BlogPost[] = [
   {
     id: "4",
     slug: "safety-4-academy-soter-ai-partnership",
-    title: "Safety 4.0 Academy × Soter AI: Building AI-Ready Safety Leaders",
-    metaDescription: "Safety 4.0 Academy partners with Soter AI to build AI-ready safety leaders. Learn how this collaboration bridges the gap between AI technology and EHS competence.",
-    excerpt: "AI is already reshaping workplace safety — from computer vision to predictive risk insights. But one challenge keeps surfacing: safety leaders are expected to use AI without being trained to understand it. That's why Safety 4.0 Academy has partnered with Soter AI.",
+    title: "Safety 4.0 Academy × Soter AI: Building AI-Ready Safety Leaders to Leverage AI and SafetyTech",
+    metaDescription: "Safety 4.0 Academy partners with Soter AI, the leading SafetyTech provider, to build AI-ready safety leaders. Discover how this collaboration bridges the gap between AI technology adoption and EHS digital competence for workplace injury prevention.",
+    excerpt: "AI is already reshaping workplace safety — from computer vision to predictive risk insights. But one challenge keeps surfacing: safety leaders are expected to use AI without being trained to understand it. That's why Safety 4.0 Academy has partnered with Soter AI, the leading SafetyTech solution provider.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
     publishDate: "2026-02-02",
     readTime: "4 min read",
     category: "Partnership",
-    tags: ["Soter AI", "Partnership", "AI in Safety", "SafetyTech", "Digital Transformation", "EHS Training"],
+    tags: ["Soter AI", "SafetyTech Partnership", "AI in Workplace Safety", "EHS Digital Transformation", "Safety Technology", "Injury Prevention", "Predictive Safety", "IOSH Training"],
     featuredImage: "/assets/blog/soter-ai-partnership.png",
     content: `
 # Safety 4.0 Academy × Soter AI
