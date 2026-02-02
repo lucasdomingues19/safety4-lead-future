@@ -91,7 +91,7 @@ Whether you're an organisation implementing Soter AI's technology or a safety pr
 
 Together, we're building a future where technology amplifies human expertise — not replaces it.
 
-[Learn More About Our Partnership →](/)
+[Learn More About Our Partnership →](https://www.linkedin.com/posts/lucas-domingues-msc-cmiosh-49b2b820_today-we-are-announcing-a-partnership-that-activity-7421544969263292418-rANt?utm_source=share&utm_medium=member_desktop&rcm=ACoAAARQy7cBwfgy1YadZSUB14BwnI2VBzl0sQI)
 `
   },
   {
