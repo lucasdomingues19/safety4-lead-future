@@ -1,9 +1,7 @@
-import { BookOpen, Target, AlertTriangle, Award, Smartphone, Wrench, Database, Sparkles, Shield, Rocket, Crown, CheckCircle, ArrowRight } from "lucide-react";
+import { BookOpen, Target, AlertTriangle, Award, Smartphone, Wrench, Database, Sparkles, Shield, Rocket, CheckCircle, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CTAButton } from "@/components/CTAButton";
-import rhodriPhoto from "@/assets/rhodri-atkins.jpeg";
-import matildePhoto from "@/assets/matilde-damelio.png";
 
 export const ProgramSection = () => {
   const modules = [
@@ -66,22 +64,6 @@ export const ProgramSection = () => {
       title: "Digital Safety Transformation Framework",
       description: "ROI, executive influence, linking safety to business performance",
       color: "from-lime-500 to-lime-400"
-    },
-    {
-      icon: Wrench,
-      title: "Hacking Everyday Tools to Escape the Reactive Safety Trap",
-      description: "Rhodri Atkins - CEO Pair Software",
-      color: "from-pink-500 to-pink-400",
-      isBonus: true,
-      photo: rhodriPhoto
-    },
-    {
-      icon: Crown,
-      title: "Agentic Revolution",
-      description: "Dr. Matilde D'Amelio - CEO Sophia Training & Consulting",
-      color: "from-pink-500 to-pink-400",
-      isBonus: true,
-      photo: matildePhoto
     }
   ];
 
@@ -98,7 +80,7 @@ export const ProgramSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-4 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
           {modules.map((module, index) => {
             const Icon = module.icon;
             return (
@@ -108,16 +90,7 @@ export const ProgramSection = () => {
                 style={{animationDelay: `${index * 0.2}s`}}
               >
                 <CardContent className="p-0">
-                  <div className="space-y-3 relative" style={{ paddingRight: module.photo ? '72px' : '0' }}>
-                    {module.photo && (
-                      <div className="absolute top-0 right-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
-                        <img 
-                          src={module.photo} 
-                          alt="Instructor" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
+                  <div className="space-y-3">
                     <div className="flex items-center space-x-3">
                       <div className={`w-10 h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow`}>
                         <Icon className="w-5 h-5 text-white flex-shrink-0" />
