@@ -1,4 +1,4 @@
-import { Brain, Award, Rocket, Users } from "lucide-react";
+import { Brain, Award, Rocket, Users, PlayCircle, UserCheck } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const SolutionSection = () => {
@@ -29,6 +29,20 @@ export const SolutionSection = () => {
       title: "Global safety leader",
       subtitle: "community",
       description: "Join an exclusive network of forward-thinking safety professionals worldwide.",
+      gradient: "from-secondary/20 to-primary/20"
+    },
+    {
+      icon: PlayCircle,
+      title: "Masterclass Sessions",
+      subtitle: "with experts",
+      description: "Learn from industry leaders through exclusive masterclass sessions covering advanced Safety 4.0 strategies.",
+      gradient: "from-primary/20 to-secondary/20"
+    },
+    {
+      icon: UserCheck,
+      title: "1:1 Mentoring",
+      subtitle: "personalized guidance",
+      description: "Receive personalized coaching and mentorship to accelerate your digital safety transformation journey.",
       gradient: "from-secondary/20 to-primary/20"
     }
   ];
@@ -73,7 +87,7 @@ export const SolutionSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (

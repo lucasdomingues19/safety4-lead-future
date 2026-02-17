@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock, BookOpen, Target, AlertTriangle, Smartphone, Wrench, Database, Sparkles, Crown, Rocket } from "lucide-react";
+import { Shield, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock, BookOpen, Target, AlertTriangle, Smartphone, Wrench, Database, Sparkles, Rocket } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 import { Safety4AssessmentModal } from "./Safety4AssessmentModal";
 import safetyAcademyLogo from "../assets/safety-academy-logo.png";
-import rhodriPhoto from "../assets/rhodri-atkins.jpeg";
-import matildePhoto from "../assets/matilde-damelio.png";
 
 export const HeroSection = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -302,8 +300,6 @@ export const HeroSection = () => {
                 { icon: Sparkles, title: "AI Essentials for Safety Leaders", description: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks", color: "from-lime-500 to-lime-400" },
                 { icon: Shield, title: "Compliance, Risk & Governance Essentials", description: "Digital compliance, regulation, governance frameworks, ethical AI", color: "from-lime-500 to-lime-400" },
                 { icon: Rocket, title: "Digital Safety Transformation Framework", description: "ROI, executive influence, linking safety to business performance", color: "from-lime-500 to-lime-400" },
-                { icon: Wrench, title: "Hacking Everyday Tools to Escape the Reactive Safety Trap", description: "Rhodri Atkins - CEO Pair Software", color: "from-pink-500 to-pink-400", isBonus: true, photo: rhodriPhoto },
-                { icon: Crown, title: "Agentic Revolution", description: "Dr. Matilde D'Amelio - CEO Sophia Training & Consulting", color: "from-pink-500 to-pink-400", isBonus: true, photo: matildePhoto }
               ];
               
               return (
@@ -316,12 +312,7 @@ export const HeroSection = () => {
                         className="p-3 md:p-4 border-0 bg-white/10 backdrop-blur-sm shadow-2xl hover:bg-white/15 transition-all duration-300 hover:scale-105"
                       >
                         <CardContent className="p-0">
-                          <div className="space-y-2 md:space-y-3 relative" style={{ paddingRight: module.photo ? '50px' : '0' }}>
-                            {module.photo && (
-                              <div className="absolute top-0 right-0 w-10 h-10 md:w-14 md:h-14 rounded-lg overflow-hidden border-2 border-white/30 shadow-lg">
-                                <img src={module.photo} alt="Instructor" className="w-full h-full object-cover" />
-                              </div>
-                            )}
+                          <div className="space-y-2 md:space-y-3">
                             <div className="flex items-center space-x-2 md:space-x-3">
                               <div className={`w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r ${module.color} rounded-lg flex items-center justify-center shadow-glow flex-shrink-0`}>
                                 <Icon className="w-4 h-4 md:w-5 md:h-5 text-white" />
