@@ -49,10 +49,15 @@ export const CoursePreviewSection = () => {
   const handleVideoPreview = (video: typeof videoPreviewData[0]) => {
     let videoUrl: string | undefined;
     
-    if (video.id === "safety-40") {
-      videoUrl = "https://www.youtube.com/embed/OsKsyXCx8pc?autoplay=1&mute=1&loop=1&playlist=OsKsyXCx8pc";
-    } else if (video.id === "iosh-cpd") {
-      videoUrl = "https://www.youtube.com/embed/o71mLFPVQzo?autoplay=1&mute=1&loop=1&playlist=o71mLFPVQzo";
+    const youtubeIds: Record<string, string> = {
+      "safety-40": "OsKsyXCx8pc",
+      "iosh-cpd": "o71mLFPVQzo",
+      "why-matters": "0BkOP_bW6lo",
+      "what-learn": "YVwZelIBSRc",
+    };
+    const ytId = youtubeIds[video.id];
+    if (ytId) {
+      videoUrl = `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}`;
     }
     
     setSelectedVideo({
