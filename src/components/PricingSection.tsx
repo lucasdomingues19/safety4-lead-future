@@ -34,7 +34,7 @@ export const PricingSection = () => {
       buttonColor: "bg-blue-500 hover:bg-blue-600",
     },
     {
-      name: "Cohort",
+      name: "Safety 4.0 Accelerator Cohort",
       price: "£997",
       originalPrice: "£1,497",
       period: "per person",
@@ -149,7 +149,7 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              {tier.name === "Cohort" ? (
+              {tier.name === "Safety 4.0 Accelerator Cohort" ? (
                 <a href="https://tally.so/r/ZjNNl5" target="_blank" rel="noopener noreferrer">
                   <Button 
                     className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}
