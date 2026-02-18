@@ -36,13 +36,13 @@ export const PricingSection = () => {
     {
       name: "Cohort",
       price: "£997",
-      originalPrice: "£1,297",
+      originalPrice: "£1,497",
       period: "per person",
       description: "Live group + elearning training with expert guidance and peer interaction",
       icon: Users,
       features: [
         "Everything in eLearning",
-        "8-week live cohort program",
+        "4-week live cohort program",
         "Weekly live sessions with instructor",
         "Peer networking opportunities",
         "Group projects & discussions",
@@ -51,7 +51,7 @@ export const PricingSection = () => {
         "Priority support",
         "Exclusive community membership",
       ],
-      cta: "Save your Spot",
+      cta: "Apply Now",
       popular: false,
       gradient: "from-pink-500/20 to-purple-500/20",
       borderColor: "border-pink-500/50",
@@ -150,13 +150,14 @@ export const PricingSection = () => {
 
               {/* CTA Button */}
               {tier.name === "Cohort" ? (
-                <Button 
-                  onClick={() => setShowCohortModal(true)}
-                  className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}
-                >
-                  {tier.cta}
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <a href="https://tally.so/r/ZjNNl5" target="_blank" rel="noopener noreferrer">
+                  <Button 
+                    className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}
+                  >
+                    {tier.cta}
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </a>
               ) : (
                 <a 
                   href={
