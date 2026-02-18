@@ -45,7 +45,7 @@ const Index = () => {
         
         
         <SocialProofNotifications />
-        <StickyCTABar />
+        
         <NewsletterPopup />
         <EbookPopup />
         {/* Hero → Problem → Solution */}
