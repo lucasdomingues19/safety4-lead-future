@@ -141,8 +141,6 @@ export const HeroSection = () => {
           )}
         </div>
 
-        {/* Countdown Timer */}
-        <CountdownTimer />
 
         {/* Main Content - Centered like LeadPages */}
         <div className="text-center max-w-6xl mx-auto">
