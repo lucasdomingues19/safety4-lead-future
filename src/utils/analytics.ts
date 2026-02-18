@@ -138,7 +138,7 @@ export const trackPageView = async (pagePath: string) => {
     const data = {
       session_id: sessionId,
       page_path: pagePath,
-      referrer: document.referrer || null,
+      referrer: (document.referrer || '').substring(0, 999) || null,
       user_agent: userAgent,
       device_type: deviceType,
       browser,
