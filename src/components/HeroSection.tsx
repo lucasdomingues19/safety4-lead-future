@@ -27,6 +27,12 @@ export const HeroSection = () => {
   
   return (
     <section className="min-h-screen relative overflow-hidden">
+      {/* Top Banner */}
+      <div className="relative z-20 bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2.5 px-4">
+        <a href="/enroll" className="font-semibold text-sm md:text-base hover:underline">
+          🚀 Applications now <span className="font-extrabold">OPEN</span> for the March Safety 4.0 Accelerator Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
+        </a>
+      </div>
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">
