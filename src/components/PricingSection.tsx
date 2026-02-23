@@ -28,7 +28,7 @@ export const PricingSection = () => {
         "Mobile app",
       ],
       cta: "Start Learning",
-      popular: true,
+      popular: false,
       gradient: "from-blue-500/20 to-cyan-500/20",
       borderColor: "border-blue-500/30",
       buttonColor: "bg-blue-500 hover:bg-blue-600",
@@ -52,7 +52,7 @@ export const PricingSection = () => {
         "Exclusive community membership",
       ],
       cta: "Apply Now",
-      popular: false,
+      popular: true,
       gradient: "from-pink-500/20 to-purple-500/20",
       borderColor: "border-pink-500/50",
       buttonColor: "bg-pink-500 hover:bg-pink-600",
@@ -106,7 +106,7 @@ export const PricingSection = () => {
             <div
               key={index}
               className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 border ${tier.borderColor} ${
-                tier.popular ? "md:scale-105 lg:scale-110 order-first md:order-none" : ""
+                tier.popular ? "md:scale-105 lg:scale-110" : ""
               } transition-all duration-300 hover:scale-[1.02] md:hover:scale-105`}
             >
               {/* Popular Badge */}
