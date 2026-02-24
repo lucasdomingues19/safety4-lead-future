@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, ArrowRight, ArrowLeft, Award, TrendingUp, Zap } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star } from "lucide-react";
 import { toast } from "sonner";
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 interface AssessmentModalProps {
   isOpen: boolean;
@@ -26,141 +35,65 @@ interface Question {
   options: { text: string; points: number }[];
 }
 
-const questions: Question[] = [
-  // Awareness & Mindset (2 questions)
-  {
-    id: 1,
-    category: "Awareness & Mindset",
-    text: "I understand Safety 4.0 fundamentals (Artificial Intelligence, Internet of Things, Automation, Big Data, etc).",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  {
-    id: 2,
-    category: "Awareness & Mindset",
-    text: "I confidently discuss digital safety with leadership and teams.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  // Technology Adoption (2 questions)
-  {
-    id: 3,
-    category: "Technology Adoption",
-    text: "I have hands-on experience with SafetyTech tools (e.g., wearables, AI tools like ChatGPT, etc).",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  {
-    id: 4,
-    category: "Technology Adoption",
-    text: "I understand how predictive analytics enhances safety.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  // Risk & Compliance (2 questions)
-  {
-    id: 5,
-    category: "Risk & Compliance",
-    text: "I ensure how safety technology aligns with compliance and ethical standards.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  {
-    id: 6,
-    category: "Risk & Compliance",
-    text: "I know how to use AI for enhancing risk assessment and hazard identification.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  // Change Management (2 questions)
-  {
-    id: 7,
-    category: "Change Management",
-    text: "I confidently drive digital safety tool adoption and engage employees effectively.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  {
-    id: 8,
-    category: "Change Management",
-    text: "I have implemented digital safety solutions successfully (e.g., EHS software).",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  // Leadership & Future Readiness (2 questions)
-  {
-    id: 9,
-    category: "Leadership & Future Readiness",
-    text: "I proactively seek digital safety upskilling opportunities.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  },
-  {
-    id: 10,
-    category: "Leadership & Future Readiness",
-    text: "I lead digital transformation efforts in workplace safety confidently.",
-    options: [
-      { text: "Strongly Agree", points: 5 },
-      { text: "Agree", points: 4 },
-      { text: "Neutral", points: 3 },
-      { text: "Disagree", points: 2 },
-      { text: "Strongly Disagree", points: 1 }
-    ]
-  }
+const CATEGORIES = [
+  "Awareness & Mindset",
+  "Technology Adoption",
+  "Risk & Compliance",
+  "Change Management",
+  "Leadership & Future Readiness",
+] as const;
+
+const LIKERT_OPTIONS = [
+  { text: "Strongly Agree", points: 5 },
+  { text: "Agree", points: 4 },
+  { text: "Neutral", points: 3 },
+  { text: "Disagree", points: 2 },
+  { text: "Strongly Disagree", points: 1 },
 ];
 
+const questions: Question[] = [
+  // Awareness & Mindset (3 questions)
+  { id: 1, category: "Awareness & Mindset", text: "I understand Safety 4.0 fundamentals (AI, IoT, Automation, Big Data, etc).", options: LIKERT_OPTIONS },
+  { id: 2, category: "Awareness & Mindset", text: "I confidently discuss digital safety trends with leadership and teams.", options: LIKERT_OPTIONS },
+  { id: 3, category: "Awareness & Mindset", text: "I stay up to date with emerging safety technologies and industry developments.", options: LIKERT_OPTIONS },
+
+  // Technology Adoption (3 questions)
+  { id: 4, category: "Technology Adoption", text: "I have hands-on experience with SafetyTech tools (e.g., wearables, AI tools like ChatGPT).", options: LIKERT_OPTIONS },
+  { id: 5, category: "Technology Adoption", text: "I understand how predictive analytics enhances workplace safety outcomes.", options: LIKERT_OPTIONS },
+  { id: 6, category: "Technology Adoption", text: "I can evaluate and select appropriate digital safety technologies for my organisation.", options: LIKERT_OPTIONS },
+
+  // Risk & Compliance (3 questions)
+  { id: 7, category: "Risk & Compliance", text: "I ensure safety technology aligns with compliance and ethical standards.", options: LIKERT_OPTIONS },
+  { id: 8, category: "Risk & Compliance", text: "I know how to use AI for enhancing risk assessment and hazard identification.", options: LIKERT_OPTIONS },
+  { id: 9, category: "Risk & Compliance", text: "I understand data privacy and cybersecurity implications of safety technologies.", options: LIKERT_OPTIONS },
+
+  // Change Management (3 questions)
+  { id: 10, category: "Change Management", text: "I confidently drive digital safety tool adoption and engage employees effectively.", options: LIKERT_OPTIONS },
+  { id: 11, category: "Change Management", text: "I have implemented digital safety solutions successfully (e.g., EHS software).", options: LIKERT_OPTIONS },
+  { id: 12, category: "Change Management", text: "I can build a business case for safety technology investment to senior leadership.", options: LIKERT_OPTIONS },
+
+  // Leadership & Future Readiness (3 questions)
+  { id: 13, category: "Leadership & Future Readiness", text: "I proactively seek digital safety upskilling opportunities.", options: LIKERT_OPTIONS },
+  { id: 14, category: "Leadership & Future Readiness", text: "I lead digital transformation efforts in workplace safety confidently.", options: LIKERT_OPTIONS },
+  { id: 15, category: "Leadership & Future Readiness", text: "I mentor others in adopting Safety 4.0 practices and technologies.", options: LIKERT_OPTIONS },
+];
+
+const getRank = (percentage: number): { rank: number; label: string; color: string; description: string } => {
+  if (percentage >= 85) return { rank: 5, label: "Safety 4.0 Leader", color: "#22c55e", description: "You are at the forefront of digital safety transformation — a true Safety 4.0 leader." };
+  if (percentage >= 70) return { rank: 4, label: "Advanced Practitioner", color: "#3b82f6", description: "You have strong Safety 4.0 capabilities with room for specialisation in key areas." };
+  if (percentage >= 55) return { rank: 3, label: "Developing Professional", color: "#eab308", description: "You have a solid foundation but need deeper knowledge to advance your digital safety skills." };
+  if (percentage >= 35) return { rank: 2, label: "Early Adopter", color: "#f97316", description: "You are beginning your Safety 4.0 journey — there is significant opportunity for growth." };
+  return { rank: 1, label: "Beginner", color: "#ef4444", description: "You would greatly benefit from structured Safety 4.0 training to future-proof your career." };
+};
+
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
-  // New flow: assessment -> capture -> results
-  const [step, setStep] = useState<'assessment' | 'capture' | 'results'>('assessment');
-  const [userData, setUserData] = useState<UserData>({ firstName: '', lastName: '', email: '', phone: '' });
+  const [step, setStep] = useState<"assessment" | "capture" | "results">("assessment");
+  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "" });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleAnswerSelect = (points: number) => {
     const newAnswers = [...answers];
@@ -170,95 +103,259 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Assessment complete, go to lead capture
-      setStep('capture');
+      setStep("capture");
     }
   };
 
   const handlePreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
+    if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
   const handleUserDataSubmit = async () => {
-    if (userData.firstName && userData.lastName && userData.email) {
-      setIsSubmitting(true);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/capture-lead`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            },
-            body: JSON.stringify({
-              name: `${userData.firstName} ${userData.lastName}`,
-              email: userData.email,
-              phone: userData.phone || null,
-              source: 'assessment'
-            }),
-          }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          console.error('Error saving lead:', errorData);
-          
-          if (response.status === 429) {
-            toast.error('Too many submissions. Please try again later.');
-          } else {
-            toast.error('Failed to save your information');
-          }
-          setIsSubmitting(false);
-          return;
+    if (!userData.firstName || !userData.lastName || !userData.email) return;
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/capture-lead`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+          body: JSON.stringify({
+            name: `${userData.firstName} ${userData.lastName}`,
+            email: userData.email,
+            phone: userData.phone || null,
+            source: "assessment",
+          }),
         }
-
-        setStep('results');
-      } catch (error) {
-        console.error('Error:', error);
-        toast.error('An error occurred');
-      } finally {
+      );
+      if (!response.ok) {
+        if (response.status === 429) {
+          toast.error("Too many submissions. Please try again later.");
+        } else {
+          toast.error("Failed to save your information");
+        }
         setIsSubmitting(false);
+        return;
       }
+      setStep("results");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const calculateResults = () => {
-    const totalScore = answers.reduce((sum, score) => sum + score, 0);
-    const maxScore = questions.length * 5; // 10 questions * 5 points max
-    const percentage = (totalScore / maxScore) * 100;
-
-    if (percentage >= 90) return { level: 'Expert', color: 'text-green-500', description: 'You are a Safety 4.0 leader with advanced digital expertise' };
-    if (percentage >= 75) return { level: 'Advanced', color: 'text-blue-500', description: 'You have strong Safety 4.0 knowledge with room for specialization' };
-    if (percentage >= 60) return { level: 'Intermediate', color: 'text-yellow-500', description: 'You understand Safety 4.0 basics but need more advanced skills' };
-    if (percentage >= 40) return { level: 'Developing', color: 'text-orange-500', description: 'You are beginning your Safety 4.0 journey' };
-    return { level: 'Beginner', color: 'text-red-500', description: 'You would greatly benefit from Safety 4.0 training' };
-  };
-
   const getCategoryScores = () => {
-    const categories = ['Awareness & Mindset', 'Technology Adoption', 'Risk & Compliance', 'Change Management', 'Leadership & Future Readiness'];
-    
-    return categories.map(category => {
-      const categoryQuestions = questions.filter(q => q.category === category);
-      const categoryAnswers = categoryQuestions.map((_, idx) => {
-        const questionIndex = questions.findIndex(q => q.category === category && q === categoryQuestions[idx]);
-        return answers[questionIndex] || 0;
-      });
-      const score = categoryAnswers.reduce((sum, points) => sum + points, 0);
-      const maxScore = categoryQuestions.length * 5;
-      const percentage = Math.round((score / maxScore) * 100);
-      
-      return { category, score, percentage };
+    return CATEGORIES.map((category) => {
+      const categoryQs = questions.filter((q) => q.category === category);
+      const totalPoints = categoryQs.reduce((sum, q) => {
+        const idx = questions.indexOf(q);
+        return sum + (answers[idx] || 0);
+      }, 0);
+      const maxPoints = categoryQs.length * 5;
+      const percentage = Math.round((totalPoints / maxPoints) * 100);
+      return { category, score: totalPoints, maxScore: maxPoints, percentage };
     });
   };
 
+  const getOverallPercentage = () => {
+    const total = answers.reduce((sum, s) => sum + s, 0);
+    return Math.round((total / (questions.length * 5)) * 100);
+  };
+
+  const getRadarData = () => {
+    const scores = getCategoryScores();
+    return scores.map((s) => ({
+      category: s.category.replace("& ", "&\n"),
+      shortName: s.category.split(" ")[0],
+      "Your Score": s.percentage,
+      "Target": 100,
+    }));
+  };
+
+  const generatePdf = async () => {
+    setIsGeneratingPdf(true);
+    try {
+      const { default: jsPDF } = await import("jspdf");
+
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      const contentWidth = pageWidth - margin * 2;
+      let y = 20;
+
+      const overallPct = getOverallPercentage();
+      const rankInfo = getRank(overallPct);
+      const catScores = getCategoryScores();
+
+      // Header
+      doc.setFillColor(17, 17, 58);
+      doc.rect(0, 0, pageWidth, 55, "F");
+
+      doc.setTextColor(214, 255, 0);
+      doc.setFontSize(22);
+      doc.setFont("helvetica", "bold");
+      doc.text("Safety 4.0 Readiness Scorecard", pageWidth / 2, 22, { align: "center" });
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Prepared for: ${userData.firstName} ${userData.lastName}`, pageWidth / 2, 33, { align: "center" });
+      doc.text(`Date: ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, pageWidth / 2, 40, { align: "center" });
+      doc.text(`Email: ${userData.email}`, pageWidth / 2, 47, { align: "center" });
+
+      y = 65;
+
+      // Overall Score Box
+      doc.setFillColor(245, 245, 245);
+      doc.roundedRect(margin, y, contentWidth, 40, 3, 3, "F");
+
+      doc.setTextColor(17, 17, 58);
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.text("Overall Score", margin + 10, y + 12);
+
+      doc.setFontSize(36);
+      doc.text(`${overallPct}/100`, margin + 10, y + 32);
+
+      doc.setFontSize(14);
+      const hexColor = rankInfo.color.replace("#", "");
+      const r = parseInt(hexColor.substring(0, 2), 16);
+      const g = parseInt(hexColor.substring(2, 4), 16);
+      const b = parseInt(hexColor.substring(4, 6), 16);
+      doc.setTextColor(r, g, b);
+      doc.text(`Rank ${rankInfo.rank}/5 — ${rankInfo.label}`, margin + contentWidth - 10, y + 15, { align: "right" });
+
+      doc.setTextColor(80, 80, 80);
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      const descLines = doc.splitTextToSize(rankInfo.description, contentWidth / 2 - 10);
+      doc.text(descLines, margin + contentWidth - 10, y + 24, { align: "right" });
+
+      y += 50;
+
+      // Star Rating
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(17, 17, 58);
+      doc.text("Your Readiness Rating", margin, y + 5);
+
+      const starSize = 8;
+      const starStartX = margin + 60;
+      for (let i = 1; i <= 5; i++) {
+        if (i <= rankInfo.rank) {
+          doc.setFillColor(214, 255, 0);
+          doc.setDrawColor(180, 200, 0);
+        } else {
+          doc.setFillColor(220, 220, 220);
+          doc.setDrawColor(200, 200, 200);
+        }
+        doc.circle(starStartX + (i - 1) * (starSize + 4), y + 4, starSize / 2, "FD");
+      }
+
+      y += 18;
+
+      // Category Breakdown
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(17, 17, 58);
+      doc.text("Category Breakdown", margin, y);
+      y += 8;
+
+      catScores.forEach((cat) => {
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(50, 50, 50);
+        doc.text(cat.category, margin, y + 5);
+        doc.text(`${cat.percentage}%`, margin + contentWidth, y + 5, { align: "right" });
+
+        // Progress bar
+        doc.setFillColor(230, 230, 230);
+        doc.roundedRect(margin, y + 8, contentWidth, 5, 2, 2, "F");
+
+        const barWidth = (cat.percentage / 100) * contentWidth;
+        const catRank = getRank(cat.percentage);
+        const hex = catRank.color.replace("#", "");
+        doc.setFillColor(parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16));
+        doc.roundedRect(margin, y + 8, Math.max(barWidth, 2), 5, 2, 2, "F");
+
+        y += 20;
+      });
+
+      y += 5;
+
+      // Recommendations
+      doc.setFillColor(17, 17, 58);
+      doc.roundedRect(margin, y, contentWidth, 45, 3, 3, "F");
+
+      doc.setTextColor(214, 255, 0);
+      doc.setFontSize(13);
+      doc.setFont("helvetica", "bold");
+      doc.text("Ready to Level Up?", margin + 10, y + 12);
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "normal");
+      const ctaText = "Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification program. Build the skills to lead digital safety transformation.";
+      const ctaLines = doc.splitTextToSize(ctaText, contentWidth - 20);
+      doc.text(ctaLines, margin + 10, y + 22);
+
+      doc.setTextColor(214, 255, 0);
+      doc.setFontSize(10);
+      doc.setFont("helvetica", "bold");
+      doc.text("www.safetyacademy.tech/enroll", margin + 10, y + 38);
+
+      // Footer
+      const footerY = doc.internal.pageSize.getHeight() - 12;
+      doc.setTextColor(160, 160, 160);
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+      doc.text("© Safety 4.0 Academy | www.safetyacademy.tech", pageWidth / 2, footerY, { align: "center" });
+
+      // Capture the radar chart as image
+      const chartEl = document.getElementById("scorecard-radar-chart");
+      if (chartEl) {
+        const { default: html2canvas } = await import("html2canvas");
+        const canvas = await html2canvas(chartEl, { backgroundColor: "#ffffff", scale: 2 });
+        const imgData = canvas.toDataURL("image/png");
+
+        // Add chart on page 2
+        doc.addPage();
+        doc.setFillColor(17, 17, 58);
+        doc.rect(0, 0, pageWidth, 30, "F");
+        doc.setTextColor(214, 255, 0);
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.text("Your Safety 4.0 Readiness Profile", pageWidth / 2, 20, { align: "center" });
+
+        const imgWidth = contentWidth;
+        const imgHeight = (canvas.height / canvas.width) * imgWidth;
+        doc.addImage(imgData, "PNG", margin, 40, imgWidth, imgHeight);
+
+        doc.setTextColor(160, 160, 160);
+        doc.setFontSize(8);
+        doc.text("© Safety 4.0 Academy | www.safetyacademy.tech", pageWidth / 2, doc.internal.pageSize.getHeight() - 12, { align: "center" });
+      }
+
+      doc.save(`Safety-4.0-Scorecard-${userData.firstName}-${userData.lastName}.pdf`);
+      toast.success("Your scorecard PDF has been downloaded!");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Failed to generate PDF. Please try again.");
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
   const resetAssessment = () => {
-    setStep('assessment');
+    setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
-    setUserData({ firstName: '', lastName: '', email: '', phone: '' });
+    setUserData({ firstName: "", lastName: "", email: "", phone: "" });
   };
 
   const handleClose = () => {
@@ -267,41 +364,51 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   };
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
-  const results = step === 'results' ? calculateResults() : null;
-  const categoryScores = step === 'results' ? getCategoryScores() : [];
+  const overallPercentage = step === "results" ? getOverallPercentage() : 0;
+  const rankInfo = step === "results" ? getRank(overallPercentage) : null;
+  const categoryScores = step === "results" ? getCategoryScores() : [];
+  const radarData = step === "results" ? getRadarData() : [];
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center">
-            {step === 'assessment' && 'Safety 4.0 Readiness Assessment'}
-            {step === 'capture' && 'Get Your Results'}
-            {step === 'results' && 'Your Safety 4.0 Readiness Results'}
+          <DialogTitle className="text-2xl font-bold text-center text-white">
+            {step === "assessment" && "Safety 4.0 Readiness Scorecard"}
+            {step === "capture" && "Unlock Your Results"}
+            {step === "results" && "Your Safety 4.0 Readiness Results"}
           </DialogTitle>
         </DialogHeader>
 
-        {/* Assessment Questions - Now First Step */}
-        {step === 'assessment' && (
-          <div className="space-y-6 p-6">
+        {/* Assessment Questions */}
+        {step === "assessment" && (
+          <div className="space-y-6 p-4 md:p-6">
             <div className="mb-6">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-muted-foreground">Question {currentQuestion + 1} of {questions.length}</span>
-                <span className="text-sm font-medium text-white">{questions[currentQuestion].category}</span>
+                <span className="text-sm text-gray-400">
+                  Question {currentQuestion + 1} of {questions.length}
+                </span>
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#D6FF00]/20 text-[#D6FF00]">
+                  {questions[currentQuestion].category}
+                </span>
               </div>
-              <Progress value={progress} className="w-full" />
+              <Progress value={progress} className="w-full h-2" />
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-xl font-semibold text-white">{questions[currentQuestion].text}</h3>
-              
+              <h3 className="text-lg md:text-xl font-semibold text-white leading-relaxed">
+                {questions[currentQuestion].text}
+              </h3>
+
               <div className="space-y-3">
                 {questions[currentQuestion].options.map((option, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleAnswerSelect(option.points)}
-                    className={`w-full p-4 text-left border rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-white ${
-                      answers[currentQuestion] === option.points ? 'border-primary bg-primary/20 text-primary-foreground' : 'border-border'
+                    className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
+                      answers[currentQuestion] === option.points
+                        ? "border-[#D6FF00] bg-[#D6FF00]/15 shadow-lg shadow-[#D6FF00]/10"
+                        : "border-slate-600 hover:border-slate-400 hover:bg-slate-700/50"
                     }`}
                   >
                     {option.text}
@@ -314,13 +421,17 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   variant="outline"
                   onClick={handlePreviousQuestion}
                   disabled={currentQuestion === 0}
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Previous
                 </Button>
-                
-                {answers[currentQuestion] && currentQuestion < questions.length - 1 && (
-                  <Button onClick={() => setCurrentQuestion(currentQuestion + 1)}>
+
+                {answers[currentQuestion] !== undefined && currentQuestion < questions.length - 1 && (
+                  <Button
+                    onClick={() => setCurrentQuestion(currentQuestion + 1)}
+                    className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
+                  >
                     Next
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -330,123 +441,169 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           </div>
         )}
 
-        {/* Lead Capture Form - After Assessment */}
-        {step === 'capture' && (
-          <div className="space-y-6 p-6">
-            <div className="text-center mb-8">
+        {/* Lead Capture */}
+        {step === "capture" && (
+          <div className="space-y-6 p-4 md:p-6">
+            <div className="text-center mb-6">
               <div className="flex justify-center mb-4">
                 <CheckCircle className="w-16 h-16 text-[#D6FF00]" />
               </div>
-              <h3 className="text-xl font-semibold mb-4 text-white">Assessment Complete!</h3>
-              <p className="text-muted-foreground mb-6">Enter your details below to see your personalized Safety 4.0 Readiness Score and detailed breakdown.</p>
+              <h3 className="text-xl font-semibold mb-2 text-white">Assessment Complete!</h3>
+              <p className="text-gray-400">
+                Enter your details to unlock your personalised Safety 4.0 Readiness Score, spider chart, and detailed breakdown.
+              </p>
             </div>
 
             <div className="grid gap-4 max-w-md mx-auto">
               <div>
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input
-                  id="firstName"
-                  value={userData.firstName}
-                  onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
-                  placeholder="Enter your first name"
-                  required
-                />
+                <Label htmlFor="firstName" className="text-gray-300">First Name *</Label>
+                <Input id="firstName" value={userData.firstName} onChange={(e) => setUserData({ ...userData, firstName: e.target.value })} placeholder="Enter your first name" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input
-                  id="lastName"
-                  value={userData.lastName}
-                  onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
-                  placeholder="Enter your last name"
-                  required
-                />
+                <Label htmlFor="lastName" className="text-gray-300">Last Name *</Label>
+                <Input id="lastName" value={userData.lastName} onChange={(e) => setUserData({ ...userData, lastName: e.target.value })} placeholder="Enter your last name" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
-                <Label htmlFor="email">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={userData.email}
-                  onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                  placeholder="Enter your email address"
-                  required
-                />
+                <Label htmlFor="email" className="text-gray-300">Email Address *</Label>
+                <Input id="email" type="email" value={userData.email} onChange={(e) => setUserData({ ...userData, email: e.target.value })} placeholder="Enter your email address" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
-                <Label htmlFor="phone">Phone Number (optional)</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={userData.phone}
-                  onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
-                  placeholder="Enter your phone number"
-                />
+                <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
+                <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Enter your phone number" className="bg-slate-800 border-slate-600 text-white" />
               </div>
-              <Button 
-                onClick={handleUserDataSubmit} 
-                className="w-full mt-6 bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
+              <Button
+                onClick={handleUserDataSubmit}
+                className="w-full mt-4 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
                 disabled={!userData.firstName || !userData.lastName || !userData.email || isSubmitting}
               >
-                {isSubmitting ? 'Loading...' : 'See My Results'} 
+                {isSubmitting ? "Loading..." : "Unlock My Results"}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
         )}
 
-        {/* Results */}
-        {step === 'results' && results && (
-          <div className="space-y-8 p-6">
-            <div className="text-center">
-              <Award className={`w-20 h-20 mx-auto mb-4 ${results.color}`} />
-              <h3 className={`text-3xl font-bold ${results.color}`}>{results.level}</h3>
-              <p className="text-muted-foreground mt-2">{results.description}</p>
-              <div className="mt-4 text-2xl font-bold text-white">
-                Score: {Math.round((answers.reduce((sum, score) => sum + score, 0) / (questions.length * 5)) * 100)}/100
+        {/* Results with Spider Chart */}
+        {step === "results" && rankInfo && (
+          <div className="space-y-8 p-4 md:p-6" ref={resultsRef}>
+            {/* Rank & Score Header */}
+            <div className="text-center space-y-3">
+              <div className="flex justify-center gap-1 mb-2">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star
+                    key={s}
+                    className={`w-7 h-7 ${s <= rankInfo.rank ? "fill-[#D6FF00] text-[#D6FF00]" : "text-slate-600"}`}
+                  />
+                ))}
+              </div>
+              <h3 className="text-3xl font-bold" style={{ color: rankInfo.color }}>
+                {rankInfo.label}
+              </h3>
+              <p className="text-gray-400 max-w-md mx-auto">{rankInfo.description}</p>
+              <div className="flex items-center justify-center gap-6 mt-4">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-white">{overallPercentage}</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-wider">Score / 100</div>
+                </div>
+                <div className="w-px h-12 bg-slate-700" />
+                <div className="text-center">
+                  <div className="text-4xl font-bold" style={{ color: rankInfo.color }}>{rankInfo.rank}</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-wider">Rank / 5</div>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h4 className="font-semibold text-lg text-white flex items-center">
-                <TrendingUp className="w-5 h-5 mr-2 text-primary" />
-                Category Breakdown
+            {/* Spider Chart */}
+            <div className="bg-white rounded-2xl p-4 md:p-6" id="scorecard-radar-chart">
+              <h4 className="text-center font-semibold text-sm text-gray-700 mb-2">
+                Your Safety 4.0 Readiness Profile
               </h4>
-              {categoryScores.map((cat, idx) => (
-                <div key={idx} className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white">{cat.category}</span>
-                    <span className="font-medium text-white">{cat.percentage}%</span>
-                  </div>
-                  <Progress value={cat.percentage} className="h-2" />
-                </div>
-              ))}
+              <ResponsiveContainer width="100%" height={340}>
+                <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+                  <PolarGrid stroke="#e2e8f0" />
+                  <PolarAngleAxis
+                    dataKey="shortName"
+                    tick={{ fill: "#334155", fontSize: 11, fontWeight: 600 }}
+                  />
+                  <PolarRadiusAxis
+                    angle={90}
+                    domain={[0, 100]}
+                    tick={{ fill: "#94a3b8", fontSize: 9 }}
+                    tickCount={6}
+                  />
+                  <Radar
+                    name="Target (100%)"
+                    dataKey="Target"
+                    stroke="#d1d5db"
+                    fill="#e5e7eb"
+                    fillOpacity={0.25}
+                    strokeDasharray="4 4"
+                  />
+                  <Radar
+                    name="Your Score"
+                    dataKey="Your Score"
+                    stroke="#11113a"
+                    fill="#D6FF00"
+                    fillOpacity={0.45}
+                    strokeWidth={2}
+                  />
+                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                </RadarChart>
+              </ResponsiveContainer>
             </div>
 
-            <div className="bg-gradient-to-r from-[#D6FF00]/20 to-[#D6FF00]/10 border border-[#D6FF00]/30 rounded-lg p-6 text-center">
+            {/* Category Breakdown */}
+            <div className="space-y-3">
+              <h4 className="font-semibold text-white text-sm uppercase tracking-wider">Category Breakdown</h4>
+              {categoryScores.map((cat, idx) => {
+                const catRank = getRank(cat.percentage);
+                return (
+                  <div key={idx} className="space-y-1.5">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">{cat.category}</span>
+                      <span className="font-bold" style={{ color: catRank.color }}>{cat.percentage}%</span>
+                    </div>
+                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all duration-700"
+                        style={{ width: `${cat.percentage}%`, backgroundColor: catRank.color }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Download PDF */}
+            <Button
+              onClick={generatePdf}
+              disabled={isGeneratingPdf}
+              className="w-full bg-white text-slate-900 hover:bg-gray-100 py-5 text-base font-semibold"
+            >
+              <Download className="w-5 h-5 mr-2" />
+              {isGeneratingPdf ? "Generating PDF..." : "Download Professional PDF Report"}
+            </Button>
+
+            {/* CTA */}
+            <div className="bg-gradient-to-r from-[#D6FF00]/20 to-[#D6FF00]/5 border border-[#D6FF00]/30 rounded-xl p-6 text-center">
               <Zap className="w-10 h-10 mx-auto mb-3 text-[#D6FF00]" />
               <h4 className="font-semibold text-lg mb-2 text-white">Ready to Level Up?</h4>
-              <p className="text-muted-foreground mb-4">
+              <p className="text-gray-400 mb-4 text-sm">
                 Join the Safety 4.0 Academy and transform your career with the world's first IOSH-approved Safety 4.0 program.
               </p>
-              <Button 
+              <Button
                 className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
                 onClick={() => {
                   handleClose();
-                  setTimeout(() => {
-                    const pricingSection = document.getElementById("pricing");
-                    if (pricingSection) {
-                      pricingSection.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }, 100);
+                  window.location.href = "/enroll";
                 }}
               >
-                View Founding Member Offer
+                Enrol Now
               </Button>
             </div>
 
-            <div className="flex justify-center gap-4">
-              <Button variant="outline" onClick={resetAssessment}>
+            <div className="flex justify-center">
+              <Button variant="outline" onClick={resetAssessment} className="border-slate-600 text-slate-300 hover:bg-slate-700">
                 Retake Assessment
               </Button>
             </div>
