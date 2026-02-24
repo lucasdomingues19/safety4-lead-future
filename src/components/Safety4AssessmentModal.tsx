@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail } from "lucide-react";
 import { toast } from "sonner";
 import {
   RadarChart,
@@ -93,6 +93,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const handleAnswerSelect = (points: number) => {
@@ -319,11 +321,55 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     }
   };
 
+  const sendResultsEmail = async () => {
+    setIsSendingEmail(true);
+    try {
+      const overallPct = getOverallPercentage();
+      const rank = getRank(overallPct);
+      const catScores = getCategoryScores();
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+          body: JSON.stringify({
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+            overallScore: overallPct,
+            rankNumber: rank.rank,
+            rankLabel: rank.label,
+            rankColor: rank.color,
+            rankDescription: rank.description,
+            categoryScores: catScores.map((c) => ({
+              category: c.category,
+              percentage: c.percentage,
+            })),
+          }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to send email");
+      setEmailSent(true);
+      toast.success("Results sent to your email!");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast.error("Failed to send email. Please try again.");
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
+
   const resetAssessment = () => {
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
     setUserData({ firstName: "", lastName: "", email: "", phone: "" });
+    setEmailSent(false);
   };
 
   const handleClose = () => {
@@ -542,15 +588,25 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               })}
             </div>
 
-            {/* Download PDF */}
-            <Button
-              onClick={generatePdf}
-              disabled={isGeneratingPdf}
-              className="w-full bg-white text-slate-900 hover:bg-gray-100 py-5 text-base font-semibold"
-            >
-              <Download className="w-5 h-5 mr-2" />
-              {isGeneratingPdf ? "Generating PDF..." : "Download Professional PDF Report"}
-            </Button>
+            {/* Download PDF & Email Results */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <Button
+                onClick={generatePdf}
+                disabled={isGeneratingPdf}
+                className="bg-white text-slate-900 hover:bg-gray-100 py-5 text-base font-semibold"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                {isGeneratingPdf ? "Generating..." : "Download PDF"}
+              </Button>
+              <Button
+                onClick={sendResultsEmail}
+                disabled={isSendingEmail || emailSent}
+                className="bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
+              >
+                <Mail className="w-5 h-5 mr-2" />
+                {emailSent ? "Email Sent ✓" : isSendingEmail ? "Sending..." : "Email Results"}
+              </Button>
+            </div>
 
             {/* CTA */}
             <div className="bg-gradient-to-r from-[#D6FF00]/20 to-[#D6FF00]/5 border border-[#D6FF00]/30 rounded-xl p-6 text-center">
