@@ -181,165 +181,133 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setIsGeneratingPdf(true);
     try {
       const { default: jsPDF } = await import("jspdf");
+      const { default: html2canvas } = await import("html2canvas");
 
       const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
       const pageWidth = doc.internal.pageSize.getWidth();
-      const margin = 20;
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 15;
       const contentWidth = pageWidth - margin * 2;
-      let y = 20;
 
       const overallPct = getOverallPercentage();
       const rankInfo = getRank(overallPct);
       const catScores = getCategoryScores();
 
-      // Header
+      // Header bar
       doc.setFillColor(17, 17, 58);
-      doc.rect(0, 0, pageWidth, 55, "F");
+      doc.rect(0, 0, pageWidth, 32, "F");
 
       doc.setTextColor(214, 255, 0);
-      doc.setFontSize(22);
+      doc.setFontSize(16);
       doc.setFont("helvetica", "bold");
-      doc.text("Safety 4.0 Readiness Scorecard", pageWidth / 2, 22, { align: "center" });
+      doc.text("Safety 4.0 Readiness Scorecard", margin, 14);
 
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(11);
+      doc.setFontSize(8);
       doc.setFont("helvetica", "normal");
-      doc.text(`Prepared for: ${userData.firstName} ${userData.lastName}`, pageWidth / 2, 33, { align: "center" });
-      doc.text(`Date: ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, pageWidth / 2, 40, { align: "center" });
-      doc.text(`Email: ${userData.email}`, pageWidth / 2, 47, { align: "center" });
+      doc.text(`${userData.firstName} ${userData.lastName}  |  ${userData.email}  |  ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, margin, 24);
 
-      y = 65;
+      let y = 38;
 
-      // Overall Score Box
+      // Spider chart image at the top
+      const chartEl = document.getElementById("scorecard-radar-chart");
+      if (chartEl) {
+        const canvas = await html2canvas(chartEl, { backgroundColor: "#ffffff", scale: 2 });
+        const imgData = canvas.toDataURL("image/png");
+        const imgWidth = 90;
+        const imgHeight = (canvas.height / canvas.width) * imgWidth;
+        const imgX = (pageWidth - imgWidth) / 2;
+        doc.addImage(imgData, "PNG", imgX, y, imgWidth, imgHeight);
+        y += imgHeight + 4;
+      }
+
+      // Overall score + rank side by side
+      const boxHeight = 22;
+      const halfW = contentWidth / 2 - 2;
+
+      // Score box
       doc.setFillColor(245, 245, 245);
-      doc.roundedRect(margin, y, contentWidth, 40, 3, 3, "F");
-
+      doc.roundedRect(margin, y, halfW, boxHeight, 2, 2, "F");
       doc.setTextColor(17, 17, 58);
-      doc.setFontSize(14);
+      doc.setFontSize(22);
       doc.setFont("helvetica", "bold");
-      doc.text("Overall Score", margin + 10, y + 12);
+      doc.text(`${overallPct}/100`, margin + halfW / 2, y + 10, { align: "center" });
+      doc.setFontSize(7);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(100, 100, 100);
+      doc.text("OVERALL SCORE", margin + halfW / 2, y + 17, { align: "center" });
 
-      doc.setFontSize(36);
-      doc.text(`${overallPct}/100`, margin + 10, y + 32);
-
-      doc.setFontSize(14);
+      // Rank box
+      const rankX = margin + halfW + 4;
       const hexColor = rankInfo.color.replace("#", "");
       const r = parseInt(hexColor.substring(0, 2), 16);
       const g = parseInt(hexColor.substring(2, 4), 16);
       const b = parseInt(hexColor.substring(4, 6), 16);
-      doc.setTextColor(r, g, b);
-      doc.text(`Rank ${rankInfo.rank}/5 — ${rankInfo.label}`, margin + contentWidth - 10, y + 15, { align: "right" });
-
-      doc.setTextColor(80, 80, 80);
-      doc.setFontSize(10);
-      doc.setFont("helvetica", "normal");
-      const descLines = doc.splitTextToSize(rankInfo.description, contentWidth / 2 - 10);
-      doc.text(descLines, margin + contentWidth - 10, y + 24, { align: "right" });
-
-      y += 50;
-
-      // Star Rating
-      doc.setFontSize(12);
+      doc.setFillColor(r, g, b);
+      doc.roundedRect(rankX, y, halfW, boxHeight, 2, 2, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(11);
       doc.setFont("helvetica", "bold");
-      doc.setTextColor(17, 17, 58);
-      doc.text("Your Readiness Rating", margin, y + 5);
+      doc.text(`★ ${rankInfo.rank}/5 — ${rankInfo.label}`, rankX + halfW / 2, y + 10, { align: "center" });
+      doc.setFontSize(6);
+      doc.setFont("helvetica", "normal");
+      const descLines = doc.splitTextToSize(rankInfo.description, halfW - 8);
+      doc.text(descLines, rankX + halfW / 2, y + 16, { align: "center" });
 
-      const starSize = 8;
-      const starStartX = margin + 60;
-      for (let i = 1; i <= 5; i++) {
-        if (i <= rankInfo.rank) {
-          doc.setFillColor(214, 255, 0);
-          doc.setDrawColor(180, 200, 0);
-        } else {
-          doc.setFillColor(220, 220, 220);
-          doc.setDrawColor(200, 200, 200);
-        }
-        doc.circle(starStartX + (i - 1) * (starSize + 4), y + 4, starSize / 2, "FD");
-      }
-
-      y += 18;
+      y += boxHeight + 6;
 
       // Category Breakdown
-      doc.setFontSize(14);
+      doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(17, 17, 58);
       doc.text("Category Breakdown", margin, y);
-      y += 8;
+      y += 5;
 
       catScores.forEach((cat) => {
-        doc.setFontSize(10);
+        doc.setFontSize(8);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(50, 50, 50);
-        doc.text(cat.category, margin, y + 5);
-        doc.text(`${cat.percentage}%`, margin + contentWidth, y + 5, { align: "right" });
+        doc.text(cat.category, margin, y + 4);
+        doc.text(`${cat.percentage}%`, margin + contentWidth, y + 4, { align: "right" });
 
         // Progress bar
         doc.setFillColor(230, 230, 230);
-        doc.roundedRect(margin, y + 8, contentWidth, 5, 2, 2, "F");
+        doc.roundedRect(margin, y + 6, contentWidth, 3, 1.5, 1.5, "F");
 
         const barWidth = (cat.percentage / 100) * contentWidth;
         const catRank = getRank(cat.percentage);
         const hex = catRank.color.replace("#", "");
         doc.setFillColor(parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16));
-        doc.roundedRect(margin, y + 8, Math.max(barWidth, 2), 5, 2, 2, "F");
+        doc.roundedRect(margin, y + 6, Math.max(barWidth, 2), 3, 1.5, 1.5, "F");
 
-        y += 20;
+        y += 13;
       });
 
-      y += 5;
+      y += 3;
 
-      // Recommendations
+      // CTA box
       doc.setFillColor(17, 17, 58);
-      doc.roundedRect(margin, y, contentWidth, 45, 3, 3, "F");
+      doc.roundedRect(margin, y, contentWidth, 22, 2, 2, "F");
 
       doc.setTextColor(214, 255, 0);
-      doc.setFontSize(13);
+      doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
-      doc.text("Ready to Level Up?", margin + 10, y + 12);
+      doc.text("Ready to Level Up?", margin + 8, y + 8);
 
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(10);
+      doc.setFontSize(7);
       doc.setFont("helvetica", "normal");
-      const ctaText = "Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification program. Build the skills to lead digital safety transformation.";
-      const ctaLines = doc.splitTextToSize(ctaText, contentWidth - 20);
-      doc.text(ctaLines, margin + 10, y + 22);
+      doc.text("Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification program.", margin + 8, y + 14);
 
       doc.setTextColor(214, 255, 0);
-      doc.setFontSize(10);
       doc.setFont("helvetica", "bold");
-      doc.text("www.safetyacademy.tech/enroll", margin + 10, y + 38);
+      doc.text("www.safetyacademy.tech/enroll", margin + 8, y + 19);
 
       // Footer
-      const footerY = doc.internal.pageSize.getHeight() - 12;
       doc.setTextColor(160, 160, 160);
-      doc.setFontSize(8);
+      doc.setFontSize(7);
       doc.setFont("helvetica", "normal");
-      doc.text("© Safety 4.0 Academy | www.safetyacademy.tech", pageWidth / 2, footerY, { align: "center" });
-
-      // Capture the radar chart as image
-      const chartEl = document.getElementById("scorecard-radar-chart");
-      if (chartEl) {
-        const { default: html2canvas } = await import("html2canvas");
-        const canvas = await html2canvas(chartEl, { backgroundColor: "#ffffff", scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
-
-        // Add chart on page 2
-        doc.addPage();
-        doc.setFillColor(17, 17, 58);
-        doc.rect(0, 0, pageWidth, 30, "F");
-        doc.setTextColor(214, 255, 0);
-        doc.setFontSize(16);
-        doc.setFont("helvetica", "bold");
-        doc.text("Your Safety 4.0 Readiness Profile", pageWidth / 2, 20, { align: "center" });
-
-        const imgWidth = contentWidth;
-        const imgHeight = (canvas.height / canvas.width) * imgWidth;
-        doc.addImage(imgData, "PNG", margin, 40, imgWidth, imgHeight);
-
-        doc.setTextColor(160, 160, 160);
-        doc.setFontSize(8);
-        doc.text("© Safety 4.0 Academy | www.safetyacademy.tech", pageWidth / 2, doc.internal.pageSize.getHeight() - 12, { align: "center" });
-      }
+      doc.text("© Safety 4.0 Academy | www.safetyacademy.tech", pageWidth / 2, pageHeight - 8, { align: "center" });
 
       doc.save(`Safety-4.0-Scorecard-${userData.firstName}-${userData.lastName}.pdf`);
       toast.success("Your scorecard PDF has been downloaded!");
