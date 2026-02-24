@@ -23,6 +23,7 @@ interface ScorecardData {
   rankColor: string;
   rankDescription: string;
   categoryScores: CategoryScore[];
+  pdfBase64?: string;
 }
 
 const getBarColor = (pct: number): string => {
@@ -132,11 +133,19 @@ const handler = async (req: Request): Promise<Response> => {
 </body>
 </html>`;
 
+    const attachments = data.pdfBase64
+      ? [{
+          filename: `Safety-4.0-Scorecard-${data.firstName}-${data.lastName}.pdf`,
+          content: data.pdfBase64,
+        }]
+      : [];
+
     const emailResponse = await resend.emails.send({
       from: "Safety 4.0 Academy <onboarding@resend.dev>",
       to: [data.email],
       subject: `Your Safety 4.0 Readiness Score: ${data.overallScore}/100 — ${data.rankLabel}`,
       html,
+      attachments,
     });
 
     // Also notify admin
