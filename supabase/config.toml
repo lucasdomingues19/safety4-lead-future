@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.track-user-event]
 verify_jwt = false
+
+[functions.send-scorecard-email]
+verify_jwt = false
