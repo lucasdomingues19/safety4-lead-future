@@ -223,7 +223,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.setFillColor(17, 17, 58);
     doc.rect(0, 0, pageWidth, 32, "F");
 
-    // Add academy logo to header
+    // Add academy logo to header (RIGHT side)
     try {
       const logoImg = new Image();
       logoImg.crossOrigin = "anonymous";
@@ -238,7 +238,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
       const ctx = logoCanvas.getContext("2d");
       ctx?.drawImage(logoImg, 0, 0);
       const logoData = logoCanvas.toDataURL("image/png");
-      doc.addImage(logoData, "PNG", margin, 6, 20, 20);
+      doc.addImage(logoData, "PNG", pageWidth - margin - 20, 6, 20, 20);
     } catch {
       // Logo failed to load, continue without it
     }
@@ -246,58 +246,63 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.setTextColor(214, 255, 0);
     doc.setFontSize(16);
     doc.setFont("helvetica", "bold");
-    doc.text("Safety 4.0 Readiness Scorecard", margin + 24, 14);
+    doc.text("Safety 4.0 Readiness Scorecard", margin, 14);
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text(`${userData.firstName} ${userData.lastName}  |  ${userData.email}  |  ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, margin + 24, 24);
+    doc.text(`${userData.firstName} ${userData.lastName}  |  ${userData.email}  |  ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, margin, 24);
 
     let y = 36;
 
-    // --- Radar chart (larger) ---
+    // --- Side-by-side: Radar chart (left) + Score/Rank boxes (right) ---
     const chartEl = document.getElementById("scorecard-radar-chart");
+    const chartColWidth = contentWidth * 0.58;
+    const infoColWidth = contentWidth * 0.38;
+    const infoX = margin + chartColWidth + contentWidth * 0.04;
+
     if (chartEl) {
       const canvas = await html2canvas(chartEl, { backgroundColor: "#ffffff", scale: 3 });
       const imgData = canvas.toDataURL("image/png");
-      const imgWidth = 120;
-      const imgHeight = (canvas.height / canvas.width) * imgWidth;
-      doc.addImage(imgData, "PNG", (pageWidth - imgWidth) / 2, y, imgWidth, imgHeight);
-      y += imgHeight + 4;
+      const imgHeight = (canvas.height / canvas.width) * chartColWidth;
+      doc.addImage(imgData, "PNG", margin, y, chartColWidth, imgHeight);
+
+      // Score box (right column, top)
+      const boxHeight = 28;
+      const boxGap = 4;
+      const scoreBoxY = y + 4;
+
+      doc.setFillColor(245, 245, 245);
+      doc.roundedRect(infoX, scoreBoxY, infoColWidth, boxHeight, 3, 3, "F");
+      doc.setTextColor(17, 17, 58);
+      doc.setFontSize(28);
+      doc.setFont("helvetica", "bold");
+      doc.text(`${overallPct}`, infoX + infoColWidth / 2, scoreBoxY + boxHeight / 2 - 2, { align: "center", baseline: "middle" });
+      doc.setFontSize(7);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(120, 120, 120);
+      doc.text("OVERALL SCORE / 100", infoX + infoColWidth / 2, scoreBoxY + boxHeight / 2 + 7, { align: "center", baseline: "middle" });
+
+      // Rank box (right column, below score)
+      const rankBoxY = scoreBoxY + boxHeight + boxGap;
+      const rankBoxHeight = 32;
+      const hex = rankInfo.color.replace("#", "");
+      doc.setFillColor(parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16));
+      doc.roundedRect(infoX, rankBoxY, infoColWidth, rankBoxHeight, 3, 3, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      const stars = "★".repeat(rankInfo.rank) + "☆".repeat(5 - rankInfo.rank);
+      doc.text(stars, infoX + infoColWidth / 2, rankBoxY + 8, { align: "center" });
+      doc.setFontSize(10);
+      const rankLabelLines = doc.splitTextToSize(rankInfo.label, infoColWidth - 8);
+      doc.text(rankLabelLines, infoX + infoColWidth / 2, rankBoxY + 14, { align: "center" });
+      doc.setFontSize(6);
+      doc.setFont("helvetica", "normal");
+      const descLines = doc.splitTextToSize(rankInfo.description, infoColWidth - 8);
+      doc.text(descLines, infoX + infoColWidth / 2, rankBoxY + 22, { align: "center" });
+
+      y += Math.max(imgHeight, scoreBoxY - y + boxHeight + boxGap + rankBoxHeight) + 6;
     }
-
-    // --- Score & Rank boxes (taller, better aligned) ---
-    const boxHeight = 26;
-    const halfW = contentWidth / 2 - 3;
-
-    // Overall score box
-    doc.setFillColor(245, 245, 245);
-    doc.roundedRect(margin, y, halfW, boxHeight, 3, 3, "F");
-    doc.setTextColor(17, 17, 58);
-    doc.setFontSize(24);
-    doc.setFont("helvetica", "bold");
-    doc.text(`${overallPct}/100`, margin + halfW / 2, y + boxHeight / 2 - 1, { align: "center", baseline: "middle" });
-    doc.setFontSize(7);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(120, 120, 120);
-    doc.text("OVERALL SCORE", margin + halfW / 2, y + boxHeight / 2 + 7, { align: "center", baseline: "middle" });
-
-    // Rank box
-    const rankX = margin + halfW + 6;
-    const hex = rankInfo.color.replace("#", "");
-    doc.setFillColor(parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16));
-    doc.roundedRect(rankX, y, halfW, boxHeight, 3, 3, "F");
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    const rankTitle = `★ ${rankInfo.rank}/5 — ${rankInfo.label}`;
-    const maxRankTitleWidth = halfW - 8;
-    const rankTitleLines = doc.splitTextToSize(rankTitle, maxRankTitleWidth);
-    doc.text(rankTitleLines, rankX + halfW / 2, y + 9, { align: "center" });
-    doc.setFontSize(6.5);
-    doc.setFont("helvetica", "normal");
-    const descLines = doc.splitTextToSize(rankInfo.description, halfW - 10);
-    doc.text(descLines, rankX + halfW / 2, y + 17, { align: "center" });
-    y += boxHeight + 7;
 
     // --- Category Breakdown ---
     doc.setFontSize(10);
