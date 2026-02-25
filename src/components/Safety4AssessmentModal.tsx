@@ -219,56 +219,87 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     const rankInfo = getRank(overallPct);
     const catScores = getCategoryScores();
 
+    // --- Header with logo ---
     doc.setFillColor(17, 17, 58);
     doc.rect(0, 0, pageWidth, 32, "F");
+
+    // Add academy logo to header
+    try {
+      const logoImg = new Image();
+      logoImg.crossOrigin = "anonymous";
+      await new Promise<void>((resolve, reject) => {
+        logoImg.onload = () => resolve();
+        logoImg.onerror = () => reject();
+        logoImg.src = "/favicon.png";
+      });
+      const logoCanvas = document.createElement("canvas");
+      logoCanvas.width = logoImg.naturalWidth;
+      logoCanvas.height = logoImg.naturalHeight;
+      const ctx = logoCanvas.getContext("2d");
+      ctx?.drawImage(logoImg, 0, 0);
+      const logoData = logoCanvas.toDataURL("image/png");
+      doc.addImage(logoData, "PNG", margin, 6, 20, 20);
+    } catch {
+      // Logo failed to load, continue without it
+    }
+
     doc.setTextColor(214, 255, 0);
     doc.setFontSize(16);
     doc.setFont("helvetica", "bold");
-    doc.text("Safety 4.0 Readiness Scorecard", margin, 14);
+    doc.text("Safety 4.0 Readiness Scorecard", margin + 24, 14);
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(8);
     doc.setFont("helvetica", "normal");
-    doc.text(`${userData.firstName} ${userData.lastName}  |  ${userData.email}  |  ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, margin, 24);
+    doc.text(`${userData.firstName} ${userData.lastName}  |  ${userData.email}  |  ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}`, margin + 24, 24);
 
-    let y = 38;
+    let y = 36;
 
+    // --- Radar chart (larger) ---
     const chartEl = document.getElementById("scorecard-radar-chart");
     if (chartEl) {
-      const canvas = await html2canvas(chartEl, { backgroundColor: "#ffffff", scale: 2 });
+      const canvas = await html2canvas(chartEl, { backgroundColor: "#ffffff", scale: 3 });
       const imgData = canvas.toDataURL("image/png");
-      const imgWidth = 90;
+      const imgWidth = 120;
       const imgHeight = (canvas.height / canvas.width) * imgWidth;
       doc.addImage(imgData, "PNG", (pageWidth - imgWidth) / 2, y, imgWidth, imgHeight);
       y += imgHeight + 4;
     }
 
-    const boxHeight = 22;
-    const halfW = contentWidth / 2 - 2;
+    // --- Score & Rank boxes (taller, better aligned) ---
+    const boxHeight = 26;
+    const halfW = contentWidth / 2 - 3;
+
+    // Overall score box
     doc.setFillColor(245, 245, 245);
-    doc.roundedRect(margin, y, halfW, boxHeight, 2, 2, "F");
+    doc.roundedRect(margin, y, halfW, boxHeight, 3, 3, "F");
     doc.setTextColor(17, 17, 58);
-    doc.setFontSize(22);
+    doc.setFontSize(24);
     doc.setFont("helvetica", "bold");
-    doc.text(`${overallPct}/100`, margin + halfW / 2, y + 10, { align: "center" });
+    doc.text(`${overallPct}/100`, margin + halfW / 2, y + boxHeight / 2 - 1, { align: "center", baseline: "middle" });
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(100, 100, 100);
-    doc.text("OVERALL SCORE", margin + halfW / 2, y + 17, { align: "center" });
+    doc.setTextColor(120, 120, 120);
+    doc.text("OVERALL SCORE", margin + halfW / 2, y + boxHeight / 2 + 7, { align: "center", baseline: "middle" });
 
-    const rankX = margin + halfW + 4;
+    // Rank box
+    const rankX = margin + halfW + 6;
     const hex = rankInfo.color.replace("#", "");
     doc.setFillColor(parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16));
-    doc.roundedRect(rankX, y, halfW, boxHeight, 2, 2, "F");
+    doc.roundedRect(rankX, y, halfW, boxHeight, 3, 3, "F");
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(11);
+    doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text(`★ ${rankInfo.rank}/5 — ${rankInfo.label}`, rankX + halfW / 2, y + 10, { align: "center" });
-    doc.setFontSize(6);
+    const rankTitle = `★ ${rankInfo.rank}/5 — ${rankInfo.label}`;
+    const maxRankTitleWidth = halfW - 8;
+    const rankTitleLines = doc.splitTextToSize(rankTitle, maxRankTitleWidth);
+    doc.text(rankTitleLines, rankX + halfW / 2, y + 9, { align: "center" });
+    doc.setFontSize(6.5);
     doc.setFont("helvetica", "normal");
-    const descLines = doc.splitTextToSize(rankInfo.description, halfW - 8);
-    doc.text(descLines, rankX + halfW / 2, y + 16, { align: "center" });
-    y += boxHeight + 6;
+    const descLines = doc.splitTextToSize(rankInfo.description, halfW - 10);
+    doc.text(descLines, rankX + halfW / 2, y + 17, { align: "center" });
+    y += boxHeight + 7;
 
+    // --- Category Breakdown ---
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(17, 17, 58);
@@ -292,6 +323,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     });
     y += 3;
 
+    // --- CTA box ---
     doc.setFillColor(17, 17, 58);
     doc.roundedRect(margin, y, contentWidth, 22, 2, 2, "F");
     doc.setTextColor(214, 255, 0);
@@ -305,10 +337,20 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.setTextColor(214, 255, 0);
     doc.setFont("helvetica", "bold");
     doc.text("www.safetyacademy.tech/enroll", margin + 8, y + 19);
+
+    // --- Footer with hyperlinked enroll URL ---
     doc.setTextColor(160, 160, 160);
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
-    doc.text("© Safety 4.0 Academy | www.safetyacademy.tech", pageWidth / 2, pageHeight - 8, { align: "center" });
+    doc.text("© Safety 4.0 Academy", pageWidth / 2 - 20, pageHeight - 8);
+    doc.setTextColor(60, 120, 200);
+    doc.setFont("helvetica", "bold");
+    const enrollUrl = "https://www.safetyacademy.tech/enroll";
+    const enrollText = "www.safetyacademy.tech/enroll";
+    const footerTextWidth = doc.getTextWidth(enrollText);
+    const footerLinkX = pageWidth / 2 + 10;
+    doc.text(enrollText, footerLinkX, pageHeight - 8);
+    doc.link(footerLinkX, pageHeight - 11, footerTextWidth, 5, { url: enrollUrl });
 
     return doc.output("datauristring").split(",")[1];
   };
