@@ -256,8 +256,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
 
     // --- Side-by-side: Radar chart (left) + Score/Rank boxes (right) ---
     const chartEl = document.getElementById("scorecard-radar-chart");
-    const chartColWidth = contentWidth * 0.58;
-    const infoColWidth = contentWidth * 0.38;
+    const chartColWidth = contentWidth * 0.68;
+    const infoColWidth = contentWidth * 0.28;
     const infoX = margin + chartColWidth + contentWidth * 0.04;
 
     if (chartEl) {
