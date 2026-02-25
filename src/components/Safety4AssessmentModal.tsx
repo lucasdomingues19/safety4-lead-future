@@ -289,10 +289,23 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
       doc.setFillColor(parseInt(hex.substring(0, 2), 16), parseInt(hex.substring(2, 4), 16), parseInt(hex.substring(4, 6), 16));
       doc.roundedRect(infoX, rankBoxY, infoColWidth, rankBoxHeight, 3, 3, "F");
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "bold");
-      const stars = "★".repeat(rankInfo.rank) + "☆".repeat(5 - rankInfo.rank);
-      doc.text(stars, infoX + infoColWidth / 2, rankBoxY + 8, { align: "center" });
+      // Draw star circles instead of unicode stars (not supported by default fonts)
+      const starRadius = 2.5;
+      const starGap = 1.5;
+      const totalStarsWidth = 5 * (starRadius * 2) + 4 * starGap;
+      const starStartX = infoX + (infoColWidth - totalStarsWidth) / 2 + starRadius;
+      const starCenterY = rankBoxY + 8;
+      for (let i = 0; i < 5; i++) {
+        const cx = starStartX + i * (starRadius * 2 + starGap);
+        if (i < rankInfo.rank) {
+          doc.setFillColor(255, 255, 255);
+          doc.circle(cx, starCenterY, starRadius, "F");
+        } else {
+          doc.setDrawColor(255, 255, 255);
+          doc.setLineWidth(0.4);
+          doc.circle(cx, starCenterY, starRadius, "S");
+        }
+      }
       doc.setFontSize(10);
       const rankLabelLines = doc.splitTextToSize(rankInfo.label, infoColWidth - 8);
       doc.text(rankLabelLines, infoX + infoColWidth / 2, rankBoxY + 14, { align: "center" });
