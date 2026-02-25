@@ -141,7 +141,7 @@ const handler = async (req: Request): Promise<Response> => {
       : [];
 
     const emailResponse = await resend.emails.send({
-      from: "Safety 4.0 Academy <onboarding@resend.dev>",
+      from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
       to: [data.email],
       subject: `Your Safety 4.0 Readiness Score: ${data.overallScore}/100 — ${data.rankLabel}`,
       html,
@@ -150,7 +150,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Also notify admin
     await resend.emails.send({
-      from: "Safety 4.0 Academy <onboarding@resend.dev>",
+      from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
       to: ["lucas@getshield360.com"],
       replyTo: data.email,
       subject: `Scorecard Completed: ${data.firstName} ${data.lastName} — ${data.overallScore}/100`,
