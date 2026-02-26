@@ -27,6 +27,38 @@ const SUSPICIOUS_REFERRERS = [
   /semalt\.com/i, /buttons-for-website\.com/i
 ];
 
+// Validate honeypot + JS challenge fields
+const validateBotChallenge = (data: any): boolean => {
+  // Honeypot must be empty
+  if (data._hp !== undefined && data._hp !== '') {
+    console.log('Honeypot triggered, ignoring request');
+    return false;
+  }
+  // Timing: page must have loaded at least 1 second ago
+  if (data._ts) {
+    const elapsed = Date.now() - Number(data._ts);
+    if (elapsed < 1000 || elapsed > 86400000) { // < 1s or > 24h
+      console.log('Timing challenge failed:', elapsed, 'ms');
+      return false;
+    }
+  } else {
+    // No timestamp = likely not a real browser
+    console.log('Missing timing challenge');
+    return false;
+  }
+  // JS proof validation
+  if (data._js === undefined || data._js === null) {
+    console.log('Missing JS proof');
+    return false;
+  }
+  const expectedProof = String(data._ts).split('').reduce((acc: number, d: string) => acc ^ parseInt(d, 10), 0);
+  if (Number(data._js) !== expectedProof) {
+    console.log('JS proof mismatch');
+    return false;
+  }
+  return true;
+};
+
 interface PageViewData {
   session_id: string;
   page_path: string;
@@ -142,7 +174,15 @@ serve(async (req) => {
   }
 
   try {
-    const data: PageViewData = await req.json();
+    const data: PageViewData & { _hp?: string; _ts?: number; _js?: number } = await req.json();
+
+    // Bot challenge validation (honeypot + timing + JS proof)
+    if (!validateBotChallenge(data)) {
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     
     // Bot detection: Check user agent
     const userAgent = data.user_agent || '';
@@ -227,9 +267,12 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Strip challenge fields before insert
+    const { _hp, _ts, _js, ...cleanData } = data;
+    
     // Merge location data with submitted data
     const pageViewData = {
-      ...data,
+      ...cleanData,
       country,
       city,
     };

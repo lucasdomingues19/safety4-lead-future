@@ -19,6 +19,34 @@ const BOT_PATTERNS = [
   /puppeteer/i, /playwright/i
 ];
 
+// Validate honeypot + JS challenge fields
+const validateBotChallenge = (data: any): boolean => {
+  if (data._hp !== undefined && data._hp !== '') {
+    console.log('Honeypot triggered, ignoring request');
+    return false;
+  }
+  if (data._ts) {
+    const elapsed = Date.now() - Number(data._ts);
+    if (elapsed < 1000 || elapsed > 86400000) {
+      console.log('Timing challenge failed:', elapsed, 'ms');
+      return false;
+    }
+  } else {
+    console.log('Missing timing challenge');
+    return false;
+  }
+  if (data._js === undefined || data._js === null) {
+    console.log('Missing JS proof');
+    return false;
+  }
+  const expectedProof = String(data._ts).split('').reduce((acc: number, d: string) => acc ^ parseInt(d, 10), 0);
+  if (Number(data._js) !== expectedProof) {
+    console.log('JS proof mismatch');
+    return false;
+  }
+  return true;
+};
+
 interface UserEventData {
   session_id: string;
   event_type: string;
@@ -98,6 +126,14 @@ serve(async (req) => {
 
   try {
     const data = await req.json();
+
+    // Bot challenge validation (honeypot + timing + JS proof)
+    if (!validateBotChallenge(data)) {
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     // Bot detection: Check user agent
     const userAgent = req.headers.get('user-agent') || '';

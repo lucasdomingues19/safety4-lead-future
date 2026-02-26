@@ -1,3 +1,6 @@
+// Page load timestamp for bot detection timing challenge
+const PAGE_LOAD_TIME = Date.now();
+
 // Generate or retrieve session ID
 const getSessionId = (): string => {
   let sessionId = sessionStorage.getItem('analytics_session_id');
@@ -6,6 +9,18 @@ const getSessionId = (): string => {
     sessionStorage.setItem('analytics_session_id', sessionId);
   }
   return sessionId;
+};
+
+// Generate bot-detection challenge fields
+const getBotChallengeFields = () => {
+  const ts = PAGE_LOAD_TIME;
+  // Simple JS proof: XOR timestamp digits to prove JS executed
+  const jsProof = String(ts).split('').reduce((acc, d) => acc ^ parseInt(d, 10), 0);
+  return {
+    _hp: '',       // honeypot — must stay empty
+    _ts: ts,       // page load timestamp
+    _js: jsProof,  // JS execution proof
+  };
 };
 
 // Track custom events via secure edge function (clicks, form submissions, etc.)
@@ -27,6 +42,7 @@ export const trackEvent = async (eventType: string, eventData?: Record<string, u
           event_type: eventType,
           event_data: eventData || {},
           page_path: window.location.pathname,
+          ...getBotChallengeFields(),
         }),
       }
     );
@@ -161,7 +177,7 @@ export const trackPageView = async (pagePath: string) => {
           'Content-Type': 'application/json',
           'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, ...getBotChallengeFields() }),
       }
     );
 
