@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -143,6 +143,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         return;
       }
       setStep("results");
+      setAutoEmailTriggered(false); // reset so useEffect fires
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
@@ -150,6 +151,15 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
       setIsSubmitting(false);
     }
   };
+
+  // Auto-send email when results are displayed
+  const [autoEmailTriggered, setAutoEmailTriggered] = useState(false);
+  useEffect(() => {
+    if (step === "results" && !autoEmailTriggered && !emailSent && userData.email) {
+      setAutoEmailTriggered(true);
+      sendResultsEmail();
+    }
+  }, [step, autoEmailTriggered, emailSent, userData.email]);
 
   const getCategoryScores = () => {
     return CATEGORIES.map((category) => {
