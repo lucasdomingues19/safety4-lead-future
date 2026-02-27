@@ -670,23 +670,15 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               })}
             </div>
 
-            {/* Download PDF & Email Results */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Download PDF */}
+            <div className="flex justify-center">
               <Button
                 onClick={generatePdf}
                 disabled={isGeneratingPdf}
-                className="bg-white text-slate-900 hover:bg-gray-100 py-5 text-base font-semibold"
+                className="bg-white text-slate-900 hover:bg-gray-100 py-5 text-base font-semibold w-full sm:w-auto sm:px-12"
               >
                 <Download className="w-5 h-5 mr-2" />
                 {isGeneratingPdf ? "Generating..." : "Download PDF"}
-              </Button>
-              <Button
-                onClick={sendResultsEmail}
-                disabled={isSendingEmail || emailSent}
-                className="bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                {emailSent ? "Email Sent ✓" : isSendingEmail ? "Sending..." : "Email Results"}
               </Button>
             </div>
 
