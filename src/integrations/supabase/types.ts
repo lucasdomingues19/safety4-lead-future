@@ -140,6 +140,42 @@ export type Database = {
         }
         Relationships: []
       }
+      scorecard_results: {
+        Row: {
+          category_scores: Json
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          overall_score: number
+          rank_label: string
+          rank_number: number
+        }
+        Insert: {
+          category_scores?: Json
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          overall_score: number
+          rank_label: string
+          rank_number: number
+        }
+        Update: {
+          category_scores?: Json
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          overall_score?: number
+          rank_label?: string
+          rank_number?: number
+        }
+        Relationships: []
+      }
       user_events: {
         Row: {
           created_at: string | null
