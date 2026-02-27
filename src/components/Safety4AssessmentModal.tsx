@@ -157,7 +157,13 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   useEffect(() => {
     if (step === "results" && !autoEmailTriggered && !emailSent && userData.email) {
       setAutoEmailTriggered(true);
-      sendResultsEmail();
+      // Delay to ensure the results DOM (radar chart) is fully rendered before PDF generation
+      const timer = setTimeout(() => {
+        sendResultsEmail().catch((err) => {
+          console.error("Auto-send scorecard email failed:", err);
+        });
+      }, 2000);
+      return () => clearTimeout(timer);
     }
   }, [step, autoEmailTriggered, emailSent, userData.email]);
 
