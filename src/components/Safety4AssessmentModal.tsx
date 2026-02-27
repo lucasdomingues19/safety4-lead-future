@@ -143,7 +143,66 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         return;
       }
       setStep("results");
-      setAutoEmailTriggered(false); // reset so useEffect fires
+      // Auto-send scorecard email after delay for DOM rendering
+      const capturedData = { ...userData };
+      const capturedAnswers = [...answers];
+      setTimeout(async () => {
+        try {
+          const total = capturedAnswers.reduce((sum, s) => sum + s, 0);
+          const overallPct = Math.round((total / (questions.length * 5)) * 100);
+          const catScores = CATEGORIES.map((category) => {
+            const categoryQs = questions.filter((q) => q.category === category);
+            const totalPoints = categoryQs.reduce((sum, q) => {
+              const idx = questions.indexOf(q);
+              return sum + (capturedAnswers[idx] || 0);
+            }, 0);
+            const maxPoints = categoryQs.length * 5;
+            const percentage = Math.round((totalPoints / maxPoints) * 100);
+            return { category, percentage };
+          });
+          const rank = getRank(overallPct);
+
+          let pdfBase64: string | undefined;
+          try {
+            pdfBase64 = await generatePdfBase64();
+          } catch (e) {
+            console.warn("PDF generation failed, sending without attachment:", e);
+          }
+
+          console.log("Auto-sending scorecard email to:", capturedData.email, "Score:", overallPct);
+
+          const response = await fetch(
+            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+              },
+              body: JSON.stringify({
+                firstName: capturedData.firstName,
+                lastName: capturedData.lastName,
+                email: capturedData.email,
+                overallScore: overallPct,
+                rankNumber: rank.rank,
+                rankLabel: rank.label,
+                rankColor: rank.color,
+                rankDescription: rank.description,
+                categoryScores: catScores,
+                pdfBase64,
+              }),
+            }
+          );
+
+          const responseData = await response.json();
+          console.log("Scorecard email response:", response.status, responseData);
+          if (response.ok) {
+            toast.success("Results sent to your email!");
+          }
+        } catch (err) {
+          console.error("Auto-send scorecard email failed:", err);
+        }
+      }, 3000);
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
@@ -152,20 +211,6 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     }
   };
 
-  // Auto-send email when results are displayed
-  const [autoEmailTriggered, setAutoEmailTriggered] = useState(false);
-  useEffect(() => {
-    if (step === "results" && !autoEmailTriggered && !emailSent && userData.email) {
-      setAutoEmailTriggered(true);
-      // Delay to ensure the results DOM (radar chart) is fully rendered before PDF generation
-      const timer = setTimeout(() => {
-        sendResultsEmail().catch((err) => {
-          console.error("Auto-send scorecard email failed:", err);
-        });
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [step, autoEmailTriggered, emailSent, userData.email]);
 
   const getCategoryScores = () => {
     return CATEGORIES.map((category) => {
