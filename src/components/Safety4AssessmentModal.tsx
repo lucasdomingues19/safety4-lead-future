@@ -392,10 +392,19 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   const sendResultsEmail = async () => {
     setIsSendingEmail(true);
     try {
-      const pdfBase64 = await generatePdfBase64();
       const overallPct = getOverallPercentage();
       const rank = getRank(overallPct);
       const catScores = getCategoryScores();
+
+      // Try PDF generation, but send email even if it fails
+      let pdfBase64: string | undefined;
+      try {
+        pdfBase64 = await generatePdfBase64();
+      } catch (pdfError) {
+        console.warn("PDF generation failed, sending email without attachment:", pdfError);
+      }
+
+      console.log("Sending scorecard email to:", userData.email, "Score:", overallPct);
 
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`,
@@ -423,11 +432,14 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         }
       );
 
+      const responseData = await response.json();
+      console.log("Scorecard email response:", response.status, responseData);
+
       if (!response.ok) throw new Error("Failed to send email");
       setEmailSent(true);
-      toast.success("Results and PDF sent to your email!");
+      toast.success("Results sent to your email!");
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error sending scorecard email:", error);
       toast.error("Failed to send email. Please try again.");
     } finally {
       setIsSendingEmail(false);
