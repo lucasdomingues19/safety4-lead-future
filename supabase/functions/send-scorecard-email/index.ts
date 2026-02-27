@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -47,6 +48,27 @@ const handler = async (req: Request): Promise<Response> => {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
+    }
+
+    // Save scorecard results to database
+    try {
+      const supabaseAdmin = createClient(
+        Deno.env.get("SUPABASE_URL")!,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+      );
+      await supabaseAdmin.from("scorecard_results").insert({
+        email: data.email,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        overall_score: data.overallScore,
+        rank_number: data.rankNumber,
+        rank_label: data.rankLabel,
+        category_scores: data.categoryScores,
+      });
+      console.log("Scorecard results saved to DB for:", data.email);
+    } catch (dbError) {
+      console.error("Failed to save scorecard results to DB:", dbError);
+      // Continue with email sending even if DB save fails
     }
 
     const categoryRows = data.categoryScores

@@ -33,6 +33,14 @@ interface Lead {
   inquiry_type?: string;
 }
 
+interface ScorecardResult {
+  overall_score: number;
+  rank_number: number;
+  rank_label: string;
+  category_scores: { category: string; percentage: number }[];
+  created_at: string;
+}
+
 interface Stats {
   totalViews: number;
   uniqueVisitors: number;
@@ -61,6 +69,7 @@ const Admin = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
   const navigate = useNavigate();
 
@@ -104,8 +113,7 @@ const Admin = () => {
       }
 
       setIsAdmin(true);
-      await fetchAnalytics(dateRange);
-      await fetchLeads();
+      await Promise.all([fetchAnalytics(dateRange), fetchLeads(), fetchScorecardResults()]);
     } catch (error) {
       console.error("Admin access error:", error);
       navigate("/auth");
@@ -129,6 +137,35 @@ const Admin = () => {
     } catch (error) {
       console.error("Error fetching leads:", error);
       toast.error("Failed to load leads data");
+    }
+  };
+
+  const fetchScorecardResults = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('scorecard_results')
+        .select('email, overall_score, rank_number, rank_label, category_scores, created_at')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        const resultsMap: Record<string, ScorecardResult> = {};
+        data.forEach((r: any) => {
+          if (!resultsMap[r.email]) {
+            resultsMap[r.email] = {
+              overall_score: r.overall_score,
+              rank_number: r.rank_number,
+              rank_label: r.rank_label,
+              category_scores: r.category_scores as { category: string; percentage: number }[],
+              created_at: r.created_at,
+            };
+          }
+        });
+        setScorecardResults(resultsMap);
+      }
+    } catch (error) {
+      console.error("Error fetching scorecard results:", error);
     }
   };
 
@@ -787,6 +824,7 @@ const Admin = () => {
                         <TableHead className="text-white">Email</TableHead>
                         <TableHead className="text-white">Phone</TableHead>
                         <TableHead className="text-white">Source</TableHead>
+                        <TableHead className="text-white">Score</TableHead>
                         <TableHead className="text-white">Date</TableHead>
                         <TableHead className="text-white">Actions</TableHead>
                       </TableRow>
@@ -794,7 +832,7 @@ const Admin = () => {
                     <TableBody>
                       {leads.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={6} className="text-center text-white/60 py-8">
+                          <TableCell colSpan={7} className="text-center text-white/60 py-8">
                             No leads captured yet
                           </TableCell>
                         </TableRow>
@@ -828,6 +866,21 @@ const Admin = () => {
                                  lead.source === 'newsletter_popup' ? 'Newsletter' :
                                  lead.source === 'ebook_download' ? 'eBook' : lead.source}
                               </span>
+                            </TableCell>
+                            <TableCell className="text-white">
+                              {scorecardResults[lead.email] ? (
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                  scorecardResults[lead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-blue-500/20 text-blue-300' :
+                                  scorecardResults[lead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
+                                  scorecardResults[lead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
+                                  'bg-red-500/20 text-red-300'
+                                }`}>
+                                  {scorecardResults[lead.email].overall_score}/100
+                                </span>
+                              ) : (
+                                <span className="text-white/30">—</span>
+                              )}
                             </TableCell>
                             <TableCell className="text-white">
                               {new Date(lead.created_at).toLocaleDateString()}
@@ -909,6 +962,43 @@ const Admin = () => {
                         <label className="text-sm text-gray-400">Message</label>
                         <div className="mt-2 p-4 bg-white/5 rounded-lg border border-white/10">
                           <p className="text-white whitespace-pre-wrap">{selectedLead.message}</p>
+                        </div>
+                      </div>
+                    )}
+                    {scorecardResults[selectedLead.email] && (
+                      <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
+                        <label className="text-sm text-gray-400 block mb-3">Scorecard Results</label>
+                        <div className="flex items-center gap-4 mb-3">
+                          <div className="text-3xl font-bold text-white">{scorecardResults[selectedLead.email].overall_score}/100</div>
+                          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                            scorecardResults[selectedLead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                            scorecardResults[selectedLead.email].overall_score >= 70 ? 'bg-blue-500/20 text-blue-300' :
+                            scorecardResults[selectedLead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
+                            scorecardResults[selectedLead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
+                            'bg-red-500/20 text-red-300'
+                          }`}>
+                            {'★'.repeat(scorecardResults[selectedLead.email].rank_number)}{'☆'.repeat(5 - scorecardResults[selectedLead.email].rank_number)} {scorecardResults[selectedLead.email].rank_label}
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          {(scorecardResults[selectedLead.email].category_scores || []).map((cat, i) => (
+                            <div key={i} className="flex items-center gap-3">
+                              <span className="text-xs text-white/60 w-40 shrink-0">{cat.category}</span>
+                              <div className="flex-1 bg-white/10 rounded-full h-2 overflow-hidden">
+                                <div 
+                                  className={`h-full rounded-full ${
+                                    cat.percentage >= 85 ? 'bg-green-500' :
+                                    cat.percentage >= 70 ? 'bg-blue-500' :
+                                    cat.percentage >= 55 ? 'bg-yellow-500' :
+                                    cat.percentage >= 35 ? 'bg-orange-500' :
+                                    'bg-red-500'
+                                  }`}
+                                  style={{ width: `${cat.percentage}%` }}
+                                />
+                              </div>
+                              <span className="text-xs text-white/80 w-10 text-right">{cat.percentage}%</span>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
