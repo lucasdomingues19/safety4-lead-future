@@ -15,11 +15,17 @@ import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
 import EbookPopup from "@/components/EbookPopup";
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 
 const Index = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     startTimeTracking();
+    setPageSEO({
+      title: "Safety 4.0 Academy — IOSH Approved Digital Safety Leadership Training | AI & SafetyTech Certification",
+      description: "Get IOSH & CPD-approved Safety 4.0 certification. Master AI, SafetyTech, IoT sensors, and digital leadership. Join 1000+ global safety professionals transforming workplace safety.",
+      canonical: "https://safetyacademy.tech/",
+    });
     
     const cleanupScroll = initScrollTracking();
     

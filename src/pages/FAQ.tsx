@@ -4,12 +4,18 @@ import { Footer } from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { trackPageView } from "@/utils/analytics";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
+import { setPageSEO } from "@/utils/seo";
 
 const FAQ = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "Safety 4.0 Academy FAQ | IOSH Certification, Pricing & Course Details",
+      description: "Frequently asked questions about the Safety 4.0 Academy. Learn about IOSH certification, CPD credits, course format, pricing, and how to become a certified Safety 4.0 leader.",
+      canonical: "https://safetyacademy.tech/faq",
+    });
   }, []);
 
   const toggleFAQ = (index: number) => {

@@ -2,10 +2,16 @@ import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 
 const About = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "About Safety 4.0 Academy | World's First IOSH-Approved Safety 4.0 Program",
+      description: "Learn about Safety 4.0 Academy — the world's first IOSH and CPD-approved certification program for digital safety leadership. Discover our mission to transform workplace safety through AI, IoT, and SafetyTech.",
+      canonical: "https://safetyacademy.tech/about",
+    });
   }, []);
 
   return (

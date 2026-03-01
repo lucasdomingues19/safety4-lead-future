@@ -2,8 +2,9 @@ import { ArrowLeft, Download, CheckCircle, FileText, Mail, Award, Building2, Cop
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { setPageSEO } from "@/utils/seo";
 import certificateSample from "@/assets/certificate-sample.png";
 import imperialLogo from "@/assets/imperial-logo.png";
 import lbsLogo from "@/assets/lbs-logo.png";
@@ -18,6 +19,14 @@ import andradeGutierrezLogo from "@/assets/andrade-gutierrez-logo.jpeg";
 
 const Expense = () => {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+
+  useEffect(() => {
+    setPageSEO({
+      title: "Convince Your Manager | Safety 4.0 Academy Training Justification",
+      description: "Use our ready-made email template to get your employer to fund your Safety 4.0 IOSH certification. Includes ROI data, benefits, and a professional training request letter.",
+      canonical: "https://safetyacademy.tech/expense",
+    });
+  }, []);
 
   const emailTemplate = `Hi [Manager's Name],
 

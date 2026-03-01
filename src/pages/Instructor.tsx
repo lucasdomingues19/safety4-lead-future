@@ -3,10 +3,16 @@ import { ArrowLeft, Award, Users, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import instructorPhoto from "../assets/instructor-photo.jpg";
 import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 
 const Instructor = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "Lucas Domingues — Safety 4.0 Instructor | MSc, CMIOSH, Imperial College London",
+      description: "Meet Lucas Domingues, Safety 4.0 expert with 15+ years in HSE. MSc from Imperial College London, CMIOSH certified. Leading the world's first IOSH-approved Safety 4.0 program.",
+      canonical: "https://safetyacademy.tech/instructor",
+    });
   }, []);
 
   return (
