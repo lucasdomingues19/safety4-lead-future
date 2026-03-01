@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { setPageSEO } from "@/utils/seo";
 
 export default function TermsConditions() {
+  useEffect(() => {
+    setPageSEO({
+      title: "Terms & Conditions | Safety 4.0 Academy",
+      description: "Read the Terms and Conditions for Safety 4.0 Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
+      canonical: "https://safetyacademy.tech/terms-conditions",
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Black to dark blue gradient background */}

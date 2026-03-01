@@ -7,6 +7,7 @@ import { trackPageView } from "@/utils/analytics";
 import { getPostBySlug } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
+import { setPageSEO } from "@/utils/seo";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,45 +16,12 @@ const BlogPost = () => {
   useEffect(() => {
     if (post) {
       trackPageView(window.location.pathname);
-      // Update meta tags dynamically
-      document.title = `${post.title} | Safety 4.0 Academy Blog`;
-      
-      // Update meta description
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', post.metaDescription);
-      } else {
-        const newMeta = document.createElement('meta');
-        newMeta.name = 'description';
-        newMeta.content = post.metaDescription;
-        document.head.appendChild(newMeta);
-      }
-
-      // Add Open Graph meta tags
-      const ogTags = [
-        { property: 'og:title', content: post.title },
-        { property: 'og:description', content: post.metaDescription },
-        { property: 'og:image', content: `https://safetyacademy.tech${post.featuredImage}` },
-        { property: 'og:url', content: `https://safetyacademy.tech/blog/${post.slug}` },
-        { property: 'og:type', content: 'article' },
-        { property: 'article:published_time', content: post.publishDate },
-        { property: 'article:author', content: post.author },
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: post.title },
-        { name: 'twitter:description', content: post.metaDescription },
-        { name: 'twitter:image', content: `https://safetyacademy.tech${post.featuredImage}` },
-      ];
-
-      ogTags.forEach(tag => {
-        const selector = tag.property ? `meta[property="${tag.property}"]` : `meta[name="${tag.name}"]`;
-        let element = document.querySelector(selector);
-        if (!element) {
-          element = document.createElement('meta');
-          if (tag.property) element.setAttribute('property', tag.property);
-          if (tag.name) element.setAttribute('name', tag.name);
-          document.head.appendChild(element);
-        }
-        element.setAttribute('content', tag.content);
+      setPageSEO({
+        title: `${post.title} | Safety 4.0 Academy Blog`,
+        description: post.metaDescription,
+        canonical: `https://safetyacademy.tech/blog/${post.slug}`,
+        ogImage: `https://safetyacademy.tech${post.featuredImage}`,
+        ogType: "article",
       });
 
       // Add BlogPosting structured data
