@@ -6,7 +6,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 interface CategoryScore {
@@ -35,20 +35,52 @@ const getBarColor = (pct: number): string => {
   return "#ef4444";
 };
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const sendEmailWithRetry = async (payload: any, label: string, maxAttempts = 2) => {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await resend.emails.send(payload);
+    } catch (error) {
+      lastError = error;
+      console.error(`${label} email attempt ${attempt}/${maxAttempts} failed:`, error);
+      if (attempt < maxAttempts) {
+        await sleep(400 * attempt);
+      }
+    }
+  }
+
+  throw lastError;
+};
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return new Response("ok", { headers: corsHeaders });
   }
 
   try {
     const data: ScorecardData = await req.json();
 
-    if (!data.email || !data.firstName) {
+    if (
+      !data.email ||
+      !data.firstName ||
+      typeof data.overallScore !== "number" ||
+      !data.rankLabel
+    ) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
+
+    const safeLastName = data.lastName ?? "";
+    const categoryScores = Array.isArray(data.categoryScores) ? data.categoryScores : [];
+    const normalizedRank = Math.max(
+      0,
+      Math.min(5, Number.isFinite(data.rankNumber) ? data.rankNumber : 0)
+    );
 
     // Save scorecard results to database
     try {
@@ -59,11 +91,11 @@ const handler = async (req: Request): Promise<Response> => {
       await supabaseAdmin.from("scorecard_results").insert({
         email: data.email,
         first_name: data.firstName,
-        last_name: data.lastName,
+        last_name: safeLastName,
         overall_score: data.overallScore,
-        rank_number: data.rankNumber,
+        rank_number: normalizedRank,
         rank_label: data.rankLabel,
-        category_scores: data.categoryScores,
+        category_scores: categoryScores,
       });
       console.log("Scorecard results saved to DB for:", data.email);
     } catch (dbError) {
@@ -71,9 +103,10 @@ const handler = async (req: Request): Promise<Response> => {
       // Continue with email sending even if DB save fails
     }
 
-    const categoryRows = data.categoryScores
-      .map(
-        (cat) => `
+    const categoryRows = categoryScores.length
+      ? categoryScores
+          .map(
+            (cat) => `
         <tr>
           <td style="padding:8px 12px;font-size:14px;color:#334155;border-bottom:1px solid #f1f5f9;">${cat.category}</td>
           <td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;width:55%;">
@@ -83,11 +116,15 @@ const handler = async (req: Request): Promise<Response> => {
           </td>
           <td style="padding:8px 12px;font-size:14px;font-weight:700;color:${getBarColor(cat.percentage)};text-align:right;border-bottom:1px solid #f1f5f9;">${cat.percentage}%</td>
         </tr>`
-      )
-      .join("");
+          )
+          .join("")
+      : `
+        <tr>
+          <td colspan="3" style="padding:12px;font-size:13px;color:#64748b;text-align:center;border:1px solid #f1f5f9;border-radius:8px;">Category breakdown unavailable for this submission.</td>
+        </tr>`;
 
     const stars = Array.from({ length: 5 }, (_, i) =>
-      i < data.rankNumber
+      i < normalizedRank
         ? `<span style="color:#D6FF00;font-size:22px;">★</span>`
         : `<span style="color:#64748b;font-size:22px;">★</span>`
     ).join("");
@@ -104,7 +141,7 @@ const handler = async (req: Request): Promise<Response> => {
         <!-- Header -->
         <tr><td style="background:#11113a;padding:28px 32px;">
           <h1 style="margin:0;color:#D6FF00;font-size:22px;">Safety 4.0 Readiness Scorecard</h1>
-          <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;">${data.firstName} ${data.lastName} · ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+          <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;">${data.firstName} ${safeLastName} · ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
         </td></tr>
 
         <!-- Score & Rank -->
@@ -155,34 +192,52 @@ const handler = async (req: Request): Promise<Response> => {
 </body>
 </html>`;
 
-    const attachments = data.pdfBase64
-      ? [{
-          filename: `Safety-4.0-Scorecard-${data.firstName}-${data.lastName}.pdf`,
-          content: data.pdfBase64,
-        }]
+    const pdfContent = data.pdfBase64?.includes("base64,")
+      ? data.pdfBase64.split("base64,")[1]
+      : data.pdfBase64;
+
+    const attachments = pdfContent
+      ? [
+          {
+            filename: `Safety-4.0-Scorecard-${data.firstName}-${safeLastName || "Result"}.pdf`,
+            content: pdfContent,
+          },
+        ]
       : [];
 
-    const emailResponse = await resend.emails.send({
-      from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
-      to: [data.email],
-      subject: `Your Safety 4.0 Readiness Score: ${data.overallScore}/100 — ${data.rankLabel}`,
-      html,
-      attachments,
-    });
+    const emailResponse = await sendEmailWithRetry(
+      {
+        from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
+        to: [data.email],
+        subject: `Your Safety 4.0 Readiness Score: ${data.overallScore}/100 — ${data.rankLabel}`,
+        html,
+        attachments,
+      },
+      "User"
+    );
 
-    // Also notify admin
-    await resend.emails.send({
-      from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
-      to: ["lucas@getshield360.com"],
-      replyTo: data.email,
-      subject: `Scorecard Completed: ${data.firstName} ${data.lastName} — ${data.overallScore}/100`,
-      html: `<p><strong>${data.firstName} ${data.lastName}</strong> (${data.email}) completed the Safety 4.0 Scorecard.</p>
-             <p>Score: ${data.overallScore}/100 — ${data.rankLabel}</p>`,
-    });
+    let adminNotified = true;
+    try {
+      await sendEmailWithRetry(
+        {
+          from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
+          to: ["lucas@getshield360.com"],
+          replyTo: data.email,
+          subject: `Scorecard Completed: ${data.firstName} ${safeLastName} — ${data.overallScore}/100`,
+          html: `<p><strong>${data.firstName} ${safeLastName}</strong> (${data.email}) completed the Safety 4.0 Scorecard.</p>
+                 <p>Score: ${data.overallScore}/100 — ${data.rankLabel}</p>`,
+        },
+        "Admin"
+      );
+    } catch (adminError) {
+      adminNotified = false;
+      console.error("Admin notification failed after retries:", adminError);
+      // Keep success true because the primary user email was sent
+    }
 
     console.log("Scorecard email sent:", emailResponse);
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, adminNotified }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
