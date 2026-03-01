@@ -3,24 +3,17 @@ import { Safety4AssessmentModal } from "@/components/Safety4AssessmentModal";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ClipboardCheck } from "lucide-react";
+import { setPageSEO } from "@/utils/seo";
 
 const Scorecard = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   useEffect(() => {
-    document.title = "Free Safety 4.0 Readiness Scorecard | Assess Your Digital Safety Skills";
-    const setMeta = (attr: string, key: string, content: string) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
-      if (el) { el.setAttribute("content", content); }
-      else { el = document.createElement("meta"); el.setAttribute(attr, key); el.setAttribute("content", content); document.head.appendChild(el); }
-    };
-    setMeta("name", "description", "Take the free Safety 4.0 Readiness Scorecard. Assess your digital safety skills across 5 categories — Awareness, Technology, Risk, Change, and Leadership. Get a personalised PDF report.");
-    setMeta("property", "og:title", "Free Safety 4.0 Readiness Scorecard");
-    setMeta("property", "og:description", "Discover where you stand in the digital transformation of workplace safety. Free 2-minute assessment with personalised PDF report.");
-    setMeta("property", "og:url", "https://safetyacademy.tech/scorecard");
-    let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-    if (link) { link.href = "https://safetyacademy.tech/scorecard"; }
-    else { link = document.createElement("link"); link.rel = "canonical"; link.href = "https://safetyacademy.tech/scorecard"; document.head.appendChild(link); }
+    setPageSEO({
+      title: "Free Safety 4.0 Readiness Scorecard | Assess Your Digital Safety Skills",
+      description: "Take the free Safety 4.0 Readiness Scorecard. Assess your digital safety skills across 5 categories — Awareness, Technology, Risk, Change, and Leadership. Get a personalised PDF report.",
+      canonical: "https://safetyacademy.tech/scorecard",
+    });
   }, []);
 
   return (

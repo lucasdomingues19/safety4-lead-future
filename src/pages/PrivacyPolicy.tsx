@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { setPageSEO } from "@/utils/seo";
 
 export default function PrivacyPolicy() {
+  useEffect(() => {
+    setPageSEO({
+      title: "Privacy Policy | Safety 4.0 Academy",
+      description: "Safety 4.0 Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
+      canonical: "https://safetyacademy.tech/privacy-policy",
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Black to dark blue gradient background */}

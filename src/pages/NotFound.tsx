@@ -1,10 +1,15 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { setPageSEO } from "@/utils/seo";
 
 const NotFound = () => {
   const location = useLocation();
 
   useEffect(() => {
+    setPageSEO({
+      title: "Page Not Found | Safety 4.0 Academy",
+      description: "The page you're looking for doesn't exist. Return to Safety 4.0 Academy to explore IOSH-approved digital safety leadership training.",
+    });
     console.error(
       "404 Error: User attempted to access non-existent route:",
       location.pathname

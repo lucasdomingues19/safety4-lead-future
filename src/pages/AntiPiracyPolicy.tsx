@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { setPageSEO } from "@/utils/seo";
 
 export default function AntiPiracyPolicy() {
+  useEffect(() => {
+    setPageSEO({
+      title: "Anti-Piracy Policy | Safety 4.0 Academy",
+      description: "Safety 4.0 Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
+      canonical: "https://safetyacademy.tech/anti-piracy-policy",
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Black to dark blue gradient background */}

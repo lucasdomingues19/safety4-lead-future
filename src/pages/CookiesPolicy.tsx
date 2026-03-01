@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { setPageSEO } from "@/utils/seo";
 
 export default function CookiesPolicy() {
+  useEffect(() => {
+    setPageSEO({
+      title: "Cookies Policy | Safety 4.0 Academy",
+      description: "Learn how Safety 4.0 Academy uses cookies to improve your experience. Understand the types of cookies we use, how to manage them, and your consent options.",
+      canonical: "https://safetyacademy.tech/cookies-policy",
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Black to dark blue gradient background */}
