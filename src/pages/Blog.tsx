@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { useEffect } from "react";
 import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { blogPosts } from "@/data/blogPosts";
 import { Link } from "react-router-dom";
@@ -10,6 +11,11 @@ import { Link } from "react-router-dom";
 const Blog = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "Safety 4.0 Blog | AI in EHS, SafetyTech Insights & Industry News",
+      description: "Expert articles on Safety 4.0, AI in workplace safety, SafetyTech trends, IOSH training insights, and digital transformation in EHS. Stay ahead in safety leadership.",
+      canonical: "https://safetyacademy.tech/blog",
+    });
   }, []);
 
   return (

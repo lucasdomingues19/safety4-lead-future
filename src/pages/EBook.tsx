@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
 import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 
 const EBook = () => {
   const { toast } = useToast();
@@ -21,6 +22,11 @@ const EBook = () => {
 
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "Free Safety 4.0 eBook | Digital Safety Leadership Guide Download",
+      description: "Download the free Safety 4.0 eBook — your guide to leading safety in the digital age. Learn about AI, IoT, and SafetyTech for modern workplace safety management.",
+      canonical: "https://safetyacademy.tech/ebook",
+    });
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

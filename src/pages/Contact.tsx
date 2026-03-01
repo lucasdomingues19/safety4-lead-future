@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Footer } from "@/components/Footer";
 import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -23,6 +24,11 @@ const Contact = () => {
 
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "Contact Safety 4.0 Academy | Get in Touch for IOSH Training Enquiries",
+      description: "Contact the Safety 4.0 Academy team for enrolment enquiries, corporate training, partnerships, or general questions about our IOSH-approved Safety 4.0 certification.",
+      canonical: "https://safetyacademy.tech/contact",
+    });
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

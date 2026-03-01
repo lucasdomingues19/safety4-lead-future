@@ -5,10 +5,16 @@ import { Footer } from "@/components/Footer";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
 
 const Certification = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "IOSH & CPD Certification | Safety 4.0 Academy Accreditation",
+      description: "Earn an IOSH-approved and CPD-certified Safety 4.0 leadership credential. Recognised globally by employers and professional bodies. 8+ CPD hours included.",
+      canonical: "https://safetyacademy.tech/certification",
+    });
   }, []);
 
   return (
