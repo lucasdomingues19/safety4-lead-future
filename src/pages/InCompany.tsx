@@ -94,7 +94,7 @@ const InCompany = () => {
                 Build an <span className="text-primary">AI-ready</span><br />safety team.<br />Not just individuals.
               </h1>
               <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto mb-10">
-                The world's first IOSH-approved Safety 4.0 programme, delivered for your entire EHS function. Trusted by Siemens, SAMA Construction, and safety teams across 12 countries.
+                The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by Siemens, LEGO, MARSH, and safety teams across 12 countries.
               </p>
               <div className="flex flex-wrap gap-4 items-center justify-center">
                 <a href="#roi">
