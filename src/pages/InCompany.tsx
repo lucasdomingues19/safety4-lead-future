@@ -10,6 +10,7 @@ import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
+import { ROICalculator } from "@/components/ROICalculator";
 import {
   ArrowRight,
   ArrowDown,
@@ -408,41 +409,19 @@ const InCompany = () => {
           </div>
         </section>
 
-        {/* ROI STRIP */}
+        {/* ROI CALCULATOR */}
         <section id="roi" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div
-              ref={setFadeRef(6)}
-              className="bg-card border border-primary/20 rounded-3xl p-10 md:p-16 grid md:grid-cols-[1fr_auto] gap-12 items-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700"
-            >
-              <div className="absolute -top-10 -right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-              <div className="relative z-10">
-                <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">ROI CALCULATOR</div>
-                <h2 className="font-syne text-2xl md:text-3xl font-black text-white leading-tight mb-4">
-                  What's the financial case<br />for your organisation?
-                </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-md mb-8">
-                  Input your team size, average salary, and current time spent on manual tasks. We'll calculate the AI productivity value, incident reduction savings, and net ROI — in under 2 minutes.
-                </p>
-                <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold shadow-glow">
-                    Discuss ROI with Lucas <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </a>
-              </div>
-              <div className="flex flex-col gap-6 relative z-10">
-                {[
-                  { num: "55%", label: "Avg reduction in reporting time (McKinsey)" },
-                  { num: "22%", label: "Incident reduction with predictive AI (DuPont)" },
-                  { num: "£4.53", label: "Return per £1 of training investment (CIPD)" },
-                ].map((r, i) => (
-                  <div key={i}>
-                    <div className="text-3xl md:text-4xl font-black text-primary leading-none">{r.num}</div>
-                    <div className="text-xs text-muted-foreground mt-1">{r.label}</div>
-                  </div>
-                ))}
-              </div>
+            <div className="text-center mb-12">
+              <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">ROI CALCULATOR</div>
+              <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+                What's the financial case<br />for your organisation?
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                All benchmarks sourced from NSC Injury Facts 2023, McKinsey 2024, and BLS 2024.
+              </p>
             </div>
+            <ROICalculator />
           </div>
         </section>
 
