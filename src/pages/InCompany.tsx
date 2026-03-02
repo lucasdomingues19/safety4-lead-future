@@ -306,7 +306,7 @@ const InCompany = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
               {[
                 { val: "60+", label: "Studio-recorded video lessons, available on demand" },
-                { val: "8+ hrs", label: "Verifiable CPD hours upon completion" },
+                { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
                 { val: "IOSH", label: "Approved certification recognised globally" },
                 { val: "12+", label: "Countries where Safety 4.0 graduates are now working" },
               ].map((s, i) => (
