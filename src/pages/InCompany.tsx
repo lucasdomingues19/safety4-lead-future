@@ -157,26 +157,26 @@ const InCompany = () => {
               {[...Array(2)].map((_, setIndex) => (
                 <div key={setIndex} className="flex items-center gap-12 md:gap-20 px-6">
                   {[
-                    { src: legoLogo, alt: "LEGO", h: "h-8 md:h-10" },
-                    { src: siemensLogo, alt: "Siemens", h: "h-8 md:h-10" },
-                    { src: marshLogo, alt: "Marsh", h: "h-8 md:h-10" },
-                    { src: samaLogo, alt: "SAMA", h: "h-8 md:h-10" },
-                    { src: crtsLogo, alt: "CRTS Global", h: "h-8 md:h-10" },
-                    { src: seadrillLogo, alt: "Seadrill", h: "h-8 md:h-10" },
-                    { src: velestroylLogo, alt: "Velesstroy", w: "w-36 md:w-44" },
-                    { src: nioshLogo, alt: "NIOSH", h: "h-8 md:h-10" },
-                    { src: soterLogo, alt: "Soter AI", h: "h-8 md:h-10" },
-                    { src: fieldLogo, alt: "Field Energy", h: "h-8 md:h-10" },
-                    { src: fugroLogo, alt: "Fugro", h: "h-8 md:h-10" },
+                    { src: legoLogo, alt: "LEGO" },
+                    { src: siemensLogo, alt: "Siemens" },
+                    { src: marshLogo, alt: "Marsh" },
+                    { src: samaLogo, alt: "SAMA" },
+                    { src: crtsLogo, alt: "CRTS Global" },
+                    { src: seadrillLogo, alt: "Seadrill" },
+                    { src: velestroylLogo, alt: "Velesstroy" },
+                    { src: nioshLogo, alt: "NIOSH" },
+                    { src: soterLogo, alt: "Soter AI" },
+                    { src: fieldLogo, alt: "Field Energy" },
+                    { src: fugroLogo, alt: "Fugro" },
                   ].map((logo, i) => (
                     <div
                       key={`${setIndex}-${i}`}
-                      className={`flex-shrink-0 bg-white rounded-xl p-3 md:p-4 flex items-center justify-center h-14 md:h-16 ${'w' in logo && logo.w ? logo.w : 'w-24 md:w-32'} hover:scale-105 transition-transform`}
+                      className="flex-shrink-0 bg-white rounded-xl p-4 flex items-center justify-center h-16 md:h-20 w-28 md:w-36 hover:scale-105 transition-transform"
                     >
                       <img
                         src={logo.src}
                         alt={logo.alt}
-                        className="max-h-8 md:max-h-10 w-auto object-contain"
+                        className="max-h-10 md:max-h-14 max-w-20 md:max-w-28 object-contain"
                       />
                     </div>
                   ))}
