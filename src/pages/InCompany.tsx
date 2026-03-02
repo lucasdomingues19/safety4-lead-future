@@ -25,6 +25,15 @@ import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import seadrillLogo from "@/assets/seadrill-logo-real.svg";
+import legoLogo from "@/assets/lego-logo.png";
+import siemensLogo from "@/assets/siemens-logo.jpeg";
+import marshLogo from "@/assets/marsh-logo.jpg";
+import samaLogo from "@/assets/sama-logo.png";
+import crtsLogo from "@/assets/crts-global-logo.png";
+import velestroylLogo from "@/assets/velesstroy-logo.jpeg";
+import soterLogo from "@/assets/soter-ai-logo.avif";
+import fieldLogo from "@/assets/field-energy-logo.jpeg";
+import fugroLogo from "@/assets/fugro-logo.png";
 
 
 const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
@@ -147,17 +156,17 @@ const InCompany = () => {
               {[...Array(2)].map((_, setIndex) => (
                 <div key={setIndex} className="flex items-center gap-12 md:gap-20 px-6">
                   {[
-                    { name: "LEGO", h: "h-8 md:h-10" },
-                    { name: "SIEMENS", h: "h-8 md:h-10" },
-                    { name: "MARSH", h: "h-8 md:h-10" },
-                    { name: "SAMA", h: "h-8 md:h-10" },
-                    { name: "CRTS GLOBAL", h: "h-8 md:h-10" },
+                    { src: legoLogo, alt: "LEGO", h: "h-8 md:h-10" },
+                    { src: siemensLogo, alt: "Siemens", h: "h-8 md:h-10" },
+                    { src: marshLogo, alt: "Marsh", h: "h-8 md:h-10" },
+                    { src: samaLogo, alt: "SAMA", h: "h-8 md:h-10" },
+                    { src: crtsLogo, alt: "CRTS Global", h: "h-8 md:h-10" },
                     { src: seadrillLogo, alt: "Seadrill", h: "h-8 md:h-10" },
-                    { name: "TOO VELLESTROY", h: "h-8 md:h-10" },
+                    { src: velestroylLogo, alt: "Velesstroy", h: "h-8 md:h-10" },
                     { name: "NIOSH", h: "h-8 md:h-10" },
-                    { name: "SOTER AI", h: "h-8 md:h-10" },
-                    { name: "FIELD ENERGY", h: "h-8 md:h-10" },
-                    { name: "FUGRO", h: "h-8 md:h-10" },
+                    { src: soterLogo, alt: "Soter AI", h: "h-8 md:h-10" },
+                    { src: fieldLogo, alt: "Field Energy", h: "h-8 md:h-10" },
+                    { src: fugroLogo, alt: "Fugro", h: "h-8 md:h-10" },
                   ].map((logo, i) => (
                     'src' in logo && logo.src ? (
                       <img
