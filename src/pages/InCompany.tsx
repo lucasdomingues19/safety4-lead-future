@@ -308,7 +308,7 @@ const InCompany = () => {
                 { val: "60+", label: "Studio-recorded video lessons, available on demand" },
                 { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
                 { val: "IOSH", label: "Approved certification recognised globally" },
-                { val: "12+", label: "Countries where Safety 4.0 graduates are now working" },
+                { val: "Global", label: "Impact — delivered to teams in 12+ countries" },
               ].map((s, i) => (
                 <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
                   <div className="text-2xl font-black text-primary">{s.val}</div>
