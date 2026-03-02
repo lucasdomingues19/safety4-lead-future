@@ -163,7 +163,7 @@ const InCompany = () => {
                     { src: samaLogo, alt: "SAMA", h: "h-8 md:h-10" },
                     { src: crtsLogo, alt: "CRTS Global", h: "h-8 md:h-10" },
                     { src: seadrillLogo, alt: "Seadrill", h: "h-8 md:h-10" },
-                    { src: velestroylLogo, alt: "Velesstroy", h: "h-8 md:h-10" },
+                    { src: velestroylLogo, alt: "Velesstroy", w: "w-36 md:w-44" },
                     { src: nioshLogo, alt: "NIOSH", h: "h-8 md:h-10" },
                     { src: soterLogo, alt: "Soter AI", h: "h-8 md:h-10" },
                     { src: fieldLogo, alt: "Field Energy", h: "h-8 md:h-10" },
@@ -171,7 +171,7 @@ const InCompany = () => {
                   ].map((logo, i) => (
                     <div
                       key={`${setIndex}-${i}`}
-                      className="flex-shrink-0 bg-white rounded-xl p-3 md:p-4 flex items-center justify-center h-14 md:h-16 w-24 md:w-32 hover:scale-105 transition-transform"
+                      className={`flex-shrink-0 bg-white rounded-xl p-3 md:p-4 flex items-center justify-center h-14 md:h-16 ${'w' in logo && logo.w ? logo.w : 'w-24 md:w-32'} hover:scale-105 transition-transform`}
                     >
                       <img
                         src={logo.src}
