@@ -78,6 +78,8 @@ export default {
 			},
 			fontFamily: {
 				'futura': ['Inter', 'system-ui', 'sans-serif'],
+				'syne': ['Syne', 'system-ui', 'sans-serif'],
+				'dm': ['DM Sans', 'system-ui', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
