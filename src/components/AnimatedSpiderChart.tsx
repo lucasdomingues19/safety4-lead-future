@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 
 const CATEGORIES = [
-  { label: "Awareness", icon: "🧠" },
-  { label: "Technology", icon: "⚡" },
-  { label: "Risk", icon: "🛡" },
-  { label: "Change", icon: "🔄" },
+  { label: "Digital Readiness", icon: "⚡" },
   { label: "Leadership", icon: "👤" },
+  { label: "Productivity", icon: "📈" },
+  { label: "Performance", icon: "🎯" },
+  { label: "Risk Reduction", icon: "🛡" },
 ];
 
 const BEFORE_VALUES = [32, 25, 40, 20, 35]; // Before training
