@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { AnimatedSpiderChart } from "@/components/AnimatedSpiderChart";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -125,50 +126,60 @@ const InCompany = () => {
             }} />
           </div>
 
-          <div className="container mx-auto max-w-4xl text-center relative z-10">
-            {/* Badges - matching main hero */}
-            <div className="flex items-center justify-center gap-2 md:gap-4 mb-6 md:mb-8 flex-wrap">
-              <div className="inline-flex items-center space-x-1 md:space-x-2 text-primary font-medium bg-primary/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-primary/20 text-sm md:text-base">
-                <Award className="w-3 h-3 md:w-4 md:h-4" />
-                <span>IOSH Approved</span>
-              </div>
-              <div className="inline-flex items-center space-x-1 md:space-x-2 text-blue-400 font-medium bg-blue-400/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-blue-400/20 text-sm md:text-base">
-                <Shield className="w-3 h-3 md:w-4 md:h-4" />
-                <span>CPD Accredited</span>
-              </div>
-            </div>
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center">
+              {/* Left column - text */}
+              <div className="text-center lg:text-left">
+                {/* Badges */}
+                <div className="flex items-center justify-center lg:justify-start gap-2 md:gap-4 mb-6 md:mb-8 flex-wrap">
+                  <div className="inline-flex items-center space-x-1 md:space-x-2 text-primary font-medium bg-primary/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-primary/20 text-sm md:text-base">
+                    <Award className="w-3 h-3 md:w-4 md:h-4" />
+                    <span>IOSH Approved</span>
+                  </div>
+                  <div className="inline-flex items-center space-x-1 md:space-x-2 text-blue-400 font-medium bg-blue-400/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-blue-400/20 text-sm md:text-base">
+                    <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                    <span>CPD Accredited</span>
+                  </div>
+                </div>
 
-            <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-              {currentHeadline === 0 ? (
-                <>
-                   <h1 className="font-syne text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
-                     Build an <span className="text-pink-500">AI-ready</span> safety team. <span className="text-primary">Upgrade your impact.</span>
-                   </h1>
-                  <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
-                    The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
-                    <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <h1 className="font-syne text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
-                    AI Is Moving <span className="text-primary">Fast</span>. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
-                  </h1>
-                  <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
-                    Build team-wide digital fluency so EHS can move faster and safer, make better decisions, and scale impact without adding headcount.
-                  </p>
-                </>
-              )}
-            </div>
-            <div className="flex flex-wrap gap-4 items-center justify-center">
-              <a href="#roi">
-                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
-                  Calculate your team's ROI <ArrowDown className="w-5 h-5 ml-2" />
-                </Button>
-              </a>
-              <a href="#pricing" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
-                <ArrowDown className="w-4 h-4" /> View pricing
-              </a>
+                <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+                  {currentHeadline === 0 ? (
+                    <>
+                      <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
+                        Build an <span className="text-pink-500">AI-ready</span> safety team. <span className="text-primary">Upgrade your impact.</span>
+                      </h1>
+                      <p className="text-base md:text-xl lg:text-xl text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8 md:mb-12 font-light">
+                        The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
+                        <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
+                        AI Is Moving <span className="text-primary">Fast</span>. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
+                      </h1>
+                      <p className="text-base md:text-xl lg:text-xl text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8 md:mb-12 font-light">
+                        Build team-wide digital fluency so EHS can move faster and safer, make better decisions, and scale impact without adding headcount.
+                      </p>
+                    </>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start">
+                  <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
+                      Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </a>
+                  <a href="#roi" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
+                    <ArrowDown className="w-4 h-4" /> Calculate your team's ROI
+                  </a>
+                </div>
+              </div>
+
+              {/* Right column - Spider Chart */}
+              <div className="hidden lg:flex items-center justify-center">
+                <AnimatedSpiderChart />
+              </div>
             </div>
           </div>
         </section>
