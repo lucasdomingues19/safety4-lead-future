@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatedSpiderChart } from "@/components/AnimatedSpiderChart";
+import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
+import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
+import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -379,8 +382,8 @@ const InCompany = () => {
                   name: "Jacqueline Carr", role: "Global OSH Consultant", initials: "JC", company: "SIEMENS",
                 },
                 {
-                  quote: "As a Corporate Safety Manager, I needed training that my team could apply on Monday morning. The AI tools module alone changed how we handle incident reporting.",
-                  name: "Ben Canterbury", role: "Corporate Safety Manager", initials: "BC", company: "OTC TECHNOLOGIES",
+                  quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
+                  name: "Stewart Deary", role: "Global HSE Director", photo: stewartDearyPhoto, company: "CRTS GLOBAL",
                 },
               ].map((t, i) => (
                 <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
