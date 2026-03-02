@@ -81,31 +81,52 @@ const InCompany = () => {
 
         {/* HERO */}
         <section className="min-h-screen flex items-center pt-32 pb-20 px-4 relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
+          {/* Floating blobs - matching main hero */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]" />
+            <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]" />
+            <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-500/20 to-purple-400/10 blur-3xl animate-[float_30s_ease-in-out_infinite]" />
+            <div className="absolute bottom-1/4 -right-20 w-64 h-64 rounded-full bg-gradient-to-br from-lime-500/15 via-lime-400/20 to-lime-600/10 blur-3xl animate-[float_28s_ease-in-out_infinite_reverse]" />
           </div>
-          <div className="container mx-auto max-w-6xl max-w-3xl text-center relative z-10">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-7">
-                <span className="text-[11px] text-primary tracking-[2px] font-semibold">IN-COMPANY TRAINING · SAFETY 4.0 ACADEMY</span>
+
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+              backgroundSize: '40px 40px'
+            }} />
+          </div>
+
+          <div className="container mx-auto max-w-4xl text-center relative z-10">
+            {/* Badges - matching main hero */}
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-6 md:mb-8 flex-wrap">
+              <div className="inline-flex items-center space-x-1 md:space-x-2 text-primary font-medium bg-primary/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-primary/20 text-sm md:text-base">
+                <Award className="w-3 h-3 md:w-4 md:h-4" />
+                <span>IOSH Approved</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-[58px] font-black leading-[1.05] text-white mb-6 tracking-tight">
-                Build an <span className="text-primary">AI-ready</span><br />safety team.<br />Not just individuals.
-              </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto mb-10">
-                The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by Siemens, LEGO, MARSH, and safety teams across 12 countries.
-              </p>
-              <div className="flex flex-wrap gap-4 items-center justify-center">
-                <a href="#roi">
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow">
-                    Calculate your team's ROI <ArrowDown className="w-5 h-5 ml-2" />
-                  </Button>
-                </a>
-                <a href="#pricing" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
-                  <ArrowDown className="w-4 h-4" /> View pricing
-                </a>
+              <div className="inline-flex items-center space-x-1 md:space-x-2 text-blue-400 font-medium bg-blue-400/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-blue-400/20 text-sm md:text-base">
+                <Shield className="w-3 h-3 md:w-4 md:h-4" />
+                <span>CPD Accredited</span>
               </div>
+            </div>
+
+            <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
+              Build an <span className="text-pink-500">AI-ready</span> safety team.{" "}
+              <span className="text-pink-500">Not just individuals.</span>
+            </h1>
+            <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
+              The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
+              <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
+            </p>
+            <div className="flex flex-wrap gap-4 items-center justify-center">
+              <a href="#roi">
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
+                  Calculate your team's ROI <ArrowDown className="w-5 h-5 ml-2" />
+                </Button>
+              </a>
+              <a href="#pricing" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
+                <ArrowDown className="w-4 h-4" /> View pricing
+              </a>
             </div>
           </div>
         </section>
