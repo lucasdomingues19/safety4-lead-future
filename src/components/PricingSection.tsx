@@ -164,7 +164,7 @@ export const PricingSection = () => {
                     tier.name === "eLearning" 
                       ? "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV"
                       : tier.name === "In-Company" 
-                      ? "/contact" 
+                      ? "/in-company" 
                       : undefined
                   }
                   target={tier.name === "eLearning" ? "_blank" : undefined}
