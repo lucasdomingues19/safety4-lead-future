@@ -97,9 +97,9 @@ const InCompany = () => {
                 The world's first IOSH-approved Safety 4.0 programme, delivered for your entire EHS function. Trusted by Siemens, SAMA Construction, and safety teams across 12 countries.
               </p>
               <div className="flex flex-wrap gap-4 items-center justify-center">
-                <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                <a href="#roi">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow">
-                    Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
+                    Calculate your team's ROI <ArrowDown className="w-5 h-5 ml-2" />
                   </Button>
                 </a>
                 <a href="#pricing" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
