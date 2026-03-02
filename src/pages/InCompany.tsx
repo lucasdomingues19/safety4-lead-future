@@ -1,0 +1,542 @@
+import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/Footer";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import { SEOStructuredData } from "@/components/SEOStructuredData";
+import { trackPageView } from "@/utils/analytics";
+import { setPageSEO } from "@/utils/seo";
+import {
+  ArrowRight,
+  ArrowDown,
+  CheckCircle,
+  ClipboardList,
+  Zap,
+  BarChart3,
+  Trophy,
+  Users,
+  Building2,
+  Shield,
+  Clock,
+  BookOpen,
+  Award,
+  MessageCircle,
+} from "lucide-react";
+import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
+import ioshLogo from "@/assets/iosh-approved-logo.jpg";
+import cpdLogo from "@/assets/cpd-approved-logo.png";
+
+const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
+
+const InCompany = () => {
+  const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    trackPageView(window.location.pathname);
+    setPageSEO({
+      title: "In-Company Safety 4.0 Training | Team & Enterprise Pricing | Safety 4.0 Academy",
+      description: "Train your entire EHS team with the world's first IOSH-approved Safety 4.0 programme. Fixed pricing from £4,975. AI, SafetyTech & digital leadership for teams of 5–20+.",
+      canonical: "https://safetyacademy.tech/in-company",
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add("opacity-100", "translate-y-0");
+        });
+      },
+      { threshold: 0.12 }
+    );
+    fadeRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const setFadeRef = (index: number) => (el: HTMLDivElement | null) => {
+    fadeRefs.current[index] = el;
+  };
+
+  return (
+    <AnalyticsTracker>
+      <SEOStructuredData type="course" />
+      <div className="min-h-screen relative">
+        <div className="fixed inset-0 bg-gradient-to-br from-[hsl(240,55%,15%)] via-slate-900 to-black -z-10" />
+
+        {/* NAV */}
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-background/92 backdrop-blur-xl border-b border-border">
+          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" className="flex items-center gap-3">
+              <img src={safetyAcademyLogo} alt="Safety 4.0 Academy" className="h-8" />
+            </a>
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#programme" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Programme</a>
+              <a href="#proof" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Case Studies</a>
+              <a href="#pricing" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Pricing</a>
+              <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-xs tracking-wider">
+                  BOOK A CALL
+                </Button>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        {/* HERO */}
+        <section className="min-h-screen flex items-center pt-32 pb-20 px-4 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
+          </div>
+          <div className="container mx-auto max-w-6xl grid lg:grid-cols-[1fr_420px] gap-12 lg:gap-20 items-center relative z-10">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-7">
+                <span className="text-[11px] text-primary tracking-[2px] font-semibold">IN-COMPANY TRAINING · SAFETY 4.0 ACADEMY</span>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-[58px] font-black leading-[1.05] text-white mb-6 tracking-tight">
+                Build an <span className="text-primary">AI-ready</span><br />safety team.<br />Not just individuals.
+              </h1>
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-10">
+                The world's first IOSH-approved Safety 4.0 programme, delivered for your entire EHS function. Trusted by Siemens, SAMA Construction, and safety teams across 12 countries.
+              </p>
+              <div className="flex flex-wrap gap-4 items-center">
+                <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow">
+                    Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </a>
+                <a href="#roi" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
+                  <ArrowDown className="w-4 h-4" /> Calculate your team's ROI
+                </a>
+              </div>
+            </div>
+
+            {/* Hero pricing card */}
+            <div
+              ref={setFadeRef(0)}
+              className="bg-card border border-border rounded-2xl p-7 relative opacity-0 translate-y-6 transition-all duration-700"
+            >
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-transparent rounded-t-2xl" />
+              <div className="text-[10px] tracking-[3px] text-primary font-bold mb-5">IN-COMPANY PRICING GUIDE</div>
+              {[
+                { name: "STARTER TEAM", size: "Up to 5 professionals", price: "£4,975", per: "fixed", featured: false },
+                { name: "CORE TEAM ★ Most Popular", size: "6–10 professionals", price: "£7,950", per: "fixed", featured: true },
+                { name: "DEPARTMENT", size: "11–20 professionals", price: "£13,900", per: "fixed", featured: false },
+                { name: "ENTERPRISE", size: "20+ professionals", price: "Custom", per: "contact us", featured: false },
+              ].map((tier, i) => (
+                <div
+                  key={i}
+                  className={`rounded-xl p-4 mb-2.5 flex justify-between items-center border transition-colors ${
+                    tier.featured
+                      ? "bg-primary/8 border-primary/35"
+                      : "bg-muted border-transparent hover:border-primary/30"
+                  }`}
+                >
+                  <div>
+                    <div className="text-xs text-muted-foreground font-semibold">{tier.name}</div>
+                    <div className="text-[11px] text-muted-foreground/70 mt-0.5">{tier.size}</div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-black text-white text-lg">{tier.price}</div>
+                    <div className="text-[10px] text-muted-foreground">{tier.per}</div>
+                  </div>
+                </div>
+              ))}
+              <p className="text-[11px] text-muted-foreground text-center mt-4 leading-relaxed">
+                All tiers include IOSH certification, live sessions, course access, and CPD hours. Fixed pricing — no hidden costs.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* LOGOS BAR */}
+        <div className="border-y border-border bg-card/50 py-10">
+          <div className="container mx-auto px-4">
+            <div className="text-[10px] tracking-[3px] text-muted-foreground text-center mb-6 font-semibold">TRUSTED BY SAFETY TEAMS AT</div>
+            <div className="flex items-center justify-center gap-8 md:gap-16 flex-wrap">
+              {["SIEMENS", "SAMA CONSTRUCTION", "OTC TECHNOLOGIES", "ILO ENDORSED", "IOSH APPROVED"].map((name) => (
+                <span key={name} className="text-sm font-bold text-muted-foreground/40 tracking-[2px]">{name}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* STATS */}
+        <section className="py-20 px-4">
+          <div
+            ref={setFadeRef(1)}
+            className="container mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700"
+          >
+            {[
+              { num: "1,000+", label: "Safety professionals trained across 12+ countries" },
+              { num: "IOSH", label: "Approved — the gold standard in safety certification" },
+              { num: "55%", label: "Avg reduction in reporting time with AI tools (McKinsey)" },
+              { num: "4.8★", label: "Average rating from in-company graduates" },
+            ].map((stat, i) => (
+              <div key={i} className="bg-card border border-border rounded-xl p-6 hover:border-primary/40 transition-colors">
+                <div className="text-3xl md:text-4xl font-black text-primary leading-none mb-2">{stat.num}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* PROBLEM SECTION */}
+        <section id="problem" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE CHALLENGE</div>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+              Your safety team is expert in safety.<br />AI is reshaping what that means.
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+              77% of EHS leaders say AI is a strategic priority. 86% of their teams have no meaningful AI capability. That gap is a leadership problem.
+            </p>
+
+            <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-12 opacity-0 translate-y-6 transition-all duration-700">
+              <div>
+                <blockquote className="bg-card border-l-[3px] border-primary rounded-r-xl p-7 text-muted-foreground italic leading-relaxed mb-6">
+                  "The question boards are now asking isn't whether AI matters for safety — it's who in their organisation is ready to lead the answer."
+                  <div className="mt-4 text-sm not-italic text-muted-foreground/70">— Lucas Domingues, MSc CMIOSH, Founder</div>
+                </blockquote>
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <div className="text-[11px] tracking-[2px] text-primary font-bold mb-5">THE DATA</div>
+                  {[
+                    { num: "25%", color: "text-primary", desc: "of safety professionals have zero AI skills (Safety 4.0 research, 2024)" },
+                    { num: "61%", color: "text-secondary", desc: 'describe themselves as "AI beginners" with no structured path to change' },
+                    { num: "77%", color: "text-white", desc: "of EHS leaders say AI adoption is a priority — but lack a training framework" },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-4 mb-4 last:mb-0">
+                      <div className={`text-3xl font-black ${item.color} min-w-[70px]`}>{item.num}</div>
+                      <div className="text-sm text-muted-foreground">{item.desc}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3.5">
+                {[
+                  { icon: ClipboardList, title: "Manual reporting still consuming 5–8 hrs/week per person", desc: "AI-assisted reporting can reduce this by 55% — but only if your team knows how to apply it." },
+                  { icon: Zap, title: "Reactive safety culture built on lagging indicators", desc: "Predictive analytics and IoT sensor data are available. The barrier is capability, not technology." },
+                  { icon: BarChart3, title: "Safety data that doesn't make it to the board", desc: "Data visualisation and AI-powered dashboards can change this — with the right skills in your team." },
+                  { icon: Trophy, title: "Talent retention risk in a rapidly shifting profession", desc: "Safety professionals are actively seeking digital upskilling. In-Company training is a retention tool." },
+                ].map((item, i) => (
+                  <div key={i} className="bg-card border border-border rounded-xl p-4 flex gap-4 items-start">
+                    <item.icon className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <div className="text-sm font-bold text-white mb-1">{item.title}</div>
+                      <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PROGRAMME SECTION */}
+        <section id="programme" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+              10 modules. 60+ lessons.<br />One IOSH-certified outcome.
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+              Leading Safety in the Digital Age is the only IOSH-approved programme covering AI, SafetyTech, data strategy, and digital leadership for EHS professionals.
+            </p>
+
+            <div ref={setFadeRef(3)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
+              {[
+                { num: "01", title: "Safety 4.0 Foundations", desc: "Industry 4.0, digital transformation and what it means for EHS leadership." },
+                { num: "02", title: "AI Essentials for Safety Leaders", desc: "Machine learning, NLP, and LLMs demystified for EHS context." },
+                { num: "03", title: "The Digital Safety Toolkit", desc: "QR codes, mobile apps, digital permits, AI-assisted reporting tools." },
+                { num: "04", title: "Data Strategy & Analytics", desc: "From data chaos to clarity. Visualisation and board-level influence." },
+                { num: "05", title: "SafetyTech & IoT in Practice", desc: "Wearables, drones, computer vision, smart sensors on site today." },
+                { num: "06", title: "Incident Prevention with AI", desc: "Predictive analytics, pattern recognition for proactive risk reduction." },
+                { num: "07", title: "Digital Safety Culture", desc: "Leading behavioural change, overcoming resistance, embedding digital habits." },
+                { num: "08–10", title: "Leadership, Strategy & Certification", desc: "Digital transformation strategy, board communication, and IOSH assessment." },
+              ].map((mod, i) => (
+                <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
+                  <div className="text-[11px] tracking-[2px] text-primary font-bold mb-2">MODULE {mod.num}</div>
+                  <div className="text-[15px] font-bold text-white mb-2">{mod.title}</div>
+                  <div className="text-sm text-muted-foreground">{mod.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+              {[
+                { val: "60+", label: "Studio-recorded video lessons, available on demand" },
+                { val: "8+ hrs", label: "Verifiable CPD hours upon completion" },
+                { val: "IOSH", label: "Approved certification recognised globally" },
+                { val: "12+", label: "Countries where Safety 4.0 graduates are now working" },
+              ].map((s, i) => (
+                <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
+                  <div className="text-2xl font-black text-primary">{s.val}</div>
+                  <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* DELIVERY MODEL */}
+        <section className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">HOW IT WORKS</div>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+              From first call to certified team<br />in 8–12 weeks.
+            </h2>
+
+            <div ref={setFadeRef(4)} className="flex flex-col md:flex-row gap-6 md:gap-0 relative opacity-0 translate-y-6 transition-all duration-700">
+              {/* Connector line */}
+              <div className="hidden md:block absolute top-7 left-7 right-7 h-0.5 bg-border z-0" />
+
+              {[
+                { step: "1", title: "Discovery Call", desc: "20 minutes with Lucas to understand your team, objectives, and timeline." },
+                { step: "2", title: "Tailored Proposal", desc: "Customised scope, delivery format, and fixed pricing within 48 hours." },
+                { step: "3", title: "Onboarding", desc: "Team access + pre-programme diagnostic to baseline digital capability." },
+                { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
+                { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved Safety 4.0 certificate." },
+              ].map((s, i) => (
+                <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4">
+                  <div className="w-14 h-14 rounded-full bg-card border-2 border-primary flex items-center justify-center mx-auto mb-4 text-primary font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)]">
+                    {s.step}
+                  </div>
+                  <div className="text-sm font-bold text-white mb-2">{s.title}</div>
+                  <div className="text-xs text-muted-foreground leading-relaxed">{s.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PROOF / CASE STUDIES */}
+        <section id="proof" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">CASE STUDIES</div>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+              Organisations that have<br />already made the shift.
+            </h2>
+
+            <div ref={setFadeRef(5)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+              {[
+                {
+                  quote: "Safety 4.0 Academy gave our team a structured framework for something the industry has been talking about in fragments for years. Lucas understands EHS at a practitioner level.",
+                  name: "Eamonn Doherty", role: "HSSEQ Director", initials: "ED", company: "SAMA CONSTRUCTION",
+                },
+                {
+                  quote: "The programme bridges a gap that professional bodies haven't caught up with yet. Having IOSH approval gives it the credibility our compliance framework requires.",
+                  name: "Jacqueline Carr", role: "Global OSH Consultant", initials: "JC", company: "SIEMENS",
+                },
+                {
+                  quote: "As a Corporate Safety Manager, I needed training that my team could apply on Monday morning. The AI tools module alone changed how we handle incident reporting.",
+                  name: "Ben Canterbury", role: "Corporate Safety Manager", initials: "BC", company: "OTC TECHNOLOGIES",
+                },
+              ].map((t, i) => (
+                <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+                  <p className="text-sm text-muted-foreground italic leading-relaxed flex-1 mb-5">
+                    <span className="text-primary text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
+                    {t.quote}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0">
+                      {t.initials}
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-white">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </div>
+                  <span className="inline-block mt-3 bg-primary/10 border border-primary/25 rounded-full px-3 py-1 text-[10px] text-primary tracking-[1px] font-semibold w-fit">
+                    {t.company}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ROI STRIP */}
+        <section id="roi" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div
+              ref={setFadeRef(6)}
+              className="bg-card border border-primary/20 rounded-3xl p-10 md:p-16 grid md:grid-cols-[1fr_auto] gap-12 items-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700"
+            >
+              <div className="absolute -top-10 -right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="relative z-10">
+                <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">ROI CALCULATOR</div>
+                <h2 className="text-2xl md:text-3xl font-black text-white leading-tight mb-4">
+                  What's the financial case<br />for your organisation?
+                </h2>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-md mb-8">
+                  Input your team size, average salary, and current time spent on manual tasks. We'll calculate the AI productivity value, incident reduction savings, and net ROI — in under 2 minutes.
+                </p>
+                <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold shadow-glow">
+                    Discuss ROI with Lucas <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </a>
+              </div>
+              <div className="flex flex-col gap-6 relative z-10">
+                {[
+                  { num: "55%", label: "Avg reduction in reporting time (McKinsey)" },
+                  { num: "22%", label: "Incident reduction with predictive AI (DuPont)" },
+                  { num: "£4.53", label: "Return per £1 of training investment (CIPD)" },
+                ].map((r, i) => (
+                  <div key={i}>
+                    <div className="text-3xl md:text-4xl font-black text-primary leading-none">{r.num}</div>
+                    <div className="text-xs text-muted-foreground mt-1">{r.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* PRICING */}
+        <section id="pricing" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">PRICING</div>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
+            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+              Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access. One fixed price for your whole team.
+            </p>
+
+            <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+              {[
+                {
+                  name: "STARTER", size: "Up to 5 people", price: "£4,975", per: "fixed team price · £995 per person",
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "2 live group sessions with Lucas", "60+ on-demand video lessons", "Team completion dashboard"],
+                  featured: false, note: "Ideal for specialist EHS teams and SMEs",
+                },
+                {
+                  name: "CORE TEAM", size: "6–10 people", price: "£7,950", per: "fixed team price · from £795 per person",
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                  featured: true, note: "Best value for mid-sized EHS functions",
+                },
+                {
+                  name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · from £695 per person",
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "6 live group sessions with Lucas", "Custom onboarding & diagnostics", "Cohort peer community access", "Management capability report", "Post-programme strategy session"],
+                  featured: false, note: "For whole-department transformation",
+                },
+              ].map((tier, i) => (
+                <div
+                  key={i}
+                  className={`bg-card border rounded-2xl p-8 flex flex-col relative transition-all hover:-translate-y-1 ${
+                    tier.featured
+                      ? "border-primary shadow-[0_0_0_1px_hsl(85,100%,72%),0_20px_60px_hsl(85,100%,72%,0.15)]"
+                      : "border-border hover:border-primary/40"
+                  }`}
+                >
+                  {tier.featured && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-bold tracking-[2px] px-4 py-1 rounded-full whitespace-nowrap">
+                      ★ MOST POPULAR
+                    </div>
+                  )}
+                  <div className="text-xs font-bold tracking-[2px] text-muted-foreground mb-2">{tier.name}</div>
+                  <div className="text-xl font-black text-white mb-1">{tier.size}</div>
+                  <div className="text-4xl font-black text-primary mb-1">{tier.price}</div>
+                  <div className="text-xs text-muted-foreground mb-6">{tier.per}</div>
+                  <ul className="flex-1 mb-6">
+                    {tier.features.map((f, fi) => (
+                      <li key={fi} className="text-sm text-muted-foreground py-2 border-b border-border flex gap-2.5 items-start">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="block">
+                    <Button
+                      className={`w-full font-bold tracking-wider text-sm py-3 ${
+                        tier.featured
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                      }`}
+                      variant={tier.featured ? "default" : "outline"}
+                    >
+                      Book a call
+                    </Button>
+                  </a>
+                  <p className="text-[11px] text-muted-foreground text-center mt-3">{tier.note}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              Need 20+ seats?{" "}
+              <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                Contact us for enterprise pricing →
+              </a>
+            </p>
+          </div>
+        </section>
+
+        {/* OBJECTIONS / FAQ */}
+        <section className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">COMMON QUESTIONS</div>
+            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">Before you book the call.</h2>
+
+            <div ref={setFadeRef(8)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
+              {[
+                { q: "How does delivery work around our team's schedule?", a: "The programme is designed for working professionals. Live sessions are scheduled around your team, and all 60+ video lessons are on-demand. Most participants complete in 8–10 weeks spending 3–4 hours per week." },
+                { q: "Can the content be customised for our sector?", a: "Yes. While the core curriculum is standardised and IOSH-approved, live sessions and case studies are tailored to your sector — construction, manufacturing, energy, logistics, and others." },
+                { q: "What does IOSH approval actually mean for our compliance?", a: "IOSH is the world's largest professional body for health and safety practitioners. An IOSH-approved programme meets rigorous standards for content, delivery, and assessment." },
+                { q: "We already have NEBOSH/IOSH training budgets. How does this fit?", a: "Safety 4.0 complements, not replaces, your existing development. NEBOSH and IOSH qualifications cover safety management fundamentals. Safety 4.0 covers the digital and AI capability layer that those qualifications don't yet address." },
+                { q: "What happens after the programme ends?", a: "Participants retain lifetime access to course materials and join the Safety 4.0 alumni community — a network of certified EHS leaders from 12+ countries." },
+                { q: "Can we get a proposal without committing to anything?", a: "Absolutely. The 20-minute discovery call is a conversation, not a sales pitch. You'll receive a tailored written proposal within 48 hours. No obligation." },
+              ].map((item, i) => (
+                <div key={i} className="bg-card border border-border rounded-xl p-6">
+                  <div className="text-sm font-bold text-white mb-3">{item.q}</div>
+                  <div className="text-sm text-muted-foreground leading-relaxed">{item.a}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FINAL CTA */}
+        <section id="book" className="py-20 px-4">
+          <div className="container mx-auto max-w-6xl">
+            <div
+              ref={setFadeRef(9)}
+              className="bg-gradient-to-br from-card to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
+              <div className="relative z-10">
+                <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+                  Ready to talk about<br />your team?
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
+                  Book a 20-minute call with Lucas Domingues, MSc CMIOSH. You'll come away with clarity on what's possible — and a written proposal within 48 hours.
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center">
+                  <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                    <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10 shadow-glow">
+                      Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </a>
+                </div>
+                <div className="flex flex-wrap gap-6 justify-center mt-7">
+                  {["No hard sell", "Written proposal within 48 hours", "IOSH-approved programme", "Fixed transparent pricing"].map((item) => (
+                    <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-primary" /> {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Certification logos */}
+        <div className="flex items-center justify-center gap-8 py-10 border-t border-border">
+          <img src={ioshLogo} alt="IOSH Approved" className="h-12 opacity-70" />
+          <img src={cpdLogo} alt="CPD Approved" className="h-12 opacity-70" />
+        </div>
+
+        <Footer />
+      </div>
+    </AnalyticsTracker>
+  );
+};
+
+export default InCompany;
