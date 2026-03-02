@@ -153,7 +153,7 @@ const InCompany = () => {
               ) : (
                 <>
                   <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
-                    AI Is Moving Fast. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
+                    AI Is Moving <span className="text-primary">Fast</span>. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
                   </h1>
                   <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
                     Build team-wide digital fluency so EHS can move faster and safer, make better decisions, and scale impact without adding headcount.
