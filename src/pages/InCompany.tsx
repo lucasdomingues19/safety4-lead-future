@@ -145,7 +145,7 @@ const InCompany = () => {
         {/* PROBLEM SECTION */}
         <section id="problem" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE CHALLENGE</div>
+            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">THE CHALLENGE</div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               Your safety team is expert in safety.<br />AI is reshaping what that means.
             </h2>
@@ -182,7 +182,7 @@ const InCompany = () => {
                   { icon: Trophy, title: "Talent retention risk in a rapidly shifting profession", desc: "Safety professionals are actively seeking digital upskilling. In-Company training is a retention tool." },
                 ].map((item, i) => (
                   <div key={i} className="bg-card border border-border rounded-xl p-4 flex gap-4 items-start">
-                    <item.icon className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <item.icon className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="text-sm font-bold text-white mb-1">{item.title}</div>
                       <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
@@ -217,7 +217,7 @@ const InCompany = () => {
                 { num: "08–10", title: "Leadership, Strategy & Certification", desc: "Digital transformation strategy, board communication, and IOSH assessment." },
               ].map((mod, i) => (
                 <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
-                  <div className="text-[11px] tracking-[2px] text-primary font-bold mb-2">MODULE {mod.num}</div>
+                  <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-pink-500' : 'text-primary'}`}>MODULE {mod.num}</div>
                   <div className="text-[15px] font-bold text-white mb-2">{mod.title}</div>
                   <div className="text-sm text-muted-foreground">{mod.desc}</div>
                 </div>
@@ -244,7 +244,7 @@ const InCompany = () => {
         {/* DELIVERY MODEL */}
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">HOW IT WORKS</div>
+            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">HOW IT WORKS</div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">
               From first call to certified team<br />in 8–12 weeks.
             </h2>
@@ -261,7 +261,7 @@ const InCompany = () => {
                 { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved Safety 4.0 certificate." },
               ].map((s, i) => (
                 <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4">
-                  <div className="w-14 h-14 rounded-full bg-card border-2 border-primary flex items-center justify-center mx-auto mb-4 text-primary font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)]">
+                  <div className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] ${i % 2 === 0 ? 'border-primary text-primary' : 'border-pink-500 text-pink-500'}`}>
                     {s.step}
                   </div>
                   <div className="text-sm font-bold text-white mb-2">{s.title}</div>
@@ -297,11 +297,11 @@ const InCompany = () => {
               ].map((t, i) => (
                 <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
                   <p className="text-sm text-muted-foreground italic leading-relaxed flex-1 mb-5">
-                    <span className="text-primary text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
+                    <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
                     {t.quote}
                   </p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                       {t.initials}
                     </div>
                     <div>
@@ -436,7 +436,7 @@ const InCompany = () => {
         {/* OBJECTIONS / FAQ */}
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">COMMON QUESTIONS</div>
+            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">COMMON QUESTIONS</div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">Before you book the call.</h2>
 
             <div ref={setFadeRef(8)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
