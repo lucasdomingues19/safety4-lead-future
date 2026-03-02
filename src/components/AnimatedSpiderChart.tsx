@@ -245,7 +245,8 @@ export const AnimatedSpiderChart = () => {
             y={cat.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className="fill-muted-foreground text-[9px] md:text-[10px] font-medium"
+            fill="hsl(240, 10%, 60%)"
+            className="text-[9px] md:text-[10px] font-medium"
             style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
             {cat.label}
@@ -260,9 +261,8 @@ export const AnimatedSpiderChart = () => {
             y={pos.y}
             textAnchor="middle"
             dominantBaseline="central"
-            className={`text-[8px] font-bold ${
-              phase === "after" ? "fill-primary" : "fill-pink-400"
-            }`}
+            className="text-[8px] font-bold"
+            fill={phase === "after" ? "hsl(85, 100%, 72%)" : "rgb(236, 72, 153)"}
             style={{
               fontFamily: "'Syne', sans-serif",
               transition: "fill 0.3s",
