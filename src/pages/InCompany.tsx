@@ -24,6 +24,12 @@ import {
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
+import seadrillLogo from "@/assets/seadrill-logo-real.svg";
+import zenobeLogo from "@/assets/zenobe-logo-real.png";
+import shield360Logo from "@/assets/shield360-logo-real.png";
+import arrivalLogo from "@/assets/arrival-logo-real.png";
+import uffLogo from "@/assets/uff-logo-real.png";
+import ufrjLogo from "@/assets/ufrj-logo-real.png";
 
 const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
 
@@ -134,13 +140,34 @@ const InCompany = () => {
           </div>
         </section>
 
-        {/* LOGOS BAR */}
-        <div className="border-y border-border bg-card/50 py-10">
+        <div className="border-y border-border bg-card/50 py-10 overflow-hidden">
           <div className="container mx-auto px-4">
             <div className="text-[10px] tracking-[3px] text-muted-foreground text-center mb-6 font-semibold">TRUSTED BY SAFETY TEAMS AT</div>
-            <div className="flex items-center justify-center gap-8 md:gap-16 flex-wrap">
-              {["SIEMENS", "SAMA CONSTRUCTION", "OTC TECHNOLOGIES", "ILO ENDORSED", "IOSH APPROVED"].map((name) => (
-                <span key={name} className="text-sm font-bold text-muted-foreground/40 tracking-[2px]">{name}</span>
+          </div>
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-card/80 to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-card/80 to-transparent z-10" />
+            <div className="flex animate-scroll w-max" style={{ animationDuration: '30s' }}>
+              {[...Array(2)].map((_, setIndex) => (
+                <div key={setIndex} className="flex items-center gap-12 md:gap-20 px-6">
+                  {[
+                    { src: ioshLogo, alt: "IOSH Approved", h: "h-10 md:h-12" },
+                    { src: cpdLogo, alt: "CPD Accredited", h: "h-10 md:h-12" },
+                    { src: seadrillLogo, alt: "Seadrill", h: "h-8 md:h-10" },
+                    { src: zenobeLogo, alt: "Zenobe", h: "h-8 md:h-10" },
+                    { src: shield360Logo, alt: "Shield 360", h: "h-8 md:h-10" },
+                    { src: arrivalLogo, alt: "Arrival", h: "h-8 md:h-10" },
+                    { src: uffLogo, alt: "UFF", h: "h-10 md:h-12" },
+                    { src: ufrjLogo, alt: "UFRJ", h: "h-10 md:h-12" },
+                  ].map((logo, i) => (
+                    <img
+                      key={`${setIndex}-${i}`}
+                      src={logo.src}
+                      alt={logo.alt}
+                      className={`${logo.h} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0`}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
           </div>
