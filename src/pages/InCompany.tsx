@@ -324,7 +324,7 @@ const InCompany = () => {
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">HOW IT WORKS</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              From first call to certified team<br />in 8–12 weeks.
+              From first call to certified team<br />in 5 weeks.
             </h2>
 
             <div ref={setFadeRef(4)} className="flex flex-col md:flex-row gap-6 md:gap-0 relative opacity-0 translate-y-6 transition-all duration-700">
