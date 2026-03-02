@@ -336,7 +336,7 @@ const InCompany = () => {
                 { step: "2", title: "Tailored Proposal", desc: "Customised scope, delivery format, and fixed pricing within 48 hours." },
                 { step: "3", title: "Onboarding", desc: "Team access + pre-programme diagnostic to baseline digital capability." },
                 { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
-                { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved Safety 4.0 certificate." },
+                { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved and CPD-accredited certificate." },
               ].map((s, i) => (
                 <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4">
                   <div className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] ${i % 2 === 0 ? 'border-primary text-primary' : 'border-pink-500 text-pink-500'}`}>
