@@ -249,7 +249,7 @@ const InCompany = () => {
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> outcome.
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+            <p className="text-lg text-muted-foreground max-w-full mb-12">
               Safety 4.0 - Leading Safety in the Digital Age is the only IOSH-approved programme covering AI, SafetyTech, data strategy, and digital leadership for EHS professionals.
             </p>
 
