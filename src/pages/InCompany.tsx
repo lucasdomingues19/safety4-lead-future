@@ -187,24 +187,8 @@ const InCompany = () => {
         </div>
 
         {/* STATS */}
-        <section className="py-20 px-4">
-          <div
-            ref={setFadeRef(1)}
-            className="container mx-auto max-w-6xl grid grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700"
-          >
-            {[
-              { num: "1,000+", label: "Safety professionals trained across 12+ countries" },
-              { num: "IOSH", label: "Approved — the gold standard in safety certification" },
-              { num: "55%", label: "Avg reduction in reporting time with AI tools (McKinsey)" },
-              { num: "4.8★", label: "Average rating from in-company graduates" },
-            ].map((stat, i) => (
-              <div key={i} className="bg-card border border-border rounded-xl p-6 hover:border-primary/40 transition-colors">
-                <div className="text-3xl md:text-4xl font-black text-primary leading-none mb-2">{stat.num}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+
+
 
         {/* PROBLEM SECTION */}
         <section id="problem" className="py-20 px-4 border-t border-border">
