@@ -82,7 +82,7 @@ const InCompany = () => {
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
-      <div className="min-h-screen relative">
+      <div className="min-h-screen relative font-dm">
         <div className="fixed inset-0 bg-gradient-to-br from-[hsl(240,55%,15%)] via-slate-900 to-black -z-10" />
 
         {/* Persistent background decorations — purple, lime, pink */}
@@ -141,7 +141,7 @@ const InCompany = () => {
             <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
               {currentHeadline === 0 ? (
                 <>
-                  <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
+                   <h1 className="font-syne text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
                     Build an <span className="text-pink-500">AI-ready</span> safety team.{" "}
                     <span className="text-pink-500">Not just individuals.</span>
                   </h1>
@@ -152,7 +152,7 @@ const InCompany = () => {
                 </>
               ) : (
                 <>
-                  <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
+                  <h1 className="font-syne text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
                     AI Is Moving <span className="text-primary">Fast</span>. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
                   </h1>
                   <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
@@ -222,7 +222,7 @@ const InCompany = () => {
         <section id="problem" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">THE CHALLENGE</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               Your team is expert in safety.<br />AI & tech are <span className="text-primary">reshaping</span> what that means.
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
@@ -274,7 +274,7 @@ const InCompany = () => {
         <section id="programme" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> outcome.
             </h2>
             <p className="text-lg text-muted-foreground max-w-full mb-12">
@@ -323,7 +323,7 @@ const InCompany = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">HOW IT WORKS</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
               From first call to certified team<br />in 8–12 weeks.
             </h2>
 
@@ -354,7 +354,7 @@ const InCompany = () => {
         <section id="proof" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">CASE STUDIES</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
               Organisations that have<br />already made the shift.
             </h2>
 
@@ -406,7 +406,7 @@ const InCompany = () => {
               <div className="absolute -top-10 -right-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
               <div className="relative z-10">
                 <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">ROI CALCULATOR</div>
-                <h2 className="text-2xl md:text-3xl font-black text-white leading-tight mb-4">
+                <h2 className="font-syne text-2xl md:text-3xl font-black text-white leading-tight mb-4">
                   What's the financial case<br />for your organisation?
                 </h2>
                 <p className="text-sm text-muted-foreground leading-relaxed max-w-md mb-8">
@@ -438,7 +438,7 @@ const InCompany = () => {
         <section id="pricing" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">PRICING</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
               Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access. One fixed price for your whole team.
             </p>
@@ -515,7 +515,7 @@ const InCompany = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">COMMON QUESTIONS</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-12">Before you book the call.</h2>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">Before you book the call.</h2>
 
             <div ref={setFadeRef(8)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
               {[
@@ -544,7 +544,7 @@ const InCompany = () => {
             >
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+                <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
                   Ready to talk about<br />your team?
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
