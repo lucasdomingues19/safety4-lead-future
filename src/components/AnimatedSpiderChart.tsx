@@ -1,17 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 
 const CATEGORIES = [
-  { label: "Digital Readiness", icon: "⚡" },
+  { label: "Digital\nReadiness", icon: "⚡" },
   { label: "Leadership", icon: "👤" },
   { label: "Productivity", icon: "📈" },
   { label: "Performance", icon: "🎯" },
-  { label: "Risk Reduction", icon: "🛡" },
+  { label: "Risk\nReduction", icon: "🛡" },
 ];
 
 const BEFORE_VALUES = [32, 25, 40, 20, 35]; // Before training
 const AFTER_VALUES = [88, 82, 92, 78, 85]; // After training
 
-const SIZE = 300;
+const SIZE = 380;
 const CENTER = SIZE / 2;
 const RADIUS = 110;
 const LEVELS = 4;
@@ -249,7 +249,11 @@ export const AnimatedSpiderChart = () => {
             className="text-[9px] md:text-[10px] font-medium"
             style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
-            {cat.label}
+            {cat.label.split("\n").map((line, li) => (
+              <tspan key={li} x={cat.x} dy={li === 0 ? "0" : "1.1em"}>
+                {line}
+              </tspan>
+            ))}
           </text>
         ))}
 
