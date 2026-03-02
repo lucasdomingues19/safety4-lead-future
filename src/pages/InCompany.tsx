@@ -34,6 +34,7 @@ import velestroylLogo from "@/assets/velesstroy-logo.jpeg";
 import soterLogo from "@/assets/soter-ai-logo.avif";
 import fieldLogo from "@/assets/field-energy-logo.jpeg";
 import fugroLogo from "@/assets/fugro-logo.png";
+import nioshLogo from "@/assets/niosh-logo.png";
 
 
 const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
@@ -163,21 +164,17 @@ const InCompany = () => {
                     { src: crtsLogo, alt: "CRTS Global", h: "h-8 md:h-10" },
                     { src: seadrillLogo, alt: "Seadrill", h: "h-8 md:h-10" },
                     { src: velestroylLogo, alt: "Velesstroy", h: "h-8 md:h-10" },
-                    { name: "NIOSH", h: "h-8 md:h-10" },
+                    { src: nioshLogo, alt: "NIOSH", h: "h-8 md:h-10" },
                     { src: soterLogo, alt: "Soter AI", h: "h-8 md:h-10" },
                     { src: fieldLogo, alt: "Field Energy", h: "h-8 md:h-10" },
                     { src: fugroLogo, alt: "Fugro", h: "h-8 md:h-10" },
                   ].map((logo, i) => (
-                    'src' in logo && logo.src ? (
-                      <img
-                        key={`${setIndex}-${i}`}
-                        src={logo.src}
-                        alt={logo.alt}
-                        className={`${logo.h} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0`}
-                      />
-                    ) : (
-                      <span key={`${setIndex}-${i}`} className="text-sm font-bold text-muted-foreground/50 tracking-[2px] whitespace-nowrap">{'name' in logo ? logo.name : ''}</span>
-                    )
+                    <img
+                      key={`${setIndex}-${i}`}
+                      src={logo.src}
+                      alt={logo.alt}
+                      className={`${logo.h} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0`}
+                    />
                   ))}
                 </div>
               ))}
