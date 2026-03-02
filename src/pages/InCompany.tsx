@@ -255,14 +255,16 @@ const InCompany = () => {
 
             <div ref={setFadeRef(3)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
               {[
-                { num: "01", title: "Safety 4.0 Foundations", desc: "Industry 4.0, digital transformation and what it means for EHS leadership." },
-                { num: "02", title: "AI Essentials for Safety Leaders", desc: "Machine learning, NLP, and LLMs demystified for EHS context." },
-                { num: "03", title: "The Digital Safety Toolkit", desc: "QR codes, mobile apps, digital permits, AI-assisted reporting tools." },
-                { num: "04", title: "Data Strategy & Analytics", desc: "From data chaos to clarity. Visualisation and board-level influence." },
-                { num: "05", title: "SafetyTech & IoT in Practice", desc: "Wearables, drones, computer vision, smart sensors on site today." },
-                { num: "06", title: "Incident Prevention with AI", desc: "Predictive analytics, pattern recognition for proactive risk reduction." },
-                { num: "07", title: "Digital Safety Culture", desc: "Leading behavioural change, overcoming resistance, embedding digital habits." },
-                { num: "08–10", title: "Leadership, Strategy & Certification", desc: "Digital transformation strategy, board communication, and IOSH assessment." },
+                { num: "01", title: "Introduction & Orientation", desc: "Course overview, objectives, CPD & IOSH value, learner expectations." },
+                { num: "02", title: "What is Safety 4.0?", desc: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution." },
+                { num: "03", title: "The Safety Status Quo is Broken", desc: "Compliance-heavy culture, lagging indicators, reactive safety trap." },
+                { num: "04", title: "Skills for the Safety Leader in the Digital Age", desc: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills." },
+                { num: "05", title: "Safetytech Practical Applications", desc: "Wearables, IoT, drones, mobile-first systems, computer vision." },
+                { num: "06", title: "Building your Digital Safety Toolkit", desc: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes." },
+                { num: "07", title: "Data Strategy: From Chaos to Clarity", desc: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits." },
+                { num: "08", title: "AI Essentials for Safety Leaders", desc: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks." },
+                { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
+                { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." },
               ].map((mod, i) => (
                 <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
                   <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-pink-500' : 'text-primary'}`}>MODULE {mod.num}</div>
