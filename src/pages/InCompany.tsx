@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatedSpiderChart } from "@/components/AnimatedSpiderChart";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
-import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
+import jacquelineCarrPhoto from "@/assets/jacqueline-carr-photo.jpeg";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -374,12 +374,12 @@ const InCompany = () => {
             <div ref={setFadeRef(5)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
                 {
-                  quote: "Safety 4.0 Academy gave our team a structured framework for something the industry has been talking about in fragments for years. Lucas understands EHS at a practitioner level.",
-                  name: "Eamonn Doherty", role: "HSSEQ Director", initials: "ED", company: "SAMA CONSTRUCTION",
+                  quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject. I also really enjoyed the practical examples as they helped me understand the applications of SafetyTech better.",
+                  name: "Ana Coutinho", role: "HSE Manager", photo: anaCoutinhoPhoto, company: "LEGO GROUP",
                 },
                 {
-                  quote: "The programme bridges a gap that professional bodies haven't caught up with yet. Having IOSH approval gives it the credibility our compliance framework requires.",
-                  name: "Jacqueline Carr", role: "Global OSH Consultant", initials: "JC", company: "SIEMENS",
+                  quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. The content is clear, accessible, and supported by well-produced examples that make the concepts easy to follow. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
+                  name: "Jacqueline Carr", role: "Global OSH Leader", photo: jacquelineCarrPhoto, company: "SIEMENS",
                 },
                 {
                   quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
@@ -392,9 +392,7 @@ const InCompany = () => {
                     {t.quote}
                   </p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                      {t.initials}
-                    </div>
+                    <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
                     <div>
                       <div className="text-sm font-bold text-white">{t.name}</div>
                       <div className="text-xs text-muted-foreground">{t.role}</div>
