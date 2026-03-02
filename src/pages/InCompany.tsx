@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
@@ -41,6 +41,19 @@ const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
 
 const InCompany = () => {
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [currentHeadline, setCurrentHeadline] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentHeadline((prev) => (prev + 1) % 2);
+        setIsTransitioning(false);
+      }, 500);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     trackPageView(window.location.pathname);
@@ -125,14 +138,29 @@ const InCompany = () => {
               </div>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
-              Build an <span className="text-pink-500">AI-ready</span> safety team.{" "}
-              <span className="text-pink-500">Not just individuals.</span>
-            </h1>
-            <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
-              The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
-              <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
-            </p>
+            <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+              {currentHeadline === 0 ? (
+                <>
+                  <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
+                    Build an <span className="text-pink-500">AI-ready</span> safety team.{" "}
+                    <span className="text-pink-500">Not just individuals.</span>
+                  </h1>
+                  <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
+                    The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
+                    <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
+                    AI Is Moving Fast. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
+                  </h1>
+                  <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
+                    Build team-wide digital fluency so EHS can move faster and safer, make better decisions, and scale impact without adding headcount.
+                  </p>
+                </>
+              )}
+            </div>
             <div className="flex flex-wrap gap-4 items-center justify-center">
               <a href="#roi">
                 <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
