@@ -169,12 +169,16 @@ const InCompany = () => {
                     { src: fieldLogo, alt: "Field Energy", h: "h-8 md:h-10" },
                     { src: fugroLogo, alt: "Fugro", h: "h-8 md:h-10" },
                   ].map((logo, i) => (
-                    <img
+                    <div
                       key={`${setIndex}-${i}`}
-                      src={logo.src}
-                      alt={logo.alt}
-                      className={`${logo.h} w-auto object-contain opacity-70 hover:opacity-100 transition-opacity grayscale hover:grayscale-0`}
-                    />
+                      className="flex-shrink-0 bg-white rounded-xl p-3 md:p-4 flex items-center justify-center h-14 md:h-16 w-24 md:w-32 hover:scale-105 transition-transform"
+                    >
+                      <img
+                        src={logo.src}
+                        alt={logo.alt}
+                        className="max-h-8 md:max-h-10 w-auto object-contain"
+                      />
+                    </div>
                   ))}
                 </div>
               ))}
