@@ -287,12 +287,12 @@ const InCompany = () => {
         <section id="programme" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
-              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> outcome.
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-2">
+              Safety 4.0 Accelerator
             </h2>
-            <p className="text-lg text-muted-foreground max-w-full mb-12">
-              Safety 4.0 - Leading Safety in the Digital Age is the only IOSH-approved programme covering AI, SafetyTech, data strategy, and digital leadership for EHS professionals.
-            </p>
+            <h3 className="font-syne text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
+              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
+            </h3>
 
             <div ref={setFadeRef(3)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
               {[
