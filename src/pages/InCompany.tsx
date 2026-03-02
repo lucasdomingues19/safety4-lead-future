@@ -142,9 +142,9 @@ const InCompany = () => {
               {currentHeadline === 0 ? (
                 <>
                    <h1 className="font-syne text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
-                    Build an <span className="text-pink-500">AI-ready</span> safety team.{" "}
-                    <span className="text-pink-500">Not just individuals.</span>
-                  </h1>
+                     Build an <span className="text-pink-500">AI-ready</span> safety team.{" "}
+                     <span className="text-primary">Upgrade your impact.</span>
+                   </h1>
                   <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
                     The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
                     <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
