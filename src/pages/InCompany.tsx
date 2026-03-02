@@ -247,10 +247,10 @@ const InCompany = () => {
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
             <h2 className="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
-              10 modules. 60+ lessons.<br />One IOSH-certified outcome.
+              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One IOSH-certified outcome.
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
-              Leading Safety in the Digital Age is the only IOSH-approved programme covering AI, SafetyTech, data strategy, and digital leadership for EHS professionals.
+              Safety 4.0 - Leading Safety in the Digital Age is the only IOSH-approved programme covering AI, SafetyTech, data strategy, and digital leadership for EHS professionals.
             </p>
 
             <div ref={setFadeRef(3)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
