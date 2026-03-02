@@ -85,7 +85,7 @@ const InCompany = () => {
             <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
             <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-3xl" />
           </div>
-          <div className="container mx-auto max-w-6xl grid lg:grid-cols-[1fr_420px] gap-12 lg:gap-20 items-center relative z-10">
+          <div className="container mx-auto max-w-6xl max-w-3xl text-center relative z-10">
             <div>
               <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-7">
                 <span className="text-[11px] text-primary tracking-[2px] font-semibold">IN-COMPANY TRAINING · SAFETY 4.0 ACADEMY</span>
@@ -93,55 +93,19 @@ const InCompany = () => {
               <h1 className="text-4xl md:text-5xl lg:text-[58px] font-black leading-[1.05] text-white mb-6 tracking-tight">
                 Build an <span className="text-primary">AI-ready</span><br />safety team.<br />Not just individuals.
               </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-10">
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto mb-10">
                 The world's first IOSH-approved Safety 4.0 programme, delivered for your entire EHS function. Trusted by Siemens, SAMA Construction, and safety teams across 12 countries.
               </p>
-              <div className="flex flex-wrap gap-4 items-center">
+              <div className="flex flex-wrap gap-4 items-center justify-center">
                 <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
                   <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow">
                     Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </a>
-                <a href="#roi" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
-                  <ArrowDown className="w-4 h-4" /> Calculate your team's ROI
+                <a href="#pricing" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
+                  <ArrowDown className="w-4 h-4" /> View pricing
                 </a>
               </div>
-            </div>
-
-            {/* Hero pricing card */}
-            <div
-              ref={setFadeRef(0)}
-              className="bg-card border border-border rounded-2xl p-7 relative opacity-0 translate-y-6 transition-all duration-700"
-            >
-              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary to-transparent rounded-t-2xl" />
-              <div className="text-[10px] tracking-[3px] text-primary font-bold mb-5">IN-COMPANY PRICING GUIDE</div>
-              {[
-                { name: "STARTER TEAM", size: "Up to 5 professionals", price: "£4,975", per: "fixed", featured: false },
-                { name: "CORE TEAM ★ Most Popular", size: "6–10 professionals", price: "£7,950", per: "fixed", featured: true },
-                { name: "DEPARTMENT", size: "11–20 professionals", price: "£13,900", per: "fixed", featured: false },
-                { name: "ENTERPRISE", size: "20+ professionals", price: "Custom", per: "contact us", featured: false },
-              ].map((tier, i) => (
-                <div
-                  key={i}
-                  className={`rounded-xl p-4 mb-2.5 flex justify-between items-center border transition-colors ${
-                    tier.featured
-                      ? "bg-primary/8 border-primary/35"
-                      : "bg-muted border-transparent hover:border-primary/30"
-                  }`}
-                >
-                  <div>
-                    <div className="text-xs text-muted-foreground font-semibold">{tier.name}</div>
-                    <div className="text-[11px] text-muted-foreground/70 mt-0.5">{tier.size}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-black text-white text-lg">{tier.price}</div>
-                    <div className="text-[10px] text-muted-foreground">{tier.per}</div>
-                  </div>
-                </div>
-              ))}
-              <p className="text-[11px] text-muted-foreground text-center mt-4 leading-relaxed">
-                All tiers include IOSH certification, live sessions, course access, and CPD hours. Fixed pricing — no hidden costs.
-              </p>
             </div>
           </div>
         </section>
