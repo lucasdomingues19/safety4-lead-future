@@ -205,7 +205,7 @@ export function ROICalculator() {
                 <h3 className="font-syne text-lg font-black text-white mb-1">Your Safety Team</h3>
                 <p className="text-xs text-muted-foreground">Tell us about your EHS function</p>
               </div>
-              <CustomSlider label="Number of safety professionals" value={team} min={1} max={50} step={1} onChange={setTeam} display={(v) => v + " people"} hint="Include EHS managers, advisors and coordinators" />
+              <CustomSlider label="Number of safety professionals" value={team} min={1} max={50} step={1} onChange={setTeam} display={(v) => v + " people"} hint="Include EHS leadership, managers, advisors and coordinators" />
               <CustomSlider label="Average annual salary" value={sal} min={40000} max={150000} step={1000} onChange={setSal} display={(v) => "$" + v.toLocaleString()} hint="US average EHS Manager: $70k–$100k (BLS 2024)" />
               <div className="bg-background/50 border border-border rounded-xl p-4 mt-2">
                 <div className="text-xs text-muted-foreground">Annual team salary cost</div>
