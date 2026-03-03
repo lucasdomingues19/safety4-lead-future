@@ -51,7 +51,7 @@ export const PricingSection = () => {
         "Priority support",
         "Exclusive community membership",
       ],
-      cta: "Apply Now",
+      cta: "Enroll Now",
       popular: true,
       gradient: "from-pink-500/20 to-purple-500/20",
       borderColor: "border-pink-500/50",
