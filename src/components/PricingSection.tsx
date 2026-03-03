@@ -71,7 +71,7 @@ export const PricingSection = () => {
         "Post-training support",
         "Bulk certification discounts",
       ],
-      cta: "Get Quote",
+      cta: "Discover Now",
       popular: false,
       gradient: "from-lime-500/20 to-green-500/20",
       borderColor: "border-lime-500/30",
