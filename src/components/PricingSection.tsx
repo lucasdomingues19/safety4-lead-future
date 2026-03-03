@@ -68,7 +68,7 @@ export const PricingSection = () => {
         "On-site or virtual delivery",
         "Multiple employee access",
         "Company-specific case studies",
-        "Leadership training modules",
+        
         "Progress tracking dashboard",
         "Dedicated account manager",
         "Post-training support",
