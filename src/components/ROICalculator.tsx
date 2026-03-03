@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Calculator, RotateCcw } from "lucide-react";
+import { ArrowRight, ArrowLeft, Calculator, RotateCcw, Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-
-const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
 
 function money(n: number): string {
   if (n >= 1000000) return "$" + (n / 1000000).toFixed(2) + "M";
@@ -78,6 +76,7 @@ export function ROICalculator() {
   const [manHrs, setManHrs] = useState(14);
   const [lti, setLti] = useState(8);
   const [fatal, setFatal] = useState(0);
+  const [safetyToggle, setSafetyToggle] = useState(false);
   const [name, setName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [company, setCompany] = useState("");
@@ -90,34 +89,45 @@ export function ROICalculator() {
   const timeSav = Math.round(annHrs * hourly);
   const ltiAv = Math.round(lti * 0.25);
   const fatAv = Math.round(fatal * 0.25);
-  const ltiSav = ltiAv * 43000;    // NSC Injury Facts 2023
-  const fatSav = fatAv * 1460000;   // NSC Injury Facts 2023
-  const total = timeSav + ltiSav + fatSav;
+  const ltiSav = ltiAv * 43000;       // NSC Injury Facts 2023
+  const fatSav = fatAv * 1460000;      // NSC Injury Facts 2023
+  const safetySavings = ltiSav + fatSav;
+
+  const annualValue = safetyToggle ? timeSav + safetySavings : timeSav;
   const cost = team <= 5 ? 6500 : team <= 10 ? 10500 : team <= 20 ? 18500 : 25000;
-  const net = total - cost;
-  const roi = Math.round((net / cost) * 100);
-  const payback = total > 0 ? Math.round(cost / (total / 52)) : 0;
+  const year1net = annualValue - cost;
+  const year2net = annualValue;
+  const year3net = annualValue;
+  const cumulative3yr = year1net + year2net + year3net;
+  const roi1 = Math.round((year1net / cost) * 100);
+  const roi3 = Math.round((cumulative3yr / cost) * 100);
+  const payback = annualValue > 0 ? Math.round(cost / (annualValue / 52)) : 0;
 
   const submit = useCallback(async () => {
     if (!name.trim() || !email.trim()) return;
     setSending(true);
     try {
-      await supabase.from("leads").insert({
-        name: name.trim(),
-        email: email.trim(),
-        job_title: jobTitle.trim() || null,
-        role: company.trim() || null,
-        source: "roi-calculator",
-        message: `Team: ${team}, Salary: $${sal}, LTIs: ${lti}, Fatalities: ${fatal}, Total value: ${money(total)}, ROI: ${roi}%, Payback: ${payback} weeks`,
+      await supabase.functions.invoke("capture-lead", {
+        body: {
+          name: name.trim(),
+          email: email.trim(),
+          job_title: jobTitle.trim() || null,
+          role: company.trim() || null,
+          source: "contact_form",
+          message: `ROI Calculator | Team: ${team}, Salary: $${sal}, LTIs: ${lti}, Fatalities: ${fatal}, Annual value: ${money(annualValue)}, 3yr ROI: ${roi3}%, Payback: ${payback} weeks`,
+        },
       });
     } catch (e) {
       // non-blocking
     }
     setStep(7);
     setSending(false);
-  }, [name, email, jobTitle, company, team, sal, lti, fatal, total, roi, payback]);
+  }, [name, email, jobTitle, company, team, sal, lti, fatal, annualValue, roi3, payback]);
 
   const stepLabels = ["Your team", "Manual hours", "LT injuries", "Fatalities"];
+
+  // Bar chart helper
+  const barMax = Math.max(year1net, year2net, year3net, 1);
 
   return (
     <div className="w-full max-w-xl mx-auto">
@@ -136,10 +146,7 @@ export function ROICalculator() {
           <div className="px-6 pt-4">
             <div className="flex gap-1.5 mb-2">
               {[1, 2, 3, 4].map((s) => (
-                <div
-                  key={s}
-                  className={`h-1 flex-1 rounded-full transition-colors ${s <= step ? "bg-primary" : "bg-border"}`}
-                />
+                <div key={s} className={`h-1 flex-1 rounded-full transition-colors ${s <= step ? "bg-primary" : "bg-border"}`} />
               ))}
             </div>
             <div className="flex justify-between">
@@ -159,25 +166,35 @@ export function ROICalculator() {
                 What is the ROI of AI for your safety team?
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                Calculate the true cost of your injuries and fatalities, then model what AI could prevent. Benchmarks from NSC Injury Facts 2023.
+                Model the value of hours reclaimed from admin — and what your team could do with that time back on site. Benchmarks from NSC Injury Facts 2023, Harvard Business School, and UK HSE.
               </p>
               <div className="grid grid-cols-3 gap-3 mb-6">
-                {[
-                  { icon: "🩹", title: "Cost per LTI", val: "$43,000", color: "text-amber-500" },
-                  { icon: "⚠️", title: "Cost per fatality", val: "$1.46M", color: "text-red-500" },
-                  { icon: "⏱️", title: "AI time recovery", val: "25%", color: "text-primary" },
-                ].map((item) => (
-                  <div key={item.title} className="bg-background/50 border border-border rounded-xl p-3 text-center">
-                    <div className="text-lg mb-1">{item.icon}</div>
-                    <div className="text-[10px] text-muted-foreground mb-1">{item.title}</div>
-                    <div className={`text-sm font-black ${item.color}`}>{item.val}</div>
-                  </div>
-                ))}
+                <div className="bg-background/50 border border-border rounded-xl p-3 text-center">
+                  <div className="text-lg mb-1">⏱️</div>
+                  <div className="text-[10px] text-muted-foreground mb-1">Hours recovered</div>
+                  <div className="text-sm font-black text-primary">25% faster</div>
+                  <div className="text-[9px] tracking-[1px] font-bold text-primary/60 mt-1">HARVARD / BCG 2023</div>
+                </div>
+                <div className="bg-background/50 border border-border rounded-xl p-3 text-center">
+                  <div className="text-lg mb-1">🩹</div>
+                  <div className="text-[10px] text-muted-foreground mb-1">Cost per LTI</div>
+                  <div className="text-sm font-black text-amber-500">$43,000</div>
+                  <div className="text-[9px] tracking-[1px] font-bold text-amber-500/60 mt-1">NSC 2023</div>
+                </div>
+                <div className="bg-background/50 border border-border rounded-xl p-3 text-center">
+                  <div className="text-lg mb-1">⚠️</div>
+                  <div className="text-[10px] text-muted-foreground mb-1">Cost per fatality</div>
+                  <div className="text-sm font-black text-red-500">$1.46M</div>
+                  <div className="text-[9px] tracking-[1px] font-bold text-red-500/60 mt-1">NSC 2023</div>
+                </div>
               </div>
               <Button onClick={() => setStep(1)} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl">
                 Calculate my ROI <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <p className="text-[11px] text-muted-foreground/50 mt-3">4 steps · No sign-up to see results</p>
+              <p className="text-[11px] text-muted-foreground/50 mt-3">4 steps · No sign-up required to see results</p>
+              <div className="mt-4 pt-4 border-t border-border">
+                <p className="text-[10px] tracking-[1px] text-muted-foreground/40">IOSH Approved · NSC · HSE benchmarks · Trusted by Siemens & SAMA Construction</p>
+              </div>
             </div>
           )}
 
@@ -189,8 +206,8 @@ export function ROICalculator() {
                 <h3 className="font-syne text-lg font-black text-white mb-1">Your Safety Team</h3>
                 <p className="text-xs text-muted-foreground">Tell us about your EHS function</p>
               </div>
-              <CustomSlider label="Team size" value={team} min={2} max={50} step={1} onChange={setTeam} display={(v) => v + " people"} hint="Include EHS managers, advisors, coordinators" />
-              <CustomSlider label="Average annual salary" value={sal} min={30000} max={200000} step={5000} onChange={setSal} display={(v) => "$" + v.toLocaleString()} hint="US average EHS Manager: $70k–$100k (BLS 2024)" />
+              <CustomSlider label="Number of safety professionals" value={team} min={1} max={50} step={1} onChange={setTeam} display={(v) => v + " people"} hint="Include EHS managers, advisors and coordinators" />
+              <CustomSlider label="Average annual salary" value={sal} min={40000} max={150000} step={1000} onChange={setSal} display={(v) => "$" + v.toLocaleString()} hint="US average EHS Manager: $70k–$100k (BLS 2024)" />
               <div className="bg-background/50 border border-border rounded-xl p-4 mt-2">
                 <div className="text-xs text-muted-foreground">Annual team salary cost</div>
                 <div className="text-xl font-black text-white">${(team * sal).toLocaleString()}</div>
@@ -206,16 +223,16 @@ export function ROICalculator() {
                 <h3 className="font-syne text-lg font-black text-white mb-1">Manual EHS Task Hours</h3>
                 <p className="text-xs text-muted-foreground">Hours per person per week on manual tasks</p>
               </div>
-              <CustomSlider label="Manual hours per person" value={manHrs} min={2} max={30} step={1} onChange={setManHrs} display={(v) => v + " hrs/week"} hint="Incident reporting, audits, investigations, permits" />
+              <CustomSlider label="Manual hours per person per week" value={manHrs} min={1} max={30} step={1} onChange={setManHrs} display={(v) => v + " hrs/week"} hint="Incident reporting, audits, investigations, permits, compliance admin" />
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-4">
                 <p className="text-[11px] text-muted-foreground leading-relaxed">
-                  McKinsey (2024) — organisations reclaim 20-30% of working hours with AI. We apply the <strong className="text-primary">25% midpoint</strong> to manual hours only.
+                  McKinsey (2024) — organisations reclaim 20–30% of working hours with effective AI. We apply the <strong className="text-primary">25% midpoint</strong> to manual admin hours only.
                 </p>
               </div>
               <div className="bg-background/50 border border-border rounded-xl p-4">
                 <div className="text-xs text-muted-foreground mb-1">Hours recoverable per week (whole team)</div>
                 <div className="text-xl font-black text-primary">{(team * manHrs * 0.25).toFixed(1)} hrs/week</div>
-                <div className="text-xs text-muted-foreground mt-1">approx {annHrs.toLocaleString()} hrs per year — {money(timeSav)} salary value</div>
+                <div className="text-xs text-muted-foreground mt-1">{annHrs.toLocaleString()} hrs/year freed from admin — available for site presence, observation, intervention</div>
               </div>
             </div>
           )}
@@ -228,30 +245,29 @@ export function ROICalculator() {
                 <h3 className="font-syne text-lg font-black text-white mb-1">Lost-Time Injuries</h3>
                 <p className="text-xs text-muted-foreground">OSHA recordable incidents with days away from work</p>
               </div>
-              <CustomSlider label="LTIs per year" value={lti} min={0} max={50} step={1} onChange={setLti} display={(v) => v + " LTIs/yr"} hint="All OSHA recordable incidents with days-away-from-work" />
+              <CustomSlider label="LTIs per year across all sites" value={lti} min={0} max={100} step={1} onChange={setLti} display={(v) => v + " LTIs/yr"} hint="All OSHA recordable incidents with days-away-from-work" />
               <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 mb-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] tracking-[2px] font-bold text-amber-500">NSC INJURY FACTS 2023</span>
-                </div>
+                <div className="text-[10px] tracking-[2px] font-bold text-amber-500 mb-1">NSC INJURY FACTS 2023</div>
                 <div className="text-sm font-bold text-amber-500">$43,000 per LTI</div>
+                <div className="text-[11px] text-muted-foreground mt-0.5">Per medically consulted work injury</div>
               </div>
               <div className="bg-background/50 border border-border rounded-xl p-4 space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Annual LTI cost</span>
+                  <span className="text-muted-foreground">Your annual LTI cost</span>
                   <span className="font-bold text-white">{money(lti * 43000)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Avoidable with AI</span>
+                  <span className="text-muted-foreground">If 25% prevented</span>
                   <span className="font-bold text-amber-500">{ltiAv} incidents</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Potential saving</span>
+                  <span className="text-muted-foreground">Potential value</span>
                   <span className="font-bold text-primary">{money(ltiSav)}</span>
                 </div>
               </div>
               <div className="bg-background/30 border border-border rounded-xl p-3 mt-3">
                 <div className="text-[10px] tracking-[1px] font-bold text-muted-foreground/60 mb-0.5">UK REFERENCE — HSE 2023/24</div>
-                <div className="text-[11px] text-muted-foreground/50">LTI cost to society: £44,300 — to employer: £7,500</div>
+                <div className="text-[11px] text-muted-foreground/50">LTI cost to society: £44,300 — employer: £7,500</div>
               </div>
             </div>
           )}
@@ -264,15 +280,16 @@ export function ROICalculator() {
                 <h3 className="font-syne text-lg font-black text-white mb-1">Workplace Fatalities</h3>
                 <p className="text-xs text-muted-foreground">Use a 3-year average across all sites</p>
               </div>
-              <CustomSlider label="Fatalities per year" value={fatal} min={0} max={10} step={1} onChange={setFatal} display={(v) => v === 0 ? "None recorded" : v + " per year"} hint="3-year average is more reliable than single-year figures" />
+              <CustomSlider label="Fatalities per year (3-yr average)" value={fatal} min={0} max={10} step={1} onChange={setFatal} display={(v) => v === 0 ? "None recorded" : v + " per year"} hint="3-year average avoids distortion from single-year outliers" />
               {fatal === 0 && (
                 <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-4">
-                  <p className="text-xs text-muted-foreground">No fatalities recorded — shows as $0. LTI and time savings still included.</p>
+                  <p className="text-xs text-muted-foreground">No fatalities recorded — shows as $0. Time savings still included in results.</p>
                 </div>
               )}
               <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-4 mb-4">
                 <div className="text-[10px] tracking-[2px] font-bold text-red-500 mb-1">NSC INJURY FACTS 2023</div>
                 <div className="text-sm font-bold text-red-500">$1,460,000 per fatality</div>
+                <div className="text-[11px] text-muted-foreground mt-0.5">Per work-related death</div>
               </div>
               {fatal > 0 && (
                 <div className="bg-background/50 border border-border rounded-xl p-4 space-y-2">
@@ -281,18 +298,18 @@ export function ROICalculator() {
                     <span className="font-bold text-white">{money(fatal * 1460000)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Avoidable (25%)</span>
+                    <span className="text-muted-foreground">If 25% prevented</span>
                     <span className="font-bold text-red-500">{fatAv}/yr</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Potential saving</span>
+                    <span className="text-muted-foreground">Potential value</span>
                     <span className="font-bold text-primary">{money(fatSav)}</span>
                   </div>
                 </div>
               )}
               <div className="bg-background/30 border border-border rounded-xl p-3 mt-3">
                 <div className="text-[10px] tracking-[1px] font-bold text-muted-foreground/60 mb-0.5">UK REFERENCE — HSE 2023/24</div>
-                <div className="text-[11px] text-muted-foreground/50">Fatality cost to society: £2,185,000 — to employer: £111,000</div>
+                <div className="text-[11px] text-muted-foreground/50">Fatality cost to society: £2,185,000 — employer: £111,000</div>
               </div>
             </div>
           )}
@@ -303,53 +320,144 @@ export function ROICalculator() {
               <div className="text-center mb-6">
                 <div className="text-[10px] tracking-[2px] text-primary font-bold mb-1">YOUR RESULTS</div>
                 <h3 className="font-syne text-xl md:text-2xl font-black text-white mb-2">
-                  AI could unlock <span className="text-primary"><AnimNum target={total} active={anim} /></span> in year one
+                  AI could unlock <span className="text-primary"><AnimNum target={annualValue} active={anim} /></span> per year
                 </h3>
                 <p className="text-xs text-muted-foreground">
                   {team} people · ${sal.toLocaleString()} avg · {lti} LTIs{fatal > 0 ? ` · ${fatal} fatalities` : ""}
                 </p>
+                <p className="text-[11px] text-muted-foreground/60 mt-1">
+                  3-year cumulative: {money(cumulative3yr)} · {roi3}% ROI on investment
+                </p>
               </div>
 
+              {/* Top stat cards — always visible */}
               <div className="grid grid-cols-2 gap-3 mb-4">
-                {[
-                  { val: timeSav, label: "Time savings (McKinsey 25%)", color: "text-primary" },
-                  { val: ltiSav, label: `${ltiAv} LTIs avoided × $43k`, color: "text-amber-500" },
-                  { val: fatSav, label: `${fatAv} fatalities avoided × $1.46M`, color: "text-red-500" },
-                  { val: annHrs, label: "Hours recovered per year", color: "text-purple-400", isHrs: true },
-                ].map((item) => (
-                  <div key={item.label} className="bg-background/50 border border-border rounded-xl p-4 text-center">
-                    <div className="text-xs text-muted-foreground mb-1">{item.label}</div>
-                    <div className={`text-lg font-black ${item.color}`}>
-                      <AnimNum target={item.val} active={anim} isHrs={item.isHrs} />
+                <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
+                  <div className="text-xs text-muted-foreground mb-1">Time savings (Harvard 25%)</div>
+                  <div className="text-lg font-black text-primary">
+                    <AnimNum target={timeSav} active={anim} />
+                  </div>
+                </div>
+                <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
+                  <div className="text-xs text-muted-foreground mb-1">Hours freed from admin/year</div>
+                  <div className="text-lg font-black text-purple-400">
+                    <AnimNum target={annHrs} active={anim} isHrs />
+                  </div>
+                </div>
+              </div>
+
+              {/* Safety outcome toggle */}
+              <div className={`border rounded-xl p-4 mb-4 transition-colors ${safetyToggle ? "bg-primary/5 border-primary/20" : "bg-background/50 border-border"}`}>
+                <div className="flex items-start gap-3">
+                  <button
+                    onClick={() => setSafetyToggle(!safetyToggle)}
+                    className={`mt-0.5 w-10 h-5 rounded-full flex-shrink-0 relative transition-colors cursor-pointer ${safetyToggle ? "bg-primary" : "bg-border"}`}
+                  >
+                    <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${safetyToggle ? "left-[22px]" : "left-0.5"}`} />
+                  </button>
+                  <div>
+                    <div className="text-sm font-bold text-white">Model safety outcome value</div>
+                    <div className="text-[11px] text-muted-foreground leading-relaxed mt-1">
+                      If reinvested hours reduce incidents by 25%: +{money(safetySavings)}/yr (NSC 2023 costs). This models the outcome of proactive safety time — not a direct AI claim.
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
 
-              <div className="bg-background/50 border border-border rounded-xl p-4 mb-6">
-                <div className="text-[10px] tracking-[2px] font-bold text-muted-foreground mb-3">FULL ROI BREAKDOWN</div>
-                {[
-                  { l: "Time savings", v: money(timeSav), c: "text-primary" },
-                  { l: `LTI avoided (${ltiAv} × $43k)`, v: money(ltiSav), c: "text-amber-500" },
-                  { l: `Fatalities avoided (${fatAv} × $1.46M)`, v: money(fatSav), c: "text-red-500" },
-                  { l: "Total annual value", v: money(total), c: "text-white font-black" },
-                  { l: "Programme investment", v: "$" + cost.toLocaleString(), c: "text-muted-foreground" },
-                  { l: "Net return year one", v: money(net), c: net > 0 ? "text-primary" : "text-red-500" },
-                  { l: "Return on investment", v: roi + "%", c: net > 0 ? "text-primary" : "text-red-500" },
-                  { l: "Payback period", v: payback + " weeks", c: "text-white" },
-                ].map((row) => (
-                  <div key={row.l} className="flex justify-between py-1.5 border-b border-border last:border-0 text-sm">
-                    <span className="text-muted-foreground">{row.l}</span>
-                    <span className={`font-bold ${row.c}`}>{row.v}</span>
+              {/* Safety cards — visible only when toggle ON */}
+              {safetyToggle && (
+                <div className="grid grid-cols-2 gap-3 mb-4 animate-fade-in">
+                  <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
+                    <div className="text-xs text-muted-foreground mb-1">{ltiAv} LTIs prevented (25%)</div>
+                    <div className="text-lg font-black text-amber-500">
+                      <AnimNum target={ltiSav} active={anim} />
+                    </div>
                   </div>
-                ))}
+                  <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
+                    <div className="text-xs text-muted-foreground mb-1">{fatAv} fatalities prevented (25%)</div>
+                    <div className="text-lg font-black text-red-500">
+                      <AnimNum target={fatSav} active={anim} />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 3-Year ROI Bar Chart */}
+              <div className="bg-background/50 border border-border rounded-xl p-4 mb-4">
+                <div className="text-[10px] tracking-[2px] font-bold text-muted-foreground mb-4">3-YEAR ROI — ONE-OFF INVESTMENT</div>
+                <div className="flex items-end justify-center gap-6 h-32 mb-4">
+                  {[
+                    { label: "Year 1", value: year1net, note: "after investment" },
+                    { label: "Year 2", value: year2net, note: "zero additional cost" },
+                    { label: "Year 3", value: year3net, note: "zero additional cost" },
+                  ].map((bar, i) => {
+                    const height = barMax > 0 ? Math.max((bar.value / barMax) * 100, 4) : 4;
+                    return (
+                      <div key={bar.label} className="flex flex-col items-center gap-1 flex-1">
+                        <div
+                          className={`w-full max-w-16 rounded-t-md transition-all ${i === 0 ? "bg-primary/60" : "bg-primary"}`}
+                          style={{ height: `${height}%` }}
+                        />
+                        <div className="text-xs font-bold text-white">{money(bar.value)}</div>
+                        <div className="text-[10px] text-muted-foreground">{bar.label}</div>
+                        <div className="text-[9px] text-muted-foreground/50">{bar.note}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* Breakdown table */}
+                <div className="border-t border-border pt-3 space-y-0">
+                  {[
+                    { l: `Year 1 return (after $${cost.toLocaleString()} investment)`, v: money(year1net), c: "text-white" },
+                    { l: "Year 2 return (zero additional cost)", v: money(year2net), c: "text-primary" },
+                    { l: "Year 3 return (zero additional cost)", v: money(year3net), c: "text-primary" },
+                    { l: "3-year cumulative return", v: money(cumulative3yr), c: "text-white font-black" },
+                    { l: "3-year ROI on investment", v: roi3 + "%", c: "text-primary" },
+                    { l: "Year 1 ROI", v: roi1 + "%", c: "text-white" },
+                    { l: "Payback period", v: payback + " weeks", c: "text-white" },
+                  ].map((row) => (
+                    <div key={row.l} className="flex justify-between py-1.5 border-b border-border last:border-0 text-sm">
+                      <span className="text-muted-foreground">{row.l}</span>
+                      <span className={`font-bold ${row.c}`}>{row.v}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Sources */}
+              <div className="bg-background/30 border border-border rounded-xl p-4 mb-6 space-y-3">
+                <div className="text-[10px] tracking-[2px] font-bold text-primary mb-2">SOURCES</div>
+                <div className="text-[11px] text-muted-foreground/60 leading-relaxed space-y-2">
+                  <div>
+                    <strong className="text-muted-foreground">AI TIME SAVINGS — 25%</strong>
+                    <p>Dell'Acqua, F. et al. (2023). "Navigating the Jagged Technological Frontier." Harvard Business School / Boston Consulting Group. Working Paper No. 24-013. RCT with 758 consultants — AI users completed tasks 25% faster on knowledge work within AI's capability frontier.</p>
+                    <p className="mt-1">Corroborated by: Noy & Zhang (2023). "Experimental evidence on the productivity effects of generative AI." <em>Science</em>, 381, 187–192. MIT RCT, 453 professionals — 40% reduction in task time on professional writing tasks.</p>
+                    <p className="mt-1">Applied in this calculator to manual EHS admin tasks only (incident reporting, audit prep, investigation write-ups, permit management, compliance documentation). Not applied to site work, decision-making, or relationship-based activities.</p>
+                  </div>
+                  {safetyToggle && (
+                    <>
+                      <div>
+                        <strong className="text-muted-foreground">LTI & FATALITY COSTS</strong>
+                        <p>National Safety Council. <em>Injury Facts 2023</em>. Cost per medically consulted work injury: $43,000. Cost per work-related death: $1,460,000. injuryfacts.nsc.org/work/costs/work-injury-costs/</p>
+                        <p className="mt-1">UK reference: HSE Appraisal Values 2023/24. LTI cost to society £44,300 / employer £7,500. Fatality cost to society £2,185,000 / employer £111,000.</p>
+                      </div>
+                      <div>
+                        <strong className="text-muted-foreground">INCIDENT REDUCTION — 25%</strong>
+                        <p>Deloitte EHS predictive analytics research via United Safety (2025). Applied here as the modelled outcome of safety professionals reinvesting recovered hours in proactive site presence, observation, and early intervention — not as a direct claim that AI training reduces incidents.</p>
+                      </div>
+                    </>
+                  )}
+                  <p className="italic border-t border-border pt-2">
+                    Direct financial savings modelled only. Unmodelled value includes: staff retention, regulatory fine avoidance, reputational protection, insurance premium impact, and compliance risk reduction. All figures are estimates based on published benchmarks and user inputs — not guarantees of outcome.
+                  </p>
+                </div>
               </div>
 
               <Button onClick={() => setStep(6)} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mb-2">
-                Get my full ROI report
+                Get my full ROI report <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <button
-                onClick={() => { setAnim(false); setStep(1); }}
+                onClick={() => { setAnim(false); setSafetyToggle(false); setStep(1); }}
                 className="w-full flex items-center justify-center gap-2 bg-transparent border border-border rounded-xl py-2.5 text-muted-foreground text-xs hover:border-primary/40 transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" /> Adjust my inputs
@@ -363,16 +471,18 @@ export function ROICalculator() {
               <div className="text-center mb-6">
                 <div className="text-[10px] tracking-[2px] text-primary font-bold mb-1">UNLOCK YOUR REPORT</div>
                 <h3 className="font-syne text-lg font-black text-white mb-1">Get your personalised ROI report</h3>
-                <p className="text-xs text-muted-foreground">Full breakdown + tailored proposal + free 20-min call with Lucas.</p>
+                <p className="text-xs text-muted-foreground">3-year breakdown + tailored In-Company proposal + free 20-minute strategy call with Lucas.</p>
               </div>
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6 flex justify-between items-center">
-                <span className="text-xs text-muted-foreground">Year one value</span>
-                <span className="font-black text-primary">{money(total)} · {roi}% ROI</span>
+                <span className="text-xs text-muted-foreground">Year 1 ROI</span>
+                <span className="font-black text-primary">{roi1}%</span>
+                <span className="text-xs text-muted-foreground">3-year cumulative</span>
+                <span className="font-black text-primary">{money(cumulative3yr)}</span>
               </div>
               <div className="space-y-3">
                 {[
                   { label: "Your name", val: name, setter: setName, placeholder: "First and last name", type: "text" },
-                  { label: "Job title", val: jobTitle, setter: setJobTitle, placeholder: "e.g. HSSEQ Director", type: "text" },
+                  { label: "Job title", val: jobTitle, setter: setJobTitle, placeholder: "e.g. HSSEQ Director, Head of EHS", type: "text" },
                   { label: "Organisation", val: company, setter: setCompany, placeholder: "Company name", type: "text" },
                   { label: "Work email", val: email, setter: setEmail, placeholder: "your@company.com", type: "email" },
                 ].map((field) => (
@@ -390,11 +500,12 @@ export function ROICalculator() {
               </div>
               <Button
                 onClick={submit}
-                disabled={sending || !name.trim() || !email.trim()}
+                disabled={sending || !name.trim() || !email.trim() || !company.trim()}
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mt-5"
               >
-                {sending ? "Sending..." : "Send me my ROI report"}
+                {sending ? "Sending..." : "Send me my ROI report →"}
               </Button>
+              <p className="text-[10px] text-muted-foreground/40 text-center mt-3">No spam. Used only to send your report and follow up on your enquiry.</p>
             </div>
           )}
 
@@ -403,15 +514,16 @@ export function ROICalculator() {
             <div className="text-center">
               <div className="text-5xl mb-4">✅</div>
               <h3 className="font-syne text-lg font-black text-white mb-2">Your ROI report is on its way</h3>
-              <p className="text-sm text-muted-foreground mb-6">Check your inbox. We will be in touch within one business day.</p>
+              <p className="text-sm text-muted-foreground mb-6">Check your inbox. We'll be in touch within one business day.</p>
               <div className="bg-background/50 border border-border rounded-xl p-4 mb-6">
                 {[
-                  { l: "Team", v: team + " people" },
-                  { l: "Time savings", v: money(timeSav) },
-                  { l: "LTI avoided", v: money(ltiSav) },
-                  { l: "Total value", v: money(total) },
-                  { l: "ROI", v: roi + "%" },
-                  { l: "Payback", v: payback + " weeks" },
+                  { l: "Team size", v: team + " people" },
+                  { l: "Annual time savings", v: money(timeSav) },
+                  { l: "Total annual value", v: money(annualValue) },
+                  { l: "Year 1 ROI", v: roi1 + "%" },
+                  { l: "3-year return", v: money(cumulative3yr) },
+                  { l: "3-year ROI", v: roi3 + "%" },
+                  { l: "Payback period", v: payback + " weeks" },
                 ].map((row) => (
                   <div key={row.l} className="flex justify-between py-1.5 border-b border-border last:border-0 text-sm">
                     <span className="text-muted-foreground">{row.l}</span>
@@ -443,7 +555,7 @@ export function ROICalculator() {
                 }}
                 className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl"
               >
-                {step === 4 ? "Calculate my ROI" : "Next"}
+                {step === 4 ? "Calculate my ROI →" : "Next"} {step < 4 && <ArrowRight className="w-4 h-4 ml-1" />}
               </Button>
             </div>
           )}
