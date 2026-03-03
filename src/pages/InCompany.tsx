@@ -438,17 +438,17 @@ const InCompany = () => {
               {[
                 {
                   name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                   featured: false, note: "Ideal for specialist EHS teams and SMEs",
                 },
                 {
                   name: "CORE TEAM", size: "6–10 people", price: "£9,470", per: "fixed team price · from £795 per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                   featured: true, note: "Best value for mid-sized EHS functions",
                 },
                 {
                   name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · from £695 per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                   featured: false, note: "For whole-department transformation",
                 },
               ].map((tier, i) => (
