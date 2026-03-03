@@ -389,7 +389,7 @@ const InCompany = () => {
                 },
               ].map((t, i) => (
                 <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
-                  <p className="text-sm text-muted-foreground italic leading-relaxed flex-1 mb-5">
+                  <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
                     <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
                     {t.quote}
                   </p>
