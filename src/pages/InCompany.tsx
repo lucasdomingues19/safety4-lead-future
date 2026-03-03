@@ -500,8 +500,8 @@ const InCompany = () => {
               ))}
             </div>
             <p className="text-center text-sm text-muted-foreground mt-6">
-              Need 20+ seats?{" "}
-              <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              Need 15+ seats?{" "}
+              <a href="/contact" className="text-primary hover:underline">
                 Contact us for enterprise pricing →
               </a>
             </p>
