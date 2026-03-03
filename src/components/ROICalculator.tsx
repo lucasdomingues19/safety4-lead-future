@@ -200,7 +200,7 @@ export function ROICalculator() {
               <Button onClick={() => setStep(1)} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl">
                 Calculate my ROI <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <p className="text-[11px] text-muted-foreground/50 mt-3">4 steps · No sign-up to see results</p>
+              <p className="text-[11px] text-muted-foreground/50 mt-3">&nbsp;</p>
             </div>
           }
 
