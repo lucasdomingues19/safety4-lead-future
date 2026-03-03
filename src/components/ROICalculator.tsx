@@ -402,12 +402,12 @@ export function ROICalculator() {
                   const isNeg = bar.value < 0;
                   return (
                     <div key={bar.label} className="flex flex-col items-center gap-1 flex-1">
-                        <div className="text-xs font-bold text-white">{bar.label}</div>
+                        <div className="text-sm font-bold text-white">{bar.label}</div>
                         <div
-                        className={`w-full max-w-16 rounded-t-md transition-all ${isNeg ? "bg-red-500" : i === 0 ? "bg-primary/60" : "bg-primary"}`}
+                        className={`w-full max-w-16 rounded-t-md transition-all ${isNeg ? "bg-red-500" : i === 0 ? "bg-secondary/60" : "bg-secondary"}`}
                         style={{ height: `${height}%` }} />
                       
-                        <div className={`text-xs font-bold ${isNeg ? "text-red-500" : "text-white"}`}>{money(bar.value)}</div>
+                        <div className={`text-lg font-black ${isNeg ? "text-red-500" : "text-secondary"}`}>{money(bar.value)}</div>
                         <div className="text-[9px] text-muted-foreground/50">{bar.note}</div>
                       </div>);
 
