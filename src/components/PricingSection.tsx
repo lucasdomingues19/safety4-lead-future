@@ -59,7 +59,7 @@ export const PricingSection = () => {
     },
     {
       name: "In-Company",
-      price: "Custom",
+      price: "Special",
       period: "pricing",
       description: "Tailored training solution for your organization",
       icon: Building,
