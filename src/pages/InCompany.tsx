@@ -438,7 +438,7 @@ const InCompany = () => {
               {[
                 {
                   name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Team completion dashboard"],
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                   featured: false, note: "Ideal for specialist EHS teams and SMEs",
                 },
                 {
@@ -448,7 +448,7 @@ const InCompany = () => {
                 },
                 {
                   name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · from £695 per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "6 live group sessions with Lucas", "Custom onboarding & diagnostics", "Cohort peer community access", "Management capability report", "Post-programme strategy session"],
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                   featured: false, note: "For whole-department transformation",
                 },
               ].map((tier, i) => (
