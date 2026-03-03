@@ -70,7 +70,7 @@ export const PricingSection = () => {
         "Company-specific case studies",
         
         "Progress tracking dashboard",
-        "Dedicated account manager",
+        
         "Post-training support",
         "Bulk certification discounts",
       ],
