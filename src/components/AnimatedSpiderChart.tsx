@@ -282,10 +282,10 @@ export const AnimatedSpiderChart = () => {
         <div className={`text-2xl md:text-3xl font-black font-syne transition-all duration-500 ${
           phase === "after" ? "text-primary" : "text-pink-500"
         }`}>
-          {phase === "after" ? "+156%" : "Baseline"}
+          {phase === "after" ? "After" : "Baseline"}
         </div>
         <div className="text-xs text-muted-foreground mt-1">
-          {phase === "after" ? "avg. capability uplift" : "pre-programme score"}
+          {phase === "after" ? "post-programme score" : "pre-programme score"}
         </div>
       </div>
     </div>
