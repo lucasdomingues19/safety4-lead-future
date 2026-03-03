@@ -175,7 +175,7 @@ const InCompany = () => {
                       Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
-                  <a href="#roi" className="flex items-center gap-2 text-muted-foreground hover:text-white transition-colors text-sm">
+                  <a href="#roi" className="flex items-center gap-2 text-pink-500 hover:text-pink-400 transition-colors text-sm">
                     <ArrowDown className="w-4 h-4" /> Calculate your team's ROI
                   </a>
                 </div>
