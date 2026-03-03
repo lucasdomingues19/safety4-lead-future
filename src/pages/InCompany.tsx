@@ -437,7 +437,7 @@ const InCompany = () => {
             <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
                 {
-                  name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997per person",
+                  name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997 per person", perPink: "£997 per person",
                   features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                   featured: false, note: "Ideal for specialist EHS teams and SMEs",
                 },
@@ -471,6 +471,8 @@ const InCompany = () => {
                   <div className="text-xs text-muted-foreground mb-6">
                     {tier.discount ? (
                       <>fixed team price · <span className="text-pink-500 font-bold">{tier.discount}</span></>
+                    ) : tier.perPink ? (
+                      <>fixed team price · <span className="text-pink-500 font-bold">{tier.perPink}</span></>
                     ) : tier.per}
                   </div>
                   <ul className="flex-1 mb-6">
