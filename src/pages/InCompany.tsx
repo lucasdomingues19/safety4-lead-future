@@ -437,8 +437,8 @@ const InCompany = () => {
             <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
                 {
-                  name: "STARTER", size: "Up to 5 people", price: "£4,975", per: "fixed team price · £995 per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "2 live group sessions with Lucas", "60+ on-demand video lessons", "Team completion dashboard"],
+                  name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997per person",
+                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "8+ CPD hours per participant", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Team completion dashboard"],
                   featured: false, note: "Ideal for specialist EHS teams and SMEs",
                 },
                 {
