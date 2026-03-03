@@ -566,13 +566,6 @@ export function ROICalculator() {
           )}
         </div>
 
-        {step <= 1 && (
-          <div className="px-6 pb-4 flex justify-center gap-4 flex-wrap">
-            {["IOSH Approved", "NSC · Harvard · UK HSE", "Trusted by Siemens & SAMA"].map(t => (
-              <span key={t} className="text-[9px] tracking-[1px] text-muted-foreground/40 font-bold">{t}</span>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
