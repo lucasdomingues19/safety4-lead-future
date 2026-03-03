@@ -75,6 +75,7 @@ export function ROICalculator() {
   const [sal, setSal] = useState(75000);
   const [manHrs, setManHrs] = useState(14);
   const [lti, setLti] = useState(8);
+  const [nlti, setNlti] = useState(20);
   const [fatal, setFatal] = useState(0);
   const [safetyToggle, setSafetyToggle] = useState(false);
   const [name, setName] = useState("");
@@ -88,10 +89,12 @@ export function ROICalculator() {
   const annHrs = Math.round(team * manHrs * 0.25 * 48);
   const timeSav = Math.round(annHrs * hourly);
   const ltiAv = Math.round(lti * 0.25);
+  const nltiAv = Math.round(nlti * 0.25);
   const fatAv = Math.round(fatal * 0.25);
   const ltiSav = ltiAv * 43000;       // NSC Injury Facts 2023
+  const nltiSav = nltiAv * 10000;     // NSC Injury Facts 2023 medical-only
   const fatSav = fatAv * 1460000;      // NSC Injury Facts 2023
-  const safetySavings = ltiSav + fatSav;
+  const safetySavings = ltiSav + nltiSav + fatSav;
 
   const annualValue = safetyToggle ? timeSav + safetySavings : timeSav;
   const cost = team <= 5 ? 6500 : team <= 10 ? 10500 : team <= 20 ? 18500 : 25000;
@@ -124,7 +127,7 @@ export function ROICalculator() {
     setSending(false);
   }, [name, email, jobTitle, company, team, sal, lti, fatal, annualValue, roi3, payback]);
 
-  const stepLabels = ["Your team", "Manual hours", "LT injuries", "Fatalities"];
+  const stepLabels = ["Your team", "Manual hours", "Injuries", "Fatalities"];
 
   // Bar chart helper
   const barMax = Math.max(year1net, year2net, year3net, 1);
@@ -237,34 +240,53 @@ export function ROICalculator() {
             </div>
           )}
 
-          {/* STEP 3 — LTIs */}
+          {/* STEP 3 — INJURIES */}
           {step === 3 && (
             <div>
               <div className="mb-6">
                 <div className="text-[10px] tracking-[2px] text-primary font-bold mb-1">STEP 3 OF 4</div>
-                <h3 className="font-syne text-lg font-black text-white mb-1">Lost-Time Injuries</h3>
-                <p className="text-xs text-muted-foreground">OSHA recordable incidents with days away from work</p>
+                <h3 className="font-syne text-lg font-black text-white mb-1">Injuries</h3>
+                <p className="text-xs text-muted-foreground">OSHA recordable incidents across all sites</p>
               </div>
-              <CustomSlider label="LTIs per year across all sites" value={lti} min={0} max={100} step={1} onChange={setLti} display={(v) => v + " LTIs/yr"} hint="All OSHA recordable incidents with days-away-from-work" />
-              <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 mb-4">
-                <div className="text-[10px] tracking-[2px] font-bold text-amber-500 mb-1">NSC INJURY FACTS 2023</div>
-                <div className="text-sm font-bold text-amber-500">$43,000 per LTI</div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">Per medically consulted work injury</div>
+
+              {/* LTI slider */}
+              <CustomSlider label="LTIs per year across all sites" value={lti} min={0} max={100} step={1} onChange={setLti} display={(v) => v + " LTIs/yr"} hint="Lost-time injuries — incidents with days away from work" />
+
+              {/* Non-LTI slider */}
+              <CustomSlider label="Non-LTI injuries per year across all sites" value={nlti} min={0} max={500} step={1} onChange={setNlti} display={(v) => v + " NLTIs/yr"} hint="Medical-only, restricted work, or job-transfer injuries" />
+
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
+                  <div className="text-[10px] tracking-[2px] font-bold text-amber-500 mb-1">LTI COST</div>
+                  <div className="text-sm font-bold text-amber-500">$43,000</div>
+                  <div className="text-[10px] text-muted-foreground mt-0.5">NSC Injury Facts 2023</div>
+                </div>
+                <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4">
+                  <div className="text-[10px] tracking-[2px] font-bold text-orange-500 mb-1">NLTI COST</div>
+                  <div className="text-sm font-bold text-orange-500">$10,000</div>
+                  <div className="text-[10px] text-muted-foreground mt-0.5">NSC medical-only avg</div>
+                </div>
               </div>
+
               <div className="bg-background/50 border border-border rounded-xl p-4 space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Your annual LTI cost</span>
+                  <span className="text-muted-foreground">Annual LTI cost ({lti} × $43k)</span>
                   <span className="font-bold text-white">{money(lti * 43000)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Annual NLTI cost ({nlti} × $10k)</span>
+                  <span className="font-bold text-white">{money(nlti * 10000)}</span>
+                </div>
+                <div className="flex justify-between text-sm border-t border-border pt-2">
                   <span className="text-muted-foreground">If 25% prevented</span>
-                  <span className="font-bold text-amber-500">{ltiAv} incidents</span>
+                  <span className="font-bold text-amber-500">{ltiAv} LTIs + {nltiAv} NLTIs</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Potential value</span>
-                  <span className="font-bold text-primary">{money(ltiSav)}</span>
+                  <span className="font-bold text-primary">{money(ltiSav + nltiSav)}</span>
                 </div>
               </div>
+
               <div className="bg-background/30 border border-border rounded-xl p-3 mt-3">
                 <div className="text-[10px] tracking-[1px] font-bold text-muted-foreground/60 mb-0.5">UK REFERENCE — HSE 2023/24</div>
                 <div className="text-[11px] text-muted-foreground/50">LTI cost to society: £44,300 — employer: £7,500</div>
@@ -323,7 +345,7 @@ export function ROICalculator() {
                   AI could unlock <span className="text-primary"><AnimNum target={annualValue} active={anim} /></span> per year
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  {team} people · ${sal.toLocaleString()} avg · {lti} LTIs{fatal > 0 ? ` · ${fatal} fatalities` : ""}
+                  {team} people · ${sal.toLocaleString()} avg · {lti} LTIs · {nlti} NLTIs{fatal > 0 ? ` · ${fatal} fatalities` : ""}
                 </p>
                 <p className="text-[11px] text-muted-foreground/60 mt-1">
                   3-year cumulative: {money(cumulative3yr)} · {roi3}% ROI on investment
@@ -358,7 +380,7 @@ export function ROICalculator() {
                   <div>
                     <div className="text-sm font-bold text-white">Model safety outcome value</div>
                     <div className="text-[11px] text-muted-foreground leading-relaxed mt-1">
-                      If reinvested hours reduce incidents by 25%: +{money(safetySavings)}/yr (NSC 2023 costs). This models the outcome of proactive safety time — not a direct AI claim.
+                      If reinvested hours reduce incidents by 25%: +{money(safetySavings)}/yr (NSC 2023 costs — LTI $43k, NLTI $10k, fatality $1.46M). This models the outcome of proactive safety time — not a direct AI claim.
                     </div>
                   </div>
                 </div>
@@ -366,15 +388,21 @@ export function ROICalculator() {
 
               {/* Safety cards — visible only when toggle ON */}
               {safetyToggle && (
-                <div className="grid grid-cols-2 gap-3 mb-4 animate-fade-in">
+                <div className="grid grid-cols-3 gap-3 mb-4 animate-fade-in">
                   <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
-                    <div className="text-xs text-muted-foreground mb-1">{ltiAv} LTIs prevented (25%)</div>
+                    <div className="text-xs text-muted-foreground mb-1">{ltiAv} LTIs prevented</div>
                     <div className="text-lg font-black text-amber-500">
                       <AnimNum target={ltiSav} active={anim} />
                     </div>
                   </div>
                   <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
-                    <div className="text-xs text-muted-foreground mb-1">{fatAv} fatalities prevented (25%)</div>
+                    <div className="text-xs text-muted-foreground mb-1">{nltiAv} NLTIs prevented</div>
+                    <div className="text-lg font-black text-orange-500">
+                      <AnimNum target={nltiSav} active={anim} />
+                    </div>
+                  </div>
+                  <div className="bg-background/50 border border-border rounded-xl p-4 text-center">
+                    <div className="text-xs text-muted-foreground mb-1">{fatAv} fatalities prevented</div>
                     <div className="text-lg font-black text-red-500">
                       <AnimNum target={fatSav} active={anim} />
                     </div>
