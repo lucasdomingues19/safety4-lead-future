@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Calculator, RotateCcw, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -84,6 +84,11 @@ export function ROICalculator() {
   const [email, setEmail] = useState("");
   const [newsConsent, setNewsConsent] = useState(false);
   const [sending, setSending] = useState(false);
+  const calcRef = useRef<HTMLDivElement>(null);
+
+  const scrollToCalc = useCallback(() => {
+    setTimeout(() => calcRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+  }, []);
 
   // Calculations — all benchmarks sourced, do not modify
   const hourly = sal / 52 / 37.5;
@@ -131,14 +136,15 @@ export function ROICalculator() {
     }
     setStep(7);
     setSending(false);
-  }, [name, email, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly]);
+    scrollToCalc();
+  }, [name, email, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly, scrollToCalc]);
 
   const stepLabels = ["Your team", "Manual hours", "Recordable injuries", "Fatalities"];
 
-  function goResults() {setStep(5);setTimeout(() => setAnim(true), 300);}
+  function goResults() {setStep(5);scrollToCalc();setTimeout(() => setAnim(true), 300);}
 
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full max-w-xl mx-auto" ref={calcRef}>
       <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-2xl">
         {/* Header */}
         <div className="p-6 pb-4 border-b border-border flex items-center gap-3">
@@ -468,7 +474,7 @@ export function ROICalculator() {
                 </div>
               </div>
 
-              <Button onClick={() => setStep(6)} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mb-2">
+              <Button onClick={() => { setStep(6); scrollToCalc(); }} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mb-2">
                 Get my full ROI report <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <button
