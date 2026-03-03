@@ -25,8 +25,8 @@ import {
   Clock,
   BookOpen,
   Award,
-  MessageCircle,
-} from "lucide-react";
+  MessageCircle } from
+"lucide-react";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
@@ -66,7 +66,7 @@ const InCompany = () => {
     setPageSEO({
       title: "In-Company Safety 4.0 Training | Team & Enterprise Pricing | Safety 4.0 Academy",
       description: "Train your entire EHS team with the world's first IOSH-approved Safety 4.0 programme. Fixed pricing from £4,975. AI, SafetyTech & digital leadership for teams of 5–20+.",
-      canonical: "https://safetyacademy.tech/in-company",
+      canonical: "https://safetyacademy.tech/in-company"
     });
 
     const observer = new IntersectionObserver(
@@ -148,8 +148,8 @@ const InCompany = () => {
                 </div>
 
                 <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-                  {currentHeadline === 0 ? (
-                    <>
+                  {currentHeadline === 0 ?
+                  <>
                       <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
                         Build an <span className="text-pink-500">AI-ready</span> safety team. <span className="text-primary">Upgrade your impact.</span>
                       </h1>
@@ -157,9 +157,9 @@ const InCompany = () => {
                         The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. Trusted by{" "}
                         <span className="font-bold text-lime-400">Siemens, LEGO, MARSH</span>, and safety teams across 12 countries.
                       </p>
-                    </>
-                  ) : (
-                    <>
+                    </> :
+
+                  <>
                       <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
                         AI Is Moving <span className="text-primary">Fast</span>. Don't Leave Your Safety Team <span className="text-pink-500">Behind</span>
                       </h1>
@@ -167,7 +167,7 @@ const InCompany = () => {
                         Build team-wide digital fluency so EHS can move faster and safer, make better decisions, and scale impact without adding headcount.
                       </p>
                     </>
-                  )}
+                  }
                 </div>
                 <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start">
                   <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
@@ -197,34 +197,34 @@ const InCompany = () => {
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-card/80 to-transparent z-10" />
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-card/80 to-transparent z-10" />
             <div className="flex animate-scroll w-max" style={{ animationDuration: '30s' }}>
-              {[...Array(2)].map((_, setIndex) => (
-                <div key={setIndex} className="flex items-center gap-12 md:gap-20 px-6">
+              {[...Array(2)].map((_, setIndex) =>
+              <div key={setIndex} className="flex items-center gap-12 md:gap-20 px-6">
                   {[
-                    { src: legoLogo, alt: "LEGO" },
-                    { src: siemensLogo, alt: "Siemens" },
-                    { src: marshLogo, alt: "Marsh" },
-                    { src: samaLogo, alt: "SAMA" },
-                    { src: crtsLogo, alt: "CRTS Global" },
-                    { src: seadrillLogo, alt: "Seadrill" },
-                    { src: velestroylLogo, alt: "Velesstroy" },
-                    { src: nioshLogo, alt: "NIOSH" },
-                    { src: soterLogo, alt: "Soter AI" },
-                    { src: fieldLogo, alt: "Field Energy" },
-                    { src: fugroLogo, alt: "Fugro" },
-                  ].map((logo, i) => (
-                    <div
-                      key={`${setIndex}-${i}`}
-                      className="flex-shrink-0 bg-white rounded-xl p-4 flex items-center justify-center h-16 md:h-20 w-28 md:w-36 hover:scale-105 transition-transform"
-                    >
+                { src: legoLogo, alt: "LEGO" },
+                { src: siemensLogo, alt: "Siemens" },
+                { src: marshLogo, alt: "Marsh" },
+                { src: samaLogo, alt: "SAMA" },
+                { src: crtsLogo, alt: "CRTS Global" },
+                { src: seadrillLogo, alt: "Seadrill" },
+                { src: velestroylLogo, alt: "Velesstroy" },
+                { src: nioshLogo, alt: "NIOSH" },
+                { src: soterLogo, alt: "Soter AI" },
+                { src: fieldLogo, alt: "Field Energy" },
+                { src: fugroLogo, alt: "Fugro" }].
+                map((logo, i) =>
+                <div
+                  key={`${setIndex}-${i}`}
+                  className="flex-shrink-0 bg-white rounded-xl p-4 flex items-center justify-center h-16 md:h-20 w-28 md:w-36 hover:scale-105 transition-transform">
+                  
                       <img
-                        src={logo.src}
-                        alt={logo.alt}
-                        className="max-h-10 md:max-h-14 max-w-20 md:max-w-28 object-contain"
-                      />
+                    src={logo.src}
+                    alt={logo.alt}
+                    className="max-h-10 md:max-h-14 max-w-20 md:max-w-28 object-contain" />
+                  
                     </div>
-                  ))}
+                )}
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
@@ -253,33 +253,33 @@ const InCompany = () => {
                 <div className="bg-card border border-border rounded-xl p-6">
                   <div className="text-[11px] tracking-[2px] text-primary font-bold mb-5">THE DATA</div>
                   {[
-                    { num: "25%", color: "text-primary", desc: "of safety professionals have zero AI skills (Safety 4.0 research, 2024)" },
-                    { num: "61%", color: "text-secondary", desc: 'describe themselves as "AI beginners" with no structured path to change' },
-                    { num: "77%", color: "text-white", desc: "of EHS leaders say AI adoption is a priority — but lack a training framework" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-4 mb-4 last:mb-0">
+                  { num: "25%", color: "text-primary", desc: "of safety professionals have zero AI skills (Safety 4.0 research, 2024)" },
+                  { num: "61%", color: "text-secondary", desc: 'describe themselves as "AI beginners" with no structured path to change' },
+                  { num: "77%", color: "text-white", desc: "of EHS leaders say AI adoption is a priority — but lack a training framework" }].
+                  map((item, i) =>
+                  <div key={i} className="flex items-center gap-4 mb-4 last:mb-0">
                       <div className={`text-3xl font-black ${item.color} min-w-[70px]`}>{item.num}</div>
                       <div className="text-sm text-muted-foreground">{item.desc}</div>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
 
               <div className="flex flex-col gap-3.5">
                 {[
-                  { icon: ClipboardList, title: "Manual reporting still consuming 5–8 hrs/week per person", desc: "AI-assisted reporting can reduce this by 55% — but only if your team knows how to apply it." },
-                  { icon: Zap, title: "Reactive safety culture built on lagging indicators", desc: "Predictive analytics and IoT sensor data are available. The barrier is capability, not technology." },
-                  { icon: BarChart3, title: "Safety data that doesn't make it to the board", desc: "Data visualisation and AI-powered dashboards can change this — with the right skills in your team." },
-                  { icon: Trophy, title: "Talent retention risk in a rapidly shifting profession", desc: "Safety professionals are actively seeking digital upskilling. In-Company training is a retention tool." },
-                ].map((item, i) => (
-                  <div key={i} className="bg-card border border-border rounded-xl p-4 flex gap-4 items-start">
+                { icon: ClipboardList, title: "Manual reporting still consuming 5–8 hrs/week per person", desc: "AI-assisted reporting can reduce this by 55% — but only if your team knows how to apply it." },
+                { icon: Zap, title: "Reactive safety culture built on lagging indicators", desc: "Predictive analytics and IoT sensor data are available. The barrier is capability, not technology." },
+                { icon: BarChart3, title: "Safety data that doesn't make it to the board", desc: "Data visualisation and AI-powered dashboards can change this — with the right skills in your team." },
+                { icon: Trophy, title: "Talent retention risk in a rapidly shifting profession", desc: "Safety professionals are actively seeking digital upskilling. In-Company training is a retention tool." }].
+                map((item, i) =>
+                <div key={i} className="bg-card border border-border rounded-xl p-4 flex gap-4 items-start">
                     <item.icon className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="text-sm font-bold text-white mb-1">{item.title}</div>
                       <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
@@ -298,38 +298,38 @@ const InCompany = () => {
 
             <div ref={setFadeRef(3)} className="grid md:grid-cols-2 gap-4 opacity-0 translate-y-6 transition-all duration-700">
               {[
-                { num: "01", title: "Introduction & Orientation", desc: "Course overview, objectives, CPD & IOSH value, learner expectations." },
-                { num: "02", title: "What is Safety 4.0?", desc: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution." },
-                { num: "03", title: "The Safety Status Quo is Broken", desc: "Compliance-heavy culture, lagging indicators, reactive safety trap." },
-                { num: "04", title: "Skills for the Safety Leader in the Digital Age", desc: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills." },
-                { num: "05", title: "Safetytech Practical Applications", desc: "Wearables, IoT, drones, mobile-first systems, computer vision." },
-                { num: "06", title: "Building your Digital Safety Toolkit", desc: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes." },
-                { num: "07", title: "Data Strategy: From Chaos to Clarity", desc: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits." },
-                { num: "08", title: "AI Essentials for Safety Leaders", desc: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks." },
-                { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
-                { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." },
-              ].map((mod, i) => (
-                <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
+              { num: "01", title: "Introduction & Orientation", desc: "Course overview, objectives, CPD & IOSH value, learner expectations." },
+              { num: "02", title: "What is Safety 4.0?", desc: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution." },
+              { num: "03", title: "The Safety Status Quo is Broken", desc: "Compliance-heavy culture, lagging indicators, reactive safety trap." },
+              { num: "04", title: "Skills for the Safety Leader in the Digital Age", desc: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills." },
+              { num: "05", title: "Safetytech Practical Applications", desc: "Wearables, IoT, drones, mobile-first systems, computer vision." },
+              { num: "06", title: "Building your Digital Safety Toolkit", desc: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes." },
+              { num: "07", title: "Data Strategy: From Chaos to Clarity", desc: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits." },
+              { num: "08", title: "AI Essentials for Safety Leaders", desc: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks." },
+              { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
+              { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." }].
+              map((mod, i) =>
+              <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
                   <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-pink-500' : 'text-primary'}`}>MODULE {mod.num}</div>
                   <div className="text-[15px] font-bold text-white mb-2">{mod.title}</div>
                   <div className="text-sm text-muted-foreground">{mod.desc}</div>
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Stats row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
               {[
-                { val: "60+", label: "Studio-recorded video lessons, available on demand" },
-                { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
-                { val: "IOSH", label: "Approved certification recognised globally" },
-                { val: "Global", label: "Impact — delivered to teams in 12+ countries" },
-              ].map((s, i) => (
-                <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
+              { val: "60+", label: "Studio-recorded video lessons, available on demand" },
+              { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
+              { val: "IOSH", label: "Approved certification recognised globally" },
+              { val: "Global", label: "Impact — delivered to teams in 12+ countries" }].
+              map((s, i) =>
+              <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
                   <div className="text-2xl font-black text-primary">{s.val}</div>
                   <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -347,20 +347,20 @@ const InCompany = () => {
               <div className="hidden md:block absolute top-7 left-7 right-7 h-0.5 bg-border z-0" />
 
               {[
-                { step: "1", title: "Discovery Call", desc: "20 minutes with Lucas to understand your team, objectives, and timeline." },
-                { step: "2", title: "Tailored Proposal", desc: "Customised scope, delivery format, and fixed pricing within 48 hours." },
-                { step: "3", title: "Onboarding", desc: "Team access + pre-programme diagnostic to baseline digital capability." },
-                { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
-                { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved and CPD-accredited certificate." },
-              ].map((s, i) => (
-                <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4">
+              { step: "1", title: "Discovery Call", desc: "20 minutes with Lucas to understand your team, objectives, and timeline." },
+              { step: "2", title: "Tailored Proposal", desc: "Customised scope, delivery format, and fixed pricing within 48 hours." },
+              { step: "3", title: "Onboarding", desc: "Team access + pre-programme diagnostic to baseline digital capability." },
+              { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
+              { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved and CPD-accredited certificate." }].
+              map((s, i) =>
+              <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4">
                   <div className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] ${i % 2 === 0 ? 'border-primary text-primary' : 'border-pink-500 text-pink-500'}`}>
                     {s.step}
                   </div>
                   <div className="text-sm font-bold text-white mb-2">{s.title}</div>
                   <div className="text-xs text-muted-foreground leading-relaxed">{s.desc}</div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -375,20 +375,20 @@ const InCompany = () => {
 
             <div ref={setFadeRef(5)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
-                {
-                  quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject. I also really enjoyed the practical examples as they helped me understand the applications of SafetyTech better.",
-                  name: "Ana Coutinho", role: "HSE Manager", photo: anaCoutinhoPhoto, company: "LEGO GROUP",
-                },
-                {
-                  quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. The content is clear, accessible, and supported by well-produced examples that make the concepts easy to follow. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
-                  name: "Jacqueline Carr", role: "Global OSH Leader", photo: jacquelineCarrPhoto, company: "SIEMENS",
-                },
-                {
-                  quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
-                  name: "Stewart Deary", role: "Global HSE Director", photo: stewartDearyPhoto, company: "CRTS GLOBAL",
-                },
-              ].map((t, i) => (
-                <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+              {
+                quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject. I also really enjoyed the practical examples as they helped me understand the applications of SafetyTech better.",
+                name: "Ana Coutinho", role: "HSE Manager", photo: anaCoutinhoPhoto, company: "LEGO GROUP"
+              },
+              {
+                quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. The content is clear, accessible, and supported by well-produced examples that make the concepts easy to follow. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
+                name: "Jacqueline Carr", role: "Global OSH Leader", photo: jacquelineCarrPhoto, company: "SIEMENS"
+              },
+              {
+                quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
+                name: "Stewart Deary", role: "Global HSE Director", photo: stewartDearyPhoto, company: "CRTS GLOBAL"
+              }].
+              map((t, i) =>
+              <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
                   <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
                     <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
                     {t.quote}
@@ -404,7 +404,7 @@ const InCompany = () => {
                     {t.company}
                   </span>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -436,68 +436,68 @@ const InCompany = () => {
 
             <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
-                {
-                  name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997 per person", perPink: "£997 per person",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
-                  featured: false, note: "Ideal for specialist EHS teams and SMEs",
-                },
-                {
-                  name: "CORE TEAM", size: "6–10 people", price: "£9,470", per: "fixed team price · 5% OFF", discount: "5% OFF",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
-                  featured: true, note: "Best value for mid-sized EHS functions",
-                },
-                {
-                  name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · 10% OFF", discount: "10% OFF",
-                  features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
-                  featured: false, note: "For whole-department transformation",
-                },
-              ].map((tier, i) => (
-                <div
-                  key={i}
-                  className={`bg-card border rounded-2xl p-8 flex flex-col relative transition-all hover:-translate-y-1 ${
-                    tier.featured
-                      ? "border-primary shadow-[0_0_0_1px_hsl(85,100%,72%),0_20px_60px_hsl(85,100%,72%,0.15)]"
-                      : "border-border hover:border-primary/40"
-                  }`}
-                >
-                  {tier.featured && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-bold tracking-[2px] px-4 py-1 rounded-full whitespace-nowrap">
+              {
+                name: "PILOT", size: "Up to 5 people", price: "£4,985", per: "fixed team price · £997 per person", perPink: "£997 per person",
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                featured: false, note: "Ideal for specialist EHS teams and SMEs"
+              },
+              {
+                name: "CORE TEAM", size: "6–10 people", price: "£9,470", per: "fixed team price · 5% OFF", discount: "5% OFF",
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                featured: true, note: "Best value for mid-sized EHS functions"
+              },
+              {
+                name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · 10% OFF", discount: "10% OFF",
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                featured: false, note: "For whole-department transformation"
+              }].
+              map((tier, i) =>
+              <div
+                key={i}
+                className={`bg-card border rounded-2xl p-8 flex flex-col relative transition-all hover:-translate-y-1 ${
+                tier.featured ?
+                "border-primary shadow-[0_0_0_1px_hsl(85,100%,72%),0_20px_60px_hsl(85,100%,72%,0.15)]" :
+                "border-border hover:border-primary/40"}`
+                }>
+                
+                  {tier.featured &&
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-bold tracking-[2px] px-4 py-1 rounded-full whitespace-nowrap">
                       ★ MOST POPULAR
                     </div>
-                  )}
+                }
                   <div className="text-xs font-bold tracking-[2px] text-muted-foreground mb-2">{tier.name}</div>
                   <div className="text-xl font-black text-white mb-1">{tier.size}</div>
                   <div className="text-4xl font-black text-primary mb-1">{tier.price}</div>
                   <div className="text-xs text-muted-foreground mb-6">
-                    {tier.discount ? (
-                      <>fixed team price · <span className="text-pink-500 font-bold">{tier.discount}</span></>
-                    ) : tier.perPink ? (
-                      <>fixed team price · <span className="text-pink-500 font-bold">{tier.perPink}</span></>
-                    ) : tier.per}
+                    {tier.discount ?
+                  <>fixed team price · <span className="text-pink-500 font-bold">{tier.discount}</span></> :
+                  tier.perPink ?
+                  <>fixed team price · <span className="text-pink-500 font-bold">{tier.perPink}</span></> :
+                  tier.per}
                   </div>
                   <ul className="flex-1 mb-6">
-                    {tier.features.map((f, fi) => (
-                      <li key={fi} className="text-sm text-muted-foreground py-2 border-b border-border flex gap-2.5 items-start">
+                    {tier.features.map((f, fi) =>
+                  <li key={fi} className="text-sm text-muted-foreground py-2 border-b border-border flex gap-2.5 items-start">
                         <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                         {f}
                       </li>
-                    ))}
+                  )}
                   </ul>
                   <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="block">
                     <Button
-                      className={`w-full font-bold tracking-wider text-sm py-3 ${
-                        tier.featured
-                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                          : "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                      }`}
-                      variant={tier.featured ? "default" : "outline"}
-                    >
+                    className={`w-full font-bold tracking-wider text-sm py-3 ${
+                    tier.featured ?
+                    "bg-primary text-primary-foreground hover:bg-primary/90" :
+                    "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-primary"}`
+                    }
+                    variant={tier.featured ? "default" : "outline"}>
+                    
                       Book a call
                     </Button>
                   </a>
                   <p className="text-[11px] text-muted-foreground text-center mt-3">{tier.note}</p>
                 </div>
-              ))}
+              )}
             </div>
             <p className="text-center text-sm text-muted-foreground mt-6">
               Need 15+ seats?{" "}
@@ -517,15 +517,15 @@ const InCompany = () => {
             <div ref={setFadeRef(8)} className="max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
               <Accordion type="single" collapsible className="w-full">
                 {[
-                  { q: "What is the Safety 4.0 Accelerator?", a: "It's a tailored 4-week curriculum built for and by EHS senior professionals. It's the world's first IOSH approved and CPD accredited programme for EHS working professionals. The curriculum has 10 core modules and 4 masterclasses delivered weekly." },
-                  { q: "How does delivery work around our team's schedule?", a: "The programme is designed for working professionals. Live sessions are scheduled around your team, and all 60+ video lessons are on-demand. The full programme is delivered in 4 weeks, spending 3–4 hours per week on average." },
-                  { q: "Can the content be customised for our sector?", a: "Yes. While the core curriculum is standardised and IOSH-approved, live sessions and case studies are tailored to your sector — construction, manufacturing, energy, logistics, and others." },
-                  { q: "What does IOSH approval actually mean for our compliance?", a: "IOSH is the world's largest professional body for health and safety practitioners. An IOSH-approved programme meets rigorous standards for content, delivery, and assessment." },
-                  { q: "We already have NEBOSH/IOSH training budgets. How does this fit?", a: "Safety 4.0 complements, not replaces, your existing development. NEBOSH and IOSH qualifications cover safety management fundamentals. Safety 4.0 covers the digital and AI capability layer that those qualifications don't yet address." },
-                  { q: "What happens after the programme ends?", a: "Participants retain lifetime access to course materials and join the Safety 4.0 alumni community — a network of certified EHS leaders from 12+ countries." },
-                  { q: "Can we get a proposal without committing to anything?", a: "Absolutely. The 20-minute discovery call is a conversation, not a sales pitch. You'll receive a tailored written proposal within 48 hours. No obligation." },
-                ].map((item, i) => (
-                  <AccordionItem key={i} value={`faq-${i}`} className="border-border">
+                { q: "What is the Safety 4.0 Accelerator?", a: "It's a tailored 4-week curriculum built for and by EHS senior professionals. It's the world's first IOSH approved and CPD accredited programme for EHS working professionals. The curriculum has 10 core modules and 4 masterclasses delivered weekly." },
+                { q: "How does delivery work around our team's schedule?", a: "The programme is designed for working professionals. Live sessions are scheduled around your team, and all 60+ video lessons are on-demand. The full programme is delivered in 4 weeks, spending 3–4 hours per week on average." },
+                { q: "Can the content be customised for our sector?", a: "Yes. While the core curriculum is standardised and IOSH-approved, live sessions and case studies are tailored to your sector — construction, manufacturing, energy, logistics, and others." },
+                { q: "What does IOSH approval actually mean for our compliance?", a: "IOSH is the world's largest professional body for health and safety practitioners. An IOSH-approved programme meets rigorous standards for content, delivery, and assessment." },
+                { q: "We already have NEBOSH/IOSH training budgets. How does this fit?", a: "Safety 4.0 complements, not replaces, your existing development. NEBOSH and IOSH qualifications cover safety management fundamentals. Safety 4.0 covers the digital and AI capability layer that those qualifications don't yet address." },
+                { q: "What happens after the programme ends?", a: "Participants retain lifetime access to course materials and join the Safety 4.0 alumni community — a network of certified EHS leaders from 12+ countries." },
+                { q: "Can we get a proposal without committing to anything?", a: "Absolutely. The 20-minute discovery call is a conversation, not a sales pitch. You'll receive a tailored written proposal within 48 hours. No obligation." }].
+                map((item, i) =>
+                <AccordionItem key={i} value={`faq-${i}`} className="border-border">
                     <AccordionTrigger className="text-sm font-bold text-white text-left hover:no-underline py-5">
                       {item.q}
                     </AccordionTrigger>
@@ -533,7 +533,7 @@ const InCompany = () => {
                       {item.a}
                     </AccordionContent>
                   </AccordionItem>
-                ))}
+                )}
               </Accordion>
             </div>
           </div>
@@ -544,15 +544,15 @@ const InCompany = () => {
           <div className="container mx-auto max-w-6xl">
             <div
               ref={setFadeRef(9)}
-              className="bg-gradient-to-br from-card to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700"
-            >
+              className="bg-gradient-to-br from-card to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
+              
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
                 <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
                   Ready to talk about<br />your team?
                 </h2>
-                <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
-                  Book a 20-minute call with Lucas Domingues, MSc CMIOSH. You'll come away with clarity on what's possible — and a written proposal within 48 hours.
+                <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">Book a 20-minute discovery call with us. 
+You'll come away with clarity on what's possible — and a written proposal within 48 hours.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
@@ -562,11 +562,11 @@ const InCompany = () => {
                   </a>
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center mt-7">
-                  {["No hard sell", "Written proposal within 48 hours", "IOSH-approved programme", "Fixed transparent pricing"].map((item) => (
-                    <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  {["No hard sell", "Written proposal within 48 hours", "IOSH-approved programme", "Fixed transparent pricing"].map((item) =>
+                  <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-primary" /> {item}
                     </span>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
@@ -581,8 +581,8 @@ const InCompany = () => {
 
         <Footer />
       </div>
-    </AnalyticsTracker>
-  );
+    </AnalyticsTracker>);
+
 };
 
 export default InCompany;
