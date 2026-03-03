@@ -339,8 +339,8 @@ export function ROICalculator() {
           <div>
               <div className="text-center mb-6">
                 <div className="text-[10px] tracking-[2px] text-primary font-bold mb-1">YOUR RESULTS</div>
-                <h3 className="font-syne text-xl md:text-2xl font-black text-white mb-2">AI training could unlock $55k per year
-                <span className="text-primary"><AnimNum target={annualSav} active={anim} /></span> per year
+                <h3 className="font-syne text-xl md:text-2xl font-black text-white mb-2">AI training could unlock{" "}
+                 <span className="text-primary"><AnimNum target={annualSav} active={anim} /></span> per year
                 </h3>
                 <p className="text-xs text-muted-foreground">
                   {team} people · ${sal.toLocaleString()} avg · {tri} recordable injuries{fatal > 0 ? ` · ${fatal} fatalities` : ""}
