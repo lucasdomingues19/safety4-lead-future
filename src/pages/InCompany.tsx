@@ -246,7 +246,7 @@ const InCompany = () => {
 
             <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-12 opacity-0 translate-y-6 transition-all duration-700">
               <div>
-                <blockquote className="bg-card border-l-[3px] border-primary rounded-r-xl p-7 text-muted-foreground italic leading-relaxed mb-6">
+                <blockquote className="bg-card border-l-[3px] border-primary rounded-r-xl p-7 text-primary font-bold italic leading-relaxed mb-6">
                   "The question boards are now asking isn't whether AI matters for safety — it's who in their organisation is ready to lead the answer."
                   <div className="mt-4 text-sm not-italic text-muted-foreground/70">— Lucas Domingues, MSc CMIOSH, Founder</div>
                 </blockquote>
