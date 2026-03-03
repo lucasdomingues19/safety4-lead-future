@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, Calculator, RotateCcw } from "lucide-react";
+import { ArrowRight, ArrowLeft, Calculator, RotateCcw, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { generateROIReport } from "@/utils/roiPdfReport";
 
 function money(n: number): string {
   const a = Math.abs(n),s = n < 0 ? "-" : "";
@@ -79,9 +80,9 @@ export function ROICalculator() {
   const [fatal, setFatal] = useState(0);
   const [safetyToggle, setSafetyToggle] = useState(false);
   const [name, setName] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [company, setCompany] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [newsConsent, setNewsConsent] = useState(false);
   const [sending, setSending] = useState(false);
 
   // Calculations — all benchmarks sourced, do not modify
@@ -109,22 +110,28 @@ export function ROICalculator() {
     if (!name.trim() || !email.trim()) return;
     setSending(true);
     try {
+      generateROIReport({
+        name: name.trim(),
+        team, sal, manHrs, tri, fatal,
+        timeSav, annHrs, injSav, fatSav, safetySav,
+        annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback,
+        safetyToggle, triAv, fatAv, hourly,
+      });
       await supabase.functions.invoke("capture-lead", {
         body: {
           name: name.trim(),
           email: email.trim(),
-          job_title: jobTitle.trim() || null,
-          role: company.trim() || null,
-          source: "contact_form",
-          message: `ROI Calculator | Team: ${team}, Salary: $${sal}, TRI: ${tri}, Fatalities: ${fatal}, Annual value: ${money(annualSav)}, 3yr ROI: ${roi3}%, Payback: ${payback} weeks`
+          phone: phone.trim() || null,
+          source: "roi_calculator",
+          message: `ROI Calculator | Team: ${team}, Salary: $${sal}, TRI: ${tri}, Fatalities: ${fatal}, Annual value: ${money(annualSav)}, 3yr ROI: ${roi3}%, Payback: ${payback} weeks | Newsletter consent: ${newsConsent ? "Yes" : "No"}`
         }
       });
     } catch (e) {
-
-
-
       // non-blocking
-    }setStep(7);setSending(false);}, [name, email, jobTitle, company, team, sal, tri, fatal, annualSav, roi3, payback]);
+    }
+    setStep(7);
+    setSending(false);
+  }, [name, email, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly]);
 
   const stepLabels = ["Your team", "Manual hours", "Recordable injuries", "Fatalities"];
 
@@ -477,9 +484,9 @@ export function ROICalculator() {
           {step === 6 &&
           <div>
               <div className="text-center mb-6">
-                <div className="text-[10px] tracking-[2px] text-primary font-bold mb-1">UNLOCK YOUR REPORT</div>
+                <div className="text-[10px] tracking-[2px] text-primary font-bold mb-1">DOWNLOAD YOUR REPORT</div>
                 <h3 className="font-syne text-lg font-black text-white mb-1">Get your personalised ROI report</h3>
-                <p className="text-xs text-muted-foreground">3-year breakdown + tailored proposal + free 20-min call with Lucas.</p>
+                <p className="text-xs text-muted-foreground">Branded PDF with 3-year breakdown, sources, and key figures.</p>
               </div>
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6 flex justify-between items-center">
                 <div>
@@ -492,32 +499,39 @@ export function ROICalculator() {
                 </div>
               </div>
               <div className="space-y-3">
-                {[
-              { label: "Your name", val: name, setter: setName, placeholder: "First and last name", type: "text" },
-              { label: "Job title", val: jobTitle, setter: setJobTitle, placeholder: "e.g. HSSEQ Director, Head of EHS", type: "text" },
-              { label: "Organisation", val: company, setter: setCompany, placeholder: "Company name", type: "text" },
-              { label: "Work email", val: email, setter: setEmail, placeholder: "your@company.com", type: "email" }].
-              map((field) =>
-              <div key={field.label}>
-                    <label className="text-xs text-muted-foreground mb-1 block">{field.label}</label>
-                    <input
-                  type={field.type}
-                  value={field.val}
-                  placeholder={field.placeholder}
-                  onChange={(e) => field.setter(e.target.value)}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
-                
-                  </div>
-              )}
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Your name *</label>
+                  <input type="text" value={name} placeholder="First and last name"
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Work email *</label>
+                  <input type="email" value={email} placeholder="your@company.com"
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-foreground mb-1 block">Phone (optional)</label>
+                  <input type="tel" value={phone} placeholder="+44 7700 900000"
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                </div>
+                <label className="flex items-start gap-2.5 cursor-pointer mt-4">
+                  <input type="checkbox" checked={newsConsent}
+                    onChange={(e) => setNewsConsent(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-border accent-primary flex-shrink-0" />
+                  <span className="text-xs text-muted-foreground leading-relaxed">
+                    I accept to receive occasional news from the Safety 4.0 Academy
+                  </span>
+                </label>
               </div>
-              <Button
-              onClick={submit}
-              disabled={sending || !name.trim() || !email.trim() || !company.trim()}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mt-5">
-              
-                {sending ? "Sending..." : "Send me my ROI report →"}
+              <Button onClick={submit} disabled={sending || !name.trim() || !email.trim()}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mt-5">
+                <Download className="w-4 h-4 mr-2" />
+                {sending ? "Generating..." : "Download my ROI report"}
               </Button>
-              <p className="text-[10px] text-muted-foreground/40 text-center mt-3">No spam. Used only to send your report.</p>
+              <p className="text-[10px] text-muted-foreground/40 text-center mt-3">Your data is used only to generate and send your report.</p>
             </div>
           }
 
