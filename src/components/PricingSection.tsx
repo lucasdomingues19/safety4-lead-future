@@ -68,9 +68,6 @@ export const PricingSection = () => {
         "On-site or virtual delivery",
         "Multiple employee access",
         "Company-specific case studies",
-        
-        
-        
         "Post-training support",
         "Bulk certification discounts",
       ],
