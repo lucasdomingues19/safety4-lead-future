@@ -189,7 +189,22 @@ export const HeroSection = () => {
             )}
           </div>
 
-          {/* Video Presentation Placeholder */}
+          {/* Key Stats Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto mb-10 md:mb-14 px-2">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 text-center">
+              <div className="text-2xl md:text-3xl font-black text-primary mb-1">77%</div>
+              <p className="text-xs md:text-sm text-muted-foreground leading-snug">of EHS leaders say AI is a strategic priority</p>
+            </div>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 text-center">
+              <div className="text-2xl md:text-3xl font-black text-pink-500 mb-1">86%</div>
+              <p className="text-xs md:text-sm text-muted-foreground leading-snug">of their teams have no meaningful AI capability</p>
+            </div>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 text-center">
+              <div className="text-2xl md:text-3xl font-black text-red-400 mb-1">Gap</div>
+              <p className="text-xs md:text-sm text-muted-foreground leading-snug">That gap is a leadership problem</p>
+            </div>
+          </div>
+
           <div className="max-w-4xl mx-auto mb-12">
             <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-pink-400/50 transition-all duration-300">
               <iframe 
