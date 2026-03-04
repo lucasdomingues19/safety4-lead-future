@@ -467,12 +467,12 @@ const InCompany = () => {
               {
                 name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
 features: ["Everything in the PILOT tier", "15% volume discount applied"],
-                featured: false, note: "Best value for mid-sized EHS functions", cta: "Select"
+                featured: true, note: "Best value for mid-sized EHS functions", cta: "Select"
               },
               {
                 name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
 features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
-                featured: true, note: "For whole-department transformation", cta: "Select"
+                featured: false, note: "For whole-department transformation", cta: "Select"
               },
               {
                 name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
