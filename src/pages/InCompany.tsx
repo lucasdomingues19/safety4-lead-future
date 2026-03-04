@@ -454,7 +454,7 @@ const InCompany = () => {
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">PRICING</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
-              Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access. One fixed price for your whole team.
+              Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access.
             </p>
 
             <div ref={setFadeRef(7)} className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700">
