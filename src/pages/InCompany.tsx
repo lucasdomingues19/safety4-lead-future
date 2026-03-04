@@ -621,10 +621,15 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
 
 
                   {/* CTA */}
-                  <div className="mt-8 text-center">
+                  <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
                       <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold tracking-wider text-sm px-10 py-3">
                         Book a call to enrol →
+                      </Button>
+                    </a>
+                    <a href="#roi">
+                      <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 font-bold tracking-wider text-sm px-10 py-3">
+                        Calculate my ROI →
                       </Button>
                     </a>
                   </div>
