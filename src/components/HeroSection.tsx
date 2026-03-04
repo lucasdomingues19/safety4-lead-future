@@ -60,7 +60,7 @@ export const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Header with AudienceNav */}
         <AudienceNav />
-        <div className="mb-8 md:mb-16" />
+        <div className="mb-20 md:mb-24" />
 
 
         {/* Main Content - Centered like LeadPages */}
