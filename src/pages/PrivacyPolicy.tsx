@@ -51,8 +51,8 @@ export default function PrivacyPolicy() {
               <p>
                 Safety 4.0 Academy is the data controller responsible for your personal data. If you have any 
                 questions about this policy or our data practices, please contact us at{" "}
-                <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
-                  hello@getshield360.com
+                <a href="mailto:hello@safetyacademy.tech" className="text-lime-400 hover:text-lime-300">
+                  hello@safetyacademy.tech
                 </a>
               </p>
             </section>
@@ -186,8 +186,8 @@ export default function PrivacyPolicy() {
               </ul>
               <p className="mt-3">
                 To exercise any of these rights, please contact us at{" "}
-                <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
-                  hello@getshield360.com
+                <a href="mailto:hello@safetyacademy.tech" className="text-lime-400 hover:text-lime-300">
+                  hello@safetyacademy.tech
                 </a>
               </p>
             </section>
@@ -242,8 +242,8 @@ export default function PrivacyPolicy() {
               <div className="mt-3 space-y-2">
                 <p>
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">
-                    hello@getshield360.com
+                  <a href="mailto:hello@safetyacademy.tech" className="text-lime-400 hover:text-lime-300">
+                    hello@safetyacademy.tech
                   </a>
                 </p>
                 <p><strong>Data Protection Officer:</strong> Available upon request</p>

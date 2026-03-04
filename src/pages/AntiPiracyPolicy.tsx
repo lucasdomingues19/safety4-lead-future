@@ -86,7 +86,7 @@ export default function AntiPiracyPolicy() {
               <h2 className="text-2xl font-semibold text-white mb-4">Reporting Piracy</h2>
               <p>
                 If you become aware of any unauthorized use or distribution of Safety 4.0 Academy content, 
-                please report it immediately to <a href="mailto:hello@getshield360.com" className="text-lime-400 hover:text-lime-300">hello@getshield360.com</a>.
+                please report it immediately to <a href="mailto:hello@safetyacademy.tech" className="text-lime-400 hover:text-lime-300">hello@safetyacademy.tech</a>.
               </p>
             </section>
 
