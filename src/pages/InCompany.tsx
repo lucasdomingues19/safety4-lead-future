@@ -655,7 +655,7 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort �
                 { q: "What does IOSH approval actually mean for our compliance?", a: "IOSH is the world's largest professional body for health and safety practitioners. An IOSH-approved programme meets rigorous standards for content, delivery, and assessment." },
                 { q: "We already have NEBOSH/IOSH training budgets. How does this fit?", a: "Safety 4.0 complements, not replaces, your existing development. NEBOSH and IOSH qualifications cover safety management fundamentals. Safety 4.0 covers the digital and AI capability layer that those qualifications don't yet address." },
                 { q: "What happens after the programme ends?", a: "Participants retain lifetime access to course materials and join the Safety 4.0 alumni community — a network of certified EHS leaders from 12+ countries." },
-                { q: "Can we get a proposal without committing to anything?", a: "Absolutely. The 20-minute discovery call is a conversation, not a sales pitch. You'll receive a tailored written proposal within 48 hours. No obligation." }].
+                { q: "Can we get a proposal without committing to anything?", a: "Absolutely. The 30-minute discovery call is a conversation, not a sales pitch. You'll receive a tailored written proposal within 48 hours. No obligation." }].
                 map((item, i) =>
                 <AccordionItem key={i} value={`faq-${i}`} className="border-border">
                     <AccordionTrigger className="text-sm font-bold text-white text-left hover:no-underline py-5">
@@ -683,7 +683,7 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort �
                 <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
                   Ready to talk about<br />your team?
                 </h2>
-                <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">Book a 20-minute discovery call with us. 
+                <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">Book a 30-minute discovery call with us. 
 You'll come away with clarity on what's possible — and a written proposal within 48 hours.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
