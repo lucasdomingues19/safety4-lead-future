@@ -564,10 +564,19 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                         </span>
                       )}
                     </div>
-                    <div className="text-right border border-primary/30 rounded-xl px-6 py-4 bg-primary/5">
-                      <div className="text-[10px] tracking-[3px] text-primary font-bold mb-1">TOTAL INVESTMENT</div>
-                      <div className="text-4xl font-black text-primary">${total.toLocaleString()}</div>
-                      <div className="text-xs text-primary/70 mt-1">${config.pricePerSeat.toLocaleString()} × {seatCount} seats</div>
+                    <div className="flex gap-4 items-stretch">
+                      {hasDiscount && (
+                        <div className="text-right border border-primary/30 rounded-xl px-6 py-4 bg-primary/5 flex flex-col justify-center">
+                          <div className="text-[10px] tracking-[3px] text-primary font-bold mb-1">YOU SAVE</div>
+                          <div className="text-3xl font-black text-primary">${saved.toLocaleString()}</div>
+                          <div className="text-xs text-primary/70 mt-1">vs full rate</div>
+                        </div>
+                      )}
+                      <div className="text-right border border-primary/30 rounded-xl px-6 py-4 bg-primary/5">
+                        <div className="text-[10px] tracking-[3px] text-primary font-bold mb-1">TOTAL INVESTMENT</div>
+                        <div className="text-4xl font-black text-primary">${total.toLocaleString()}</div>
+                        <div className="text-xs text-primary/70 mt-1">${config.pricePerSeat.toLocaleString()} × {seatCount} seats</div>
+                      </div>
                     </div>
                   </div>
 
@@ -610,19 +619,6 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                     </div>
                   </div>
 
-                  {/* Savings */}
-                  {hasDiscount && (
-                    <div className="bg-background border border-border rounded-xl p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Saving vs full rate ({seatCount} × ${FULL_RATE.toLocaleString()})</p>
-                        <p className="text-xs text-muted-foreground/60">Full price would be ${fullTotal.toLocaleString()}</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-black text-pink-500">${saved.toLocaleString()}</div>
-                        <div className="text-xs text-pink-500/70 font-semibold">saved</div>
-                      </div>
-                    </div>
-                  )}
 
                   {/* CTA */}
                   <div className="mt-8 text-center">
