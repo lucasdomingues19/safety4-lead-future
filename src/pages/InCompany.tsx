@@ -453,8 +453,8 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
               },
               {
                 name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
-                featured: false, note: "Tailored enterprise solution"
+                features: ["Everything in 11–15 tier", "Special discount available", "Multi-cohort rollout — your team only", "Dedicated programme manager"],
+                featured: false, note: "Tailored enterprise solution", cta: "Book a call"
               }].
               map((tier, i) =>
               <div
@@ -499,7 +499,7 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                     }
                     variant={tier.featured ? "default" : "outline"}>
                     
-                      Book a call
+                      {tier.cta || "Book a call"}
                     </Button>
                   </a>
                   <p className="text-[11px] text-muted-foreground text-center mt-3">{tier.note}</p>
