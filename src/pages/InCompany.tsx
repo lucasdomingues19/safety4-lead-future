@@ -450,6 +450,11 @@ const InCompany = () => {
                 name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
                 features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
                 featured: false, note: "For whole-department transformation"
+              },
+              {
+                name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
+                featured: false, note: "Tailored enterprise solution"
               }].
               map((tier, i) =>
               <div
@@ -468,7 +473,7 @@ const InCompany = () => {
                   <div className="text-xs font-bold tracking-[2px] text-muted-foreground mb-2">{tier.name}</div>
                   <div className="text-xl font-black text-white mb-1">{tier.size}</div>
                   <div className="text-4xl font-black text-primary mb-1">
-                    {tier.price} <span className="text-lg text-pink-500 font-bold">per seat</span>
+                    {tier.price} {tier.price !== "POA" && <span className="text-lg text-pink-500 font-bold">per seat</span>}
                   </div>
                   <div className="text-xs text-muted-foreground mb-6">
                     {tier.discount ? (
