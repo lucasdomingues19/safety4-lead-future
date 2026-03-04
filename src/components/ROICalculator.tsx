@@ -120,7 +120,7 @@ export function ROICalculator() {
         team, sal, manHrs, tri, fatal,
         timeSav, annHrs, injSav, fatSav, safetySav,
         annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback,
-        safetyToggle, triAv, fatAv, hourly,
+        safetyToggle, triAv, fatAv, hourly
       });
       await supabase.functions.invoke("capture-lead", {
         body: {
@@ -132,12 +132,12 @@ export function ROICalculator() {
         }
       });
     } catch (e) {
+
+
+
+
       // non-blocking
-    }
-    setStep(7);
-    setSending(false);
-    scrollToCalc();
-  }, [name, email, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly, scrollToCalc]);
+    }setStep(7);setSending(false);scrollToCalc();}, [name, email, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly, scrollToCalc]);
 
   const stepLabels = ["Your team", "Manual hours", "Recordable injuries", "Fatalities"];
 
@@ -270,7 +270,7 @@ export function ROICalculator() {
                   <span className="font-bold text-white">{money(tri * 43000)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Avoidable (25%)</span>
+                  <span className="text-muted-foreground">Potentially avoidable (25%)*</span>
                   <span className="font-bold text-amber-500">{triAv} cases</span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -474,7 +474,7 @@ export function ROICalculator() {
                 </div>
               </div>
 
-              <Button onClick={() => { setStep(6); scrollToCalc(); }} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mb-2">
+              <Button onClick={() => {setStep(6);scrollToCalc();}} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mb-2">
                 Get my full ROI report <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <button
@@ -508,32 +508,32 @@ export function ROICalculator() {
                 <div>
                   <label className="text-xs text-muted-foreground mb-1 block">Your name *</label>
                   <input type="text" value={name} placeholder="First and last name"
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                onChange={(e) => setName(e.target.value)}
+                className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
                 </div>
                 <div>
                   <label className="text-xs text-muted-foreground mb-1 block">Work email *</label>
                   <input type="email" value={email} placeholder="your@company.com"
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
                 </div>
                 <div>
                   <label className="text-xs text-muted-foreground mb-1 block">Phone (optional)</label>
                   <input type="tel" value={phone} placeholder="+44 7700 900000"
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
                 </div>
                 <label className="flex items-start gap-2.5 cursor-pointer mt-4">
                   <input type="checkbox" checked={newsConsent}
-                    onChange={(e) => setNewsConsent(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 rounded border-border accent-primary flex-shrink-0" />
+                onChange={(e) => setNewsConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-border accent-primary flex-shrink-0" />
                   <span className="text-xs text-muted-foreground leading-relaxed">
                     I accept to receive occasional news from the Safety 4.0 Academy
                   </span>
                 </label>
               </div>
               <Button onClick={submit} disabled={sending || !name.trim() || !email.trim()}
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mt-5">
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mt-5">
                 <Download className="w-4 h-4 mr-2" />
                 {sending ? "Generating..." : "Download my ROI report"}
               </Button>
