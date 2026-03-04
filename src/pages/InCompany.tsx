@@ -434,7 +434,7 @@ const InCompany = () => {
               Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access. One fixed price for your whole team.
             </p>
 
-            <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+            <div ref={setFadeRef(7)} className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
               {
                 name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
