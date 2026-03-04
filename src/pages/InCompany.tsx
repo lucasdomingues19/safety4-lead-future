@@ -263,7 +263,7 @@ const InCompany = () => {
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               Your team is expert in safety.<br />AI & tech are <span className="text-primary">reshaping</span> what that means.
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+            <p className="text-lg text-white whitespace-nowrap mb-12">
               77% of EHS leaders say AI is a strategic priority. 86% of their teams have no meaningful AI capability. That gap is a leadership problem.
             </p>
 
