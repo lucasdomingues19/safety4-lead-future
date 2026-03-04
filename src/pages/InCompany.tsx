@@ -447,7 +447,7 @@ const InCompany = () => {
                 featured: true, note: "Best value for mid-sized EHS functions"
               },
               {
-                name: "DEPARTMENT", size: "11–20 people", price: "$995", per: "per seat", discount: "30% OFF",
+                name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
                 features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
                 featured: false, note: "For whole-department transformation"
               }].
