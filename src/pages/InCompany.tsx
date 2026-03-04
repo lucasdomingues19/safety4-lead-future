@@ -564,10 +564,10 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                         </span>
                       )}
                     </div>
-                    <div className="text-right border border-pink-500/30 rounded-xl px-6 py-4 bg-pink-500/5">
-                      <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-1">TOTAL INVESTMENT</div>
-                      <div className="text-4xl font-black text-pink-500">${total.toLocaleString()}</div>
-                      <div className="text-xs text-pink-500/70 mt-1">${config.pricePerSeat.toLocaleString()} × {seatCount} seats</div>
+                    <div className="text-right border border-primary/30 rounded-xl px-6 py-4 bg-primary/5">
+                      <div className="text-[10px] tracking-[3px] text-primary font-bold mb-1">TOTAL INVESTMENT</div>
+                      <div className="text-4xl font-black text-primary">${total.toLocaleString()}</div>
+                      <div className="text-xs text-primary/70 mt-1">${config.pricePerSeat.toLocaleString()} × {seatCount} seats</div>
                     </div>
                   </div>
 
