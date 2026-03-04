@@ -427,29 +427,34 @@ const InCompany = () => {
 
         {/* PRICING */}
         <section id="pricing" className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
+          <div className="container mx-auto max-w-7xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">PRICING</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
               Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access. One fixed price for your whole team.
             </p>
 
-            <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+            <div ref={setFadeRef(7)} className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
               {
-                name: "PILOT", size: "Up to 5 people", price: "£6,450", per: "fixed team price · £1,295 per person", perPink: "£1,295 per person",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
                 featured: false, note: "Ideal for specialist EHS teams and SMEs"
               },
               {
-                name: "CORE TEAM", size: "6–10 people", price: "£9,470", per: "fixed team price · 5% OFF", discount: "5% OFF",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
+features: ["Everything in 1–5 tier", "15% volume discount applied"],
                 featured: true, note: "Best value for mid-sized EHS functions"
               },
               {
-                name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · 10% OFF", discount: "10% OFF",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
+features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
                 featured: false, note: "For whole-department transformation"
+              },
+              {
+                name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
+                features: ["Everything in 11–15 tier", "Special discount available", "Multi-cohort rollout — your team only", "Dedicated programme manager"],
+                featured: false, note: "Tailored enterprise solution", cta: "Book a call"
               }].
               map((tier, i) =>
               <div
@@ -467,13 +472,15 @@ const InCompany = () => {
                 }
                   <div className="text-xs font-bold tracking-[2px] text-muted-foreground mb-2">{tier.name}</div>
                   <div className="text-xl font-black text-white mb-1">{tier.size}</div>
-                  <div className="text-4xl font-black text-primary mb-1">{tier.price}</div>
+                  <div className="text-4xl font-black text-primary mb-1">
+                    {tier.price} {tier.price !== "POA" && <span className="text-lg text-pink-500 font-bold">per seat</span>}
+                  </div>
                   <div className="text-xs text-muted-foreground mb-6">
-                    {tier.discount ?
-                  <>fixed team price · <span className="text-pink-500 font-bold">{tier.discount}</span></> :
-                  tier.perPink ?
-                  <>fixed team price · </> :
-                  tier.per}
+                    {tier.discount ? (
+                      <span className="text-pink-500 font-bold">{tier.discount}</span>
+                    ) : (
+                      <span>{tier.per}</span>
+                    )}
                   </div>
                   <ul className="flex-1 mb-6">
                     {tier.features.map((f, fi) =>
@@ -488,12 +495,12 @@ const InCompany = () => {
                     className={`w-full font-bold tracking-wider text-sm py-3 ${
                     tier.featured ?
                     "bg-primary text-primary-foreground hover:bg-primary/90" :
-                    "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-primary"}`
+                    "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"}`
                     }
                     variant={tier.featured ? "default" : "outline"}>
-
-
-                  </Button>
+                    
+                      {tier.cta || "Book a call"}
+                    </Button>
                   </a>
                   <p className="text-[11px] text-muted-foreground text-center mt-3">{tier.note}</p>
                 </div>
