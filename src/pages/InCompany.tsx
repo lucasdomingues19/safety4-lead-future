@@ -467,12 +467,12 @@ const InCompany = () => {
               {
                 name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
 features: ["Everything in 1–5 tier", "15% volume discount applied"],
-                featured: true, note: "Best value for mid-sized EHS functions", cta: "Select"
+                featured: false, note: "Best value for mid-sized EHS functions", cta: "Select"
               },
               {
                 name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
 features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
-                featured: false, note: "For whole-department transformation", cta: "Select"
+                featured: true, note: "For whole-department transformation", cta: "Select"
               },
               {
                 name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
@@ -484,12 +484,12 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                 key={i}
                 className={`bg-card border rounded-2xl p-8 flex flex-col relative transition-all hover:-translate-y-1 ${
                 tier.featured ?
-                "border-primary shadow-[0_0_0_1px_hsl(85,100%,72%),0_20px_60px_hsl(85,100%,72%,0.15)]" :
+                "border-pink-500 shadow-[0_0_0_1px_rgb(236,72,153),0_20px_60px_rgba(236,72,153,0.15)]" :
                 "border-border hover:border-primary/40"}`
                 }>
                 
                   {tier.featured &&
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-bold tracking-[2px] px-4 py-1 rounded-full whitespace-nowrap">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-pink-500 text-white text-[10px] font-bold tracking-[2px] px-4 py-1 rounded-full whitespace-nowrap">
                       ★ MOST POPULAR
                     </div>
                 }
