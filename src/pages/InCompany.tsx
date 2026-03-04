@@ -443,7 +443,7 @@ const InCompany = () => {
               },
               {
                 name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
+features: ["Everything in 1–5 tier", "15% volume discount applied"],
                 featured: true, note: "Best value for mid-sized EHS functions"
               },
               {
