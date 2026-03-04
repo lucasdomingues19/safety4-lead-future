@@ -67,7 +67,7 @@ const MentorSection = () => {
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
             Meet Your <span className="text-primary">Mentor</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto whitespace-nowrap">
             Learn from an industry expert with years of experience in safety leadership and digital transformation
           </p>
         </div>
