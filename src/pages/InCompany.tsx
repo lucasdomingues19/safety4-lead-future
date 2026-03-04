@@ -27,7 +27,7 @@ import {
   Award,
   MessageCircle } from
 "lucide-react";
-import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
+import AudienceNav from "@/components/AudienceNav";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import seadrillLogo from "@/assets/seadrill-logo-real.svg";
@@ -125,23 +125,7 @@ const InCompany = () => {
         </div>
 
         {/* NAV */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-background/92 backdrop-blur-xl border-b border-border">
-          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-3">
-              <img src={safetyAcademyLogo} alt="Safety 4.0 Academy" className="h-8" />
-            </a>
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#programme" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Programme</a>
-              <a href="#proof" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Reviews</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Pricing</a>
-              <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
-                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-xs tracking-wider">
-                  BOOK A CALL
-                </Button>
-              </a>
-            </div>
-          </div>
-        </nav>
+        <AudienceNav />
 
         {/* HERO */}
         <section className="min-h-screen flex items-center pt-32 pb-20 px-4 relative overflow-hidden">
