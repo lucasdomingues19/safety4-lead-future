@@ -566,10 +566,10 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                     </div>
                     <div className="flex gap-4 items-stretch">
                       {hasDiscount && (
-                        <div className="text-right border border-foreground/20 rounded-xl px-6 py-4 bg-foreground/5 flex flex-col justify-center">
-                          <div className="text-[10px] tracking-[3px] text-foreground font-bold mb-1">YOU SAVE</div>
-                          <div className="text-3xl font-black text-foreground">${saved.toLocaleString()}</div>
-                          <div className="text-xs text-foreground/70 mt-1">vs full rate</div>
+                        <div className="text-right border border-white/20 rounded-xl px-6 py-4 bg-white/5 flex flex-col justify-center">
+                          <div className="text-[10px] tracking-[3px] text-white font-bold mb-1">YOU SAVE</div>
+                          <div className="text-3xl font-black text-white">${saved.toLocaleString()}</div>
+                          <div className="text-xs text-white/70 mt-1">vs full rate</div>
                         </div>
                       )}
                       <div className="text-right border border-primary/30 rounded-xl px-6 py-4 bg-primary/5">
