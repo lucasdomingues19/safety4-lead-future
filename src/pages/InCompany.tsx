@@ -132,7 +132,7 @@ const InCompany = () => {
             </a>
             <div className="hidden md:flex items-center gap-8">
               <a href="#programme" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Programme</a>
-              <a href="#proof" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Case Studies</a>
+              <a href="#proof" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Reviews</a>
               <a href="#pricing" className="text-muted-foreground hover:text-foreground text-sm transition-colors">Pricing</a>
               <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
                 <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-xs tracking-wider">
