@@ -460,17 +460,17 @@ const InCompany = () => {
             <div ref={setFadeRef(7)} className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
               {
-                name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person", priceNum: 1495,
+                name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
                 features: ["Full 10-module programme access", "IOSH-approved certification", "CPD hours certification", "5 live group sessions with Lucas"],
                 featured: false, note: "Ideal for small EHS specialist teams", cta: "Select"
               },
               {
-                name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF", priceNum: 1295,
+                name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
 features: ["Everything in 1–5 tier", "15% volume discount applied"],
                 featured: true, note: "Best value for mid-sized EHS functions", cta: "Select"
               },
               {
-                name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF", priceNum: 995,
+                name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
 features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
                 featured: false, note: "For whole-department transformation", cta: "Select"
               },
@@ -513,13 +513,6 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                       </li>
                   )}
                   </ul>
-                  {tier.priceNum && tier.priceNum < 1495 && (
-                    <div className="border border-foreground/20 rounded-xl px-4 py-3 bg-foreground/5 mb-4 text-center">
-                      <div className="text-[9px] tracking-[2px] text-foreground/70 font-bold mb-0.5">YOU SAVE</div>
-                      <div className="text-lg font-black text-foreground">${(1495 - tier.priceNum).toLocaleString()}</div>
-                      <div className="text-[10px] text-foreground/50">per seat vs full rate</div>
-                    </div>
-                  )}
                   {tier.cta === "Select" ? (
                     <Button
                       onClick={() => handleSelectTier(i)}
