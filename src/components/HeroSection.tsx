@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, Award, AlertCircle, TrendingDown, TrendingUp, Clock, BookOpen, Target, AlertTriangle, Smartphone, Wrench, Database, Sparkles, Rocket } from "lucide-react";
+import { Shield, Award, AlertCircle, TrendingDown, TrendingUp, Clock, BookOpen, Target, AlertTriangle, Smartphone, Wrench, Database, Sparkles, Rocket } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import { CountdownTimer } from "./CountdownTimer";
 import { Safety4AssessmentModal } from "./Safety4AssessmentModal";
 import safetyAcademyLogo from "../assets/safety-academy-logo.png";
+import AudienceNav from "./AudienceNav";
 
 export const HeroSection = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [assessmentModalOpen, setAssessmentModalOpen] = useState(false);
   const [currentHeadline, setCurrentHeadline] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -58,94 +58,9 @@ export const HeroSection = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        {/* Header with Logo and Navigation */}
-        <div className="relative flex justify-between items-center mb-8 md:mb-16">
-          <div className="flex flex-col items-start space-y-2">
-            <img 
-              src={safetyAcademyLogo} 
-              alt="Safety 4.0 Academy Logo" 
-              className="h-20 md:h-36 w-auto"
-            />
-          </div>
-          
-          {/* Navigation Menu */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            <a href="#about-academy" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About Us</a>
-            <a href="#instructor" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Meet Your Instructor</a>
-            <a href="/certification" className="text-white/80 hover:text-white transition-colors text-sm font-medium">IOSH and CPD</a>
-            <a href="/blog" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Blog</a>
-            <a href="/ebook" className="text-white/80 hover:text-white transition-colors text-sm font-medium">eBook</a>
-            <a href="/contact" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Get in Touch</a>
-            <a href="/faq" className="text-white/80 hover:text-white transition-colors text-sm font-medium">FAQ</a>
-          </nav>
-          
-          {/* Mobile Menu Button */}
-          <Button
-            variant="outline"
-            size="sm"
-            className="lg:hidden border-white/30 text-white hover:bg-white/10 z-50"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-          </Button>
-          
-          {/* Mobile Menu Overlay */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden fixed top-0 left-0 right-0 bg-[#11113a] backdrop-blur-sm border-b border-white/20 z-40 pt-32">
-              <nav className="container mx-auto px-4 py-6 space-y-4">
-                <a 
-                  href="#about-academy" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  About Us
-                </a>
-                <a 
-                  href="#instructor" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Meet Your Instructor
-                </a>
-                <a 
-                  href="/certification" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  IOSH and CPD
-                </a>
-                <a 
-                  href="/blog" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Blog
-                </a>
-                <a 
-                  href="/ebook" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  eBook
-                </a>
-                <a 
-                  href="/contact" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Get in Touch
-                </a>
-                <a 
-                  href="/faq" 
-                  className="block text-white/80 hover:text-white transition-colors py-2 font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  FAQ
-                </a>
-              </nav>
-            </div>
-          )}
-        </div>
+        {/* Header with AudienceNav */}
+        <AudienceNav />
+        <div className="mb-8 md:mb-16" />
 
 
         {/* Main Content - Centered like LeadPages */}
