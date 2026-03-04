@@ -448,7 +448,7 @@ features: ["Everything in 1–5 tier", "15% volume discount applied"],
               },
               {
                 name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
+features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
                 featured: false, note: "For whole-department transformation"
               },
               {
