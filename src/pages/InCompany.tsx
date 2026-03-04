@@ -637,12 +637,6 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
               );
             })()}
 
-            <p className="text-center text-sm text-muted-foreground mt-6">
-              Need 15+ seats?{" "}
-              <a href="/contact" className="text-primary hover:underline">
-                Contact us for enterprise pricing →
-              </a>
-            </p>
           </div>
         </section>
 
