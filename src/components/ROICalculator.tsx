@@ -101,7 +101,8 @@ export function ROICalculator() {
   const safetySav = injSav + fatSav;
 
   const annualSav = timeSav + (safetyToggle ? safetySav : 0);
-  const cost = team <= 5 ? 6500 : team <= 10 ? 10500 : team <= 20 ? 18500 : 25000;
+  const perSeat = team <= 5 ? 1495 : team <= 10 ? 1295 : team <= 15 ? 995 : 995;
+  const cost = team * perSeat;
   const y1 = annualSav - cost;
   const y2 = annualSav;
   const y3 = annualSav;
