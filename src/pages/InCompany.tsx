@@ -88,7 +88,7 @@ const InCompany = () => {
     trackPageView(window.location.pathname);
     setPageSEO({
       title: "In-Company Safety 4.0 Training | Team & Enterprise Pricing | Safety 4.0 Academy",
-      description: "Train your entire EHS team with the world's first IOSH-approved Safety 4.0 programme. Fixed pricing from £4,975. AI, SafetyTech & digital leadership for teams of 5–20+.",
+      description: "Train your entire EHS team with the world's first IOSH-approved Safety 4.0 programme. Per-seat pricing from $995. AI, SafetyTech & digital leadership for teams of 5–15+. Trusted by Siemens, LEGO, MARSH.",
       canonical: "https://safetyacademy.tech/in-company"
     });
 
