@@ -437,17 +437,17 @@ const InCompany = () => {
             <div ref={setFadeRef(7)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {[
               {
-                name: "PILOT", size: "Up to 5 people", price: "£6,450", per: "fixed team price · £1,295 per person", perPink: "£1,295 per person",
+                name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person", perPink: "per person",
                 features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                 featured: false, note: "Ideal for specialist EHS teams and SMEs"
               },
               {
-                name: "CORE TEAM", size: "6–10 people", price: "£9,470", per: "fixed team price · 5% OFF", discount: "5% OFF",
+                name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat | 15% OFF", discount: "15% OFF",
                 features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                 featured: true, note: "Best value for mid-sized EHS functions"
               },
               {
-                name: "DEPARTMENT", size: "11–20 people", price: "£13,900", per: "fixed team price · 10% OFF", discount: "10% OFF",
+                name: "DEPARTMENT", size: "11–20 people", price: "$995", per: "per seat | 30% OFF", discount: "30% OFF",
                 features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
                 featured: false, note: "For whole-department transformation"
               }].
