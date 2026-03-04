@@ -461,7 +461,7 @@ const InCompany = () => {
               {[
               {
                 name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
-                features: ["Full 10-module programme access", "IOSH-approved certification", "CPD hours certification", "5 live group sessions with Lucas"],
+                features: ["Full 10-module programme access", "IOSH-approved certification", "CPD hours certification", "5 live group sessions with Lucas", "Community Access", "Real case studies", "Technical support"],
                 featured: false, note: "Ideal for small EHS specialist teams", cta: "Select"
               },
               {
