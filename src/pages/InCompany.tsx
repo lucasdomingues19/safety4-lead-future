@@ -467,12 +467,10 @@ const InCompany = () => {
                 }
                   <div className="text-xs font-bold tracking-[2px] text-muted-foreground mb-2">{tier.name}</div>
                   <div className="text-xl font-black text-white mb-1">{tier.size}</div>
-                  <div className="text-4xl font-black text-primary mb-1">{tier.price}</div>
+                  <div className="text-4xl font-black text-primary mb-1">{tier.price} <span className="text-lg text-pink-500 font-bold">per seat</span></div>
                   <div className="text-xs text-muted-foreground mb-6">
                     {tier.discount ?
-                  <>fixed team price · <span className="text-pink-500 font-bold">{tier.discount}</span></> :
-                  tier.perPink ?
-                  <>fixed team price · <span className="text-pink-500 font-bold">{tier.perPink}</span></> :
+                  <><span className="text-pink-500 font-bold">{tier.discount}</span></> :
                   tier.per}
                   </div>
                   <ul className="flex-1 mb-6">
