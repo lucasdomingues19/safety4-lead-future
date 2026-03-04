@@ -427,7 +427,7 @@ const InCompany = () => {
 
         {/* PRICING */}
         <section id="pricing" className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
+          <div className="container mx-auto max-w-7xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">PRICING</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
