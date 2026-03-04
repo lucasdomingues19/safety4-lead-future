@@ -178,12 +178,12 @@ export const HeroSection = () => {
             ) : (
               <>
                 <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8 px-2">
-                  Are you ready to become the <span className="text-pink-500">Safety 4.0</span> <span className="text-pink-500">Leader</span> in the Digital Age?
+                  Build an <span className="text-pink-500">AI-ready</span> safety team. Upgrade your <span className="text-pink-500">impact.</span>
                 </h1>
                 
                 {/* Subheading */}
                 <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light px-2">
-                  Future-proof and transform your career with the <span className="font-bold text-lime-400">world's first Safety 4.0 safety program approved by IOSH</span> and global organisations
+                  The world's first IOSH-approved and CPD-accredited Safety 4.0 programme, delivered for your entire EHS function. <span className="font-bold text-lime-400">Trusted by Siemens, LEGO, MARSH, and safety teams across 12 countries.</span>
                 </p>
               </>
             )}
