@@ -195,7 +195,7 @@ const InCompany = () => {
                 <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start">
                   <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
-                      Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
+                      Book a 30-minute call <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                   <a href="#roi" className="flex items-center gap-2 text-pink-500 hover:text-pink-400 transition-colors text-sm">
@@ -689,7 +689,7 @@ You'll come away with clarity on what's possible — and a written proposal with
                 <div className="flex flex-wrap gap-4 justify-center">
                   <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10 shadow-glow">
-                      Book a 20-minute call <ArrowRight className="w-5 h-5 ml-2" />
+                      Book a 30-minute call <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                 </div>
