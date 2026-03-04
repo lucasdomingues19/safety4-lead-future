@@ -18,7 +18,6 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
     lastName: "",
     email: "",
     phone: "",
-    role: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,9 +36,8 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
           body: JSON.stringify({
             name: `${formData.firstName} ${formData.lastName}`.trim(),
             email: formData.email,
-            phone: formData.phone || null,
+            phone: formData.phone,
             source: "brochure_download",
-            role: formData.role || null,
           }),
         }
       );
@@ -67,7 +65,7 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
         description: "Your brochure is downloading now.",
       });
 
-      setFormData({ firstName: "", lastName: "", email: "", phone: "", role: "" });
+      setFormData({ firstName: "", lastName: "", email: "", phone: "" });
       onOpenChange(false);
     } catch (error) {
       console.error("Error capturing lead:", error);
@@ -133,24 +131,14 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Phone (Optional)</label>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
             <Input
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
               placeholder="+44 ..."
               className="bg-white/10 border-white/20 text-white placeholder-gray-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Current Role (Optional)</label>
-            <Input
-              type="text"
-              value={formData.role}
-              onChange={(e) => setFormData((p) => ({ ...p, role: e.target.value }))}
-              placeholder="e.g. Safety Manager"
-              className="bg-white/10 border-white/20 text-white placeholder-gray-500"
+              required
             />
           </div>
 
