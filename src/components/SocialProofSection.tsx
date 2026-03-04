@@ -101,7 +101,7 @@ export const SocialProofSection = () => {
             Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground px-2">
+          <p className="text-lg md:text-xl text-white whitespace-nowrap">
             Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
           </p>
         </div>
