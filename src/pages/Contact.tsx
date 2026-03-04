@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
+import BrochureDownloadModal from "@/components/BrochureDownloadModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [brochureOpen, setBrochureOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -347,11 +349,9 @@ const Contact = () => {
                   <Button 
                     variant="outline" 
                     className="w-full border-lime-500/50 text-lime-400 hover:bg-lime-500/10"
-                    asChild
+                    onClick={() => setBrochureOpen(true)}
                   >
-                    <a href="/Safety-4.0-Course-Brochure.pdf" download>
-                      Download Program Brochure
-                    </a>
+                    Download Program Brochure
                   </Button>
                   <Button 
                     variant="outline" 
@@ -370,6 +370,7 @@ const Contact = () => {
       </div>
     </div>
     <Footer />
+    <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
     </>
   );
 };
