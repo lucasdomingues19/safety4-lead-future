@@ -49,6 +49,29 @@ const InCompany = () => {
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentHeadline, setCurrentHeadline] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<number | null>(null);
+  const [seatCount, setSeatCount] = useState(1);
+  const calculatorRef = useRef<HTMLDivElement | null>(null);
+
+  const FULL_RATE = 1495;
+  const tierConfigs = [
+    { min: 1, max: 5, pricePerSeat: 1495, label: "PILOT", sizeLabel: "Up to 5 people" },
+    { min: 6, max: 10, pricePerSeat: 1295, label: "CORE TEAM", sizeLabel: "6–10 people" },
+    { min: 11, max: 15, pricePerSeat: 995, label: "DEPARTMENT", sizeLabel: "11–15 people" },
+  ];
+
+  const handleSelectTier = (tierIndex: number) => {
+    if (tierIndex === selectedTier) {
+      setSelectedTier(null);
+      return;
+    }
+    setSelectedTier(tierIndex);
+    const config = tierConfigs[tierIndex];
+    setSeatCount(config.min);
+    setTimeout(() => {
+      calculatorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -490,22 +513,129 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                       </li>
                   )}
                   </ul>
-                  <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer" className="block">
+                  {tier.cta === "Select" ? (
                     <Button
-                    className={`w-full font-bold tracking-wider text-sm py-3 ${
-                    tier.featured ?
-                    "bg-primary text-primary-foreground hover:bg-primary/90" :
-                    "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"}`
-                    }
-                    variant={tier.featured ? "default" : "outline"}>
-                    
-                      {tier.cta || "Book a call"}
+                      onClick={() => handleSelectTier(i)}
+                      className={`w-full font-bold tracking-wider text-sm py-3 ${
+                        selectedTier === i
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : tier.featured
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"
+                      }`}
+                      variant={selectedTier === i ? "default" : tier.featured ? "default" : "outline"}
+                    >
+                      {selectedTier === i ? "✓ Selected" : tier.cta}
                     </Button>
-                  </a>
+                  ) : (
+                    <a href={tier.cta === "Contact Us" ? "/contact" : CALENDLY_LINK} target={tier.cta === "Contact Us" ? "_self" : "_blank"} rel="noopener noreferrer" className="block">
+                      <Button
+                        className="w-full font-bold tracking-wider text-sm py-3 bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"
+                        variant="outline"
+                      >
+                        {tier.cta}
+                      </Button>
+                    </a>
+                  )}
                   <p className="text-[11px] text-muted-foreground text-center mt-3">{tier.note}</p>
                 </div>
               )}
             </div>
+
+            {/* Investment Calculator */}
+            {selectedTier !== null && selectedTier < 3 && (() => {
+              const config = tierConfigs[selectedTier];
+              const total = config.pricePerSeat * seatCount;
+              const fullTotal = FULL_RATE * seatCount;
+              const saved = fullTotal - total;
+              const discountPct = Math.round((1 - config.pricePerSeat / FULL_RATE) * 100);
+              const hasDiscount = config.pricePerSeat < FULL_RATE;
+
+              return (
+                <div ref={calculatorRef} className="mt-10 bg-card border border-border rounded-2xl p-8 md:p-10 transition-all animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
+                    <div>
+                      <div className="text-[10px] tracking-[3px] text-primary font-bold mb-2">SELECTED TIER</div>
+                      <h3 className="text-2xl font-black text-foreground mb-1">{config.label}</h3>
+                      <p className="text-sm text-pink-500 font-semibold">{config.sizeLabel}</p>
+                      {hasDiscount && (
+                        <span className="inline-block mt-3 text-xs font-bold text-primary border border-primary rounded-full px-4 py-1.5">
+                          {discountPct}% off full rate of ${FULL_RATE.toLocaleString()}/seat
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-right border border-pink-500/30 rounded-xl px-6 py-4 bg-pink-500/5">
+                      <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-1">TOTAL INVESTMENT</div>
+                      <div className="text-4xl font-black text-pink-500">${total.toLocaleString()}</div>
+                      <div className="text-xs text-pink-500/70 mt-1">${config.pricePerSeat.toLocaleString()} × {seatCount} seats</div>
+                    </div>
+                  </div>
+
+                  {/* Seat Slider */}
+                  <div className="mb-8">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm text-muted-foreground font-medium">Number of seats</span>
+                      <span className="text-lg font-black text-pink-500">{seatCount} seats</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={config.min}
+                      max={config.max}
+                      value={seatCount}
+                      onChange={(e) => setSeatCount(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer accent-pink-500"
+                      style={{
+                        background: `linear-gradient(to right, hsl(330, 100%, 60%) 0%, hsl(330, 100%, 60%) ${((seatCount - config.min) / (config.max - config.min)) * 100}%, hsl(var(--border)) ${((seatCount - config.min) / (config.max - config.min)) * 100}%, hsl(var(--border)) 100%)`
+                      }}
+                    />
+                    <div className="flex justify-between text-xs text-pink-500/60 mt-1">
+                      <span>{config.min} seats</span>
+                      <span>{config.max} seats</span>
+                    </div>
+                  </div>
+
+                  {/* Breakdown */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="bg-background border border-border rounded-xl p-5">
+                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-bold mb-2">PER SEAT</div>
+                      <div className="text-2xl font-black text-foreground">${config.pricePerSeat.toLocaleString()}</div>
+                    </div>
+                    <div className="bg-background border border-border rounded-xl p-5">
+                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-bold mb-2">× SEATS</div>
+                      <div className="text-2xl font-black text-foreground">× {seatCount}</div>
+                    </div>
+                    <div className="bg-background border border-border rounded-xl p-5">
+                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-bold mb-2">TOTAL</div>
+                      <div className="text-2xl font-black text-foreground">${total.toLocaleString()}</div>
+                    </div>
+                  </div>
+
+                  {/* Savings */}
+                  {hasDiscount && (
+                    <div className="bg-background border border-border rounded-xl p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Saving vs full rate ({seatCount} × ${FULL_RATE.toLocaleString()})</p>
+                        <p className="text-xs text-muted-foreground/60">Full price would be ${fullTotal.toLocaleString()}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-black text-pink-500">${saved.toLocaleString()}</div>
+                        <div className="text-xs text-pink-500/70 font-semibold">saved</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CTA */}
+                  <div className="mt-8 text-center">
+                    <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold tracking-wider text-sm px-10 py-3">
+                        Book a call to enrol →
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+              );
+            })()}
+
             <p className="text-center text-sm text-muted-foreground mt-6">
               Need 15+ seats?{" "}
               <a href="/contact" className="text-primary hover:underline">
