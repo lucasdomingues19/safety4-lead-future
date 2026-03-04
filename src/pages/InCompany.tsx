@@ -366,8 +366,10 @@ const InCompany = () => {
             </h2>
 
             <div ref={setFadeRef(4)} className="flex flex-col md:flex-row gap-6 md:gap-0 relative opacity-0 translate-y-6 transition-all duration-700">
-              {/* Connector line */}
-              <div className="hidden md:block absolute top-7 left-7 right-7 h-0.5 bg-border z-0" />
+              {/* Animated connector line */}
+              <div className="hidden md:block absolute top-7 left-7 right-7 h-0.5 z-0 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-primary via-pink-500 to-primary animate-[shimmer_3s_ease-in-out_infinite] bg-[length:200%_100%]" />
+              </div>
 
               {[
               { step: "1", title: "Discovery Call", desc: "20 minutes with Lucas to understand your team, objectives, and timeline." },
@@ -376,12 +378,16 @@ const InCompany = () => {
               { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
               { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved and CPD-accredited certificate." }].
               map((s, i) =>
-              <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4">
-                  <div className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] ${i % 2 === 0 ? 'border-primary text-primary' : 'border-pink-500 text-pink-500'}`}>
+              <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4 group" style={{ animationDelay: `${i * 200}ms` }}>
+                  <div 
+                    className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_4px] ${i % 2 === 0 ? 'border-primary text-primary group-hover:shadow-primary/30' : 'border-pink-500 text-pink-500 group-hover:shadow-pink-500/30'}`}
+                    style={{ animation: `float${i % 2 === 0 ? 'A' : 'B'} 3s ease-in-out ${i * 0.4}s infinite` }}
+                  >
                     {s.step}
                   </div>
-                  <div className="text-sm font-bold text-white mb-2">{s.title}</div>
-                  <div className="text-xs text-muted-foreground leading-relaxed">{s.desc}</div>
+                  <div className="text-sm font-bold text-white mb-2 transition-colors duration-300 group-hover:text-primary">{s.title}</div>
+                  <div className="text-xs text-muted-foreground leading-relaxed transition-opacity duration-300 group-hover:text-white/80">{s.desc}</div>
+                  {i < 4 && <ArrowDown className="md:hidden w-4 h-4 text-muted-foreground mx-auto mt-4 animate-bounce" />}
                 </div>
               )}
             </div>
