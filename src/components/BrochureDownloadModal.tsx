@@ -56,6 +56,8 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
       const link = document.createElement("a");
       link.href = "/Safety-4.0-Course-Brochure.pdf";
       link.download = "Safety-4.0-Course-Brochure.pdf";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
