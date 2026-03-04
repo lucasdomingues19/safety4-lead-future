@@ -438,7 +438,7 @@ const InCompany = () => {
               {[
               {
                 name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
+                features: ["Full 10-module programme access", "IOSH-approved certification", "CPD hours certification", "4 live group sessions with Lucas"],
                 featured: false, note: "Ideal for specialist EHS teams and SMEs"
               },
               {
