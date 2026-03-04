@@ -476,7 +476,7 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort �
               },
               {
                 name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
-                features: ["Everything in 11–15 tier", "Special discount available", "Multi-cohort rollout — your team only", "Dedicated programme manager"],
+                features: ["Everything in DEPARTMENT tier", "Special discount available", "Multi-cohort rollout — your team only", "Dedicated programme manager"],
                 featured: false, note: "Tailored enterprise solution", cta: "Contact Us"
               }].
               map((tier, i) =>
