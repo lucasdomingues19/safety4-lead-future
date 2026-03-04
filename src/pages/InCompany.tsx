@@ -438,17 +438,17 @@ const InCompany = () => {
               {[
               {
                 name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
                 featured: false, note: "Ideal for specialist EHS teams and SMEs"
               },
               {
                 name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
                 featured: true, note: "Best value for mid-sized EHS functions"
               },
               {
                 name: "DEPARTMENT", size: "11–20 people", price: "$995", per: "per seat", discount: "30% OFF",
-                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Team analytics & progress reports", "Priority support channel"],
+                features: ["Full 10-module programme access", "IOSH-approved certification for all", "CPD hours certification", "4 live group sessions with Lucas", "60+ on-demand video lessons", "Cohort peer community access", "Full cohort - your team only", "Priority support channel"],
                 featured: false, note: "For whole-department transformation"
               }].
               map((tier, i) =>
