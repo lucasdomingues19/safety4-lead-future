@@ -18,6 +18,14 @@ interface ContactFormData {
   message: string;
 }
 
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+};
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -39,22 +47,22 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Send email to lucas@getshield360.com
+    // Send email to hello@safetyacademy.tech
     console.log('Attempting to send email with Resend...');
     const emailResponse = await resend.emails.send({
       from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
       to: ["hello@safetyacademy.tech"],
       replyTo: formData.email,
-      subject: `New Contact Form Submission - ${formData.inquiryType}`,
+      subject: `New Contact Form Submission - ${escapeHtml(formData.inquiryType)}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>From:</strong> ${formData.firstName} ${formData.lastName}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        ${formData.phone ? `<p><strong>Phone:</strong> ${formData.phone}</p>` : ''}
-        <p><strong>Role:</strong> ${formData.role}</p>
-        <p><strong>Inquiry Type:</strong> ${formData.inquiryType}</p>
+        <p><strong>From:</strong> ${escapeHtml(formData.firstName)} ${escapeHtml(formData.lastName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(formData.email)}</p>
+        ${formData.phone ? `<p><strong>Phone:</strong> ${escapeHtml(formData.phone)}</p>` : ''}
+        <p><strong>Role:</strong> ${escapeHtml(formData.role)}</p>
+        <p><strong>Inquiry Type:</strong> ${escapeHtml(formData.inquiryType)}</p>
         <p><strong>Message:</strong></p>
-        <p>${formData.message.replace(/\n/g, '<br>')}</p>
+        <p>${escapeHtml(formData.message).replace(/\n/g, '<br>')}</p>
       `,
     });
 
@@ -73,7 +81,7 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-contact-email function:", error);
     return new Response(
-      JSON.stringify({ error: error.message || "Failed to send email" }),
+      JSON.stringify({ error: "Failed to send email. Please try again." }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -81,5 +89,4 @@ const handler = async (req: Request): Promise<Response> => {
     );
   }
 };
-
 serve(handler);
