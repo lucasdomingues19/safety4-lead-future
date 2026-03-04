@@ -334,6 +334,15 @@ export const HeroSection = () => {
                 </div>
               );
             })()}
+
+            <div className="mt-8 md:mt-10 text-center">
+              <a 
+                href="/contact" 
+                className="inline-flex items-center text-primary hover:text-lime-300 font-semibold text-base md:text-lg transition-colors duration-200 underline underline-offset-4"
+              >
+                📄 Download Program Brochure
+              </a>
+            </div>
           </div>
 
 
