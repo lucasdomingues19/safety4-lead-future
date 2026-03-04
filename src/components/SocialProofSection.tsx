@@ -97,7 +97,7 @@ export const SocialProofSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Title */}
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8 whitespace-nowrap">
             Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
           </h2>
           
