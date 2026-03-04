@@ -495,7 +495,7 @@ features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — y
                     className={`w-full font-bold tracking-wider text-sm py-3 ${
                     tier.featured ?
                     "bg-primary text-primary-foreground hover:bg-primary/90" :
-                    "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-primary"}`
+                    "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"}`
                     }
                     variant={tier.featured ? "default" : "outline"}>
                     
