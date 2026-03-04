@@ -439,17 +439,17 @@ const InCompany = () => {
               {
                 name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
                 features: ["Full 10-module programme access", "IOSH-approved certification", "CPD hours certification", "5 live group sessions with Lucas"],
-                featured: false, note: "Ideal for specialist EHS teams and SMEs"
+                featured: false, note: "Ideal for specialist EHS teams and SMEs", cta: "Select"
               },
               {
                 name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
 features: ["Everything in 1–5 tier", "15% volume discount applied"],
-                featured: true, note: "Best value for mid-sized EHS functions"
+                featured: true, note: "Best value for mid-sized EHS functions", cta: "Select"
               },
               {
                 name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
 features: ["Everything in 6–10 tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
-                featured: false, note: "For whole-department transformation"
+                featured: false, note: "For whole-department transformation", cta: "Select"
               },
               {
                 name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
