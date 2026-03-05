@@ -21,8 +21,8 @@ import {
   Shield,
   Building2,
   Loader2,
-  Star,
-} from "lucide-react";
+  Star } from
+"lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
@@ -45,7 +45,7 @@ const Cohort = () => {
     jobTitle: "",
     organisation: "",
     seatsNeeded: "1",
-    fundingSource: "",
+    fundingSource: ""
   });
 
   // Countdown to May 5, 2026
@@ -58,9 +58,9 @@ const Cohort = () => {
       const diff = Math.max(0, target - now);
       setCountdown({
         days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        minutes: Math.floor((diff % 3600000) / 60000),
-        seconds: Math.floor((diff % 60000) / 1000),
+        hours: Math.floor(diff % 86400000 / 3600000),
+        minutes: Math.floor(diff % 3600000 / 60000),
+        seconds: Math.floor(diff % 60000 / 1000)
       });
     };
     tick();
@@ -73,7 +73,7 @@ const Cohort = () => {
     setPageSEO({
       title: "Safety 4.0 Accelerator Cohort — 8-Week IOSH Approved Live Programme | May 2026",
       description: "Join the Safety 4.0 Accelerator Cohort: 8 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 12 seats per cohort. Apply for May 2026.",
-      canonical: "https://safetyacademy.tech/cohort",
+      canonical: "https://safetyacademy.tech/cohort"
     });
 
     const observer = new IntersectionObserver(
@@ -98,10 +98,10 @@ const Cohort = () => {
 
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
     const messageDetails = [
-      `Organisation: ${formData.organisation || "Not provided"}`,
-      `Seats needed: ${formData.seatsNeeded}`,
-      `Funding: ${formData.fundingSource || "Not specified"}`,
-    ].join("\n");
+    `Organisation: ${formData.organisation || "Not provided"}`,
+    `Seats needed: ${formData.seatsNeeded}`,
+    `Funding: ${formData.fundingSource || "Not specified"}`].
+    join("\n");
 
     try {
       // Save lead
@@ -111,8 +111,8 @@ const Cohort = () => {
           email: formData.email,
           job_title: formData.jobTitle,
           source: "cohort-application",
-          message: messageDetails,
-        },
+          message: messageDetails
+        }
       });
       if (leadError) throw leadError;
 
@@ -124,14 +124,14 @@ const Cohort = () => {
           email: formData.email,
           role: formData.jobTitle,
           inquiryType: "Cohort Application",
-          message: `New Cohort Application\n\nJob Title: ${formData.jobTitle}\nOrganisation: ${formData.organisation || "N/A"}\nSeats: ${formData.seatsNeeded}\nFunding: ${formData.fundingSource || "N/A"}`,
-        },
+          message: `New Cohort Application\n\nJob Title: ${formData.jobTitle}\nOrganisation: ${formData.organisation || "N/A"}\nSeats: ${formData.seatsNeeded}\nFunding: ${formData.fundingSource || "N/A"}`
+        }
       });
       if (emailError) throw emailError;
 
       toast({
         title: "Application received!",
-        description: "We'll confirm your place within 24 hours. Check your email.",
+        description: "We'll confirm your place within 24 hours. Check your email."
       });
 
       setFormData({ firstName: "", lastName: "", email: "", jobTitle: "", organisation: "", seatsNeeded: "1", fundingSource: "" });
@@ -140,7 +140,7 @@ const Cohort = () => {
       toast({
         title: "Something went wrong",
         description: "Please try again or contact us at hello@safetyacademy.tech",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
@@ -148,60 +148,60 @@ const Cohort = () => {
   };
 
   const experienceItems = [
-    { icon: Video, title: "8 Live Sessions with Lucas", desc: "Weekly live group sessions — not webinars. Interactive, discussion-led, and tailored to what the cohort needs. Lucas brings 15 years of practitioner experience into every session." },
-    { icon: Users, title: "Cohort of 10–12 Peers", desc: "Deliberately small. You'll learn alongside EHS professionals from construction, manufacturing, energy, and logistics. Real problems, real perspectives, lasting relationships." },
-    { icon: Award, title: "IOSH-Approved Certificate", desc: "The world's first IOSH-approved Safety 4.0 programme. Your certificate carries IOSH's institutional credibility — recognised by employers in the UK and internationally." },
-    { icon: BookOpen, title: "60+ On-Demand Lessons", desc: "Studio-recorded lessons available anytime, alongside live sessions. 10 modules covering AI, SafetyTech, data strategy, digital culture, and leadership. 8+ CPD hours." },
-    { icon: Globe, title: "Alumni Community Access", desc: "Graduates join a growing network of Safety 4.0 leaders across 12+ countries. Lucas runs regular alumni sessions for ongoing development. A career-long network." },
-    { icon: Zap, title: "Direct Access to Lucas", desc: "A dedicated cohort communication channel. Ask questions between sessions, share progress, get feedback on how to apply what you're learning in your specific context." },
-  ];
+  { icon: Video, title: "8 Live Sessions with Lucas", desc: "Weekly live group sessions — not webinars. Interactive, discussion-led, and tailored to what the cohort needs. Lucas brings 15 years of practitioner experience into every session." },
+  { icon: Users, title: "Cohort of 10–12 Peers", desc: "Deliberately small. You'll learn alongside EHS professionals from construction, manufacturing, energy, and logistics. Real problems, real perspectives, lasting relationships." },
+  { icon: Award, title: "IOSH-Approved Certificate", desc: "The world's first IOSH-approved Safety 4.0 programme. Your certificate carries IOSH's institutional credibility — recognised by employers in the UK and internationally." },
+  { icon: BookOpen, title: "60+ On-Demand Lessons", desc: "Studio-recorded lessons available anytime, alongside live sessions. 10 modules covering AI, SafetyTech, data strategy, digital culture, and leadership. 8+ CPD hours." },
+  { icon: Globe, title: "Alumni Community Access", desc: "Graduates join a growing network of Safety 4.0 leaders across 12+ countries. Lucas runs regular alumni sessions for ongoing development. A career-long network." },
+  { icon: Zap, title: "Direct Access to Lucas", desc: "A dedicated cohort communication channel. Ask questions between sessions, share progress, get feedback on how to apply what you're learning in your specific context." }];
+
 
   const timeline = [
-    { weeks: "WK 1–2", title: "Foundations — Safety 4.0 & the Digital Shift", desc: "What Industry 4.0 means for EHS. Where AI, IoT, and data intersect with safety. The strategic case for change. Building your digital safety vision." },
-    { weeks: "WK 3–4", title: "AI Essentials & the Digital Safety Toolkit", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
-    { weeks: "WK 5–6", title: "Data, SafetyTech & Incident Prevention", desc: "Data strategy for safety functions. Wearables, sensors, computer vision, and drones in practice. Predictive analytics for proactive risk reduction." },
-    { weeks: "WK 7–8", title: "Leadership, Culture & IOSH Assessment", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development. IOSH certification assessment." },
-  ];
+  { weeks: "WK 1–2", title: "Foundations — Safety 4.0 & the Digital Shift", desc: "What Industry 4.0 means for EHS. Where AI, IoT, and data intersect with safety. The strategic case for change. Building your digital safety vision." },
+  { weeks: "WK 3–4", title: "AI Essentials & the Digital Safety Toolkit", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
+  { weeks: "WK 5–6", title: "Data, SafetyTech & Incident Prevention", desc: "Data strategy for safety functions. Wearables, sensors, computer vision, and drones in practice. Predictive analytics for proactive risk reduction." },
+  { weeks: "WK 7–8", title: "Leadership, Culture & IOSH Assessment", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development. IOSH certification assessment." }];
+
 
   const testimonials = [
-    {
-      quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject.",
-      name: "Ana Coutinho", role: "HSE Manager", company: "LEGO GROUP", photo: anaCoutinhoPhoto,
-    },
-    {
-      quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
-      name: "Jacqueline Carr", role: "Global OSH Leader", company: "SIEMENS", photo: jacquelineCarrPhoto,
-    },
-    {
-      quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples.",
-      name: "Stewart Deary", role: "Global HSE Director", company: "CRTS GLOBAL", photo: stewartDearyPhoto,
-    },
-    {
-      quote: "This program bridges the gap between traditional safety and digital transformation perfectly. The practical applications have revolutionized our safety management systems.",
-      name: "Eamonn Doherty", role: "HSSEQ Director", company: "SAMA CONSTRUCTION", photo: eamonnDohertyPhoto,
-    },
-  ];
+  {
+    quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject.",
+    name: "Ana Coutinho", role: "HSE Manager", company: "LEGO GROUP", photo: anaCoutinhoPhoto
+  },
+  {
+    quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
+    name: "Jacqueline Carr", role: "Global OSH Leader", company: "SIEMENS", photo: jacquelineCarrPhoto
+  },
+  {
+    quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples.",
+    name: "Stewart Deary", role: "Global HSE Director", company: "CRTS GLOBAL", photo: stewartDearyPhoto
+  },
+  {
+    quote: "This program bridges the gap between traditional safety and digital transformation perfectly. The practical applications have revolutionized our safety management systems.",
+    name: "Eamonn Doherty", role: "HSSEQ Director", company: "SAMA CONSTRUCTION", photo: eamonnDohertyPhoto
+  }];
+
 
   const comparisonFeatures = [
-    { feature: "Full 10-module course content", accelerator: true, elearning: true },
-    { feature: "60+ on-demand video lessons", accelerator: true, elearning: true },
-    { feature: "IOSH-approved certificate", accelerator: true, elearning: true },
-    { feature: "8+ CPD hours", accelerator: true, elearning: true },
-    { feature: "8 live sessions with Lucas", accelerator: true, elearning: false },
-    { feature: "Cohort peer community (10–12 people)", accelerator: true, elearning: false },
-    { feature: "Direct Q&A access to Lucas", accelerator: true, elearning: false },
-    { feature: "Accountability & cohort structure", accelerator: true, elearning: false },
-    { feature: "Alumni community access", accelerator: true, elearning: false },
-    { feature: "Team option (2+ seats)", accelerator: true, elearning: false },
-  ];
+  { feature: "Full 10-module course content", accelerator: true, elearning: true },
+  { feature: "60+ on-demand video lessons", accelerator: true, elearning: true },
+  { feature: "IOSH-approved certificate", accelerator: true, elearning: true },
+  { feature: "8+ CPD hours", accelerator: true, elearning: true },
+  { feature: "8 live sessions with Lucas", accelerator: true, elearning: false },
+  { feature: "Cohort peer community (10–12 people)", accelerator: true, elearning: false },
+  { feature: "Direct Q&A access to Lucas", accelerator: true, elearning: false },
+  { feature: "Accountability & cohort structure", accelerator: true, elearning: false },
+  { feature: "Alumni community access", accelerator: true, elearning: false },
+  { feature: "Team option (2+ seats)", accelerator: true, elearning: false }];
+
 
   const faqItems = [
-    { q: "What if I miss a live session?", a: "All live sessions are recorded and available in your dashboard within 24 hours. You'll never fall behind — but showing up live is where the peer discussion happens and where the real value is built." },
-    { q: "Can my employer pay via invoice?", a: "Yes. We support PO/invoice billing for employer-sponsored enrolments and team places. Mention this in your application and we'll handle the paperwork. We're used to working within procurement processes." },
-    { q: "Is this relevant if my team is small or I work alone?", a: "Absolutely. The programme is designed for safety professionals at all levels — from sole EHS advisors to heads of large safety functions. The peer cohort gives you a team experience even if you're working solo in your organisation." },
-    { q: "How much time do I need to commit each week?", a: "Expect 3–4 hours per week: 90 minutes for the live session, 1–2 hours of on-demand content, and some reflection/application time. The programme is designed for working professionals." },
-    { q: "When is the next cohort after May 2026?", a: "Cohorts run quarterly. The next cohort after May 2026 will be September 2026. If May fills before your application is processed, you'll be offered a place on the September cohort." },
-  ];
+  { q: "What if I miss a live session?", a: "All live sessions are recorded and available in your dashboard within 24 hours. You'll never fall behind — but showing up live is where the peer discussion happens and where the real value is built." },
+  { q: "Can my employer pay via invoice?", a: "Yes. We support PO/invoice billing for employer-sponsored enrolments and team places. Mention this in your application and we'll handle the paperwork. We're used to working within procurement processes." },
+  { q: "Is this relevant if my team is small or I work alone?", a: "Absolutely. The programme is designed for safety professionals at all levels — from sole EHS advisors to heads of large safety functions. The peer cohort gives you a team experience even if you're working solo in your organisation." },
+  { q: "How much time do I need to commit each week?", a: "Expect 3–4 hours per week: 90 minutes for the live session, 1–2 hours of on-demand content, and some reflection/application time. The programme is designed for working professionals." },
+  { q: "When is the next cohort after May 2026?", a: "Cohorts run quarterly. The next cohort after May 2026 will be September 2026. If May fills before your application is processed, you'll be offered a place on the September cohort." }];
+
 
   return (
     <AnalyticsTracker>
@@ -242,7 +242,7 @@ const Cohort = () => {
               {/* Tag */}
               <div className="inline-flex items-center gap-2 border border-primary/40 rounded-full px-4 py-1.5 mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[11px] tracking-[2px] text-primary font-bold font-syne">LIVE COHORT · IOSH APPROVED · MAY 2026</span>
+                <span className="text-[11px] tracking-[2px] text-primary font-bold font-syne">LIVE COHORT  · APRIL 2026</span>
               </div>
 
               <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
@@ -261,16 +261,16 @@ const Cohort = () => {
                 <div className="text-[11px] tracking-[3px] text-muted-foreground font-syne mb-4">COHORT STARTS IN</div>
                 <div className="flex gap-3 justify-center">
                   {[
-                    { val: countdown.days, label: "DAYS" },
-                    { val: countdown.hours, label: "HRS" },
-                    { val: countdown.minutes, label: "MIN" },
-                    { val: countdown.seconds, label: "SEC" },
-                  ].map((item) => (
-                    <div key={item.label} className="bg-card border border-border rounded-xl px-4 py-3 min-w-[72px] text-center">
+                  { val: countdown.days, label: "DAYS" },
+                  { val: countdown.hours, label: "HRS" },
+                  { val: countdown.minutes, label: "MIN" },
+                  { val: countdown.seconds, label: "SEC" }].
+                  map((item) =>
+                  <div key={item.label} className="bg-card border border-border rounded-xl px-4 py-3 min-w-[72px] text-center">
                       <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
                       <div className="text-[10px] tracking-[2px] text-muted-foreground font-syne mt-1">{item.label}</div>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
 
@@ -326,13 +326,13 @@ const Cohort = () => {
             </p>
 
             <div ref={setFadeRef(0)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 opacity-0 translate-y-6 transition-all duration-700">
-              {experienceItems.map((item, i) => (
-                <div key={i} className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
+              {experienceItems.map((item, i) =>
+              <div key={i} className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
                   <item.icon className={`w-6 h-6 mb-4 ${i % 2 === 0 ? "text-primary" : "text-pink-500"}`} />
                   <div className="font-syne text-[15px] font-bold text-white mb-2">{item.title}</div>
                   <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -346,8 +346,8 @@ const Cohort = () => {
             </h2>
 
             <div ref={setFadeRef(1)} className="space-y-6 max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
-              {timeline.map((item, i) => (
-                <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-border last:border-b-0">
+              {timeline.map((item, i) =>
+              <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-border last:border-b-0">
                   <div className="bg-card border border-primary/30 rounded-lg p-3 text-center">
                     <span className="font-syne text-xs font-bold text-primary tracking-[1px]">{item.weeks}</span>
                   </div>
@@ -356,7 +356,7 @@ const Cohort = () => {
                     <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -371,12 +371,12 @@ const Cohort = () => {
             </h2>
 
             <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-5 opacity-0 translate-y-6 transition-all duration-700">
-              {testimonials.map((t, i) => (
-                <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+              {testimonials.map((t, i) =>
+              <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
                   <div className="flex gap-0.5 text-amber-500 mb-4">
-                    {Array.from({ length: 5 }).map((_, si) => (
-                      <Star key={si} className="w-4 h-4 fill-amber-500" />
-                    ))}
+                    {Array.from({ length: 5 }).map((_, si) =>
+                  <Star key={si} className="w-4 h-4 fill-amber-500" />
+                  )}
                   </div>
                   <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
                     <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
@@ -393,7 +393,7 @@ const Cohort = () => {
                     {t.company}
                   </span>
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Money-back guarantee */}
@@ -428,8 +428,8 @@ const Cohort = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {comparisonFeatures.map((row, i) => (
-                    <tr key={i} className={i % 2 === 0 ? "bg-white/[0.01]" : ""}>
+                  {comparisonFeatures.map((row, i) =>
+                  <tr key={i} className={i % 2 === 0 ? "bg-white/[0.01]" : ""}>
                       <td className="p-4 text-sm text-muted-foreground font-medium border-b border-border">{row.feature}</td>
                       <td className="p-4 text-center border-b border-border">
                         {row.accelerator ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
@@ -438,7 +438,7 @@ const Cohort = () => {
                         {row.elearning ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
                       </td>
                     </tr>
-                  ))}
+                  )}
                   <tr className="bg-card">
                     <td className="p-4 text-sm font-bold text-white">Price</td>
                     <td className="p-4 text-center font-syne text-lg font-black text-primary">£997</td>
@@ -465,21 +465,21 @@ const Cohort = () => {
                 <div className="font-syne text-sm font-bold tracking-[2px] text-primary mb-6">MAY 2026 COHORT DETAILS</div>
                 <div className="space-y-4">
                   {[
-                    { label: "Start date", val: "5 May 2026" },
-                    { label: "Duration", val: "8 weeks" },
-                    { label: "Live sessions", val: "Tuesdays, 18:30–20:00 BST" },
-                    { label: "Cohort size", val: "12 participants max" },
-                    { label: "Seats remaining", val: "3 of 12" },
-                    { label: "Individual price", val: "£997" },
-                    { label: "Team price (2+)", val: "£895/person" },
-                    { label: "IOSH certificate", val: "Included for all" },
-                    { label: "Application deadline", val: "25 April 2026" },
-                  ].map((row, i) => (
-                    <div key={i} className="flex justify-between border-b border-border pb-3 text-sm">
+                  { label: "Start date", val: "5 May 2026" },
+                  { label: "Duration", val: "8 weeks" },
+                  { label: "Live sessions", val: "Tuesdays, 18:30–20:00 BST" },
+                  { label: "Cohort size", val: "12 participants max" },
+                  { label: "Seats remaining", val: "3 of 12" },
+                  { label: "Individual price", val: "£997" },
+                  { label: "Team price (2+)", val: "£895/person" },
+                  { label: "IOSH certificate", val: "Included for all" },
+                  { label: "Application deadline", val: "25 April 2026" }].
+                  map((row, i) =>
+                  <div key={i} className="flex justify-between border-b border-border pb-3 text-sm">
                       <span className="text-muted-foreground">{row.label}</span>
                       <span className="text-white font-medium">{row.val}</span>
                     </div>
-                  ))}
+                  )}
                 </div>
 
                 <div className="mt-8 bg-primary/10 border border-primary/25 rounded-xl p-5">
@@ -502,8 +502,8 @@ const Cohort = () => {
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                         className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Jane"
-                      />
+                        placeholder="Jane" />
+                      
                     </div>
                     <div>
                       <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME</label>
@@ -512,8 +512,8 @@ const Cohort = () => {
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                         className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Smith"
-                      />
+                        placeholder="Smith" />
+                      
                     </div>
                   </div>
 
@@ -525,8 +525,8 @@ const Cohort = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                      placeholder="jane@company.com"
-                    />
+                      placeholder="jane@company.com" />
+                    
                   </div>
 
                   <div>
@@ -535,8 +535,8 @@ const Cohort = () => {
                       value={formData.jobTitle}
                       onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                       className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                      placeholder="HSE Manager"
-                    />
+                      placeholder="HSE Manager" />
+                    
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
@@ -546,16 +546,16 @@ const Cohort = () => {
                         value={formData.organisation}
                         onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
                         className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Acme Corp"
-                      />
+                        placeholder="Acme Corp" />
+                      
                     </div>
                     <div>
                       <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">SEATS NEEDED</label>
                       <select
                         value={formData.seatsNeeded}
                         onChange={(e) => setFormData({ ...formData, seatsNeeded: e.target.value })}
-                        className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none"
-                      >
+                        className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none">
+                        
                         <option value="1">1 seat (£997)</option>
                         <option value="2">2 seats (£895/person)</option>
                         <option value="3">3 seats (£895/person)</option>
@@ -569,8 +569,8 @@ const Cohort = () => {
                     <select
                       value={formData.fundingSource}
                       onChange={(e) => setFormData({ ...formData, fundingSource: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none"
-                    >
+                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none">
+                      
                       <option value="">Select...</option>
                       <option value="self-funding">Self-funding</option>
                       <option value="employer-sponsored">Employer-sponsored</option>
@@ -580,11 +580,11 @@ const Cohort = () => {
                   </div>
 
                   <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow mt-2">
-                    {isSubmitting ? (
-                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</>
-                    ) : (
-                      <>Apply for May Cohort <ArrowRight className="w-4 h-4 ml-2" /></>
-                    )}
+                    {isSubmitting ?
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
+
+                    <>Apply for May Cohort <ArrowRight className="w-4 h-4 ml-2" /></>
+                    }
                   </Button>
 
                   <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
@@ -606,8 +606,8 @@ const Cohort = () => {
 
             <div ref={setFadeRef(5)} className="max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
               <Accordion type="single" collapsible className="w-full">
-                {faqItems.map((item, i) => (
-                  <AccordionItem key={i} value={`faq-${i}`} className="border-border">
+                {faqItems.map((item, i) =>
+                <AccordionItem key={i} value={`faq-${i}`} className="border-border">
                     <AccordionTrigger className="text-sm font-bold text-white text-left hover:no-underline py-5">
                       {item.q}
                     </AccordionTrigger>
@@ -615,7 +615,7 @@ const Cohort = () => {
                       {item.a}
                     </AccordionContent>
                   </AccordionItem>
-                ))}
+                )}
               </Accordion>
             </div>
           </div>
@@ -646,11 +646,11 @@ const Cohort = () => {
                   </a>
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center mt-7">
-                  {["14-day money-back guarantee", "IOSH-approved programme", "Only 12 per cohort", "Payment plans available"].map((item) => (
-                    <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  {["14-day money-back guarantee", "IOSH-approved programme", "Only 12 per cohort", "Payment plans available"].map((item) =>
+                  <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-primary" /> {item}
                     </span>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
@@ -665,8 +665,8 @@ const Cohort = () => {
 
         <Footer />
       </div>
-    </AnalyticsTracker>
-  );
+    </AnalyticsTracker>);
+
 };
 
 export default Cohort;
