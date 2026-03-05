@@ -21,6 +21,7 @@ import {
   Zap,
   Shield,
   Building2,
+  FileDown,
   Loader2,
   Star,
   Calendar,
@@ -374,6 +375,12 @@ const Cohort = () => {
                 </div>
               )}
             </div>
+
+            <a href="/contact?request=cohort-brochure" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-pink-500 hover:text-pink-400 transition-colors group">
+              <FileDown className="w-4 h-4" />
+              Download Cohort Brochure
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
         </section>
 
