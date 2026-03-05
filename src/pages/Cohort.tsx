@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
@@ -21,7 +22,11 @@ import {
   Shield,
   Building2,
   Loader2,
-  Star } from
+  Star,
+  Calendar,
+  Clock,
+  MapPin,
+  Lock } from
 "lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
@@ -34,10 +39,19 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 
 const TALLY_LINK = "https://tally.so/r/ZjNNl5";
 
+const cohortSchedule = [
+  { month: "April", year: 2026, startDate: "7 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+  { month: "June", year: 2026, startDate: "1 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+  { month: "August", year: 2026, startDate: "3 Aug 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+  { month: "October", year: 2026, startDate: "5 Oct 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+  { month: "December", year: 2026, startDate: "7 Dec 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+];
+
 const Cohort = () => {
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCohort, setSelectedCohort] = useState<typeof cohortSchedule[0] | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -48,11 +62,11 @@ const Cohort = () => {
     fundingSource: ""
   });
 
-  // Countdown to May 5, 2026
+  // Countdown to April 7, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const target = new Date("2026-05-05T00:00:00Z").getTime();
+    const target = new Date("2026-04-07T00:00:00Z").getTime();
     const tick = () => {
       const now = Date.now();
       const diff = Math.max(0, target - now);
@@ -97,9 +111,10 @@ const Cohort = () => {
     setIsSubmitting(true);
 
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+    const cohortLabel = selectedCohort ? `${selectedCohort.month} ${selectedCohort.year}` : "Unknown";
     const messageDetails = [
+    `Cohort: ${cohortLabel}`,
     `Organisation: ${formData.organisation || "Not provided"}`,
-    `Seats needed: ${formData.seatsNeeded}`,
     `Funding: ${formData.fundingSource || "Not specified"}`].
     join("\n");
 
@@ -124,17 +139,18 @@ const Cohort = () => {
           email: formData.email,
           role: formData.jobTitle,
           inquiryType: "Cohort Application",
-          message: `New Cohort Application\n\nJob Title: ${formData.jobTitle}\nOrganisation: ${formData.organisation || "N/A"}\nSeats: ${formData.seatsNeeded}\nFunding: ${formData.fundingSource || "N/A"}`
+          message: `New Cohort Application — ${cohortLabel}\n\nJob Title: ${formData.jobTitle}\nOrganisation: ${formData.organisation || "N/A"}\nFunding: ${formData.fundingSource || "N/A"}`
         }
       });
       if (emailError) throw emailError;
 
       toast({
         title: "Application received!",
-        description: "We'll confirm your place within 24 hours. Check your email."
+        description: `We'll confirm your place on the ${cohortLabel} cohort within 24 hours.`
       });
 
       setFormData({ firstName: "", lastName: "", email: "", jobTitle: "", organisation: "", seatsNeeded: "1", fundingSource: "" });
+      setSelectedCohort(null);
     } catch (error) {
       console.error("Error submitting application:", error);
       toast({
@@ -442,151 +458,186 @@ const Cohort = () => {
           </div>
         </section>
 
-        {/* APPLICATION FORM */}
+        {/* COHORT CALENDAR */}
         <section id="apply" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">APPLY FOR MAY COHORT</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              3 seats remaining.<br />
-              <span className="text-pink-500">Applications close 25 April</span>.
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">UPCOMING COHORTS</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+              Choose your <span className="text-pink-500">cohort</span>.
             </h2>
+            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+              Each cohort is capped at 15 professionals. Select a date to apply — we review every application to ensure the right fit.
+            </p>
 
-            <div ref={setFadeRef(4)} className="bg-card border border-primary/25 rounded-3xl overflow-hidden grid lg:grid-cols-2 opacity-0 translate-y-6 transition-all duration-700">
-              {/* Left - details */}
-              <div className="p-8 md:p-12 bg-gradient-to-br from-primary/5 to-transparent">
-                <div className="font-syne text-sm font-bold tracking-[2px] text-primary mb-6">MAY 2026 COHORT DETAILS</div>
-                <div className="space-y-4">
-                  {[
-                  { label: "Start date", val: "5 May 2026" },
-                  { label: "Duration", val: "8 weeks" },
-                  { label: "Live sessions", val: "Tuesdays, 18:30–20:00 BST" },
-                  { label: "Cohort size", val: "12 participants max" },
-                  { label: "Seats remaining", val: "3 of 12" },
-                  { label: "Individual price", val: "£997" },
-                  { label: "Team price (2+)", val: "£895/person" },
-                  { label: "IOSH certificate", val: "Included for all" },
-                  { label: "Application deadline", val: "25 April 2026" }].
-                  map((row, i) =>
-                  <div key={i} className="flex justify-between border-b border-border pb-3 text-sm">
-                      <span className="text-muted-foreground">{row.label}</span>
-                      <span className="text-white font-medium">{row.val}</span>
+            <div ref={setFadeRef(4)} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+              {cohortSchedule.map((cohort, i) => {
+                const isFilling = cohort.status === "filling";
+                const fillPercent = Math.round(((cohort.totalSeats - cohort.seatsLeft) / cohort.totalSeats) * 100);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedCohort(cohort)}
+                    className={`group relative text-left bg-card border rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
+                      isFilling
+                        ? "border-primary/40 hover:border-primary/70 shadow-[0_0_30px_rgba(29,184,123,0.08)]"
+                        : "border-border hover:border-primary/30"
+                    }`}
+                  >
+                    {isFilling && (
+                      <div className="absolute top-0 right-0 bg-amber-500/15 border border-amber-500/30 text-amber-500 text-[10px] font-syne font-bold tracking-[1px] px-3 py-1 rounded-bl-xl rounded-tr-2xl">
+                        FILLING FAST
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isFilling ? "bg-primary/15" : "bg-card border border-border"}`}>
+                        <Calendar className={`w-5 h-5 ${isFilling ? "text-primary" : "text-muted-foreground"}`} />
+                      </div>
+                      <div>
+                        <div className="font-syne text-xl font-black text-white">{cohort.month}</div>
+                        <div className="text-xs text-muted-foreground">{cohort.year}</div>
+                      </div>
                     </div>
-                  )}
-                </div>
 
-                <div className="mt-8 bg-primary/10 border border-primary/25 rounded-xl p-5">
-                  <div className="font-syne text-xs font-bold tracking-[1px] text-primary mb-2">14-DAY MONEY-BACK GUARANTEE</div>
-                  <p className="text-sm text-muted-foreground">Complete Week 1. If you're not convinced, get a full refund. No questions asked.</p>
-                </div>
-              </div>
-
-              {/* Right - form */}
-              <div className="p-8 md:p-12 border-t lg:border-t-0 lg:border-l border-border">
-                <h3 className="font-syne text-xl font-bold text-white mb-2">Apply for the May 2026 Cohort</h3>
-                <p className="text-sm text-muted-foreground mb-6">We'll confirm your place within 24 hours.</p>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME</label>
-                      <input
-                        required
-                        value={formData.firstName}
-                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Jane" />
-                      
+                    <div className="space-y-2.5 mb-5">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                        <span>Starts {cohort.startDate}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Clock className="w-3.5 h-3.5 flex-shrink-0" />
+                        <span>{cohort.liveSessions}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm">
+                        <Users className="w-3.5 h-3.5 flex-shrink-0 text-muted-foreground" />
+                        <span className={isFilling ? "text-amber-500 font-semibold" : "text-muted-foreground"}>
+                          {cohort.seatsLeft} of {cohort.totalSeats} seats available
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME</label>
-                      <input
-                        required
-                        value={formData.lastName}
-                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Smith" />
-                      
+
+                    {/* Seats progress bar */}
+                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-5">
+                      <div
+                        className={`h-full rounded-full transition-all ${isFilling ? "bg-amber-500" : "bg-primary/30"}`}
+                        style={{ width: `${fillPercent}%` }}
+                      />
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL</label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                      placeholder="jane@company.com" />
-                    
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">JOB TITLE</label>
-                    <input
-                      value={formData.jobTitle}
-                      onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                      placeholder="HSE Manager" />
-                    
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
-                      <input
-                        value={formData.organisation}
-                        onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
-                        className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                        placeholder="Acme Corp" />
-                      
+                    <div className="flex items-center justify-between">
+                      <span className="font-syne text-lg font-black text-primary">{cohort.price}</span>
+                      <span className="text-sm font-syne font-bold text-primary group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                        Apply <ArrowRight className="w-4 h-4" />
+                      </span>
                     </div>
-                    <div>
-                      <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">SEATS NEEDED</label>
-                      <select
-                        value={formData.seatsNeeded}
-                        onChange={(e) => setFormData({ ...formData, seatsNeeded: e.target.value })}
-                        className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none">
-                        
-                        <option value="1">1 seat (£997)</option>
-                        <option value="2">2 seats (£895/person)</option>
-                        <option value="3">3 seats (£895/person)</option>
-                        <option value="4+">4+ seats — contact us</option>
-                      </select>
-                    </div>
-                  </div>
+                  </button>
+                );
+              })}
+            </div>
 
-                  <div>
-                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">HOW ARE YOU FUNDING THIS?</label>
-                    <select
-                      value={formData.fundingSource}
-                      onChange={(e) => setFormData({ ...formData, fundingSource: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none">
-                      
-                      <option value="">Select...</option>
-                      <option value="self-funding">Self-funding</option>
-                      <option value="employer-sponsored">Employer-sponsored</option>
-                      <option value="team-budget">Team / In-Company budget</option>
-                      <option value="not-sure">Not sure yet</option>
-                    </select>
-                  </div>
-
-                  <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow mt-2">
-                    {isSubmitting ?
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
-
-                    <>Apply for May Cohort <ArrowRight className="w-4 h-4 ml-2" /></>
-                    }
-                  </Button>
-
-                  <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
-                    Submitting this form is not a payment. We'll confirm your place and send payment details within 24 hours. 14-day satisfaction guarantee on all places.
-                  </p>
-                </form>
+            {/* Guarantee strip */}
+            <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start md:items-center max-w-3xl mx-auto">
+              <Shield className="w-10 h-10 text-primary flex-shrink-0" />
+              <div>
+                <div className="font-syne text-lg font-bold text-white mb-1">14-Day Satisfaction Guarantee</div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Complete Week 1 and if you're not convinced, get a full refund — no questions asked.
+                </p>
               </div>
             </div>
           </div>
         </section>
+
+        {/* APPLICATION MODAL */}
+        <Dialog open={!!selectedCohort} onOpenChange={(open) => !open && setSelectedCohort(null)}>
+          <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="font-syne text-xl font-black text-white">
+                Apply for {selectedCohort?.month} {selectedCohort?.year} Cohort
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground text-sm">
+                Starting {selectedCohort?.startDate} · {selectedCohort?.seatsLeft} seats remaining · We review every application
+              </DialogDescription>
+            </DialogHeader>
+
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME</label>
+                  <input
+                    required
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                    placeholder="Jane" />
+                </div>
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME</label>
+                  <input
+                    required
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                    placeholder="Smith" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL</label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                  placeholder="jane@company.com" />
+              </div>
+
+              <div>
+                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">JOB TITLE</label>
+                <input
+                  value={formData.jobTitle}
+                  onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                  placeholder="HSE Manager" />
+              </div>
+
+              <div>
+                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
+                <input
+                  value={formData.organisation}
+                  onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
+                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+                  placeholder="Acme Corp" />
+              </div>
+
+              <div>
+                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">HOW ARE YOU FUNDING THIS?</label>
+                <select
+                  value={formData.fundingSource}
+                  onChange={(e) => setFormData({ ...formData, fundingSource: e.target.value })}
+                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none">
+                  <option value="">Select...</option>
+                  <option value="self-funding">Self-funding</option>
+                  <option value="employer-sponsored">Employer-sponsored</option>
+                  <option value="team-budget">Team / In-Company budget</option>
+                  <option value="not-sure">Not sure yet</option>
+                </select>
+              </div>
+
+              <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow mt-2">
+                {isSubmitting ?
+                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
+                <>Apply for {selectedCohort?.month} Cohort <ArrowRight className="w-4 h-4 ml-2" /></>
+                }
+              </Button>
+
+              <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
+                This is not a payment. We review applications and confirm your place within 24 hours. 14-day satisfaction guarantee.
+              </p>
+            </form>
+          </DialogContent>
+        </Dialog>
 
         {/* FAQ */}
         <section className="py-20 px-4 border-t border-border">
