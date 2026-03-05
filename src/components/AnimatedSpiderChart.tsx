@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   { label: "Digital\nReadiness", icon: "⚡" },
   { label: "Leadership", icon: "👤" },
   { label: "Productivity", icon: "📈" },
@@ -8,8 +8,16 @@ const CATEGORIES = [
   { label: "Risk\nReduction", icon: "🛡" },
 ];
 
-const BEFORE_VALUES = [32, 25, 40, 20, 35]; // Before training
-const AFTER_VALUES = [88, 82, 92, 78, 85]; // After training
+const DEFAULT_BEFORE = [32, 25, 40, 20, 35];
+const DEFAULT_AFTER = [88, 82, 92, 78, 85];
+
+interface AnimatedSpiderChartProps {
+  categories?: { label: string; icon: string }[];
+  beforeValues?: number[];
+  afterValues?: number[];
+  beforeLabel?: string;
+  afterLabel?: string;
+}
 
 const SIZE = 380;
 const CENTER = SIZE / 2;
@@ -36,7 +44,13 @@ function getPolygonPoints(values: number[], maxVal = 100) {
     .join(" ");
 }
 
-export const AnimatedSpiderChart = () => {
+export const AnimatedSpiderChart = ({
+  categories: CATEGORIES = DEFAULT_CATEGORIES,
+  beforeValues: BEFORE_VALUES = DEFAULT_BEFORE,
+  afterValues: AFTER_VALUES = DEFAULT_AFTER,
+  beforeLabel = "BEFORE TRAINING",
+  afterLabel = "AFTER SAFETY 4.0",
+}: AnimatedSpiderChartProps) => {
   const [currentValues, setCurrentValues] = useState(BEFORE_VALUES);
   const [phase, setPhase] = useState<"before" | "after">("before");
   const [isVisible, setIsVisible] = useState(false);
@@ -131,7 +145,7 @@ export const AnimatedSpiderChart = () => {
             : "bg-primary/20 text-primary border border-primary/30"
         }`}>
           <div className={`w-2 h-2 rounded-full ${phase === "before" ? "bg-pink-500" : "bg-primary"} animate-pulse`} />
-          {phase === "before" ? "BEFORE TRAINING" : "AFTER SAFETY 4.0"}
+          {phase === "before" ? beforeLabel : afterLabel}
         </div>
       </div>
 

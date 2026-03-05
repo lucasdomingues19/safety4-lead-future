@@ -30,6 +30,7 @@ import {
 "lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
+import { AnimatedSpiderChart } from "@/components/AnimatedSpiderChart";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
@@ -252,74 +253,93 @@ const Cohort = () => {
             }} />
           </div>
 
-          <div className="container mx-auto max-w-5xl relative z-10">
-            <div className="text-center">
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
+              {/* Left column - Hero content */}
+              <div className="text-left">
+                {/* Tag */}
+                <div className="inline-flex items-center gap-2 border border-primary/40 rounded-full px-4 py-1.5 mb-8">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  <span className="text-[11px] tracking-[2px] text-primary font-bold font-syne">LIVE COHORT  · APRIL 2026</span>
+                </div>
 
-              {/* Tag */}
-              <div className="inline-flex items-center gap-2 border border-primary/40 rounded-full px-4 py-1.5 mb-8">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[11px] tracking-[2px] text-primary font-bold font-syne">LIVE COHORT  · APRIL 2026</span>
-              </div>
+                <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
+                  The Safety 4.0<br />
+                  <span className="text-primary">Accelerator Cohort</span>
+                </h1>
 
-              <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
-                The Safety 4.0<br />
-                <span className="text-primary">Accelerator Cohort</span>
-              </h1>
+                <p className="text-base md:text-xl text-gray-300 max-w-xl leading-relaxed mb-10 font-light">
+                  4 weeks. Live sessions and self-paced modules.
+                  <br />A cohort of EHS professionals
+                  transforming how they lead safety in the digital age.{" "}
+                  <span className="font-bold text-pink-500">IOSH-approved and CPD-accredited.</span>{" "}
+                </p>
 
-              <p className="text-base md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10 font-light">
-                4 weeks. Live sessions and self-paced modules.
-                <br />A cohort of EHS professionals
-                transforming how they lead safety in the digital age.{" "}
-                <span className="font-bold text-pink-500">IOSH-approved and CPD-accredited.</span>{" "}
-              </p>
+                {/* Countdown */}
+                <div className="mb-10">
+                  <div className="text-[11px] tracking-[3px] text-muted-foreground font-syne mb-4">COHORT STARTS IN</div>
+                  <div className="flex gap-3">
+                    {[
+                    { val: countdown.days, label: "DAYS" },
+                    { val: countdown.hours, label: "HRS" },
+                    { val: countdown.minutes, label: "MIN" },
+                    { val: countdown.seconds, label: "SEC" }].
+                    map((item) =>
+                    <div key={item.label} className="bg-card border border-border rounded-xl px-4 py-3 min-w-[72px] text-center">
+                        <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
+                        <div className="text-[10px] tracking-[2px] text-muted-foreground font-syne mt-1">{item.label}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-              {/* Countdown */}
-              <div className="mb-10">
-                <div className="text-[11px] tracking-[3px] text-muted-foreground font-syne mb-4">COHORT STARTS IN</div>
-                <div className="flex gap-3 justify-center">
-                  {[
-                  { val: countdown.days, label: "DAYS" },
-                  { val: countdown.hours, label: "HRS" },
-                  { val: countdown.minutes, label: "MIN" },
-                  { val: countdown.seconds, label: "SEC" }].
-                  map((item) =>
-                  <div key={item.label} className="bg-card border border-border rounded-xl px-4 py-3 min-w-[72px] text-center">
-                      <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
-                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-syne mt-1">{item.label}</div>
-                    </div>
-                  )}
+                {/* CTAs */}
+                <div className="flex gap-4 flex-wrap mb-8">
+                  <a href="#apply">
+                    <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
+                      Apply for April Cohort <ArrowRight className="w-5 h-5 ml-2" />
+                    </Button>
+                  </a>
+                  <a href="#experience">
+                    <Button variant="outline" size="lg" className="border-border text-muted-foreground hover:border-primary hover:text-primary rounded-full">
+                      See what's included
+                    </Button>
+                  </a>
+                </div>
+
+                {/* Seats indicator */}
+                <div className="inline-flex items-center gap-3 bg-amber-500/10 border border-amber-500/30 rounded-full px-5 py-2">
+                  <div className="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-amber-500 rounded-full" style={{ width: "47%" }} />
+                  </div>
+                  <span className="text-amber-500 font-bold text-sm font-syne">Only 8 seats left — Cohort capped at 15</span>
+                </div>
+
+                {/* Cross-sell to In-Company */}
+                <div className="mt-8 bg-card/60 border border-border rounded-2xl p-6 max-w-lg flex items-center gap-3 flex-wrap">
+                  <Building2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
+                  <span className="text-sm font-bold text-white font-syne">Training your team?</span>
+                  <Link to="/in-company" className="text-pink-500 hover:text-pink-400 text-sm font-semibold inline-flex items-center gap-1 transition-colors">
+                    Explore In-Company training <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
 
-              {/* CTAs */}
-              <div className="flex gap-4 justify-center flex-wrap mb-8">
-                <a href="#apply">
-                  <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
-                    Apply for April Cohort <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </a>
-                <a href="#experience">
-                  <Button variant="outline" size="lg" className="border-border text-muted-foreground hover:border-primary hover:text-primary rounded-full">
-                    See what's included
-                  </Button>
-                </a>
-              </div>
-
-              {/* Seats indicator */}
-              <div className="inline-flex items-center gap-3 bg-amber-500/10 border border-amber-500/30 rounded-full px-5 py-2">
-                <div className="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-500 rounded-full" style={{ width: "47%" }} />
-                </div>
-                <span className="text-amber-500 font-bold text-sm font-syne">Only 8 seats left — Cohort capped at 15</span>
-              </div>
-
-              {/* Cross-sell to In-Company */}
-              <div className="mt-12 bg-card/60 border border-border rounded-2xl p-6 max-w-lg mx-auto flex items-center gap-3 flex-wrap">
-                <Building2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
-                <span className="text-sm font-bold text-white font-syne">Training your team?</span>
-                <Link to="/in-company" className="text-pink-500 hover:text-pink-400 text-sm font-semibold inline-flex items-center gap-1 transition-colors">
-                  Explore In-Company training <ArrowRight className="w-4 h-4" />
-                </Link>
+              {/* Right column - Spider Chart */}
+              <div className="hidden lg:flex items-center justify-center">
+                <AnimatedSpiderChart
+                  categories={[
+                    { label: "Awareness", icon: "🔍" },
+                    { label: "Technology", icon: "⚙️" },
+                    { label: "Risk\nManagement", icon: "🛡" },
+                    { label: "Change\nLeadership", icon: "🔄" },
+                    { label: "Leadership", icon: "👤" },
+                  ]}
+                  beforeValues={[28, 22, 35, 18, 30]}
+                  afterValues={[85, 80, 90, 75, 88]}
+                  beforeLabel="BEFORE PROGRAMME"
+                  afterLabel="AFTER SAFETY 4.0"
+                />
               </div>
             </div>
           </div>
