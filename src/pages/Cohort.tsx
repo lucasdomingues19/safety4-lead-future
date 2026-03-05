@@ -444,7 +444,7 @@ const Cohort = () => {
             </div>
 
             {/* Money-back guarantee */}
-            <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-7 flex gap-6 items-start max-w-3xl">
+            <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-7 flex gap-6 items-start">
               <Shield className="w-10 h-10 text-primary flex-shrink-0 mt-1" />
               <div>
                 <div className="font-syne text-lg font-bold text-white mb-2">14-Day Satisfaction Guarantee</div>
