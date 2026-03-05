@@ -57,14 +57,22 @@ const Cohort = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCohort, setSelectedCohort] = useState<typeof cohortSchedule[0] | null>(null);
+  const [formStep, setFormStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     jobTitle: "",
+    linkedin: "",
+    country: "",
     organisation: "",
-    seatsNeeded: "1",
-    fundingSource: ""
+    digitalFluency: "",
+    upskillAttempts: [] as string[],
+    blockers: [] as string[],
+    motivation: "",
+    budgetApproval: "",
+    canAfford: "",
+    canCommit: "",
   });
 
   // Countdown to April 7, 2026
@@ -118,13 +126,20 @@ const Cohort = () => {
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
     const cohortLabel = selectedCohort ? `${selectedCohort.month} ${selectedCohort.year}` : "Unknown";
     const messageDetails = [
-    `Cohort: ${cohortLabel}`,
-    `Organisation: ${formData.organisation || "Not provided"}`,
-    `Funding: ${formData.fundingSource || "Not specified"}`].
-    join("\n");
+      `Cohort: ${cohortLabel}`,
+      `LinkedIn: ${formData.linkedin || "Not provided"}`,
+      `Country: ${formData.country || "Not provided"}`,
+      `Organisation: ${formData.organisation || "Not provided"}`,
+      `Digital Fluency: ${formData.digitalFluency}`,
+      `Upskill Attempts: ${formData.upskillAttempts.join(", ")}`,
+      `Blockers: ${formData.blockers.join(", ")}`,
+      `Motivation: ${formData.motivation}`,
+      `Budget Approval: ${formData.budgetApproval}`,
+      `Can Afford: ${formData.canAfford}`,
+      `Can Commit: ${formData.canCommit}`,
+    ].join("\n");
 
     try {
-      // Save lead
       const { error: leadError } = await supabase.functions.invoke("capture-lead", {
         body: {
           name: fullName,
@@ -136,7 +151,6 @@ const Cohort = () => {
       });
       if (leadError) throw leadError;
 
-      // Send notification email
       const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
         body: {
           firstName: formData.firstName,
@@ -144,7 +158,7 @@ const Cohort = () => {
           email: formData.email,
           role: formData.jobTitle,
           inquiryType: "Cohort Application",
-          message: `New Cohort Application — ${cohortLabel}\n\nJob Title: ${formData.jobTitle}\nOrganisation: ${formData.organisation || "N/A"}\nFunding: ${formData.fundingSource || "N/A"}`
+          message: `New Cohort Application — ${cohortLabel}\n\nJob Title: ${formData.jobTitle}\nLinkedIn: ${formData.linkedin}\nCountry: ${formData.country}\nOrganisation: ${formData.organisation || "N/A"}\nDigital Fluency: ${formData.digitalFluency}\nUpskill Attempts: ${formData.upskillAttempts.join(", ")}\nBlockers: ${formData.blockers.join(", ")}\nMotivation: ${formData.motivation}\nBudget Approval: ${formData.budgetApproval}\nCan Afford: ${formData.canAfford}\nCan Commit: ${formData.canCommit}`
         }
       });
       if (emailError) throw emailError;
@@ -154,7 +168,8 @@ const Cohort = () => {
         description: `We'll confirm your place on the ${cohortLabel} cohort within 24 hours.`
       });
 
-      setFormData({ firstName: "", lastName: "", email: "", jobTitle: "", organisation: "", seatsNeeded: "1", fundingSource: "" });
+      setFormData({ firstName: "", lastName: "", email: "", jobTitle: "", linkedin: "", country: "", organisation: "", digitalFluency: "", upskillAttempts: [], blockers: [], motivation: "", budgetApproval: "", canAfford: "", canCommit: "" });
+      setFormStep(1);
       setSelectedCohort(null);
     } catch (error) {
       console.error("Error submitting application:", error);
@@ -573,93 +588,223 @@ const Cohort = () => {
         </section>
 
         {/* APPLICATION MODAL */}
-        <Dialog open={!!selectedCohort} onOpenChange={(open) => !open && setSelectedCohort(null)}>
+        <Dialog open={!!selectedCohort} onOpenChange={(open) => { if (!open) { setSelectedCohort(null); setFormStep(1); } }}>
           <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="font-syne text-xl font-black text-white">
                 Apply for {selectedCohort?.month} {selectedCohort?.year} Cohort
               </DialogTitle>
               <DialogDescription className="text-muted-foreground text-sm">
-                Starting {selectedCohort?.startDate} · {selectedCohort?.seatsLeft} seats remaining · We review every application
+                Starting {selectedCohort?.startDate} · {selectedCohort?.seatsLeft} seats remaining · Step {formStep} of 2
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME</label>
-                  <input
-                    required
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                    placeholder="Jane" />
+            {/* Progress bar */}
+            <div className="w-full h-1 bg-border rounded-full overflow-hidden">
+              <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: formStep === 1 ? "50%" : "100%" }} />
+            </div>
+
+            {formStep === 1 ? (
+              <div className="space-y-4 mt-2">
+                <div className="text-xs font-syne font-bold text-primary tracking-[2px] mb-2">YOUR DETAILS</div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
+                    <input required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
+                  </div>
+                  <div>
+                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
+                    <input required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
+                  </div>
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME</label>
-                  <input
-                    required
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                    placeholder="Smith" />
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
+                  <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
                 </div>
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">JOB TITLE *</label>
+                  <input required value={formData.jobTitle} onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
+                </div>
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
+                  <input required value={formData.linkedin} onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
+                </div>
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
+                  <input required value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
+                </div>
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
+                  <input value={formData.organisation} onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
+                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
+                </div>
+                <Button type="button" onClick={() => {
+                  if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle || !formData.linkedin || !formData.country) {
+                    toast({ title: "Please fill in all required fields", variant: "destructive" });
+                    return;
+                  }
+                  setFormStep(2);
+                }} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3">
+                  Continue <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5 mt-2">
+                <div className="text-xs font-syne font-bold text-primary tracking-[2px] mb-2">ABOUT YOU</div>
 
-              <div>
-                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL</label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                  placeholder="jane@company.com" />
-              </div>
+                {/* Digital Fluency */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">DIGITAL FLUENCY / MATURITY *</label>
+                  <div className="space-y-2">
+                    {[
+                      "I'm great at safety, but tech isn't my strength",
+                      "I want to learn, but I don't know what to focus on",
+                      "I've tried a few tools, but I don't fully trust the outputs yet",
+                      "I'm confident with tools — I need a structure + roadmap",
+                      "I'm already driving digital initiatives — I want to level up",
+                    ].map((opt) => (
+                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.digitalFluency === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                        <input type="radio" name="digitalFluency" value={opt} checked={formData.digitalFluency === opt}
+                          onChange={() => setFormData({ ...formData, digitalFluency: opt })} className="sr-only" />
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.digitalFluency === opt ? "border-primary" : "border-muted-foreground"}`}>
+                          {formData.digitalFluency === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
+                        </div>
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-              <div>
-                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">JOB TITLE</label>
-                <input
-                  value={formData.jobTitle}
-                  onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                  placeholder="HSE Manager" />
-              </div>
+                {/* Upskill attempts */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">WHAT HAVE YOU TRIED TO UPSKILL? * (select all)</label>
+                  <div className="space-y-2">
+                    {["YouTube / podcasts", "Short courses (Udemy, Coursera, etc.)", "Formal certification / accredited training", "Internal company training (L&D)", "Reading (books, newsletters, blogs)", "Attending webinars / conferences", "Experimenting with tools (ChatGPT, Copilot, Power BI)", "Mentoring / coaching", "Nothing yet"].map((opt) => (
+                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                        <input type="checkbox" checked={formData.upskillAttempts.includes(opt)}
+                          onChange={() => setFormData({ ...formData, upskillAttempts: formData.upskillAttempts.includes(opt) ? formData.upskillAttempts.filter(x => x !== opt) : [...formData.upskillAttempts, opt] })} className="sr-only" />
+                        <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary" : "border-muted-foreground"}`}>
+                          {formData.upskillAttempts.includes(opt) && <CheckCircle className="w-3 h-3 text-primary-foreground" />}
+                        </div>
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-              <div>
-                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
-                <input
-                  value={formData.organisation}
-                  onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
-                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
-                  placeholder="Acme Corp" />
-              </div>
+                {/* Blockers */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST BLOCKERS * (select all)</label>
+                  <div className="space-y-2">
+                    {["I don't have time / overloaded with compliance", "I don't know what to focus on", "I start but struggle to stay consistent", "I don't have a clear EHS use case", "I don't trust the outputs / fear getting it wrong", "My organisation isn't supportive", "Security / GDPR / governance concerns", "Budget constraints"].map((opt) => (
+                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500/10 text-white" : "border-border text-muted-foreground hover:border-pink-500/30"}`}>
+                        <input type="checkbox" checked={formData.blockers.includes(opt)}
+                          onChange={() => setFormData({ ...formData, blockers: formData.blockers.includes(opt) ? formData.blockers.filter(x => x !== opt) : [...formData.blockers, opt] })} className="sr-only" />
+                        <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500" : "border-muted-foreground"}`}>
+                          {formData.blockers.includes(opt) && <CheckCircle className="w-3 h-3 text-white" />}
+                        </div>
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-              <div>
-                <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">HOW ARE YOU FUNDING THIS?</label>
-                <select
-                  value={formData.fundingSource}
-                  onChange={(e) => setFormData({ ...formData, fundingSource: e.target.value })}
-                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white focus:border-primary focus:outline-none transition-colors appearance-none">
-                  <option value="">Select...</option>
-                  <option value="self-funding">Self-funding</option>
-                  <option value="employer-sponsored">Employer-sponsored</option>
-                  <option value="team-budget">Team / In-Company budget</option>
-                  <option value="not-sure">Not sure yet</option>
-                </select>
-              </div>
+                {/* Motivation */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST MOTIVATION *</label>
+                  <div className="space-y-2">
+                    {[
+                      "A clear, structured path to stop consuming and start executing",
+                      "Real digital/AI fluency for EHS — without hype",
+                      "Confidence to evaluate tools/vendors and challenge outputs",
+                      "Career acceleration and future-proofing",
+                      "Save time by replacing admin with smarter workflows",
+                      "Accountability and coaching to stay consistent",
+                    ].map((opt) => (
+                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.motivation === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                        <input type="radio" name="motivation" value={opt} checked={formData.motivation === opt}
+                          onChange={() => setFormData({ ...formData, motivation: opt })} className="sr-only" />
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.motivation === opt ? "border-primary" : "border-muted-foreground"}`}>
+                          {formData.motivation === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
+                        </div>
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-              <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow mt-2">
-                {isSubmitting ?
-                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
-                <>Apply for {selectedCohort?.month} Cohort <ArrowRight className="w-4 h-4 ml-2" /></>
-                }
-              </Button>
+                {/* Budget Approval */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BUDGET APPROVAL ABILITY *</label>
+                  <div className="space-y-2">
+                    {["I own the budget and will approve it", "I recommend, someone else approves", "I need full approval"].map((opt) => (
+                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.budgetApproval === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                        <input type="radio" name="budgetApproval" value={opt} checked={formData.budgetApproval === opt}
+                          onChange={() => setFormData({ ...formData, budgetApproval: opt })} className="sr-only" />
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.budgetApproval === opt ? "border-primary" : "border-muted-foreground"}`}>
+                          {formData.budgetApproval === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
+                        </div>
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-              <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
-                This is not a payment. We review applications and confirm your place within 24 hours. 14-day satisfaction guarantee.
-              </p>
-            </form>
+                {/* Can Afford */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £997 + VAT FEE? *</label>
+                  <div className="flex gap-3">
+                    {["Yes", "No"].map((opt) => (
+                      <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                        <input type="radio" name="canAfford" value={opt} checked={formData.canAfford === opt}
+                          onChange={() => setFormData({ ...formData, canAfford: opt })} className="sr-only" />
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Can Commit */}
+                <div>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU COMMIT TO THE COHORT SCHEDULE? *</label>
+                  <div className="space-y-2">
+                    {["Yes, 100%", "Yes, but will need some adjustments", "No"].map((opt) => (
+                      <label key={opt} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.canCommit === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                        <input type="radio" name="canCommit" value={opt} checked={formData.canCommit === opt}
+                          onChange={() => setFormData({ ...formData, canCommit: opt })} className="sr-only" />
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${formData.canCommit === opt ? "border-primary" : "border-muted-foreground"}`}>
+                          {formData.canCommit === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
+                        </div>
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="border-border text-muted-foreground hover:text-white">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                  </Button>
+                  <Button type="submit" disabled={isSubmitting || !formData.digitalFluency || formData.upskillAttempts.length === 0 || formData.blockers.length === 0 || !formData.motivation || !formData.budgetApproval || !formData.canAfford || !formData.canCommit}
+                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow">
+                    {isSubmitting ?
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
+                    <>Submit Application <ArrowRight className="w-4 h-4 ml-2" /></>
+                    }
+                  </Button>
+                </div>
+
+                <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
+                  This is not a payment. We review applications and confirm your place within 24 hours. 14-day satisfaction guarantee.
+                </p>
+              </form>
+            )}
           </DialogContent>
         </Dialog>
 
