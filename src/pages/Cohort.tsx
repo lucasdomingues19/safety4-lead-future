@@ -234,10 +234,6 @@ const Cohort = () => {
 
           <div className="container mx-auto max-w-5xl relative z-10">
             <div className="text-center">
-              {/* Audience Toggle */}
-              <div className="flex items-center justify-center mb-6 md:mb-8">
-                <AudienceNav inline />
-              </div>
 
               {/* Tag */}
               <div className="inline-flex items-center gap-2 border border-primary/40 rounded-full px-4 py-1.5 mb-8">
