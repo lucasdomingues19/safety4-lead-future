@@ -195,9 +195,9 @@ const Cohort = () => {
 
   const timeline = [
   { weeks: "WK 1", title: "Foundations — Safety 4.0 & the Digital Shift", desc: "What Industry 4.0 means for EHS. Where AI, IoT, and data intersect with safety. The strategic case for change. Building your digital safety vision." },
-  { weeks: "WK 2", title: "AI Essentials & the Digital Safety Toolkit", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
+  { weeks: "WK 2", title: "AI Essentials & Risk, Compliance and Governance", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
   { weeks: "WK 3", title: "Data, SafetyTech & Incident Prevention", desc: "Data strategy for safety functions. Wearables, sensors, computer vision, and drones in practice. Predictive analytics for proactive risk reduction." },
-  { weeks: "WK 4", title: "Leadership, Culture & IOSH Assessment", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development. IOSH certification assessment." }];
+  { weeks: "WK 4", title: "Leadership, Change and Transformation", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development. IOSH certification assessment." }];
 
 
   const testimonials = [
