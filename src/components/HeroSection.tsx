@@ -27,8 +27,8 @@ export const HeroSection = () => {
   
   return (
     <section className="min-h-screen relative overflow-hidden">
-      {/* Top Banner */}
-      <div className="relative z-20 bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2 md:py-2.5 px-3 md:px-4">
+      {/* Top Banner - fixed above nav */}
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2 md:py-2.5 px-3 md:px-4">
         <a href="/enroll" className="font-semibold text-xs md:text-base hover:underline leading-tight">
           🚀 Applications <span className="font-extrabold">OPEN</span> for the March Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
         </a>
@@ -60,7 +60,7 @@ export const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Header with AudienceNav */}
         <AudienceNav />
-        <div className="mb-20 md:mb-24" />
+        <div className="mb-28 md:mb-32" />
 
 
         {/* Main Content - Centered like LeadPages */}

@@ -52,7 +52,7 @@ const AudienceNav = ({ inline = false }: { inline?: boolean }) => {
   if (inline) return <AudienceToggle />;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/92 backdrop-blur-xl border-b border-border">
+    <nav className="fixed top-[36px] md:top-[40px] left-0 right-0 z-50 bg-background/92 backdrop-blur-xl border-b border-border">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex items-center gap-3 flex-shrink-0">
