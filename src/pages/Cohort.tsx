@@ -405,8 +405,8 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              From professionals<br />
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">From leaders 
+just like you.<br />
               <span className="text-pink-500">just like you</span>.
             </h2>
 
