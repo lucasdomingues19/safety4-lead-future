@@ -38,6 +38,7 @@ import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
 import jacquelineCarrPhoto from "@/assets/jacqueline-carr-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
+import ioshCpdCombined from "@/assets/iosh-cpd-combined.png";
 
 const cohortSchedule = [
 { month: "April", year: 2026, startDate: "6 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
@@ -918,9 +919,8 @@ const Cohort = () => {
         </section>
 
         {/* Certification logos */}
-        <div className="flex items-center justify-center gap-8 py-10 border-t border-border">
-          <img src={ioshLogo} alt="IOSH Approved" className="h-12 opacity-70" />
-          <img src={cpdLogo} alt="CPD Approved" className="h-12 opacity-70" />
+        <div className="flex items-center justify-center py-10 border-t border-border">
+          <img src={ioshCpdCombined} alt="IOSH Approved Training Provider 5522 & CPD Certified" className="h-16 mix-blend-screen" />
         </div>
 
         <Footer />
