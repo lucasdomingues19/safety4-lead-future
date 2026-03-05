@@ -148,8 +148,8 @@ const Cohort = () => {
   };
 
   const experienceItems = [
-  { icon: Video, title: "8 Live Sessions with Lucas", desc: "Weekly live group sessions — not webinars. Interactive, discussion-led, and tailored to what the cohort needs. Lucas brings 15 years of practitioner experience into every session." },
-  { icon: Users, title: "Cohort of 10–12 Peers", desc: "Deliberately small. You'll learn alongside EHS professionals from construction, manufacturing, energy, and logistics. Real problems, real perspectives, lasting relationships." },
+  { icon: Video, title: "5 Live Sessions ", desc: "Weekly live group sessions — not webinars. Interactive, discussion-led, and tailored to what the cohort needs. Lucas brings 15 years of practitioner experience into every session." },
+  { icon: Users, title: "Cohort of 10–15 Peers max", desc: "Deliberately small. You'll learn alongside EHS professionals from construction, manufacturing, energy, and logistics. Real problems, real perspectives, lasting relationships." },
   { icon: Award, title: "IOSH-Approved Certificate", desc: "The world's first IOSH-approved Safety 4.0 programme. Your certificate carries IOSH's institutional credibility — recognised by employers in the UK and internationally." },
   { icon: BookOpen, title: "60+ On-Demand Lessons", desc: "Studio-recorded lessons available anytime, alongside live sessions. 10 modules covering AI, SafetyTech, data strategy, digital culture, and leadership. 8+ CPD hours." },
   { icon: Globe, title: "Alumni Community Access", desc: "Graduates join a growing network of Safety 4.0 leaders across 12+ countries. Lucas runs regular alumni sessions for ongoing development. A career-long network." },
@@ -157,10 +157,10 @@ const Cohort = () => {
 
 
   const timeline = [
-  { weeks: "WK 1–2", title: "Foundations — Safety 4.0 & the Digital Shift", desc: "What Industry 4.0 means for EHS. Where AI, IoT, and data intersect with safety. The strategic case for change. Building your digital safety vision." },
-  { weeks: "WK 3–4", title: "AI Essentials & the Digital Safety Toolkit", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
-  { weeks: "WK 5–6", title: "Data, SafetyTech & Incident Prevention", desc: "Data strategy for safety functions. Wearables, sensors, computer vision, and drones in practice. Predictive analytics for proactive risk reduction." },
-  { weeks: "WK 7–8", title: "Leadership, Culture & IOSH Assessment", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development. IOSH certification assessment." }];
+  { weeks: "WK 1", title: "Foundations — Safety 4.0 & the Digital Shift", desc: "What Industry 4.0 means for EHS. Where AI, IoT, and data intersect with safety. The strategic case for change. Building your digital safety vision." },
+  { weeks: "WK 2", title: "AI Essentials & the Digital Safety Toolkit", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
+  { weeks: "WK 3", title: "Data, SafetyTech & Incident Prevention", desc: "Data strategy for safety functions. Wearables, sensors, computer vision, and drones in practice. Predictive analytics for proactive risk reduction." },
+  { weeks: "WK 4", title: "Leadership, Culture & IOSH Assessment", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development. IOSH certification assessment." }];
 
 
   const testimonials = [
