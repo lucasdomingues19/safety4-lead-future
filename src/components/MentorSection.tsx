@@ -64,8 +64,8 @@ const MentorSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Meet Your <span className="text-primary">Mentor</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Meet the Mentor
+            <span className="text-primary">Mentor</span>
           </h2>
           <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto">
             Learn from an industry expert with years of experience in safety leadership and digital transformation
@@ -76,11 +76,11 @@ const MentorSection = () => {
           {/* Photo */}
           <div className="relative">
             <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 overflow-hidden">
-              <img 
-                src="/lucas-domingues.jpeg" 
+              <img
+                src="/lucas-domingues.jpeg"
                 alt="Lucas Domingues, MSc, CMIOSH - Safety Leadership Mentor"
-                className="w-full h-full object-cover"
-              />
+                className="w-full h-full object-cover" />
+              
             </div>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
             <div className="absolute -top-4 -left-4 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
@@ -135,12 +135,12 @@ const MentorSection = () => {
               </div>
 
               {/* LinkedIn Button */}
-              <a 
-                href="https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/" 
-                target="_blank" 
+              <a
+                href="https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full font-medium transition-colors"
-              >
+                className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full font-medium transition-colors">
+                
                 <Linkedin className="w-5 h-5" />
                 Connect on LinkedIn
               </a>
@@ -150,8 +150,8 @@ const MentorSection = () => {
 
         {/* Education & Experience Logos - REMOVED, data saved in component for future restoration */}
       </div>
-    </section>
-  );
+    </section>);
+
 };
 
 export default MentorSection;
