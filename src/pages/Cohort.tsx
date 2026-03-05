@@ -362,7 +362,7 @@ const Cohort = () => {
               This isn't an online course.<br />
               It's a <span className="text-primary">transformation journey</span>.
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+            <p className="text-lg text-white max-w-xl mb-12">
               The Accelerator combines on-demand course content with live weekly sessions, a peer cohort, and direct access to Lucas. The result is accountability, community, and a credential.
             </p>
 
