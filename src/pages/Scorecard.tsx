@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Safety4AssessmentModal } from "@/components/Safety4AssessmentModal";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ClipboardCheck } from "lucide-react";
+import { ClipboardCheck, ArrowLeft } from "lucide-react";
 import { setPageSEO } from "@/utils/seo";
+import { Link } from "react-router-dom";
 
 const Scorecard = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -20,6 +21,12 @@ const Scorecard = () => {
     <>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#11113a] via-slate-900 to-black">
+        <div className="container mx-auto px-4 pt-6">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+            Back Home
+          </Link>
+        </div>
         <main className="flex-grow flex items-center justify-center px-4 py-16">
           <div className="max-w-2xl w-full text-center space-y-8">
             <div className="space-y-4">
