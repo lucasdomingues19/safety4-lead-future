@@ -39,8 +39,6 @@ import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
 import jacquelineCarrPhoto from "@/assets/jacqueline-carr-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 
-const TALLY_LINK = "https://tally.so/r/ZjNNl5";
-
 const cohortSchedule = [
 { month: "April", year: 2026, startDate: "6 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "May", year: 2026, startDate: "4 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
@@ -99,8 +97,8 @@ const Cohort = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Safety 4.0 Accelerator Cohort — 8-Week IOSH Approved Live Programme | May 2026",
-      description: "Join the Safety 4.0 Accelerator Cohort: 8 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 12 seats per cohort. Apply for May 2026.",
+      title: "Safety 4.0 Accelerator Cohort — 4-Week IOSH Approved Live Programme | April 2026",
+      description: "Join the Safety 4.0 Accelerator Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for April 2026.",
       canonical: "https://safetyacademy.tech/cohort"
     });
 
@@ -224,8 +222,8 @@ const Cohort = () => {
   { feature: "60+ on-demand video lessons", accelerator: true, elearning: true },
   { feature: "IOSH-approved certificate", accelerator: true, elearning: true },
   { feature: "8+ CPD hours", accelerator: true, elearning: true },
-  { feature: "8 live sessions with Lucas", accelerator: true, elearning: false },
-  { feature: "Cohort peer community (10–12 people)", accelerator: true, elearning: false },
+  { feature: "5 live sessions with Lucas", accelerator: true, elearning: false },
+  { feature: "Cohort peer community (10–15 people)", accelerator: true, elearning: false },
   { feature: "Direct Q&A access to Lucas", accelerator: true, elearning: false },
   { feature: "Accountability & cohort structure", accelerator: true, elearning: false },
   { feature: "Alumni community access", accelerator: true, elearning: false },
@@ -237,7 +235,7 @@ const Cohort = () => {
   { q: "Can my employer pay via invoice?", a: "Yes. We support PO/invoice billing for employer-sponsored enrolments and team places. Mention this in your application and we'll handle the paperwork. We're used to working within procurement processes." },
   { q: "Is this relevant if my team is small or I work alone?", a: "Absolutely. The programme is designed for safety professionals at all levels — from sole EHS advisors to heads of large safety functions. The peer cohort gives you a team experience even if you're working solo in your organisation." },
   { q: "How much time do I need to commit each week?", a: "Expect 3–4 hours per week: 90 minutes for the live session, 1–2 hours of on-demand content, and some reflection/application time. The programme is designed for working professionals." },
-  { q: "When is the next cohort after May 2026?", a: "Cohorts run quarterly. The next cohort after May 2026 will be September 2026. If May fills before your application is processed, you'll be offered a place on the September cohort." }];
+  { q: "When is the next cohort after April 2026?", a: "Cohorts run monthly. If April fills before your application is processed, you'll be offered a place on the next available cohort." }];
 
 
   return (
@@ -415,7 +413,7 @@ const Cohort = () => {
           </div>
         </section>
 
-        {/* 8-WEEK TIMELINE */}
+        {/* 4-WEEK TIMELINE */}
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">4-WEEK PROGRAMME</div>
@@ -443,9 +441,8 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">From leaders just like you.
-              <br />
-              <span className="text-pink-500">just like you</span>.
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+              From leaders <span className="text-pink-500">just like you</span>.
             </h2>
 
             <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-5 opacity-0 translate-y-6 transition-all duration-700">
@@ -606,13 +603,30 @@ const Cohort = () => {
             </div>
 
             {/* Guarantee strip */}
-            <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start md:items-center max-w-3xl mx-auto">
-              <Shield className="w-10 h-10 text-primary flex-shrink-0" />
+            <div className="flex flex-wrap items-center gap-6 mt-10 justify-center">
+              {[
+              { icon: Shield, text: "14-day money-back guarantee" },
+              { icon: Lock, text: "Secure application — no payment required" },
+              { icon: Award, text: "IOSH-approved programme" }].
+              map((item, i) =>
+              <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <item.icon className="w-4 h-4 text-primary" />
+                  <span>{item.text}</span>
+                </div>
+              )}
+            </div>
+
+            {/* eLearning fallback */}
+            <div className="mt-12 bg-card/60 border border-border rounded-2xl p-7 flex items-start gap-5 max-w-2xl">
+              <BookOpen className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
               <div>
-                <div className="font-syne text-lg font-bold text-white mb-1">14-Day Satisfaction Guarantee</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Complete Week 1 and if you're not convinced, get a full refund — no questions asked.
+                <div className="font-syne text-base font-bold text-white mb-1">Not ready for the Accelerator?</div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                  Start with the self-paced eLearning course — same IOSH-approved content, at your own pace.
                 </p>
+                <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                  View eLearning option (£597) <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
             </div>
           </div>
@@ -626,7 +640,7 @@ const Cohort = () => {
                 Apply for {selectedCohort?.month} {selectedCohort?.year} Cohort
               </DialogTitle>
               <DialogDescription className="text-muted-foreground text-sm">
-                Starting {selectedCohort?.startDate} · {selectedCohort?.seatsLeft} seats remaining · Step {formStep} of 2
+                Starting {selectedCohort?.startDate || "TBC"} · {selectedCohort?.seatsLeft} seats remaining · Step {formStep} of 2
               </DialogDescription>
             </DialogHeader>
 
@@ -871,10 +885,10 @@ const Cohort = () => {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
                 <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
-                  Ready to join the<br />May cohort?
+                  Ready to join the<br />April cohort?
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
-                  3 seats remaining. Applications close 25 April 2026.
+                  {cohortSchedule[0].seatsLeft} seats remaining. Applications close 25 March 2026.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <a href="#apply">
@@ -889,7 +903,7 @@ const Cohort = () => {
                   </a>
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center mt-7">
-                  {["14-day money-back guarantee", "IOSH-approved programme", "Only 12 per cohort", "Payment plans available"].map((item) =>
+                  {["14-day money-back guarantee", "IOSH-approved programme", "Only 15 per cohort", "Payment plans available"].map((item) =>
                   <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-primary" /> {item}
                     </span>
