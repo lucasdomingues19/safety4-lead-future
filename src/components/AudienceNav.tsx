@@ -5,6 +5,7 @@ import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 const navLinks = [
   { label: "About", href: "/about" },
+  { label: "Ebook", href: "/ebook" },
   { label: "Blog", href: "/blog" },
   { label: "Scorecard", href: "/scorecard" },
   { label: "Contact", href: "/contact" },
