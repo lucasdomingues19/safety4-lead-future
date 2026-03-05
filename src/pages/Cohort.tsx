@@ -442,7 +442,55 @@ const Cohort = () => {
           </div>
         </section>
 
-        {/* TESTIMONIALS */}
+        {/* THE PROGRAMME */}
+        <section id="programme" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-2">
+              Safety 4.0 Accelerator
+            </h2>
+            <h3 className="font-syne text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
+              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
+            </h3>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {[
+              { num: "01", title: "Introduction & Orientation", desc: "Course overview, objectives, CPD & IOSH value, learner expectations." },
+              { num: "02", title: "What is Safety 4.0?", desc: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution." },
+              { num: "03", title: "The Safety Status Quo is Broken", desc: "Compliance-heavy culture, lagging indicators, reactive safety trap." },
+              { num: "04", title: "Skills for the Safety Leader in the Digital Age", desc: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills." },
+              { num: "05", title: "Safetytech Practical Applications", desc: "Wearables, IoT, drones, mobile-first systems, computer vision." },
+              { num: "06", title: "Building your Digital Safety Toolkit", desc: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes." },
+              { num: "07", title: "Data Strategy: From Chaos to Clarity", desc: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits." },
+              { num: "08", title: "AI Essentials for Safety Leaders", desc: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks." },
+              { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
+              { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." }].
+              map((mod, i) =>
+              <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
+                  <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-pink-500' : 'text-primary'}`}>MODULE {mod.num}</div>
+                  <div className="text-[15px] font-bold text-white mb-2">{mod.title}</div>
+                  <div className="text-sm text-muted-foreground">{mod.desc}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Stats row */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+              {[
+              { val: "60+", label: "Studio-recorded video lessons, available on demand" },
+              { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
+              { val: "IOSH", label: "Approved certification recognised globally" },
+              { val: "Global", label: "Impact — delivered to teams in 12+ countries" }].
+              map((s, i) =>
+              <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
+                  <div className="text-2xl font-black text-primary">{s.val}</div>
+                  <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
