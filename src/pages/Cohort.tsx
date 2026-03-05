@@ -541,7 +541,7 @@ const Cohort = () => {
                     <div className="space-y-2.5 mb-5">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
-                        <span>{cohort.startDate ? `Starts ${cohort.startDate}` : 'Coming soon'}</span>
+                        <span className={cohort.startDate ? 'text-pink-500 font-semibold' : ''}>{cohort.startDate ? `Starts ${cohort.startDate}` : 'Coming soon'}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Clock className="w-3.5 h-3.5 flex-shrink-0" />
