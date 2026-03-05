@@ -43,14 +43,14 @@ const TALLY_LINK = "https://tally.so/r/ZjNNl5";
 
 const cohortSchedule = [
 { month: "April", year: 2026, startDate: "6 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "May", year: 2026, startDate: "5 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "May", year: 2026, startDate: "4 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "June", year: 2026, startDate: "1 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "August", year: 2026, startDate: "4 Aug 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "September", year: 2026, startDate: "1 Sep 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "October", year: 2026, startDate: "6 Oct 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "November", year: 2026, startDate: "3 Nov 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "December", year: 2026, startDate: "1 Dec 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" }];
+{ month: "August", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "September", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "October", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "November", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "December", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" }];
 
 
 const Cohort = () => {
@@ -541,7 +541,7 @@ const Cohort = () => {
                     <div className="space-y-2.5 mb-5">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
-                        <span>Starts {cohort.startDate}</span>
+                        <span>{cohort.startDate ? `Starts ${cohort.startDate}` : 'Coming soon'}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Clock className="w-3.5 h-3.5 flex-shrink-0" />
