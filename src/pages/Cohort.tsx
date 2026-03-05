@@ -533,7 +533,7 @@ const Cohort = () => {
               Choose your <span className="text-pink-500">cohort</span>.
             </h2>
             <p className="text-lg text-white max-w-xl mb-12">
-              Each cohort is capped at 15 professionals. Select a date to apply — we review every application to ensure the right fit.
+              Each cohort is capped at 15 professionals. Select a date to apply — we review every application to ensure the right fit. <Link to="/contact?request=group-discount" className="text-pink-500 hover:text-pink-400 font-semibold transition-colors">Apply for a group discount here</Link>
             </p>
 
             <div ref={setFadeRef(4)} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
