@@ -74,11 +74,7 @@ const AudienceNav = ({ inline = false }: { inline?: boolean }) => {
         </div>
 
         {/* Enrol CTA */}
-        <div className="hidden md:flex">
-          <Link to="/enroll" className="text-sm font-semibold bg-primary text-primary-foreground px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
-            Enrol Now
-          </Link>
-        </div>
+        {/* CTA removed */}
 
         {/* Mobile hamburger */}
         <button
@@ -103,11 +99,6 @@ const AudienceNav = ({ inline = false }: { inline?: boolean }) => {
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 border-t border-border">
-            <Link to="/enroll" onClick={() => setMobileOpen(false)} className="block text-sm font-semibold bg-primary text-primary-foreground px-4 py-2 rounded-full text-center hover:opacity-90 transition-opacity">
-              Enrol Now
-            </Link>
-          </div>
         </div>
       )}
     </nav>
