@@ -247,11 +247,12 @@ const Cohort = () => {
 
               <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
                 The Safety 4.0<br />
-                <span className="text-primary">Accelerator Cohort.</span>
+                <span className="text-primary">Accelerator Cohort</span>
               </h1>
 
               <p className="text-base md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10 font-light">
-                8 weeks. Live sessions with Lucas Domingues. A cohort of EHS professionals
+                4 weeks. Live sessions and self-paced modules.
+                <br />A cohort of EHS professionals
                 transforming how they lead safety in the digital age. Your{" "}
                 <span className="font-bold text-primary">IOSH certificate</span>. Your next chapter.
               </p>
