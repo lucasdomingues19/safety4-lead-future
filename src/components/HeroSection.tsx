@@ -28,9 +28,9 @@ export const HeroSection = () => {
   return (
     <section className="min-h-screen relative overflow-hidden">
       {/* Top Banner */}
-      <div className="relative z-20 bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2.5 px-4">
-        <a href="/enroll" className="font-semibold text-sm md:text-base hover:underline">
-          🚀 Applications now <span className="font-extrabold">OPEN</span> for the March Safety 4.0 Accelerator Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
+      <div className="relative z-20 bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2 md:py-2.5 px-3 md:px-4">
+        <a href="/enroll" className="font-semibold text-xs md:text-base hover:underline leading-tight">
+          🚀 Applications <span className="font-extrabold">OPEN</span> for the March Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
         </a>
       </div>
       
@@ -144,7 +144,7 @@ export const HeroSection = () => {
             </p>
 
             {/* Urgent statistics */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
                 <div className="relative text-center space-y-2 md:space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border border-red-500/30 hover:border-red-500/50 transition-all">
@@ -229,7 +229,7 @@ export const HeroSection = () => {
               ];
               
               return (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-7xl mx-auto">
                   {modules.map((module, index) => {
                     const Icon = module.icon;
                     return (
