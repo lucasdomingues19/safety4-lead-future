@@ -97,11 +97,11 @@ export const SocialProofSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Title */}
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8 whitespace-nowrap">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-secondary mb-4 md:mb-8">
             Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
           </h2>
           
-          <p className="text-lg md:text-xl text-white whitespace-nowrap">
+          <p className="text-base md:text-xl text-white">
             Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
           </p>
         </div>

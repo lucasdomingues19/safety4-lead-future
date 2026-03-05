@@ -102,9 +102,9 @@ export const PricingSection = () => {
           {pricingTiers.map((tier, index) => (
             <div
               key={index}
-              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 border ${tier.borderColor} ${
-                tier.popular ? "md:scale-105 lg:scale-110" : ""
-              } transition-all duration-300 hover:scale-[1.02] md:hover:scale-105`}
+              className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
+                tier.popular ? "lg:scale-105" : ""
+              } transition-all duration-300 hover:scale-[1.02]`}
             >
               {/* Popular Badge */}
               {tier.popular && (

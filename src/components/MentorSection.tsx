@@ -64,10 +64,10 @@ const MentorSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             Meet Your <span className="text-primary">Mentor</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto whitespace-nowrap">
+          <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto">
             Learn from an industry expert with years of experience in safety leadership and digital transformation
           </p>
         </div>
