@@ -344,7 +344,7 @@ const Cohort = () => {
                   { label: "Knowledge", icon: "🔍" },
                   { label: "Technology", icon: "⚙️" },
                   { label: "Risk\nManagement", icon: "🛡" },
-                  { label: "Change\nLeadership", icon: "🔄" },
+                  { label: "Change\nManagement", icon: "🔄" },
                   { label: "Leadership", icon: "👤" }]
                   }
                   beforeValues={[28, 22, 35, 18, 30]}
