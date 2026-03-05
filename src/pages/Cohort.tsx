@@ -303,9 +303,6 @@ const Cohort = () => {
                   <Building2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
                   <span className="text-sm font-bold text-white font-syne">Training your team?</span>
                 </div>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Enrol 2+ team members together for discounted team pricing, shared experience, and post-cohort debrief.
-                </p>
                 <Link to="/in-company" className="text-pink-500 hover:text-pink-400 text-sm font-semibold inline-flex items-center gap-1 transition-colors">
                   Explore In-Company training <ArrowRight className="w-4 h-4" />
                 </Link>
