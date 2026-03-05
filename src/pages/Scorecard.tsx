@@ -22,10 +22,12 @@ const Scorecard = () => {
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#11113a] via-slate-900 to-black">
         <div className="container mx-auto px-4 pt-6">
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back Home
-          </Link>
+          <Button variant="outline" size="sm" asChild className="border-white/30 text-white hover:bg-white/10">
+            <Link to="/" className="flex items-center space-x-2">
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Home</span>
+            </Link>
+          </Button>
         </div>
         <main className="flex-grow flex items-center justify-center px-4 py-16">
           <div className="max-w-2xl w-full text-center space-y-8">
