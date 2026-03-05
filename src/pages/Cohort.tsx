@@ -41,16 +41,16 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 const TALLY_LINK = "https://tally.so/r/ZjNNl5";
 
 const cohortSchedule = [
-  { month: "April", year: 2026, startDate: "7 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "May", year: 2026, startDate: "5 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "June", year: 2026, startDate: "2 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "August", year: 2026, startDate: "4 Aug 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "September", year: 2026, startDate: "1 Sep 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "October", year: 2026, startDate: "6 Oct 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "November", year: 2026, startDate: "3 Nov 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-  { month: "December", year: 2026, startDate: "1 Dec 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-];
+{ month: "April", year: 2026, startDate: "7 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "May", year: 2026, startDate: "5 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "August", year: 2026, startDate: "4 Aug 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "September", year: 2026, startDate: "1 Sep 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "October", year: 2026, startDate: "6 Oct 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "November", year: 2026, startDate: "3 Nov 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "December", year: 2026, startDate: "1 Dec 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" }];
+
 
 const Cohort = () => {
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -72,7 +72,7 @@ const Cohort = () => {
     motivation: "",
     budgetApproval: "",
     canAfford: "",
-    canCommit: "",
+    canCommit: ""
   });
 
   // Countdown to April 7, 2026
@@ -126,18 +126,18 @@ const Cohort = () => {
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
     const cohortLabel = selectedCohort ? `${selectedCohort.month} ${selectedCohort.year}` : "Unknown";
     const messageDetails = [
-      `Cohort: ${cohortLabel}`,
-      `LinkedIn: ${formData.linkedin || "Not provided"}`,
-      `Country: ${formData.country || "Not provided"}`,
-      `Organisation: ${formData.organisation || "Not provided"}`,
-      `Digital Fluency: ${formData.digitalFluency}`,
-      `Upskill Attempts: ${formData.upskillAttempts.join(", ")}`,
-      `Blockers: ${formData.blockers.join(", ")}`,
-      `Motivation: ${formData.motivation}`,
-      `Budget Approval: ${formData.budgetApproval}`,
-      `Can Afford: ${formData.canAfford}`,
-      `Can Commit: ${formData.canCommit}`,
-    ].join("\n");
+    `Cohort: ${cohortLabel}`,
+    `LinkedIn: ${formData.linkedin || "Not provided"}`,
+    `Country: ${formData.country || "Not provided"}`,
+    `Organisation: ${formData.organisation || "Not provided"}`,
+    `Digital Fluency: ${formData.digitalFluency}`,
+    `Upskill Attempts: ${formData.upskillAttempts.join(", ")}`,
+    `Blockers: ${formData.blockers.join(", ")}`,
+    `Motivation: ${formData.motivation}`,
+    `Budget Approval: ${formData.budgetApproval}`,
+    `Can Afford: ${formData.canAfford}`,
+    `Can Commit: ${formData.canCommit}`].
+    join("\n");
 
     try {
       const { error: leadError } = await supabase.functions.invoke("capture-lead", {
@@ -292,7 +292,7 @@ const Cohort = () => {
 
                 {/* Countdown */}
                 <div className="mb-10">
-                  <div className="text-[11px] tracking-[3px] text-muted-foreground font-syne mb-4">COHORT STARTS IN</div>
+                  <div className="text-[11px] tracking-[3px] text-muted-foreground font-syne mb-4">NEXT COHORT STARTS IN</div>
                   <div className="flex gap-3">
                     {[
                     { val: countdown.days, label: "DAYS" },
@@ -337,17 +337,17 @@ const Cohort = () => {
               <div className="hidden lg:flex items-center justify-center">
                 <AnimatedSpiderChart
                   categories={[
-                    { label: "Awareness", icon: "🔍" },
-                    { label: "Technology", icon: "⚙️" },
-                    { label: "Risk\nManagement", icon: "🛡" },
-                    { label: "Change\nLeadership", icon: "🔄" },
-                    { label: "Leadership", icon: "👤" },
-                  ]}
+                  { label: "Awareness", icon: "🔍" },
+                  { label: "Technology", icon: "⚙️" },
+                  { label: "Risk\nManagement", icon: "🛡" },
+                  { label: "Change\nLeadership", icon: "🔄" },
+                  { label: "Leadership", icon: "👤" }]
+                  }
                   beforeValues={[28, 22, 35, 18, 30]}
                   afterValues={[85, 80, 90, 75, 88]}
                   beforeLabel="BEFORE PROGRAMME"
-                  afterLabel="AFTER SAFETY 4.0"
-                />
+                  afterLabel="AFTER SAFETY 4.0" />
+                
               </div>
             </div>
           </div>
@@ -504,22 +504,22 @@ const Cohort = () => {
             <div ref={setFadeRef(4)} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {cohortSchedule.map((cohort, i) => {
                 const isFilling = cohort.status === "filling";
-                const fillPercent = Math.round(((cohort.totalSeats - cohort.seatsLeft) / cohort.totalSeats) * 100);
+                const fillPercent = Math.round((cohort.totalSeats - cohort.seatsLeft) / cohort.totalSeats * 100);
                 return (
                   <button
                     key={i}
                     onClick={() => setSelectedCohort(cohort)}
                     className={`group relative text-left bg-card border rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
-                      isFilling
-                        ? "border-primary/40 hover:border-primary/70 shadow-[0_0_30px_rgba(29,184,123,0.08)]"
-                        : "border-border hover:border-primary/30"
-                    }`}
-                  >
-                    {isFilling && (
-                      <div className="absolute top-0 right-0 bg-amber-500/15 border border-amber-500/30 text-amber-500 text-[10px] font-syne font-bold tracking-[1px] px-3 py-1 rounded-bl-xl rounded-tr-2xl">
+                    isFilling ?
+                    "border-primary/40 hover:border-primary/70 shadow-[0_0_30px_rgba(29,184,123,0.08)]" :
+                    "border-border hover:border-primary/30"}`
+                    }>
+                    
+                    {isFilling &&
+                    <div className="absolute top-0 right-0 bg-amber-500/15 border border-amber-500/30 text-amber-500 text-[10px] font-syne font-bold tracking-[1px] px-3 py-1 rounded-bl-xl rounded-tr-2xl">
                         FILLING FAST
                       </div>
-                    )}
+                    }
 
                     <div className="flex items-center gap-3 mb-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isFilling ? "bg-primary/15" : "bg-card border border-border"}`}>
@@ -552,8 +552,8 @@ const Cohort = () => {
                     <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-5">
                       <div
                         className={`h-full rounded-full transition-all ${isFilling ? "bg-amber-500" : "bg-primary/30"}`}
-                        style={{ width: `${fillPercent}%` }}
-                      />
+                        style={{ width: `${fillPercent}%` }} />
+                      
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -562,8 +562,8 @@ const Cohort = () => {
                         Apply <ArrowRight className="w-4 h-4" />
                       </span>
                     </div>
-                  </button>
-                );
+                  </button>);
+
               })}
             </div>
 
@@ -581,7 +581,7 @@ const Cohort = () => {
         </section>
 
         {/* APPLICATION MODAL */}
-        <Dialog open={!!selectedCohort} onOpenChange={(open) => { if (!open) { setSelectedCohort(null); setFormStep(1); } }}>
+        <Dialog open={!!selectedCohort} onOpenChange={(open) => {if (!open) {setSelectedCohort(null);setFormStep(1);}}}>
           <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="font-syne text-xl font-black text-white">
@@ -597,58 +597,58 @@ const Cohort = () => {
               <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: formStep === 1 ? "50%" : "100%" }} />
             </div>
 
-            {formStep === 1 ? (
-              <div className="space-y-4 mt-2">
+            {formStep === 1 ?
+            <div className="space-y-4 mt-2">
                 <div className="text-xs font-syne font-bold text-primary tracking-[2px] mb-2">YOUR DETAILS</div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
                     <input required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
+                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
                   </div>
                   <div>
                     <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
                     <input required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
+                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
                   </div>
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
                   <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
+                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">JOB TITLE *</label>
                   <input required value={formData.jobTitle} onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
+                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
                   <input required value={formData.linkedin} onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
+                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
                   <input required value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
+                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
                   <input value={formData.organisation} onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
-                    className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
+                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
                 </div>
                 <Button type="button" onClick={() => {
-                  if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle || !formData.linkedin || !formData.country) {
-                    toast({ title: "Please fill in all required fields", variant: "destructive" });
-                    return;
-                  }
-                  setFormStep(2);
-                }} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3">
+                if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle || !formData.linkedin || !formData.country) {
+                  toast({ title: "Please fill in all required fields", variant: "destructive" });
+                  return;
+                }
+                setFormStep(2);
+              }} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3">
                   Continue <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5 mt-2">
+              </div> :
+
+            <form onSubmit={handleSubmit} className="space-y-5 mt-2">
                 <div className="text-xs font-syne font-bold text-primary tracking-[2px] mb-2">ABOUT YOU</div>
 
                 {/* Digital Fluency */}
@@ -656,21 +656,21 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">DIGITAL FLUENCY / MATURITY *</label>
                   <div className="space-y-2">
                     {[
-                      "I'm great at safety, but tech isn't my strength",
-                      "I want to learn, but I don't know what to focus on",
-                      "I've tried a few tools, but I don't fully trust the outputs yet",
-                      "I'm confident with tools — I need a structure + roadmap",
-                      "I'm already driving digital initiatives — I want to level up",
-                    ].map((opt) => (
-                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.digitalFluency === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  "I'm great at safety, but tech isn't my strength",
+                  "I want to learn, but I don't know what to focus on",
+                  "I've tried a few tools, but I don't fully trust the outputs yet",
+                  "I'm confident with tools — I need a structure + roadmap",
+                  "I'm already driving digital initiatives — I want to level up"].
+                  map((opt) =>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.digitalFluency === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                         <input type="radio" name="digitalFluency" value={opt} checked={formData.digitalFluency === opt}
-                          onChange={() => setFormData({ ...formData, digitalFluency: opt })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, digitalFluency: opt })} className="sr-only" />
                         <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.digitalFluency === opt ? "border-primary" : "border-muted-foreground"}`}>
                           {formData.digitalFluency === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -678,16 +678,16 @@ const Cohort = () => {
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">WHAT HAVE YOU TRIED TO UPSKILL? * (select all)</label>
                   <div className="space-y-2">
-                    {["YouTube / podcasts", "Short courses (Udemy, Coursera, etc.)", "Formal certification / accredited training", "Internal company training (L&D)", "Reading (books, newsletters, blogs)", "Attending webinars / conferences", "Experimenting with tools (ChatGPT, Copilot, Power BI)", "Mentoring / coaching", "Nothing yet"].map((opt) => (
-                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    {["YouTube / podcasts", "Short courses (Udemy, Coursera, etc.)", "Formal certification / accredited training", "Internal company training (L&D)", "Reading (books, newsletters, blogs)", "Attending webinars / conferences", "Experimenting with tools (ChatGPT, Copilot, Power BI)", "Mentoring / coaching", "Nothing yet"].map((opt) =>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                         <input type="checkbox" checked={formData.upskillAttempts.includes(opt)}
-                          onChange={() => setFormData({ ...formData, upskillAttempts: formData.upskillAttempts.includes(opt) ? formData.upskillAttempts.filter(x => x !== opt) : [...formData.upskillAttempts, opt] })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, upskillAttempts: formData.upskillAttempts.includes(opt) ? formData.upskillAttempts.filter((x) => x !== opt) : [...formData.upskillAttempts, opt] })} className="sr-only" />
                         <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary" : "border-muted-foreground"}`}>
                           {formData.upskillAttempts.includes(opt) && <CheckCircle className="w-3 h-3 text-primary-foreground" />}
                         </div>
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -695,16 +695,16 @@ const Cohort = () => {
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST BLOCKERS * (select all)</label>
                   <div className="space-y-2">
-                    {["I don't have time / overloaded with compliance", "I don't know what to focus on", "I start but struggle to stay consistent", "I don't have a clear EHS use case", "I don't trust the outputs / fear getting it wrong", "My organisation isn't supportive", "Security / GDPR / governance concerns", "Budget constraints"].map((opt) => (
-                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500/10 text-white" : "border-border text-muted-foreground hover:border-pink-500/30"}`}>
+                    {["I don't have time / overloaded with compliance", "I don't know what to focus on", "I start but struggle to stay consistent", "I don't have a clear EHS use case", "I don't trust the outputs / fear getting it wrong", "My organisation isn't supportive", "Security / GDPR / governance concerns", "Budget constraints"].map((opt) =>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500/10 text-white" : "border-border text-muted-foreground hover:border-pink-500/30"}`}>
                         <input type="checkbox" checked={formData.blockers.includes(opt)}
-                          onChange={() => setFormData({ ...formData, blockers: formData.blockers.includes(opt) ? formData.blockers.filter(x => x !== opt) : [...formData.blockers, opt] })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, blockers: formData.blockers.includes(opt) ? formData.blockers.filter((x) => x !== opt) : [...formData.blockers, opt] })} className="sr-only" />
                         <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500" : "border-muted-foreground"}`}>
                           {formData.blockers.includes(opt) && <CheckCircle className="w-3 h-3 text-white" />}
                         </div>
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -713,22 +713,22 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST MOTIVATION *</label>
                   <div className="space-y-2">
                     {[
-                      "A clear, structured path to stop consuming and start executing",
-                      "Real digital/AI fluency for EHS — without hype",
-                      "Confidence to evaluate tools/vendors and challenge outputs",
-                      "Career acceleration and future-proofing",
-                      "Save time by replacing admin with smarter workflows",
-                      "Accountability and coaching to stay consistent",
-                    ].map((opt) => (
-                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.motivation === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  "A clear, structured path to stop consuming and start executing",
+                  "Real digital/AI fluency for EHS — without hype",
+                  "Confidence to evaluate tools/vendors and challenge outputs",
+                  "Career acceleration and future-proofing",
+                  "Save time by replacing admin with smarter workflows",
+                  "Accountability and coaching to stay consistent"].
+                  map((opt) =>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.motivation === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                         <input type="radio" name="motivation" value={opt} checked={formData.motivation === opt}
-                          onChange={() => setFormData({ ...formData, motivation: opt })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, motivation: opt })} className="sr-only" />
                         <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.motivation === opt ? "border-primary" : "border-muted-foreground"}`}>
                           {formData.motivation === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -736,16 +736,16 @@ const Cohort = () => {
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BUDGET APPROVAL ABILITY *</label>
                   <div className="space-y-2">
-                    {["I own the budget and will approve it", "I recommend, someone else approves", "I need full approval"].map((opt) => (
-                      <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.budgetApproval === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    {["I own the budget and will approve it", "I recommend, someone else approves", "I need full approval"].map((opt) =>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.budgetApproval === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                         <input type="radio" name="budgetApproval" value={opt} checked={formData.budgetApproval === opt}
-                          onChange={() => setFormData({ ...formData, budgetApproval: opt })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, budgetApproval: opt })} className="sr-only" />
                         <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.budgetApproval === opt ? "border-primary" : "border-muted-foreground"}`}>
                           {formData.budgetApproval === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -753,13 +753,13 @@ const Cohort = () => {
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £997 + VAT FEE? *</label>
                   <div className="flex gap-3">
-                    {["Yes", "No"].map((opt) => (
-                      <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    {["Yes", "No"].map((opt) =>
+                  <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                         <input type="radio" name="canAfford" value={opt} checked={formData.canAfford === opt}
-                          onChange={() => setFormData({ ...formData, canAfford: opt })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, canAfford: opt })} className="sr-only" />
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -767,16 +767,16 @@ const Cohort = () => {
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU COMMIT TO THE COHORT SCHEDULE? *</label>
                   <div className="space-y-2">
-                    {["Yes, 100%", "Yes, but will need some adjustments", "No"].map((opt) => (
-                      <label key={opt} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.canCommit === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    {["Yes, 100%", "Yes, but will need some adjustments", "No"].map((opt) =>
+                  <label key={opt} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.canCommit === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                         <input type="radio" name="canCommit" value={opt} checked={formData.canCommit === opt}
-                          onChange={() => setFormData({ ...formData, canCommit: opt })} className="sr-only" />
+                    onChange={() => setFormData({ ...formData, canCommit: opt })} className="sr-only" />
                         <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${formData.canCommit === opt ? "border-primary" : "border-muted-foreground"}`}>
                           {formData.canCommit === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
                       </label>
-                    ))}
+                  )}
                   </div>
                 </div>
 
@@ -785,11 +785,11 @@ const Cohort = () => {
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back
                   </Button>
                   <Button type="submit" disabled={isSubmitting || !formData.digitalFluency || formData.upskillAttempts.length === 0 || formData.blockers.length === 0 || !formData.motivation || !formData.budgetApproval || !formData.canAfford || !formData.canCommit}
-                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow">
+                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-sm py-3 shadow-glow">
                     {isSubmitting ?
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
-                    <>Submit Application <ArrowRight className="w-4 h-4 ml-2" /></>
-                    }
+                  <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...</> :
+                  <>Submit Application <ArrowRight className="w-4 h-4 ml-2" /></>
+                  }
                   </Button>
                 </div>
 
@@ -797,7 +797,7 @@ const Cohort = () => {
                   This is not a payment. We review applications and confirm your place within 24 hours. 14-day satisfaction guarantee.
                 </p>
               </form>
-            )}
+            }
           </DialogContent>
         </Dialog>
 
