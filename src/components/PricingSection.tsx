@@ -51,7 +51,7 @@ export const PricingSection = () => {
         "Priority support",
         "Exclusive community membership",
       ],
-      cta: "Enroll Now",
+      cta: "Apply Now",
       popular: true,
       gradient: "from-pink-500/20 to-purple-500/20",
       borderColor: "border-pink-500/50",
@@ -147,7 +147,7 @@ export const PricingSection = () => {
 
               {/* CTA Button */}
               {tier.name === "Safety 4.0 Accelerator Cohort" ? (
-                <a href="https://tally.so/r/ZjNNl5" target="_blank" rel="noopener noreferrer">
+                <a href="/cohort">
                   <Button 
                     className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}
                   >
