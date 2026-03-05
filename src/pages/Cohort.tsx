@@ -311,7 +311,7 @@ const Cohort = () => {
             <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">THE ACCELERATOR EXPERIENCE</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               This isn't an online course.<br />
-              It's a <span className="text-primary">transformation cohort</span>.
+              It's a <span className="text-primary">transformation journey</span>.
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mb-12">
               The Accelerator combines on-demand course content with live weekly sessions, a peer cohort, and direct access to Lucas. The result is accountability, community, and a credential.
