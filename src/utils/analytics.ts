@@ -1,3 +1,14 @@
+// Skip tracking in development/preview environments
+const isDevEnvironment = () => {
+  const hostname = window.location.hostname;
+  return (
+    hostname === 'localhost' ||
+    hostname.includes('lovableproject.com') ||
+    hostname.includes('lovable.app') === false && hostname.includes('lovable') ||
+    hostname.includes('id-preview--')
+  );
+};
+
 // Page load timestamp for bot detection timing challenge
 const PAGE_LOAD_TIME = Date.now();
 
@@ -25,6 +36,7 @@ const getBotChallengeFields = () => {
 
 // Track custom events via secure edge function (clicks, form submissions, etc.)
 export const trackEvent = async (eventType: string, eventData?: Record<string, unknown>) => {
+  if (isDevEnvironment()) return;
   try {
     const sessionId = getSessionId();
     
@@ -146,6 +158,7 @@ const parseUserAgent = (ua: string) => {
 
 // Track page view with validation and rate limiting
 export const trackPageView = async (pagePath: string) => {
+  if (isDevEnvironment()) return;
   try {
     const sessionId = getSessionId();
     const userAgent = navigator.userAgent;
