@@ -622,31 +622,27 @@ const Cohort = () => {
             </div>
 
             {/* eLearning & In-Company fallback cards */}
-            <div className="mt-12 flex flex-col gap-4 max-w-2xl">
-              <div className="bg-card/60 border border-border rounded-2xl p-5 md:p-7 flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
-                <BookOpen className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
-                <div>
-                  <div className="font-syne text-base font-bold text-white mb-1">Not ready for the Accelerator?</div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    Start with the self-paced eLearning course — same IOSH-approved content, at your own pace.
-                  </p>
-                  <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-                    View eLearning option (£597) <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
+              <div className="bg-card/60 border border-border rounded-xl p-4 flex flex-col gap-3">
+                <BookOpen className="w-6 h-6 text-primary flex-shrink-0" />
+                <div className="font-syne text-sm font-bold text-white">Not ready for the Accelerator?</div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Self-paced eLearning — same IOSH-approved content, at your own pace.
+                </p>
+                <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-auto">
+                  View eLearning (£597) <ArrowRight className="w-3 h-3" />
+                </a>
               </div>
 
-              <div className="bg-pink-500/10 border border-pink-500/30 rounded-2xl p-5 md:p-7 flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
-                <Building2 className="w-8 h-8 text-pink-500 flex-shrink-0 mt-1" />
-                <div>
-                  <div className="font-syne text-base font-bold text-white mb-1">Training your whole team?</div>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                    Explore our In-Company programme — customised curriculum, bulk pricing, and dedicated support for your organisation.
-                  </p>
-                  <a href="/in-company" className="inline-flex items-center gap-1 text-sm font-semibold text-pink-500 hover:text-pink-400 transition-colors">
-                    Discover In-Company Training <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
+              <div className="bg-pink-500/10 border border-pink-500/30 rounded-xl p-4 flex flex-col gap-3">
+                <Building2 className="w-6 h-6 text-pink-500 flex-shrink-0" />
+                <div className="font-syne text-sm font-bold text-white">Training your whole team?</div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  In-Company programme — customised curriculum, bulk pricing, and dedicated support.
+                </p>
+                <a href="/in-company" className="inline-flex items-center gap-1 text-xs font-semibold text-pink-500 hover:text-pink-400 transition-colors mt-auto">
+                  Discover In-Company <ArrowRight className="w-3 h-3" />
+                </a>
               </div>
             </div>
           </div>
