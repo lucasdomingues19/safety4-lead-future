@@ -918,10 +918,6 @@ const Cohort = () => {
           </div>
         </section>
 
-        {/* Certification logos */}
-        <div className="flex items-center justify-center py-10 border-t border-border">
-          <img src={ioshCpdCombined} alt="IOSH Approved Training Provider 5522 & CPD Certified" className="h-24" />
-        </div>
 
         <Footer />
       </div>
