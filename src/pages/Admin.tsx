@@ -852,19 +852,23 @@ const Admin = () => {
                                   ? 'bg-blue-500/20 text-blue-300' 
                                   : lead.source === 'contact_form'
                                   ? 'bg-green-500/20 text-green-300'
-                                  : lead.source === 'cohort-pre-enrollment'
+                                  : lead.source === 'cohort-pre-enrollment' || lead.source === 'cohort-application'
                                   ? 'bg-purple-500/20 text-purple-300'
                                   : lead.source === 'newsletter_popup'
                                   ? 'bg-pink-500/20 text-pink-300'
                                   : lead.source === 'ebook_download'
                                   ? 'bg-orange-500/20 text-orange-300'
+                                  : lead.source === 'brochure_download'
+                                  ? 'bg-cyan-500/20 text-cyan-300'
                                   : 'bg-gray-500/20 text-gray-300'
                               }`}>
                                 {lead.source === 'assessment' ? 'Assessment' : 
                                  lead.source === 'contact_form' ? 'Contact Form' :
-                                 lead.source === 'cohort-pre-enrollment' ? 'Cohort' :
+                                 lead.source === 'cohort-pre-enrollment' ? 'Cohort Pre-Enroll' :
+                                 lead.source === 'cohort-application' ? 'Cohort Application' :
                                  lead.source === 'newsletter_popup' ? 'Newsletter' :
-                                 lead.source === 'ebook_download' ? 'eBook' : lead.source}
+                                 lead.source === 'ebook_download' ? 'eBook' :
+                                 lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
                             <TableCell className="text-white">
