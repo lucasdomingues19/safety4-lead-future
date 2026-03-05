@@ -504,7 +504,7 @@ const Cohort = () => {
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               Choose your <span className="text-pink-500">cohort</span>.
             </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mb-12">
+            <p className="text-lg text-white max-w-xl mb-12">
               Each cohort is capped at 15 professionals. Select a date to apply — we review every application to ensure the right fit.
             </p>
 
