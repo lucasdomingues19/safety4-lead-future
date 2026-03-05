@@ -29,8 +29,8 @@ export const HeroSection = () => {
     <section className="min-h-screen relative overflow-hidden">
       {/* Top Banner - fixed above nav */}
       <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2 md:py-2.5 px-3 md:px-4">
-        <a href="/enroll" className="font-semibold text-xs md:text-base hover:underline leading-tight">
-          🚀 Applications <span className="font-extrabold">OPEN</span> for the March Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
+        <a href="/cohort" className="font-semibold text-xs md:text-base hover:underline leading-tight">
+          🚀 Applications <span className="font-extrabold">OPEN</span> for the April Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
         </a>
       </div>
       
