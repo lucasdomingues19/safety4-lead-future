@@ -360,7 +360,7 @@ const Cohort = () => {
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHO IS IT FOR?</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
               Built for senior EHS leaders<br />
-              <span className="text-pink-500">ready to lead the digital shift</span>.
+              <span className="text-pink-500">ready to lead in the digital age</span>.
             </h2>
             <p className="text-lg text-white max-w-xl mb-12">
               This programme is designed for experienced safety professionals who want to future-proof their leadership and drive measurable change.
