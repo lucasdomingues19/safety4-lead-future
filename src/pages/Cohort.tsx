@@ -42,7 +42,7 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 const TALLY_LINK = "https://tally.so/r/ZjNNl5";
 
 const cohortSchedule = [
-{ month: "April", year: 2026, startDate: "7 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "April", year: 2026, startDate: "6 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "May", year: 2026, startDate: "5 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "June", year: 2026, startDate: "2 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
@@ -76,11 +76,11 @@ const Cohort = () => {
     canCommit: ""
   });
 
-  // Countdown to April 7, 2026
+  // Countdown to April 6, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const target = new Date("2026-04-07T00:00:00Z").getTime();
+    const target = new Date("2026-04-06T00:00:00Z").getTime();
     const tick = () => {
       const now = Date.now();
       const diff = Math.max(0, target - now);
