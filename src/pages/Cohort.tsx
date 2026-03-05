@@ -889,10 +889,9 @@ const Cohort = () => {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
                 <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
-                  Ready to join the<br />April cohort?
+                  Ready to join the<br />next cohort?
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
-                  {cohortSchedule[0].seatsLeft} seats remaining. Applications close 25 March 2026.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <a href="#apply">
