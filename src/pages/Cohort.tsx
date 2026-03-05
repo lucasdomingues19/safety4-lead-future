@@ -298,11 +298,9 @@ const Cohort = () => {
               </div>
 
               {/* Cross-sell to In-Company */}
-              <div className="mt-12 bg-card/60 border border-border rounded-2xl p-6 max-w-lg mx-auto">
-                <div className="flex items-center gap-3 mb-2">
-                  <Building2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
-                  <span className="text-sm font-bold text-white font-syne">Training your team?</span>
-                </div>
+              <div className="mt-12 bg-card/60 border border-border rounded-2xl p-6 max-w-lg mx-auto flex items-center gap-3 flex-wrap">
+                <Building2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
+                <span className="text-sm font-bold text-white font-syne">Training your team?</span>
                 <Link to="/in-company" className="text-pink-500 hover:text-pink-400 text-sm font-semibold inline-flex items-center gap-1 transition-colors">
                   Explore In-Company training <ArrowRight className="w-4 h-4" />
                 </Link>
