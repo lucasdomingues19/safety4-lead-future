@@ -328,7 +328,7 @@ const Cohort = () => {
 
 
                 {/* Cross-sell to In-Company */}
-                <div className="mt-8 bg-card/60 border border-border rounded-2xl p-6 max-w-lg flex items-center gap-3 flex-wrap">
+                <div className="mt-8 bg-card/60 border border-border rounded-2xl p-4 md:p-6 max-w-lg flex items-center gap-3 flex-wrap">
                   <Building2 className="w-5 h-5 text-pink-500 flex-shrink-0" />
                   <span className="text-sm font-bold text-white font-syne">Training your team?</span>
                   <Link to="/in-company" className="text-pink-500 hover:text-pink-400 text-sm font-semibold inline-flex items-center gap-1 transition-colors">
@@ -477,7 +477,7 @@ const Cohort = () => {
             </div>
 
             {/* Money-back guarantee */}
-            <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-7 flex gap-6 items-start">
+            <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-5 md:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
               <Shield className="w-10 h-10 text-primary flex-shrink-0 mt-1" />
               <div>
                 <div className="font-syne text-lg font-bold text-white mb-2">14-Day Satisfaction Guarantee</div>
@@ -502,27 +502,27 @@ const Cohort = () => {
               <table className="w-full max-w-3xl border-collapse">
                 <thead>
                   <tr>
-                    <th className="text-left p-4 font-syne text-xs font-bold tracking-[1px] text-muted-foreground bg-card border-b-2 border-border">Feature</th>
-                    <th className="p-4 font-syne text-xs font-bold tracking-[1px] text-primary bg-card border-b-2 border-border text-center">Accelerator Cohort</th>
-                    <th className="p-4 font-syne text-xs font-bold tracking-[1px] text-muted-foreground bg-card border-b-2 border-border text-center">eLearning</th>
+                    <th className="text-left p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-muted-foreground bg-card border-b-2 border-border">Feature</th>
+                    <th className="p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-primary bg-card border-b-2 border-border text-center">Accelerator</th>
+                    <th className="p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-muted-foreground bg-card border-b-2 border-border text-center">eLearning</th>
                   </tr>
                 </thead>
                 <tbody>
                   {comparisonFeatures.map((row, i) =>
                   <tr key={i} className={i % 2 === 0 ? "bg-white/[0.01]" : ""}>
-                      <td className="p-4 text-sm text-muted-foreground font-medium border-b border-border">{row.feature}</td>
-                      <td className="p-4 text-center border-b border-border">
+                      <td className="p-3 md:p-4 text-sm text-muted-foreground font-medium border-b border-border">{row.feature}</td>
+                      <td className="p-3 md:p-4 text-center border-b border-border">
                         {row.accelerator ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
                       </td>
-                      <td className="p-4 text-center border-b border-border">
+                      <td className="p-3 md:p-4 text-center border-b border-border">
                         {row.elearning ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
                       </td>
                     </tr>
                   )}
                   <tr className="bg-card">
-                    <td className="p-4 text-sm font-bold text-white">Price</td>
-                    <td className="p-4 text-center font-syne text-lg font-black text-primary">£997</td>
-                    <td className="p-4 text-center font-syne text-lg font-bold text-muted-foreground">£597</td>
+                    <td className="p-3 md:p-4 text-sm font-bold text-white">Price</td>
+                    <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£997</td>
+                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-muted-foreground">£597</td>
                   </tr>
                 </tbody>
               </table>
@@ -622,7 +622,7 @@ const Cohort = () => {
             </div>
 
             {/* eLearning fallback */}
-            <div className="mt-12 bg-card/60 border border-border rounded-2xl p-7 flex items-start gap-5 max-w-2xl">
+            <div className="mt-12 bg-card/60 border border-border rounded-2xl p-5 md:p-7 flex flex-col sm:flex-row items-start gap-4 sm:gap-5 max-w-2xl">
               <BookOpen className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
               <div>
                 <div className="font-syne text-base font-bold text-white mb-1">Not ready for the Accelerator?</div>
