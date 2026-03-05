@@ -288,9 +288,9 @@ const Cohort = () => {
               {/* Seats indicator */}
               <div className="inline-flex items-center gap-3 bg-amber-500/10 border border-amber-500/30 rounded-full px-5 py-2">
                 <div className="w-20 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-amber-500 rounded-full" style={{ width: "75%" }} />
+                  <div className="h-full bg-amber-500 rounded-full" style={{ width: "47%" }} />
                 </div>
-                <span className="text-amber-500 font-bold text-sm font-syne">Only 3 seats left — Cohort capped at 12</span>
+                <span className="text-amber-500 font-bold text-sm font-syne">Only 8 seats left — Cohort capped at 15</span>
               </div>
 
               {/* Cross-sell to In-Company */}
