@@ -341,7 +341,7 @@ const Cohort = () => {
               <div className="hidden lg:flex items-center justify-center">
                 <AnimatedSpiderChart
                   categories={[
-                  { label: "Awareness", icon: "🔍" },
+                  { label: "Knowledge", icon: "🔍" },
                   { label: "Technology", icon: "⚙️" },
                   { label: "Risk\nManagement", icon: "🛡" },
                   { label: "Change\nLeadership", icon: "🔄" },
