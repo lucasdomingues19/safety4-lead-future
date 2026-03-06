@@ -556,7 +556,7 @@ const Admin = () => {
             className={activeTab === 'company' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
           >
             <Building2 className="mr-2 h-4 w-4" />
-            Company Insights
+            Scorecard Insights
           </Button>
         </div>
 
