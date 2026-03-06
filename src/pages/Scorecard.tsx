@@ -36,7 +36,7 @@ const Scorecard = () => {
                 <ClipboardCheck className="w-20 h-20 text-[#D6FF00]" />
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-white">
-                Free Safety 4.0 Readiness Scorecard
+                Free Safety 4.0 Scorecard & Digital Maturity
               </h1>
               <p className="text-xl text-gray-300">
                 Discover where you stand in the digital transformation of workplace safety
