@@ -620,6 +620,18 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
                 <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Enter your phone number" className="bg-slate-800 border-slate-600 text-white" />
               </div>
+              <div className="flex items-start gap-3 mt-2">
+                <input
+                  type="checkbox"
+                  id="emailConsent"
+                  checked={userData.emailConsent}
+                  onChange={(e) => setUserData({ ...userData, emailConsent: e.target.checked })}
+                  className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-800 text-[#D6FF00] focus:ring-[#D6FF00]"
+                />
+                <Label htmlFor="emailConsent" className="text-gray-400 text-sm font-normal cursor-pointer leading-relaxed">
+                  I agree to receive occasional emails from the Safety 4.0 Academy about courses, events, and safety insights. You can unsubscribe at any time.
+                </Label>
+              </div>
               <Button
                 onClick={handleUserDataSubmit}
                 className="w-full mt-4 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
