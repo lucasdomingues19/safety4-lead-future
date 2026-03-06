@@ -683,6 +683,114 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           </div>
         )}
 
+        {/* Maturity Prompt */}
+        {step === "maturity_prompt" && (
+          <div className="space-y-6 p-4 md:p-6">
+            <div className="text-center space-y-4">
+              <div className="mx-auto w-16 h-16 bg-[#D6FF00]/20 rounded-full flex items-center justify-center">
+                <Building2 className="w-8 h-8 text-[#D6FF00]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">Would you like to also assess your organisation's digital maturity?</h3>
+              <p className="text-gray-400 max-w-md mx-auto">
+                Complete a quick 5-statement Digital Maturity Pulse to see how your personal readiness compares with your organisation's capabilities — overlaid on the same radar chart.
+              </p>
+              <p className="text-gray-500 text-sm">Takes less than 1 minute</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
+              <Button
+                onClick={() => setStep("maturity")}
+                className="flex-1 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
+              >
+                Yes, Continue
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+              <Button
+                onClick={() => {
+                  triggerResultsEmail();
+                  setStep("results");
+                }}
+                variant="outline"
+                className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700 py-5 text-base"
+              >
+                Skip & See Results
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Maturity Assessment */}
+        {step === "maturity" && (
+          <div className="space-y-6 p-4 md:p-6">
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-400">
+                  Statement {currentMaturityQ + 1} of {MATURITY_DIMENSIONS.length}
+                </span>
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-500/20 text-blue-300">
+                  {MATURITY_DIMENSIONS[currentMaturityQ].label}
+                </span>
+              </div>
+              <Progress value={((currentMaturityQ + 1) / MATURITY_DIMENSIONS.length) * 100} className="w-full h-2" />
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-lg md:text-xl font-semibold text-white leading-relaxed">
+                {MATURITY_DIMENSIONS[currentMaturityQ].statement}
+              </h3>
+
+              <div className="space-y-3">
+                {MATURITY_LIKERT.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      const newAnswers = [...maturityAnswers];
+                      newAnswers[currentMaturityQ] = option.points;
+                      setMaturityAnswers(newAnswers);
+                      if (currentMaturityQ < MATURITY_DIMENSIONS.length - 1) {
+                        setCurrentMaturityQ(currentMaturityQ + 1);
+                      } else {
+                        triggerResultsEmail();
+                        setStep("results");
+                      }
+                    }}
+                    className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
+                      maturityAnswers[currentMaturityQ] === option.points
+                        ? "border-blue-400 bg-blue-500/15 shadow-lg shadow-blue-500/10"
+                        : "border-slate-600 hover:border-slate-400 hover:bg-slate-700/50"
+                    }`}
+                  >
+                    {option.text}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-between">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    if (currentMaturityQ > 0) setCurrentMaturityQ(currentMaturityQ - 1);
+                    else setStep("maturity_prompt");
+                  }}
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Previous
+                </Button>
+
+                {maturityAnswers[currentMaturityQ] !== undefined && currentMaturityQ < MATURITY_DIMENSIONS.length - 1 && (
+                  <Button
+                    onClick={() => setCurrentMaturityQ(currentMaturityQ + 1)}
+                    className="bg-blue-500 text-white hover:bg-blue-600"
+                  >
+                    Next
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Results with Spider Chart */}
         {step === "results" && rankInfo && (
           <div className="space-y-8 p-4 md:p-6" ref={resultsRef}>
