@@ -9,6 +9,7 @@ import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, Shoppin
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
+import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 
 interface PageView {
   id: string;
