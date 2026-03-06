@@ -613,8 +613,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 <Input id="email" type="email" value={userData.email} onChange={(e) => setUserData({ ...userData, email: e.target.value })} placeholder="Enter your email address" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
-                <Label htmlFor="companyName" className="text-gray-300">Company Name (optional)</Label>
-                <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-800 border-slate-600 text-white" />
+                <Label htmlFor="companyName" className="text-gray-300">Company Name *</Label>
+                <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
                 <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
