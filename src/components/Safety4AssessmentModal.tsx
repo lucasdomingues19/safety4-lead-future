@@ -500,7 +500,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
-    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
+    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
     setEmailSent(false);
   };
 
