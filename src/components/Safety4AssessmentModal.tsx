@@ -88,11 +88,29 @@ const getRank = (percentage: number): { rank: number; label: string; color: stri
   return { rank: 1, label: "Beginner", color: "#ef4444", description: "You would greatly benefit from structured Safety 4.0 training to future-proof your career." };
 };
 
+const MATURITY_DIMENSIONS = [
+  { id: "culture", label: "Culture & Vision", mappedCategory: "Awareness & Mindset", statement: "We have a clear digital safety vision and strategy. Leadership actively champions safety technology adoption and staff are encouraged to try new digital safety tools responsibly." },
+  { id: "technology", label: "Technology Infrastructure", mappedCategory: "Tech Saviness", statement: "Our safety systems are integrated and share data. We use real-time monitoring where appropriate and our tech stack can easily adopt new tools." },
+  { id: "governance", label: "Governance & Data Readiness", mappedCategory: "Risk & Compliance", statement: "Our safety data is standardised, accessible, and governed by clear policies. Data insights drive safety strategy, not just compliance." },
+  { id: "process", label: "Process & Adoption", mappedCategory: "Change Management", statement: "Digital tools are embedded in daily safety workflows with structured change management. Frontline workers are confident using them." },
+  { id: "innovation", label: "Innovation & Investment", mappedCategory: "Leadership & Future Readiness", statement: "We allocate dedicated budget for safety tech innovation, actively evaluate emerging technologies, and benchmark our maturity against peers." },
+] as const;
+
+const MATURITY_LIKERT = [
+  { text: "Strongly Agree", points: 5 },
+  { text: "Agree", points: 4 },
+  { text: "Neutral", points: 3 },
+  { text: "Disagree", points: 2 },
+  { text: "Strongly Disagree", points: 1 },
+];
+
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
-  const [step, setStep] = useState<"assessment" | "capture" | "results">("assessment");
+  const [step, setStep] = useState<"assessment" | "capture" | "maturity_prompt" | "maturity" | "results">("assessment");
   const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
+  const [maturityAnswers, setMaturityAnswers] = useState<number[]>([]);
+  const [currentMaturityQ, setCurrentMaturityQ] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [isSendingEmail, setIsSendingEmail] = useState(false);
