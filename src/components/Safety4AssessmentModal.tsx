@@ -623,7 +623,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <Button
                 onClick={handleUserDataSubmit}
                 className="w-full mt-4 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
-                disabled={!userData.firstName || !userData.lastName || !userData.email || isSubmitting}
+                disabled={!userData.firstName || !userData.lastName || !userData.email || !userData.companyName || isSubmitting}
               >
                 {isSubmitting ? "Loading..." : "Unlock My Results"}
                 <ArrowRight className="w-4 h-4 ml-2" />
