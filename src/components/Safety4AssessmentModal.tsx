@@ -558,7 +558,9 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           <DialogTitle className="text-2xl font-bold text-center text-white">
             {step === "assessment" && "Safety 4.0 Readiness Scorecard"}
             {step === "capture" && "Unlock Your Results"}
-            {step === "results" && "Your Safety 4.0 Readiness Results"}
+            {step === "maturity_prompt" && "One More Step"}
+            {step === "maturity" && "Digital Maturity Pulse"}
+            {step === "results" && "Your Safety 4.0 Results"}
           </DialogTitle>
         </DialogHeader>
 
