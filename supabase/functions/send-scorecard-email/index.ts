@@ -18,6 +18,7 @@ interface ScorecardData {
   firstName: string;
   lastName: string;
   email: string;
+  companyName?: string;
   overallScore: number;
   rankNumber: number;
   rankLabel: string;
