@@ -27,6 +27,7 @@ interface UserData {
   email: string;
   phone: string;
   companyName: string;
+  emailConsent: boolean;
 }
 
 interface Question {
