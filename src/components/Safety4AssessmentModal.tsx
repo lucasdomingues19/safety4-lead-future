@@ -252,14 +252,30 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     return Math.round((total / (questions.length * 5)) * 100);
   };
 
+  const getMaturityScores = () => {
+    return MATURITY_DIMENSIONS.map((dim, idx) => ({
+      dimension: dim.label,
+      mappedCategory: dim.mappedCategory,
+      score: maturityAnswers[idx] || 0,
+      percentage: Math.round(((maturityAnswers[idx] || 0) / 5) * 100),
+    }));
+  };
+
+  const hasMaturityData = maturityAnswers.length === MATURITY_DIMENSIONS.length;
+
   const getRadarData = () => {
     const scores = getCategoryScores();
-    return scores.map((s) => ({
-      category: s.category.replace("& ", "&\n"),
-      shortName: s.category.split(" ")[0],
-      "Your Score": s.percentage,
-      "Target": 100,
-    }));
+    const maturityScores = getMaturityScores();
+    return scores.map((s) => {
+      const maturityMatch = maturityScores.find((m) => m.mappedCategory === s.category);
+      return {
+        category: s.category.replace("& ", "&\n"),
+        shortName: s.category.split(" ")[0],
+        "Your Score": s.percentage,
+        ...(hasMaturityData && maturityMatch ? { "Org Maturity": maturityMatch.percentage } : {}),
+        "Target": 100,
+      };
+    });
   };
 
   const generatePdf = async () => {
