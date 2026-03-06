@@ -59,9 +59,9 @@ const questions: Question[] = [
   { id: 3, category: "Awareness & Mindset", text: "I stay up to date with emerging safety technologies and industry developments.", options: LIKERT_OPTIONS },
 
   // Technology Adoption (3 questions)
-  { id: 4, category: "Technology Adoption", text: "I have hands-on experience with SafetyTech tools (e.g., wearables, AI tools like ChatGPT).", options: LIKERT_OPTIONS },
-  { id: 5, category: "Technology Adoption", text: "I understand how predictive analytics enhances workplace safety outcomes.", options: LIKERT_OPTIONS },
-  { id: 6, category: "Technology Adoption", text: "I can evaluate and select appropriate digital safety technologies for my organisation.", options: LIKERT_OPTIONS },
+  { id: 4, category: "Tech Saviness", text: "I have hands-on experience with SafetyTech tools (e.g., wearables, AI tools like ChatGPT).", options: LIKERT_OPTIONS },
+  { id: 5, category: "Tech Saviness", text: "I understand how predictive analytics enhances workplace safety outcomes.", options: LIKERT_OPTIONS },
+  { id: 6, category: "Tech Saviness", text: "I can evaluate and select appropriate digital safety technologies for my organisation.", options: LIKERT_OPTIONS },
 
   // Risk & Compliance (3 questions)
   { id: 7, category: "Risk & Compliance", text: "I ensure safety technology aligns with compliance and ethical standards.", options: LIKERT_OPTIONS },
