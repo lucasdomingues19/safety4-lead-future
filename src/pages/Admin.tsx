@@ -803,6 +803,9 @@ const Admin = () => {
         {/* Hot Leads Tab */}
         {activeTab === 'hotleads' && <HotLeadsTab />}
 
+        {/* Company Insights Tab */}
+        {activeTab === 'company' && <CompanyInsightsTab />}
+
         {/* Leads Tab */}
         {activeTab === 'leads' && (
           <>
