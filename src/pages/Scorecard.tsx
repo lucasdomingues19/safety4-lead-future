@@ -11,8 +11,8 @@ const Scorecard = () => {
 
   useEffect(() => {
     setPageSEO({
-      title: "Free Safety 4.0 Readiness Scorecard | Assess Your Digital Safety Skills",
-      description: "Take the free Safety 4.0 Readiness Scorecard. Assess your digital safety skills across 5 categories — Awareness, Technology, Risk, Change, and Leadership. Get a personalised PDF report.",
+      title: "Free Safety 4.0 Scorecard & Digital Maturity | Assess Your Readiness",
+      description: "Take the free Safety 4.0 Scorecard & Digital Maturity Pulse. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
       canonical: "https://safetyacademy.tech/scorecard",
     });
   }, []);
