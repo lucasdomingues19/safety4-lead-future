@@ -89,21 +89,41 @@ export const CompanyInsightsTab = () => {
     return Math.round(filtered.reduce((s, r) => s + r.overall_score, 0) / filtered.length);
   }, [filtered]);
 
+  // Normalize legacy category names to current ones
+  const normalizeCategory = (cat: string): string => {
+    const map: Record<string, string> = {
+      "Technology Adoption": "Tech Saviness",
+    };
+    return map[cat] || cat;
+  };
+
+  const CANONICAL_CATEGORIES = [
+    "Awareness & Mindset",
+    "Tech Saviness",
+    "Risk & Compliance",
+    "Change Management",
+    "Leadership & Future Readiness",
+  ];
+
   const radarData = useMemo(() => {
     if (!filtered.length) return [];
     const catTotals: Record<string, { sum: number; count: number }> = {};
+    CANONICAL_CATEGORIES.forEach((c) => { catTotals[c] = { sum: 0, count: 0 }; });
     filtered.forEach((r) => {
       const scores = r.category_scores as { category: string; percentage: number }[];
       if (!Array.isArray(scores)) return;
       scores.forEach((c) => {
-        if (!catTotals[c.category]) catTotals[c.category] = { sum: 0, count: 0 };
-        catTotals[c.category].sum += c.percentage;
-        catTotals[c.category].count += 1;
+        const normalized = normalizeCategory(c.category);
+        if (catTotals[normalized]) {
+          catTotals[normalized].sum += c.percentage;
+          catTotals[normalized].count += 1;
+        }
       });
     });
-    return Object.entries(catTotals).map(([category, { sum, count }]) => ({
-      category: category.replace("& ", "&\n"),
-      score: Math.round(sum / count),
+    return CANONICAL_CATEGORIES.map((category) => ({
+      category: category.length > 20 ? category.split(" ").slice(0, 2).join(" ") : category,
+      fullCategory: category,
+      score: catTotals[category].count > 0 ? Math.round(catTotals[category].sum / catTotals[category].count) : 0,
     }));
   }, [filtered]);
 
