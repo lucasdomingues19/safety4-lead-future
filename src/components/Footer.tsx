@@ -107,6 +107,21 @@ export const Footer = () => {
           </div>
         </div>
 
+        {/* Trustpilot Review Collector */}
+        <div className="mt-8 md:mt-10">
+          <div
+            className="trustpilot-widget"
+            data-locale="en-GB"
+            data-template-id="56278e9abfbbba0bdcd568bc"
+            data-businessunit-id="69aa9cd9f09a47296725f3d7"
+            data-style-height="52px"
+            data-style-width="100%"
+            data-token="75ab9c7e-5945-4016-8cfd-160795802a5f"
+          >
+            <a href="https://uk.trustpilot.com/review/safetyacademy.tech" target="_blank" rel="noopener">Trustpilot</a>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-8 md:mt-12 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-xs md:text-sm text-center md:text-left">
