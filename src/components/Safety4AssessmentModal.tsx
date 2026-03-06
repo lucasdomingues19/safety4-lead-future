@@ -126,11 +126,12 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             "Content-Type": "application/json",
             apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
           },
-          body: JSON.stringify({
+           body: JSON.stringify({
             name: `${userData.firstName} ${userData.lastName}`,
             email: userData.email,
             phone: userData.phone || null,
             source: "assessment",
+            companyName: userData.companyName || null,
           }),
         }
       );
