@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail, Building2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   RadarChart,
