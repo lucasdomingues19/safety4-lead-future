@@ -518,6 +518,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
+    setMaturityAnswers([]);
+    setCurrentMaturityQ(0);
     setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
     setEmailSent(false);
   };
