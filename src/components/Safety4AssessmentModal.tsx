@@ -89,7 +89,7 @@ const getRank = (percentage: number): { rank: number; label: string; color: stri
 
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
   const [step, setStep] = useState<"assessment" | "capture" | "results">("assessment");
-  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "" });
+  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
