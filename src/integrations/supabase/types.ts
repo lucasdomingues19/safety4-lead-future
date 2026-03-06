@@ -143,6 +143,7 @@ export type Database = {
       scorecard_results: {
         Row: {
           category_scores: Json
+          company_name: string | null
           created_at: string
           email: string
           first_name: string
@@ -154,6 +155,7 @@ export type Database = {
         }
         Insert: {
           category_scores?: Json
+          company_name?: string | null
           created_at?: string
           email: string
           first_name: string
@@ -165,6 +167,7 @@ export type Database = {
         }
         Update: {
           category_scores?: Json
+          company_name?: string | null
           created_at?: string
           email?: string
           first_name?: string

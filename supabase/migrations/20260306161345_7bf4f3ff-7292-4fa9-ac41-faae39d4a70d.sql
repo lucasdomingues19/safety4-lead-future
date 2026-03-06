@@ -1,0 +1,1 @@
+ALTER TABLE public.scorecard_results ADD COLUMN company_name text NULL;

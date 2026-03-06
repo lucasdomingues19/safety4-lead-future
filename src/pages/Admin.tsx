@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
+import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 
 interface PageView {
   id: string;
@@ -67,7 +68,7 @@ const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
@@ -549,6 +550,14 @@ const Admin = () => {
             <Users className="mr-2 h-4 w-4" />
             Leads ({leads.length})
           </Button>
+          <Button
+            onClick={() => setActiveTab('company')}
+            variant={activeTab === 'company' ? 'default' : 'outline'}
+            className={activeTab === 'company' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <Building2 className="mr-2 h-4 w-4" />
+            Company Insights
+          </Button>
         </div>
 
         {/* Analytics Tab */}
@@ -793,6 +802,9 @@ const Admin = () => {
 
         {/* Hot Leads Tab */}
         {activeTab === 'hotleads' && <HotLeadsTab />}
+
+        {/* Company Insights Tab */}
+        {activeTab === 'company' && <CompanyInsightsTab />}
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (

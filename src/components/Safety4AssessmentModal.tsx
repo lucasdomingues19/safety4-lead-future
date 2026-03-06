@@ -26,6 +26,7 @@ interface UserData {
   lastName: string;
   email: string;
   phone: string;
+  companyName: string;
 }
 
 interface Question {
@@ -88,7 +89,7 @@ const getRank = (percentage: number): { rank: number; label: string; color: stri
 
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
   const [step, setStep] = useState<"assessment" | "capture" | "results">("assessment");
-  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "" });
+  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,11 +126,12 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             "Content-Type": "application/json",
             apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
           },
-          body: JSON.stringify({
+           body: JSON.stringify({
             name: `${userData.firstName} ${userData.lastName}`,
             email: userData.email,
             phone: userData.phone || null,
             source: "assessment",
+            companyName: userData.companyName || null,
           }),
         }
       );
@@ -183,6 +185,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 firstName: capturedData.firstName,
                 lastName: capturedData.lastName,
                 email: capturedData.email,
+                companyName: capturedData.companyName || null,
                 overallScore: overallPct,
                 rankNumber: rank.rank,
                 rankLabel: rank.label,
@@ -463,6 +466,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
+            companyName: userData.companyName || null,
             overallScore: overallPct,
             rankNumber: rank.rank,
             rankLabel: rank.label,
@@ -495,7 +499,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
-    setUserData({ firstName: "", lastName: "", email: "", phone: "" });
+    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
     setEmailSent(false);
   };
 
@@ -607,6 +611,10 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <div>
                 <Label htmlFor="email" className="text-gray-300">Email Address *</Label>
                 <Input id="email" type="email" value={userData.email} onChange={(e) => setUserData({ ...userData, email: e.target.value })} placeholder="Enter your email address" className="bg-slate-800 border-slate-600 text-white" required />
+              </div>
+              <div>
+                <Label htmlFor="companyName" className="text-gray-300">Company Name (optional)</Label>
+                <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-800 border-slate-600 text-white" />
               </div>
               <div>
                 <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
