@@ -26,6 +26,7 @@ interface UserData {
   lastName: string;
   email: string;
   phone: string;
+  companyName: string;
 }
 
 interface Question {
