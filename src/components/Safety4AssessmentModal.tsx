@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail } from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail, Building2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   RadarChart,
@@ -88,11 +88,29 @@ const getRank = (percentage: number): { rank: number; label: string; color: stri
   return { rank: 1, label: "Beginner", color: "#ef4444", description: "You would greatly benefit from structured Safety 4.0 training to future-proof your career." };
 };
 
+const MATURITY_DIMENSIONS = [
+  { id: "culture", label: "Culture & Vision", mappedCategory: "Awareness & Mindset", statement: "We have a clear digital safety vision and strategy. Leadership actively champions safety technology adoption and staff are encouraged to try new digital safety tools responsibly." },
+  { id: "technology", label: "Technology Infrastructure", mappedCategory: "Tech Saviness", statement: "Our safety systems are integrated and share data. We use real-time monitoring where appropriate and our tech stack can easily adopt new tools." },
+  { id: "governance", label: "Governance & Data Readiness", mappedCategory: "Risk & Compliance", statement: "Our safety data is standardised, accessible, and governed by clear policies. Data insights drive safety strategy, not just compliance." },
+  { id: "process", label: "Process & Adoption", mappedCategory: "Change Management", statement: "Digital tools are embedded in daily safety workflows with structured change management. Frontline workers are confident using them." },
+  { id: "innovation", label: "Innovation & Investment", mappedCategory: "Leadership & Future Readiness", statement: "We allocate dedicated budget for safety tech innovation, actively evaluate emerging technologies, and benchmark our maturity against peers." },
+] as const;
+
+const MATURITY_LIKERT = [
+  { text: "Strongly Agree", points: 5 },
+  { text: "Agree", points: 4 },
+  { text: "Neutral", points: 3 },
+  { text: "Disagree", points: 2 },
+  { text: "Strongly Disagree", points: 1 },
+];
+
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
-  const [step, setStep] = useState<"assessment" | "capture" | "results">("assessment");
+  const [step, setStep] = useState<"assessment" | "capture" | "maturity_prompt" | "maturity" | "results">("assessment");
   const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
+  const [maturityAnswers, setMaturityAnswers] = useState<number[]>([]);
+  const [currentMaturityQ, setCurrentMaturityQ] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [isSendingEmail, setIsSendingEmail] = useState(false);
@@ -145,68 +163,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         setIsSubmitting(false);
         return;
       }
-      setStep("results");
-      // Auto-send scorecard email after delay for DOM rendering
-      const capturedData = { ...userData };
-      const capturedAnswers = [...answers];
-      setTimeout(async () => {
-        try {
-          const total = capturedAnswers.reduce((sum, s) => sum + s, 0);
-          const overallPct = Math.round((total / (questions.length * 5)) * 100);
-          const catScores = CATEGORIES.map((category) => {
-            const categoryQs = questions.filter((q) => q.category === category);
-            const totalPoints = categoryQs.reduce((sum, q) => {
-              const idx = questions.indexOf(q);
-              return sum + (capturedAnswers[idx] || 0);
-            }, 0);
-            const maxPoints = categoryQs.length * 5;
-            const percentage = Math.round((totalPoints / maxPoints) * 100);
-            return { category, percentage };
-          });
-          const rank = getRank(overallPct);
-
-          let pdfBase64: string | undefined;
-          try {
-            pdfBase64 = await generatePdfBase64();
-          } catch (e) {
-            console.warn("PDF generation failed, sending without attachment:", e);
-          }
-
-          console.log("Auto-sending scorecard email to:", capturedData.email, "Score:", overallPct);
-
-          const response = await fetch(
-            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-              },
-              body: JSON.stringify({
-                firstName: capturedData.firstName,
-                lastName: capturedData.lastName,
-                email: capturedData.email,
-                companyName: capturedData.companyName || null,
-                overallScore: overallPct,
-                rankNumber: rank.rank,
-                rankLabel: rank.label,
-                rankColor: rank.color,
-                rankDescription: rank.description,
-                categoryScores: catScores,
-                pdfBase64,
-              }),
-            }
-          );
-
-          const responseData = await response.json();
-          console.log("Scorecard email response:", response.status, responseData);
-          if (response.ok) {
-            toast.success("Results sent to your email!");
-          }
-        } catch (err) {
-          console.error("Auto-send scorecard email failed:", err);
-        }
-      }, 3000);
+      setStep("maturity_prompt");
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
@@ -215,6 +172,68 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     }
   };
 
+  const triggerResultsEmail = () => {
+    const capturedData = { ...userData };
+    const capturedAnswers = [...answers];
+    setTimeout(async () => {
+      try {
+        const total = capturedAnswers.reduce((sum, s) => sum + s, 0);
+        const overallPct = Math.round((total / (questions.length * 5)) * 100);
+        const catScores = CATEGORIES.map((category) => {
+          const categoryQs = questions.filter((q) => q.category === category);
+          const totalPoints = categoryQs.reduce((sum, q) => {
+            const idx = questions.indexOf(q);
+            return sum + (capturedAnswers[idx] || 0);
+          }, 0);
+          const maxPoints = categoryQs.length * 5;
+          const percentage = Math.round((totalPoints / maxPoints) * 100);
+          return { category, percentage };
+        });
+        const rank = getRank(overallPct);
+
+        let pdfBase64: string | undefined;
+        try {
+          pdfBase64 = await generatePdfBase64();
+        } catch (e) {
+          console.warn("PDF generation failed, sending without attachment:", e);
+        }
+
+        console.log("Auto-sending scorecard email to:", capturedData.email, "Score:", overallPct);
+
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            },
+            body: JSON.stringify({
+              firstName: capturedData.firstName,
+              lastName: capturedData.lastName,
+              email: capturedData.email,
+              companyName: capturedData.companyName || null,
+              overallScore: overallPct,
+              rankNumber: rank.rank,
+              rankLabel: rank.label,
+              rankColor: rank.color,
+              rankDescription: rank.description,
+              categoryScores: catScores,
+              pdfBase64,
+            }),
+          }
+        );
+
+        const responseData = await response.json();
+        console.log("Scorecard email response:", response.status, responseData);
+        if (response.ok) {
+          toast.success("Results sent to your email!");
+        }
+      } catch (err) {
+        console.error("Auto-send scorecard email failed:", err);
+      }
+    }, 3000);
+  };
 
   const getCategoryScores = () => {
     return CATEGORIES.map((category) => {
@@ -234,14 +253,30 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     return Math.round((total / (questions.length * 5)) * 100);
   };
 
+  const getMaturityScores = () => {
+    return MATURITY_DIMENSIONS.map((dim, idx) => ({
+      dimension: dim.label,
+      mappedCategory: dim.mappedCategory,
+      score: maturityAnswers[idx] || 0,
+      percentage: Math.round(((maturityAnswers[idx] || 0) / 5) * 100),
+    }));
+  };
+
+  const hasMaturityData = maturityAnswers.length === MATURITY_DIMENSIONS.length;
+
   const getRadarData = () => {
     const scores = getCategoryScores();
-    return scores.map((s) => ({
-      category: s.category.replace("& ", "&\n"),
-      shortName: s.category.split(" ")[0],
-      "Your Score": s.percentage,
-      "Target": 100,
-    }));
+    const maturityScores = getMaturityScores();
+    return scores.map((s) => {
+      const maturityMatch = maturityScores.find((m) => m.mappedCategory === s.category);
+      return {
+        category: s.category.replace("& ", "&\n"),
+        shortName: s.category.split(" ")[0],
+        "Your Score": s.percentage,
+        ...(hasMaturityData && maturityMatch ? { "Org Maturity": maturityMatch.percentage } : {}),
+        "Target": 100,
+      };
+    });
   };
 
   const generatePdf = async () => {
@@ -500,6 +535,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
+    setMaturityAnswers([]);
+    setCurrentMaturityQ(0);
     setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
     setEmailSent(false);
   };
@@ -522,7 +559,9 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           <DialogTitle className="text-2xl font-bold text-center text-white">
             {step === "assessment" && "Safety 4.0 Readiness Scorecard"}
             {step === "capture" && "Unlock Your Results"}
-            {step === "results" && "Your Safety 4.0 Readiness Results"}
+            {step === "maturity_prompt" && "One More Step"}
+            {step === "maturity" && "Digital Maturity Pulse"}
+            {step === "results" && "Your Safety 4.0 Results"}
           </DialogTitle>
         </DialogHeader>
 
@@ -645,6 +684,114 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           </div>
         )}
 
+        {/* Maturity Prompt */}
+        {step === "maturity_prompt" && (
+          <div className="space-y-6 p-4 md:p-6">
+            <div className="text-center space-y-4">
+              <div className="mx-auto w-16 h-16 bg-[#D6FF00]/20 rounded-full flex items-center justify-center">
+                <Building2 className="w-8 h-8 text-[#D6FF00]" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">Would you like to also assess your organisation's digital maturity?</h3>
+              <p className="text-gray-400 max-w-md mx-auto">
+                Complete a quick 5-statement Digital Maturity Pulse to see how your personal readiness compares with your organisation's capabilities — overlaid on the same radar chart.
+              </p>
+              <p className="text-gray-500 text-sm">Takes less than 1 minute</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
+              <Button
+                onClick={() => setStep("maturity")}
+                className="flex-1 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
+              >
+                Yes, Continue
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+              <Button
+                onClick={() => {
+                  triggerResultsEmail();
+                  setStep("results");
+                }}
+                variant="outline"
+                className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700 py-5 text-base"
+              >
+                Skip & See Results
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Maturity Assessment */}
+        {step === "maturity" && (
+          <div className="space-y-6 p-4 md:p-6">
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-400">
+                  Statement {currentMaturityQ + 1} of {MATURITY_DIMENSIONS.length}
+                </span>
+                <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-500/20 text-blue-300">
+                  {MATURITY_DIMENSIONS[currentMaturityQ].label}
+                </span>
+              </div>
+              <Progress value={((currentMaturityQ + 1) / MATURITY_DIMENSIONS.length) * 100} className="w-full h-2" />
+            </div>
+
+            <div className="space-y-6">
+              <h3 className="text-lg md:text-xl font-semibold text-white leading-relaxed">
+                {MATURITY_DIMENSIONS[currentMaturityQ].statement}
+              </h3>
+
+              <div className="space-y-3">
+                {MATURITY_LIKERT.map((option, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      const newAnswers = [...maturityAnswers];
+                      newAnswers[currentMaturityQ] = option.points;
+                      setMaturityAnswers(newAnswers);
+                      if (currentMaturityQ < MATURITY_DIMENSIONS.length - 1) {
+                        setCurrentMaturityQ(currentMaturityQ + 1);
+                      } else {
+                        triggerResultsEmail();
+                        setStep("results");
+                      }
+                    }}
+                    className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
+                      maturityAnswers[currentMaturityQ] === option.points
+                        ? "border-blue-400 bg-blue-500/15 shadow-lg shadow-blue-500/10"
+                        : "border-slate-600 hover:border-slate-400 hover:bg-slate-700/50"
+                    }`}
+                  >
+                    {option.text}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-between">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    if (currentMaturityQ > 0) setCurrentMaturityQ(currentMaturityQ - 1);
+                    else setStep("maturity_prompt");
+                  }}
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Previous
+                </Button>
+
+                {maturityAnswers[currentMaturityQ] !== undefined && currentMaturityQ < MATURITY_DIMENSIONS.length - 1 && (
+                  <Button
+                    onClick={() => setCurrentMaturityQ(currentMaturityQ + 1)}
+                    className="bg-blue-500 text-white hover:bg-blue-600"
+                  >
+                    Next
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Results with Spider Chart */}
         {step === "results" && rankInfo && (
           <div className="space-y-8 p-4 md:p-6" ref={resultsRef}>
@@ -701,6 +848,17 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                     fillOpacity={0.25}
                     strokeDasharray="4 4"
                   />
+                  {hasMaturityData && (
+                    <Radar
+                      name="Org Maturity"
+                      dataKey="Org Maturity"
+                      stroke="#3b82f6"
+                      fill="#3b82f6"
+                      fillOpacity={0.2}
+                      strokeWidth={2}
+                      strokeDasharray="6 3"
+                    />
+                  )}
                   <Radar
                     name="Your Score"
                     dataKey="Your Score"

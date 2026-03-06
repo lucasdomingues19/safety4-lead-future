@@ -11,8 +11,8 @@ const Scorecard = () => {
 
   useEffect(() => {
     setPageSEO({
-      title: "Free Safety 4.0 Readiness Scorecard | Assess Your Digital Safety Skills",
-      description: "Take the free Safety 4.0 Readiness Scorecard. Assess your digital safety skills across 5 categories — Awareness, Technology, Risk, Change, and Leadership. Get a personalised PDF report.",
+      title: "Free Safety 4.0 Scorecard & Digital Maturity | Assess Your Readiness",
+      description: "Take the free Safety 4.0 Scorecard & Digital Maturity Pulse. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
       canonical: "https://safetyacademy.tech/scorecard",
     });
   }, []);
@@ -36,7 +36,7 @@ const Scorecard = () => {
                 <ClipboardCheck className="w-20 h-20 text-[#D6FF00]" />
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-white">
-                Free Safety 4.0 Readiness Scorecard
+                Free Safety 4.0 Scorecard & Digital Maturity
               </h1>
               <p className="text-xl text-gray-300">
                 Discover where you stand in the digital transformation of workplace safety
