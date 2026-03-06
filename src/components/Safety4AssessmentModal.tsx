@@ -498,7 +498,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
-    setUserData({ firstName: "", lastName: "", email: "", phone: "" });
+    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
     setEmailSent(false);
   };
 
