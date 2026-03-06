@@ -27,6 +27,7 @@ interface UserData {
   email: string;
   phone: string;
   companyName: string;
+  emailConsent: boolean;
 }
 
 interface Question {
@@ -89,7 +90,7 @@ const getRank = (percentage: number): { rank: number; label: string; color: stri
 
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
   const [step, setStep] = useState<"assessment" | "capture" | "results">("assessment");
-  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
+  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -499,7 +500,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setStep("assessment");
     setCurrentQuestion(0);
     setAnswers([]);
-    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "" });
+    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
     setEmailSent(false);
   };
 
@@ -619,6 +620,18 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <div>
                 <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
                 <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Enter your phone number" className="bg-slate-800 border-slate-600 text-white" />
+              </div>
+              <div className="flex items-start gap-3 mt-2">
+                <input
+                  type="checkbox"
+                  id="emailConsent"
+                  checked={userData.emailConsent}
+                  onChange={(e) => setUserData({ ...userData, emailConsent: e.target.checked })}
+                  className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-800 text-[#D6FF00] focus:ring-[#D6FF00]"
+                />
+                <Label htmlFor="emailConsent" className="text-gray-400 text-sm font-normal cursor-pointer leading-relaxed">
+                  I agree to receive occasional emails from the Safety 4.0 Academy about courses, events, and safety insights. You can unsubscribe at any time.
+                </Label>
               </div>
               <Button
                 onClick={handleUserDataSubmit}
