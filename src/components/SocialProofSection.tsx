@@ -89,6 +89,13 @@ export const SocialProofSection = () => {
       content: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
       rating: 5,
       image: stewartDearyPhoto
+    },
+    {
+      name: "Renauld Wilson",
+      role: "Senior Risk Manager, ICW Group",
+      content: "I really enjoyed how the course explained the transition from traditional safety management to Safety 4.0. The practical examples, case studies, and real-world applications of technologies such as AI, SafetyTech, and data analytics made the content easy to understand and relevant to modern workplace safety. It also helped me think more proactively about using data and technology to prevent incidents rather than only reacting after they occur.",
+      rating: 5,
+      image: renauldWilsonPhoto
     }
   ];
 
