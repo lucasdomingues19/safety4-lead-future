@@ -466,6 +466,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
+            companyName: userData.companyName || null,
             overallScore: overallPct,
             rankNumber: rank.rank,
             rankLabel: rank.label,

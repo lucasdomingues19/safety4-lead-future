@@ -93,6 +93,7 @@ const handler = async (req: Request): Promise<Response> => {
         email: data.email,
         first_name: data.firstName,
         last_name: safeLastName,
+        company_name: data.companyName || null,
         overall_score: data.overallScore,
         rank_number: normalizedRank,
         rank_label: data.rankLabel,
