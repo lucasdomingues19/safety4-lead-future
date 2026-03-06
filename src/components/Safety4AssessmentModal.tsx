@@ -848,6 +848,17 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                     fillOpacity={0.25}
                     strokeDasharray="4 4"
                   />
+                  {hasMaturityData && (
+                    <Radar
+                      name="Org Maturity"
+                      dataKey="Org Maturity"
+                      stroke="#3b82f6"
+                      fill="#3b82f6"
+                      fillOpacity={0.2}
+                      strokeWidth={2}
+                      strokeDasharray="6 3"
+                    />
+                  )}
                   <Radar
                     name="Your Score"
                     dataKey="Your Score"
