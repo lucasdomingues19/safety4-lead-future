@@ -137,12 +137,12 @@ export const CompanyInsightsTab = () => {
 
   const topCategory = useMemo(() => {
     if (!radarData.length) return "—";
-    return radarData.reduce((a, b) => (a.score > b.score ? a : b)).category.replace("&\n", "& ");
+    return radarData.reduce((a, b) => (a.score > b.score ? a : b)).fullCategory;
   }, [radarData]);
 
   const bottomCategory = useMemo(() => {
     if (!radarData.length) return "—";
-    return radarData.reduce((a, b) => (a.score < b.score ? a : b)).category.replace("&\n", "& ");
+    return radarData.reduce((a, b) => (a.score < b.score ? a : b)).fullCategory;
   }, [radarData]);
 
   if (loading) {
