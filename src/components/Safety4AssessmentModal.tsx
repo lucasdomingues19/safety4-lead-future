@@ -163,7 +163,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         setIsSubmitting(false);
         return;
       }
-      setStep("results");
+      setStep("maturity_prompt");
       // Auto-send scorecard email after delay for DOM rendering
       const capturedData = { ...userData };
       const capturedAnswers = [...answers];
