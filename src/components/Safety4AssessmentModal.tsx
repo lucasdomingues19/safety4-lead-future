@@ -38,7 +38,7 @@ interface Question {
 
 const CATEGORIES = [
   "Awareness & Mindset",
-  "Technology Adoption",
+  "Tech Saviness",
   "Risk & Compliance",
   "Change Management",
   "Leadership & Future Readiness",
