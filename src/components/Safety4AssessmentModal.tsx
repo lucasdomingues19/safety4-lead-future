@@ -750,8 +750,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                       if (currentMaturityQ < MATURITY_DIMENSIONS.length - 1) {
                         setCurrentMaturityQ(currentMaturityQ + 1);
                       } else {
-                        triggerResultsEmail();
-                        setStep("results");
+                        setStep("capture");
                       }
                     }}
                     className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
