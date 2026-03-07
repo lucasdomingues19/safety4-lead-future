@@ -691,7 +691,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <div className="mx-auto w-16 h-16 bg-[#D6FF00]/20 rounded-full flex items-center justify-center">
                 <Building2 className="w-8 h-8 text-[#D6FF00]" />
               </div>
-              <h3 className="text-xl font-semibold text-white">Would you like to also assess your organisation's digital maturity?</h3>
+              <h3 className="text-xl font-semibold text-white">Would you like to continue and complete a digital maturity pulse?</h3>
               <p className="text-gray-400 max-w-md mx-auto">
                 Complete a quick 5-statement Digital Maturity Pulse to see how your personal readiness compares with your organisation's capabilities — overlaid on the same radar chart.
               </p>
