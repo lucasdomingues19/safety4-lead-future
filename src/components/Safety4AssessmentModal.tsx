@@ -708,8 +708,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               </Button>
               <Button
                 onClick={() => {
-                  triggerResultsEmail();
-                  setStep("results");
+                  setStep("capture");
                 }}
                 variant="outline"
                 className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700 py-5 text-base"
