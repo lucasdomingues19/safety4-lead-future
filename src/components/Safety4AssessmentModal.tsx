@@ -557,7 +557,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-white">
-            {step === "assessment" && "Safety 4.0 Readiness Scorecard"}
+            {step === "assessment" && "Safety 4.0 Scorecard & Digital Maturity"}
             {step === "capture" && "Unlock Your Results"}
             {step === "maturity_prompt" && "One More Step"}
             {step === "maturity" && "Digital Maturity Pulse"}
