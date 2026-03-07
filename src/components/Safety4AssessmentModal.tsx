@@ -125,7 +125,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      setStep("capture");
+      setStep("maturity_prompt");
     }
   };
 
@@ -163,7 +163,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         setIsSubmitting(false);
         return;
       }
-      setStep("maturity_prompt");
+      triggerResultsEmail();
+      setStep("results");
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
@@ -707,8 +708,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               </Button>
               <Button
                 onClick={() => {
-                  triggerResultsEmail();
-                  setStep("results");
+                  setStep("capture");
                 }}
                 variant="outline"
                 className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700 py-5 text-base"
@@ -750,8 +750,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                       if (currentMaturityQ < MATURITY_DIMENSIONS.length - 1) {
                         setCurrentMaturityQ(currentMaturityQ + 1);
                       } else {
-                        triggerResultsEmail();
-                        setStep("results");
+                        setStep("capture");
                       }
                     }}
                     className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
