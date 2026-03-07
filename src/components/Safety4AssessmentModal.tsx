@@ -125,7 +125,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      setStep("capture");
+      setStep("maturity_prompt");
     }
   };
 
