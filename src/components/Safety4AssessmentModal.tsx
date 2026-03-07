@@ -163,7 +163,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         setIsSubmitting(false);
         return;
       }
-      setStep("maturity_prompt");
+      triggerResultsEmail();
+      setStep("results");
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred");
