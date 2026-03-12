@@ -25,6 +25,7 @@ interface ScorecardData {
   rankColor: string;
   rankDescription: string;
   categoryScores: CategoryScore[];
+  orgMaturityScores?: CategoryScore[] | null;
   pdfBase64?: string;
 }
 
