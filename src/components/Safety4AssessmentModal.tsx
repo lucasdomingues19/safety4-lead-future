@@ -514,6 +514,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               category: c.category,
               percentage: c.percentage,
             })),
+            orgMaturityScores: hasMaturityData ? getMaturityScores().map(m => ({ category: m.mappedCategory, percentage: m.percentage })) : null,
             pdfBase64,
           }),
         }
