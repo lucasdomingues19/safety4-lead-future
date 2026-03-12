@@ -298,7 +298,7 @@ export const CompanyInsightsTab = () => {
             <CardTitle className="text-white">Average Scores by Category</CardTitle>
             <CardDescription className="text-gray-300">
               {selectedCompany !== "all" ? selectedCompany : "All companies"} · {filtered.length} respondent{filtered.length !== 1 ? "s" : ""}
-              {hasOrgData && " · Personal vs Org Maturity"}
+              {hasOrgData && " · Personal vs Org Maturity Scores"}
             </CardDescription>
           </CardHeader>
           <CardContent>
