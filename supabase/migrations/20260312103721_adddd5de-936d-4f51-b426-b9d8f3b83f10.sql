@@ -1,0 +1,1 @@
+ALTER TABLE public.scorecard_results ADD COLUMN org_maturity_scores jsonb DEFAULT NULL;

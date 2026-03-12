@@ -25,6 +25,7 @@ interface ScorecardData {
   rankColor: string;
   rankDescription: string;
   categoryScores: CategoryScore[];
+  orgMaturityScores?: CategoryScore[] | null;
   pdfBase64?: string;
 }
 
@@ -98,6 +99,7 @@ const handler = async (req: Request): Promise<Response> => {
         rank_number: normalizedRank,
         rank_label: data.rankLabel,
         category_scores: categoryScores,
+        org_maturity_scores: data.orgMaturityScores || null,
       });
       console.log("Scorecard results saved to DB for:", data.email);
     } catch (dbError) {

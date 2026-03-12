@@ -149,6 +149,7 @@ export type Database = {
           first_name: string
           id: string
           last_name: string
+          org_maturity_scores: Json | null
           overall_score: number
           rank_label: string
           rank_number: number
@@ -161,6 +162,7 @@ export type Database = {
           first_name: string
           id?: string
           last_name: string
+          org_maturity_scores?: Json | null
           overall_score: number
           rank_label: string
           rank_number: number
@@ -173,6 +175,7 @@ export type Database = {
           first_name?: string
           id?: string
           last_name?: string
+          org_maturity_scores?: Json | null
           overall_score?: number
           rank_label?: string
           rank_number?: number
