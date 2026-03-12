@@ -186,12 +186,12 @@ export const CompanyInsightsTab = () => {
 
   const topCategory = useMemo(() => {
     if (!radarData.length) return "—";
-    return radarData.reduce((a, b) => (a["Personal Avg"] > b["Personal Avg"] ? a : b)).fullCategory;
+    return radarData.reduce((a, b) => (a["Personal Scores"] > b["Personal Scores"] ? a : b)).fullCategory;
   }, [radarData]);
 
   const bottomCategory = useMemo(() => {
     if (!radarData.length) return "—";
-    return radarData.reduce((a, b) => (a["Personal Avg"] < b["Personal Avg"] ? a : b)).fullCategory;
+    return radarData.reduce((a, b) => (a["Personal Scores"] < b["Personal Scores"] ? a : b)).fullCategory;
   }, [radarData]);
 
   const toggleCompanySelection = (company: string) => {
