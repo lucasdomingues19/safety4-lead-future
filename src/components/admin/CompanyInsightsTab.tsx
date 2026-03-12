@@ -94,44 +94,46 @@ export const CompanyInsightsTab = () => {
     return data;
   }, [results, selectedCompany, dateFilter]);
 
-  // Data for the selected/checked companies comparison
-  const comparisonData = useMemo(() => {
+  // Aggregated data for all selected companies combined
+  const aggregatedSelectionData = useMemo(() => {
     if (selectedCompanies.size === 0) return null;
-    return Array.from(selectedCompanies).map((company) => {
-      const companyResults = filtered.filter((r) => r.company_name === company);
-      const catTotals: Record<string, { sum: number; count: number }> = {};
-      const orgTotals: Record<string, { sum: number; count: number }> = {};
-      CANONICAL_CATEGORIES.forEach((c) => {
-        catTotals[c] = { sum: 0, count: 0 };
-        orgTotals[c] = { sum: 0, count: 0 };
-      });
-      companyResults.forEach((r) => {
-        const scores = r.category_scores as { category: string; percentage: number }[];
-        if (Array.isArray(scores)) {
-          scores.forEach((c) => {
-            const n = normalizeCategory(c.category);
-            if (catTotals[n]) { catTotals[n].sum += c.percentage; catTotals[n].count += 1; }
-          });
-        }
-        const orgScores = r.org_maturity_scores as { category: string; percentage: number }[] | null;
-        if (Array.isArray(orgScores)) {
-          orgScores.forEach((c) => {
-            const n = normalizeCategory(c.category);
-            if (orgTotals[n]) { orgTotals[n].sum += c.percentage; orgTotals[n].count += 1; }
-          });
-        }
-      });
-      return {
-        company,
-        count: companyResults.length,
-        categories: CANONICAL_CATEGORIES.map((cat) => ({
-          category: cat,
-          personal: catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
-          org: orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0,
-          hasOrg: orgTotals[cat].count > 0,
-        })),
-      };
+    const selectedResults = filtered.filter((r) => r.company_name && selectedCompanies.has(r.company_name));
+    if (selectedResults.length === 0) return null;
+    const catTotals: Record<string, { sum: number; count: number }> = {};
+    const orgTotals: Record<string, { sum: number; count: number }> = {};
+    CANONICAL_CATEGORIES.forEach((c) => {
+      catTotals[c] = { sum: 0, count: 0 };
+      orgTotals[c] = { sum: 0, count: 0 };
     });
+    selectedResults.forEach((r) => {
+      const scores = r.category_scores as { category: string; percentage: number }[];
+      if (Array.isArray(scores)) {
+        scores.forEach((c) => {
+          const n = normalizeCategory(c.category);
+          if (catTotals[n]) { catTotals[n].sum += c.percentage; catTotals[n].count += 1; }
+        });
+      }
+      const orgScores = r.org_maturity_scores as { category: string; percentage: number }[] | null;
+      if (Array.isArray(orgScores)) {
+        orgScores.forEach((c) => {
+          const n = normalizeCategory(c.category);
+          if (orgTotals[n]) { orgTotals[n].sum += c.percentage; orgTotals[n].count += 1; }
+        });
+      }
+    });
+    const hasOrg = CANONICAL_CATEGORIES.some((c) => orgTotals[c].count > 0);
+    return {
+      count: selectedResults.length,
+      companyCount: selectedCompanies.size,
+      companies: Array.from(selectedCompanies),
+      hasOrg,
+      categories: CANONICAL_CATEGORIES.map((cat) => ({
+        category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
+        fullCategory: cat,
+        "Personal Avg": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
+        ...(hasOrg ? { "Org Maturity Avg": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
+      })),
+    };
   }, [selectedCompanies, filtered]);
 
   const avgScore = useMemo(() => {
