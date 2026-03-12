@@ -130,8 +130,8 @@ export const CompanyInsightsTab = () => {
       categories: CANONICAL_CATEGORIES.map((cat) => ({
         category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
         fullCategory: cat,
-        "Personal Avg": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
-        ...(hasOrg ? { "Org Maturity Avg": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
+      "Personal Scores": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
+        ...(hasOrg ? { "Org Maturity": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
       })),
     };
   }, [selectedCompanies, filtered]);
