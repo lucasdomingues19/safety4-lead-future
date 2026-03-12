@@ -130,8 +130,8 @@ export const CompanyInsightsTab = () => {
       categories: CANONICAL_CATEGORIES.map((cat) => ({
         category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
         fullCategory: cat,
-        "Personal Avg": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
-        ...(hasOrg ? { "Org Maturity Avg": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
+      "Personal Scores": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
+        ...(hasOrg ? { "Org Maturity": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
       })),
     };
   }, [selectedCompanies, filtered]);
@@ -169,12 +169,12 @@ export const CompanyInsightsTab = () => {
     return CANONICAL_CATEGORIES.map((category) => ({
       category: category.length > 20 ? category.split(" ").slice(0, 2).join(" ") : category,
       fullCategory: category,
-      "Personal Avg": catTotals[category].count > 0 ? Math.round(catTotals[category].sum / catTotals[category].count) : 0,
-      ...(hasAnyOrg ? { "Org Maturity Avg": orgTotals[category].count > 0 ? Math.round(orgTotals[category].sum / orgTotals[category].count) : 0 } : {}),
+      "Personal Scores": catTotals[category].count > 0 ? Math.round(catTotals[category].sum / catTotals[category].count) : 0,
+      ...(hasAnyOrg ? { "Org Maturity": orgTotals[category].count > 0 ? Math.round(orgTotals[category].sum / orgTotals[category].count) : 0 } : {}),
     }));
   }, [filtered]);
 
-  const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity Avg" in (radarData[0] || {}), [radarData]);
+  const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity" in (radarData[0] || {}), [radarData]);
 
   const distributionData = useMemo(() => {
     return RANK_BANDS.map((band) => ({
@@ -186,12 +186,12 @@ export const CompanyInsightsTab = () => {
 
   const topCategory = useMemo(() => {
     if (!radarData.length) return "—";
-    return radarData.reduce((a, b) => (a["Personal Avg"] > b["Personal Avg"] ? a : b)).fullCategory;
+    return radarData.reduce((a, b) => (a["Personal Scores"] > b["Personal Scores"] ? a : b)).fullCategory;
   }, [radarData]);
 
   const bottomCategory = useMemo(() => {
     if (!radarData.length) return "—";
-    return radarData.reduce((a, b) => (a["Personal Avg"] < b["Personal Avg"] ? a : b)).fullCategory;
+    return radarData.reduce((a, b) => (a["Personal Scores"] < b["Personal Scores"] ? a : b)).fullCategory;
   }, [radarData]);
 
   const toggleCompanySelection = (company: string) => {
@@ -298,7 +298,7 @@ export const CompanyInsightsTab = () => {
             <CardTitle className="text-white">Average Scores by Category</CardTitle>
             <CardDescription className="text-gray-300">
               {selectedCompany !== "all" ? selectedCompany : "All companies"} · {filtered.length} respondent{filtered.length !== 1 ? "s" : ""}
-              {hasOrgData && " · Personal vs Org Maturity"}
+              {hasOrgData && " · Personal vs Org Maturity Scores"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -308,9 +308,9 @@ export const CompanyInsightsTab = () => {
                   <PolarGrid stroke="#ffffff20" />
                   <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
                   <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
-                  <Radar name="Personal Avg" dataKey="Personal Avg" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
+                  <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                   {hasOrgData && (
-                    <Radar name="Org Maturity Avg" dataKey="Org Maturity Avg" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
+                    <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                   )}
                   <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
                   <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
@@ -366,9 +366,9 @@ export const CompanyInsightsTab = () => {
                 <PolarGrid stroke="#ffffff20" />
                 <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
-                <Radar name="Personal Avg" dataKey="Personal Avg" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
+                <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                 {aggregatedSelectionData.hasOrg && (
-                  <Radar name="Org Maturity Avg" dataKey="Org Maturity Avg" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
+                  <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                 )}
                 <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
                 <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
