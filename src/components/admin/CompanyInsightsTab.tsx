@@ -366,9 +366,9 @@ export const CompanyInsightsTab = () => {
                 <PolarGrid stroke="#ffffff20" />
                 <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
-                <Radar name="Personal Avg" dataKey="Personal Avg" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
+                <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                 {aggregatedSelectionData.hasOrg && (
-                  <Radar name="Org Maturity Avg" dataKey="Org Maturity Avg" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
+                  <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                 )}
                 <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
                 <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
