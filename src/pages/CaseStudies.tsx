@@ -60,7 +60,7 @@ const CaseStudies = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 leading-snug">
             Bringing Safety Leadership into the Digital Age
           </h2>
-          <p className="text-muted-foreground italic mb-10 text-sm">
+          <p className="text-primary italic mb-10 text-sm font-medium">
             A personal learning journey through the Safety 4.0 Academy IOSH-Approved Programme
           </p>
 
