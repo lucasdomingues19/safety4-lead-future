@@ -174,7 +174,7 @@ export const CompanyInsightsTab = () => {
     }));
   }, [filtered]);
 
-  const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity Avg" in (radarData[0] || {}), [radarData]);
+  const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity" in (radarData[0] || {}), [radarData]);
 
   const distributionData = useMemo(() => {
     return RANK_BANDS.map((band) => ({
