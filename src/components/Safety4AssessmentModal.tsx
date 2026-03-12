@@ -220,6 +220,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               rankColor: rank.color,
               rankDescription: rank.description,
               categoryScores: catScores,
+              orgMaturityScores: hasMaturityData ? getMaturityScores().map(m => ({ category: m.mappedCategory, percentage: m.percentage })) : null,
               pdfBase64,
             }),
           }
