@@ -351,43 +351,34 @@ export const CompanyInsightsTab = () => {
       </div>
 
       {/* Selected Companies Comparison Radar */}
-      {comparisonData && comparisonData.length > 0 && (
+      {aggregatedSelectionData && (
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
-            <CardTitle className="text-white">Selected Companies Comparison</CardTitle>
+            <CardTitle className="text-white">Selected Companies — Aggregated View</CardTitle>
             <CardDescription className="text-gray-300">
-              Personal scores (solid) vs Org Maturity (dashed) for {comparisonData.length} selected compan{comparisonData.length === 1 ? "y" : "ies"}
+              {aggregatedSelectionData.companyCount} compan{aggregatedSelectionData.companyCount === 1 ? "y" : "ies"} · {aggregatedSelectionData.count} respondent{aggregatedSelectionData.count !== 1 ? "s" : ""}
+              {aggregatedSelectionData.hasOrg && " · Personal vs Org Maturity"}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
-              <RadarChart
-                data={CANONICAL_CATEGORIES.map((cat) => ({
-                  category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
-                  ...Object.fromEntries(comparisonData.flatMap((cd, i) => [
-                    [`${cd.company} (Personal)`, cd.categories.find(c => c.category === cat)?.personal || 0],
-                    ...(cd.categories.find(c => c.category === cat)?.hasOrg ? [[`${cd.company} (Org)`, cd.categories.find(c => c.category === cat)?.org || 0]] : []),
-                  ])),
-                }))}
-                cx="50%" cy="50%" outerRadius="70%"
-              >
+              <RadarChart data={aggregatedSelectionData.categories} cx="50%" cy="50%" outerRadius="70%">
                 <PolarGrid stroke="#ffffff20" />
                 <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
-                {comparisonData.map((cd, i) => (
-                  <Radar key={`personal-${i}`} name={`${cd.company} (Personal)`} dataKey={`${cd.company} (Personal)`} stroke={COMPARISON_COLORS[i % COMPARISON_COLORS.length]} fill={COMPARISON_COLORS[i % COMPARISON_COLORS.length]} fillOpacity={0.1} strokeWidth={2} />
-                ))}
-                {comparisonData.map((cd, i) => {
-                  const hasOrg = cd.categories.some(c => c.hasOrg);
-                  if (!hasOrg) return null;
-                  return (
-                    <Radar key={`org-${i}`} name={`${cd.company} (Org)`} dataKey={`${cd.company} (Org)`} stroke={COMPARISON_COLORS[i % COMPARISON_COLORS.length]} fill={COMPARISON_COLORS[i % COMPARISON_COLORS.length]} fillOpacity={0.05} strokeWidth={2} strokeDasharray="4 4" />
-                  );
-                })}
-                <Legend wrapperStyle={{ color: "#fff", fontSize: 11 }} />
+                <Radar name="Personal Avg" dataKey="Personal Avg" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
+                {aggregatedSelectionData.hasOrg && (
+                  <Radar name="Org Maturity Avg" dataKey="Org Maturity Avg" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
+                )}
+                <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
                 <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
               </RadarChart>
             </ResponsiveContainer>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {aggregatedSelectionData.companies.map((c) => (
+                <span key={c} className="text-xs bg-white/10 text-white/70 px-2 py-1 rounded-full">{c}</span>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}
