@@ -31,7 +31,7 @@ const CaseStudies = () => {
           <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
             Case Studies
           </h1>
-          <p className="text-foreground text-base md:text-lg max-w-2xl mx-auto">
+          <p className="text-white text-base md:text-lg max-w-2xl mx-auto">
             Discover how safety leaders around the world are applying what they learned at the Safety&nbsp;4.0 Academy.
           </p>
         </div>
