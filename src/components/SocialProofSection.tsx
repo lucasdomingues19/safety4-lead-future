@@ -97,6 +97,13 @@ export const SocialProofSection = () => {
       content: "I really enjoyed how the course explained the transition from traditional safety management to Safety 4.0. The practical examples, case studies, and real-world applications of technologies such as AI, SafetyTech, and data analytics made the content easy to understand and relevant to modern workplace safety. It also helped me think more proactively about using data and technology to prevent incidents rather than only reacting after they occur.",
       rating: 5,
       image: renauldWilsonPhoto
+    },
+    {
+      name: "Dan Warnock",
+      role: "Director of Risk Control, Marsh",
+      content: "The course was GREAT. Thank you. I have been very nervous about AI and this brought the AI tool into perspective and how I can best use it in my operations.",
+      rating: 5,
+      image: danWarnockPhoto
     }
   ];
 
