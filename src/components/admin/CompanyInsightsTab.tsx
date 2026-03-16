@@ -176,13 +176,20 @@ export const CompanyInsightsTab = () => {
 
   const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity" in (radarData[0] || {}), [radarData]);
 
+  const distributionSource = useMemo(() => {
+    if (selectedCompanies.size > 0) {
+      return filtered.filter((r) => r.company_name && selectedCompanies.has(r.company_name));
+    }
+    return filtered;
+  }, [filtered, selectedCompanies]);
+
   const distributionData = useMemo(() => {
     return RANK_BANDS.map((band) => ({
       name: band.label,
-      count: filtered.filter((r) => r.overall_score >= band.min && r.overall_score <= band.max).length,
+      count: distributionSource.filter((r) => r.overall_score >= band.min && r.overall_score <= band.max).length,
       color: band.color,
     }));
-  }, [filtered]);
+  }, [distributionSource]);
 
   const topCategory = useMemo(() => {
     if (!radarData.length) return "—";
