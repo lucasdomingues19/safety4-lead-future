@@ -829,6 +829,29 @@ const Admin = () => {
                 </div>
               </CardHeader>
               <CardContent>
+                {/* Source Filter */}
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-sm text-white/60">Filter by source:</span>
+                  <select
+                    value={sourceFilter}
+                    onChange={(e) => setSourceFilter(e.target.value)}
+                    className="bg-white/10 border border-white/20 text-white text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                  >
+                    <option value="all" className="bg-slate-900">All Sources</option>
+                    <option value="assessment" className="bg-slate-900">Assessment</option>
+                    <option value="contact_form" className="bg-slate-900">Contact Form</option>
+                    <option value="cohort-pre-enrollment" className="bg-slate-900">Cohort Pre-Enroll</option>
+                    <option value="cohort-application" className="bg-slate-900">Cohort Application</option>
+                    <option value="newsletter_popup" className="bg-slate-900">Newsletter</option>
+                    <option value="ebook_download" className="bg-slate-900">eBook</option>
+                    <option value="brochure_download" className="bg-slate-900">Brochure</option>
+                  </select>
+                  {sourceFilter !== 'all' && (
+                    <span className="text-xs text-white/40">
+                      {leads.filter(l => l.source === sourceFilter).length} leads
+                    </span>
+                  )}
+                </div>
                 <div className="rounded-md border border-white/20">
                   <Table>
                     <TableHeader>
@@ -843,14 +866,14 @@ const Admin = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {leads.length === 0 ? (
+                      {leads.filter(l => sourceFilter === 'all' || l.source === sourceFilter).length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={7} className="text-center text-white/60 py-8">
-                            No leads captured yet
+                            {sourceFilter === 'all' ? 'No leads captured yet' : `No ${sourceFilter.replace('_', ' ')} leads yet`}
                           </TableCell>
                         </TableRow>
                       ) : (
-                        leads.map((lead) => (
+                        leads.filter(l => sourceFilter === 'all' || l.source === sourceFilter).map((lead) => (
                           <TableRow 
                             key={lead.id} 
                             className="border-white/20 hover:bg-white/5 cursor-pointer"
