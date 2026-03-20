@@ -3,7 +3,7 @@ import { AlertCircle, TrendingDown, TrendingUp, Clock } from "lucide-react";
 const stats = [
   { icon: AlertCircle, value: "25%", label: "No AI Skills", desc: "of EHS practitioners have no AI skills", color: "text-red-400", border: "border-red-500/30 hover:border-red-500/50", glow: "from-red-500/20 to-orange-500/20" },
   { icon: TrendingDown, value: "61%", label: "AI Beginners", desc: "of EHS pros self-identify as beginners", color: "text-orange-400", border: "border-orange-500/30 hover:border-orange-500/50", glow: "from-orange-500/20 to-red-500/20" },
-  { icon: TrendingUp, value: "49%", label: "Investing in AI", desc: "plan to invest in AI within 12 months", color: "text-pink-400", border: "border-pink-500/30 hover:border-pink-500/50", glow: "from-red-500/20 to-pink-500/20" },
+  { icon: TrendingUp, value: "49%", label: "Investing in AI", desc: "Companies plan to invest in AI within 12 months", color: "text-pink-400", border: "border-pink-500/30 hover:border-pink-500/50", glow: "from-red-500/20 to-pink-500/20" },
   { icon: Clock, value: "77%", label: "AI Priority", desc: "of hiring managers prioritise AI skills", color: "text-purple-400", border: "border-purple-500/30 hover:border-purple-500/50", glow: "from-purple-500/20 to-red-500/20" },
 ];
 
