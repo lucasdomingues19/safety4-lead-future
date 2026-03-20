@@ -17,9 +17,13 @@ export const ProblemStatsSection = () => {
             Why <span className="text-lime-400">Safety 4.0</span>?
           </h2>
 
+          <h3 className="text-lg md:text-2xl font-semibold text-white mb-4">
+            Your Career is at an Unprecedented Crossroads
+          </h3>
+
           <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 leading-relaxed max-w-3xl mx-auto">
-            While AI and digital transformation reshape the safety industry at breakneck speed,
-            most safety professionals are being left behind—unprepared and unequipped for what's coming.
+            While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
+            most safety professionals are being left behind—unprepared and unequipped to lead in the digital age.
           </p>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
