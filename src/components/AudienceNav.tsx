@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
