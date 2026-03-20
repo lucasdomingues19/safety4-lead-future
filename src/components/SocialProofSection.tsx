@@ -119,8 +119,8 @@ export const SocialProofSection = () => {
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-8">
             Trusted by <span className="text-lime-400">Safety Leaders</span> Worldwide
           </h2>
-          <p className="text-base md:text-xl text-white">
-            Join global safety professionals who boosted their careers impact with the Safety 4.0 Academy
+          <p className="text-base md:text-xl text-white whitespace-nowrap">
+            Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
           </p>
         </div>
 
