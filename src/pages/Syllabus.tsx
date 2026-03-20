@@ -34,43 +34,7 @@ const Syllabus = () => {
       <div className="fixed inset-0 bg-black -z-10" />
       <AudienceNav />
 
-      {/* HERO */}
-      <section className="pt-28 pb-16 md:pt-36 md:pb-24 relative overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-lime-500/30 bg-lime-500/10 text-lime-400 text-sm font-medium mb-8">
-              <BookOpen className="w-4 h-4" />
-              10 Modules · 8+ CPD Hours · IOSH Approved
-            </div>
-
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
-              The Safety 4.0 <span className="text-lime-400">Accelerator</span>
-            </h1>
-
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-10">
-              A structured learning journey that takes you from understanding the digital safety landscape 
-              to leading transformation in your organisation. No coding required.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button
-                onClick={() => setBrochureOpen(true)}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors active:scale-[0.97]"
-              >
-                <FileDown className="w-5 h-5" />
-                Download Brochure
-              </button>
-              <a
-                href="/cohort"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
-              >
-                Enrol Now
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="pt-20" />
 
       {/* WHAT YOU'LL GAIN */}
       <section className="py-16 md:py-24 border-t border-white/5">
