@@ -140,7 +140,7 @@ export const SocialProofSection = () => {
       </div>
 
       <div className="relative w-full overflow-hidden">
-        <div className="flex gap-6 animate-[marquee-left_60s_linear_infinite] hover:[animation-play-state:paused]">
+        <div className="flex gap-6 animate-scroll hover:[animation-play-state:paused]" style={{ animationDuration: '60s' }}>
           {doubled.map((t, i) => (
             <TestimonialCard key={`${t.name}-${i}`} t={t} />
           ))}
