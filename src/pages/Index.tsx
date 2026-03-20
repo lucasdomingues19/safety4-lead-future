@@ -56,8 +56,10 @@ const Index = () => {
 
         <ProblemStatsSection />
 
-        
 
+        <section aria-label="Pricing options">
+          <PricingSection />
+        </section>
 
         <section aria-label="What safety leaders are saying">
           <SocialProofSection />
@@ -65,10 +67,6 @@ const Index = () => {
 
         <section id="mentor" aria-label="Meet your instructor">
           <MentorSection />
-        </section>
-
-        <section aria-label="Pricing options">
-          <PricingSection />
         </section>
 
 
