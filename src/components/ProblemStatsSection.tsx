@@ -48,13 +48,6 @@ export const ProblemStatsSection = () => {
             })}
           </div>
 
-          <div className="mt-8 md:mt-12 bg-gradient-to-r from-red-900/30 to-orange-900/30 border border-red-500/40 rounded-xl md:rounded-2xl p-4 md:p-6">
-            <p className="text-sm md:text-base text-gray-200 leading-relaxed">
-              <span className="text-red-400 font-bold">The hard truth:</span> Traditional safety certifications
-              won't protect your career anymore. Companies are actively seeking safety
-              leaders who can leverage AI and digital tools.
-            </p>
-          </div>
         </div>
       </div>
     </section>
