@@ -50,7 +50,6 @@ const Index = () => {
         <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
         
         
-        <SocialProofNotifications />
         
         <NewsletterPopup />
         <EbookPopup />
