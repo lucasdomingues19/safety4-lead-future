@@ -20,10 +20,10 @@ export const CurriculumOverview = () => {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto mb-10 md:mb-14">
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
-            The Solution: <span className="text-lime-400">You need new skills!</span>
+            The <span className="text-lime-400">Programme</span>
           </h2>
           <p className="text-base md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-            The world's first globally recognized academy dedicated to transforming safety professionals into digital leaders. Trusted by industry giants and approved by IOSH.
+            10 modules designed to transform safety professionals into digital leaders.
           </p>
         </div>
 
