@@ -14,7 +14,7 @@ import { SEOStructuredData } from "@/components/SEOStructuredData";
 
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
-import EbookPopup from "@/components/EbookPopup";
+
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
