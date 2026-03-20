@@ -34,19 +34,7 @@ const Syllabus = () => {
       <div className="fixed inset-0 bg-black -z-10" />
       <AudienceNav />
 
-      {/* HERO */}
-      <section className="pt-28 pb-16 md:pt-36 md:pb-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.05] tracking-tight">
-              Not a course, a <span className="text-primary">transformational journey</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              The Safety 4.0 Accelerator is a structured, IOSH-approved programme designed to take you from traditional safety practice to confident digital leadership — in weeks, not years.
-            </p>
-          </div>
-        </div>
-      </section>
+      <div className="pt-20" />
 
 
 
