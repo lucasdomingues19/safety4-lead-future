@@ -60,12 +60,12 @@ const Index = () => {
           <PricingSection />
         </section>
 
-        <section aria-label="What safety leaders are saying">
-          <SocialProofSection />
+        <section id="mentor" aria-label="Meet the founder">
+          <MentorSection />
         </section>
 
-        <section id="mentor" aria-label="Meet your instructor">
-          <MentorSection />
+        <section aria-label="What safety leaders are saying">
+          <SocialProofSection />
         </section>
 
 
