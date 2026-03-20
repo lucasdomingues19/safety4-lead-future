@@ -12,10 +12,6 @@ export const ProblemStatsSection = () => {
     <section className="py-16 md:py-24 relative">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 rounded-full px-4 md:px-6 py-2 mb-6 md:mb-8">
-            <AlertCircle className="w-4 h-4 md:w-5 md:h-5 text-red-400" />
-            <span className="text-red-300 font-semibold text-sm md:text-base">The Safety Profession is Transforming NOW</span>
-          </div>
 
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             Your Career is at an <span className="text-red-400">Unprecedented Crossroads</span>
