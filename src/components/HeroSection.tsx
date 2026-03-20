@@ -1,6 +1,6 @@
-import { Shield, Award } from "lucide-react";
+import { Shield, Award, FileDown, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
-import AudienceNav from "./AudienceNav";
+import BrochureDownloadModal from "./BrochureDownloadModal";
 
 export const HeroSection = () => {
   const [currentHeadline, setCurrentHeadline] = useState(0);
