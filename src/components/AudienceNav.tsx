@@ -140,7 +140,11 @@ const AudienceNav = () => {
               <Link
                 key={"href" in link ? link.href : link.label}
                 to={"href" in link ? link.href : "/"}
-                onClick={() => setMobileOpen(false)}
+                onClick={(e) => {
+                  setMobileOpen(false);
+                  const href = "href" in link ? link.href : "/";
+                  if (href.includes("#")) handleHashLink(e, href);
+                }}
                 className="block text-sm text-white hover:text-primary transition-colors py-2"
               >
                 {link.label}
