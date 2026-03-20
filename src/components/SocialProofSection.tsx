@@ -1,5 +1,5 @@
-import { Star, Quote } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState, useEffect, useCallback } from "react";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
@@ -101,30 +101,45 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
-  <Card className="flex-shrink-0 w-[350px] md:w-[400px] p-6 shadow-card border-0 bg-white">
-    <CardContent className="p-0">
-      <div className="flex items-center mb-3">
-        {[...Array(t.rating)].map((_, i) => (
-          <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-        ))}
+  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] p-6 bg-white rounded-xl">
+    <div className="flex items-center mb-3">
+      {[...Array(t.rating)].map((_, i) => (
+        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+      ))}
+    </div>
+    <Quote className="w-7 h-7 text-lime-500 fill-lime-500 mb-3" />
+    <p className="text-black mb-5 leading-relaxed text-sm md:text-base min-h-[100px]">
+      "{t.content}"
+    </p>
+    <div className="flex items-center space-x-3">
+      <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+      <div>
+        <p className="font-semibold text-black text-sm">{t.name}</p>
+        <p className="text-xs text-gray-500">{t.role}</p>
       </div>
-      <Quote className="w-7 h-7 text-lime-500 fill-lime-500 mb-3" />
-      <p className="text-black mb-5 leading-relaxed text-sm md:text-base min-h-[100px]">
-        "{t.content}"
-      </p>
-      <div className="flex items-center space-x-3">
-        <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
-        <div>
-          <p className="font-semibold text-foreground text-sm">{t.name}</p>
-          <p className="text-xs text-muted-foreground">{t.role}</p>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
+    </div>
+  </div>
 );
 
 export const SocialProofSection = () => {
-  const doubled = [...testimonials, ...testimonials];
+  const [current, setCurrent] = useState(0);
+  const total = testimonials.length;
+
+  const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
+  const prev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total]);
+
+  useEffect(() => {
+    const interval = setInterval(next, 4000);
+    return () => clearInterval(interval);
+  }, [next]);
+
+  const getVisible = () => {
+    const items = [];
+    for (let i = 0; i < 3; i++) {
+      items.push(testimonials[(current + i) % total]);
+    }
+    return items;
+  };
 
   return (
     <section className="py-20 relative overflow-hidden">
@@ -137,13 +152,33 @@ export const SocialProofSection = () => {
             Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
           </p>
         </div>
-      </div>
 
-      <div className="relative w-full overflow-hidden">
-        <div className="flex gap-6 animate-scroll hover:[animation-play-state:paused]" style={{ animationDuration: '60s' }}>
-          {doubled.map((t, i) => (
-            <TestimonialCard key={`${t.name}-${i}`} t={t} />
-          ))}
+        <div className="relative overflow-hidden">
+          <div className="flex gap-6 transition-transform duration-700 ease-out">
+            {getVisible().map((t, i) => (
+              <TestimonialCard key={`${current}-${i}`} t={t} />
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            onClick={prev}
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors active:scale-95"
+            aria-label="Previous"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <span className="text-white/60 text-sm tabular-nums">
+            {current + 1} / {total}
+          </span>
+          <button
+            onClick={next}
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors active:scale-95"
+            aria-label="Next"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </section>
