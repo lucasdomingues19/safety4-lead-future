@@ -104,12 +104,14 @@ const Syllabus = () => {
         </div>
       </section>
 
+      <CoursePreviewSection />
+
       {/* CTA */}
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Ready to Lead Safety in the <span className="text-lime-400">Digital Age</span>?
+              Ready to Lead Safety in the <span className="text-primary">Digital Age</span>?
             </h2>
             <p className="text-lg text-gray-300 mb-10 leading-relaxed">
               Join safety professionals from Siemens, LEGO, Marsh, and organisations across 12 countries 
@@ -118,7 +120,7 @@ const Syllabus = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href="/cohort"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-black font-semibold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Enrol Now
                 <ArrowRight className="w-5 h-5" />
@@ -134,7 +136,6 @@ const Syllabus = () => {
         </div>
       </section>
 
-      <CoursePreviewSection />
       <Footer />
       <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
     </div>
