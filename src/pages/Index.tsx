@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
+import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { CurriculumOverview } from "@/components/CurriculumOverview";
 import MentorSection from "@/components/MentorSection";
