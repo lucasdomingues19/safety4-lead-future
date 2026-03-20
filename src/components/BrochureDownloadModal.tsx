@@ -10,6 +10,49 @@ interface BrochureDownloadModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const countryCodes = [
+  { code: "+1", label: "US/CA +1" },
+  { code: "+44", label: "UK +44" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+966", label: "SA +966" },
+  { code: "+91", label: "IN +91" },
+  { code: "+61", label: "AU +61" },
+  { code: "+49", label: "DE +49" },
+  { code: "+33", label: "FR +33" },
+  { code: "+31", label: "NL +31" },
+  { code: "+27", label: "ZA +27" },
+  { code: "+65", label: "SG +65" },
+  { code: "+60", label: "MY +60" },
+  { code: "+234", label: "NG +234" },
+  { code: "+254", label: "KE +254" },
+  { code: "+55", label: "BR +55" },
+  { code: "+52", label: "MX +52" },
+  { code: "+86", label: "CN +86" },
+  { code: "+81", label: "JP +81" },
+  { code: "+82", label: "KR +82" },
+  { code: "+39", label: "IT +39" },
+  { code: "+34", label: "ES +34" },
+  { code: "+46", label: "SE +46" },
+  { code: "+47", label: "NO +47" },
+  { code: "+48", label: "PL +48" },
+  { code: "+90", label: "TR +90" },
+  { code: "+62", label: "ID +62" },
+  { code: "+63", label: "PH +63" },
+  { code: "+64", label: "NZ +64" },
+  { code: "+353", label: "IE +353" },
+  { code: "+41", label: "CH +41" },
+  { code: "+43", label: "AT +43" },
+  { code: "+32", label: "BE +32" },
+  { code: "+351", label: "PT +351" },
+  { code: "+7", label: "RU +7" },
+  { code: "+380", label: "UA +380" },
+  { code: "+20", label: "EG +20" },
+  { code: "+974", label: "QA +974" },
+  { code: "+968", label: "OM +968" },
+  { code: "+973", label: "BH +973" },
+  { code: "+965", label: "KW +965" },
+];
+
 const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,6 +60,7 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
     firstName: "",
     lastName: "",
     email: "",
+    countryCode: "+44",
     phone: "",
   });
 
@@ -25,6 +69,7 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
     setIsSubmitting(true);
 
     try {
+      const fullPhone = `${formData.countryCode} ${formData.phone}`.trim();
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/capture-lead`,
         {
@@ -36,7 +81,7 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
           body: JSON.stringify({
             name: `${formData.firstName} ${formData.lastName}`.trim(),
             email: formData.email,
-            phone: formData.phone,
+            phone: fullPhone,
             source: "brochure_download",
           }),
         }
@@ -52,7 +97,6 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
         return;
       }
 
-      // Trigger the PDF download
       const link = document.createElement("a");
       link.href = "/Safety-4.0-Course-Brochure.pdf";
       link.download = "Safety-4.0-Course-Brochure.pdf";
@@ -67,7 +111,7 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
         description: "Your brochure is downloading now.",
       });
 
-      setFormData({ firstName: "", lastName: "", email: "", phone: "" });
+      setFormData({ firstName: "", lastName: "", email: "", countryCode: "+44", phone: "" });
       onOpenChange(false);
     } catch (error) {
       console.error("Error capturing lead:", error);
@@ -133,15 +177,28 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
-            <Input
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
-              placeholder="+44 ..."
-              className="bg-white/10 border-white/20 text-white placeholder-gray-500"
-              required
-            />
+            <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number *</label>
+            <div className="flex gap-2">
+              <select
+                value={formData.countryCode}
+                onChange={(e) => setFormData((p) => ({ ...p, countryCode: e.target.value }))}
+                className="bg-white/10 border border-white/20 text-white rounded-md px-2 py-2 text-sm w-28 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-lime-400"
+              >
+                {countryCodes.map((c) => (
+                  <option key={c.code} value={c.code} className="bg-slate-900 text-white">
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+              <Input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
+                placeholder="7911 123456"
+                className="bg-white/10 border-white/20 text-white placeholder-gray-500 flex-1"
+                required
+              />
+            </div>
           </div>
 
           <Button
