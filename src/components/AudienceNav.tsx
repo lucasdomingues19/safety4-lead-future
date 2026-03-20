@@ -52,7 +52,7 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
               key={child.href}
               to={child.href}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-white hover:text-white/80 hover:bg-muted/50 transition-colors"
+              className="block px-4 py-2 text-sm text-white hover:text-primary hover:bg-muted/50 transition-colors"
             >
               {child.label}
             </Link>
