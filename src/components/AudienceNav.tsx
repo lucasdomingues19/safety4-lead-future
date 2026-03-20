@@ -11,6 +11,7 @@ const navLinks = [
       { label: "Curriculum", href: "/syllabus" },
       { label: "Preview", href: "/cohort" },
       { label: "IOSH & CPD", href: "/certification" },
+      { label: "Pricing", href: "/offer" },
     ],
   },
   { label: "For Companies", href: "/in-company" },
