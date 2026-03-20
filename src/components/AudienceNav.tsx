@@ -16,7 +16,6 @@ const navLinks = [
     ],
   },
   { label: "For Companies", href: "/in-company" },
-  { label: "Case Studies", href: "/case-studies" },
   { label: "Ebook", href: "/ebook" },
   { label: "Scorecard", href: "/scorecard" },
   { label: "Contact", href: "/contact" },
