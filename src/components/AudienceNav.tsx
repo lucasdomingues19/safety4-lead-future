@@ -40,7 +40,7 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 text-sm text-white hover:text-white/80 transition-colors"
+        className="flex items-center gap-1 text-sm text-white hover:text-primary transition-colors"
       >
         {item.label}
         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
@@ -52,7 +52,7 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
               key={child.href}
               to={child.href}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-white hover:text-white/80 hover:bg-muted/50 transition-colors"
+              className="block px-4 py-2 text-sm text-white hover:text-primary hover:bg-muted/50 transition-colors"
             >
               {child.label}
             </Link>
@@ -82,7 +82,7 @@ const AudienceNav = () => {
               <Link
                 key={"href" in link ? link.href : link.label}
                 to={"href" in link ? link.href : "/"}
-                className="text-sm text-white hover:text-white/80 transition-colors"
+                className="text-sm text-white hover:text-primary transition-colors"
               >
                 {link.label}
               </Link>
@@ -111,7 +111,7 @@ const AudienceNav = () => {
                     key={child.href}
                     to={child.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block text-sm text-white hover:text-white/80 transition-colors py-2 pl-4"
+                    className="block text-sm text-white hover:text-primary transition-colors py-2 pl-4"
                   >
                     {child.label}
                   </Link>
@@ -122,7 +122,7 @@ const AudienceNav = () => {
                 key={"href" in link ? link.href : link.label}
                 to={"href" in link ? link.href : "/"}
                 onClick={() => setMobileOpen(false)}
-                className="block text-sm text-white hover:text-white/80 transition-colors py-2"
+                className="block text-sm text-white hover:text-primary transition-colors py-2"
               >
                 {link.label}
               </Link>
