@@ -22,6 +22,7 @@ const Scorecard = () => {
     <>
 
       <div className="min-h-screen flex flex-col bg-black">
+        <AudienceNav />
         <div className="container mx-auto px-4 pt-6">
           <Button variant="outline" size="sm" asChild className="border-white/30 text-white hover:bg-white/10">
             <Link to="/" className="flex items-center space-x-2">
