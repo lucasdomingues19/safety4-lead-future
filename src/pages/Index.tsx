@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
+import { ProblemStatsSection } from "@/components/ProblemStatsSection";
+import { CurriculumOverview } from "@/components/CurriculumOverview";
 import MentorSection from "@/components/MentorSection";
 import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { SocialProofSection } from "@/components/SocialProofSection";
@@ -9,7 +11,6 @@ import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
-
 
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
@@ -46,35 +47,37 @@ const Index = () => {
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
       <div className="min-h-screen relative" role="main">
-        {/* Global background for entire site */}
         <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
-        
-        
         
         <NewsletterPopup />
         <EbookPopup />
-        {/* Hero → Problem → Solution */}
+
         <HeroSection />
-        {/* Course Preview */}
+
+        <ProblemStatsSection />
+
+        <CurriculumOverview />
+
         <section aria-label="Course preview">
           <CoursePreviewSection />
         </section>
-        {/* Testimonials */}
+
         <section aria-label="What safety leaders are saying">
           <SocialProofSection />
         </section>
-        {/* Mentor */}
+
         <section id="mentor" aria-label="Meet your instructor">
           <MentorSection />
         </section>
-        {/* Pricing */}
+
         <section aria-label="Pricing options">
           <PricingSection />
         </section>
-        {/* Final CTA */}
+
         <section aria-label="Call to action">
           <CTAButton className="py-16" />
         </section>
+
         <Footer />
       </div>
     </AnalyticsTracker>
