@@ -14,7 +14,7 @@ export default function PrivacyPolicy() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-black relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
       

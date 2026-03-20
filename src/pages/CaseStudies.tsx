@@ -19,7 +19,7 @@ const CaseStudies = () => {
 
   return (
     <div className="min-h-screen relative">
-      <div className="fixed inset-0 bg-gradient-to-br from-[hsl(var(--background))] via-slate-900 to-black -z-10" />
+      <div className="fixed inset-0 bg-black -z-10" />
       <AudienceNav />
 
       {/* Hero */}
