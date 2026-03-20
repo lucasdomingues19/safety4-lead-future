@@ -56,7 +56,7 @@ const Index = () => {
 
         <ProblemStatsSection />
 
-        <CurriculumOverview />
+        
 
         <section aria-label="Course preview">
           <CoursePreviewSection />
