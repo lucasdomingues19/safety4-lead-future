@@ -1,10 +1,11 @@
-import { Shield, Award } from "lucide-react";
+import { Shield, Award, FileDown, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
-import AudienceNav from "./AudienceNav";
+import BrochureDownloadModal from "./BrochureDownloadModal";
 
 export const HeroSection = () => {
   const [currentHeadline, setCurrentHeadline] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [brochureOpen, setBrochureOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,7 +28,6 @@ export const HeroSection = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        <AudienceNav />
         <div className="mb-28 md:mb-32" />
 
         <div className="text-center max-w-5xl mx-auto">
@@ -80,13 +80,25 @@ export const HeroSection = () => {
             </div>
           </div>
 
-          {/* Single CTA */}
-          <a
-            href="/cohort"
-            className="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground font-semibold text-lg rounded-full hover:opacity-90 transition-opacity active:scale-95"
-          >
-            Enrol Now
-          </a>
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => setBrochureOpen(true)}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors active:scale-[0.97]"
+            >
+              <FileDown className="w-5 h-5" />
+              Download Brochure
+            </button>
+            <a
+              href="/cohort"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
+            >
+              Enrol or Inquire
+              <ArrowRight className="w-5 h-5" />
+            </a>
+          </div>
+
+          <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
         </div>
       </div>
     </section>
