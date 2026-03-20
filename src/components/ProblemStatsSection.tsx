@@ -17,21 +17,24 @@ export const ProblemStatsSection = () => {
             Why <span className="text-lime-400">Safety 4.0</span>?
           </h2>
 
-          <h3 className="text-lg md:text-2xl font-semibold text-white mb-4">
+          <h3 className="text-lg md:text-2xl font-semibold text-white mb-6">
             Your Career is at an Unprecedented Crossroads
           </h3>
 
-          <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 leading-relaxed max-w-3xl mx-auto">
-            While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
-            most safety professionals are being left behind—unprepared and unequipped to lead in the digital age.
-          </p>
-          <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 leading-relaxed max-w-3xl mx-auto">
-            <span className="font-bold text-white">The hard truth:</span> Traditional safety certifications
-            won't protect your career anymore. Companies are actively seeking safety
-            leaders who can leverage AI and digital tools.
+          <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed max-w-3xl mx-auto">
+            <span className="font-bold text-white">The hard truth:</span> traditional safety certifications
+            won't protect your career anymore. Compliance-based credentials no longer signal readiness.
+            Organisations are actively seeking safety leaders who can leverage AI and digital tools
+            — and most professionals aren't there yet.
           </p>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <p className="text-base md:text-lg text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+            While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
+            most safety professionals are being left behind — unprepared and unequipped to lead in the digital age.
+          </p>
+
+          {/* Stats cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-16">
             {stats.map((s) => {
               const Icon = s.icon;
               return (
@@ -46,6 +49,33 @@ export const ProblemStatsSection = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Mission block */}
+          <div className="max-w-3xl mx-auto text-left space-y-6">
+            <h3 className="text-xl md:text-2xl font-bold text-lime-400 text-center">
+              The Safety 4.0 Academy exists to change that
+            </h3>
+
+            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+              We equip safety professionals with the AI literacy, digital fluency, and strategic mindset
+              needed to lead — not just survive — in the evolving world of work. Our programme is built
+              at the intersection of deep EHS expertise and real-world technology, designed for
+              practitioners by practitioners.
+            </p>
+
+            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+              We are proud to offer the world's first{" "}
+              <span className="font-bold text-white">IOSH-approved</span> and{" "}
+              <span className="font-bold text-white">CPD-accredited</span>{" "}
+              Safety 4.0 programme — a benchmark of credibility in a space crowded with hype.
+            </p>
+
+            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+              Whether you're a seasoned EHS Leader willing to upskill yourself and your teams,
+              Safety 4.0 Academy gives you the tools, the language, and the confidence to shape
+              what comes next.
+            </p>
           </div>
 
         </div>
