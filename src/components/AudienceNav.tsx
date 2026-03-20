@@ -46,7 +46,7 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-2 w-40 rounded-lg border border-border bg-background/95 backdrop-blur-xl shadow-lg py-1">
+        <div className="absolute top-full left-0 mt-2 w-40 rounded-lg border border-white/10 bg-black/90 backdrop-blur-xl shadow-lg py-1">
           {item.children.map((child) => (
             <Link
               key={child.href}
