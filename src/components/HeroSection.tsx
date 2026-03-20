@@ -48,7 +48,7 @@ export const HeroSection = () => {
             {currentHeadline === 0 ? (
               <>
                 <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
-                  Safety Leadership Without <span className="text-primary">Digital Literacy</span> has Become a <span className="text-primary">Liability</span>
+                  Safety Leadership Without <span className="text-lime-400">Digital Literacy</span> has Become a <span className="text-lime-400">Liability</span>
                 </h1>
                 <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
                   The safety industry is rapidly evolving. While others struggle with outdated approaches, <span className="font-bold text-lime-400">forward-thinking safety leaders are mastering digital transformation</span> to stay ahead
@@ -57,7 +57,7 @@ export const HeroSection = () => {
             ) : (
               <>
                 <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
-                  Build an <span className="text-primary">AI-ready</span> safety team. Upgrade your <span className="text-primary">impact.</span>
+                  Build an <span className="text-lime-400">AI-ready</span> safety team. Upgrade your <span className="text-lime-400">impact.</span>
                 </h1>
                 <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
                   The world's first IOSH-approved and CPD-accredited Safety 4.0 programme. <span className="font-bold text-lime-400">Trusted by Siemens, LEGO, MARSH, and safety teams across 12 countries.</span>
