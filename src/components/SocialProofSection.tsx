@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
@@ -101,16 +100,31 @@ const testimonials = [
   }
 ];
 
-const VISIBLE = 3;
+const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
+  <Card className="flex-shrink-0 w-[350px] md:w-[400px] p-6 shadow-card border-0 bg-white">
+    <CardContent className="p-0">
+      <div className="flex items-center mb-3">
+        {[...Array(t.rating)].map((_, i) => (
+          <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+        ))}
+      </div>
+      <Quote className="w-7 h-7 text-lime-500 fill-lime-500 mb-3" />
+      <p className="text-black mb-5 leading-relaxed text-sm md:text-base min-h-[100px]">
+        "{t.content}"
+      </p>
+      <div className="flex items-center space-x-3">
+        <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+        <div>
+          <p className="font-semibold text-foreground text-sm">{t.name}</p>
+          <p className="text-xs text-muted-foreground">{t.role}</p>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
 
 export const SocialProofSection = () => {
-  const [startIndex, setStartIndex] = useState(0);
-  const total = testimonials.length;
-
-  const prev = () => setStartIndex((c) => (c === 0 ? total - VISIBLE : c - 1));
-  const next = () => setStartIndex((c) => (c >= total - VISIBLE ? 0 : c + 1));
-
-  const visible = testimonials.slice(startIndex, startIndex + VISIBLE);
+  const doubled = [...testimonials, ...testimonials];
 
   return (
     <section className="py-20 relative overflow-hidden">
@@ -123,53 +137,13 @@ export const SocialProofSection = () => {
             Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {visible.map((t) => (
-            <Card key={t.name} className="p-6 shadow-card border-0 bg-white transition-all duration-300">
-              <CardContent className="p-0">
-                <div className="flex items-center mb-3">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-
-                <Quote className="w-7 h-7 text-lime-500 fill-lime-500 mb-3" />
-
-                <p className="text-black mb-5 leading-relaxed text-sm md:text-base min-h-[100px]">
-                  "{t.content}"
-                </p>
-
-                <div className="flex items-center space-x-3">
-                  <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
-                  <div>
-                    <p className="font-semibold text-foreground text-sm">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      <div className="relative w-full overflow-hidden">
+        <div className="flex gap-6 animate-[marquee-left_60s_linear_infinite] hover:[animation-play-state:paused]">
+          {doubled.map((t, i) => (
+            <TestimonialCard key={`${t.name}-${i}`} t={t} />
           ))}
-        </div>
-
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button
-            onClick={prev}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors active:scale-95"
-            aria-label="Previous testimonials"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <span className="text-white/60 text-sm tabular-nums">
-            {startIndex + 1}–{startIndex + VISIBLE} / {total}
-          </span>
-          <button
-            onClick={next}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors active:scale-95"
-            aria-label="Next testimonials"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
         </div>
       </div>
     </section>
