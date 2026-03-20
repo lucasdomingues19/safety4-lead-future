@@ -14,7 +14,7 @@ export const ProblemStatsSection = () => {
         <div className="text-center max-w-5xl mx-auto">
 
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
-            Your Career is at an <span className="text-lime-400">Unprecedented Crossroads</span>
+            Why <span className="text-lime-400">Safety 4.0</span>?
           </h2>
 
           <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 leading-relaxed max-w-3xl mx-auto">
