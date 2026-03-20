@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -325,6 +326,9 @@ const Cohort = () => {
                     </Button>
                   </a>
                 </div>
+
+        {/* COURSE PREVIEW */}
+        <CoursePreviewSection />
 
 
                 {/* Cross-sell to In-Company */}
