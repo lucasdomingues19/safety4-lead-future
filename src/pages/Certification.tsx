@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import AudienceNav from "@/components/AudienceNav";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
+import certificateSample from "@/assets/certificate-sample.png";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
@@ -137,6 +138,32 @@ const Certification = () => {
                   alt="CPD Approved Logo" 
                   className="w-32 h-20 object-contain opacity-80 hover:opacity-100 transition-opacity"
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Certificate Sample */}
+        <div className="max-w-2xl mx-auto mb-20">
+          <h2 className="text-4xl font-bold text-center text-white mb-12">Your Certificate</h2>
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+            <img
+              src={certificateSample}
+              alt="IOSH Approved Certificate Sample"
+              className="w-full h-auto rounded-xl shadow-2xl"
+            />
+            <div className="mt-6 space-y-2 text-sm">
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span>Internationally recognized certification</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span>8+ hours of CPD credits</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-300">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span>Digital & printable certificate</span>
               </div>
             </div>
           </div>
