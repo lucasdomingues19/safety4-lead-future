@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { ArrowLeft, Shield, Award, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Shield, Award, CheckCircle } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import AudienceNav from "@/components/AudienceNav";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import { trackPageView } from "@/utils/analytics";
