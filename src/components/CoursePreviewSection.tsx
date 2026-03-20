@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Play, Zap, Shield, Award } from "lucide-react";
 import { VideoPreviewModal } from "./VideoPreviewModal";
-import certificateSample from "@/assets/certificate-sample.png";
 
 const videoPreviewData = [
   {
