@@ -10,6 +10,7 @@ const navLinks = [
     children: [
       { label: "Curriculum", href: "/syllabus" },
       { label: "Preview", href: "/cohort" },
+      { label: "IOSH & CPD", href: "/certification" },
     ],
   },
   { label: "For Companies", href: "/in-company" },

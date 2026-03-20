@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { ArrowLeft, Shield, Award, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Shield, Award, CheckCircle } from "lucide-react";
 import { Footer } from "@/components/Footer";
+import AudienceNav from "@/components/AudienceNav";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import { trackPageView } from "@/utils/analytics";
@@ -46,16 +46,8 @@ const Certification = () => {
         }}></div>
       </div>
 
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        {/* Back Navigation */}
-        <div className="mb-12">
-          <Button variant="outline" size="sm" asChild className="border-white/30 text-white hover:bg-white/10">
-            <a href="/" className="flex items-center space-x-2">
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Home</span>
-            </a>
-          </Button>
-        </div>
+      <AudienceNav />
+      <div className="container mx-auto px-4 pt-24 pb-20 relative z-10">
 
         {/* Header */}
         <div className="text-center mb-16">
