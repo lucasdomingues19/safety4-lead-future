@@ -10,7 +10,7 @@ import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 
-import { SocialProofNotifications } from "@/components/SocialProofNotifications";
+
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
 import EbookPopup from "@/components/EbookPopup";
@@ -50,7 +50,6 @@ const Index = () => {
         <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
         
         
-        <SocialProofNotifications />
         
         <NewsletterPopup />
         <EbookPopup />
