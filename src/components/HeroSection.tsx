@@ -5,6 +5,7 @@ import BrochureDownloadModal from "./BrochureDownloadModal";
 export const HeroSection = () => {
   const [currentHeadline, setCurrentHeadline] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [brochureOpen, setBrochureOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
