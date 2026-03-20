@@ -42,7 +42,7 @@ const Syllabus = () => {
             <div className="text-center mb-16">
               <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">10 MODULES · 60+ LESSONS · EXPERT-LED MASTERCLASSES</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                The Full <span className="text-primary">Curriculum</span>
+                A Modern <span className="text-primary">Curriculum</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
                 Each module builds on the last — from foundational concepts to strategic leadership, 
