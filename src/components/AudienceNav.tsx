@@ -82,7 +82,7 @@ const AudienceNav = () => {
               <Link
                 key={"href" in link ? link.href : link.label}
                 to={"href" in link ? link.href : "/"}
-                className="text-sm text-white hover:text-white/80 transition-colors"
+                className="text-sm text-white hover:text-primary transition-colors"
               >
                 {link.label}
               </Link>
