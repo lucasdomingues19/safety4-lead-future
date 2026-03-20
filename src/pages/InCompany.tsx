@@ -112,7 +112,7 @@ const InCompany = () => {
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
       <div className="min-h-screen relative font-dm">
-        <div className="fixed inset-0 bg-gradient-to-br from-[hsl(240,55%,15%)] via-slate-900 to-black -z-10" />
+        <div className="fixed inset-0 bg-black -z-10" />
 
         {/* Persistent background decorations — purple, lime, pink */}
         <div className="fixed inset-0 -z-[5] overflow-hidden pointer-events-none">

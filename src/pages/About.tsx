@@ -1,3 +1,4 @@
+import AudienceNav from "@/components/AudienceNav";
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ const About = () => {
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
+      <AudienceNav />
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">

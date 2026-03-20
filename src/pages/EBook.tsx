@@ -1,3 +1,4 @@
+import AudienceNav from "@/components/AudienceNav";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Download, BookOpen, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -84,6 +85,7 @@ const EBook = () => {
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
+      <AudienceNav />
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">

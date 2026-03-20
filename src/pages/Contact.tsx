@@ -1,3 +1,4 @@
+import AudienceNav from "@/components/AudienceNav";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
 import BrochureDownloadModal from "@/components/BrochureDownloadModal";
@@ -130,6 +131,7 @@ const Contact = () => {
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
+      <AudienceNav />
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">
