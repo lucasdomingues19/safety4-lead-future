@@ -111,7 +111,7 @@ const AudienceNav = () => {
                     key={child.href}
                     to={child.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block text-sm text-white hover:text-white/80 transition-colors py-2 pl-4"
+                    className="block text-sm text-white hover:text-primary transition-colors py-2 pl-4"
                   >
                     {child.label}
                   </Link>
