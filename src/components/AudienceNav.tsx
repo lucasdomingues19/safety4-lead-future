@@ -40,7 +40,7 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 text-sm text-white hover:text-white/80 transition-colors"
+        className="flex items-center gap-1 text-sm text-white hover:text-primary transition-colors"
       >
         {item.label}
         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
