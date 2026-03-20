@@ -8,7 +8,7 @@ const navLinks = [
   {
     label: "Programme",
     children: [
-      { label: "Curriculum", href: "/syllabus" },
+      { label: "Safety 4.0 Accelerator", href: "/syllabus" },
       { label: "Highlights", href: "/cohort" },
       { label: "IOSH & CPD", href: "/certification" },
       { label: "Pricing", href: "/offer" },
