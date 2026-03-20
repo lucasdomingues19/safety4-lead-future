@@ -94,18 +94,7 @@ export const CoursePreviewSection = () => {
             </div>
           ))}
 
-          {/* Certificate Card */}
-          <div className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-4 border border-white/10 hover:border-primary/40 transition-all duration-300">
-            <div className="relative aspect-video rounded-xl mb-3 overflow-hidden">
-              <img
-                src={certificateSample}
-                alt="IOSH Approved Certificate Sample"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <h3 className="text-white font-semibold text-sm mb-1">IOSH Certificate</h3>
-            <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">Internationally recognized, CPD-accredited digital & printable certificate</p>
-          </div>
+
         </div>
       </div>
 
