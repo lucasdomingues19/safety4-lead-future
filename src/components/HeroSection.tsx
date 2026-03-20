@@ -21,9 +21,10 @@ export const HeroSection = () => {
 
   return (
     <section className="min-h-[90vh] relative overflow-hidden flex items-center">
+      <AudienceNav />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="mb-28 md:mb-32" />
+        <div className="mb-16 md:mb-20" />
 
         <div className="text-center max-w-5xl mx-auto">
           {/* Accreditation Badges */}
