@@ -47,7 +47,7 @@ const Index = () => {
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
       <div className="min-h-screen relative" role="main">
-        <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10"></div>
+        <div className="fixed inset-0 bg-black -z-10"></div>
         
         <NewsletterPopup />
         <EbookPopup />

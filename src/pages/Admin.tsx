@@ -506,7 +506,7 @@ const Admin = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#11113a] via-slate-900 to-black">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-white text-xl">Loading...</div>
       </div>
     );
@@ -515,7 +515,7 @@ const Admin = () => {
   if (!isAdmin || !stats) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#11113a] via-slate-900 to-black p-8">
+    <div className="min-h-screen bg-black p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-white">Admin Dashboard</h1>

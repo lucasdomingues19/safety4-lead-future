@@ -6,7 +6,7 @@ export const AboutAcademySection = () => {
   return (
     <section id="about-academy" className="py-12 md:py-20 relative overflow-hidden">
       {/* Dark gradient background matching other sections */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
+      <div className="absolute inset-0 bg-black"></div>
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">

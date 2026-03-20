@@ -92,7 +92,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
+      <div className="absolute inset-0 bg-black"></div>
       
       <div className="relative z-10 w-full max-w-md px-4">
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">

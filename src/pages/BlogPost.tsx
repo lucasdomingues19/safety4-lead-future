@@ -112,7 +112,7 @@ const BlogPost = () => {
     <>
       <div className="min-h-screen relative overflow-hidden">
         {/* Black to dark blue gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black"></div>
+        <div className="absolute inset-0 bg-black"></div>
         
         {/* Floating elements */}
         <div className="absolute inset-0 overflow-hidden">

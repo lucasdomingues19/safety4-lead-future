@@ -32,7 +32,7 @@ export const StickyCTABar = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 animate-fade-in">
-      <div className="bg-gradient-to-r from-[#11113a] via-slate-900 to-[#11113a] border-t border-white/20 shadow-2xl">
+      <div className="bg-black border-t border-white/20 shadow-2xl">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4">
             {/* Left side - Message */}

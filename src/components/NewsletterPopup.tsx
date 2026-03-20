@@ -93,7 +93,7 @@ export const NewsletterPopup = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-md bg-gradient-to-br from-[#11113a] via-slate-900 to-black border border-white/20 rounded-2xl p-8 shadow-2xl animate-scale-in">
+      <div className="relative w-full max-w-md bg-black border border-white/20 rounded-2xl p-8 shadow-2xl animate-scale-in">
         {/* Close button */}
         <button
           onClick={handleClose}
