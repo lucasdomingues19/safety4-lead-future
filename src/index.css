@@ -113,7 +113,7 @@ All colors MUST be HSL.
 
   body {
     background: linear-gradient(to bottom right, #11113a, #000000);
-    @apply text-foreground font-dm;
+    @apply text-foreground font-sans;
     min-height: 100vh;
   }
 
