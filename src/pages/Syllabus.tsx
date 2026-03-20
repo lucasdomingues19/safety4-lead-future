@@ -34,20 +34,17 @@ const Syllabus = () => {
       <div className="fixed inset-0 bg-black -z-10" />
       <AudienceNav />
 
-      <div className="pt-20" />
 
-
-
-      {/* CURRICULUM */}
-      <section className="py-20 md:py-28 border-t border-white/5">
+      {/* HERO + CURRICULUM */}
+      <section className="pt-28 pb-16 md:pt-36 md:pb-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">10 MODULES · 60+ LESSONS</span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                The Full <span className="text-lime-400">Curriculum</span>
-              </h2>
-              <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                The Full <span className="text-primary">Curriculum</span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
                 Each module builds on the last — from foundational concepts to strategic leadership, 
                 giving you a complete Safety 4.0 skillset.
               </p>
