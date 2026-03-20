@@ -4,7 +4,8 @@ import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import {
-  ArrowRight, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle
+  ArrowRight, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle,
+  Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass
 } from "lucide-react";
 import BrochureDownloadModal from "@/components/BrochureDownloadModal";
 
