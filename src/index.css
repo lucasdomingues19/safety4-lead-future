@@ -113,12 +113,13 @@ All colors MUST be HSL.
 
   body {
     background: linear-gradient(to bottom right, #11113a, #000000);
-    @apply text-foreground font-dm;
+    @apply text-foreground font-sans;
     min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
   }
 }
 
