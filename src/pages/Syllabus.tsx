@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
-import { TrustedByBanner } from "@/components/TrustedByBanner";
+
 import {
   BookOpen, Target, AlertTriangle, Award, Smartphone,
   Wrench, Database, Sparkles, Shield, Rocket,
