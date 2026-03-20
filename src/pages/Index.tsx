@@ -54,6 +54,8 @@ const Index = () => {
 
         <HeroSection />
 
+        <TrustedByBanner />
+
         <ProblemStatsSection />
 
 
