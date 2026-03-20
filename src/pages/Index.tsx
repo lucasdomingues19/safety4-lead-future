@@ -74,9 +74,6 @@ const Index = () => {
           <PricingSection />
         </section>
 
-        <section aria-label="Call to action">
-          <CTAButton className="py-16" />
-        </section>
 
         <Footer />
       </div>
