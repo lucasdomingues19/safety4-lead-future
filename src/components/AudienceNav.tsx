@@ -122,7 +122,7 @@ const AudienceNav = () => {
                 key={"href" in link ? link.href : link.label}
                 to={"href" in link ? link.href : "/"}
                 onClick={() => setMobileOpen(false)}
-                className="block text-sm text-white hover:text-white/80 transition-colors py-2"
+                className="block text-sm text-white hover:text-primary transition-colors py-2"
               >
                 {link.label}
               </Link>
