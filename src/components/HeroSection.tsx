@@ -65,10 +65,8 @@ export const HeroSection = () => {
 
         {/* Main Content - Centered like LeadPages */}
         <div className="text-center max-w-6xl mx-auto">
-          {/* Audience Toggle */}
-          <div className="flex items-center justify-center mb-6 md:mb-8">
-            <AudienceNav inline />
-          </div>
+
+
           
           {/* Main Headline - Alternating with fade animation */}
           <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
