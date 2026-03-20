@@ -65,6 +65,17 @@ export const HeroSection = () => {
 
         {/* Main Content - Centered like LeadPages */}
         <div className="text-center max-w-6xl mx-auto">
+          {/* Accreditation Badges */}
+          <div className="flex items-center justify-center gap-2 md:gap-4 mb-6 md:mb-8 flex-wrap">
+            <div className="inline-flex items-center space-x-1 md:space-x-2 text-primary font-medium bg-primary/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-primary/20 text-sm md:text-base">
+              <Award className="w-3 h-3 md:w-4 md:h-4" />
+              <span>IOSH Approved</span>
+            </div>
+            <div className="inline-flex items-center space-x-1 md:space-x-2 text-blue-400 font-medium bg-blue-400/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-blue-400/20 text-sm md:text-base">
+              <Shield className="w-3 h-3 md:w-4 md:h-4" />
+              <span>CPD Accredited</span>
+            </div>
+          </div>
 
 
           
