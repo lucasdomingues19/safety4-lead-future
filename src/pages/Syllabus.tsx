@@ -92,7 +92,7 @@ const Syllabus = () => {
                 { val: "60+", label: "Studio-recorded video lessons, available on demand" },
                 { val: "8+", label: "CPD hours — verifiable upon completion" },
                 { val: "IOSH", label: "Approved certification recognised globally" },
-                { val: "12+", label: "Countries — global alumni community" },
+                { val: "CPD", label: "Demonstrate continuous professional development in your field" },
               ].map((s, i) => (
                 <div key={i} className="rounded-xl border border-lime-500/20 bg-lime-500/[0.06] p-5">
                   <div className="text-2xl font-black text-primary">{s.val}</div>
