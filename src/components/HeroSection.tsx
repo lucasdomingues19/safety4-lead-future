@@ -31,7 +31,7 @@ export const HeroSection = () => {
             Safety Leadership Without <span className="text-lime-400">Digital Literacy</span> has Become a <span className="text-lime-400">Liability</span>
           </h1>
           <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
-            The Safety 4.0 Academy is the world's first IOSH-approved and CPD-accredited programme designed and taught by industry experts for EHS leaders in the digital age.
+            The Safety 4.0 Academy is the world's first <span className="font-bold">IOSH-approved</span> and <span className="font-bold">CPD-accredited</span> programme designed and taught by industry experts for EHS leaders in the digital age.
           </p>
 
           {/* Video */}
