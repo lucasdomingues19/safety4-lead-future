@@ -65,7 +65,22 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
 
 const AudienceNav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const handleHashLink = useCallback((e: React.MouseEvent, href: string) => {
+    const [path, hash] = href.split("#");
+    if (!hash) return;
+    e.preventDefault();
+    if (location.pathname === path || (path === "/" && location.pathname === "/")) {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(path);
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, [location.pathname, navigate]);
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
