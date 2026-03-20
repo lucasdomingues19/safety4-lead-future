@@ -48,39 +48,7 @@ const Syllabus = () => {
         </div>
       </section>
 
-      {/* WHAT YOU'LL GAIN */}
-      <section className="py-16 md:py-24 border-t border-white/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto mb-14">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-              What You'll <span className="text-lime-400">Gain</span>
-            </h2>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              We've created the world's first comprehensive digital safety leadership programme 
-              that transforms traditional safety professionals into future-ready leaders.
-            </p>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-            {benefits.map((b, i) => {
-              const Icon = b.icon;
-              return (
-                <div
-                  key={i}
-                  className="group relative p-6 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-lime-500/30 transition-all duration-500"
-                >
-                  <div className="w-12 h-12 bg-lime-500/15 rounded-xl flex items-center justify-center mb-4 group-hover:bg-lime-500/25 transition-colors duration-500">
-                    <Icon className="w-6 h-6 text-lime-400" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-1">{b.title}</h3>
-                  <p className="text-lime-400 font-medium text-sm mb-3">{b.subtitle}</p>
-                  <p className="text-gray-400 text-sm leading-relaxed">{b.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* CURRICULUM */}
       <section className="py-20 md:py-28 border-t border-white/5">
