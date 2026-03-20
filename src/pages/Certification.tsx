@@ -46,8 +46,8 @@ const Certification = () => {
         }}></div>
       </div>
 
+      <AudienceNav />
       <div className="container mx-auto px-4 pt-24 pb-20 relative z-10">
-        <AudienceNav />
 
         {/* Header */}
         <div className="text-center mb-16">
