@@ -16,7 +16,7 @@ const Syllabus = () => {
 
   return (
     <div className="min-h-screen relative">
-      <div className="fixed inset-0 bg-gradient-to-br from-[#11113a] via-slate-900 to-black -z-10" />
+      <div className="fixed inset-0 bg-black -z-10" />
       <AudienceNav />
       <div className="pt-16">
         <SolutionSection />

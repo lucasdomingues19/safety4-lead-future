@@ -32,7 +32,7 @@ const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 
 // Loading fallback component
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#11113a] via-slate-900 to-black">
+  <div className="min-h-screen flex items-center justify-center bg-black">
     <div className="text-white text-xl">Loading...</div>
   </div>
 );
