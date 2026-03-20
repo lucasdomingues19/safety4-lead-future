@@ -20,12 +20,6 @@ export const HeroSection = () => {
 
   return (
     <section className="min-h-[90vh] relative overflow-hidden flex items-center">
-      {/* Top Banner */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-lime-500 via-lime-400 to-lime-500 text-black text-center py-2 md:py-2.5 px-3 md:px-4">
-        <a href="/cohort" className="font-semibold text-xs md:text-base hover:underline leading-tight">
-          🚀 Applications <span className="font-extrabold">OPEN</span> for the April Cohort — <span className="underline underline-offset-2">Enrol Now →</span>
-        </a>
-      </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="mb-28 md:mb-32" />
