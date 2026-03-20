@@ -257,8 +257,6 @@ const Syllabus = () => {
         </div>
       </section>
 
-      {/* TRUSTED BY */}
-      <TrustedByBanner />
 
       {/* CTA */}
       <section className="py-20 md:py-28">
