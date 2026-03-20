@@ -1,23 +1,10 @@
 import { Shield, Award, FileDown, ArrowRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import BrochureDownloadModal from "./BrochureDownloadModal";
 import AudienceNav from "./AudienceNav";
 
 export const HeroSection = () => {
-  const [currentHeadline, setCurrentHeadline] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const [brochureOpen, setBrochureOpen] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentHeadline((prev) => (prev + 1) % 2);
-        setIsTransitioning(false);
-      }, 500);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="min-h-[90vh] relative overflow-hidden flex items-center">
@@ -40,27 +27,12 @@ export const HeroSection = () => {
           </div>
 
           {/* Headline */}
-          <div className={`transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-            {currentHeadline === 0 ? (
-              <>
-                <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
-                  Safety Leadership Without <span className="text-lime-400">Digital Literacy</span> has Become a <span className="text-lime-400">Liability</span>
-                </h1>
-                <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
-                  The safety industry is rapidly evolving. While others struggle with outdated approaches, <span className="font-bold text-lime-400">forward-thinking safety leaders are mastering digital transformation</span> to stay ahead
-                </p>
-              </>
-            ) : (
-              <>
-                <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
-                  Build an <span className="text-lime-400">AI-ready</span> safety team. Upgrade your <span className="text-lime-400">impact.</span>
-                </h1>
-                <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
-                  The world's first IOSH-approved and CPD-accredited Safety 4.0 programme. <span className="font-bold text-lime-400">Trusted by Siemens, LEGO, MARSH, and safety teams across 12 countries.</span>
-                </p>
-              </>
-            )}
-          </div>
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
+            Safety Leadership Without <span className="text-lime-400">Digital Literacy</span> has Become a <span className="text-lime-400">Liability</span>
+          </h1>
+          <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8 md:mb-12 font-light">
+            The Safety 4.0 Academy is the world's first IOSH-approved and CPD-accredited programme designed and taught by industry experts for EHS leaders in the digital age.
+          </p>
 
           {/* Video */}
           <div className="max-w-4xl mx-auto mb-10">
