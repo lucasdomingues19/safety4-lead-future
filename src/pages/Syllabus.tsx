@@ -2,97 +2,10 @@ import { useEffect, useState } from "react";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
-
 import {
-  BookOpen, Target, AlertTriangle, Award, Smartphone,
-  Wrench, Database, Sparkles, Shield, Rocket,
-  Brain, Users, PlayCircle, UserCheck, ChevronDown,
-  CheckCircle, ArrowRight, FileDown
+  ArrowRight, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle
 } from "lucide-react";
 import BrochureDownloadModal from "@/components/BrochureDownloadModal";
-
-const modules = [
-  {
-    icon: BookOpen,
-    title: "Introduction & Orientation",
-    description: "Course overview, objectives, CPD & IOSH value, learner expectations",
-    details: ["Programme structure and assessment criteria", "How to maximise your learning experience", "IOSH and CPD certification pathway"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-  {
-    icon: Target,
-    title: "What is Safety 4.0?",
-    description: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data",
-    details: ["The Safety 4.0 framework and its three pillars", "How Industry 4.0 is reshaping EHS", "The role of data in modern safety management"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-  {
-    icon: AlertTriangle,
-    title: "The Safety Status Quo is Broken",
-    description: "Compliance-heavy culture, lagging indicators, reactive safety trap",
-    details: ["Why traditional safety approaches are failing", "The cost of reactive vs proactive safety", "Breaking free from the compliance trap"],
-    color: "from-orange-500/20 to-red-500/10",
-    accent: "border-orange-500/30",
-  },
-  {
-    icon: Award,
-    title: "Skills for the Digital Age",
-    description: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills",
-    details: ["The digital competency framework for safety leaders", "Building AI and data awareness without coding", "Adaptive intelligence and future-ready thinking"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-  {
-    icon: Smartphone,
-    title: "Safetytech Applications",
-    description: "Wearables, IoT, drones, mobile-first systems, computer vision",
-    details: ["IoT sensors for real-time hazard monitoring", "Wearable technology for worker safety", "Drones and computer vision in the field"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-  {
-    icon: Wrench,
-    title: "Digital Safety Toolkit",
-    description: "Reporting apps, AI writing, automation, QR codes",
-    details: ["AI-powered reporting and documentation", "Automating routine safety processes", "Mobile-first digital tools for the field"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-  {
-    icon: Database,
-    title: "Data Strategy",
-    description: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits",
-    details: ["Building a safety data strategy from scratch", "Common data pitfalls and how to avoid them", "Turning safety data into actionable insights"],
-    color: "from-blue-500/20 to-blue-600/10",
-    accent: "border-blue-500/30",
-  },
-  {
-    icon: Sparkles,
-    title: "AI Essentials for Safety",
-    description: "AI history, ML, NLP, LLMs, computer vision, agentic AI, real-world cases",
-    details: ["Understanding ML, NLP, and LLMs in plain language", "Real-world AI applications in EHS", "The future of agentic AI in safety"],
-    color: "from-purple-500/20 to-purple-600/10",
-    accent: "border-purple-500/30",
-  },
-  {
-    icon: Shield,
-    title: "Compliance & Governance",
-    description: "Digital compliance, regulation, governance frameworks, ethical AI",
-    details: ["Navigating digital safety regulations", "Building governance frameworks for AI use", "Ethical considerations in safety technology"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-  {
-    icon: Rocket,
-    title: "Transformation Framework",
-    description: "ROI, executive influence, linking safety to business performance",
-    details: ["Building a compelling business case for Safety 4.0", "Influencing executive decision-makers", "Measuring ROI and demonstrating impact"],
-    color: "from-lime-500/20 to-lime-600/10",
-    accent: "border-lime-500/30",
-  },
-];
 
 const benefits = [
   { icon: Brain, title: "Learn AI, IoT, & SafetyTech", subtitle: "without coding", description: "Master cutting-edge safety technologies through practical, hands-on training designed for safety professionals." },
@@ -104,13 +17,12 @@ const benefits = [
 ];
 
 const Syllabus = () => {
-  const [expandedModule, setExpandedModule] = useState<number | null>(null);
   const [brochureOpen, setBrochureOpen] = useState(false);
 
   useEffect(() => {
     setPageSEO({
-      title: "Curriculum — Safety 4.0 Academy | IOSH Approved Programme",
-      description: "Explore the full Safety 4.0 curriculum: 10 modules covering AI, IoT, SafetyTech, data strategy, and digital leadership. IOSH approved & CPD accredited.",
+      title: "Safety 4.0 Accelerator — IOSH Approved Programme | Safety 4.0 Academy",
+      description: "The world's first IOSH-approved Safety 4.0 programme. Master AI, IoT, SafetyTech, data strategy, and digital leadership. CPD accredited.",
       canonical: "https://safetyacademy.tech/syllabus",
     });
   }, []);
@@ -130,7 +42,7 @@ const Syllabus = () => {
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1] tracking-tight">
-              The <span className="text-lime-400">Curriculum</span>
+              The Safety 4.0 <span className="text-lime-400">Accelerator</span>
             </h1>
 
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-10">
@@ -158,7 +70,7 @@ const Syllabus = () => {
         </div>
       </section>
 
-      {/* WHY THIS PROGRAMME */}
+      {/* WHAT YOU'LL GAIN */}
       <section className="py-16 md:py-24 border-t border-white/5">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto mb-14">
@@ -191,72 +103,6 @@ const Syllabus = () => {
           </div>
         </div>
       </section>
-
-      {/* MODULE BREAKDOWN */}
-      <section className="py-16 md:py-24 border-t border-white/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto mb-14">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-              10 Modules. <span className="text-lime-400">One Transformation.</span>
-            </h2>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              Each module builds on the last, taking you from foundational concepts to leading organisational change.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-3">
-            {modules.map((m, i) => {
-              const Icon = m.icon;
-              const isExpanded = expandedModule === i;
-              return (
-                <button
-                  key={i}
-                  onClick={() => setExpandedModule(isExpanded ? null : i)}
-                  className={`w-full text-left rounded-xl border transition-all duration-300 ${
-                    isExpanded
-                      ? `bg-white/[0.06] ${m.accent} shadow-lg`
-                      : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05] hover:border-white/20"
-                  }`}
-                >
-                  <div className="flex items-center gap-4 p-5">
-                    {/* Module number */}
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-bold tabular-nums ${
-                      isExpanded ? "bg-lime-500 text-black" : "bg-white/10 text-white"
-                    } transition-colors duration-300`}>
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base md:text-lg font-bold text-white">{m.title}</h3>
-                      <p className="text-sm text-gray-400 mt-0.5 truncate">{m.description}</p>
-                    </div>
-
-                    <ChevronDown className={`w-5 h-5 text-gray-400 flex-shrink-0 transition-transform duration-300 ${
-                      isExpanded ? "rotate-180 text-lime-400" : ""
-                    }`} />
-                  </div>
-
-                  <div className={`overflow-hidden transition-all duration-300 ${
-                    isExpanded ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
-                  }`}>
-                    <div className="px-5 pb-5 pt-1">
-                      <div className="pl-14 space-y-2">
-                        {m.details.map((detail, di) => (
-                          <div key={di} className="flex items-start gap-2">
-                            <CheckCircle className="w-4 h-4 text-lime-400 mt-0.5 flex-shrink-0" />
-                            <span className="text-sm text-gray-300">{detail}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
 
       {/* CTA */}
       <section className="py-20 md:py-28">
