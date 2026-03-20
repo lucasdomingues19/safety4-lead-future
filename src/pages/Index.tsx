@@ -4,7 +4,7 @@ import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { CurriculumOverview } from "@/components/CurriculumOverview";
 import MentorSection from "@/components/MentorSection";
-import { CoursePreviewSection } from "@/components/CoursePreviewSection";
+
 import { SocialProofSection } from "@/components/SocialProofSection";
 import { PricingSection } from "@/components/PricingSection";
 import { Footer } from "@/components/Footer";
