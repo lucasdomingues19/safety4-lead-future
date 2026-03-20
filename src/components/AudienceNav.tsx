@@ -14,7 +14,7 @@ const navLinks = [
       { label: "Case Studies", href: "/case-studies" },
     ],
   },
-  { label: "Pricing", href: "/offer" },
+  { label: "Pricing", href: "/#pricing" },
   { label: "For Companies", href: "/in-company" },
   { label: "Ebook", href: "/ebook" },
   { label: "Scorecard", href: "/scorecard" },
