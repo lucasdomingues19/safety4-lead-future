@@ -25,6 +25,11 @@ export const ProblemStatsSection = () => {
             While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
             most safety professionals are being left behind—unprepared and unequipped to lead in the digital age.
           </p>
+          <p className="text-base md:text-xl text-gray-300 mb-8 md:mb-12 leading-relaxed max-w-3xl mx-auto">
+            <span className="font-bold text-white">The hard truth:</span> Traditional safety certifications
+            won't protect your career anymore. Companies are actively seeking safety
+            leaders who can leverage AI and digital tools.
+          </p>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {stats.map((s) => {
