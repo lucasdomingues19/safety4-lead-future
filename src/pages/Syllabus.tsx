@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AudienceNav from "@/components/AudienceNav";
+import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import {
@@ -134,6 +135,7 @@ const Syllabus = () => {
         </div>
       </section>
 
+      <CoursePreviewSection />
       <Footer />
       <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
     </div>
