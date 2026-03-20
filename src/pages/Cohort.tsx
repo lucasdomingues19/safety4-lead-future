@@ -327,6 +327,9 @@ const Cohort = () => {
                   </a>
                 </div>
 
+        {/* COURSE PREVIEW */}
+        <CoursePreviewSection />
+
 
                 {/* Cross-sell to In-Company */}
                 <div className="mt-8 bg-card/60 border border-border rounded-2xl p-4 md:p-6 max-w-lg flex items-center gap-3 flex-wrap">

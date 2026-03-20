@@ -58,9 +58,6 @@ const Index = () => {
 
         
 
-        <section aria-label="Course preview">
-          <CoursePreviewSection />
-        </section>
 
         <section aria-label="What safety leaders are saying">
           <SocialProofSection />
