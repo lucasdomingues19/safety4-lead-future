@@ -1,3 +1,4 @@
+import AudienceNav from "@/components/AudienceNav";
 import { ArrowLeft, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
@@ -71,6 +72,7 @@ const FAQ = () => {
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
+      <AudienceNav />
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">

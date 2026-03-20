@@ -1,3 +1,4 @@
+import AudienceNav from "@/components/AudienceNav";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ export default function PrivacyPolicy() {
     <div className="min-h-screen bg-black relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
+      <AudienceNav />
       
       {/* Floating elements */}
       <div className="absolute inset-0 overflow-hidden">

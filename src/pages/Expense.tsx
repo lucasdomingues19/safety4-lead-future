@@ -1,3 +1,4 @@
+import AudienceNav from "@/components/AudienceNav";
 import { ArrowLeft, Download, CheckCircle, FileText, Mail, Award, Building2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -85,6 +86,7 @@ Thank you for your consideration,
     <div className="min-h-screen relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
+      <AudienceNav />
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">
