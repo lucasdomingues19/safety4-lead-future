@@ -5,7 +5,8 @@ import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import {
   ArrowRight, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle,
-  Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass
+  Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass,
+  Shield, Globe, Zap
 } from "lucide-react";
 import BrochureDownloadModal from "@/components/BrochureDownloadModal";
 
