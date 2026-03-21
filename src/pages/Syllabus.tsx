@@ -5,7 +5,8 @@ import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import {
   ArrowRight, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle,
-  Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass
+  Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass,
+  Shield, Globe, Zap
 } from "lucide-react";
 import BrochureDownloadModal from "@/components/BrochureDownloadModal";
 
@@ -110,6 +111,37 @@ const Syllabus = () => {
                 Download Brochure
               </button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHO IS IT FOR */}
+      <section className="py-20 px-4 border-t border-border">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHO IS IT FOR?</div>
+          <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+            Built for senior EHS leaders<br />
+            <span className="text-pink-500">ready to lead in the digital age</span>.
+          </h2>
+          <p className="text-lg text-white max-w-xl mb-12">
+            This programme is designed for experienced safety professionals who want to future-proof their leadership and drive measurable change.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: Shield, title: "EHS Directors & Heads of Safety", desc: "Leading safety strategy and looking to integrate AI, data, and digital tools into your function." },
+              { icon: Users, title: "Senior Safety Managers", desc: "Managing teams and processes, ready to champion Safety 4.0 across your organisation." },
+              { icon: Globe, title: "Regional / Global EHS Leads", desc: "Overseeing multi-site operations and seeking scalable digital safety solutions." },
+              { icon: Zap, title: "Safety Consultants & Advisors", desc: "Advising clients on modern safety practices and wanting to add Safety 4.0 to your toolkit." },
+              { icon: Award, title: "Operational Leaders with EHS Remit", desc: "COOs, VPs of Operations, or Plant Managers responsible for safety performance and transformation." },
+              { icon: BookOpen, title: "EHS Professionals Seeking Certification", desc: "Experienced practitioners wanting an IOSH & CPD-approved credential in digital safety leadership." },
+            ].map((item, i) => (
+              <div key={i} className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
+                <item.icon className={`w-6 h-6 mb-4 ${i % 2 === 0 ? "text-primary" : "text-pink-500"}`} />
+                <div className="font-syne text-[15px] font-bold text-white mb-2">{item.title}</div>
+                <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
