@@ -164,7 +164,7 @@ const Syllabus = () => {
                 href="/cohort"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-black font-semibold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
-                Enrol Now
+                Start Learning
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
