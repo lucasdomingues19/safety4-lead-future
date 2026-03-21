@@ -161,7 +161,7 @@ const Syllabus = () => {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="/cohort"
+                href="/accelerator"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-black font-semibold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Start Learning
