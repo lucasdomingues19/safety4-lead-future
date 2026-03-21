@@ -1,7 +1,7 @@
 import AudienceNav from "@/components/AudienceNav";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
-import BrochureDownloadModal from "@/components/BrochureDownloadModal";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [brochureOpen, setBrochureOpen] = useState(false);
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -344,35 +344,13 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Quick Actions */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <h3 className="text-xl font-semibold text-white mb-4">Quick Actions</h3>
-                <div className="space-y-3">
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-lime-500/50 text-lime-400 hover:bg-lime-500/10"
-                    onClick={() => setBrochureOpen(true)}
-                  >
-                    Download Program Brochure
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-pink-500/50 text-pink-400 hover:bg-pink-500/10"
-                    asChild
-                  >
-                    <a href="https://calendly.com/lucas-getshield360/30min" target="_blank" rel="noopener noreferrer">
-                      Schedule a Call
-                    </a>
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <Footer />
-    <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
+    
     </>
   );
 };
