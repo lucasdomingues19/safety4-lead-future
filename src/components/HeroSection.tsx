@@ -58,7 +58,7 @@ export const HeroSection = () => {
               }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
             >
-              Enrol Now
+              Start Learning
               <ArrowRight className="w-5 h-5" />
             </a>
             <a
