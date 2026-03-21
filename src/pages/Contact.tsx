@@ -350,7 +350,7 @@ const Contact = () => {
       </div>
     </div>
     <Footer />
-    <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
+    
     </>
   );
 };
