@@ -929,7 +929,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   window.location.href = "/enroll";
                 }}
               >
-                Enrol Now
+                Start Learning
               </Button>
             </div>
 
