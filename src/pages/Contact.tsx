@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [brochureOpen, setBrochureOpen] = useState(false);
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
