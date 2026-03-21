@@ -278,10 +278,6 @@ const Cohort = () => {
               {/* Left column - Hero content */}
               <div className="text-left">
                 {/* Tag */}
-                <div className="inline-flex items-center gap-2 border border-primary/40 rounded-full px-4 py-1.5 mb-8">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-[11px] tracking-[2px] text-primary font-bold font-syne">LIVE COHORT  · APRIL 2026</span>
-                </div>
 
                 <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
                   The Safety 4.0<br />
