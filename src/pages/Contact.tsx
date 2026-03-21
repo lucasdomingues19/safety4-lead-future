@@ -57,7 +57,7 @@ const Contact = () => {
           body: JSON.stringify({
             name: `${formData.firstName} ${formData.lastName}`,
             email: formData.email,
-            phone: formData.phone || null,
+            phone: formData.phone ? `${formData.phoneCode} ${formData.phone}` : null,
             source: 'contact_form',
             message: formData.message,
             role: formData.role,
