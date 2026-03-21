@@ -58,7 +58,7 @@ export const PricingSection = () => {
       buttonColor: "bg-pink-500 hover:bg-pink-600",
     },
     {
-      name: "In-Company",
+      name: "For Companies",
       price: "Special",
       period: "pricing",
       description: "Tailored training solution for your organization",
