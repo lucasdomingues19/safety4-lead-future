@@ -147,7 +147,7 @@ export const PricingSection = () => {
 
               {/* CTA Button */}
               {tier.name === "Safety 4.0 Accelerator Cohort" ? (
-                <a href="/cohort">
+                <a href="/accelerator">
                   <Button 
                     className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}
                   >

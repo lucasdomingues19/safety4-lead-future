@@ -74,7 +74,7 @@ const App = () => (
             <Route path="/syllabus" element={<Syllabus />} />
             <Route path="/enroll" element={<Offer />} />
             <Route path="/in-company" element={<InCompany />} />
-            <Route path="/cohort" element={<Cohort />} />
+            <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
