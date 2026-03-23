@@ -98,9 +98,9 @@ const About = () => {
                 </p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <h3 className="text-xl font-semibold text-blue-400 mb-4">Global Network</h3>
+                <h3 className="text-xl font-semibold text-lime-400 mb-4">Global Network</h3>
                 <p className="text-gray-300">
-                  Join a global community of safety leaders, innovators and changemakers ready to transform their career.
+                   Join a global community of safety leaders, innovators and changemakers ready to transform their career.
                 </p>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">

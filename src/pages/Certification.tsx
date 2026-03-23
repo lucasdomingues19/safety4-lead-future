@@ -238,8 +238,8 @@ const Certification = () => {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-blue-400" />
+               <div className="w-16 h-16 bg-lime-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-lime-400" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Industry Authority</h3>
               <p className="text-gray-300">Become a recognized thought leader in the Safety 4.0 movement</p>

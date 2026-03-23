@@ -109,10 +109,10 @@ const Instructor = () => {
                   <div className="text-sm text-gray-400">Students</div>
                 </div>
                 <div className="text-center">
-                  <div className="flex items-center justify-center w-16 h-16 bg-blue-500/20 rounded-full mb-3 mx-auto">
-                    <Globe className="w-8 h-8 text-blue-400" />
+                   <div className="flex items-center justify-center w-16 h-16 bg-lime-500/20 rounded-full mb-3 mx-auto">
+                    <Globe className="w-8 h-8 text-lime-400" />
                   </div>
-                  <div className="text-2xl font-bold text-blue-400">50+</div>
+                  <div className="text-2xl font-bold text-lime-400">50+</div>
                   <div className="text-sm text-gray-400">Countries</div>
                 </div>
               </div>
