@@ -208,6 +208,9 @@ const Enroll = () => {
               <p className="text-sm font-medium text-white/80">
                 Note: Space is limited and we encourage aspiring participants to enrol early. Admission is based on the application form below and an interview.
               </p>
+              <p>
+                If you're interested in the eLearning, please <a href="/offer" className="text-primary underline hover:text-primary/80">click here</a>.
+              </p>
             </div>
           </div>
         </div>
