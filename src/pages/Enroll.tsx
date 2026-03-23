@@ -149,7 +149,7 @@ const Enroll = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <AudienceNav />
-      <AnalyticsTracker />
+      <AnalyticsTracker>
       <SEOStructuredData type="course" />
 
       {/* Hero */}
