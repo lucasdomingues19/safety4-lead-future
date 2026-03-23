@@ -10,6 +10,7 @@ const navLinks = [
     children: [
       { label: "About the Programme", href: "/syllabus" },
       { label: "Safety 4.0 Accelerator", href: "/accelerator" },
+      { label: "Enrol", href: "/enrol" },
       { label: "IOSH & CPD", href: "/certification" },
       { label: "Case Studies", href: "/case-studies" },
     ],
