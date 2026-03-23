@@ -28,7 +28,7 @@ const FAQ = () => {
       title: "General",
       faqs: [
         { question: "What is Safety 4.0 Academy?", answer: "Safety 4.0 Academy is the world's first IOSH-approved and CPD-accredited training programme focused on digital safety leadership. It integrates technologies like AI, IoT, and data analytics into workplace safety management, using predictive analytics and smart technologies to prevent incidents before they occur." },
-        { question: "Is this program IOSH and CPD certified?", answer: "Yes. We are fully accredited by IOSH (Institution of Occupational Safety and Health) and CPD (Continuing Professional Development). Your certification is recognised globally by employers and professional bodies." },
+        { question: "Is this program IOSH and CPD certified?", answer: "Yes. We are an approved training provider by IOSH (Institution of Occupational Safety and Health) and CPD (Continuing Professional Development). Your certification is recognised globally by employers and professional bodies." },
         { question: "Who is it designed for?", answer: "Senior EHS professionals in leadership roles — Managers, Heads of Safety, Directors, VPs, Regional/Global Leads, and Consultants responsible for safety strategy." },
         { question: "Do I need technical skills?", answer: "No. We start with fundamentals and gradually build your digital safety expertise. Basic computer literacy and familiarity with safety concepts is all you need." },
         { question: "What if I'm not satisfied?", answer: "We offer a 14-day money-back guarantee. If you're not completely satisfied within the first 14 days, we'll provide a full refund — no questions asked." },
