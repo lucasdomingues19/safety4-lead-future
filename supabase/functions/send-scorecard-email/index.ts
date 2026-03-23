@@ -158,7 +158,7 @@ const handler = async (req: Request): Promise<Response> => {
         <!-- Header -->
         <tr><td style="background:#11113a;padding:28px 32px;">
           <h1 style="margin:0;color:#D6FF00;font-size:22px;">Safety 4.0 Readiness Scorecard</h1>
-          <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;">${data.firstName} ${safeLastName} · ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+          <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;">${escapeHtml(data.firstName)} ${escapeHtml(safeLastName)} · ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
         </td></tr>
 
         <!-- Score & Rank -->
