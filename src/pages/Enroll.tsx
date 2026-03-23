@@ -277,6 +277,7 @@ const Enroll = () => {
                     onChange={(e) => handleChange("motivation", e.target.value)}
                     placeholder="Tell us what you hope to gain from the programme..."
                     rows={4}
+                    required
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/40 resize-none"
                   />
                 </div>
