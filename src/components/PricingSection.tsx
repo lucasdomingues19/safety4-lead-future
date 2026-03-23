@@ -102,6 +102,7 @@ export const PricingSection = () => {
           {pricingTiers.map((tier, index) => (
             <div
               key={index}
+              id={tier.name === "eLearning" ? "elearning" : undefined}
               className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
                 tier.popular ? "lg:scale-105" : ""
               } transition-all duration-300 hover:scale-[1.02]`}
