@@ -946,7 +946,7 @@ const Admin = () => {
 
             {/* Lead Detail Dialog */}
             <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-              <DialogContent className="bg-slate-900 border-white/20 text-white max-w-2xl">
+              <DialogContent className="bg-card border-border text-white max-w-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-2xl">Lead Details</DialogTitle>
                   <DialogDescription className="text-gray-300">
