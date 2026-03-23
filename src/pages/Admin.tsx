@@ -1012,7 +1012,7 @@ const Admin = () => {
                           <div className="text-3xl font-bold text-white">{scorecardResults[selectedLead.email].overall_score}/100</div>
                           <div className={`px-3 py-1 rounded-full text-sm font-medium ${
                             scorecardResults[selectedLead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                            scorecardResults[selectedLead.email].overall_score >= 70 ? 'bg-blue-500/20 text-blue-300' :
+                            scorecardResults[selectedLead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
                             scorecardResults[selectedLead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
                             scorecardResults[selectedLead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
                             'bg-red-500/20 text-red-300'
