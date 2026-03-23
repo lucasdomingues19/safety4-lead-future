@@ -456,7 +456,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.text("Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification program.", margin + 8, y + 14);
     doc.setTextColor(214, 255, 0);
     doc.setFont("helvetica", "bold");
-    doc.text("www.safetyacademy.tech/enroll", margin + 8, y + 19);
+    doc.text("www.safetyacademy.tech/enrol", margin + 8, y + 19);
 
     // --- Footer with hyperlinked enroll URL ---
     doc.setTextColor(160, 160, 160);
