@@ -11,7 +11,7 @@ import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { setPageSEO } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle, Loader2, Users, Award, BookOpen, Calendar, Shield } from "lucide-react";
+import { ArrowRight, CheckCircle, Loader2, Users, Award, BookOpen, Calendar, Shield, Building2 } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { useEffect } from "react";
 
@@ -503,6 +503,29 @@ const Enroll = () => {
                   className="inline-flex items-center text-sm text-primary hover:underline"
                 >
                   Contact Us <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </a>
+              </div>
+
+              {/* Fallback cards */}
+              <div className="rounded-2xl border border-border bg-card/60 p-5 flex flex-col gap-3">
+                <BookOpen className="w-6 h-6 text-primary flex-shrink-0" />
+                <div className="text-sm font-bold text-white">Not ready for the Accelerator?</div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Self-paced eLearning — same IOSH-approved content, at your own pace.
+                </p>
+                <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-auto">
+                  View eLearning (£597) <ArrowRight className="w-3 h-3" />
+                </a>
+              </div>
+
+              <div className="rounded-2xl border border-pink-500/30 bg-pink-500/10 p-5 flex flex-col gap-3">
+                <Building2 className="w-6 h-6 text-pink-500 flex-shrink-0" />
+                <div className="text-sm font-bold text-white">Training your whole team?</div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  In-Company programme — customised curriculum, bulk pricing, and dedicated support.
+                </p>
+                <a href="/in-company" className="inline-flex items-center gap-1 text-xs font-semibold text-pink-500 hover:text-pink-400 transition-colors mt-auto">
+                  Discover In-Company <ArrowRight className="w-3 h-3" />
                 </a>
               </div>
             </div>
