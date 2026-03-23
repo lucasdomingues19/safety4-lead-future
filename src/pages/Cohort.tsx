@@ -448,7 +448,7 @@ const Cohort = () => {
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              From leaders <span className="text-pink-500">just like you</span>.
+              From leaders <span className="text-primary">just like you</span>.
             </h2>
 
             <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-5 opacity-0 translate-y-6 transition-all duration-700">
