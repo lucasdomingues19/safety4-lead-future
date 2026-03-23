@@ -234,20 +234,22 @@ const Enroll = () => {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Job Title</label>
+                    <label className="block text-sm font-medium text-white/80 mb-1.5">Job Title *</label>
                     <Input
                       value={form.jobTitle}
                       onChange={(e) => handleChange("jobTitle", e.target.value)}
                       placeholder="e.g. HSE Manager"
+                      required
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Company</label>
+                    <label className="block text-sm font-medium text-white/80 mb-1.5">Company *</label>
                     <Input
                       value={form.company}
                       onChange={(e) => handleChange("company", e.target.value)}
                       placeholder="Your organisation"
+                      required
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
                     />
                   </div>
