@@ -18,7 +18,7 @@ export const PricingSection = () => {
       features: [
         "IOSH & CPD certification",
         "10 core modules",
-        "2 masterclasses [bonus]",
+        
         "50+ video lessons",
         "Downloadable resources",
         "Interactive assessments",
