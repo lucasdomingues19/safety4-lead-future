@@ -311,7 +311,7 @@ const Cohort = () => {
 
                 {/* CTAs */}
                 <div className="flex gap-4 flex-wrap mb-8">
-                  <a href="#apply">
+                  <a href="/enrol">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
                       Apply for April Cohort <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
@@ -804,7 +804,7 @@ const Cohort = () => {
                 <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <a href="#apply">
+                  <a href="/enrol">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10 shadow-glow">
                       Apply Now <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
