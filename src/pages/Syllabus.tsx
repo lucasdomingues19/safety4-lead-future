@@ -161,19 +161,13 @@ const Syllabus = () => {
               Join safety professionals from Siemens, LEGO, Marsh, and organisations across 12 countries 
               who are already transforming their careers.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex items-center justify-center">
               <a
                 href="/accelerator"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-black font-semibold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Start Learning
                 <ArrowRight className="w-5 h-5" />
-              </a>
-              <a
-                href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors active:scale-[0.97]"
-              >
-                Talk to Us
               </a>
             </div>
           </div>
