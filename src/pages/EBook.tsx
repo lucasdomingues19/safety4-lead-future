@@ -300,6 +300,7 @@ const EBook = () => {
           </div>
         </div>
 
+
               <div className="flex items-start space-x-4">
                 <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                   <span className="text-white text-sm font-bold">6</span>
