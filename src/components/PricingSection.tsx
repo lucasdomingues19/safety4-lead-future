@@ -175,6 +175,10 @@ Learning Path<span className="text-lime-400">Learning Path</span>
           )}
         </div>
 
+        <p className="text-sm md:text-base text-gray-400 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
+          *Get <a href="/contact?request=reimbursement" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
+        </p>
+
         {/* Bottom CTA */}
         <div className="text-center mt-16">
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
