@@ -299,25 +299,6 @@ const EBook = () => {
             </div>
           </div>
         </div>
-
-
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-white text-sm font-bold">6</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Implementation Roadmap
-                  </h3>
-                  <p className="text-gray-300">
-                    Get a step-by-step guide to implementing Safety 4.0 practices 
-                    in your organization.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <Footer />
