@@ -24,7 +24,7 @@ export const NewsletterPopup = () => {
 
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 30000); // 30 seconds
+    }, 60000); // 60 seconds
 
     return () => clearTimeout(timer);
   }, []);
