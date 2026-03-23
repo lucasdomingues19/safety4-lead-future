@@ -111,7 +111,7 @@ const FAQ = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-            Frequently Asked <span className="text-pink-500">Questions</span>
+            Frequently Asked <span className="text-lime-400">Questions</span>
           </h1>
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
             Everything you need to know about the Safety 4.0 Academy program
