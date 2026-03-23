@@ -570,7 +570,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('7days')}
                 variant={dateRange === '7days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '7days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === '7days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
               >
                 Last 7 Days
               </Button>
