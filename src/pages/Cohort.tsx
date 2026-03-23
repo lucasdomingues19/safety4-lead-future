@@ -287,8 +287,7 @@ const Cohort = () => {
                 <p className="text-base md:text-xl text-gray-300 max-w-xl leading-relaxed mb-10 font-light">
                   4 weeks. Live sessions and self-paced modules.
                   <br />A cohort of EHS professionals
-                  transforming how they lead safety in the digital age.{" "}
-                  <span className="font-bold text-pink-500">IOSH-approved and CPD-accredited.</span>{" "}
+                   transforming how they lead safety in the digital age.
                 </p>
 
                 {/* Countdown */}
