@@ -68,10 +68,16 @@ const Enroll = () => {
     email: "",
     countryCode: "+44",
     phone: "",
+    country: "",
+    linkedIn: "",
     jobTitle: "",
     company: "",
     experience: "",
+    budgetApproval: "",
+    paymentMethod: "",
+    cohort: "",
     motivation: "",
+    hearAbout: "",
     scholarshipInterest: false,
   });
 
@@ -88,7 +94,7 @@ const Enroll = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.jobTitle || !form.company || !form.experience || !form.motivation) {
+    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.country || !form.linkedIn || !form.jobTitle || !form.company || !form.experience || !form.budgetApproval || !form.paymentMethod || !form.cohort || !form.motivation || !form.hearAbout) {
       toast({ title: "Please fill in all required fields", variant: "destructive" });
       return;
     }
@@ -96,9 +102,15 @@ const Enroll = () => {
     setLoading(true);
     try {
       const messageData = JSON.stringify({
+        country: form.country,
+        linkedIn: form.linkedIn,
         company: form.company,
         experience: form.experience,
+        budgetApproval: form.budgetApproval,
+        paymentMethod: form.paymentMethod,
+        cohort: form.cohort,
         motivation: form.motivation,
+        hearAbout: form.hearAbout,
         scholarshipInterest: form.scholarshipInterest,
       });
 
@@ -250,6 +262,29 @@ const Enroll = () => {
                   </div>
                 </div>
 
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Country *</label>
+                  <Input
+                    value={form.country}
+                    onChange={(e) => handleChange("country", e.target.value)}
+                    placeholder="Your country of residence"
+                    required
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">LinkedIn URL *</label>
+                  <Input
+                    type="url"
+                    value={form.linkedIn}
+                    onChange={(e) => handleChange("linkedIn", e.target.value)}
+                    placeholder="https://linkedin.com/in/yourprofile"
+                    required
+                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                  />
+                </div>
+
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-white/80 mb-1.5">Job Title *</label>
@@ -289,7 +324,50 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Why do you want to join? *</label>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Which best describes your ability to approve training? *</label>
+                  <Select value={form.budgetApproval} onValueChange={(v) => handleChange("budgetApproval", v)} required>
+                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                      <SelectValue placeholder="Choose one" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="own-budget">I own the budget and will approve it</SelectItem>
+                      <SelectItem value="recommend">I recommend, someone else approves</SelectItem>
+                      <SelectItem value="need-approval">I need full approval</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Should you be admitted in the programme, how would you pay? *</label>
+                  <Select value={form.paymentMethod} onValueChange={(v) => handleChange("paymentMethod", v)} required>
+                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                      <SelectValue placeholder="Choose one" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="self-pay">I will pay for it myself</SelectItem>
+                      <SelectItem value="company-pay">An organisation/company is paying for me</SelectItem>
+                      <SelectItem value="not-sure">I am not sure</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Which cohort are you applying for? *</label>
+                  <Select value={form.cohort} onValueChange={(v) => handleChange("cohort", v)} required>
+                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                      <SelectValue placeholder="Choose one" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="april-2026">April (7th – 30th)</SelectItem>
+                      <SelectItem value="may-2026">May (waitlisted)</SelectItem>
+                      <SelectItem value="june-2026">June (waitlisted)</SelectItem>
+                      <SelectItem value="july-2026">July (waitlisted)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Describe why you wish to join the programme and your expectations *</label>
                   <Textarea
                     value={form.motivation}
                     onChange={(e) => handleChange("motivation", e.target.value)}
@@ -298,6 +376,22 @@ const Enroll = () => {
                     required
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/40 resize-none"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">How did you hear about the Safety 4.0 Academy? *</label>
+                  <Select value={form.hearAbout} onValueChange={(v) => handleChange("hearAbout", v)} required>
+                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                      <SelectValue placeholder="Choose one" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="linkedin">LinkedIn</SelectItem>
+                      <SelectItem value="google">Google</SelectItem>
+                      <SelectItem value="events">Events</SelectItem>
+                      <SelectItem value="friends-colleagues">Friends/Colleagues</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="flex items-start gap-3">
