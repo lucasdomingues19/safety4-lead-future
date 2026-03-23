@@ -84,7 +84,13 @@ const AudienceNav = () => {
     }
   }, [location.pathname, navigate]);
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
+    <>
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-primary text-primary-foreground text-center py-1.5 text-sm font-semibold">
+        <Link to="/enrol" className="hover:underline">
+          Registration now OPEN for the April Accelerator cohort →
+        </Link>
+      </div>
+      <nav className="fixed top-[36px] left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="flex items-center gap-3 flex-shrink-0">
           <img src={safetyAcademyLogo} alt="Safety 4.0 Academy" className="h-8" />
