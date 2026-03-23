@@ -99,8 +99,8 @@ const Cohort = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Safety 4.0 Accelerator Cohort — 4-Week IOSH Approved Live Programme | April 2026",
-      description: "Join the Safety 4.0 Accelerator Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for April 2026.",
+      title: "Accelerator • Cohort — 4-Week IOSH Approved Live Programme | April 2026",
+      description: "Join the Accelerator • Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for April 2026.",
       canonical: "https://safetyacademy.tech/accelerator"
     });
 
