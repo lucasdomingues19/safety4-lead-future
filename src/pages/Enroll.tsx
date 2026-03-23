@@ -99,6 +99,7 @@ const Enroll = () => {
         company: form.company,
         experience: form.experience,
         motivation: form.motivation,
+        scholarshipInterest: form.scholarshipInterest,
       });
 
       const { error } = await supabase.functions.invoke("capture-lead", {
