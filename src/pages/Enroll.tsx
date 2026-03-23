@@ -68,10 +68,16 @@ const Enroll = () => {
     email: "",
     countryCode: "+44",
     phone: "",
+    country: "",
+    linkedIn: "",
     jobTitle: "",
     company: "",
     experience: "",
+    budgetApproval: "",
+    paymentMethod: "",
+    cohort: "",
     motivation: "",
+    hearAbout: "",
     scholarshipInterest: false,
   });
 
