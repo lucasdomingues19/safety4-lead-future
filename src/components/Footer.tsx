@@ -1,4 +1,5 @@
 import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 export const Footer = () => {
