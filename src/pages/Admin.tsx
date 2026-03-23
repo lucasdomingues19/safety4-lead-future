@@ -570,7 +570,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('7days')}
                 variant={dateRange === '7days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '7days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === '7days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
               >
                 Last 7 Days
               </Button>
@@ -578,7 +578,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('30days')}
                 variant={dateRange === '30days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '30days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === '30days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
               >
                 Last 30 Days
               </Button>
@@ -586,7 +586,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('alltime')}
                 variant={dateRange === 'alltime' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === 'alltime' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === 'alltime' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
               >
                 All Time
               </Button>
@@ -837,14 +837,14 @@ const Admin = () => {
                     onChange={(e) => setSourceFilter(e.target.value)}
                     className="bg-white/10 border border-white/20 text-white text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500/50"
                   >
-                    <option value="all" className="bg-slate-900">All Sources</option>
-                    <option value="assessment" className="bg-slate-900">Assessment</option>
-                    <option value="contact_form" className="bg-slate-900">Contact Form</option>
-                    <option value="cohort-pre-enrollment" className="bg-slate-900">Cohort Pre-Enroll</option>
-                    <option value="cohort-application" className="bg-slate-900">Cohort Application</option>
-                    <option value="newsletter_popup" className="bg-slate-900">Newsletter</option>
-                    <option value="ebook_download" className="bg-slate-900">eBook</option>
-                    <option value="brochure_download" className="bg-slate-900">Brochure</option>
+                    <option value="all" className="bg-black">All Sources</option>
+                    <option value="assessment" className="bg-black">Assessment</option>
+                    <option value="contact_form" className="bg-black">Contact Form</option>
+                    <option value="cohort-pre-enrollment" className="bg-black">Cohort Pre-Enroll</option>
+                    <option value="cohort-application" className="bg-black">Cohort Application</option>
+                    <option value="newsletter_popup" className="bg-black">Newsletter</option>
+                    <option value="ebook_download" className="bg-black">eBook</option>
+                    <option value="brochure_download" className="bg-black">Brochure</option>
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-white/40">
@@ -885,7 +885,7 @@ const Admin = () => {
                             <TableCell className="text-white">
                               <span className={`px-2 py-1 rounded-full text-xs ${
                                 lead.source === 'assessment' 
-                                  ? 'bg-blue-500/20 text-blue-300' 
+                                  ? 'bg-primary/20 text-primary' 
                                   : lead.source === 'contact_form'
                                   ? 'bg-green-500/20 text-green-300'
                                   : lead.source === 'cohort-pre-enrollment' || lead.source === 'cohort-application'
@@ -911,7 +911,7 @@ const Admin = () => {
                               {scorecardResults[lead.email] ? (
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                   scorecardResults[lead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-blue-500/20 text-blue-300' :
+                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
                                   scorecardResults[lead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
                                   scorecardResults[lead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
                                   'bg-red-500/20 text-red-300'
@@ -946,7 +946,7 @@ const Admin = () => {
 
             {/* Lead Detail Dialog */}
             <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-              <DialogContent className="bg-slate-900 border-white/20 text-white max-w-2xl">
+              <DialogContent className="bg-card border-border text-white max-w-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-2xl">Lead Details</DialogTitle>
                   <DialogDescription className="text-gray-300">
@@ -1012,7 +1012,7 @@ const Admin = () => {
                           <div className="text-3xl font-bold text-white">{scorecardResults[selectedLead.email].overall_score}/100</div>
                           <div className={`px-3 py-1 rounded-full text-sm font-medium ${
                             scorecardResults[selectedLead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                            scorecardResults[selectedLead.email].overall_score >= 70 ? 'bg-blue-500/20 text-blue-300' :
+                            scorecardResults[selectedLead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
                             scorecardResults[selectedLead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
                             scorecardResults[selectedLead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
                             'bg-red-500/20 text-red-300'
@@ -1028,7 +1028,7 @@ const Admin = () => {
                                 <div 
                                   className={`h-full rounded-full ${
                                     cat.percentage >= 85 ? 'bg-green-500' :
-                                    cat.percentage >= 70 ? 'bg-blue-500' :
+                                    cat.percentage >= 70 ? 'bg-primary' :
                                     cat.percentage >= 55 ? 'bg-yellow-500' :
                                     cat.percentage >= 35 ? 'bg-orange-500' :
                                     'bg-red-500'
