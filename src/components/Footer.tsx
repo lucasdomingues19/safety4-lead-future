@@ -1,4 +1,5 @@
 import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 export const Footer = () => {
@@ -24,52 +25,52 @@ export const Footer = () => {
             <h4 className="text-white font-semibold text-base md:text-lg mb-4 md:mb-6">Resources</h4>
             <ul className="space-y-2 md:space-y-3">
               <li>
-                <a 
-                  href="/blog" 
+                <Link 
+                  to="/blog" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
                 >
                   Blog & Insights
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/contact" 
+                <Link 
+                  to="/contact" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
                 >
                   Support
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/privacy-policy" 
+                <Link 
+                  to="/privacy-policy" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/terms-conditions" 
+                <Link 
+                  to="/terms-conditions" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
                 >
                   Terms & Conditions
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/cookies-policy" 
+                <Link 
+                  to="/cookies-policy" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
                 >
                   Cookies Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a 
-                  href="/anti-piracy-policy" 
+                <Link 
+                  to="/anti-piracy-policy" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
                 >
                   Anti-Piracy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
