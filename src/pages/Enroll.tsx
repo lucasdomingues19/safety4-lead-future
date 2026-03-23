@@ -212,6 +212,7 @@ const Enroll = () => {
                 If you're interested in the eLearning, please <a href="/offer" className="text-primary underline hover:text-primary/80">click here</a>.
               </p>
             </div>
+          </div>
         </div>
       </section>
 
