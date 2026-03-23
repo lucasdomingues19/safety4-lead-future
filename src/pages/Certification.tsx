@@ -180,17 +180,7 @@ const Certification = () => {
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-white mb-2">Complete the Program</h3>
-                <p className="text-gray-300">Successfully finish all 10 modules of the Safety 4.0 Academy program with passing grades on all assessments.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                2
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-2">Portfolio Development</h3>
-                <p className="text-gray-300">Create a comprehensive portfolio demonstrating your practical application of Safety 4.0 principles in real-world scenarios.</p>
+                <p className="text-gray-300">Successfully finish all 10 modules of the Safety 4.0 Academy program with passing grades on all assessments. Attend the live classes where applicable.</p>
               </div>
             </div>
 
