@@ -9,13 +9,13 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 0%; /* Pure Black */
-    --foreground: 325 100% 70%; /* Pink #ff66c4 */
+    --foreground: 0 0% 100%; /* White */
 
     --card: 0 0% 8%;
-    --card-foreground: 325 100% 70%;
+    --card-foreground: 0 0% 100%;
 
     --popover: 0 0% 8%;
-    --popover-foreground: 325 100% 70%;
+    --popover-foreground: 0 0% 100%;
 
     /* Updated Brand Colors */
     --primary: 85 100% 72%; /* Lime Green #c1ff72 */
