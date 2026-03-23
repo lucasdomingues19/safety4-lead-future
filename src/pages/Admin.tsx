@@ -885,7 +885,7 @@ const Admin = () => {
                             <TableCell className="text-white">
                               <span className={`px-2 py-1 rounded-full text-xs ${
                                 lead.source === 'assessment' 
-                                  ? 'bg-blue-500/20 text-blue-300' 
+                                  ? 'bg-primary/20 text-primary' 
                                   : lead.source === 'contact_form'
                                   ? 'bg-green-500/20 text-green-300'
                                   : lead.source === 'cohort-pre-enrollment' || lead.source === 'cohort-application'
