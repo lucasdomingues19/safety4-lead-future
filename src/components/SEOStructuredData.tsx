@@ -187,7 +187,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "estimatedCost": {
         "@type": "MonetaryAmount",
         "currency": "GBP",
-        "value": "497"
+        "value": "597"
       },
       "totalTime": "PT12W",
       "step": [
