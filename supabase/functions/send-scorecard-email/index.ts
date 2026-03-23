@@ -241,8 +241,8 @@ const handler = async (req: Request): Promise<Response> => {
           to: ["lucas@getshield360.com"],
           replyTo: data.email,
           subject: `Scorecard Completed: ${data.firstName} ${safeLastName} — ${data.overallScore}/100`,
-          html: `<p><strong>${data.firstName} ${safeLastName}</strong> (${data.email}) completed the Safety 4.0 Scorecard.</p>
-                 <p>Score: ${data.overallScore}/100 — ${data.rankLabel}</p>`,
+          html: `<p><strong>${escapeHtml(data.firstName)} ${escapeHtml(safeLastName)}</strong> (${escapeHtml(data.email)}) completed the Safety 4.0 Scorecard.</p>
+                 <p>Score: ${data.overallScore}/100 — ${escapeHtml(data.rankLabel)}</p>`,
         },
         "Admin"
       );
