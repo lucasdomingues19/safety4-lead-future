@@ -117,7 +117,7 @@ const ExitIntentPopup = () => {
               </DialogHeader>
 
               <div className="space-y-6 py-4">
-                <div className="bg-slate-800/50 rounded-lg p-4 space-y-3">
+                <div className="bg-card/50 rounded-lg p-4 space-y-3">
                   <ul className="space-y-2 text-gray-300 text-sm">
                     <li className="flex items-start gap-3">
                       <span className="text-[#D6FF00] font-bold">✓</span>
