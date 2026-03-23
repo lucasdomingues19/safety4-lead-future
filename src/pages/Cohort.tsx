@@ -268,8 +268,8 @@ const Cohort = () => {
                 {/* Tag */}
 
                 <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
-                  The Safety 4.0<br />
-                  <span className="text-primary">Accelerator </span>
+                  Accelerator •<br />
+                  <span className="text-primary">Cohort </span>
                 </h1>
 
                 <p className="text-base md:text-xl text-gray-300 max-w-xl leading-relaxed mb-10 font-light">
