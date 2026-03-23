@@ -177,9 +177,9 @@ const ExitIntentPopup = () => {
                   </div>
                 </div>
 
-                <div className="bg-slate-800/50 border border-[#D6FF00]/30 rounded-lg p-4 text-center">
+                <div className="bg-card/50 border border-[#D6FF00]/30 rounded-lg p-4 text-center">
                   <p className="text-sm text-white/60 mb-2">Use coupon code at checkout:</p>
-                  <div className="bg-slate-900 border border-dashed border-[#D6FF00] rounded px-4 py-2 inline-block">
+                  <div className="bg-card border border-dashed border-[#D6FF00] rounded px-4 py-2 inline-block">
                     <span className="text-xl font-mono font-bold text-[#D6FF00] tracking-wider">ACADEMY10</span>
                   </div>
                 </div>

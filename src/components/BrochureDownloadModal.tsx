@@ -185,7 +185,7 @@ const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProp
                 className="bg-white/10 border border-white/20 text-white rounded-md px-2 py-2 text-sm w-28 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-lime-400"
               >
                 {countryCodes.map((c) => (
-                  <option key={c.code} value={c.code} className="bg-slate-900 text-white">
+                  <option key={c.code} value={c.code} className="bg-black text-white">
                     {c.label}
                   </option>
                 ))}
