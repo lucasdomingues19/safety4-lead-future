@@ -299,6 +299,18 @@ const Enroll = () => {
                   />
                 </div>
 
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="scholarship"
+                    checked={form.scholarshipInterest}
+                    onCheckedChange={(checked) => setForm(prev => ({ ...prev, scholarshipInterest: checked === true }))}
+                    className="mt-0.5 border-white/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  />
+                  <label htmlFor="scholarship" className="text-sm text-white/70 cursor-pointer leading-relaxed">
+                    I am interested in the Safety 4.0 Accelerator scholarship
+                  </label>
+                </div>
+
                 <Button
                   type="submit"
                   disabled={loading}
