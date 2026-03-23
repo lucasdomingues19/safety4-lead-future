@@ -21,6 +21,16 @@ import { setPageSEO } from "@/utils/seo";
 
 const Index = () => {
   useEffect(() => {
+    // Handle hash scrolling on mount
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    }
+  }, []);
+
+  useEffect(() => {
     trackPageView(window.location.pathname);
     startTimeTracking();
     setPageSEO({
