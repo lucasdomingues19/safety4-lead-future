@@ -47,7 +47,7 @@ export const PricingSection = () => {
     "Peer networking opportunities",
     "Group projects & discussions",
     "Live Q&A sessions",
-    "Career coaching sessions",
+    
     "Priority support",
     "Exclusive community membership"],
 
