@@ -456,7 +456,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.text("Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification program.", margin + 8, y + 14);
     doc.setTextColor(214, 255, 0);
     doc.setFont("helvetica", "bold");
-    doc.text("www.safetyacademy.tech/enroll", margin + 8, y + 19);
+    doc.text("www.safetyacademy.tech/enrol", margin + 8, y + 19);
 
     // --- Footer with hyperlinked enroll URL ---
     doc.setTextColor(160, 160, 160);
@@ -465,8 +465,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.text("© Safety 4.0 Academy", pageWidth / 2 - 20, pageHeight - 8);
     doc.setTextColor(60, 120, 200);
     doc.setFont("helvetica", "bold");
-    const enrollUrl = "https://www.safetyacademy.tech/enroll";
-    const enrollText = "www.safetyacademy.tech/enroll";
+    const enrollUrl = "https://www.safetyacademy.tech/enrol";
+    const enrollText = "www.safetyacademy.tech/enrol";
     const footerTextWidth = doc.getTextWidth(enrollText);
     const footerLinkX = pageWidth / 2 + 10;
     doc.text(enrollText, footerLinkX, pageHeight - 8);
@@ -926,7 +926,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
                 onClick={() => {
                   handleClose();
-                  window.location.href = "/enroll";
+                  window.location.href = "/enrol";
                 }}
               >
                 Start Learning
