@@ -186,27 +186,29 @@ const Enroll = () => {
 
       {/* Hero */}
       <section className="pt-24 pb-12">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-            Enrol in the <span className="text-primary">Safety 4.0 Accelerator</span>
-          </h1>
-          <div className="space-y-4 text-white/70 text-base leading-relaxed">
-            <p>
-              Thank you for your interest in the Safety 4.0 Accelerator, a 4-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
-            </p>
-            <p>
-              Our next cohort runs from <span className="text-white font-semibold">7th – 30th April, 2026</span>.
-            </p>
-            <p>Kindly fill in the application form below.</p>
-            <p className="text-sm text-white/50 italic">
-              *Safety 4.0 Accelerator offers a limited number of need-based partial scholarships for individuals with underrepresented backgrounds and limited financial means. Kindly select the 'I am interested in the Safety 4.0 Accelerator scholarship' option below.
-            </p>
-            <p>
-              Once your application is submitted, our team will review your candidacy and invite you for a call. If you are accepted to join the programme, payment information will be shared with you to secure your place prior to its commencement.
-            </p>
-            <p className="text-sm font-medium text-white/80">
-              Note: Space is limited and we encourage aspiring participants to enrol early. Admission is based on the application form below and an interview.
-            </p>
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="lg:pr-[40%]">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
+              Enrol in the <span className="text-primary">Safety 4.0 Accelerator</span>
+            </h1>
+            <div className="space-y-4 text-white/70 text-base leading-relaxed">
+              <p>
+                Thank you for your interest in the Safety 4.0 Accelerator, a 4-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
+              </p>
+              <p>
+                Our next cohort runs from <span className="text-white font-semibold">7th – 30th April, 2026</span>.
+              </p>
+              <p>Kindly fill in the application form below.</p>
+              <p className="text-sm text-white/50 italic">
+                *Safety 4.0 Accelerator offers a limited number of need-based partial scholarships for individuals with underrepresented backgrounds and limited financial means. Kindly select the 'I am interested in the Safety 4.0 Accelerator scholarship' option below.
+              </p>
+              <p>
+                Once your application is submitted, our team will review your candidacy and invite you for a call. If you are accepted to join the programme, payment information will be shared with you to secure your place prior to its commencement.
+              </p>
+              <p className="text-sm font-medium text-white/80">
+                Note: Space is limited and we encourage aspiring participants to enrol early. Admission is based on the application form below and an interview.
+              </p>
+            </div>
           </div>
         </div>
       </section>
