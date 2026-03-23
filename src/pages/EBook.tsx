@@ -296,15 +296,6 @@ const EBook = () => {
                 </form>
               </div>
 
-              {/* Bonus Content */}
-              <div className="bg-gradient-to-r from-lime-500/20 to-pink-500/20 rounded-2xl p-6 border border-white/20">
-                <h4 className="text-lg font-semibold text-white mb-3">
-                  Bonus: Exclusive Access
-                </h4>
-                <p className="text-gray-300 text-sm">
-                  Download the eBook and get exclusive invite to join our monthly masterclass series "Become the Safety 4.0 Leader" on LinkedIn
-                </p>
-              </div>
             </div>
           </div>
         </div>
