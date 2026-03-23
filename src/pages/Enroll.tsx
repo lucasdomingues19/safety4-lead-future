@@ -158,7 +158,7 @@ const Enroll = () => {
       {/* Hero */}
       <section className="pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-center">
+          <h1 className="text-4xl lg:text-5xl font-bold mb-6">
             Enrol in the <span className="text-primary">Safety 4.0 Accelerator</span>
           </h1>
           <div className="space-y-4 text-white/70 text-base leading-relaxed">
