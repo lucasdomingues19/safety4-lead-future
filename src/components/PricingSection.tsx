@@ -98,13 +98,13 @@ export const PricingSection = () => {
 
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto items-stretch">
           {pricingTiers.map((tier, index) =>
           <div
             key={index}
             id={tier.name === "eLearning" ? "elearning" : undefined}
             className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
-            tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02]`
+            tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
             }>
             
               {/* Popular Badge */}
@@ -137,7 +137,7 @@ export const PricingSection = () => {
               </div>
 
               {/* Features */}
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-8 flex-grow">
                 {tier.features.map((feature, featureIndex) =>
               <div key={featureIndex} className="flex items-start space-x-3">
                     <CheckCircle className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
