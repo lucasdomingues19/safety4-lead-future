@@ -29,6 +29,7 @@ const Offer = lazy(() => import("./pages/Offer"));
 const InCompany = lazy(() => import("./pages/InCompany"));
 const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
+const Enroll = lazy(() => import("./pages/Enroll"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -76,6 +77,7 @@ const App = () => (
             <Route path="/in-company" element={<InCompany />} />
             <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/enrol" element={<Enroll />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
