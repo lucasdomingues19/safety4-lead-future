@@ -209,7 +209,7 @@ const Enroll = () => {
                 Note: Space is limited and we encourage aspiring participants to enrol early. Admission is based on the application form below and an interview.
               </p>
               <p className="text-lime-400">
-                If you're interested in the eLearning, please <a href="/#pricing" className="underline hover:text-lime-300">click here</a>.
+                If you're interested in the eLearning, please <a href="/#elearning" className="underline hover:text-lime-300">click here</a>.
               </p>
             </div>
           </div>
