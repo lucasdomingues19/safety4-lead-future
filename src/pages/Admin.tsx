@@ -586,7 +586,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('alltime')}
                 variant={dateRange === 'alltime' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === 'alltime' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === 'alltime' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
               >
                 All Time
               </Button>
