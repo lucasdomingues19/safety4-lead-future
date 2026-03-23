@@ -13,17 +13,17 @@ export const PricingSection = () => {
     price: "£597",
     originalPrice: "£697",
     period: "one-time",
-    description: "Self-paced online learning with 12-month access",
+    description: "Self-paced online learning with lifelong access",
     icon: Tablet,
     features: [
     "IOSH & CPD certification",
     "10 core modules",
 
-    "50+ video lessons",
+    "60+ video lessons",
     "Downloadable resources",
     "Interactive assessments",
     "Case studies",
-    "12-month access to materials",
+    "Lifelong access to materials",
     "Email support",
     "Mobile app"],
 

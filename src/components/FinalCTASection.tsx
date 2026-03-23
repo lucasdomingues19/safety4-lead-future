@@ -1,25 +1,15 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, Users, Award } from "lucide-react";
 
 export const FinalCTASection = () => {
   return (
     <section className="py-20 relative overflow-hidden">
-      {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
       
-      {/* Floating elements - Purple and Lime */}
+      {/* Floating elements - Lime accent */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Purple blob - Top left */}
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-        
-        {/* Lime blob - Top right */}
-        <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-        
-        {/* Purple blob - Bottom left */}
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-500/20 to-purple-400/10 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
-        
-        {/* Lime blob - Bottom right */}
-        <div className="absolute bottom-1/4 -right-20 w-64 h-64 rounded-full bg-gradient-to-br from-lime-500/15 via-lime-400/20 to-lime-600/10 blur-3xl animate-[float_28s_ease-in-out_infinite_reverse]"></div>
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-primary/20 via-primary/15 to-primary/10 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
+        <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-primary/15 via-primary/20 to-primary/10 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
+        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-primary/10 via-primary/15 to-primary/5 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
       </div>
       
       {/* Subtle grid pattern */}
@@ -70,25 +60,27 @@ export const FinalCTASection = () => {
             </div>
           </div>
 
-          {/* CTA Info */}
-          <div className="space-y-8">
-            <div className="text-white/80 space-y-2">
-              <p className="text-lg">
-                <span className="font-semibold">Founding Member Special:</span> Save 30% if you enroll today
-              </p>
-              <p className="text-sm">
-                IOSH & CPD Approved • Lifetime Access • 30-Day Money Back Guarantee
-              </p>
-            </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+            <a
+              href="/enrol"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:opacity-90 transition-opacity active:scale-[0.97]"
+            >
+              Enrol Now
+              <ArrowRight className="w-5 h-5" />
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors"
+            >
+              Schedule Free Consultation
+            </a>
           </div>
 
-          {/* Urgency Indicator */}
-          <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-2xl p-6 animate-glow-pulse">
-            <p className="text-white font-semibold text-lg mb-2">
-              🔥 Limited Time: Next Cohort Starts in 14 Days
-            </p>
-            <p className="text-white/80 text-sm">
-              Only 47 spots remaining • Don't wait, prices increase after this week
+          {/* Info */}
+          <div className="text-white/70 space-y-2">
+            <p className="text-sm">
+              IOSH & CPD Approved • Lifelong Access • 30-Day Money Back Guarantee
             </p>
           </div>
         </div>

@@ -56,7 +56,7 @@ export const StickyCTABar = () => {
               onClick={scrollToPricing}
               className="bg-lime-500 hover:bg-lime-600 text-black font-semibold px-6 py-2 text-sm group whitespace-nowrap"
             >
-              Enroll Now
+              Enrol Now
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
 
