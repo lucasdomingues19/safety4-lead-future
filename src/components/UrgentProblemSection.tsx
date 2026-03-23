@@ -51,7 +51,7 @@ export const UrgentProblemSection = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
-              <div className="relative text-center space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30 hover:border-red-500/50 transition-all">
+              <div className="relative text-center space-y-4 bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30 hover:border-red-500/50 transition-all">
                 <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
                 <div className="text-4xl font-bold text-red-400">25%</div>
                 <h3 className="text-lg font-semibold text-white">No AI Skills</h3>
