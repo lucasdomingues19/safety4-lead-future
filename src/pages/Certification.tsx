@@ -173,10 +173,10 @@ const Certification = () => {
               </div>
             </div>
 
-            {/* Right: Certification Process */}
+            {/* Right: Certification Process & Benefits */}
             <div>
               <h2 className="text-3xl font-bold text-white mb-8">Certification Process</h2>
-              <div className="space-y-8">
+              <div className="space-y-8 mb-12">
                 <div className="flex items-start space-x-5">
                   <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
                   <div>
@@ -199,37 +199,37 @@ const Certification = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Benefits */}
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-white mb-12">Certification Benefits</h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-pink-400" />
+              <h2 className="text-3xl font-bold text-white mb-6">Certification Benefits</h2>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-pink-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Award className="w-5 h-5 text-pink-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold text-white">Global Recognition</h3>
+                    <p className="text-gray-300 text-sm">Your credentials are recognized and respected by employers worldwide</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 text-lime-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold text-white">Career Advancement</h3>
+                    <p className="text-gray-300 text-sm">98% of certified professionals report readiness for career advancement</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <div className="w-10 h-10 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-5 h-5 text-lime-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-semibold text-white">Industry Authority</h3>
+                    <p className="text-gray-300 text-sm">Become a recognized thought leader in the Safety 4.0 movement</p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Global Recognition</h3>
-              <p className="text-gray-300">Your credentials are recognized and respected by employers worldwide</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-lime-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-lime-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Career Advancement</h3>
-              <p className="text-gray-300">98% of certified professionals report readiness for career advancement</p>
-            </div>
-
-            <div className="text-center">
-               <div className="w-16 h-16 bg-lime-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-lime-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Industry Authority</h3>
-              <p className="text-gray-300">Become a recognized thought leader in the Safety 4.0 movement</p>
             </div>
           </div>
         </div>
