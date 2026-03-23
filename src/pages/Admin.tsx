@@ -911,7 +911,7 @@ const Admin = () => {
                               {scorecardResults[lead.email] ? (
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                   scorecardResults[lead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-blue-500/20 text-blue-300' :
+                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
                                   scorecardResults[lead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
                                   scorecardResults[lead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
                                   'bg-red-500/20 text-red-300'
