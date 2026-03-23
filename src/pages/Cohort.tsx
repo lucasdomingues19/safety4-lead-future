@@ -190,7 +190,7 @@ const Cohort = () => {
   { icon: Award, title: "IOSH-Approved Certificate", desc: "The world's first IOSH-approved Safety 4.0 programme. Your certificate carries IOSH's institutional credibility — recognised by employers in the UK and internationally." },
   { icon: BookOpen, title: "60+ On-Demand Lessons", desc: "Studio-recorded lessons available anytime, alongside live sessions. 10 modules covering AI, SafetyTech, data strategy, digital culture, and leadership. 8+ CPD hours." },
   { icon: Globe, title: "Alumni Community Access", desc: "Graduates join a growing network of Safety 4.0 leaders across 12+ countries. Lucas runs regular alumni sessions for ongoing development. A career-long network." },
-  { icon: Zap, title: "Direct Access to Lucas", desc: "A dedicated cohort communication channel. Ask questions between sessions, share progress, get feedback on how to apply what you're learning in your specific context." }];
+  { icon: Zap, title: "Weekly Q&A Sessions", desc: "Live weekly Q&A sessions where you can ask questions, share progress, and get feedback on how to apply what you're learning in your specific context." }];
 
 
   const timeline = [
