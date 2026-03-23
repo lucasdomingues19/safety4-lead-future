@@ -149,14 +149,7 @@ const Enroll = () => {
     <div className="min-h-screen bg-black text-white">
       <AudienceNav />
       <AnalyticsTracker />
-      <SEOStructuredData
-        type="course"
-        data={{
-          name: "Safety 4.0 Accelerator",
-          description: "IOSH-approved, CPD-certified digital safety leadership programme",
-          provider: "Safety 4.0 Academy",
-        }}
-      />
+      <SEOStructuredData type="course" />
 
       {/* Hero */}
       <section className="pt-24 pb-12">
