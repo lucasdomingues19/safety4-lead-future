@@ -29,6 +29,17 @@ interface ScorecardData {
   pdfBase64?: string;
 }
 
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#039;'
+  };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+};
+
+const isValidHexColor = (color: string): boolean =>
+  /^#[0-9a-fA-F]{3,6}$/.test(color);
+
 const getBarColor = (pct: number): string => {
   if (pct >= 85) return "#22c55e";
   if (pct >= 70) return "#3b82f6";
