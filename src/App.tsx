@@ -64,7 +64,7 @@ const App = () => (
             <Route path="/faq" element={<FAQ />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/expense" element={<Expense />} />
+            
             <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
