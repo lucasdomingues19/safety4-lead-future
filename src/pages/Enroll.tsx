@@ -86,7 +86,7 @@ const Enroll = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firstName || !form.lastName || !form.email || !form.phone) {
+    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.jobTitle || !form.company || !form.experience || !form.motivation) {
       toast({ title: "Please fill in all required fields", variant: "destructive" });
       return;
     }
@@ -234,28 +234,30 @@ const Enroll = () => {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Job Title</label>
+                    <label className="block text-sm font-medium text-white/80 mb-1.5">Job Title *</label>
                     <Input
                       value={form.jobTitle}
                       onChange={(e) => handleChange("jobTitle", e.target.value)}
                       placeholder="e.g. HSE Manager"
+                      required
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Company</label>
+                    <label className="block text-sm font-medium text-white/80 mb-1.5">Company *</label>
                     <Input
                       value={form.company}
                       onChange={(e) => handleChange("company", e.target.value)}
                       placeholder="Your organisation"
+                      required
                       className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Years of Safety Experience</label>
-                  <Select value={form.experience} onValueChange={(v) => handleChange("experience", v)}>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Years of Safety Experience *</label>
+                  <Select value={form.experience} onValueChange={(v) => handleChange("experience", v)} required>
                     <SelectTrigger className="bg-white/10 border-white/20 text-white">
                       <SelectValue placeholder="Select experience level" />
                     </SelectTrigger>
@@ -269,12 +271,13 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Why do you want to join?</label>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Why do you want to join? *</label>
                   <Textarea
                     value={form.motivation}
                     onChange={(e) => handleChange("motivation", e.target.value)}
                     placeholder="Tell us what you hope to gain from the programme..."
                     rows={4}
+                    required
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/40 resize-none"
                   />
                 </div>
