@@ -6,7 +6,6 @@ import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import certificateSample from "@/assets/certificate-sample.png";
 import { trackPageView } from "@/utils/analytics";
-import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
 const Certification = () => {
