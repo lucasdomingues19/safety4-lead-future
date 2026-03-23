@@ -63,7 +63,7 @@ export const UrgentProblemSection = () => {
             
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
-              <div className="relative text-center space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/30 hover:border-orange-500/50 transition-all">
+              <div className="relative text-center space-y-4 bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/30 hover:border-orange-500/50 transition-all">
                 <TrendingDown className="w-12 h-12 text-orange-400 mx-auto" />
                 <div className="text-4xl font-bold text-orange-400">61%</div>
                 <h3 className="text-lg font-semibold text-white">Self-Identify as Beginners</h3>
