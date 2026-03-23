@@ -341,7 +341,198 @@ const InCompany = () => {
           </div>
         </section>
 
-        {/* DELIVERY MODEL */}
+        {/* PRICING */}
+        <section id="pricing" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">PRICING</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">Fixed pricing. No surprises.</h2>
+            <p className="text-base md:text-lg text-white mb-12">
+              Every tier includes the full programme, IOSH certification, CPD hours, live sessions, and on-demand access.
+            </p>
+
+            <div ref={setFadeRef(7)} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+              {[
+              {
+                name: "PILOT", size: "Up to 5 people", price: "$1,495", per: "per person",
+                features: ["Full 10-module programme access", "IOSH-approved certification", "CPD hours certification", "5 live group sessions with Lucas", "Community Access", "Real case studies", "Technical support"],
+                featured: false, note: "Ideal for small EHS specialist teams", cta: "Select"
+              },
+              {
+                name: "CORE TEAM", size: "6–10 people", price: "$1,295", per: "per seat", discount: "15% OFF",
+features: ["Everything in the PILOT tier", "15% volume discount applied"],
+                featured: true, note: "Best value for mid-sized EHS functions", cta: "Select"
+              },
+              {
+                name: "DEPARTMENT", size: "11–15 people", price: "$995", per: "per seat", discount: "30% OFF",
+features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort — your team only", "Leadership briefing included", "Post-programme support"],
+                featured: false, note: "For whole-department transformation", cta: "Select"
+              },
+              {
+                name: "ENTERPRISE", size: "15+ people", price: "POA", per: "custom quote",
+                features: ["Everything in DEPARTMENT tier", "Special discount available", "Multi-cohort rollout — your team only", "Dedicated programme manager"],
+                featured: false, note: "Tailored enterprise solution", cta: "Contact Us"
+              }].
+              map((tier, i) =>
+              <div
+                key={i}
+                className={`bg-card border rounded-2xl p-8 flex flex-col relative transition-all hover:-translate-y-1 ${
+                tier.featured ?
+                "border-pink-500 shadow-[0_0_0_1px_rgb(236,72,153),0_20px_60px_rgba(236,72,153,0.15)]" :
+                "border-border hover:border-primary/40"}`
+                }>
+                
+                  {tier.featured &&
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-pink-500 text-white text-[10px] font-bold tracking-[2px] px-4 py-1 rounded-full whitespace-nowrap">
+                      ★ MOST POPULAR
+                    </div>
+                }
+                  <div className="text-xs font-bold tracking-[2px] text-muted-foreground mb-2">{tier.name}</div>
+                  <div className="text-xl font-black text-white mb-1">{tier.size}</div>
+                  <div className="text-4xl font-black text-primary mb-1">
+                    {tier.price} {tier.price !== "POA" && <span className="text-lg text-pink-500 font-bold">per seat</span>}
+                  </div>
+                  <div className="text-xs text-muted-foreground mb-6">
+                    {tier.discount ? (
+                      <span className="text-pink-500 font-bold">{tier.discount}</span>
+                    ) : (
+                      <span>{tier.per}</span>
+                    )}
+                  </div>
+                  <ul className="flex-1 mb-6">
+                    {tier.features.map((f, fi) =>
+                  <li key={fi} className="text-sm text-muted-foreground py-2 border-b border-border flex gap-2.5 items-start">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                        {f}
+                      </li>
+                  )}
+                  </ul>
+                  {tier.cta === "Select" ? (
+                    <Button
+                      onClick={() => handleSelectTier(i)}
+                      className={`w-full font-bold tracking-wider text-sm py-3 ${
+                        selectedTier === i
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : tier.featured
+                          ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                          : "bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"
+                      }`}
+                      variant={selectedTier === i ? "default" : tier.featured ? "default" : "outline"}
+                    >
+                      {selectedTier === i ? "✓ Selected" : tier.cta}
+                    </Button>
+                  ) : (
+                    <a href={tier.cta === "Contact Us" ? "/contact" : CALENDLY_LINK} target={tier.cta === "Contact Us" ? "_self" : "_blank"} rel="noopener noreferrer" className="block">
+                      <Button
+                        className="w-full font-bold tracking-wider text-sm py-3 bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"
+                        variant="outline"
+                      >
+                        {tier.cta}
+                      </Button>
+                    </a>
+                  )}
+                  <p className="text-[11px] text-muted-foreground text-center mt-3">{tier.note}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Investment Calculator */}
+            {selectedTier !== null && selectedTier < 3 && (() => {
+              const config = tierConfigs[selectedTier];
+              const total = config.pricePerSeat * seatCount;
+              const fullTotal = FULL_RATE * seatCount;
+              const saved = fullTotal - total;
+              const discountPct = Math.round((1 - config.pricePerSeat / FULL_RATE) * 100);
+              const hasDiscount = config.pricePerSeat < FULL_RATE;
+
+              return (
+                <div ref={calculatorRef} className="mt-10 bg-card border border-border rounded-2xl p-8 md:p-10 transition-all animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
+                    <div>
+                      <div className="text-[10px] tracking-[3px] text-primary font-bold mb-2">SELECTED TIER</div>
+                      <h3 className="text-2xl font-black text-foreground mb-1">{config.label}</h3>
+                      <p className="text-sm text-pink-500 font-semibold">{config.sizeLabel}</p>
+                      {hasDiscount && (
+                        <span className="inline-block mt-3 text-xs font-bold text-primary border border-primary rounded-full px-4 py-1.5">
+                          {discountPct}% off full rate of ${FULL_RATE.toLocaleString()}/seat
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex gap-4 items-stretch">
+                      {hasDiscount && (
+                        <div className="text-right border border-white/20 rounded-xl px-6 py-4 bg-white/5 flex flex-col justify-center">
+                          <div className="text-[10px] tracking-[3px] text-white font-bold mb-1">YOU SAVE</div>
+                          <div className="text-3xl font-black text-white">${saved.toLocaleString()}</div>
+                          <div className="text-xs text-white/70 mt-1">vs full rate</div>
+                        </div>
+                      )}
+                      <div className="text-right border border-primary/30 rounded-xl px-6 py-4 bg-primary/5">
+                        <div className="text-[10px] tracking-[3px] text-primary font-bold mb-1">TOTAL INVESTMENT</div>
+                        <div className="text-4xl font-black text-primary">${total.toLocaleString()}</div>
+                        <div className="text-xs text-primary/70 mt-1">${config.pricePerSeat.toLocaleString()} × {seatCount} seats</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Seat Slider */}
+                  <div className="mb-8">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm text-muted-foreground font-medium">Number of seats</span>
+                      <span className="text-lg font-black text-pink-500">{seatCount} seats</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={config.min}
+                      max={config.max}
+                      value={seatCount}
+                      onChange={(e) => setSeatCount(Number(e.target.value))}
+                      className="w-full h-2 rounded-full appearance-none cursor-pointer accent-pink-500"
+                      style={{
+                        background: `linear-gradient(to right, hsl(330, 100%, 60%) 0%, hsl(330, 100%, 60%) ${((seatCount - config.min) / (config.max - config.min)) * 100}%, hsl(var(--border)) ${((seatCount - config.min) / (config.max - config.min)) * 100}%, hsl(var(--border)) 100%)`
+                      }}
+                    />
+                    <div className="flex justify-between text-xs text-pink-500/60 mt-1">
+                      <span>{config.min} seats</span>
+                      <span>{config.max} seats</span>
+                    </div>
+                  </div>
+
+                  {/* Breakdown */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="bg-background border border-border rounded-xl p-5">
+                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-bold mb-2">PER SEAT</div>
+                      <div className="text-2xl font-black text-foreground">${config.pricePerSeat.toLocaleString()}</div>
+                    </div>
+                    <div className="bg-background border border-border rounded-xl p-5">
+                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-bold mb-2">× SEATS</div>
+                      <div className="text-2xl font-black text-foreground">× {seatCount}</div>
+                    </div>
+                    <div className="bg-background border border-border rounded-xl p-5">
+                      <div className="text-[10px] tracking-[2px] text-muted-foreground font-bold mb-2">TOTAL</div>
+                      <div className="text-2xl font-black text-foreground">${total.toLocaleString()}</div>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                      <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold tracking-wider text-sm px-10 py-3">
+                        Book a call to enrol →
+                      </Button>
+                    </a>
+                    <a href="#roi">
+                      <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 font-bold tracking-wider text-sm px-10 py-3">
+                        Calculate my ROI →
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+              );
+            })()}
+
+          </div>
+        </section>
+
+
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">HOW IT WORKS</div>
