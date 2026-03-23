@@ -8,7 +8,7 @@ import Index from "./pages/Index";
 
 // Lazy load pages for better performance
 const About = lazy(() => import("./pages/About"));
-const Instructor = lazy(() => import("./pages/Instructor"));
+
 const Certification = lazy(() => import("./pages/Certification"));
 const EBook = lazy(() => import("./pages/EBook"));
 const Contact = lazy(() => import("./pages/Contact"));
