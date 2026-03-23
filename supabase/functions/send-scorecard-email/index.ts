@@ -29,6 +29,17 @@ interface ScorecardData {
   pdfBase64?: string;
 }
 
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;', '<': '&lt;', '>': '&gt;',
+    '"': '&quot;', "'": '&#039;'
+  };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+};
+
+const isValidHexColor = (color: string): boolean =>
+  /^#[0-9a-fA-F]{3,6}$/.test(color);
+
 const getBarColor = (pct: number): string => {
   if (pct >= 85) return "#22c55e";
   if (pct >= 70) return "#3b82f6";
@@ -84,6 +95,8 @@ const handler = async (req: Request): Promise<Response> => {
       Math.min(5, Number.isFinite(data.rankNumber) ? data.rankNumber : 0)
     );
 
+    const safeRankColor = isValidHexColor(data.rankColor) ? data.rankColor : "#64748b";
+
     // Save scorecard results to database
     try {
       const supabaseAdmin = createClient(
@@ -112,13 +125,13 @@ const handler = async (req: Request): Promise<Response> => {
           .map(
             (cat) => `
         <tr>
-          <td style="padding:8px 12px;font-size:14px;color:#334155;border-bottom:1px solid #f1f5f9;">${cat.category}</td>
+          <td style="padding:8px 12px;font-size:14px;color:#334155;border-bottom:1px solid #f1f5f9;">${escapeHtml(cat.category)}</td>
           <td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;width:55%;">
             <div style="background:#f1f5f9;border-radius:8px;height:14px;overflow:hidden;">
-              <div style="background:${getBarColor(cat.percentage)};height:100%;width:${cat.percentage}%;border-radius:8px;"></div>
+              <div style="background:${getBarColor(cat.percentage)};height:100%;width:${Math.max(0, Math.min(100, Number(cat.percentage) || 0))}%;border-radius:8px;"></div>
             </div>
           </td>
-          <td style="padding:8px 12px;font-size:14px;font-weight:700;color:${getBarColor(cat.percentage)};text-align:right;border-bottom:1px solid #f1f5f9;">${cat.percentage}%</td>
+          <td style="padding:8px 12px;font-size:14px;font-weight:700;color:${getBarColor(cat.percentage)};text-align:right;border-bottom:1px solid #f1f5f9;">${Math.max(0, Math.min(100, Number(cat.percentage) || 0))}%</td>
         </tr>`
           )
           .join("")
@@ -145,7 +158,7 @@ const handler = async (req: Request): Promise<Response> => {
         <!-- Header -->
         <tr><td style="background:#11113a;padding:28px 32px;">
           <h1 style="margin:0;color:#D6FF00;font-size:22px;">Safety 4.0 Readiness Scorecard</h1>
-          <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;">${data.firstName} ${safeLastName} · ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+          <p style="margin:6px 0 0;color:#94a3b8;font-size:13px;">${escapeHtml(data.firstName)} ${escapeHtml(safeLastName)} · ${new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
         </td></tr>
 
         <!-- Score & Rank -->
@@ -157,10 +170,10 @@ const handler = async (req: Request): Promise<Response> => {
                 <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Overall Score / 100</div>
               </td>
               <td width="4%"></td>
-              <td width="48%" style="background:${data.rankColor};border-radius:10px;padding:20px;text-align:center;">
+              <td width="48%" style="background:${safeRankColor};border-radius:10px;padding:20px;text-align:center;">
                 <div style="margin-bottom:4px;">${stars}</div>
-                <div style="font-size:16px;font-weight:700;color:#fff;">${data.rankLabel}</div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:4px;">${data.rankDescription}</div>
+                <div style="font-size:16px;font-weight:700;color:#fff;">${escapeHtml(data.rankLabel)}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:4px;">${escapeHtml(data.rankDescription)}</div>
               </td>
             </tr>
           </table>
@@ -228,8 +241,8 @@ const handler = async (req: Request): Promise<Response> => {
           to: ["lucas@getshield360.com"],
           replyTo: data.email,
           subject: `Scorecard Completed: ${data.firstName} ${safeLastName} — ${data.overallScore}/100`,
-          html: `<p><strong>${data.firstName} ${safeLastName}</strong> (${data.email}) completed the Safety 4.0 Scorecard.</p>
-                 <p>Score: ${data.overallScore}/100 — ${data.rankLabel}</p>`,
+          html: `<p><strong>${escapeHtml(data.firstName)} ${escapeHtml(safeLastName)}</strong> (${escapeHtml(data.email)}) completed the Safety 4.0 Scorecard.</p>
+                 <p>Score: ${data.overallScore}/100 — ${escapeHtml(data.rankLabel)}</p>`,
         },
         "Admin"
       );
