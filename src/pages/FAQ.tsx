@@ -26,7 +26,6 @@ const FAQ = () => {
   const categories = [
     {
       title: "General",
-      title: "General",
       faqs: [
         { question: "What is Safety 4.0?", answer: "Safety 4.0 represents the integration of digital technologies like AI, IoT, and data analytics into workplace safety management. Unlike traditional programs that rely on reactive measures, Safety 4.0 uses predictive analytics and smart technologies to prevent incidents before they occur." },
         { question: "Is this program IOSH and CPD certified?", answer: "Yes. We are fully accredited by IOSH (Institution of Occupational Safety and Health) and CPD (Continuing Professional Development). Your certification is recognised globally by employers and professional bodies." },
