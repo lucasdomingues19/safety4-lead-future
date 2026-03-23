@@ -17,7 +17,7 @@ const Syllabus = () => {
     setPageSEO({
       title: "eLearning — IOSH Approved Safety 4.0: Leading Safety in the Digital Age",
       description: "Self-paced, IOSH-approved eLearning programme. Master AI, IoT, SafetyTech, and digital leadership at your own pace with lifelong access. CPD accredited.",
-      canonical: "https://safetyacademy.tech/syllabus",
+      canonical: "https://safetyacademy.tech/elearning",
     });
   }, []);
 
@@ -68,7 +68,7 @@ const Syllabus = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-black font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
-                Enrol Now — £597
+                Start Learning — £597
                 <ArrowRight className="w-5 h-5" />
               </a>
               <button
@@ -233,7 +233,7 @@ const Syllabus = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-black font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
-                Enrol Now — £597
+                Start Learning — £597
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a

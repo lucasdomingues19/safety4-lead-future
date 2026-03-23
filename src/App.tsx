@@ -71,7 +71,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/scorecard" element={<Scorecard />} />
-            <Route path="/syllabus" element={<Syllabus />} />
+            <Route path="/elearning" element={<Syllabus />} />
+            <Route path="/syllabus" element={<Syllabus />} /> {/* Legacy redirect */}
             <Route path="/offer" element={<Offer />} />
             <Route path="/in-company" element={<InCompany />} />
             <Route path="/accelerator" element={<Cohort />} />
