@@ -256,8 +256,8 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Years of Safety Experience</label>
-                  <Select value={form.experience} onValueChange={(v) => handleChange("experience", v)}>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Years of Safety Experience *</label>
+                  <Select value={form.experience} onValueChange={(v) => handleChange("experience", v)} required>
                     <SelectTrigger className="bg-white/10 border-white/20 text-white">
                       <SelectValue placeholder="Select experience level" />
                     </SelectTrigger>
@@ -271,7 +271,7 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Why do you want to join?</label>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Why do you want to join? *</label>
                   <Textarea
                     value={form.motivation}
                     onChange={(e) => handleChange("motivation", e.target.value)}
