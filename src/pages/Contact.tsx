@@ -172,7 +172,7 @@ const Contact = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-            Get in <span className="text-pink-500">Touch</span>
+            Get in <span className="text-lime-400">Touch</span>
           </h1>
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
             Ready to transform your safety career? We're here to help you begin your Safety 4.0 journey
