@@ -114,7 +114,7 @@ const FAQ = () => {
           <div className="max-w-4xl mx-auto space-y-12">
             {categories.map((category, catIndex) => (
               <div key={catIndex}>
-                <h2 className="text-2xl font-bold text-foreground mb-6 border-b border-border pb-3">
+                <h2 className="text-2xl font-bold text-primary mb-6 border-b border-border pb-3">
                   {category.title}
                 </h2>
                 <Accordion type="single" collapsible className="w-full">
