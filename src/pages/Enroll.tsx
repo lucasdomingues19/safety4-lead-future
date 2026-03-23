@@ -86,7 +86,7 @@ const Enroll = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firstName || !form.lastName || !form.email || !form.phone) {
+    if (!form.firstName || !form.lastName || !form.email || !form.phone || !form.jobTitle || !form.company || !form.experience || !form.motivation) {
       toast({ title: "Please fill in all required fields", variant: "destructive" });
       return;
     }
