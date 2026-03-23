@@ -330,8 +330,8 @@ const Contact = () => {
 
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-pink-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-pink-400" />
+                  <div className="w-12 h-12 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-lime-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
@@ -350,8 +350,8 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-lime-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Address</h3>
@@ -360,13 +360,12 @@ const Contact = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-purple-400" />
+                  <div className="w-12 h-12 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-lime-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Office Hours</h3>
-                    <p className="text-gray-300">Monday - Friday: 9:00 AM - 6:00 PM GMT</p>
-                    <p className="text-gray-300">Weekend: Technical support available</p>
+                    <p className="text-gray-300">Monday - Friday: 9:00 AM - 5:00 PM GMT</p>
                   </div>
                 </div>
               </div>
