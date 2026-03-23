@@ -71,6 +71,7 @@ const Enroll = () => {
     company: "",
     experience: "",
     motivation: "",
+    scholarshipInterest: false,
   });
 
   useEffect(() => {
