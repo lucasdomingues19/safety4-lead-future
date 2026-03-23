@@ -97,7 +97,7 @@ export const Footer = () => {
                 <Youtube className="w-4 h-4 md:w-5 md:h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/iamlucasdomingues/" target="_blank" rel="noopener noreferrer" 
                 className="w-8 h-8 md:w-10 md:h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-pink-500/20 hover:text-pink-400 text-gray-300 transition-all duration-300"
                 aria-label="Instagram"
               >
