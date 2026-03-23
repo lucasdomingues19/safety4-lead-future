@@ -1028,7 +1028,7 @@ const Admin = () => {
                                 <div 
                                   className={`h-full rounded-full ${
                                     cat.percentage >= 85 ? 'bg-green-500' :
-                                    cat.percentage >= 70 ? 'bg-blue-500' :
+                                    cat.percentage >= 70 ? 'bg-primary' :
                                     cat.percentage >= 55 ? 'bg-yellow-500' :
                                     cat.percentage >= 35 ? 'bg-orange-500' :
                                     'bg-red-500'
