@@ -170,10 +170,10 @@ const handler = async (req: Request): Promise<Response> => {
                 <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Overall Score / 100</div>
               </td>
               <td width="4%"></td>
-              <td width="48%" style="background:${data.rankColor};border-radius:10px;padding:20px;text-align:center;">
+              <td width="48%" style="background:${safeRankColor};border-radius:10px;padding:20px;text-align:center;">
                 <div style="margin-bottom:4px;">${stars}</div>
-                <div style="font-size:16px;font-weight:700;color:#fff;">${data.rankLabel}</div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:4px;">${data.rankDescription}</div>
+                <div style="font-size:16px;font-weight:700;color:#fff;">${escapeHtml(data.rankLabel)}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.85);margin-top:4px;">${escapeHtml(data.rankDescription)}</div>
               </td>
             </tr>
           </table>
