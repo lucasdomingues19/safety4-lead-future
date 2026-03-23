@@ -140,6 +140,7 @@ const Enroll = () => {
             </Button>
           </div>
         </div>
+        </AnalyticsTracker>
         <Footer />
       </div>
     );
