@@ -21,20 +21,8 @@ export const ProblemStatsSection = () => {
             Your Career is at an Unprecedented Crossroads
           </h3>
 
-          <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed max-w-3xl mx-auto">
-            <span className="font-bold text-white">The hard truth:</span> traditional safety certifications
-            won't protect your career anymore. Compliance-based credentials no longer signal readiness.
-            Organisations are actively seeking safety leaders who can leverage AI and digital tools
-            — and most professionals aren't there yet.
-          </p>
-
-          <p className="text-base md:text-lg text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
-            While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
-            most safety professionals are being left behind — unprepared and unequipped to lead in the digital age.
-          </p>
-
           {/* Stats cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-10">
             {stats.map((s) => {
               const Icon = s.icon;
               return (
@@ -50,6 +38,18 @@ export const ProblemStatsSection = () => {
               );
             })}
           </div>
+
+          <p className="text-base md:text-lg text-gray-300 mb-6 leading-relaxed max-w-3xl mx-auto">
+            <span className="font-bold text-white">The hard truth:</span> traditional safety certifications
+            won't protect your career anymore. Compliance-based credentials no longer signal readiness.
+            Organisations are actively seeking safety leaders who can leverage AI and digital tools
+            — and most professionals aren't there yet.
+          </p>
+
+          <p className="text-base md:text-lg text-gray-300 mb-10 leading-relaxed max-w-3xl mx-auto">
+            While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
+            most safety professionals are being left behind — unprepared and unequipped to lead in the digital age.
+          </p>
 
           {/* Mission block */}
           <div className="max-w-3xl mx-auto text-left space-y-6">
