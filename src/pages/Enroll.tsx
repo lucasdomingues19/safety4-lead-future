@@ -361,6 +361,7 @@ const Enroll = () => {
         </div>
       </section>
 
+      </AnalyticsTracker>
       <Footer />
     </div>
   );
