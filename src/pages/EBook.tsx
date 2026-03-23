@@ -124,7 +124,7 @@ const EBook = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-            Free <span className="text-pink-500">Safety 4.0</span> eBook
+            Free <span className="text-primary">Safety 4.0</span> eBook
           </h1>
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
             Download our comprehensive guide to mastering digital safety leadership
