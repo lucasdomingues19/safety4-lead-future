@@ -180,7 +180,7 @@ const handler = async (req: Request): Promise<Response> => {
             <tr><td style="padding:24px 28px;text-align:center;">
               <h3 style="margin:0 0 8px;color:#D6FF00;font-size:16px;">Ready to Level Up?</h3>
               <p style="margin:0 0 16px;color:#cbd5e1;font-size:13px;">Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification.</p>
-              <a href="https://safety4-lead-future.lovable.app/enroll" style="display:inline-block;background:#D6FF00;color:#11113a;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">Enrol Now</a>
+              <a href="https://safety4-lead-future.lovable.app/enrol" style="display:inline-block;background:#D6FF00;color:#11113a;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">Enrol Now</a>
             </td></tr>
           </table>
         </td></tr>

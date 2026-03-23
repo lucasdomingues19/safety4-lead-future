@@ -926,7 +926,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
                 onClick={() => {
                   handleClose();
-                  window.location.href = "/enroll";
+                  window.location.href = "/enrol";
                 }}
               >
                 Start Learning
