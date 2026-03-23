@@ -199,8 +199,8 @@ Thank you for your consideration,
             <Card className="bg-white/10 backdrop-blur-sm border-white/20">
               <CardContent className="p-8">
                 <div className="flex items-start space-x-6">
-                  <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Award className="w-8 h-8 text-blue-400" />
+                   <div className="w-16 h-16 bg-lime-500/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Award className="w-8 h-8 text-lime-400" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-white mb-3">Training Certificate</h3>
