@@ -127,6 +127,23 @@ const Enroll = () => {
 
       if (error) throw error;
 
+      // Send notification email to admin
+      try {
+        await supabase.functions.invoke("send-contact-email", {
+          body: {
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            phone: `${form.countryCode} ${form.phone}`,
+            role: form.jobTitle,
+            inquiryType: "Accelerator Application",
+            message: `Country: ${form.country}\nLinkedIn: ${form.linkedIn}\nCompany: ${form.company}\nExperience: ${form.experience}\nBudget Approval: ${form.budgetApproval}\nPayment Method: ${form.paymentMethod}\nCohort: ${form.cohort}\nHow they heard: ${form.hearAbout}\nScholarship Interest: ${form.scholarshipInterest ? 'Yes' : 'No'}\n\nMotivation:\n${form.motivation}`,
+          },
+        });
+      } catch (emailErr) {
+        console.error("Failed to send notification email:", emailErr);
+      }
+
       setSubmitted(true);
       toast({ title: "Application submitted successfully!" });
     } catch {
