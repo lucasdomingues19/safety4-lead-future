@@ -101,21 +101,16 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
-  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] p-6 bg-white rounded-xl">
-    <div className="flex items-center mb-3">
-      {[...Array(t.rating)].map((_, i) => (
-        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-      ))}
-    </div>
-    <Quote className="w-7 h-7 text-lime-500 fill-lime-500 mb-3" />
-    <p className="text-black mb-5 leading-relaxed text-sm md:text-base min-h-[100px]">
-      "{t.content}"
+  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+    <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
+      <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
+      {t.content}
     </p>
-    <div className="flex items-center space-x-3">
-      <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover" />
+    <div className="flex items-center gap-3">
+      <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
       <div>
-        <p className="font-semibold text-black text-sm">{t.name}</p>
-        <p className="text-xs text-gray-500">{t.role}</p>
+        <div className="text-sm font-bold text-white">{t.name}</div>
+        <div className="text-xs text-muted-foreground">{t.role}</div>
       </div>
     </div>
   </div>
