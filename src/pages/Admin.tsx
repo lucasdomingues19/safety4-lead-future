@@ -578,7 +578,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('30days')}
                 variant={dateRange === '30days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '30days' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === '30days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
               >
                 Last 30 Days
               </Button>
