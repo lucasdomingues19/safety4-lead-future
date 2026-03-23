@@ -400,7 +400,7 @@ const Cohort = () => {
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-2">
-              Safety 4.0 Accelerator
+              Accelerator • Cohort
             </h2>
             <h3 className="font-syne text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
               4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
