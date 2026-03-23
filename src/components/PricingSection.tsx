@@ -34,7 +34,7 @@ export const PricingSection = () => {
     buttonColor: "bg-blue-500 hover:bg-blue-600"
   },
   {
-    name: "Safety 4.0 Accelerator Cohort",
+    name: "Accelerator • Cohort",
     price: "£997",
     originalPrice: "£1,497",
     period: "per person",
