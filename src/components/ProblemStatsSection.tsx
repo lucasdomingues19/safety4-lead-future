@@ -40,7 +40,7 @@ export const ProblemStatsSection = () => {
               return (
                 <div key={s.label} className="relative group">
                   <div className={`absolute inset-0 bg-gradient-to-br ${s.glow} rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all`} />
-                  <div className={`relative text-center space-y-2 md:space-y-4 bg-slate-900/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border ${s.border} transition-all`}>
+                  <div className={`relative text-center space-y-2 md:space-y-4 bg-card/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border ${s.border} transition-all`}>
                     <Icon className={`w-8 h-8 md:w-10 md:h-10 ${s.color} mx-auto`} />
                     <div className={`text-2xl md:text-3xl font-bold ${s.color} tabular-nums`}>{s.value}</div>
                     <h3 className="text-sm md:text-base font-semibold text-white">{s.label}</h3>
