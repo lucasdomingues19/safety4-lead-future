@@ -54,7 +54,7 @@ const Certification = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-pink-500">IOSH</span> & <span className="text-lime-400">CPD</span> Certification
+            IOSH & CPD <span className="text-lime-400">Certification</span>
           </h1>
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
             Globally recognized credentials that validate your Safety 4.0 expertise
