@@ -186,7 +186,7 @@ const Certification = () => {
 
             <div className="flex items-start space-x-6">
               <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                3
+                2
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-white mb-2">Final Assessment</h3>
@@ -196,7 +196,7 @@ const Certification = () => {
 
             <div className="flex items-start space-x-6">
               <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                4
+                3
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-white mb-2">Certification Award</h3>
