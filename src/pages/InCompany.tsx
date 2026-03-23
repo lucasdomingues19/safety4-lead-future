@@ -341,103 +341,6 @@ const InCompany = () => {
           </div>
         </section>
 
-        {/* DELIVERY MODEL */}
-        <section className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">HOW IT WORKS</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              From first call to certified team<br />in <span className="text-primary">5 weeks</span>.
-            </h2>
-
-            <div ref={setFadeRef(4)} className="flex flex-col md:flex-row gap-6 md:gap-0 relative opacity-0 translate-y-6 transition-all duration-700">
-              {/* Animated connector line */}
-              <div className="hidden md:block absolute top-7 left-7 right-7 h-0.5 z-0 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-primary via-pink-500 to-primary animate-[shimmer_3s_ease-in-out_infinite] bg-[length:200%_100%]" />
-              </div>
-
-              {[
-              { step: "1", title: "Discovery Call", desc: "20 minutes with Lucas to understand your team, objectives, and timeline." },
-              { step: "2", title: "Tailored Proposal", desc: "Customised scope, delivery format, and fixed pricing within 48 hours." },
-              { step: "3", title: "Onboarding", desc: "Team access + pre-programme diagnostic to baseline digital capability." },
-              { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
-              { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved and CPD-accredited certificate." }].
-              map((s, i) =>
-              <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4 group" style={{ animationDelay: `${i * 200}ms` }}>
-                  <div 
-                    className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_4px] ${i % 2 === 0 ? 'border-primary text-primary group-hover:shadow-primary/30' : 'border-pink-500 text-pink-500 group-hover:shadow-pink-500/30'}`}
-                    style={{ animation: `float${i % 2 === 0 ? 'A' : 'B'} 3s ease-in-out ${i * 0.4}s infinite` }}
-                  >
-                    {s.step}
-                  </div>
-                  <div className="text-sm font-bold text-white mb-2 transition-colors duration-300 group-hover:text-primary">{s.title}</div>
-                  <div className="text-xs text-muted-foreground leading-relaxed transition-opacity duration-300 group-hover:text-white/80">{s.desc}</div>
-                  {i < 4 && <ArrowDown className="md:hidden w-4 h-4 text-muted-foreground mx-auto mt-4 animate-bounce" />}
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* PROOF / CASE STUDIES */}
-        <section id="proof" className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">CASE STUDIES</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              Organisations that have<br />already made the shift.
-            </h2>
-
-            <div ref={setFadeRef(5)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
-              {[
-              {
-                quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject. I also really enjoyed the practical examples as they helped me understand the applications of SafetyTech better.",
-                name: "Ana Coutinho", role: "HSE Manager", photo: anaCoutinhoPhoto, company: "LEGO GROUP"
-              },
-              {
-                quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. The content is clear, accessible, and supported by well-produced examples that make the concepts easy to follow. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
-                name: "Jacqueline Carr", role: "Global OSH Leader", photo: jacquelineCarrPhoto, company: "SIEMENS"
-              },
-              {
-                quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
-                name: "Stewart Deary", role: "Global HSE Director", photo: stewartDearyPhoto, company: "CRTS GLOBAL"
-              }].
-              map((t, i) =>
-              <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
-                  <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
-                    <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
-                    {t.quote}
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
-                    <div>
-                      <div className="text-sm font-bold text-white">{t.name}</div>
-                      <div className="text-xs text-muted-foreground">{t.role}</div>
-                    </div>
-                  </div>
-                  <span className="inline-block mt-3 bg-primary/10 border border-primary/25 rounded-full px-3 py-1 text-[10px] text-primary tracking-[1px] font-semibold w-fit">
-                    {t.company}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ROI CALCULATOR */}
-        <section id="roi" className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-12">
-              <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">ROI CALCULATOR</div>
-              <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
-                What's the financial case<br />for your organisation?
-              </h2>
-              <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                All benchmarks sourced from NSC Injury Facts 2023, McKinsey 2024, and BLS 2024.
-              </p>
-            </div>
-            <ROICalculator />
-          </div>
-        </section>
-
         {/* PRICING */}
         <section id="pricing" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-7xl">
@@ -609,7 +512,6 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort â€
                     </div>
                   </div>
 
-
                   {/* CTA */}
                   <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
@@ -629,6 +531,105 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort â€
 
           </div>
         </section>
+
+
+        <section className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">HOW IT WORKS</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+              From first call to certified team<br />in <span className="text-primary">5 weeks</span>.
+            </h2>
+
+            <div ref={setFadeRef(4)} className="flex flex-col md:flex-row gap-6 md:gap-0 relative opacity-0 translate-y-6 transition-all duration-700">
+              {/* Animated connector line */}
+              <div className="hidden md:block absolute top-7 left-7 right-7 h-0.5 z-0 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-primary via-pink-500 to-primary animate-[shimmer_3s_ease-in-out_infinite] bg-[length:200%_100%]" />
+              </div>
+
+              {[
+              { step: "1", title: "Discovery Call", desc: "20 minutes with Lucas to understand your team, objectives, and timeline." },
+              { step: "2", title: "Tailored Proposal", desc: "Customised scope, delivery format, and fixed pricing within 48 hours." },
+              { step: "3", title: "Onboarding", desc: "Team access + pre-programme diagnostic to baseline digital capability." },
+              { step: "4", title: "Live + Self-Paced", desc: "Weekly live sessions + on-demand video content. Fits working schedules." },
+              { step: "5", title: "IOSH Certification", desc: "Every participant earns their IOSH-approved and CPD-accredited certificate." }].
+              map((s, i) =>
+              <div key={i} className="flex-1 text-center relative z-10 px-2 md:px-4 group" style={{ animationDelay: `${i * 200}ms` }}>
+                  <div 
+                    className={`w-14 h-14 rounded-full bg-card border-2 flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-[0_0_0_6px_hsl(240,55%,15%)] transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_4px] ${i % 2 === 0 ? 'border-primary text-primary group-hover:shadow-primary/30' : 'border-pink-500 text-pink-500 group-hover:shadow-pink-500/30'}`}
+                    style={{ animation: `float${i % 2 === 0 ? 'A' : 'B'} 3s ease-in-out ${i * 0.4}s infinite` }}
+                  >
+                    {s.step}
+                  </div>
+                  <div className="text-sm font-bold text-white mb-2 transition-colors duration-300 group-hover:text-primary">{s.title}</div>
+                  <div className="text-xs text-muted-foreground leading-relaxed transition-opacity duration-300 group-hover:text-white/80">{s.desc}</div>
+                  {i < 4 && <ArrowDown className="md:hidden w-4 h-4 text-muted-foreground mx-auto mt-4 animate-bounce" />}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* PROOF / CASE STUDIES */}
+        <section id="proof" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">CASE STUDIES</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+              Organisations that have<br />already made the shift.
+            </h2>
+
+            <div ref={setFadeRef(5)} className="grid md:grid-cols-3 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+              {[
+              {
+                quote: "To be honest, my knowledge about SafetyTech and AI in general was not very good at all. I really enjoyed the fact that it is simple to understand and designed for people who, such as myself, have very little knowledge on the subject. I also really enjoyed the practical examples as they helped me understand the applications of SafetyTech better.",
+                name: "Ana Coutinho", role: "HSE Manager", photo: anaCoutinhoPhoto, company: "LEGO GROUP"
+              },
+              {
+                quote: "Safety 4.0 is a solid introductory course for anyone looking to understand how technology is shaping modern health and safety work. The content is clear, accessible, and supported by well-produced examples that make the concepts easy to follow. It's a great starting point for OHS professionals wanting to build confidence in the health and safety tech space.",
+                name: "Jacqueline Carr", role: "Global OSH Leader", photo: jacquelineCarrPhoto, company: "SIEMENS"
+              },
+              {
+                quote: "The course felt like a great entry-level introduction to how AI technology is influencing today's HSE leadership. What stood out first was the high production quality and the way the ideas were brought to life through polished, relevant examples that made the topics easy to understand. Overall, it came across as a strong starting point for HSE leaders who want to build confidence and capability in the health and safety AI technology space.",
+                name: "Stewart Deary", role: "Global HSE Director", photo: stewartDearyPhoto, company: "CRTS GLOBAL"
+              }].
+              map((t, i) =>
+              <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+                  <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
+                    <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
+                    {t.quote}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                    <div>
+                      <div className="text-sm font-bold text-white">{t.name}</div>
+                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                    </div>
+                  </div>
+                  <span className="inline-block mt-3 bg-primary/10 border border-primary/25 rounded-full px-3 py-1 text-[10px] text-primary tracking-[1px] font-semibold w-fit">
+                    {t.company}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* ROI CALCULATOR */}
+        <section id="roi" className="py-20 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-12">
+              <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">ROI CALCULATOR</div>
+              <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+                What's the financial case<br />for your organisation?
+              </h2>
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                All benchmarks sourced from NSC Injury Facts 2023, McKinsey 2024, and BLS 2024.
+              </p>
+            </div>
+            <ROICalculator />
+          </div>
+        </section>
+
+
 
         {/* FAQ Link */}
         <section className="py-16 px-4 border-t border-border">
