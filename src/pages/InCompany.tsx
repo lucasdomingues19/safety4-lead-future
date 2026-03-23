@@ -630,34 +630,16 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort �
           </div>
         </section>
 
-        {/* OBJECTIONS / FAQ */}
-        <section className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">COMMON QUESTIONS</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">Before you book the call.</h2>
-
-            <div ref={setFadeRef(8)} className="max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
-              <Accordion type="single" collapsible className="w-full">
-                {[
-                { q: "What is the Safety 4.0 Accelerator?", a: "It's a tailored 4-week curriculum built for and by EHS senior professionals. It's the world's first IOSH approved and CPD accredited programme for EHS working professionals. The curriculum has 10 core modules and 4 masterclasses delivered weekly." },
-                { q: "How does delivery work around our team's schedule?", a: "The programme is designed for working professionals. Live sessions are scheduled around your team, and all 60+ video lessons are on-demand. The full programme is delivered in 4 weeks, spending 3–4 hours per week on average." },
-                { q: "Can the content be customised for our sector?", a: "Yes. While the core curriculum is standardised and IOSH-approved, live sessions and case studies are tailored to your sector — construction, manufacturing, energy, logistics, and others." },
-                { q: "What does IOSH approval actually mean for our compliance?", a: "IOSH is the world's largest professional body for health and safety practitioners. An IOSH-approved programme meets rigorous standards for content, delivery, and assessment." },
-                { q: "We already have NEBOSH/IOSH training budgets. How does this fit?", a: "Safety 4.0 complements, not replaces, your existing development. NEBOSH and IOSH qualifications cover safety management fundamentals. Safety 4.0 covers the digital and AI capability layer that those qualifications don't yet address." },
-                { q: "What happens after the programme ends?", a: "Participants retain lifetime access to course materials and join the Safety 4.0 alumni community — a network of certified EHS leaders from 12+ countries." },
-                { q: "Can we get a proposal without committing to anything?", a: "Absolutely. The 30-minute discovery call is a conversation, not a sales pitch. You'll receive a tailored written proposal within 48 hours. No obligation." }].
-                map((item, i) =>
-                <AccordionItem key={i} value={`faq-${i}`} className="border-border">
-                    <AccordionTrigger className="text-sm font-bold text-white text-left hover:no-underline py-5">
-                      {item.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
-                      {item.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                )}
-              </Accordion>
-            </div>
+        {/* FAQ Link */}
+        <section className="py-16 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl text-center">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+              Have questions?
+            </h2>
+            <p className="text-muted-foreground mb-8">Find answers about In-Company training, the Accelerator, and eLearning.</p>
+            <a href="/faq" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-lg transition-colors">
+              Visit our FAQ page →
+            </a>
           </div>
         </section>
 

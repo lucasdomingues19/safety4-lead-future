@@ -766,28 +766,16 @@ const Cohort = () => {
           </DialogContent>
         </Dialog>
 
-        {/* FAQ */}
-        <section className="py-20 px-4 border-t border-border">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">FREQUENTLY ASKED</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              Questions before <span className="text-primary">you apply</span>.
+        {/* FAQ Link */}
+        <section className="py-16 px-4 border-t border-border">
+          <div className="container mx-auto max-w-6xl text-center">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+              Have questions?
             </h2>
-
-            <div ref={setFadeRef(5)} className="max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
-              <Accordion type="single" collapsible className="w-full">
-                {faqItems.map((item, i) =>
-                <AccordionItem key={i} value={`faq-${i}`} className="border-border">
-                    <AccordionTrigger className="text-sm font-bold text-white text-left hover:no-underline py-5">
-                      {item.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
-                      {item.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                )}
-              </Accordion>
-            </div>
+            <p className="text-muted-foreground mb-8">Find answers about the Accelerator, eLearning, and In-Company training.</p>
+            <a href="/faq" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-lg transition-colors">
+              Visit our FAQ page →
+            </a>
           </div>
         </section>
 
