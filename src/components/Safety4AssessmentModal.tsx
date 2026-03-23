@@ -465,8 +465,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.text("© Safety 4.0 Academy", pageWidth / 2 - 20, pageHeight - 8);
     doc.setTextColor(60, 120, 200);
     doc.setFont("helvetica", "bold");
-    const enrollUrl = "https://www.safetyacademy.tech/enroll";
-    const enrollText = "www.safetyacademy.tech/enroll";
+    const enrollUrl = "https://www.safetyacademy.tech/enrol";
+    const enrollText = "www.safetyacademy.tech/enrol";
     const footerTextWidth = doc.getTextWidth(enrollText);
     const footerLinkX = pageWidth / 2 + 10;
     doc.text(enrollText, footerLinkX, pageHeight - 8);
