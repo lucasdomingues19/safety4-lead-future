@@ -125,13 +125,13 @@ const handler = async (req: Request): Promise<Response> => {
           .map(
             (cat) => `
         <tr>
-          <td style="padding:8px 12px;font-size:14px;color:#334155;border-bottom:1px solid #f1f5f9;">${cat.category}</td>
+          <td style="padding:8px 12px;font-size:14px;color:#334155;border-bottom:1px solid #f1f5f9;">${escapeHtml(cat.category)}</td>
           <td style="padding:8px 12px;border-bottom:1px solid #f1f5f9;width:55%;">
             <div style="background:#f1f5f9;border-radius:8px;height:14px;overflow:hidden;">
-              <div style="background:${getBarColor(cat.percentage)};height:100%;width:${cat.percentage}%;border-radius:8px;"></div>
+              <div style="background:${getBarColor(cat.percentage)};height:100%;width:${Math.max(0, Math.min(100, Number(cat.percentage) || 0))}%;border-radius:8px;"></div>
             </div>
           </td>
-          <td style="padding:8px 12px;font-size:14px;font-weight:700;color:${getBarColor(cat.percentage)};text-align:right;border-bottom:1px solid #f1f5f9;">${cat.percentage}%</td>
+          <td style="padding:8px 12px;font-size:14px;font-weight:700;color:${getBarColor(cat.percentage)};text-align:right;border-bottom:1px solid #f1f5f9;">${Math.max(0, Math.min(100, Number(cat.percentage) || 0))}%</td>
         </tr>`
           )
           .join("")
