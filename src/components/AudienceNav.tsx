@@ -19,6 +19,7 @@ const navLinks = [
   { label: "For Companies", href: "/in-company" },
   { label: "Ebook", href: "/ebook" },
   { label: "Scorecard", href: "/scorecard" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
   { label: "FAQ", href: "/faq" },
 ];
