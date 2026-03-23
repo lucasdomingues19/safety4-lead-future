@@ -99,8 +99,8 @@ const Cohort = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Safety 4.0 Accelerator Cohort — 4-Week IOSH Approved Live Programme | April 2026",
-      description: "Join the Safety 4.0 Accelerator Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for April 2026.",
+      title: "Accelerator • Cohort — 4-Week IOSH Approved Live Programme | April 2026",
+      description: "Join the Accelerator • Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for April 2026.",
       canonical: "https://safetyacademy.tech/accelerator"
     });
 
@@ -268,8 +268,8 @@ const Cohort = () => {
                 {/* Tag */}
 
                 <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
-                  The Safety 4.0<br />
-                  <span className="text-primary">Accelerator </span>
+                  Accelerator •<br />
+                  <span className="text-primary">Cohort </span>
                 </h1>
 
                 <p className="text-base md:text-xl text-gray-300 max-w-xl leading-relaxed mb-10 font-light">
@@ -400,7 +400,7 @@ const Cohort = () => {
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
             <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-2">
-              Safety 4.0 Accelerator
+              Accelerator • Cohort
             </h2>
             <h3 className="font-syne text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
               4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
