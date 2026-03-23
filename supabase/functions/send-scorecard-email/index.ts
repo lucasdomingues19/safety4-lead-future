@@ -95,6 +95,8 @@ const handler = async (req: Request): Promise<Response> => {
       Math.min(5, Number.isFinite(data.rankNumber) ? data.rankNumber : 0)
     );
 
+    const safeRankColor = isValidHexColor(data.rankColor) ? data.rankColor : "#64748b";
+
     // Save scorecard results to database
     try {
       const supabaseAdmin = createClient(
