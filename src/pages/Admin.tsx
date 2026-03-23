@@ -837,14 +837,14 @@ const Admin = () => {
                     onChange={(e) => setSourceFilter(e.target.value)}
                     className="bg-white/10 border border-white/20 text-white text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500/50"
                   >
-                    <option value="all" className="bg-slate-900">All Sources</option>
-                    <option value="assessment" className="bg-slate-900">Assessment</option>
-                    <option value="contact_form" className="bg-slate-900">Contact Form</option>
-                    <option value="cohort-pre-enrollment" className="bg-slate-900">Cohort Pre-Enroll</option>
-                    <option value="cohort-application" className="bg-slate-900">Cohort Application</option>
-                    <option value="newsletter_popup" className="bg-slate-900">Newsletter</option>
-                    <option value="ebook_download" className="bg-slate-900">eBook</option>
-                    <option value="brochure_download" className="bg-slate-900">Brochure</option>
+                    <option value="all" className="bg-black">All Sources</option>
+                    <option value="assessment" className="bg-black">Assessment</option>
+                    <option value="contact_form" className="bg-black">Contact Form</option>
+                    <option value="cohort-pre-enrollment" className="bg-black">Cohort Pre-Enroll</option>
+                    <option value="cohort-application" className="bg-black">Cohort Application</option>
+                    <option value="newsletter_popup" className="bg-black">Newsletter</option>
+                    <option value="ebook_download" className="bg-black">eBook</option>
+                    <option value="brochure_download" className="bg-black">Brochure</option>
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-white/40">
