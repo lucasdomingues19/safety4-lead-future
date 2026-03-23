@@ -120,7 +120,7 @@ const FAQ = () => {
                 <Accordion type="single" collapsible className="w-full">
                   {category.faqs.map((faq, faqIndex) => (
                     <AccordionItem key={faqIndex} value={`${catIndex}-${faqIndex}`} className="border-border">
-                      <AccordionTrigger className="text-base font-semibold text-foreground text-left hover:no-underline py-5">
+                      <AccordionTrigger className="text-base font-semibold text-white text-left hover:no-underline py-5">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground leading-relaxed">
