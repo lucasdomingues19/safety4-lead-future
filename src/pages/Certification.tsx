@@ -5,6 +5,7 @@ import AudienceNav from "@/components/AudienceNav";
 import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import certificateSample from "@/assets/certificate-sample.png";
+import lucasVr from "@/assets/lucas-vr.jpeg";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
@@ -143,28 +144,37 @@ const Certification = () => {
           </div>
         </div>
 
-        {/* Certificate Sample */}
-        <div className="max-w-2xl mx-auto mb-20">
+        {/* Certificate Sample & Photo */}
+        <div className="max-w-5xl mx-auto mb-20">
           <h2 className="text-4xl font-bold text-center text-white mb-12">Your Certificate</h2>
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-            <img
-              src={certificateSample}
-              alt="IOSH Approved Certificate Sample"
-              className="w-full h-auto rounded-xl shadow-2xl"
-            />
-            <div className="mt-6 space-y-2 text-sm">
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>Internationally recognized certification</span>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <img
+                src={certificateSample}
+                alt="IOSH Approved Certificate Sample"
+                className="w-full h-auto rounded-xl shadow-2xl"
+              />
+              <div className="mt-6 space-y-2 text-sm">
+                <div className="flex items-center gap-2 text-gray-300">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <span>Internationally recognized certification</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-300">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <span>8+ hours of CPD credits</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-300">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <span>Digital & printable certificate</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>8+ hours of CPD credits</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>Digital & printable certificate</span>
-              </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden border border-white/20">
+              <img
+                src={lucasVr}
+                alt="Safety 4.0 Academy - Leading safety in the digital age"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
