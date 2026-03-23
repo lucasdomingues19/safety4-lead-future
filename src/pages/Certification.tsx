@@ -144,64 +144,60 @@ const Certification = () => {
           </div>
         </div>
 
-        {/* Certificate Sample */}
-        <div className="max-w-2xl mx-auto mb-20">
-          <h2 className="text-4xl font-bold text-center text-white mb-12">Your Certificate</h2>
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-            <img
-              src={certificateSample}
-              alt="IOSH Approved Certificate Sample"
-              className="w-full h-auto rounded-xl shadow-2xl"
-            />
-            <div className="mt-6 space-y-2 text-sm">
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>Internationally recognized certification</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>8+ hours of CPD credits</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>Digital & printable certificate</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Certification Process */}
-        <div className="max-w-4xl mx-auto mb-20">
-          <h2 className="text-4xl font-bold text-center text-white mb-12">Certification Process</h2>
-          
-          <div className="space-y-8">
-            <div className="flex items-start space-x-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                1
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-2">Complete the Program</h3>
-                <p className="text-gray-300">Successfully finish all 10 modules of the Safety 4.0 Academy program with passing grades on all assessments. Attend the live classes where applicable.</p>
+        {/* Certificate & Certification Process - Side by Side */}
+        <div className="max-w-6xl mx-auto mb-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            {/* Left: Certificate */}
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-8">Your Certificate</h2>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <img
+                  src={certificateSample}
+                  alt="IOSH Approved Certificate Sample"
+                  className="w-full h-auto rounded-lg shadow-2xl"
+                />
+                <div className="mt-4 space-y-2 text-sm">
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span>Internationally recognized certification</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span>8+ hours of CPD credits</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span>Digital & printable certificate</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-start space-x-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                2
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-2">Final Assessment</h3>
-                <p className="text-gray-300">Pass the comprehensive final examination covering all aspects of digital safety leadership and Industry 4.0 applications.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                3
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-2">Certification Award</h3>
-                <p className="text-gray-300">Receive your official IOSH and CPD certified Safety 4.0 Leader credentials, recognized globally.</p>
+            {/* Right: Certification Process */}
+            <div>
+              <h2 className="text-3xl font-bold text-white mb-8">Certification Process</h2>
+              <div className="space-y-8">
+                <div className="flex items-start space-x-5">
+                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Complete the Program</h3>
+                    <p className="text-gray-300 text-sm">Successfully finish all 10 modules with passing grades on all assessments. Attend the live classes where applicable.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-5">
+                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Final Assessment</h3>
+                    <p className="text-gray-300 text-sm">Pass the comprehensive final examination covering all aspects of digital safety leadership and Industry 4.0 applications.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-5">
+                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">Certification Award</h3>
+                    <p className="text-gray-300 text-sm">Receive your official IOSH and CPD certified Safety 4.0 Leader credentials, recognized globally.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
