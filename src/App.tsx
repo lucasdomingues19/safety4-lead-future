@@ -8,7 +8,7 @@ import Index from "./pages/Index";
 
 // Lazy load pages for better performance
 const About = lazy(() => import("./pages/About"));
-const Instructor = lazy(() => import("./pages/Instructor"));
+
 const Certification = lazy(() => import("./pages/Certification"));
 const EBook = lazy(() => import("./pages/EBook"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -57,7 +57,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
-            <Route path="/instructor" element={<Instructor />} />
+            
             <Route path="/certification" element={<Certification />} />
             <Route path="/ebook" element={<EBook />} />
             <Route path="/contact" element={<Contact />} />
