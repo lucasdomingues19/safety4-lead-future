@@ -232,18 +232,6 @@ const Cohort = () => {
   { feature: "Team option (2+ seats)", accelerator: true, elearning: false }];
 
 
-  const faqItems = [
-  { q: "What is the Safety 4.0 Accelerator?", a: "The Safety 4.0 Accelerator is a 4-week live cohort programme designed to help senior EHS professionals lead in the digital age. It combines 60+ on-demand lessons with 5 live sessions led by Lucas Domingues, a peer cohort of 10–15 professionals, and direct access to expert guidance. You'll earn an IOSH-approved, CPD-accredited certificate — the world's first in Safety 4.0." },
-  { q: "Who is it for?", a: "The programme is built for experienced EHS professionals in leadership roles — EHS Directors, Heads of Safety, Senior Safety Managers, Regional/Global Leads, Consultants, and Operational Leaders with an EHS remit. If you're responsible for safety strategy and want to integrate AI, data, and digital tools into your function, this is for you." },
-  { q: "Can I do the eLearning instead?", a: "Yes. If the live cohort format isn't right for you, you can access the same IOSH-approved course content as a self-paced eLearning programme for £597. You'll get all 60+ lessons and the same certification — just without the live sessions, peer cohort, and direct access to Lucas." },
-  { q: "Can I get my money back?", a: "Yes. We offer a 14-day satisfaction guarantee. If you complete Week 1 and don't believe the Accelerator is worth your investment, we'll refund you in full — no questions asked." },
-  { q: "What if I miss a live session?", a: "All live sessions are recorded and available in your dashboard within 24 hours. You'll never fall behind — but showing up live is where the peer discussion happens and where the real value is built." },
-  { q: "Can my employer pay via invoice?", a: "Yes. We support PO/invoice billing for employer-sponsored enrolments and team places. Mention this in your application and we'll handle the paperwork. We're used to working within procurement processes." },
-  { q: "Is this relevant if my team is small or I work alone?", a: "Absolutely. The programme is designed for safety professionals at all levels — from sole EHS advisors to heads of large safety functions. The peer cohort gives you a team experience even if you're working solo in your organisation." },
-  { q: "How much time do I need to commit each week?", a: "Expect 3–4 hours per week: 90 minutes for the live session, 1–2 hours of on-demand content, and some reflection/application time. The programme is designed for working professionals." },
-  { q: "When is the next cohort after April 2026?", a: "Cohorts run monthly. If April fills before your application is processed, you'll be offered a place on the next available cohort." }];
-
-
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
