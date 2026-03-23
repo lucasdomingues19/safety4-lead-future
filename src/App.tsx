@@ -29,6 +29,7 @@ const Offer = lazy(() => import("./pages/Offer"));
 const InCompany = lazy(() => import("./pages/InCompany"));
 const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
+const Enroll = lazy(() => import("./pages/Enroll"));
 
 // Loading fallback component
 const PageLoader = () => (
