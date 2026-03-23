@@ -20,8 +20,8 @@ const navLinks = [
   { label: "Ebook", href: "/ebook" },
   { label: "Scorecard", href: "/scorecard" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
   { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
