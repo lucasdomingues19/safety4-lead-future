@@ -11,7 +11,7 @@ import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { setPageSEO } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle, Loader2, Users, Award, BookOpen, Calendar, Shield } from "lucide-react";
+import { ArrowRight, CheckCircle, Loader2, Users, Award, BookOpen, Calendar, Shield, Building2 } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { useEffect } from "react";
 
