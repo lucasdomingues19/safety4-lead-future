@@ -7,7 +7,7 @@ import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
 
 // Lazy load pages for better performance
-const About = lazy(() => import("./pages/About"));
+
 
 const Certification = lazy(() => import("./pages/Certification"));
 const EBook = lazy(() => import("./pages/EBook"));
@@ -56,7 +56,7 @@ const App = () => (
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
+            
             
             <Route path="/certification" element={<Certification />} />
             <Route path="/ebook" element={<EBook />} />
