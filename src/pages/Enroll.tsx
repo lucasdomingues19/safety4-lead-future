@@ -102,9 +102,15 @@ const Enroll = () => {
     setLoading(true);
     try {
       const messageData = JSON.stringify({
+        country: form.country,
+        linkedIn: form.linkedIn,
         company: form.company,
         experience: form.experience,
+        budgetApproval: form.budgetApproval,
+        paymentMethod: form.paymentMethod,
+        cohort: form.cohort,
         motivation: form.motivation,
+        hearAbout: form.hearAbout,
         scholarshipInterest: form.scholarshipInterest,
       });
 
