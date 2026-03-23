@@ -125,7 +125,7 @@ const Enroll = () => {
     return (
       <div className="min-h-screen bg-black text-white">
         <AudienceNav />
-        <AnalyticsTracker />
+        <AnalyticsTracker>
         <div className="pt-24 pb-20 flex items-center justify-center">
           <div className="text-center max-w-lg mx-auto px-4">
             <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-6">
