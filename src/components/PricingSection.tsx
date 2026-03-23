@@ -85,8 +85,8 @@ export const PricingSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">Choose Your Safety 4.0 
-Learning Path<span className="text-lime-400">Learning Path</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
+            Choose Your Safety 4.0 <span className="text-lime-400">Learning Path</span>
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Flexible training options designed to fit your schedule and learning preferences
