@@ -64,6 +64,8 @@ const Index = () => {
 
         <HeroSection />
 
+        <TrustedByBanner />
+
         {/* Video Section */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
@@ -81,8 +83,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-        <TrustedByBanner />
 
         <ProblemStatsSection />
 
