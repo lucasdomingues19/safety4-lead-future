@@ -71,7 +71,7 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-8 md:mb-12">
-                Introducing the <span className="text-primary">Safety 4.0 Academy</span>
+                Introducing: <span className="text-primary">Safety 4.0 Academy</span>
               </h2>
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-primary/50 transition-all duration-300">
                 <iframe
