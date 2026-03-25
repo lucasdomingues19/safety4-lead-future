@@ -73,7 +73,7 @@ const Index = () => {
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center mb-8 md:mb-12">
                 Introducing: <span className="text-primary">Safety 4.0 Academy</span>
               </h2>
-              <p className="text-lg md:text-xl text-gray-300 text-center mb-8 md:mb-12">
+              <p className="text-lg md:text-2xl font-semibold text-white text-center mb-8 md:mb-12">
                 Our Mission? Lead Safety Forward.
               </p>
               <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-primary/50 transition-all duration-300">
