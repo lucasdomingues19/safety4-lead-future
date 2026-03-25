@@ -8,17 +8,20 @@ export const HeroSection = () => {
   const [brochureOpen, setBrochureOpen] = useState(false);
 
   return (
-    <section className="min-h-[90vh] relative overflow-hidden flex items-center">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
-      <div className="absolute inset-0 bg-black/60" />
+    <section className="relative overflow-hidden">
       <AudienceNav />
 
-      <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="mb-16 md:mb-20" />
+      {/* Hero Banner Image */}
+      <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-12 md:py-16 bg-black">
+
 
         <div className="text-center max-w-5xl mx-auto">
           {/* Accreditation Badges */}
