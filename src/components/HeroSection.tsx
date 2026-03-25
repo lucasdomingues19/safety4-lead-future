@@ -2,12 +2,19 @@ import { Shield, Award, FileDown, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import BrochureDownloadModal from "./BrochureDownloadModal";
 import AudienceNav from "./AudienceNav";
+import heroBg from "@/assets/hero-bg.jpg";
 
 export const HeroSection = () => {
   const [brochureOpen, setBrochureOpen] = useState(false);
 
   return (
     <section className="min-h-[90vh] relative overflow-hidden flex items-center">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      <div className="absolute inset-0 bg-black/60" />
       <AudienceNav />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
