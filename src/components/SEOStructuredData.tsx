@@ -226,8 +226,35 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       document.head.appendChild(script);
     };
 
+    // WebSite schema with SearchAction for sitelinks
+    const websiteSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Safety 4.0 Academy",
+      "url": "https://safetyacademy.tech",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://safetyacademy.tech/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    };
+
+    // Speakable schema for GEO / voice search
+    const speakableSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Safety 4.0 Academy - IOSH Approved Digital Safety Leadership Training",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["h1", ".hero-description", ".course-summary"]
+      },
+      "url": "https://safetyacademy.tech"
+    };
+
     insertSchema(organizationSchema);
     insertSchema(breadcrumbSchema);
+    insertSchema(websiteSchema);
+    insertSchema(speakableSchema);
     
     if (type === 'course') {
       insertSchema(courseSchema);
