@@ -13,7 +13,7 @@ export const HeroSection = () => {
 
       {/* Full background image */}
       <div
-        className="absolute inset-0 bg-cover bg-top bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-no-repeat bg-[center_top] md:bg-top"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
