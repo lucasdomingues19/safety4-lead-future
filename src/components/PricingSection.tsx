@@ -10,7 +10,7 @@ export const PricingSection = () => {
   const pricingTiers = [
   {
     name: "eLearning",
-    price: "£597",
+    price: "£497",
     originalPrice: "£697",
     period: "one-time",
     description: "Self-paced online learning with 12-month access",

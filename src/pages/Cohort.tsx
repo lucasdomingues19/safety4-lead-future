@@ -786,7 +786,7 @@ const Cohort = () => {
                   </a>
                   <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 font-bold text-base px-10">
-                      Or start with eLearning (£597)
+                      Or start with eLearning (£497)
                     </Button>
                   </a>
                 </div>
