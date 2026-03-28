@@ -523,7 +523,7 @@ const Cohort = () => {
                   <tr className="bg-card">
                     <td className="p-3 md:p-4 text-sm font-bold text-white">Price</td>
                     <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£997</td>
-                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-muted-foreground">£597</td>
+                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-muted-foreground">£497</td>
                   </tr>
                 </tbody>
               </table>

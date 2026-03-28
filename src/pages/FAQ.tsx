@@ -39,7 +39,7 @@ const FAQ = () => {
       title: "eLearning",
       faqs: [
         { question: "How does the eLearning work?", answer: "It's a self-paced online programme with 60+ video lessons, interactive assessments, case studies, and downloadable resources. It typically takes 8 hours to complete, and you get 12-month access to all materials." },
-        { question: "How much does it cost?", answer: "{ question: "How much does it cost?", answer: "£497 (reduced from £697). Includes IOSH & CPD certification, 10 core modules, 60+ video lessons, and email support." },. Includes IOSH & CPD certification, 10 core modules, 60+ video lessons, and email support." },
+        { question: "How much does it cost?", answer: "£497 (reduced from £697). Includes IOSH & CPD certification, 10 core modules, 60+ video lessons, and email support." },
       ],
     },
     {
