@@ -197,7 +197,7 @@ const Enroll = () => {
                 Thank you for your interest in the Safety 4.0 Accelerator, a 4-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
               </p>
               <p>
-                Our next cohort runs from <span className="text-white font-semibold">7th – 30th April, 2026</span>.
+                Our next cohort runs from <span className="text-white font-semibold">5th May – 2nd June, 2026</span>.
               </p>
               <p>Kindly fill in the application form below.</p>
               <p className="text-sm text-white/50 italic">
