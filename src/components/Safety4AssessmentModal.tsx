@@ -179,7 +179,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
            body: JSON.stringify({
             name: `${userData.firstName} ${userData.lastName}`,
             email: userData.email,
-            phone: userData.phone || null,
+            phone: `${userData.phoneCode} ${userData.phone}`,
             source: "assessment",
             companyName: userData.companyName || null,
           }),
