@@ -42,9 +42,9 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import ioshCpdCombined from "@/assets/iosh-cpd-combined-transparent.png";
 
 const cohortSchedule = [
-{ month: "April", year: 2026, startDate: "6 Apr 2026", status: "filling" as const, seatsLeft: 8, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "May", year: 2026, startDate: "4 May 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "June", year: 2026, startDate: "1 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "May", year: 2026, startDate: "5 May 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "August", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "September", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
