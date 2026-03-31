@@ -25,10 +25,41 @@ interface UserData {
   firstName: string;
   lastName: string;
   email: string;
+  phoneCode: string;
   phone: string;
   companyName: string;
   emailConsent: boolean;
 }
+
+const countryCodes = [
+  { code: "+44", label: "UK +44" },
+  { code: "+1", label: "US/CA +1" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+966", label: "SA +966" },
+  { code: "+91", label: "IN +91" },
+  { code: "+61", label: "AU +61" },
+  { code: "+49", label: "DE +49" },
+  { code: "+33", label: "FR +33" },
+  { code: "+31", label: "NL +31" },
+  { code: "+27", label: "ZA +27" },
+  { code: "+65", label: "SG +65" },
+  { code: "+60", label: "MY +60" },
+  { code: "+234", label: "NG +234" },
+  { code: "+254", label: "KE +254" },
+  { code: "+55", label: "BR +55" },
+  { code: "+52", label: "MX +52" },
+  { code: "+86", label: "CN +86" },
+  { code: "+81", label: "JP +81" },
+  { code: "+82", label: "KR +82" },
+  { code: "+39", label: "IT +39" },
+  { code: "+34", label: "ES +34" },
+  { code: "+46", label: "SE +46" },
+  { code: "+47", label: "NO +47" },
+  { code: "+48", label: "PL +48" },
+  { code: "+90", label: "TR +90" },
+  { code: "+62", label: "ID +62" },
+  { code: "+63", label: "PH +63" },
+];
 
 interface Question {
   id: number;
@@ -106,7 +137,7 @@ const MATURITY_LIKERT = [
 
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
   const [step, setStep] = useState<"assessment" | "capture" | "maturity_prompt" | "maturity" | "results">("assessment");
-  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
+  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phoneCode: "+44", phone: "", companyName: "", emailConsent: false });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [maturityAnswers, setMaturityAnswers] = useState<number[]>([]);
@@ -134,7 +165,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   };
 
   const handleUserDataSubmit = async () => {
-    if (!userData.firstName || !userData.lastName || !userData.email) return;
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.phone) return;
     setIsSubmitting(true);
     try {
       const response = await fetch(
@@ -148,7 +179,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
            body: JSON.stringify({
             name: `${userData.firstName} ${userData.lastName}`,
             email: userData.email,
-            phone: userData.phone || null,
+            phone: `${userData.phoneCode} ${userData.phone}`,
             source: "assessment",
             companyName: userData.companyName || null,
           }),
@@ -540,7 +571,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setAnswers([]);
     setMaturityAnswers([]);
     setCurrentMaturityQ(0);
-    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
+    setUserData({ firstName: "", lastName: "", email: "", phoneCode: "+44", phone: "", companyName: "", emailConsent: false });
     setEmailSent(false);
   };
 
@@ -660,8 +691,21 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
-                <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
-                <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Enter your phone number" className="bg-slate-800 border-slate-600 text-white" />
+                <Label htmlFor="phone" className="text-gray-300">Phone Number *</Label>
+                <div className="flex gap-2">
+                  <select
+                    value={userData.phoneCode}
+                    onChange={(e) => setUserData({ ...userData, phoneCode: e.target.value })}
+                    className="bg-slate-800 border border-slate-600 text-white rounded-md px-2 py-2 w-[110px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#D6FF00]"
+                  >
+                    {countryCodes.map((c) => (
+                      <option key={c.code} value={c.code} className="bg-slate-800 text-white">
+                        {c.label}
+                      </option>
+                    ))}
+                  </select>
+                  <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Phone number" className="bg-slate-800 border-slate-600 text-white" required />
+                </div>
               </div>
               <div className="flex items-start gap-3 mt-2">
                 <input
@@ -678,7 +722,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <Button
                 onClick={handleUserDataSubmit}
                 className="w-full mt-4 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
-                disabled={!userData.firstName || !userData.lastName || !userData.email || !userData.companyName || isSubmitting}
+                disabled={!userData.firstName || !userData.lastName || !userData.email || !userData.companyName || !userData.phone || isSubmitting}
               >
                 {isSubmitting ? "Loading..." : "Unlock My Results"}
                 <ArrowRight className="w-4 h-4 ml-2" />
