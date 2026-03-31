@@ -137,7 +137,7 @@ const MATURITY_LIKERT = [
 
 export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps) => {
   const [step, setStep] = useState<"assessment" | "capture" | "maturity_prompt" | "maturity" | "results">("assessment");
-  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
+  const [userData, setUserData] = useState<UserData>({ firstName: "", lastName: "", email: "", phoneCode: "+44", phone: "", companyName: "", emailConsent: false });
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [maturityAnswers, setMaturityAnswers] = useState<number[]>([]);
