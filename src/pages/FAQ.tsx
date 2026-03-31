@@ -48,7 +48,7 @@ const FAQ = () => {
         { question: "What is the Accelerator and how is it different from eLearning?", answer: "The Accelerator is a 4-week live cohort programme that includes everything in the eLearning plus 5 live sessions led by Lucas Domingues, a peer cohort of 10–15 professionals, group projects, and direct access to expert guidance." },
         { question: "How much time do I need each week?", answer: "Expect 3–4 hours per week: 90 minutes for the live session, 1–2 hours of on-demand content, and some reflection time. All live sessions are recorded if you miss one." },
         { question: "How much does it cost and can my employer pay?", answer: "£997 +VAT per person (reduced from £1,497). We support PO/invoice billing for employer-sponsored enrolments. Mention this in your application and we'll handle the paperwork." },
-        { question: "When is the next cohort?", answer: "The next cohort runs April 7–30, 2026. Cohorts run monthly — if April fills, you'll be offered a place on the next available one." },
+        { question: "When is the next cohort?", answer: "The next cohort runs 5th May – 2nd June, 2026. Cohorts run monthly — if May fills, you'll be offered a place on the next available one." },
       ],
     },
     {
