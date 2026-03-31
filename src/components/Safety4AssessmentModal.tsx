@@ -165,7 +165,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   };
 
   const handleUserDataSubmit = async () => {
-    if (!userData.firstName || !userData.lastName || !userData.email) return;
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.phone) return;
     setIsSubmitting(true);
     try {
       const response = await fetch(
