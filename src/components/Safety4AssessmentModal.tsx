@@ -571,7 +571,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     setAnswers([]);
     setMaturityAnswers([]);
     setCurrentMaturityQ(0);
-    setUserData({ firstName: "", lastName: "", email: "", phone: "", companyName: "", emailConsent: false });
+    setUserData({ firstName: "", lastName: "", email: "", phoneCode: "+44", phone: "", companyName: "", emailConsent: false });
     setEmailSent(false);
   };
 
