@@ -300,7 +300,7 @@ const Cohort = () => {
                 <div className="flex gap-4 flex-wrap mb-8">
                   <a href="/enrol">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
-                      Apply for April Cohort <ArrowRight className="w-5 h-5 ml-2" />
+                      Apply for May Cohort <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                   <a href="#experience">
