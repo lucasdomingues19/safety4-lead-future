@@ -691,8 +691,21 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                 <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-800 border-slate-600 text-white" required />
               </div>
               <div>
-                <Label htmlFor="phone" className="text-gray-300">Phone Number (optional)</Label>
-                <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Enter your phone number" className="bg-slate-800 border-slate-600 text-white" />
+                <Label htmlFor="phone" className="text-gray-300">Phone Number *</Label>
+                <div className="flex gap-2">
+                  <select
+                    value={userData.phoneCode}
+                    onChange={(e) => setUserData({ ...userData, phoneCode: e.target.value })}
+                    className="bg-slate-800 border border-slate-600 text-white rounded-md px-2 py-2 w-[110px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#D6FF00]"
+                  >
+                    {countryCodes.map((c) => (
+                      <option key={c.code} value={c.code} className="bg-slate-800 text-white">
+                        {c.label}
+                      </option>
+                    ))}
+                  </select>
+                  <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Phone number" className="bg-slate-800 border-slate-600 text-white" required />
+                </div>
               </div>
               <div className="flex items-start gap-3 mt-2">
                 <input
