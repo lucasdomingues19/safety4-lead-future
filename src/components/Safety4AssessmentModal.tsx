@@ -25,10 +25,41 @@ interface UserData {
   firstName: string;
   lastName: string;
   email: string;
+  phoneCode: string;
   phone: string;
   companyName: string;
   emailConsent: boolean;
 }
+
+const countryCodes = [
+  { code: "+44", label: "UK +44" },
+  { code: "+1", label: "US/CA +1" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+966", label: "SA +966" },
+  { code: "+91", label: "IN +91" },
+  { code: "+61", label: "AU +61" },
+  { code: "+49", label: "DE +49" },
+  { code: "+33", label: "FR +33" },
+  { code: "+31", label: "NL +31" },
+  { code: "+27", label: "ZA +27" },
+  { code: "+65", label: "SG +65" },
+  { code: "+60", label: "MY +60" },
+  { code: "+234", label: "NG +234" },
+  { code: "+254", label: "KE +254" },
+  { code: "+55", label: "BR +55" },
+  { code: "+52", label: "MX +52" },
+  { code: "+86", label: "CN +86" },
+  { code: "+81", label: "JP +81" },
+  { code: "+82", label: "KR +82" },
+  { code: "+39", label: "IT +39" },
+  { code: "+34", label: "ES +34" },
+  { code: "+46", label: "SE +46" },
+  { code: "+47", label: "NO +47" },
+  { code: "+48", label: "PL +48" },
+  { code: "+90", label: "TR +90" },
+  { code: "+62", label: "ID +62" },
+  { code: "+63", label: "PH +63" },
+];
 
 interface Question {
   id: number;
