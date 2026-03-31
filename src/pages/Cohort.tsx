@@ -76,7 +76,7 @@ const Cohort = () => {
     canCommit: ""
   });
 
-  // Countdown to April 6, 2026
+  // Countdown to May 5, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
