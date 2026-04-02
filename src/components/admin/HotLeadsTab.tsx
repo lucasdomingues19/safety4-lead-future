@@ -82,7 +82,7 @@ export const HotLeadsTab = () => {
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
       const convertedEmails = new Set((leadsResult.data || []).map(l => l.email));
-
+      const scorecardCompletions = scorecardResult.data || [];
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
         pageViews
