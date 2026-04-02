@@ -25,6 +25,9 @@ const logos = [
   { src: soterLogo, alt: "Soter AI" },
   { src: fieldLogo, alt: "Field Energy" },
   { src: fugroLogo, alt: "Fugro" },
+  { src: abbLogo, alt: "ABB" },
+  { src: bardLogo, alt: "Bard" },
+  { src: bvLogo, alt: "Bureau Veritas" },
 ];
 
 export const TrustedByBanner = () => {
