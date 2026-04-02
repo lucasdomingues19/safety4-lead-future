@@ -57,7 +57,7 @@ export const HotLeadsTab = () => {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const [pageViewsResult, userEventsResult, leadsResult] = await Promise.all([
+      const [pageViewsResult, userEventsResult, leadsResult, scorecardResult] = await Promise.all([
         supabase
           .from('page_views')
           .select('session_id, page_path, visited_at, country, city, device_type, duration')
@@ -69,7 +69,10 @@ export const HotLeadsTab = () => {
           .gte('created_at', thirtyDaysAgo.toISOString()),
         supabase
           .from('leads')
-          .select('email')
+          .select('email'),
+        supabase
+          .from('scorecard_results')
+          .select('email, overall_score, rank_label, created_at')
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
