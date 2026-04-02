@@ -13,6 +13,8 @@ interface HotLead {
   page_views: number;
   pricing_views: number;
   assessment_completed: boolean;
+  scorecard_score?: number;
+  scorecard_rank?: string;
   return_visits: number;
   total_time_minutes: number;
   last_seen: string;
