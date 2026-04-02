@@ -150,16 +150,28 @@ export const HotLeadsTab = () => {
           signals.push(`Viewed pricing ${pricingViews}x`);
         }
 
-        // Assessment/scorecard completion (very high intent)
-        const assessmentCompleted = data.events.some(e => 
-          e.page_path?.includes('scorecard') || 
-          (e.event_data && JSON.stringify(e.event_data).includes('assessment'))
-        ) || pagesVisited.some(p => p.includes('/scorecard'));
+        // Check if this session's lead actually completed the scorecard
+        // Match via leads table: find lead emails for sessions that submitted lead forms
+        const sessionLeadEvents = data.events.filter(e => 
+          e.event_type === 'lead_capture' || 
+          (e.event_data && JSON.stringify(e.event_data).includes('scorecard'))
+        );
+        
+        // Check if any page visited the scorecard results page (indicates completion)
+        const visitedScorecardResults = pagesVisited.some(p => p.includes('/scorecard'));
+        
+        // Cross-reference with actual scorecard_results table
+        // We match by looking at scorecard completions within a similar timeframe
+        const sessionStart = data.firstSeen;
+        const sessionEnd = new Date(data.lastSeen.getTime() + 3600000); // +1hr buffer
+        const matchingScorecard = scorecardCompletions.find(sc => {
+          const scDate = new Date(sc.created_at);
+          return scDate >= sessionStart && scDate <= sessionEnd && visitedScorecardResults;
+        });
 
-        if (assessmentCompleted) {
-          score += 25;
-          signals.push('Completed assessment');
-        }
+        const assessmentCompleted = !!matchingScorecard;
+        const scorecardScore = matchingScorecard?.overall_score;
+        const scorecardRank = matchingScorecard?.rank_label;
 
         // Syllabus page views (research intent)
         const syllabusViews = data.views.filter(v => 
