@@ -173,6 +173,14 @@ export const HotLeadsTab = () => {
         const scorecardScore = matchingScorecard?.overall_score;
         const scorecardRank = matchingScorecard?.rank_label;
 
+        if (assessmentCompleted) {
+          score += 25;
+          signals.push(`Completed assessment (${scorecardScore}% - ${scorecardRank})`);
+        } else if (visitedScorecardResults) {
+          score += 5;
+          signals.push('Visited scorecard page');
+        }
+
         // Syllabus page views (research intent)
         const syllabusViews = data.views.filter(v => 
           v.page_path.includes('syllabus') || v.page_path.includes('certification')
@@ -261,6 +269,8 @@ export const HotLeadsTab = () => {
             page_views: pageViewCount,
             pricing_views: pricingViews,
             assessment_completed: assessmentCompleted,
+            scorecard_score: scorecardScore,
+            scorecard_rank: scorecardRank,
             return_visits: returnVisits,
             total_time_minutes: totalMinutes,
             last_seen: data.lastSeen.toISOString(),
@@ -268,7 +278,7 @@ export const HotLeadsTab = () => {
             city: firstView?.city,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
-            is_converted: false // We can't easily match anonymous sessions to leads
+            is_converted: false
           });
         }
       });
