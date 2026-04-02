@@ -13,6 +13,8 @@ interface HotLead {
   page_views: number;
   pricing_views: number;
   assessment_completed: boolean;
+  scorecard_score?: number;
+  scorecard_rank?: string;
   return_visits: number;
   total_time_minutes: number;
   last_seen: string;
@@ -57,7 +59,7 @@ export const HotLeadsTab = () => {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const [pageViewsResult, userEventsResult, leadsResult] = await Promise.all([
+      const [pageViewsResult, userEventsResult, leadsResult, scorecardResult] = await Promise.all([
         supabase
           .from('page_views')
           .select('session_id, page_path, visited_at, country, city, device_type, duration')
@@ -69,7 +71,10 @@ export const HotLeadsTab = () => {
           .gte('created_at', thirtyDaysAgo.toISOString()),
         supabase
           .from('leads')
-          .select('email')
+          .select('email'),
+        supabase
+          .from('scorecard_results')
+          .select('email, overall_score, rank_label, created_at')
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
@@ -77,7 +82,7 @@ export const HotLeadsTab = () => {
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
       const convertedEmails = new Set((leadsResult.data || []).map(l => l.email));
-
+      const scorecardCompletions = scorecardResult.data || [];
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
         pageViews
@@ -145,15 +150,35 @@ export const HotLeadsTab = () => {
           signals.push(`Viewed pricing ${pricingViews}x`);
         }
 
-        // Assessment/scorecard completion (very high intent)
-        const assessmentCompleted = data.events.some(e => 
-          e.page_path?.includes('scorecard') || 
-          (e.event_data && JSON.stringify(e.event_data).includes('assessment'))
-        ) || pagesVisited.some(p => p.includes('/scorecard'));
+        // Check if this session's lead actually completed the scorecard
+        // Match via leads table: find lead emails for sessions that submitted lead forms
+        const sessionLeadEvents = data.events.filter(e => 
+          e.event_type === 'lead_capture' || 
+          (e.event_data && JSON.stringify(e.event_data).includes('scorecard'))
+        );
+        
+        // Check if any page visited the scorecard results page (indicates completion)
+        const visitedScorecardResults = pagesVisited.some(p => p.includes('/scorecard'));
+        
+        // Cross-reference with actual scorecard_results table
+        // We match by looking at scorecard completions within a similar timeframe
+        const sessionStart = data.firstSeen;
+        const sessionEnd = new Date(data.lastSeen.getTime() + 3600000); // +1hr buffer
+        const matchingScorecard = scorecardCompletions.find(sc => {
+          const scDate = new Date(sc.created_at);
+          return scDate >= sessionStart && scDate <= sessionEnd && visitedScorecardResults;
+        });
+
+        const assessmentCompleted = !!matchingScorecard;
+        const scorecardScore = matchingScorecard?.overall_score;
+        const scorecardRank = matchingScorecard?.rank_label;
 
         if (assessmentCompleted) {
           score += 25;
-          signals.push('Completed assessment');
+          signals.push(`Completed assessment (${scorecardScore}% - ${scorecardRank})`);
+        } else if (visitedScorecardResults) {
+          score += 5;
+          signals.push('Visited scorecard page');
         }
 
         // Syllabus page views (research intent)
@@ -244,6 +269,8 @@ export const HotLeadsTab = () => {
             page_views: pageViewCount,
             pricing_views: pricingViews,
             assessment_completed: assessmentCompleted,
+            scorecard_score: scorecardScore,
+            scorecard_rank: scorecardRank,
             return_visits: returnVisits,
             total_time_minutes: totalMinutes,
             last_seen: data.lastSeen.toISOString(),
@@ -251,7 +278,7 @@ export const HotLeadsTab = () => {
             city: firstView?.city,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
-            is_converted: false // We can't easily match anonymous sessions to leads
+            is_converted: false
           });
         }
       });
@@ -413,7 +440,7 @@ export const HotLeadsTab = () => {
                             {lead.assessment_completed && (
                               <Badge className="bg-lime-500 text-black border-0">
                                 <Target className="h-3 w-3 mr-1" />
-                                Assessed
+                                Scorecard: {lead.scorecard_score}% ({lead.scorecard_rank})
                               </Badge>
                             )}
                           </div>
