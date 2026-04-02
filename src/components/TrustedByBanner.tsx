@@ -9,6 +9,9 @@ import nioshLogo from "@/assets/niosh-logo.png";
 import soterLogo from "@/assets/soter-ai-logo.avif";
 import fieldLogo from "@/assets/field-energy-logo.jpeg";
 import fugroLogo from "@/assets/fugro-logo.png";
+import abbLogo from "@/assets/abb-logo.png";
+import bardLogo from "@/assets/bard-logo.png";
+import bvLogo from "@/assets/bureau-veritas-logo.jpg";
 
 const logos = [
   { src: legoLogo, alt: "LEGO" },
@@ -22,6 +25,9 @@ const logos = [
   { src: soterLogo, alt: "Soter AI" },
   { src: fieldLogo, alt: "Field Energy" },
   { src: fugroLogo, alt: "Fugro" },
+  { src: abbLogo, alt: "ABB" },
+  { src: bardLogo, alt: "Bard" },
+  { src: bvLogo, alt: "Bureau Veritas" },
 ];
 
 export const TrustedByBanner = () => {
