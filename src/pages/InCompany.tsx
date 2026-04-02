@@ -46,7 +46,7 @@ import bardLogo from "@/assets/bard-logo.png";
 import bvLogo from "@/assets/bureau-veritas-logo.jpg";
 
 
-const CALENDLY_LINK = "https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy";
+const BOOKING_LINK = "https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy";
 
 const InCompany = () => {
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -180,7 +180,7 @@ const InCompany = () => {
                   }
                 </div>
                 <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start">
-                  <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                  <a href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
                       Book a 30-minute call <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
@@ -427,7 +427,7 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort â€
                       {selectedTier === i ? "âœ“ Selected" : tier.cta}
                     </Button>
                   ) : (
-                    <a href={tier.cta === "Contact Us" ? "/contact" : CALENDLY_LINK} target={tier.cta === "Contact Us" ? "_self" : "_blank"} rel="noopener noreferrer" className="block">
+                    <a href={tier.cta === "Contact Us" ? "/contact" : BOOKING_LINK} target={tier.cta === "Contact Us" ? "_self" : "_blank"} rel="noopener noreferrer" className="block">
                       <Button
                         className="w-full font-bold tracking-wider text-sm py-3 bg-transparent border border-border text-muted-foreground hover:border-primary hover:text-black"
                         variant="outline"
@@ -520,7 +520,7 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort â€
 
                   {/* CTA */}
                   <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                    <a href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
                       <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold tracking-wider text-sm px-10 py-3">
                         Book a call to enrol â†’
                       </Button>
@@ -666,7 +666,7 @@ features: ["Everything in CORE TEAM tier", "30+% off full rate", "Full cohort â€
 You'll come away with clarity on what's possible â€” and a written proposal within 48 hours.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <a href={CALENDLY_LINK} target="_blank" rel="noopener noreferrer">
+                  <a href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10 shadow-glow">
                       Book a 30-minute call <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
