@@ -145,7 +145,7 @@ const FAQ = () => {
                   <a href="/contact">Contact Our Team</a>
                 </Button>
                 <Button variant="outline" className="border-border text-foreground hover:bg-muted text-lg px-8 py-6" asChild>
-                  <a href="https://calendly.com/lucas-getshield360/30min" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
+                  <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
                 </Button>
               </div>
             </div>
