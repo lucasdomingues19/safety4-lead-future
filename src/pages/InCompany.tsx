@@ -46,7 +46,7 @@ import bardLogo from "@/assets/bard-logo.png";
 import bvLogo from "@/assets/bureau-veritas-logo.jpg";
 
 
-const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
+const CALENDLY_LINK = "https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy";
 
 const InCompany = () => {
   const fadeRefs = useRef<(HTMLDivElement | null)[]>([]);
