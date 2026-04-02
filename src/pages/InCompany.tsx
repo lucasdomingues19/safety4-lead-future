@@ -41,6 +41,9 @@ import soterLogo from "@/assets/soter-ai-logo.avif";
 import fieldLogo from "@/assets/field-energy-logo.jpeg";
 import fugroLogo from "@/assets/fugro-logo.png";
 import nioshLogo from "@/assets/niosh-logo.png";
+import abbLogo from "@/assets/abb-logo.png";
+import bardLogo from "@/assets/bard-logo.png";
+import bvLogo from "@/assets/bureau-veritas-logo.jpg";
 
 
 const CALENDLY_LINK = "https://calendly.com/lucas-getshield360/30min";
