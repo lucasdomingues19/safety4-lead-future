@@ -440,7 +440,7 @@ export const HotLeadsTab = () => {
                             {lead.assessment_completed && (
                               <Badge className="bg-lime-500 text-black border-0">
                                 <Target className="h-3 w-3 mr-1" />
-                                Assessed
+                                Scorecard: {lead.scorecard_score}% ({lead.scorecard_rank})
                               </Badge>
                             )}
                           </div>
