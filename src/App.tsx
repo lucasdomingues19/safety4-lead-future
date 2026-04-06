@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
+import { AcademyChatbot } from "./components/AcademyChatbot";
 
 // Lazy load pages for better performance
 
@@ -72,16 +73,16 @@ const App = () => (
             <Route path="/admin" element={<Admin />} />
             <Route path="/scorecard" element={<Scorecard />} />
             <Route path="/elearning" element={<Syllabus />} />
-            <Route path="/syllabus" element={<Syllabus />} /> {/* Legacy redirect */}
+            <Route path="/syllabus" element={<Syllabus />} />
             <Route path="/offer" element={<Offer />} />
             <Route path="/in-company" element={<InCompany />} />
             <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/enrol" element={<Enroll />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
+        <AcademyChatbot />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
