@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
-import { AcademyChatbot } from "./components/AcademyChatbot";
+import { WhatsAppButton } from "./components/WhatsAppButton";
 
 // Lazy load pages for better performance
 
@@ -82,7 +82,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
-        <AcademyChatbot />
+        <WhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
