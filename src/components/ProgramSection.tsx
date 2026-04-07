@@ -134,8 +134,8 @@ export const ProgramSection = () => {
               <div className="flex items-start space-x-3">
                 <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-white">12-Month Access</p>
-                  <p className="text-sm text-white/70">All updates & new content included</p>
+                   <p className="font-semibold text-white">90-Day Course Access</p>
+                   <p className="text-sm text-white/70">Lifetime access to platform & community</p>
                 </div>
               </div>
               
