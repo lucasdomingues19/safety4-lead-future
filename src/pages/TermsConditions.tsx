@@ -95,8 +95,9 @@ export default function TermsConditions() {
 
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">4.2 Access Duration</h3>
               <p>
-                Upon enrollment, you are granted lifetime access to the course materials. This means you can 
-                access and revisit the content indefinitely, subject to the Platform remaining operational.
+                Upon enrolment, you are granted lifetime access to the platform and community, however you 
+                have 90 days to complete the eLearning. This means you must access and complete the course 
+                within the 90-day period, subject to the Platform remaining operational.
               </p>
 
               <h3 className="text-lg font-semibold text-white mb-2 mt-3">4.3 Platform Availability</h3>
