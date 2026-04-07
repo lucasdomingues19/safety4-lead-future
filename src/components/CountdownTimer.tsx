@@ -49,7 +49,7 @@ export const CountdownTimer = () => {
         
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-5 text-xs md:text-sm text-gray-200">
           <span className="flex items-center gap-1">
-            <span className="text-lime-400">✓</span> Lifetime Access
+            <span className="text-lime-400">✓</span> Lifetime Platform Access
           </span>
           <span className="flex items-center gap-1">
             <span className="text-lime-400">✓</span> 14-Day Money-Back
