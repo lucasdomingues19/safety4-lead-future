@@ -348,7 +348,7 @@ export default function TermsConditions() {
             </section>
 
             <p className="text-sm text-gray-400 pt-6 border-t border-white/10">
-              Last updated: October 2025
+              Last updated: April 2026
             </p>
           </div>
         </div>
