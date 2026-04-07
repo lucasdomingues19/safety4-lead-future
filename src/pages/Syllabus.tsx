@@ -50,7 +50,7 @@ const Syllabus = () => {
                 { icon: Clock, label: "Self-Paced", desc: "Learn on your schedule" },
                 { icon: Infinity, label: "Lifelong Access", desc: "Materials yours forever" },
                 { icon: Award, label: "IOSH & CPD Certified", desc: "Globally recognised" },
-                { icon: GraduationCap, label: "30-Day Programme", desc: "Complete at your pace" },
+                { icon: GraduationCap, label: "90-Day Programme", desc: "Complete at your pace" },
               ].map((b, i) => (
                 <div key={i} className="rounded-xl border border-primary/20 bg-primary/[0.06] p-5 text-center">
                   <b.icon className="w-7 h-7 text-primary mx-auto mb-2" />
