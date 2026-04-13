@@ -8,16 +8,6 @@ import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
 const EBook = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    jobTitle: "",
-  });
-
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
@@ -27,75 +17,17 @@ const EBook = () => {
     });
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      // Save lead to database
-      const { error } = await supabase.functions.invoke('capture-lead', {
-        body: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          phone: formData.phone || null,
-          source: 'ebook_download'
-        }
-      });
-
-      if (error) throw error;
-
-      // Open ebook download link
-      window.open('https://newsletter.getshield360.com/ebook', '_blank');
-
-      toast({
-        title: "Success! Your download is starting",
-        description: "Check your downloads folder for the Safety 4.0 Leader eBook.",
-      });
-
-      // Reset form
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        jobTitle: "",
-      });
-    } catch (error: any) {
-      console.error("Error downloading ebook:", error);
-      toast({
-        title: "Something went wrong",
-        description: "Please try again or contact us directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <>
     <div className="min-h-screen relative overflow-hidden">
-      {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-black"></div>
       <AudienceNav />
       
-      {/* Floating elements - Purple and Lime */}
+      {/* Floating elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Purple blob - Top left */}
         <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-        
-        {/* Lime blob - Top right */}
         <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-        
-        {/* Purple blob - Bottom left */}
         <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-500/20 to-purple-400/10 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
-        
-        {/* Lime blob - Bottom right */}
         <div className="absolute bottom-1/4 -right-20 w-64 h-64 rounded-full bg-gradient-to-br from-lime-500/15 via-lime-400/20 to-lime-600/10 blur-3xl animate-[float_28s_ease-in-out_infinite_reverse]"></div>
       </div>
       
@@ -128,171 +60,75 @@ const EBook = () => {
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Left Side - eBook Cover and Info */}
-            <div className="space-y-8">
-              {/* eBook Cover */}
-              <div className="relative max-w-md mx-auto lg:mx-0">
-                <img 
-                  src={bookCover} 
-                  alt="Become the Safety 4.0 Leader eBook cover by Lucas Domingues"
-                  className="w-full h-auto rounded-2xl shadow-2xl border border-white/20"
-                />
-              </div>
-
-              {/* eBook Details */}
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-white mb-4">
-                    Become the Safety 4.0 Leader
-                  </h2>
-                  <p className="text-lg text-gray-300 leading-relaxed">
-                    A comprehensive under 30-page guide that unpacks personal stories by Lucas, 
-                    case studies and deep research to develop digital safety leadership 
-                    in the Industry 4.0 era.
-                  </p>
-                </div>
-
-                {/* Key Features */}
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400" />
-                    <span className="text-gray-300">30+ pages of expert insights</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400" />
-                    <span className="text-gray-300">Practical implementation strategies</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400" />
-                    <span className="text-gray-300">Real-world case studies</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400" />
-                    <span className="text-gray-300">Technology integration roadmap</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400" />
-                    <span className="text-gray-300">Career advancement blueprint</span>
-                  </div>
-                </div>
-
-                {/* Rating */}
-                <div className="flex items-center space-x-2">
-                  <div className="flex space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-pink-400 text-pink-400" />
-                    ))}
-                  </div>
-                  <span className="text-white font-semibold">4.9/5</span>
-                  <span className="text-gray-400">(2,847 downloads)</span>
-                </div>
-              </div>
+        <div className="max-w-3xl mx-auto">
+          <div className="flex flex-col items-center space-y-8">
+            {/* eBook Cover */}
+            <div className="relative max-w-md">
+              <img 
+                src={bookCover} 
+                alt="Become the Safety 4.0 Leader eBook cover by Lucas Domingues"
+                className="w-full h-auto rounded-2xl shadow-2xl border border-white/20"
+              />
             </div>
 
-            {/* Right Side - Download Form */}
-            <div className="space-y-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 h-fit">
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    Download Your Free Copy
-                  </h3>
-                  <p className="text-gray-300">
-                    Join 2,500+ safety professionals who have already downloaded this guide
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      First Name *
-                    </label>
-                    <Input 
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      placeholder="Enter your first name"
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Last Name *
-                    </label>
-                    <Input 
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      placeholder="Enter your last name"
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Email Address *
-                    </label>
-                    <Input 
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Enter your email address"
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Phone Number (optional)
-                    </label>
-                    <Input 
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="Enter your phone number"
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Job Title
-                    </label>
-                    <Input 
-                      type="text"
-                      name="jobTitle"
-                      value={formData.jobTitle}
-                      onChange={handleInputChange}
-                      placeholder="e.g., Safety Manager, HSE Officer"
-                      className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                    />
-                  </div>
-
-                  <Button 
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-pink-500 hover:bg-pink-600 text-white text-lg py-6 group"
-                  >
-                    <Download className="w-5 h-5 mr-2 group-hover:translate-y-1 transition-transform" />
-                    {isSubmitting ? "Processing..." : "Download Free eBook"}
-                  </Button>
-
-                  <p className="text-xs text-gray-400 text-center">
-                    By downloading, you agree to receive occasional emails about Safety 4.0 Academy. 
-                    You can unsubscribe at any time.
-                  </p>
-                </form>
+            {/* eBook Details */}
+            <div className="space-y-6 text-center">
+              <div>
+                <h2 className="text-3xl font-bold text-white mb-4">
+                  Become the Safety 4.0 Leader
+                </h2>
+                <p className="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
+                  A comprehensive under 30-page guide that unpacks personal stories by Lucas, 
+                  case studies and deep research to develop digital safety leadership 
+                  in the Industry 4.0 era.
+                </p>
               </div>
 
+              {/* Key Features */}
+              <div className="grid sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
+                  <span className="text-gray-300">30+ pages of expert insights</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
+                  <span className="text-gray-300">Practical implementation strategies</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
+                  <span className="text-gray-300">Real-world case studies</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
+                  <span className="text-gray-300">Technology integration roadmap</span>
+                </div>
+                <div className="flex items-center space-x-3 sm:col-span-2 sm:justify-center">
+                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
+                  <span className="text-gray-300">Career advancement blueprint</span>
+                </div>
+              </div>
+
+              {/* Rating */}
+              <div className="flex items-center justify-center space-x-2">
+                <div className="flex space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-pink-400 text-pink-400" />
+                  ))}
+                </div>
+                <span className="text-white font-semibold">4.9/5</span>
+                <span className="text-gray-400">(2,847 downloads)</span>
+              </div>
+
+              {/* Download Button */}
+              <Button 
+                asChild
+                className="bg-pink-500 hover:bg-pink-600 text-white text-lg py-6 px-10 group"
+              >
+                <a href="https://learning.safetyacademy.tech/become-the-safety-4-0-leader" target="_blank" rel="noopener noreferrer">
+                  <Download className="w-5 h-5 mr-2 group-hover:translate-y-1 transition-transform" />
+                  Download Free eBook
+                </a>
+              </Button>
             </div>
           </div>
         </div>
