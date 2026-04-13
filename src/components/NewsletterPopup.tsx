@@ -32,7 +32,6 @@ export const NewsletterPopup = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    localStorage.setItem("newsletter_popup_dismissed", "true");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
