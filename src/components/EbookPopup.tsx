@@ -14,7 +14,7 @@ const EbookPopup = () => {
     const timer = setTimeout(() => {
       setIsOpen(true);
       sessionStorage.setItem('ebook_popup_shown', 'true');
-    }, 60000);
+    }, 60000); // 1 minute
 
     return () => clearTimeout(timer);
   }, []);
