@@ -120,7 +120,7 @@ export const NewsletterPopup = () => {
 
         {/* Description */}
         <p className="text-gray-300 text-center mb-6 leading-relaxed">
-          Join hundreds of safety innovators and changemakers receiving our bi-weekly newsletter.
+          Join hundreds of safety innovators and changemakers receiving our monthly newsletter.
         </p>
 
         {/* Form */}
