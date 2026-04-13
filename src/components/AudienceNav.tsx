@@ -11,7 +11,7 @@ const navLinks = [
       { label: "eLearning", href: "/elearning" },
       { label: "Safety 4.0 Accelerator", href: "/accelerator" },
       { label: "IOSH & CPD", href: "/certification" },
-      { label: "Case Studies", href: "/case-studies" },
+      { label: "Alumni Stories", href: "/case-studies" },
     ],
   },
   { label: "Pricing", href: "/#pricing" },
