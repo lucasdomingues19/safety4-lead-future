@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ArrowLeft, Download, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
-import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
+import bookCover from "@/assets/book-cover-safety-4-leader.png";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
