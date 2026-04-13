@@ -84,29 +84,6 @@ const EBook = () => {
                 </p>
               </div>
 
-              {/* Key Features */}
-              <div className="grid sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
-                  <span className="text-gray-300">30+ pages of expert insights</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
-                  <span className="text-gray-300">Practical implementation strategies</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
-                  <span className="text-gray-300">Real-world case studies</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
-                  <span className="text-gray-300">Technology integration roadmap</span>
-                </div>
-                <div className="flex items-center space-x-3 sm:col-span-2 sm:justify-center">
-                  <CheckCircle className="w-5 h-5 text-lime-400 shrink-0" />
-                  <span className="text-gray-300">Career advancement blueprint</span>
-                </div>
-              </div>
 
               {/* Rating */}
               <div className="flex items-center justify-center space-x-2">
