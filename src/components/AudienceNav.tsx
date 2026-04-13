@@ -96,7 +96,7 @@ const AudienceNav = () => {
         </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) =>
             "children" in link && link.children ? (
               <DesktopDropdown key={link.label} item={link} />
@@ -124,7 +124,7 @@ const AudienceNav = () => {
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-foreground p-2"
+          className="lg:hidden text-foreground p-2"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -133,7 +133,7 @@ const AudienceNav = () => {
 
       {/* Mobile */}
       {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border px-4 pb-4 space-y-1">
+        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border px-4 pb-4 space-y-1">
           {navLinks.map((link) =>
             "children" in link && link.children ? (
               <div key={link.label}>
