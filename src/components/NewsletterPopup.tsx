@@ -18,12 +18,13 @@ export const NewsletterPopup = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user has already seen/dismissed the popup
-    const hasSeenPopup = localStorage.getItem("newsletter_popup_dismissed");
+    // Check if user has already seen the popup this session
+    const hasSeenPopup = sessionStorage.getItem("newsletter_popup_shown");
     if (hasSeenPopup) return;
 
     const timer = setTimeout(() => {
       setIsOpen(true);
+      sessionStorage.setItem("newsletter_popup_shown", "true");
     }, 60000); // 60 seconds
 
     return () => clearTimeout(timer);
@@ -31,7 +32,6 @@ export const NewsletterPopup = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    localStorage.setItem("newsletter_popup_dismissed", "true");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
