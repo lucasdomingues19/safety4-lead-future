@@ -1,11 +1,8 @@
 import AudienceNav from "@/components/AudienceNav";
-import { useEffect, useState } from "react";
-import { ArrowLeft, Download, BookOpen, CheckCircle, Star } from "lucide-react";
+import { useEffect } from "react";
+import { ArrowLeft, Download, CheckCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Footer } from "@/components/Footer";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import bookCover from "@/assets/book-cover-safety-4-leader.jpg";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
