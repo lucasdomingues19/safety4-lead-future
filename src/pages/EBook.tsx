@@ -56,7 +56,7 @@ const EBook = () => {
             Free <span className="text-primary">Safety 4.0</span> eBook
           </h1>
           <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Download our comprehensive guide to mastering digital safety leadership
+            Short read for EHS professionals who is starting to navigate the safetytech and AI transition.
           </p>
         </div>
 
