@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import bookCover from '@/assets/book-cover-safety-4-leader.jpg';
+import bookCover from '@/assets/book-cover-safety-4-leader.png';
 
 const EbookPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
