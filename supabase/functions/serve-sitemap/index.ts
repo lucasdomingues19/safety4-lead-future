@@ -4,61 +4,61 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://safetyacademy.tech/</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/elearning</loc>
-    <lastmod>2026-03-26</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/accelerator</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/enrol</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/in-company</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/certification</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/case-studies</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/faq</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/scorecard</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/blog</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -94,37 +94,37 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   </url>
   <url>
     <loc>https://safetyacademy.tech/contact</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/ebook</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/privacy-policy</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/terms-conditions</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/cookies-policy</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://safetyacademy.tech/anti-piracy-policy</loc>
-    <lastmod>2026-03-31</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

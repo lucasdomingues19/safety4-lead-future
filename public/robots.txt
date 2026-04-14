@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vlhxdymzlheicmambywu.supabase.co/functions/v1/serve-sitemap
+Sitemap: https://safetyacademy.tech/sitemap.xml
 
 # ============================================
 # AI & LLM Crawlers (AEO/GEO Optimization)
