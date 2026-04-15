@@ -188,11 +188,26 @@ export const CompanyInsightsTab = () => {
       }
     });
     const hasOrg = CANONICAL_CATEGORIES.some((c) => orgTotals[c].count > 0);
+    const overallAvg = Math.round(selectedResults.reduce((s, r) => s + r.overall_score, 0) / selectedResults.length);
+    const personalAvg = Math.round(
+      CANONICAL_CATEGORIES.reduce((s, c) => s + (catTotals[c].count > 0 ? catTotals[c].sum / catTotals[c].count : 0), 0) / CANONICAL_CATEGORIES.length
+    );
+    const orgAvg = hasOrg
+      ? Math.round(
+          CANONICAL_CATEGORIES.reduce((s, c) => s + (orgTotals[c].count > 0 ? orgTotals[c].sum / orgTotals[c].count : 0), 0) /
+            CANONICAL_CATEGORIES.filter((c) => orgTotals[c].count > 0).length
+        )
+      : null;
+    const rankBand = RANK_BANDS.find((b) => overallAvg >= b.min && overallAvg <= b.max) || RANK_BANDS[0];
     return {
       count: selectedResults.length,
       respondentCount: selectedRespondents.size,
       respondents: Array.from(selectedRespondents),
       hasOrg,
+      overallAvg,
+      personalAvg,
+      orgAvg,
+      rankBand,
       categories: CANONICAL_CATEGORIES.map((cat) => ({
         category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
         fullCategory: cat,
