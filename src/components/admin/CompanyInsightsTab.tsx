@@ -188,11 +188,26 @@ export const CompanyInsightsTab = () => {
       }
     });
     const hasOrg = CANONICAL_CATEGORIES.some((c) => orgTotals[c].count > 0);
+    const overallAvg = Math.round(selectedResults.reduce((s, r) => s + r.overall_score, 0) / selectedResults.length);
+    const personalAvg = Math.round(
+      CANONICAL_CATEGORIES.reduce((s, c) => s + (catTotals[c].count > 0 ? catTotals[c].sum / catTotals[c].count : 0), 0) / CANONICAL_CATEGORIES.length
+    );
+    const orgAvg = hasOrg
+      ? Math.round(
+          CANONICAL_CATEGORIES.reduce((s, c) => s + (orgTotals[c].count > 0 ? orgTotals[c].sum / orgTotals[c].count : 0), 0) /
+            CANONICAL_CATEGORIES.filter((c) => orgTotals[c].count > 0).length
+        )
+      : null;
+    const rankBand = RANK_BANDS.find((b) => overallAvg >= b.min && overallAvg <= b.max) || RANK_BANDS[0];
     return {
       count: selectedResults.length,
       respondentCount: selectedRespondents.size,
       respondents: Array.from(selectedRespondents),
       hasOrg,
+      overallAvg,
+      personalAvg,
+      orgAvg,
+      rankBand,
       categories: CANONICAL_CATEGORIES.map((cat) => ({
         category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
         fullCategory: cat,
@@ -502,6 +517,32 @@ export const CompanyInsightsTab = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {/* Overall grades summary */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white/5 rounded-lg p-4 text-center">
+                <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Overall Grade</p>
+                <p className="text-3xl font-bold" style={{ color: aggregatedRespondentData.rankBand.color }}>
+                  {aggregatedRespondentData.overallAvg}<span className="text-lg text-white/50">/100</span>
+                </p>
+                <p className="text-xs mt-1" style={{ color: aggregatedRespondentData.rankBand.color }}>
+                  {aggregatedRespondentData.rankBand.label}
+                </p>
+              </div>
+              <div className="bg-white/5 rounded-lg p-4 text-center">
+                <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Personal Avg</p>
+                <p className="text-3xl font-bold text-[#D6FF00]">
+                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-white/50">%</span>
+                </p>
+              </div>
+              {aggregatedRespondentData.orgAvg !== null && (
+                <div className="bg-white/5 rounded-lg p-4 text-center">
+                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Org Maturity Avg</p>
+                  <p className="text-3xl font-bold text-blue-400">
+                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-white/50">%</span>
+                  </p>
+                </div>
+              )}
+            </div>
             <ResponsiveContainer width="100%" height={400}>
               <RadarChart data={aggregatedRespondentData.categories} cx="50%" cy="50%" outerRadius="70%">
                 <PolarGrid stroke="#ffffff20" />
