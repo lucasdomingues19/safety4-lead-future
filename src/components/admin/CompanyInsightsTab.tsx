@@ -84,6 +84,27 @@ export const CompanyInsightsTab = () => {
     return Array.from(set).sort();
   }, [results]);
 
+  const respondents = useMemo(() => {
+    const map = new Map<string, { name: string; count: number; avgScore: number; hasOrg: boolean }>();
+    results.forEach((r) => {
+      const name = `${r.first_name} ${r.last_name}`;
+      const existing = map.get(name);
+      if (existing) {
+        existing.count += 1;
+        existing.avgScore = Math.round((existing.avgScore * (existing.count - 1) + r.overall_score) / existing.count);
+        if (r.org_maturity_scores && Array.isArray(r.org_maturity_scores)) existing.hasOrg = true;
+      } else {
+        map.set(name, {
+          name,
+          count: 1,
+          avgScore: r.overall_score,
+          hasOrg: !!(r.org_maturity_scores && Array.isArray(r.org_maturity_scores)),
+        });
+      }
+    });
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [results]);
+
   const filtered = useMemo(() => {
     let data = results;
     if (selectedCompany !== "all") {
