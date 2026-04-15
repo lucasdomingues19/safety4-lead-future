@@ -35,6 +35,7 @@ const RANK_BANDS = [
 ];
 
 type DateFilter = "7days" | "30days" | "90days" | "alltime";
+type AggregateBy = "company" | "respondent";
 
 const normalizeCategory = (cat: string): string => {
   const map: Record<string, string> = { "Technology Adoption": "Tech Saviness" };
