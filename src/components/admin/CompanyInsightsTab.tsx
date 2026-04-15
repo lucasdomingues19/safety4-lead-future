@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Building2, Users, TrendingUp, Award } from "lucide-react";
+import { Building2, Users, TrendingUp, Award, User } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -34,6 +35,7 @@ const RANK_BANDS = [
 ];
 
 type DateFilter = "7days" | "30days" | "90days" | "alltime";
+type AggregateBy = "company" | "respondent";
 
 const normalizeCategory = (cat: string): string => {
   const map: Record<string, string> = { "Technology Adoption": "Tech Saviness" };
@@ -54,7 +56,8 @@ export const CompanyInsightsTab = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<DateFilter>("alltime");
   const [selectedCompanies, setSelectedCompanies] = useState<Set<string>>(new Set());
-
+  const [aggregateBy, setAggregateBy] = useState<AggregateBy>("company");
+  const [selectedRespondents, setSelectedRespondents] = useState<Set<string>>(new Set());
   useEffect(() => {
     fetchResults();
   }, []);
@@ -79,6 +82,27 @@ export const CompanyInsightsTab = () => {
     const set = new Set<string>();
     results.forEach((r) => { if (r.company_name) set.add(r.company_name); });
     return Array.from(set).sort();
+  }, [results]);
+
+  const respondents = useMemo(() => {
+    const map = new Map<string, { name: string; count: number; avgScore: number; hasOrg: boolean }>();
+    results.forEach((r) => {
+      const name = `${r.first_name} ${r.last_name}`;
+      const existing = map.get(name);
+      if (existing) {
+        existing.count += 1;
+        existing.avgScore = Math.round((existing.avgScore * (existing.count - 1) + r.overall_score) / existing.count);
+        if (r.org_maturity_scores && Array.isArray(r.org_maturity_scores)) existing.hasOrg = true;
+      } else {
+        map.set(name, {
+          name,
+          count: 1,
+          avgScore: r.overall_score,
+          hasOrg: !!(r.org_maturity_scores && Array.isArray(r.org_maturity_scores)),
+        });
+      }
+    });
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
   }, [results]);
 
   const filtered = useMemo(() => {
@@ -136,6 +160,48 @@ export const CompanyInsightsTab = () => {
     };
   }, [selectedCompanies, filtered]);
 
+  // Aggregated data for selected respondents
+  const aggregatedRespondentData = useMemo(() => {
+    if (selectedRespondents.size === 0) return null;
+    const selectedResults = filtered.filter((r) => selectedRespondents.has(`${r.first_name} ${r.last_name}`));
+    if (selectedResults.length === 0) return null;
+    const catTotals: Record<string, { sum: number; count: number }> = {};
+    const orgTotals: Record<string, { sum: number; count: number }> = {};
+    CANONICAL_CATEGORIES.forEach((c) => {
+      catTotals[c] = { sum: 0, count: 0 };
+      orgTotals[c] = { sum: 0, count: 0 };
+    });
+    selectedResults.forEach((r) => {
+      const scores = r.category_scores as { category: string; percentage: number }[];
+      if (Array.isArray(scores)) {
+        scores.forEach((c) => {
+          const n = normalizeCategory(c.category);
+          if (catTotals[n]) { catTotals[n].sum += c.percentage; catTotals[n].count += 1; }
+        });
+      }
+      const orgScores = r.org_maturity_scores as { category: string; percentage: number }[] | null;
+      if (Array.isArray(orgScores)) {
+        orgScores.forEach((c) => {
+          const n = normalizeCategory(c.category);
+          if (orgTotals[n]) { orgTotals[n].sum += c.percentage; orgTotals[n].count += 1; }
+        });
+      }
+    });
+    const hasOrg = CANONICAL_CATEGORIES.some((c) => orgTotals[c].count > 0);
+    return {
+      count: selectedResults.length,
+      respondentCount: selectedRespondents.size,
+      respondents: Array.from(selectedRespondents),
+      hasOrg,
+      categories: CANONICAL_CATEGORIES.map((cat) => ({
+        category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
+        fullCategory: cat,
+        "Personal Scores": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
+        ...(hasOrg ? { "Org Maturity": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
+      })),
+    };
+  }, [selectedRespondents, filtered]);
+
   const avgScore = useMemo(() => {
     if (!filtered.length) return 0;
     return Math.round(filtered.reduce((s, r) => s + r.overall_score, 0) / filtered.length);
@@ -177,11 +243,14 @@ export const CompanyInsightsTab = () => {
   const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity" in (radarData[0] || {}), [radarData]);
 
   const distributionSource = useMemo(() => {
-    if (selectedCompanies.size > 0) {
+    if (aggregateBy === "respondent" && selectedRespondents.size > 0) {
+      return filtered.filter((r) => selectedRespondents.has(`${r.first_name} ${r.last_name}`));
+    }
+    if (aggregateBy === "company" && selectedCompanies.size > 0) {
       return filtered.filter((r) => r.company_name && selectedCompanies.has(r.company_name));
     }
     return filtered;
-  }, [filtered, selectedCompanies]);
+  }, [filtered, selectedCompanies, selectedRespondents, aggregateBy]);
 
   const distributionData = useMemo(() => {
     return RANK_BANDS.map((band) => ({
@@ -215,6 +284,25 @@ export const CompanyInsightsTab = () => {
       setSelectedCompanies(new Set());
     } else {
       setSelectedCompanies(new Set(companies));
+    }
+  };
+
+  const toggleRespondentSelection = (name: string) => {
+    setSelectedRespondents((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
+
+  const respondentNames = useMemo(() => respondents.map((r) => r.name), [respondents]);
+
+  const selectAllRespondents = () => {
+    if (selectedRespondents.size === respondentNames.length) {
+      setSelectedRespondents(new Set());
+    } else {
+      setSelectedRespondents(new Set(respondentNames));
     }
   };
 
@@ -254,6 +342,19 @@ export const CompanyInsightsTab = () => {
               {d === "7days" ? "7 Days" : d === "30days" ? "30 Days" : d === "90days" ? "90 Days" : "All Time"}
             </Button>
           ))}
+        </div>
+        <div className="space-y-1">
+          <label className="text-xs text-white/60 uppercase tracking-wider">Aggregate By</label>
+          <Tabs value={aggregateBy} onValueChange={(v) => { setAggregateBy(v as AggregateBy); setSelectedCompanies(new Set()); setSelectedRespondents(new Set()); }}>
+            <TabsList className="bg-white/10 border border-white/20">
+              <TabsTrigger value="company" className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                <Building2 className="h-3 w-3 mr-1" /> Company
+              </TabsTrigger>
+              <TabsTrigger value="respondent" className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                <User className="h-3 w-3 mr-1" /> Respondent
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </div>
 
@@ -358,7 +459,7 @@ export const CompanyInsightsTab = () => {
       </div>
 
       {/* Selected Companies Comparison Radar */}
-      {aggregatedSelectionData && (
+      {aggregateBy === "company" && aggregatedSelectionData && (
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
             <CardTitle className="text-white">Selected Companies — Aggregated View</CardTitle>
@@ -390,8 +491,41 @@ export const CompanyInsightsTab = () => {
         </Card>
       )}
 
+      {/* Selected Respondents Comparison Radar */}
+      {aggregateBy === "respondent" && aggregatedRespondentData && (
+        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <CardHeader>
+            <CardTitle className="text-white">Selected Respondents — Aggregated View</CardTitle>
+            <CardDescription className="text-gray-300">
+              {aggregatedRespondentData.respondentCount} respondent{aggregatedRespondentData.respondentCount !== 1 ? "s" : ""} · {aggregatedRespondentData.count} result{aggregatedRespondentData.count !== 1 ? "s" : ""}
+              {aggregatedRespondentData.hasOrg && " · Personal vs Org Maturity"}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={400}>
+              <RadarChart data={aggregatedRespondentData.categories} cx="50%" cy="50%" outerRadius="70%">
+                <PolarGrid stroke="#ffffff20" />
+                <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
+                <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
+                {aggregatedRespondentData.hasOrg && (
+                  <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
+                )}
+                <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
+              </RadarChart>
+            </ResponsiveContainer>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {aggregatedRespondentData.respondents.map((r) => (
+                <span key={r} className="text-xs bg-white/10 text-white/70 px-2 py-1 rounded-full">{r}</span>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Companies Overview with Checkboxes */}
-      {selectedCompany === "all" && companies.length > 0 && (
+      {aggregateBy === "company" && selectedCompany === "all" && companies.length > 0 && (
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -457,6 +591,68 @@ export const CompanyInsightsTab = () => {
                   </div>
                 );
               })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Respondents Overview with Checkboxes */}
+      {aggregateBy === "respondent" && respondents.length > 0 && (
+        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-white flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Respondents Overview
+              </CardTitle>
+              <div className="flex items-center gap-3">
+                {selectedRespondents.size > 0 && (
+                  <span className="text-xs text-white/50">{selectedRespondents.size} selected</span>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={selectAllRespondents}
+                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 text-xs"
+                >
+                  {selectedRespondents.size === respondentNames.length ? "Deselect All" : "Select All"}
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {respondents.map((resp) => (
+                <div
+                  key={resp.name}
+                  className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
+                    selectedRespondents.has(resp.name) ? "bg-white/15 ring-1 ring-white/30" : "bg-white/5 hover:bg-white/10"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Checkbox
+                      checked={selectedRespondents.has(resp.name)}
+                      onCheckedChange={() => toggleRespondentSelection(resp.name)}
+                      className="border-white/40 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
+                    />
+                    <User className="h-4 w-4 text-white/40" />
+                    <span className="text-white font-medium">{resp.name}</span>
+                    <span className="text-white/40 text-sm">({resp.count} result{resp.count !== 1 ? "s" : ""})</span>
+                    {resp.hasOrg && (
+                      <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full">Org Data</span>
+                    )}
+                  </div>
+                  <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    resp.avgScore >= 85 ? "bg-green-500/20 text-green-300" :
+                    resp.avgScore >= 70 ? "bg-blue-500/20 text-blue-300" :
+                    resp.avgScore >= 55 ? "bg-yellow-500/20 text-yellow-300" :
+                    resp.avgScore >= 35 ? "bg-orange-500/20 text-orange-300" :
+                    "bg-red-500/20 text-red-300"
+                  }`}>
+                    Avg: {resp.avgScore}/100
+                  </div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
