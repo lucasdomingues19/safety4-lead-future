@@ -343,6 +343,19 @@ export const CompanyInsightsTab = () => {
             </Button>
           ))}
         </div>
+        <div className="space-y-1">
+          <label className="text-xs text-white/60 uppercase tracking-wider">Aggregate By</label>
+          <Tabs value={aggregateBy} onValueChange={(v) => { setAggregateBy(v as AggregateBy); setSelectedCompanies(new Set()); setSelectedRespondents(new Set()); }}>
+            <TabsList className="bg-white/10 border border-white/20">
+              <TabsTrigger value="company" className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                <Building2 className="h-3 w-3 mr-1" /> Company
+              </TabsTrigger>
+              <TabsTrigger value="respondent" className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                <User className="h-3 w-3 mr-1" /> Respondent
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       {/* KPI Cards */}
