@@ -657,3 +657,6 @@ export const CompanyInsightsTab = () => {
           </CardContent>
         </Card>
       )}
+    </div>
+  );
+};
