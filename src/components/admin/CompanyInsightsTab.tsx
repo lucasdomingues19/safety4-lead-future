@@ -243,11 +243,14 @@ export const CompanyInsightsTab = () => {
   const hasOrgData = useMemo(() => radarData.length > 0 && "Org Maturity" in (radarData[0] || {}), [radarData]);
 
   const distributionSource = useMemo(() => {
-    if (selectedCompanies.size > 0) {
+    if (aggregateBy === "respondent" && selectedRespondents.size > 0) {
+      return filtered.filter((r) => selectedRespondents.has(`${r.first_name} ${r.last_name}`));
+    }
+    if (aggregateBy === "company" && selectedCompanies.size > 0) {
       return filtered.filter((r) => r.company_name && selectedCompanies.has(r.company_name));
     }
     return filtered;
-  }, [filtered, selectedCompanies]);
+  }, [filtered, selectedCompanies, selectedRespondents, aggregateBy]);
 
   const distributionData = useMemo(() => {
     return RANK_BANDS.map((band) => ({
