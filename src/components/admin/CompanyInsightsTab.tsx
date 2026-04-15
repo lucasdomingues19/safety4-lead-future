@@ -56,7 +56,8 @@ export const CompanyInsightsTab = () => {
   const [selectedCompany, setSelectedCompany] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<DateFilter>("alltime");
   const [selectedCompanies, setSelectedCompanies] = useState<Set<string>>(new Set());
-
+  const [aggregateBy, setAggregateBy] = useState<AggregateBy>("company");
+  const [selectedRespondents, setSelectedRespondents] = useState<Set<string>>(new Set());
   useEffect(() => {
     fetchResults();
   }, []);
