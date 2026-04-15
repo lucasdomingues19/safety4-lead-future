@@ -160,6 +160,48 @@ export const CompanyInsightsTab = () => {
     };
   }, [selectedCompanies, filtered]);
 
+  // Aggregated data for selected respondents
+  const aggregatedRespondentData = useMemo(() => {
+    if (selectedRespondents.size === 0) return null;
+    const selectedResults = filtered.filter((r) => selectedRespondents.has(`${r.first_name} ${r.last_name}`));
+    if (selectedResults.length === 0) return null;
+    const catTotals: Record<string, { sum: number; count: number }> = {};
+    const orgTotals: Record<string, { sum: number; count: number }> = {};
+    CANONICAL_CATEGORIES.forEach((c) => {
+      catTotals[c] = { sum: 0, count: 0 };
+      orgTotals[c] = { sum: 0, count: 0 };
+    });
+    selectedResults.forEach((r) => {
+      const scores = r.category_scores as { category: string; percentage: number }[];
+      if (Array.isArray(scores)) {
+        scores.forEach((c) => {
+          const n = normalizeCategory(c.category);
+          if (catTotals[n]) { catTotals[n].sum += c.percentage; catTotals[n].count += 1; }
+        });
+      }
+      const orgScores = r.org_maturity_scores as { category: string; percentage: number }[] | null;
+      if (Array.isArray(orgScores)) {
+        orgScores.forEach((c) => {
+          const n = normalizeCategory(c.category);
+          if (orgTotals[n]) { orgTotals[n].sum += c.percentage; orgTotals[n].count += 1; }
+        });
+      }
+    });
+    const hasOrg = CANONICAL_CATEGORIES.some((c) => orgTotals[c].count > 0);
+    return {
+      count: selectedResults.length,
+      respondentCount: selectedRespondents.size,
+      respondents: Array.from(selectedRespondents),
+      hasOrg,
+      categories: CANONICAL_CATEGORIES.map((cat) => ({
+        category: cat.length > 20 ? cat.split(" ").slice(0, 2).join(" ") : cat,
+        fullCategory: cat,
+        "Personal Scores": catTotals[cat].count > 0 ? Math.round(catTotals[cat].sum / catTotals[cat].count) : 0,
+        ...(hasOrg ? { "Org Maturity": orgTotals[cat].count > 0 ? Math.round(orgTotals[cat].sum / orgTotals[cat].count) : 0 } : {}),
+      })),
+    };
+  }, [selectedRespondents, filtered]);
+
   const avgScore = useMemo(() => {
     if (!filtered.length) return 0;
     return Math.round(filtered.reduce((s, r) => s + r.overall_score, 0) / filtered.length);
