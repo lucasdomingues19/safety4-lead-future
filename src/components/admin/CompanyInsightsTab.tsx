@@ -287,6 +287,25 @@ export const CompanyInsightsTab = () => {
     }
   };
 
+  const toggleRespondentSelection = (name: string) => {
+    setSelectedRespondents((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
+
+  const respondentNames = useMemo(() => respondents.map((r) => r.name), [respondents]);
+
+  const selectAllRespondents = () => {
+    if (selectedRespondents.size === respondentNames.length) {
+      setSelectedRespondents(new Set());
+    } else {
+      setSelectedRespondents(new Set(respondentNames));
+    }
+  };
+
   if (loading) {
     return <div className="text-white text-center py-12">Loading company insights...</div>;
   }
