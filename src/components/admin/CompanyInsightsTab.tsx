@@ -459,7 +459,7 @@ export const CompanyInsightsTab = () => {
       </div>
 
       {/* Selected Companies Comparison Radar */}
-      {aggregatedSelectionData && (
+      {aggregateBy === "company" && aggregatedSelectionData && (
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
             <CardTitle className="text-white">Selected Companies — Aggregated View</CardTitle>
@@ -491,8 +491,41 @@ export const CompanyInsightsTab = () => {
         </Card>
       )}
 
+      {/* Selected Respondents Comparison Radar */}
+      {aggregateBy === "respondent" && aggregatedRespondentData && (
+        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <CardHeader>
+            <CardTitle className="text-white">Selected Respondents — Aggregated View</CardTitle>
+            <CardDescription className="text-gray-300">
+              {aggregatedRespondentData.respondentCount} respondent{aggregatedRespondentData.respondentCount !== 1 ? "s" : ""} · {aggregatedRespondentData.count} result{aggregatedRespondentData.count !== 1 ? "s" : ""}
+              {aggregatedRespondentData.hasOrg && " · Personal vs Org Maturity"}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={400}>
+              <RadarChart data={aggregatedRespondentData.categories} cx="50%" cy="50%" outerRadius="70%">
+                <PolarGrid stroke="#ffffff20" />
+                <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
+                <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
+                {aggregatedRespondentData.hasOrg && (
+                  <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
+                )}
+                <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
+              </RadarChart>
+            </ResponsiveContainer>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {aggregatedRespondentData.respondents.map((r) => (
+                <span key={r} className="text-xs bg-white/10 text-white/70 px-2 py-1 rounded-full">{r}</span>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Companies Overview with Checkboxes */}
-      {selectedCompany === "all" && companies.length > 0 && (
+      {aggregateBy === "company" && selectedCompany === "all" && companies.length > 0 && (
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -562,6 +595,65 @@ export const CompanyInsightsTab = () => {
           </CardContent>
         </Card>
       )}
-    </div>
-  );
-};
+
+      {/* Respondents Overview with Checkboxes */}
+      {aggregateBy === "respondent" && respondents.length > 0 && (
+        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-white flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Respondents Overview
+              </CardTitle>
+              <div className="flex items-center gap-3">
+                {selectedRespondents.size > 0 && (
+                  <span className="text-xs text-white/50">{selectedRespondents.size} selected</span>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={selectAllRespondents}
+                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 text-xs"
+                >
+                  {selectedRespondents.size === respondentNames.length ? "Deselect All" : "Select All"}
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {respondents.map((resp) => (
+                <div
+                  key={resp.name}
+                  className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
+                    selectedRespondents.has(resp.name) ? "bg-white/15 ring-1 ring-white/30" : "bg-white/5 hover:bg-white/10"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Checkbox
+                      checked={selectedRespondents.has(resp.name)}
+                      onCheckedChange={() => toggleRespondentSelection(resp.name)}
+                      className="border-white/40 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
+                    />
+                    <User className="h-4 w-4 text-white/40" />
+                    <span className="text-white font-medium">{resp.name}</span>
+                    <span className="text-white/40 text-sm">({resp.count} result{resp.count !== 1 ? "s" : ""})</span>
+                    {resp.hasOrg && (
+                      <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full">Org Data</span>
+                    )}
+                  </div>
+                  <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    resp.avgScore >= 85 ? "bg-green-500/20 text-green-300" :
+                    resp.avgScore >= 70 ? "bg-blue-500/20 text-blue-300" :
+                    resp.avgScore >= 55 ? "bg-yellow-500/20 text-yellow-300" :
+                    resp.avgScore >= 35 ? "bg-orange-500/20 text-orange-300" :
+                    "bg-red-500/20 text-red-300"
+                  }`}>
+                    Avg: {resp.avgScore}/100
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
