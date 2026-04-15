@@ -531,14 +531,14 @@ export const CompanyInsightsTab = () => {
               <div className="bg-white/5 rounded-lg p-4 text-center">
                 <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Personal Avg</p>
                 <p className="text-3xl font-bold text-[#D6FF00]">
-                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-white/50">%</span>
+                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-white/50">/100</span>
                 </p>
               </div>
               {aggregatedRespondentData.orgAvg !== null && (
                 <div className="bg-white/5 rounded-lg p-4 text-center">
                   <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Org Maturity Avg</p>
                   <p className="text-3xl font-bold text-blue-400">
-                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-white/50">%</span>
+                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-white/50">/100</span>
                   </p>
                 </div>
               )}
