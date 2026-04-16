@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail, Building2 } from "lucide-react";
 import { toast } from "sonner";
+import { countryCodes } from "@/data/countryCodes";
 import {
   RadarChart,
   PolarGrid,

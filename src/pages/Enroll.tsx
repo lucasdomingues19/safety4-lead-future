@@ -14,39 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, CheckCircle, Loader2, Users, Award, BookOpen, Calendar, Shield, Building2 } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { useEffect } from "react";
-
-const countryCodes = [
-  { code: "+44", country: "UK" },
-  { code: "+1", country: "US" },
-  { code: "+353", country: "IE" },
-  { code: "+61", country: "AU" },
-  { code: "+49", country: "DE" },
-  { code: "+33", country: "FR" },
-  { code: "+31", country: "NL" },
-  { code: "+34", country: "ES" },
-  { code: "+39", country: "IT" },
-  { code: "+351", country: "PT" },
-  { code: "+55", country: "BR" },
-  { code: "+91", country: "IN" },
-  { code: "+971", country: "UAE" },
-  { code: "+966", country: "SA" },
-  { code: "+27", country: "ZA" },
-  { code: "+65", country: "SG" },
-  { code: "+852", country: "HK" },
-  { code: "+81", country: "JP" },
-  { code: "+82", country: "KR" },
-  { code: "+86", country: "CN" },
-  { code: "+47", country: "NO" },
-  { code: "+46", country: "SE" },
-  { code: "+45", country: "DK" },
-  { code: "+358", country: "FI" },
-  { code: "+48", country: "PL" },
-  { code: "+41", country: "CH" },
-  { code: "+43", country: "AT" },
-  { code: "+32", country: "BE" },
-  { code: "+64", country: "NZ" },
-  { code: "+60", country: "MY" },
-];
+import { countryCodes } from "@/data/countryCodes";
 
 const programHighlights = [
   { icon: BookOpen, text: "10 On-Demand Modules" },
