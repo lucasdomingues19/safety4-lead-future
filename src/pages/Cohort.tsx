@@ -164,10 +164,12 @@ const Cohort = () => {
     join("\n");
 
     try {
+      const fullPhone = `${formData.countryCode} ${formData.phone}`.trim();
       const { error: leadError } = await supabase.functions.invoke("capture-lead", {
         body: {
           name: fullName,
           email: formData.email,
+          phone: fullPhone,
           job_title: formData.jobTitle,
           source: "cohort-application",
           message: messageDetails
@@ -180,7 +182,7 @@ const Cohort = () => {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
-          role: formData.jobTitle,
+          phone: `${formData.countryCode} ${formData.phone}`.trim(),
           inquiryType: "Cohort Application",
           message: `New Cohort Application — ${cohortLabel}\n\nJob Title: ${formData.jobTitle}\nLinkedIn: ${formData.linkedin}\nCountry: ${formData.country}\nOrganisation: ${formData.organisation || "N/A"}\nDigital Fluency: ${formData.digitalFluency}\nUpskill Attempts: ${formData.upskillAttempts.join(", ")}\nBlockers: ${formData.blockers.join(", ")}\nMotivation: ${formData.motivation}\nBudget Approval: ${formData.budgetApproval}\nCan Afford: ${formData.canAfford}\nCan Commit: ${formData.canCommit}`
         }
@@ -192,7 +194,7 @@ const Cohort = () => {
         description: `We'll confirm your place on the ${cohortLabel} cohort within 24 hours.`
       });
 
-      setFormData({ firstName: "", lastName: "", email: "", jobTitle: "", linkedin: "", country: "", organisation: "", digitalFluency: "", upskillAttempts: [], blockers: [], motivation: "", budgetApproval: "", canAfford: "", canCommit: "" });
+      setFormData({ firstName: "", lastName: "", email: "", countryCode: "+44", phone: "", jobTitle: "", linkedin: "", country: "", organisation: "", digitalFluency: "", upskillAttempts: [], blockers: [], motivation: "", budgetApproval: "", canAfford: "", canCommit: "" });
       setFormStep(1);
       setSelectedCohort(null);
     } catch (error) {
