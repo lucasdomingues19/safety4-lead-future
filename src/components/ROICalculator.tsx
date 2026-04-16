@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Calculator, RotateCcw, Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { generateROIReport } from "@/utils/roiPdfReport";
+import { countryCodes } from "@/data/countryCodes";
 
 function money(n: number): string {
   const a = Math.abs(n),s = n < 0 ? "-" : "";
@@ -84,24 +85,6 @@ export function ROICalculator() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
 
-  const roiCountryCodes = [
-    { code: "+44", label: "UK +44" },
-    { code: "+1", label: "US/CA +1" },
-    { code: "+971", label: "UAE +971" },
-    { code: "+966", label: "SA +966" },
-    { code: "+91", label: "IN +91" },
-    { code: "+61", label: "AU +61" },
-    { code: "+49", label: "DE +49" },
-    { code: "+33", label: "FR +33" },
-    { code: "+31", label: "NL +31" },
-    { code: "+27", label: "ZA +27" },
-    { code: "+65", label: "SG +65" },
-    { code: "+234", label: "NG +234" },
-    { code: "+55", label: "BR +55" },
-    { code: "+353", label: "IE +353" },
-    { code: "+47", label: "NO +47" },
-    { code: "+64", label: "NZ +64" },
-  ];
   const [newsConsent, setNewsConsent] = useState(false);
   const [sending, setSending] = useState(false);
   const calcRef = useRef<HTMLDivElement>(null);
@@ -546,7 +529,7 @@ export function ROICalculator() {
                       onChange={(e) => setPhoneCode(e.target.value)}
                       className="bg-background border border-border rounded-lg px-2 py-2.5 text-sm text-white w-28 flex-shrink-0 outline-none focus:border-primary/50 transition-colors"
                     >
-                      {roiCountryCodes.map((c) => (
+                      {countryCodes.map((c) => (
                         <option key={c.code} value={c.code} className="bg-black text-white">
                           {c.label}
                         </option>
