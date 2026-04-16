@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AudienceNav from "@/components/AudienceNav";
 import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { Footer } from "@/components/Footer";
@@ -8,11 +8,8 @@ import {
   Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass,
   Shield, Globe, Zap, Clock, Infinity, CheckCircle, Tablet, GraduationCap
 } from "lucide-react";
-import BrochureDownloadModal from "@/components/BrochureDownloadModal";
 
 const Syllabus = () => {
-  const [brochureOpen, setBrochureOpen] = useState(false);
-
   useEffect(() => {
     setPageSEO({
       title: "eLearning — IOSH Approved Safety 4.0: Leading Safety in the Digital Age",
@@ -71,13 +68,15 @@ const Syllabus = () => {
                 Start Learning — £497
                 <ArrowRight className="w-5 h-5" />
               </a>
-              <button
-                onClick={() => setBrochureOpen(true)}
+              <a
+                href="https://learning.safetyacademy.tech/brochure"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors active:scale-[0.97]"
               >
                 <FileDown className="w-5 h-5" />
                 Download Brochure
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -249,7 +248,6 @@ const Syllabus = () => {
       </section>
 
       <Footer />
-      <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
     </div>
   );
 };
