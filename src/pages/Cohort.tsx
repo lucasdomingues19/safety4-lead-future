@@ -596,7 +596,24 @@ const Cohort = () => {
                 className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">JOB TITLE *</label>
+                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">PHONE NUMBER *</label>
+                  <div className="flex gap-2">
+                    <select
+                      value={formData.countryCode}
+                      onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                      className="bg-border/50 border border-border rounded-lg px-2 py-2.5 text-sm text-white w-28 flex-shrink-0 focus:border-primary focus:outline-none transition-colors"
+                    >
+                      {cohortCountryCodes.map((c) => (
+                        <option key={c.code} value={c.code} className="bg-black text-white">
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                    <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="7911 123456" />
+                  </div>
+                </div>
+                <div>
                   <input required value={formData.jobTitle} onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                 className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
                 </div>
