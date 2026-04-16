@@ -51,7 +51,9 @@ export const CurriculumOverview = () => {
 
         <div className="mt-6 md:mt-8 text-center">
           <a
-            href="/contact"
+            href="https://learning.safetyacademy.tech/brochure"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center text-primary hover:text-primary/80 font-medium text-sm md:text-base transition-colors duration-200 underline underline-offset-4"
           >
             📄 Download Program Brochure
