@@ -529,7 +529,7 @@ export function ROICalculator() {
                       onChange={(e) => setPhoneCode(e.target.value)}
                       className="bg-background border border-border rounded-lg px-2 py-2.5 text-sm text-white w-28 flex-shrink-0 outline-none focus:border-primary/50 transition-colors"
                     >
-                      {roiCountryCodes.map((c) => (
+                      {countryCodes.map((c) => (
                         <option key={c.code} value={c.code} className="bg-black text-white">
                           {c.label}
                         </option>
