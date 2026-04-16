@@ -10,6 +10,7 @@ import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { countryCodes } from "@/data/countryCodes";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -241,21 +242,9 @@ const Contact = () => {
                       onChange={handleInputChange}
                       className="bg-white/10 border border-white/20 text-white rounded-md px-2 py-2 w-[110px] flex-shrink-0"
                     >
-                      <option value="+44">🇬🇧 +44</option>
-                      <option value="+1">🇺🇸 +1</option>
-                      <option value="+353">🇮🇪 +353</option>
-                      <option value="+61">🇦🇺 +61</option>
-                      <option value="+91">🇮🇳 +91</option>
-                      <option value="+971">🇦🇪 +971</option>
-                      <option value="+966">🇸🇦 +966</option>
-                      <option value="+49">🇩🇪 +49</option>
-                      <option value="+33">🇫🇷 +33</option>
-                      <option value="+31">🇳🇱 +31</option>
-                      <option value="+27">🇿🇦 +27</option>
-                      <option value="+234">🇳🇬 +234</option>
-                      <option value="+55">🇧🇷 +55</option>
-                      <option value="+65">🇸🇬 +65</option>
-                      <option value="+852">🇭🇰 +852</option>
+                      {countryCodes.map((c) => (
+                        <option key={c.code} value={c.code}>{c.label}</option>
+                      ))}
                     </select>
                     <Input 
                       type="tel" 
