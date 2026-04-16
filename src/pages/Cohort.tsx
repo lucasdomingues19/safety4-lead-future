@@ -585,7 +585,7 @@ const Cohort = () => {
                       onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
                       className="bg-border/50 border border-border rounded-lg px-2 py-2.5 text-sm text-white w-28 flex-shrink-0 focus:border-primary focus:outline-none transition-colors"
                     >
-                      {cohortCountryCodes.map((c) => (
+                      {countryCodes.map((c) => (
                         <option key={c.code} value={c.code} className="bg-black text-white">
                           {c.label}
                         </option>
