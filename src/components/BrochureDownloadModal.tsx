@@ -6,6 +6,11 @@ import { FileDown, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { countryCodes } from "@/data/countryCodes";
 
+interface BrochureDownloadModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
 const BrochureDownloadModal = ({ open, onOpenChange }: BrochureDownloadModalProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);

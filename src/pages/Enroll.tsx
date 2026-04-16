@@ -237,7 +237,7 @@ const Enroll = () => {
                       <SelectContent>
                         {countryCodes.map((c) => (
                           <SelectItem key={c.code} value={c.code}>
-                            {c.code} {c.country}
+                            {c.code} {c.label.split(' ')[0]}
                           </SelectItem>
                         ))}
                       </SelectContent>
