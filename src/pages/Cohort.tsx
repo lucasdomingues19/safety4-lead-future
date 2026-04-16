@@ -63,6 +63,8 @@ const Cohort = () => {
     firstName: "",
     lastName: "",
     email: "",
+    countryCode: "+44",
+    phone: "",
     jobTitle: "",
     linkedin: "",
     country: "",
@@ -75,6 +77,27 @@ const Cohort = () => {
     canAfford: "",
     canCommit: ""
   });
+
+  const cohortCountryCodes = [
+    { code: "+44", label: "UK +44" },
+    { code: "+1", label: "US/CA +1" },
+    { code: "+971", label: "UAE +971" },
+    { code: "+966", label: "SA +966" },
+    { code: "+91", label: "IN +91" },
+    { code: "+61", label: "AU +61" },
+    { code: "+49", label: "DE +49" },
+    { code: "+33", label: "FR +33" },
+    { code: "+31", label: "NL +31" },
+    { code: "+27", label: "ZA +27" },
+    { code: "+65", label: "SG +65" },
+    { code: "+234", label: "NG +234" },
+    { code: "+55", label: "BR +55" },
+    { code: "+353", label: "IE +353" },
+    { code: "+47", label: "NO +47" },
+    { code: "+46", label: "SE +46" },
+    { code: "+64", label: "NZ +64" },
+    { code: "+60", label: "MY +60" },
+  ];
 
   // Countdown to May 5, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
