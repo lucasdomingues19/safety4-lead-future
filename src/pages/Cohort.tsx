@@ -183,6 +183,7 @@ const Cohort = () => {
           lastName: formData.lastName,
           email: formData.email,
           phone: `${formData.countryCode} ${formData.phone}`.trim(),
+          role: formData.jobTitle,
           inquiryType: "Cohort Application",
           message: `New Cohort Application — ${cohortLabel}\n\nJob Title: ${formData.jobTitle}\nLinkedIn: ${formData.linkedin}\nCountry: ${formData.country}\nOrganisation: ${formData.organisation || "N/A"}\nDigital Fluency: ${formData.digitalFluency}\nUpskill Attempts: ${formData.upskillAttempts.join(", ")}\nBlockers: ${formData.blockers.join(", ")}\nMotivation: ${formData.motivation}\nBudget Approval: ${formData.budgetApproval}\nCan Afford: ${formData.canAfford}\nCan Commit: ${formData.canCommit}`
         }
