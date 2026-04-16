@@ -80,8 +80,28 @@ export function ROICalculator() {
   const [fatal, setFatal] = useState(0);
   const [safetyToggle, setSafetyToggle] = useState(false);
   const [name, setName] = useState("");
+  const [phoneCode, setPhoneCode] = useState("+44");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+
+  const roiCountryCodes = [
+    { code: "+44", label: "UK +44" },
+    { code: "+1", label: "US/CA +1" },
+    { code: "+971", label: "UAE +971" },
+    { code: "+966", label: "SA +966" },
+    { code: "+91", label: "IN +91" },
+    { code: "+61", label: "AU +61" },
+    { code: "+49", label: "DE +49" },
+    { code: "+33", label: "FR +33" },
+    { code: "+31", label: "NL +31" },
+    { code: "+27", label: "ZA +27" },
+    { code: "+65", label: "SG +65" },
+    { code: "+234", label: "NG +234" },
+    { code: "+55", label: "BR +55" },
+    { code: "+353", label: "IE +353" },
+    { code: "+47", label: "NO +47" },
+    { code: "+64", label: "NZ +64" },
+  ];
   const [newsConsent, setNewsConsent] = useState(false);
   const [sending, setSending] = useState(false);
   const calcRef = useRef<HTMLDivElement>(null);
@@ -127,7 +147,7 @@ export function ROICalculator() {
         body: {
           name: name.trim(),
           email: email.trim(),
-          phone: phone.trim() || null,
+          phone: `${phoneCode} ${phone.trim()}`,
           source: "roi_calculator",
           message: `ROI Calculator | Team: ${team}, Salary: $${sal}, TRI: ${tri}, Fatalities: ${fatal}, Annual value: ${money(annualSav)}, 3yr ROI: ${roi3}%, Payback: ${payback} weeks | Newsletter consent: ${newsConsent ? "Yes" : "No"}`
         }
@@ -138,7 +158,7 @@ export function ROICalculator() {
 
 
       // non-blocking
-    }setStep(7);setSending(false);scrollToCalc();}, [name, email, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly, scrollToCalc]);
+    }setStep(7);setSending(false);scrollToCalc();}, [name, email, phoneCode, phone, newsConsent, team, sal, manHrs, tri, fatal, timeSav, annHrs, injSav, fatSav, safetySav, annualSav, cost, y1, y2, y3, cum, roi1, roi3, payback, safetyToggle, triAv, fatAv, hourly, scrollToCalc]);
 
   const stepLabels = ["Your team", "Manual hours", "Recordable injuries", "Fatalities"];
 
@@ -519,10 +539,24 @@ export function ROICalculator() {
                 className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
                 </div>
                 <div>
-                  <label className="text-xs text-muted-foreground mb-1 block">Phone (optional)</label>
-                  <input type="tel" value={phone} placeholder="+44 7700 900000"
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                  <label className="text-xs text-muted-foreground mb-1 block">Phone *</label>
+                  <div className="flex gap-2">
+                    <select
+                      value={phoneCode}
+                      onChange={(e) => setPhoneCode(e.target.value)}
+                      className="bg-background border border-border rounded-lg px-2 py-2.5 text-sm text-white w-28 flex-shrink-0 outline-none focus:border-primary/50 transition-colors"
+                    >
+                      {roiCountryCodes.map((c) => (
+                        <option key={c.code} value={c.code} className="bg-black text-white">
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                    <input type="tel" value={phone} placeholder="7700 900000"
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                      className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground/40 outline-none focus:border-primary/50 transition-colors" />
+                  </div>
                 </div>
                 <label className="flex items-start gap-2.5 cursor-pointer mt-4">
                   <input type="checkbox" checked={newsConsent}
@@ -533,7 +567,7 @@ export function ROICalculator() {
                   </span>
                 </label>
               </div>
-              <Button onClick={submit} disabled={sending || !name.trim() || !email.trim()}
+              <Button onClick={submit} disabled={sending || !name.trim() || !email.trim() || !phone.trim()}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl mt-5">
                 <Download className="w-4 h-4 mr-2" />
                 {sending ? "Generating..." : "Download my ROI report"}

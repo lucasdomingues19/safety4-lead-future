@@ -5,6 +5,30 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
+const countryCodes = [
+  { code: "+44", label: "UK +44" },
+  { code: "+1", label: "US/CA +1" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+966", label: "SA +966" },
+  { code: "+91", label: "IN +91" },
+  { code: "+61", label: "AU +61" },
+  { code: "+49", label: "DE +49" },
+  { code: "+33", label: "FR +33" },
+  { code: "+31", label: "NL +31" },
+  { code: "+27", label: "ZA +27" },
+  { code: "+65", label: "SG +65" },
+  { code: "+60", label: "MY +60" },
+  { code: "+234", label: "NG +234" },
+  { code: "+254", label: "KE +254" },
+  { code: "+55", label: "BR +55" },
+  { code: "+52", label: "MX +52" },
+  { code: "+353", label: "IE +353" },
+  { code: "+47", label: "NO +47" },
+  { code: "+46", label: "SE +46" },
+  { code: "+45", label: "DK +45" },
+  { code: "+64", label: "NZ +64" },
+];
+
 export const NewsletterPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,20 +36,20 @@ export const NewsletterPopup = () => {
     firstName: "",
     lastName: "",
     email: "",
+    countryCode: "+44",
     phone: "",
     website: "" // Honeypot field - bots will fill this
   });
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user has already seen the popup this session
     const hasSeenPopup = sessionStorage.getItem("newsletter_popup_shown");
     if (hasSeenPopup) return;
 
     const timer = setTimeout(() => {
       setIsOpen(true);
       sessionStorage.setItem("newsletter_popup_shown", "true");
-    }, 60000); // 60 seconds
+    }, 60000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -37,7 +61,7 @@ export const NewsletterPopup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Honeypot check - if filled, silently reject (bot detected)
+    // Honeypot check
     if (formData.website) {
       console.log('Bot detected via honeypot');
       toast({
@@ -48,9 +72,9 @@ export const NewsletterPopup = () => {
       return;
     }
     
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim()) {
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim()) {
       toast({
-        title: "Please fill in all fields",
+        title: "Please fill in all required fields",
         variant: "destructive",
       });
       return;
@@ -59,13 +83,14 @@ export const NewsletterPopup = () => {
     setIsSubmitting(true);
 
     try {
+      const fullPhone = `${formData.countryCode} ${formData.phone}`.trim();
       const { error } = await supabase.functions.invoke("capture-lead", {
         body: {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.email,
-          phone: formData.phone || null,
+          phone: fullPhone,
           source: "newsletter_popup",
-          _hp: formData.website // Pass honeypot to server for additional check
+          _hp: formData.website
         },
       });
 
@@ -128,20 +153,22 @@ export const NewsletterPopup = () => {
           <div className="grid grid-cols-2 gap-3">
             <Input
               type="text"
-              placeholder="First Name"
+              placeholder="First Name *"
               value={formData.firstName}
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+              required
             />
             <Input
               type="text"
-              placeholder="Last Name"
+              placeholder="Last Name *"
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+              required
             />
           </div>
-          {/* Honeypot field - hidden from users, visible to bots */}
+          {/* Honeypot field */}
           <input
             type="text"
             name="website"
@@ -161,18 +188,35 @@ export const NewsletterPopup = () => {
           />
           <Input
             type="email"
-            placeholder="Email Address"
+            placeholder="Email Address *"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
+            required
           />
-          <Input
-            type="tel"
-            placeholder="Phone Number (optional)"
-            value={formData.phone}
-            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
-          />
+          <div>
+            <div className="flex gap-2">
+              <select
+                value={formData.countryCode}
+                onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                className="bg-white/10 border border-white/20 text-white rounded-md px-2 py-2 text-sm w-28 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-lime-400"
+              >
+                {countryCodes.map((c) => (
+                  <option key={c.code} value={c.code} className="bg-black text-white">
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+              <Input
+                type="tel"
+                placeholder="Phone Number *"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400 flex-1"
+                required
+              />
+            </div>
+          </div>
           <Button
             type="submit"
             disabled={isSubmitting}

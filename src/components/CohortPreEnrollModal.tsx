@@ -7,6 +7,30 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 
+const countryCodes = [
+  { code: "+44", label: "UK +44" },
+  { code: "+1", label: "US/CA +1" },
+  { code: "+971", label: "UAE +971" },
+  { code: "+966", label: "SA +966" },
+  { code: "+91", label: "IN +91" },
+  { code: "+61", label: "AU +61" },
+  { code: "+49", label: "DE +49" },
+  { code: "+33", label: "FR +33" },
+  { code: "+31", label: "NL +31" },
+  { code: "+27", label: "ZA +27" },
+  { code: "+65", label: "SG +65" },
+  { code: "+60", label: "MY +60" },
+  { code: "+234", label: "NG +234" },
+  { code: "+254", label: "KE +254" },
+  { code: "+55", label: "BR +55" },
+  { code: "+52", label: "MX +52" },
+  { code: "+353", label: "IE +353" },
+  { code: "+47", label: "NO +47" },
+  { code: "+46", label: "SE +46" },
+  { code: "+45", label: "DK +45" },
+  { code: "+64", label: "NZ +64" },
+];
+
 interface CohortPreEnrollModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -18,6 +42,7 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    countryCode: "+44",
     phone: "",
   });
 
@@ -26,25 +51,25 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
     setIsSubmitting(true);
 
     try {
-      // Save lead to database
+      const fullPhone = `${formData.countryCode} ${formData.phone}`.trim();
+
       const { error: leadError } = await supabase.functions.invoke('capture-lead', {
         body: {
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
+          phone: fullPhone,
           source: 'cohort-pre-enrollment'
         }
       });
 
       if (leadError) throw leadError;
 
-      // Send notification email
       const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
         body: {
           firstName: formData.name.split(' ')[0],
           lastName: formData.name.split(' ').slice(1).join(' ') || '',
           email: formData.email,
-          phone: formData.phone,
+          phone: fullPhone,
           message: `New Cohort Pre-Enrollment from ${formData.name}`,
           subject: 'New Cohort Pre-Enrollment'
         }
@@ -57,8 +82,7 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
         description: "We have your details and we'll be in touch soon. Thanks",
       });
 
-      // Reset form and close modal
-      setFormData({ name: "", email: "", phone: "" });
+      setFormData({ name: "", email: "", countryCode: "+44", phone: "" });
       onOpenChange(false);
     } catch (error) {
       console.error('Error submitting pre-enrollment:', error);
@@ -107,14 +131,29 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number (optional)</Label>
-            <Input
-              id="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="+44 20 1234 5678"
-            />
+            <Label htmlFor="phone">Phone Number *</Label>
+            <div className="flex gap-2">
+              <select
+                value={formData.countryCode}
+                onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
+                className="bg-white/10 border border-white/20 text-white rounded-md px-2 py-2 text-sm w-28 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                {countryCodes.map((c) => (
+                  <option key={c.code} value={c.code} className="bg-black text-white">
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+              <Input
+                id="phone"
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                placeholder="7911 123456"
+                className="flex-1"
+              />
+            </div>
           </div>
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
