@@ -616,7 +616,7 @@ const Cohort = () => {
                 className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
                 </div>
                 <Button type="button" onClick={() => {
-                if (!formData.firstName || !formData.lastName || !formData.email || !formData.jobTitle || !formData.linkedin || !formData.country) {
+                if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.jobTitle || !formData.linkedin || !formData.country) {
                   toast({ title: "Please fill in all required fields", variant: "destructive" });
                   return;
                 }
