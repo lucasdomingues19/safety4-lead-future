@@ -1,12 +1,8 @@
-import { Shield, Award, FileDown, ArrowRight } from "lucide-react";
-import { useState } from "react";
-import BrochureDownloadModal from "./BrochureDownloadModal";
+import { Shield, Award, ArrowRight } from "lucide-react";
 import AudienceNav from "./AudienceNav";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export const HeroSection = () => {
-  const [brochureOpen, setBrochureOpen] = useState(false);
-
   return (
     <section className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
       <AudienceNav />
@@ -62,8 +58,6 @@ export const HeroSection = () => {
               Talk to Us
             </a>
           </div>
-
-          <BrochureDownloadModal open={brochureOpen} onOpenChange={setBrochureOpen} />
         </div>
       </div>
     </section>
