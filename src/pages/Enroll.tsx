@@ -328,8 +328,8 @@ const Enroll = () => {
                   </Select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Should you be admitted in the programme, how would you pay? *</label>
+<div>
+                  <label className="block text-sm font-medium text-white/80 mb-1.5">Should you be admitted in the programme, how would you fund? *</label>
                   <Select value={form.paymentMethod} onValueChange={(v) => handleChange("paymentMethod", v)} required>
                     <SelectTrigger className="bg-white/10 border-white/20 text-white">
                       <SelectValue placeholder="Choose one" />
