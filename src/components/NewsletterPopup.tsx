@@ -1,23 +1,11 @@
 import { useState, useEffect } from "react";
 import { X, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { countryCodes } from "@/data/countryCodes";
+
+const SUBSCRIBE_URL = "https://learning.safetyacademy.tech/newsletters/safety-4-0-newsletter/subscribe";
 
 export const NewsletterPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    countryCode: "+44",
-    phone: "",
-    website: "" // Honeypot field - bots will fill this
-  });
-  const { toast } = useToast();
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("newsletter_popup_shown");
@@ -33,62 +21,6 @@ export const NewsletterPopup = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Honeypot check
-    if (formData.website) {
-      console.log('Bot detected via honeypot');
-      toast({
-        title: "Welcome to the community!",
-        description: "You've successfully subscribed to Safety Beyond Compliance.",
-      });
-      handleClose();
-      return;
-    }
-    
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim()) {
-      toast({
-        title: "Please fill in all required fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const fullPhone = `${formData.countryCode} ${formData.phone}`.trim();
-      const { error } = await supabase.functions.invoke("capture-lead", {
-        body: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          phone: fullPhone,
-          source: "newsletter_popup",
-          _hp: formData.website
-        },
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Welcome to the community!",
-        description: "You've successfully subscribed to Safety Beyond Compliance.",
-      });
-
-      handleClose();
-    } catch (error) {
-      console.error("Error subscribing:", error);
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   if (!isOpen) return null;
@@ -125,83 +57,19 @@ export const NewsletterPopup = () => {
           Join hundreds of safety innovators and changemakers receiving our monthly newsletter.
         </p>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            <Input
-              type="text"
-              placeholder="First Name *"
-              value={formData.firstName}
-              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
-              required
-            />
-            <Input
-              type="text"
-              placeholder="Last Name *"
-              value={formData.lastName}
-              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
-              required
-            />
-          </div>
-          {/* Honeypot field */}
-          <input
-            type="text"
-            name="website"
-            value={formData.website}
-            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-            autoComplete="off"
-            tabIndex={-1}
-            aria-hidden="true"
-            style={{ 
-              position: 'absolute',
-              left: '-9999px',
-              opacity: 0,
-              height: 0,
-              width: 0,
-              pointerEvents: 'none'
-            }}
-          />
-          <Input
-            type="email"
-            placeholder="Email Address *"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400"
-            required
-          />
-          <div>
-            <div className="flex gap-2">
-              <select
-                value={formData.countryCode}
-                onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-                className="bg-white/10 border border-white/20 text-white rounded-md px-2 py-2 text-sm w-28 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-lime-400"
-              >
-                {countryCodes.map((c) => (
-                  <option key={c.code} value={c.code} className="bg-black text-white">
-                    {c.label}
-                  </option>
-                ))}
-              </select>
-              <Input
-                type="tel"
-                placeholder="Phone Number *"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-lime-400 flex-1"
-                required
-              />
-            </div>
-          </div>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white font-semibold py-3"
+        <Button
+          asChild
+          className="w-full bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white font-semibold py-3"
+        >
+          <a
+            href={SUBSCRIBE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleClose}
           >
-            {isSubmitting ? "Subscribing..." : "Subscribe Now"}
-          </Button>
-        </form>
+            Subscribe Now
+          </a>
+        </Button>
 
         {/* Privacy note */}
         <p className="text-xs text-gray-500 text-center mt-4">
