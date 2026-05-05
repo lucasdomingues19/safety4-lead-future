@@ -43,8 +43,7 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import ioshCpdCombined from "@/assets/iosh-cpd-combined-transparent.png";
 
 const cohortSchedule = [
-{ month: "May", year: 2026, startDate: "5 May 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
+{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
 { month: "August", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
@@ -80,11 +79,11 @@ const Cohort = () => {
   });
 
 
-  // Countdown to May 5, 2026
+  // Countdown to June 2, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const target = new Date("2026-05-05T00:00:00Z").getTime();
+    const target = new Date("2026-06-02T00:00:00Z").getTime();
     const tick = () => {
       const now = Date.now();
       const diff = Math.max(0, target - now);
@@ -103,8 +102,8 @@ const Cohort = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Accelerator • Cohort — 4-Week IOSH Approved Live Programme | May 2026",
-      description: "Join the Accelerator • Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for May 2026.",
+      title: "Accelerator • Cohort — 4-Week IOSH Approved Live Programme | June 2026",
+      description: "Join the Accelerator • Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for June 2026.",
       canonical: "https://safetyacademy.tech/accelerator"
     });
 
@@ -307,7 +306,7 @@ const Cohort = () => {
                 <div className="flex gap-4 flex-wrap mb-8">
                   <a href="/enrol">
                     <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
-                      Apply for May Cohort <ArrowRight className="w-5 h-5 ml-2" />
+                      Apply for June Cohort <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                   <a href="#experience">

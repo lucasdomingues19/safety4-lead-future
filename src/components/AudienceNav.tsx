@@ -86,7 +86,7 @@ const AudienceNav = () => {
     <>
       <div className="fixed top-0 left-0 right-0 z-[60] bg-pink-600 text-white text-center py-1.5 text-sm font-semibold">
         <Link to="/enrol" className="hover:underline">
-          Registration now OPEN for the May Accelerator cohort (5th May – 2nd June) →
+          Registration now OPEN for the June Accelerator cohort (2nd June – 30th June) →
         </Link>
       </div>
       <nav className="fixed top-[36px] left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
