@@ -13,12 +13,11 @@ export const PricingSection = () => {
     price: "£497",
     originalPrice: "£697",
     period: "one-time",
-    description: "Self-paced online learning",
+    description: "Self-paced certification, on your schedule.",
     icon: Tablet,
     features: [
     "IOSH & CPD certification",
     "10 core modules",
-
     "60+ video lessons",
     "Downloadable resources",
     "Interactive assessments",
@@ -27,18 +26,18 @@ export const PricingSection = () => {
     "Email support",
     "Mobile app"],
 
-    cta: "Start Learning",
+    cta: "Begin eLearning",
     popular: false,
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    borderColor: "border-blue-500/30",
-    buttonColor: "bg-blue-500 hover:bg-blue-600"
+    gradient: "from-[hsl(var(--secondary)/0.18)] to-[hsl(var(--secondary)/0.05)]",
+    borderColor: "border-white/10",
+    buttonColor: "bg-[hsl(var(--secondary))] hover:opacity-90"
   },
   {
     name: "Accelerator • Cohort",
     price: "£997",
     originalPrice: "£1,497",
     period: "per person",
-    description: "Live group + elearning training with expert guidance and peer interaction",
+    description: "4-week live cohort with expert mentoring and peers.",
     icon: Users,
     features: [
     "Everything in eLearning",
@@ -47,21 +46,20 @@ export const PricingSection = () => {
     "Peer networking opportunities",
     "Group projects & discussions",
     "Live Q&A sessions",
-    
     "Priority support",
     "Exclusive community membership"],
 
-    cta: "Apply Now",
+    cta: "Apply for June Cohort",
     popular: true,
-    gradient: "from-pink-500/20 to-purple-500/20",
-    borderColor: "border-pink-500/50",
-    buttonColor: "bg-pink-500 hover:bg-pink-600"
+    gradient: "from-[hsl(var(--primary)/0.22)] to-[hsl(var(--primary)/0.05)]",
+    borderColor: "border-[hsl(var(--primary)/0.55)]",
+    buttonColor: "bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:opacity-90"
   },
   {
     name: "For Companies",
-    price: "Special",
+    price: "Bespoke",
     period: "pricing",
-    description: "Tailored training solution for your organization",
+    description: "Tailored programmes for safety teams at scale.",
     icon: Building,
     features: [
     "Customized curriculum",
@@ -71,25 +69,28 @@ export const PricingSection = () => {
     "Post-training support",
     "Bulk certification discounts"],
 
-    cta: "Discover Now",
+    cta: "Talk to Our Team",
     popular: false,
-    gradient: "from-lime-500/20 to-green-500/20",
-    borderColor: "border-lime-500/30",
-    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
+    gradient: "from-white/[0.06] to-transparent",
+    borderColor: "border-white/10",
+    buttonColor: "bg-white/10 hover:bg-white/15 text-white border border-white/20"
   }];
 
 
   return (
-    <section id="pricing" className="py-20 relative overflow-hidden">
+    <section id="pricing" className="py-20 md:py-28 relative overflow-hidden border-t border-white/5">
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-10 md:mb-16 px-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
-            Choose Your Safety 4.0 <span className="text-lime-400">Learning Path</span>
+        <div className="text-center mb-12 md:mb-20 px-2 max-w-3xl mx-auto">
+          <div className="text-[11px] uppercase tracking-[0.28em] text-[hsl(var(--primary))] font-semibold mb-4">
+            Programmes & Pricing
+          </div>
+          <h2 className="text-white mb-5">
+            Choose your <em className="not-italic text-[hsl(var(--primary))]">learning path</em>.
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Flexible training options designed to fit your schedule and learning preferences
+          <p className="text-base md:text-lg text-white/65 max-w-2xl mx-auto leading-relaxed">
+            Three structured routes — from self-paced certification to bespoke enterprise enablement — all built on the same IOSH-approved curriculum.
           </p>
         </div>
 
