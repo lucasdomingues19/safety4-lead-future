@@ -32,10 +32,10 @@ const logos = [
 
 export const TrustedByBanner = () => {
   return (
-    <div className="border-y border-white/10 py-10 overflow-hidden">
+    <div className="border-y border-white/10 py-12 md:py-14 overflow-hidden bg-[hsl(222_55%_8%)]">
       <div className="container mx-auto px-4">
-        <div className="text-[10px] tracking-[3px] text-gray-400 text-center mb-6 font-semibold">
-          TRUSTED BY SAFETY TEAMS & PARTNERS AT
+        <div className="text-[11px] tracking-[0.32em] text-[hsl(var(--primary))] text-center mb-8 font-semibold uppercase">
+          Trusted by Safety Teams & Partners At
         </div>
       </div>
       <div className="relative">

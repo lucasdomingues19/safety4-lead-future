@@ -13,12 +13,11 @@ export const PricingSection = () => {
     price: "£497",
     originalPrice: "£697",
     period: "one-time",
-    description: "Self-paced online learning",
+    description: "Self-paced certification, on your schedule.",
     icon: Tablet,
     features: [
     "IOSH & CPD certification",
     "10 core modules",
-
     "60+ video lessons",
     "Downloadable resources",
     "Interactive assessments",
@@ -27,18 +26,18 @@ export const PricingSection = () => {
     "Email support",
     "Mobile app"],
 
-    cta: "Start Learning",
+    cta: "Begin eLearning",
     popular: false,
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    borderColor: "border-blue-500/30",
-    buttonColor: "bg-blue-500 hover:bg-blue-600"
+    gradient: "from-[hsl(var(--secondary)/0.18)] to-[hsl(var(--secondary)/0.05)]",
+    borderColor: "border-white/10",
+    buttonColor: "bg-[hsl(var(--secondary))] hover:opacity-90"
   },
   {
     name: "Accelerator • Cohort",
     price: "£997",
     originalPrice: "£1,497",
     period: "per person",
-    description: "Live group + elearning training with expert guidance and peer interaction",
+    description: "4-week live cohort with expert mentoring and peers.",
     icon: Users,
     features: [
     "Everything in eLearning",
@@ -47,21 +46,20 @@ export const PricingSection = () => {
     "Peer networking opportunities",
     "Group projects & discussions",
     "Live Q&A sessions",
-    
     "Priority support",
     "Exclusive community membership"],
 
-    cta: "Apply Now",
+    cta: "Apply for June Cohort",
     popular: true,
-    gradient: "from-pink-500/20 to-purple-500/20",
-    borderColor: "border-pink-500/50",
-    buttonColor: "bg-pink-500 hover:bg-pink-600"
+    gradient: "from-[hsl(var(--primary)/0.22)] to-[hsl(var(--primary)/0.05)]",
+    borderColor: "border-[hsl(var(--primary)/0.55)]",
+    buttonColor: "bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] hover:opacity-90"
   },
   {
     name: "For Companies",
-    price: "Special",
+    price: "Bespoke",
     period: "pricing",
-    description: "Tailored training solution for your organization",
+    description: "Tailored programmes for safety teams at scale.",
     icon: Building,
     features: [
     "Customized curriculum",
@@ -71,25 +69,28 @@ export const PricingSection = () => {
     "Post-training support",
     "Bulk certification discounts"],
 
-    cta: "Discover Now",
+    cta: "Talk to Our Team",
     popular: false,
-    gradient: "from-lime-500/20 to-green-500/20",
-    borderColor: "border-lime-500/30",
-    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
+    gradient: "from-white/[0.06] to-transparent",
+    borderColor: "border-white/10",
+    buttonColor: "bg-white/10 hover:bg-white/15 text-white border border-white/20"
   }];
 
 
   return (
-    <section id="pricing" className="py-20 relative overflow-hidden">
+    <section id="pricing" className="py-20 md:py-28 relative overflow-hidden border-t border-white/5">
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-10 md:mb-16 px-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
-            Choose Your Safety 4.0 <span className="text-lime-400">Learning Path</span>
+        <div className="text-center mb-12 md:mb-20 px-2 max-w-3xl mx-auto">
+          <div className="text-[11px] uppercase tracking-[0.28em] text-[hsl(var(--primary))] font-semibold mb-4">
+            Programmes & Pricing
+          </div>
+          <h2 className="text-white mb-5">
+            Choose your <em className="not-italic text-[hsl(var(--primary))]">learning path</em>.
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Flexible training options designed to fit your schedule and learning preferences
+          <p className="text-base md:text-lg text-white/65 max-w-2xl mx-auto leading-relaxed">
+            Three structured routes — from self-paced certification to bespoke enterprise enablement — all built on the same IOSH-approved curriculum.
           </p>
         </div>
 
@@ -100,36 +101,32 @@ export const PricingSection = () => {
           <div
             key={index}
             id={tier.name === "eLearning" ? "elearning" : undefined}
-            className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
-            tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
+            className={`relative bg-[hsl(var(--card)/0.6)] backdrop-blur-sm rounded-sm p-6 md:p-9 border ${tier.borderColor} ${
+            tier.popular ? "lg:scale-[1.03] shadow-[0_30px_60px_-30px_hsl(220_60%_4%/0.9)]" : ""} transition-all duration-300 hover:border-[hsl(var(--primary)/0.5)] flex flex-col`
             }>
             
               {/* Popular Badge */}
               {tier.popular &&
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-pink-500 text-white px-6 py-2 rounded-full text-sm font-bold">
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-1 rounded-sm text-[11px] uppercase tracking-[0.2em] font-semibold">
                     Most Popular
                   </div>
                 </div>
             }
 
               {/* Header */}
-              <div className="text-center mb-8">
-                <div className={`w-16 h-16 bg-gradient-to-br ${tier.gradient} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <tier.icon className="w-8 h-8 text-white" />
+              <div className="text-left mb-8 pb-6 border-b border-white/10">
+                <div className={`w-12 h-12 bg-gradient-to-br ${tier.gradient} border border-white/10 rounded-sm flex items-center justify-center mb-5`}>
+                  <tier.icon className="w-5 h-5 text-[hsl(var(--primary))]" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
-                <p className="text-gray-300 text-sm mb-4">{tier.description}</p>
-                <div className="flex items-baseline justify-center space-x-2">
-                  {tier.originalPrice ?
-                <div className="flex flex-col items-center">
-                      <span className="text-gray-400 text-lg line-through mb-1">{tier.originalPrice}</span>
-                      <span className="text-4xl font-bold text-white">{tier.price}</span>
-                    </div> :
-
-                <span className="text-4xl font-bold text-white">{tier.price}</span>
-                }
-                  <span className="text-gray-400 text-lg">{tier.period}</span>
+                <h3 className="font-serif text-2xl md:text-3xl text-white mb-2">{tier.name}</h3>
+                <p className="text-white/60 text-sm mb-5 leading-relaxed">{tier.description}</p>
+                <div className="flex items-baseline gap-2">
+                  {tier.originalPrice &&
+                    <span className="text-white/40 text-base line-through">{tier.originalPrice}</span>
+                  }
+                  <span className="font-serif text-4xl md:text-5xl text-white">{tier.price}</span>
+                  <span className="text-white/50 text-sm">{tier.period}</span>
                 </div>
               </div>
 
@@ -175,22 +172,22 @@ export const PricingSection = () => {
           )}
         </div>
 
-        <p className="text-sm md:text-base text-gray-400 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
-          *Get <a href="/contact?request=reimbursement" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
+        <p className="text-sm md:text-base text-white/55 max-w-3xl mx-auto mt-8 text-center leading-relaxed">
+          *Get <a href="/contact?request=reimbursement" className="text-[hsl(var(--primary))] hover:underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-[hsl(var(--primary))] hover:underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-[hsl(var(--primary))] hover:underline">group</a> (3+ seats).
         </p>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Not sure which option is right for you?
+        {/* Bottom CTA — editorial */}
+        <div className="text-center mt-20">
+          <div className="bg-[hsl(var(--card)/0.5)] backdrop-blur-sm rounded-sm p-10 md:p-14 border border-white/10 max-w-4xl mx-auto">
+            <h3 className="font-serif text-white mb-4">
+              Not sure which path fits?
             </h3>
-            <p className="text-gray-300 mb-6">
-              Schedule a free consultation with our team to find the perfect training solution for your needs.
+            <p className="text-white/65 mb-8 max-w-xl mx-auto">
+              Book a 30-minute consultation with our team and we'll map the right route for you or your organisation.
             </p>
             <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg">
-                Schedule Free Consultation
+              <Button variant="outline" className="border-[hsl(var(--primary)/0.6)] text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] hover:text-[hsl(var(--primary-foreground))] px-8 py-6 text-base rounded-sm">
+                Schedule a Consultation
               </Button>
             </a>
           </div>

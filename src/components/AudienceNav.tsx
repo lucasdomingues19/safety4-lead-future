@@ -84,12 +84,13 @@ const AudienceNav = () => {
   }, [location.pathname, navigate]);
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-pink-600 text-white text-center py-1.5 text-sm font-semibold">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-[hsl(var(--secondary))] text-white text-center py-1.5 text-xs md:text-sm tracking-wide font-medium">
         <Link to="/enrol" className="hover:underline">
-          Registration now OPEN for the June Accelerator cohort (2nd June – 30th June) →
+          <span className="text-[hsl(var(--primary))] font-semibold mr-2">Now Enrolling</span>
+          June Accelerator Cohort · 2 – 30 June 2026 →
         </Link>
       </div>
-      <nav className="fixed top-[36px] left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
+      <nav className="fixed top-[36px] left-0 right-0 z-50 bg-[hsl(222_60%_8%/0.92)] backdrop-blur-xl border-b border-[hsl(var(--primary)/0.35)]">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="flex items-center gap-3 flex-shrink-0">
           <img src={safetyAcademyLogo} alt="Safety 4.0 Academy" className="h-8" />
