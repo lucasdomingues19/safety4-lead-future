@@ -2,87 +2,65 @@ import { ArrowRight, Star, Users, Award } from "lucide-react";
 
 export const FinalCTASection = () => {
   return (
-    <section className="py-20 relative overflow-hidden">
-      <div className="absolute inset-0 bg-black"></div>
-      
-      {/* Floating elements - Lime accent */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-primary/20 via-primary/15 to-primary/10 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-        <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-primary/15 via-primary/20 to-primary/10 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-primary/10 via-primary/15 to-primary/5 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
-      </div>
-      
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }}></div>
-      </div>
-      
+    <section className="py-24 md:py-32 relative overflow-hidden border-t border-white/5">
+      <div className="absolute inset-0 bg-[hsl(222_60%_7%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/0.08),transparent_60%)]" />
+
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center animate-fade-in">
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">
-            Join the Safety 4.0 
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="text-[11px] uppercase tracking-[0.28em] text-[hsl(var(--primary))] font-semibold mb-6">
+            Begin Your Certification
+          </div>
+
+          <h2 className="font-serif text-white mb-8 leading-[1.05]">
+            Lead safety forward with the
             <br />
-            <span className="text-primary">Academy Now</span>
+            <em className="not-italic text-[hsl(var(--primary))]">Safety 4.0 Academy</em>.
           </h2>
-          
-          <p className="text-xl text-white/90 mb-12 leading-relaxed max-w-3xl mx-auto">
-            Transform your safety career with the skills that matter most in the digital age. 
-            Join thousands of professionals who've already made the leap.
+
+          <p className="text-lg text-white/70 mb-14 leading-relaxed max-w-2xl mx-auto">
+            Equip yourself with the digital fluency expected of modern EHS leaders. Join professionals from Siemens, Lego, Fugro, Marsh and beyond.
           </p>
 
-          {/* Stats */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center animate-slide-up">
-              <div className="flex justify-center mb-4">
-                <Users className="w-12 h-12 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-white mb-2">5,000+</div>
-              <p className="text-white/80">Professionals Trained</p>
+          {/* Stats — restrained corporate row */}
+          <div className="grid grid-cols-3 gap-6 md:gap-12 mb-16 border-y border-white/10 py-10">
+            <div className="text-center">
+              <Users className="w-6 h-6 text-[hsl(var(--primary))] mx-auto mb-3" />
+              <div className="font-serif text-3xl md:text-4xl text-white mb-1">1,000+</div>
+              <p className="text-white/55 text-xs md:text-sm uppercase tracking-wider">Professionals Trained</p>
             </div>
-            
-            <div className="text-center animate-slide-up" style={{animationDelay: '0.2s'}}>
-              <div className="flex justify-center mb-4">
-                <Star className="w-12 h-12 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-white mb-2">4.9/5</div>
-              <p className="text-white/80">Average Rating</p>
+            <div className="text-center">
+              <Star className="w-6 h-6 text-[hsl(var(--primary))] mx-auto mb-3" />
+              <div className="font-serif text-3xl md:text-4xl text-white mb-1">4.9/5</div>
+              <p className="text-white/55 text-xs md:text-sm uppercase tracking-wider">Average Rating</p>
             </div>
-            
-            <div className="text-center animate-slide-up" style={{animationDelay: '0.4s'}}>
-              <div className="flex justify-center mb-4">
-                <Award className="w-12 h-12 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-white mb-2">98%</div>
-              <p className="text-white/80">Career Advancement</p>
+            <div className="text-center">
+              <Award className="w-6 h-6 text-[hsl(var(--primary))] mx-auto mb-3" />
+              <div className="font-serif text-3xl md:text-4xl text-white mb-1">IOSH</div>
+              <p className="text-white/55 text-xs md:text-sm uppercase tracking-wider">Approved & CPD</p>
             </div>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
             <a
               href="/enrol"
-              className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:opacity-90 transition-opacity active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] font-semibold text-base rounded-sm hover:opacity-90 transition-opacity"
             >
               Enrol Now
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent text-white font-medium text-base rounded-sm border border-white/25 hover:border-[hsl(var(--primary))] hover:text-[hsl(var(--primary))] transition-colors"
             >
-              Schedule Free Consultation
+              Schedule a Consultation
             </a>
           </div>
 
-          {/* Info */}
-          <div className="text-white/70 space-y-2">
-            <p className="text-sm">
-              IOSH & CPD Approved • 90-Day Course Access • 14-Day Money Back Guarantee
-            </p>
-          </div>
+          <p className="text-white/45 text-xs tracking-wide">
+            IOSH & CPD Approved · 90-Day Course Access · 14-Day Money-Back Guarantee
+          </p>
         </div>
       </div>
     </section>
