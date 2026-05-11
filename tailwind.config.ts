@@ -77,10 +77,12 @@ export default {
 				'bounce': 'var(--transition-bounce)',
 			},
 			fontFamily: {
-				'sans': ['Inter', 'system-ui', 'sans-serif'],
-				'futura': ['Inter', 'system-ui', 'sans-serif'],
-				'syne': ['Inter', 'system-ui', 'sans-serif'],
-				'dm': ['Inter', 'system-ui', 'sans-serif'],
+				'sans': ['Work Sans', 'system-ui', 'sans-serif'],
+				'serif': ['Instrument Serif', 'Georgia', 'serif'],
+				'display': ['Instrument Serif', 'Georgia', 'serif'],
+				'futura': ['Work Sans', 'system-ui', 'sans-serif'],
+				'syne': ['Instrument Serif', 'Georgia', 'serif'],
+				'dm': ['Work Sans', 'system-ui', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
