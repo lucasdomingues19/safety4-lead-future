@@ -172,22 +172,22 @@ export const PricingSection = () => {
           )}
         </div>
 
-        <p className="text-sm md:text-base text-gray-400 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
-          *Get <a href="/contact?request=reimbursement" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
+        <p className="text-sm md:text-base text-white/55 max-w-3xl mx-auto mt-8 text-center leading-relaxed">
+          *Get <a href="/contact?request=reimbursement" className="text-[hsl(var(--primary))] hover:underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-[hsl(var(--primary))] hover:underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-[hsl(var(--primary))] hover:underline">group</a> (3+ seats).
         </p>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Not sure which option is right for you?
+        {/* Bottom CTA — editorial */}
+        <div className="text-center mt-20">
+          <div className="bg-[hsl(var(--card)/0.5)] backdrop-blur-sm rounded-sm p-10 md:p-14 border border-white/10 max-w-4xl mx-auto">
+            <h3 className="font-serif text-white mb-4">
+              Not sure which path fits?
             </h3>
-            <p className="text-gray-300 mb-6">
-              Schedule a free consultation with our team to find the perfect training solution for your needs.
+            <p className="text-white/65 mb-8 max-w-xl mx-auto">
+              Book a 30-minute consultation with our team and we'll map the right route for you or your organisation.
             </p>
             <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg">
-                Schedule Free Consultation
+              <Button variant="outline" className="border-[hsl(var(--primary)/0.6)] text-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] hover:text-[hsl(var(--primary-foreground))] px-8 py-6 text-base rounded-sm">
+                Schedule a Consultation
               </Button>
             </a>
           </div>
