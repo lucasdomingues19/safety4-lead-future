@@ -101,36 +101,32 @@ export const PricingSection = () => {
           <div
             key={index}
             id={tier.name === "eLearning" ? "elearning" : undefined}
-            className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
-            tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
+            className={`relative bg-[hsl(var(--card)/0.6)] backdrop-blur-sm rounded-sm p-6 md:p-9 border ${tier.borderColor} ${
+            tier.popular ? "lg:scale-[1.03] shadow-[0_30px_60px_-30px_hsl(220_60%_4%/0.9)]" : ""} transition-all duration-300 hover:border-[hsl(var(--primary)/0.5)] flex flex-col`
             }>
             
               {/* Popular Badge */}
               {tier.popular &&
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-pink-500 text-white px-6 py-2 rounded-full text-sm font-bold">
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-1 rounded-sm text-[11px] uppercase tracking-[0.2em] font-semibold">
                     Most Popular
                   </div>
                 </div>
             }
 
               {/* Header */}
-              <div className="text-center mb-8">
-                <div className={`w-16 h-16 bg-gradient-to-br ${tier.gradient} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <tier.icon className="w-8 h-8 text-white" />
+              <div className="text-left mb-8 pb-6 border-b border-white/10">
+                <div className={`w-12 h-12 bg-gradient-to-br ${tier.gradient} border border-white/10 rounded-sm flex items-center justify-center mb-5`}>
+                  <tier.icon className="w-5 h-5 text-[hsl(var(--primary))]" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
-                <p className="text-gray-300 text-sm mb-4">{tier.description}</p>
-                <div className="flex items-baseline justify-center space-x-2">
-                  {tier.originalPrice ?
-                <div className="flex flex-col items-center">
-                      <span className="text-gray-400 text-lg line-through mb-1">{tier.originalPrice}</span>
-                      <span className="text-4xl font-bold text-white">{tier.price}</span>
-                    </div> :
-
-                <span className="text-4xl font-bold text-white">{tier.price}</span>
-                }
-                  <span className="text-gray-400 text-lg">{tier.period}</span>
+                <h3 className="font-serif text-2xl md:text-3xl text-white mb-2">{tier.name}</h3>
+                <p className="text-white/60 text-sm mb-5 leading-relaxed">{tier.description}</p>
+                <div className="flex items-baseline gap-2">
+                  {tier.originalPrice &&
+                    <span className="text-white/40 text-base line-through">{tier.originalPrice}</span>
+                  }
+                  <span className="font-serif text-4xl md:text-5xl text-white">{tier.price}</span>
+                  <span className="text-white/50 text-sm">{tier.period}</span>
                 </div>
               </div>
 
