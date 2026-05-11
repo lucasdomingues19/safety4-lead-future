@@ -4,7 +4,7 @@ import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[hsl(222_60%_7%)] border-t border-white/10 py-12 md:py-16">
+    <footer className="bg-black border-t border-white/10 py-6 md:py-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Logo and Description */}

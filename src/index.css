@@ -2,68 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   Safety 4.0 Academy — Corporate Theme
-   Palette: Navy Trust + Champagne Gold accent
-   Type:    Instrument Serif (display) + Work Sans (body)
-   All colour tokens are HSL.
-   ============================================================ */
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
 @layer base {
   :root {
-    /* Surfaces */
-    --background: 222 56% 9%;          /* #0a1530 deep navy */
-    --foreground: 0 0% 100%;
+    --background: 0 0% 0%; /* Pure Black */
+    --foreground: 0 0% 100%; /* White */
 
-    --card: 220 40% 14%;               /* #14213d navy panel */
+    --card: 0 0% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 220 40% 14%;
+    --popover: 0 0% 8%;
     --popover-foreground: 0 0% 100%;
 
-    /* Brand — Champagne Gold (primary accent) */
-    --primary: 42 56% 56%;             /* #c9a84c */
-    --primary-foreground: 222 60% 10%;
+    /* Updated Brand Colors */
+    --primary: 85 100% 72%; /* Lime Green #c1ff72 */
+    --primary-foreground: 0 0% 0%;
 
-    /* Brand — Steel Blue (secondary) */
-    --secondary: 211 47% 43%;          /* #3b6fa0 */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 325 100% 70%; /* Pink #ff66c4 */
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 220 30% 18%;
-    --muted-foreground: 217 15% 70%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 55%;
 
-    --accent: 42 56% 56%;
-    --accent-foreground: 222 60% 10%;
+    --accent: 85 100% 72%;
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 220 25% 24%;
-    --input: 220 25% 24%;
-    --ring: 42 56% 56%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 85 100% 72%;
 
-    /* Custom design tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(222 56% 9%), hsl(220 45% 16%));
-    --gradient-gold: linear-gradient(135deg, hsl(42 56% 56%), hsl(42 70% 70%));
-    --gradient-hero: linear-gradient(135deg, hsl(222 60% 8%) 0%, hsl(218 45% 18%) 100%);
-
-    --shadow-glow: 0 0 40px hsl(42 56% 56% / 0.25);
-    --shadow-card: 0 18px 40px -18px hsl(220 60% 4% / 0.7);
-    --shadow-elegant: 0 10px 30px -10px hsl(220 60% 4% / 0.5);
-
+    /* Custom Design Tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 8%));
+    --gradient-secondary: linear-gradient(180deg, hsl(325 100% 70%), hsl(325 100% 60%));
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%) 0%, hsl(0 0% 8%) 100%);
+    
+    --shadow-glow: 0 0 40px hsl(85 100% 72% / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
-    --sidebar-background: 222 56% 9%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 42 56% 56%;
-    --sidebar-primary-foreground: 222 60% 10%;
-    --sidebar-accent: 220 30% 18%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 25% 24%;
-    --sidebar-ring: 42 56% 56%;
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -73,109 +112,64 @@
   }
 
   body {
-    background: hsl(var(--background));
-    @apply text-foreground;
-    font-family: 'Work Sans', system-ui, sans-serif;
+    background: #000000;
+    @apply text-foreground font-sans;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 16px;
-    line-height: 1.65;
+    line-height: 1.6;
     font-weight: 400;
     min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Editorial display type — Instrument Serif for h1/h2/h3 */
-  h1, h2, h3 {
-    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-  }
-
+  /* Typography Scale — Inter only */
   h1 {
-    @apply text-4xl md:text-6xl lg:text-7xl leading-[1.05];
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-3xl md:text-5xl lg:text-7xl leading-tight tracking-tight;
   }
 
   h2 {
-    @apply text-3xl md:text-5xl leading-[1.1];
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-2xl md:text-4xl lg:text-5xl leading-tight;
   }
 
   h3 {
-    @apply text-2xl md:text-3xl leading-snug;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-xl md:text-2xl lg:text-3xl leading-snug;
   }
 
-  /* Sub-headings stay in Work Sans for clarity */
   h4 {
-    font-family: 'Work Sans', system-ui, sans-serif;
-    font-weight: 600;
-    @apply text-lg md:text-xl lg:text-2xl leading-snug tracking-tight;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-lg md:text-xl lg:text-2xl leading-snug;
   }
 
   h5, h6 {
-    font-family: 'Work Sans', system-ui, sans-serif;
-    font-weight: 600;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
     @apply text-base md:text-lg leading-snug;
   }
 
   p {
-    font-family: 'Work Sans', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 400;
     @apply text-base leading-relaxed;
   }
 }
 
-/* ============================================================
-   Backwards-compatibility utility re-skins
-   The codebase widely uses bg-black / text-lime-400 / pink-X.
-   We remap them to the new corporate palette so the redesign
-   propagates without touching every component.
-   ============================================================ */
-@layer utilities {
-  /* Solid black surfaces become deep navy */
-  .bg-black { background-color: hsl(var(--background)) !important; }
-
-  /* Lime → Champagne gold (primary accent) */
-  .text-lime-300,
-  .text-lime-400,
-  .text-lime-500 { color: hsl(var(--primary)) !important; }
-  .bg-lime-400,
-  .bg-lime-500 { background-color: hsl(var(--primary)) !important; color: hsl(var(--primary-foreground)) !important; }
-  .bg-lime-500\/20 { background-color: hsl(var(--primary) / 0.18) !important; }
-  .bg-lime-500\/10 { background-color: hsl(var(--primary) / 0.1) !important; }
-  .border-lime-400,
-  .border-lime-500,
-  .border-lime-500\/30,
-  .border-lime-500\/50 { border-color: hsl(var(--primary) / 0.5) !important; }
-  .hover\:bg-lime-400:hover,
-  .hover\:bg-lime-500:hover,
-  .hover\:bg-lime-600:hover { background-color: hsl(42 70% 64%) !important; }
-  .hover\:text-lime-400:hover { color: hsl(var(--primary)) !important; }
-
-  /* Pink → Steel-blue secondary (kept legible on navy) */
-  .text-pink-300,
-  .text-pink-400,
-  .text-pink-500 { color: hsl(210 60% 75%) !important; }
-  .bg-pink-500,
-  .bg-pink-600 { background-color: hsl(var(--secondary)) !important; color: hsl(var(--secondary-foreground)) !important; }
-  .bg-pink-500\/10 { background-color: hsl(var(--secondary) / 0.12) !important; }
-  .bg-pink-500\/20 { background-color: hsl(var(--secondary) / 0.2) !important; }
-  .border-pink-500,
-  .border-pink-500\/20,
-  .border-pink-500\/30,
-  .border-pink-500\/50 { border-color: hsl(var(--secondary) / 0.5) !important; }
-  .hover\:bg-pink-500:hover,
-  .hover\:bg-pink-600:hover { background-color: hsl(211 55% 50%) !important; }
-
-  /* Soft surface tweaks for legibility on navy */
-  .bg-white\/5 { background-color: hsl(0 0% 100% / 0.04) !important; }
-  .bg-white\/10 { background-color: hsl(0 0% 100% / 0.06) !important; }
-
-  /* Subtle gold accent helpers */
-  .text-gold { color: hsl(var(--primary)); }
-  .bg-gold { background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-  .border-gold { border-color: hsl(var(--primary)); }
+@keyframes floatA {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
-/* Animations */
-@keyframes floatA { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-@keyframes floatB { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes floatB {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

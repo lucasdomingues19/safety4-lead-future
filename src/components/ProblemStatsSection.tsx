@@ -9,20 +9,16 @@ const stats = [
 
 export const ProblemStatsSection = () => {
   return (
-    <section className="py-20 md:py-28 relative border-t border-white/5">
+    <section className="py-16 md:py-24 relative">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto">
 
-          <div className="text-[11px] uppercase tracking-[0.28em] text-[hsl(var(--primary))] font-semibold mb-5">
-            Industry Outlook
-          </div>
-
-          <h2 className="text-white mb-5">
-            Why <em className="not-italic text-[hsl(var(--primary))]">Safety 4.0</em>?
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
+            Why <span className="text-lime-400">Safety 4.0</span>?
           </h2>
 
-          <h3 className="font-sans text-base md:text-xl font-medium text-white/75 mb-10 max-w-2xl mx-auto">
-            Your career stands at an unprecedented crossroads.
+          <h3 className="text-lg md:text-2xl font-semibold text-white mb-6">
+            Your Career is at an Unprecedented Crossroads
           </h3>
 
           {/* Stats cards */}
