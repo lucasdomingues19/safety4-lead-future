@@ -12,8 +12,8 @@ import {
 const Syllabus = () => {
   useEffect(() => {
     setPageSEO({
-      title: "eLearning — IOSH Approved Safety 4.0: Leading Safety in the Digital Age",
-      description: "Self-paced, IOSH-approved eLearning programme. Master AI, IoT, SafetyTech, and digital leadership at your own pace with lifelong access. CPD accredited.",
+      title: "eLearning — IOSH Approved Safety 4.0 Course",
+      description: "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
       canonical: "https://safetyacademy.tech/elearning",
     });
   }, []);
