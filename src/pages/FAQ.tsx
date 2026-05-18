@@ -17,8 +17,8 @@ const FAQ = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Safety 4.0 Academy FAQ | eLearning, Accelerator & In-Company Training",
-      description: "Frequently asked questions about the Safety 4.0 Academy. Learn about our eLearning course, Accelerator cohort, In-Company training, IOSH certification, pricing and more.",
+      title: "FAQ — Safety 4.0 Academy",
+      description: "Answers on our eLearning, Accelerator cohort, In-Company training, IOSH certification and pricing.",
       canonical: "https://safetyacademy.tech/faq",
     });
   }, []);
