@@ -34,8 +34,8 @@ const Index = () => {
     trackPageView(window.location.pathname);
     startTimeTracking();
     setPageSEO({
-      title: "Safety 4.0 Academy — IOSH Approved Digital Safety Leadership Training | AI & SafetyTech Certification",
-      description: "Get IOSH & CPD-approved Safety 4.0 certification. Master AI, SafetyTech, IoT sensors, and digital leadership. Join 1000+ global safety professionals transforming workplace safety.",
+      title: "Safety 4.0 Academy — IOSH Approved AI & SafetyTech Training",
+      description: "IOSH & CPD-approved Safety 4.0 certification. Master AI, SafetyTech and IoT for modern workplace safety. Join 1000+ HSE professionals.",
       canonical: "https://safetyacademy.tech/",
     });
     
