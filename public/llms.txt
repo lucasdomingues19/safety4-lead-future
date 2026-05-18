@@ -1,0 +1,28 @@
+# Safety 4.0 Academy
+
+> The world's first IOSH-approved Safety 4.0 certification programme — training EHS professionals in AI, SafetyTech, IoT and digital safety leadership.
+
+Safety 4.0 Academy helps safety leaders modernise workplace safety with AI, data and digital tools. We deliver three learning paths: self-paced eLearning (£597), a 4-week live Accelerator cohort (£997 + VAT), and bespoke In-Company training for teams. All certifications are IOSH-approved and CPD-accredited.
+
+## Pages
+
+- [Home](/): Overview of the academy, programmes and certifications.
+- [eLearning Syllabus](/syllabus): Self-paced IOSH-approved Safety 4.0 course, 10 modules, 8+ CPD hours.
+- [Accelerator Cohort](/accelerator): 4-week live group programme; next cohort 2–30 June 2026.
+- [Enrol](/enrol): Apply for the Accelerator cohort.
+- [In-Company Training](/in-company): Bespoke training for organisations and teams.
+- [Certification](/certification): IOSH and CPD accreditation details.
+- [Scorecard](/scorecard): Free Safety 4.0 maturity assessment for safety leaders.
+- [Case Studies](/case-studies): Real-world Safety 4.0 implementations.
+- [Blog](/blog): Articles on AI in EHS, SafetyTech and digital safety leadership.
+- [eBook](/ebook): Free Safety 4.0 leadership eBook.
+- [FAQ](/faq): Common questions about programmes, pricing and certification.
+- [Contact](/contact): Get in touch — hello@safetyacademy.tech.
+- [Offer](/offer): Current enrolment offer and pricing.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy)
+- [Terms & Conditions](/terms-conditions)
+- [Cookies Policy](/cookies-policy)
+- [Anti-Piracy Policy](/anti-piracy-policy)
