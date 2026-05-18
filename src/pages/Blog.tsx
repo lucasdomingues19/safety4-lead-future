@@ -13,8 +13,8 @@ const Blog = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Safety 4.0 Blog | AI in EHS, SafetyTech Insights & Industry News",
-      description: "Expert articles on Safety 4.0, AI in workplace safety, SafetyTech trends, IOSH training insights, and digital transformation in EHS. Stay ahead in safety leadership.",
+      title: "Safety 4.0 Blog — AI, EHS & SafetyTech Insights",
+      description: "Expert articles on AI in workplace safety, SafetyTech trends and IOSH training. Stay ahead in safety leadership.",
       canonical: "https://safetyacademy.tech/blog",
     });
   }, []);
