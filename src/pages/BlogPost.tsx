@@ -130,7 +130,7 @@ const BlogPost = () => {
           }}></div>
         </div>
 
-        <div className="container mx-auto px-4 py-20 relative z-10">
+        <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
           {/* Back Navigation */}
           <div className="mb-12">
             <Button variant="outline" size="sm" asChild className="border-white/30 text-white hover:bg-white/10">
