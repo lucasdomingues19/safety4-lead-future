@@ -79,30 +79,6 @@ The Sanders–Claude interview is not an argument against AI. It is an argument 
 
 ---
 
-## Frequently Asked Questions
-
-### What is the Sanders–Claude interview?
-
-In March 2026, US Senator Bernie Sanders interviewed Anthropic's AI assistant Claude on camera about data harvesting, behavioural profiling and the business model behind large-scale consumer data collection. The clip reached over four million views within days.
-
-### Why is the Sanders–Claude interview relevant to EHS and workplace safety?
-
-Modern EHS programmes rely on data from wearables, sensors, monitoring software and AI-assisted reporting. That makes safety teams de facto data controllers, with legal duties around consent, lawful basis and retention. The interview is a clear signal that data governance now sits inside the safety remit.
-
-### Can AI be trusted to make safety-critical decisions?
-
-AI should inform safety decisions, not make them. A named, competent duty holder must own the decision. AI outputs should be checked for provenance, neutrality, verification of sources, and clear accountability before they enter a risk assessment, investigation or compliance report.
-
-### How do I stop AI from confirming my own bias in a risk assessment?
-
-Re-ask the same question from the opposite stance. Instead of *"is this control adequate?"*, ask *"how could this control fail?"*. If the conclusion flips, the model was mirroring you rather than analysing the problem.
-
-### Is AI a threat or an opportunity for EHS leaders?
-
-It is a significant opportunity, provided governance keeps pace with adoption. Used well, AI accelerates investigations, surfaces weak signals in incident data and improves consistency. The risk is not the technology itself; it is deploying it without competence, oversight and clear accountability.
-
----
-
 ## References
 
 - Sanders, B. *Bernie vs. Claude*. YouTube, 19 March 2026. [https://www.youtube.com/watch?v=h3AtWdeu_G0](https://www.youtube.com/watch?v=h3AtWdeu_G0)
