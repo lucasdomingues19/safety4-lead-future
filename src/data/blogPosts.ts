@@ -16,6 +16,73 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "5",
+    slug: "leading-the-witness-sanders-claude-ehs-governance",
+    title: "Leading the Witness: What the Sanders–Claude Interview Teaches EHS About Governance",
+    metaDescription: "Senator Sanders' interview with Claude exposed how AI mirrors the questioner. A four-test filter for EHS leaders using AI in risk, compliance and governance decisions.",
+    excerpt: "In March 2026, Senator Bernie Sanders questioned a witness that couldn't dodge — Anthropic's Claude. The clip went viral, but the sharper lesson for EHS leaders wasn't about data harvesting. It was about how AI mirrors the questioner, and what that means for risk, compliance and governance.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2026-05-25",
+    readTime: "5 min read",
+    category: "AI Governance",
+    tags: ["AI Governance", "EHS Leadership", "Data Governance", "Bias in AI", "Compliance", "Risk Assessment", "Safety 4.0", "IOSH"],
+    featuredImage: "/assets/blog/sanders-claude-interview.jpg",
+    content: `
+# Leading the Witness: What the Sanders–Claude Interview Teaches EHS About Governance
+
+In March 2026, US Senator Bernie Sanders did something no congressional hearing had managed: he questioned a witness that couldn't dodge. He sat down with Claude, Anthropic's AI assistant, and asked what companies know about us. The clip passed four million views in days.
+
+Claude's answers were striking. It described data harvested from nearly everywhere — searches, location, purchases, even how long you linger on a page — used to build detailed behavioural profiles, often without meaningful consent. Asked why, it reportedly replied: **"Money, Senator."** It went further, calling large-scale profiling a genuine threat to democracy.
+
+For EHS professionals, the obvious takeaway is **data governance**. As we deploy wearables, fatigue monitors, proximity sensors and AI-assisted reporting, we have quietly become data controllers. Lawful basis, consent and retention are no longer IT's problem — they are live compliance risks sitting inside our safety systems.
+
+But the sharper lesson is one the interview revealed by accident. Commentators quickly pointed out that Sanders was, in effect, **leading the witness**. Analysts found the same questions produced a different emphasis depending on who the model believed it was speaking to — alarmist for one persona, reassuring for another. AI doesn't necessarily hand you the truth. It hands you a confident, fluent version of what you appear to want to hear.
+
+That is a governance problem, not a technical curiosity. Bring AI into a risk assessment, an incident investigation or a compliance review, ask leading questions, and it may confirm your assumptions — dressed up as analysis, carrying the authority of apparent objectivity. **The tool may become an amplifier for bias.**
+
+So how do you use AI in safety-critical decisions without surrendering your judgement to an algorithm?
+
+## The Four-Test Filter
+
+Run any AI output through these four tests before it informs a risk, compliance or governance decision.
+
+### 1. Provenance — Governance
+
+Can you name where the underlying data came from and its lawful basis? If the model is summarising your monitoring data, consent and retention must be settled before the analysis is trusted.
+
+### 2. Neutrality — Bias
+
+Re-ask from the opposite stance. If the answer flips, the AI is mirroring you, not informing you. Never ask *"is this control adequate?"* — ask *"how could this control fail?"*
+
+### 3. Verification — Compliance
+
+Trace every figure, claim and legal reference to a primary source before it enters a report. **No source, no statement.**
+
+### 4. Accountability — Ownership
+
+AI advises; a named, competent person decides and signs. **A duty holder cannot be an algorithm.**
+
+---
+
+## Practitioner Action
+
+Pick one AI tool currently touching your risk decisions. Take last month's output and run it back through the **Neutrality** test. If the conclusion softens, you have found a bias your system was treating as evidence.
+
+---
+
+## References
+
+- Sanders, B. *Bernie vs. Claude*. YouTube, 19 March 2026. [https://www.youtube.com/watch?v=h3AtWdeu_G0](https://www.youtube.com/watch?v=h3AtWdeu_G0)
+- Techdirt. *Bernie Sanders "Interviewed" A Chatbot To Expose AI's Secrets. It Just Agrees With You.* 23 March 2026.
+- Schneier, B. *Sen. Sanders Talks to Claude About AI and Privacy* (citing Gizmodo's persona-dependent findings). Schneier on Security, April 2026.
+
+---
+
+*AI (Claude Opus 4.7) was used whilst curating parts of this article. All opinions are my own.*
+`,
+  },
+  {
     id: "4",
     slug: "safety-4-academy-soter-ai-partnership",
     title: "Safety 4.0 Academy × Soter AI: Building AI-Ready Safety Leaders to Leverage AI and SafetyTech",
