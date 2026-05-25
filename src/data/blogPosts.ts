@@ -17,23 +17,29 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     id: "5",
-    slug: "leading-the-witness-sanders-claude-ehs-governance",
-    title: "Leading the Witness: What the Sanders–Claude Interview Teaches EHS About Governance",
-    metaDescription: "Senator Sanders' interview with Claude exposed how AI mirrors the questioner. A four-test filter for EHS leaders using AI in risk, compliance and governance decisions.",
-    excerpt: "In March 2026, Senator Bernie Sanders questioned a witness that couldn't dodge: Anthropic's Claude. The clip went viral, but the sharper lesson for EHS leaders wasn't about data harvesting. It was about how AI mirrors the questioner, and what that means for risk, compliance and governance.",
+    slug: "sanders-claude-interview",
+    title: "Sanders–Claude Interview: AI Governance Lessons for EHS Leaders",
+    metaDescription: "What the Bernie Sanders interview with Claude AI means for EHS leaders. A 4-test governance filter for using AI safely in risk, compliance and safety decisions.",
+    excerpt: "When Senator Bernie Sanders interviewed Claude, the clip went viral for what AI revealed about data harvesting. The sharper lesson for EHS leaders is how AI mirrors the questioner — and what that means for governance in risk and compliance.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
     publishDate: "2026-05-25",
     readTime: "5 min read",
     category: "AI Governance",
-    tags: ["AI Governance", "EHS Leadership", "Data Governance", "Bias in AI", "Compliance", "Risk Assessment", "Safety 4.0", "IOSH"],
+    tags: ["AI Governance", "EHS Leadership", "Data Governance", "Bias in AI", "Compliance", "Risk Assessment", "Safety 4.0", "IOSH", "Sanders Claude Interview", "AI in Workplace Safety"],
     featuredImage: "/assets/blog/sanders-claude-interview.jpg",
     content: `
-# Leading the Witness: What the Sanders–Claude Interview Teaches EHS About Governance
+# Sanders–Claude Interview: AI Governance Lessons for EHS Leaders
+
+**TL;DR** — Senator Bernie Sanders' viral interview with Anthropic's Claude exposed two issues that matter for Environment, Health and Safety (EHS) leaders: large-scale data harvesting and the way AI mirrors the questioner. The fix is not to avoid AI; it is to govern how it is used in risk, compliance and incident decisions. This article gives EHS professionals a practical four-test filter to apply before any AI output informs a safety-critical decision.
+
+## What Happened in the Sanders–Claude Interview
 
 In March 2026, US Senator Bernie Sanders did something no congressional hearing had managed: he questioned a witness that couldn't dodge. He sat down with Claude, Anthropic's AI assistant, and asked what companies know about us. The clip passed four million views in days.
 
 Claude's answers were striking. It described data harvested from nearly everywhere: searches, location, purchases, even how long you linger on a page. All of it used to build detailed behavioural profiles, often without meaningful consent. Asked why, it reportedly replied: **"Money, Senator."** It went further, calling large-scale profiling a genuine threat to democracy.
+
+## Why This Matters for EHS Leaders
 
 For EHS professionals, the obvious takeaway is **data governance**. As we deploy wearables, fatigue monitors, proximity sensors and AI-assisted reporting, we have quietly become data controllers. Lawful basis, consent and retention are no longer IT's problem. They are live compliance risks sitting inside our safety systems.
 
@@ -43,7 +49,7 @@ That is a governance problem, not a technical curiosity. Bring AI into a risk as
 
 So how do you use AI in safety-critical decisions without surrendering your judgement to an algorithm?
 
-## The Four-Test Filter
+## The Four-Test Filter for AI in EHS Decisions
 
 Run any AI output through these four tests before it informs a risk, compliance or governance decision.
 
@@ -70,6 +76,30 @@ AI advises; a named, competent person decides and signs. **A duty holder cannot 
 AI is one of the most significant opportunities EHS leaders have ever had. It can compress investigation cycles, surface weak signals in incident data, draft competent first-pass risk assessments and make compliance review faster and more consistent. Used well, it raises the floor of safety performance across an organisation.
 
 The Sanders–Claude interview is not an argument against AI. It is an argument for governance keeping pace with adoption. The technology is ready. The question is whether our frameworks, competence and judgement are ready to deploy it responsibly. That part is on us, and it is exactly where Safety 4.0 leadership earns its place.
+
+---
+
+## Frequently Asked Questions
+
+### What is the Sanders–Claude interview?
+
+In March 2026, US Senator Bernie Sanders interviewed Anthropic's AI assistant Claude on camera about data harvesting, behavioural profiling and the business model behind large-scale consumer data collection. The clip reached over four million views within days.
+
+### Why is the Sanders–Claude interview relevant to EHS and workplace safety?
+
+Modern EHS programmes rely on data from wearables, sensors, monitoring software and AI-assisted reporting. That makes safety teams de facto data controllers, with legal duties around consent, lawful basis and retention. The interview is a clear signal that data governance now sits inside the safety remit.
+
+### Can AI be trusted to make safety-critical decisions?
+
+AI should inform safety decisions, not make them. A named, competent duty holder must own the decision. AI outputs should be checked for provenance, neutrality, verification of sources, and clear accountability before they enter a risk assessment, investigation or compliance report.
+
+### How do I stop AI from confirming my own bias in a risk assessment?
+
+Re-ask the same question from the opposite stance. Instead of *"is this control adequate?"*, ask *"how could this control fail?"*. If the conclusion flips, the model was mirroring you rather than analysing the problem.
+
+### Is AI a threat or an opportunity for EHS leaders?
+
+It is a significant opportunity, provided governance keeps pace with adoption. Used well, AI accelerates investigations, surfaces weak signals in incident data and improves consistency. The risk is not the technology itself; it is deploying it without competence, oversight and clear accountability.
 
 ---
 
