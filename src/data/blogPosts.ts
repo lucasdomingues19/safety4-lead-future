@@ -65,9 +65,11 @@ AI advises; a named, competent person decides and signs. **A duty holder cannot 
 
 ---
 
-## Practitioner Action
+## The Opportunity Sits With Us
 
-Pick one AI tool currently touching your risk decisions. Take last month's output and run it back through the **Neutrality** test. If the conclusion softens, you have found a bias your system was treating as evidence.
+AI is one of the most significant opportunities EHS leaders have ever had. It can compress investigation cycles, surface weak signals in incident data, draft competent first-pass risk assessments and make compliance review faster and more consistent. Used well, it raises the floor of safety performance across an organisation.
+
+The Sanders–Claude interview is not an argument against AI. It is an argument for governance keeping pace with adoption. The technology is ready. The question is whether our frameworks, competence and judgement are ready to deploy it responsibly. That part is on us, and it is exactly where Safety 4.0 leadership earns its place.
 
 ---
 
