@@ -84,12 +84,7 @@ const AudienceNav = () => {
   }, [location.pathname, navigate]);
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-pink-600 text-white text-center py-1.5 text-sm font-semibold">
-        <Link to="/enrol" className="hover:underline">
-          Registration now OPEN for the June Accelerator cohort (2nd June – 30th June) →
-        </Link>
-      </div>
-      <nav className="fixed top-[36px] left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="flex items-center gap-3 flex-shrink-0">
           <img src={safetyAcademyLogo} alt="Safety 4.0 Academy" className="h-8" />
@@ -118,7 +113,7 @@ const AudienceNav = () => {
             to="/enrol"
             className="ml-2 px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Enrol Now
+            Join the Waitlist
           </Link>
         </div>
 
