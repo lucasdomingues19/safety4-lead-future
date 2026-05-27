@@ -349,9 +349,7 @@ const Enroll = () => {
                       <SelectValue placeholder="Choose one" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="june-2026">June (2nd June – 30th June)</SelectItem>
-                      <SelectItem value="july-2026">July (waitlisted)</SelectItem>
-                      <SelectItem value="august-2026">August (waitlisted)</SelectItem>
+                      <SelectItem value="september-2026">September (waitlisted)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
