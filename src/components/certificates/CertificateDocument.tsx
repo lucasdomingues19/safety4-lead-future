@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import logo from "@/assets/safety-academy-logo.png";
+import bgWorker from "@/assets/certificate-bg-worker.png";
 
 export interface CertificateData {
   certificate_number: string;
@@ -67,6 +68,27 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             backgroundImage:
               "linear-gradient(rgba(59,111,160,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.05) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Subtle wireframe worker, right side */}
+        <img
+          src={bgWorker}
+          alt=""
+          style={{
+            position: "absolute",
+            right: -40,
+            bottom: -30,
+            width: 540,
+            height: 540,
+            objectFit: "contain",
+            opacity: 0.14,
+            mixBlendMode: "screen",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 60% at 55% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%)",
+            maskImage:
+              "radial-gradient(ellipse 60% 60% at 55% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%)",
             pointerEvents: "none",
           }}
         />
