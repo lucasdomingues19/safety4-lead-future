@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, type CSSProperties } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
 export interface CertificateData {
