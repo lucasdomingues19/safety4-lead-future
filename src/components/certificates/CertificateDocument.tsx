@@ -1,5 +1,6 @@
 import { forwardRef, type CSSProperties } from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import logoGold from "@/assets/safety-academy-logo-gold.png";
 
 export interface CertificateData {
   certificate_number: string;
