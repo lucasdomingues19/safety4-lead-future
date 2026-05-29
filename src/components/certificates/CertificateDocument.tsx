@@ -262,7 +262,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <div
               style={{
                 height: 1,
-                background: "rgba(201,168,76,0.4)",
+                background: "rgba(255,102,196,0.4)",
                 margin: "7px 0",
                 width: 180,
                 marginLeft: "auto",
