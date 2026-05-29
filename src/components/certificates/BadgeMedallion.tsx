@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { CertificateData } from "./CertificateDocument";
-import logo from "@/assets/safety-academy-logo.png";
+import logo from "@/assets/safety-academy-logo-transparent.png";
 
 // Corporate Navy Trust + Champagne Gold palette
 const NAVY = "#0f1e44";
@@ -90,13 +90,13 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
               zIndex: 2,
             }}
           >
-            {/* White core with original logo */}
+            {/* Navy core with transparent logo */}
             <div
               style={{
                 width: size * 0.42,
                 height: size * 0.42,
                 borderRadius: "50%",
-                background: "#ffffff",
+                background: NAVY_DEEP,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -116,12 +116,12 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
                   fontWeight: 800,
                   letterSpacing: 3,
                   marginTop: 1,
-                  color: NAVY,
+                  color: GOLD_SOFT,
                 }}
               >
                 CERTIFIED
               </div>
-              <div style={{ fontSize: size * 0.028, fontWeight: 700, marginTop: 1, color: STEEL }}>{year}</div>
+              <div style={{ fontSize: size * 0.028, fontWeight: 700, marginTop: 1, color: GOLD }}>{year}</div>
             </div>
           </div>
         </div>
