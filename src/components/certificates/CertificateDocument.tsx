@@ -54,7 +54,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
         style={{
           width: 1000,
           minHeight: 707,
-          background: `linear-gradient(160deg, ${NAVY} 0%, ${NAVY_DEEP} 100%)`,
+          background: `linear-gradient(155deg, ${NAVY} 0%, #070b18 55%, ${NAVY_DEEP} 100%)`,
           color: "#ffffff",
           fontFamily: SANS,
           position: "relative",
