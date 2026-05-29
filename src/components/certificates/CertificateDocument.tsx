@@ -105,7 +105,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           style={{
             position: "absolute",
             inset: 24,
-            border: `1px solid rgba(201,168,76,0.35)`,
+            border: `1px solid rgba(193,255,114,0.30)`,
             pointerEvents: "none",
           }}
         />
