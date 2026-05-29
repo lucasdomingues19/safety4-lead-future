@@ -109,7 +109,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
               <img
                 src={logoGold}
                 alt="Safety 4.0 Academy"
-                crossOrigin="anonymous"
+                
                 style={{ width: size * 0.24, height: size * 0.24, objectFit: "contain", marginTop: size * 0.02 }}
               />
               <div
