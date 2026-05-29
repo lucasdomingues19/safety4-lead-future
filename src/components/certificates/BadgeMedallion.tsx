@@ -93,6 +93,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
             <div
               style={{
                 width: size * 0.42,
+                height: size * 0.42,
                 borderRadius: "50%",
                 background: `radial-gradient(circle at 50% 40%, ${NAVY} 0%, ${NAVY_DEEP} 100%)`,
                 color: GOLD,
