@@ -42,7 +42,7 @@ interface Props {
  */
 export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
   ({ cert, verifyUrl }, ref) => {
-    const Corner = ({ style }: { style: React.CSSProperties }) => (
+    const Corner = ({ style }: { style: CSSProperties }) => (
       <div style={{ position: "absolute", width: 46, height: 46, ...style }}>
         <div style={{ position: "absolute", top: 0, left: 0, width: 46, height: 2, background: GOLD }} />
         <div style={{ position: "absolute", top: 0, left: 0, width: 2, height: 46, background: GOLD }} />
