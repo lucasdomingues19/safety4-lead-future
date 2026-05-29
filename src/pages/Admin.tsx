@@ -10,6 +10,7 @@ import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Cart
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
+import { CertificatesTab } from "@/components/admin/CertificatesTab";
 
 interface PageView {
   id: string;
