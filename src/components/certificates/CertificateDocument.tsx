@@ -85,14 +85,14 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         />
 
-        {/* Digital grid — horizontal lines only, drawn over the worker so the figure reads as part of the mesh */}
+        {/* Digital grid — mesh (horizontal + vertical), drawn over the worker so the figure reads as part of the mesh */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px)",
-            backgroundSize: "100% 40px",
+              "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
             pointerEvents: "none",
           }}
         />
