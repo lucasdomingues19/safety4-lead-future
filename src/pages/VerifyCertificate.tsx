@@ -16,8 +16,10 @@ type Status = "loading" | "valid" | "revoked" | "notfound";
 
 const VerifyCertificate = () => {
   const { certificateNumber } = useParams<{ certificateNumber: string }>();
-  const [status, setStatus] = useState<Status>("loading");
+  const navigate = useNavigate();
+  const [status, setStatus] = useState<Status>(certificateNumber ? "loading" : "search");
   const [cert, setCert] = useState<CertificateData | null>(null);
+  const [searchValue, setSearchValue] = useState("");
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +28,7 @@ const VerifyCertificate = () => {
   useEffect(() => {
     const lookup = async () => {
       if (!certificateNumber) {
-        setStatus("notfound");
+        setStatus("search");
         return;
       }
       const { data, error } = await supabase.rpc("verify_certificate" as never, {
