@@ -12,7 +12,7 @@ import html2canvas from "html2canvas";
 const SITE_URL =
   typeof window !== "undefined" ? window.location.origin : "https://www.safetyacademy.tech";
 
-type Status = "loading" | "valid" | "revoked" | "notfound";
+type Status = "loading" | "valid" | "revoked" | "notfound" | "search";
 
 const VerifyCertificate = () => {
   const { certificateNumber } = useParams<{ certificateNumber: string }>();
