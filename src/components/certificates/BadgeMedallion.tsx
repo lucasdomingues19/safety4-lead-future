@@ -7,6 +7,7 @@ const NAVY = "#0f1e44";
 const NAVY_DEEP = "#0a1530";
 const GOLD = "#c9a84c";
 const GOLD_SOFT = "#e6cf8f";
+const STEEL = "#3b6fa0";
 
 const SERIF = "'Instrument Serif', Georgia, serif";
 const SANS = "'Work Sans', Inter, Arial, sans-serif";
