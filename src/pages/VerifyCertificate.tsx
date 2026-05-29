@@ -126,6 +126,34 @@ const VerifyCertificate = () => {
     );
   }
 
+  if (status === "search") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
+        <ShieldCheck className="h-14 w-14 text-primary mb-4" />
+        <h1 className="text-2xl font-bold text-foreground mb-2">Verify a certificate</h1>
+        <p className="text-muted-foreground max-w-md mb-6">
+          Enter a Safety 4.0 Academy certificate number to confirm it's genuine.
+        </p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const v = searchValue.trim();
+            if (v) navigate(`/verify/${encodeURIComponent(v)}`);
+          }}
+          className="flex w-full max-w-md gap-2"
+        >
+          <input
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="e.g. SA4-2026-00001"
+            className="flex-1 rounded-md border border-border bg-card px-4 py-2 text-foreground font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+          <Button type="submit">Verify</Button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background py-10 px-4">
       <div className="max-w-5xl mx-auto">
