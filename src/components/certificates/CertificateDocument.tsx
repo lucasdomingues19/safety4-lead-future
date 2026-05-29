@@ -336,9 +336,10 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           </div>
 
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: GOLD, letterSpacing: 1 }}>
+            <div style={{ fontFamily: MONO, fontSize: 14, fontWeight: 700, color: GOLD, letterSpacing: 0.5 }}>
               {cert.certificate_number}
             </div>
+
             <div
               style={{
                 height: 1,
