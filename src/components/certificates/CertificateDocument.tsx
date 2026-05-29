@@ -115,22 +115,11 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div
-              style={{
-                background: "#ffffff",
-                borderRadius: 14,
-                padding: 6,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                src={logo}
-                alt="Safety 4.0 Academy"
-                style={{ width: 54, height: 54, objectFit: "contain" }}
-              />
-            </div>
+            <img
+              src={logo}
+              alt="Safety 4.0 Academy"
+              style={{ width: 60, height: 60, objectFit: "contain" }}
+            />
             <div>
               <div style={{ color: "#ffffff", fontSize: 17, fontWeight: 700, letterSpacing: 1 }}>
                 Safety 4.0 Academy
