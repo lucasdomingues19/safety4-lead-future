@@ -65,6 +65,8 @@ const App = () => (
             <Route path="/faq" element={<FAQ />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/verify/:certificateNumber" element={<VerifyCertificate />} />
+            <Route path="/verify" element={<VerifyCertificate />} />
             
             <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
