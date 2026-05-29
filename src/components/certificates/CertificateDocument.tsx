@@ -78,13 +78,17 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           alt=""
           style={{
             position: "absolute",
-            right: -60,
-            bottom: -40,
-            width: 560,
-            height: 560,
+            right: -40,
+            bottom: -30,
+            width: 540,
+            height: 540,
             objectFit: "contain",
-            opacity: 0.08,
+            opacity: 0.14,
             mixBlendMode: "screen",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 60% at 55% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%)",
+            maskImage:
+              "radial-gradient(ellipse 60% 60% at 55% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%)",
             pointerEvents: "none",
           }}
         />
