@@ -14,11 +14,14 @@ export interface CertificateData {
   status?: string;
 }
 
-// Corporate Navy Trust + Champagne Gold palette (inline hex for html2canvas reliability)
-const NAVY = "#0f1e44";
-const NAVY_DEEP = "#0a1530";
-const GOLD = "#c9a84c";
-const GOLD_SOFT = "#e6cf8f";
+// Dark navy → black gradient with Safety 4.0 brand accents (lime + pink)
+const NAVY = "#0c1733";
+const NAVY_DEEP = "#05080f";
+const LIME = "#c1ff72"; // brand lime green
+const PINK = "#ff66c4"; // brand pink
+// Kept GOLD/GOLD_SOFT names as accent aliases to avoid touching every usage
+const GOLD = LIME;
+const GOLD_SOFT = PINK;
 const STEEL = "#3b6fa0";
 const SLATE = "#cbd5e1";
 const MUTED = "#8a93a8";
