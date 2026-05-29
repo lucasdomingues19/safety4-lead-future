@@ -79,6 +79,16 @@ const VerifyCertificate = () => {
     }
   };
 
+  const openInNewTab = (url: string) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   const linkedInAddToProfile = () => {
     if (!cert) return;
     const d = new Date(cert.completion_date);
@@ -91,14 +101,12 @@ const VerifyCertificate = () => {
       certUrl: verifyUrl,
       certId: cert.certificate_number,
     });
-    window.open(`https://www.linkedin.com/profile/add?${params.toString()}`, "_blank", "noopener");
+    openInNewTab(`https://www.linkedin.com/profile/add?${params.toString()}`);
   };
 
   const linkedInSharePost = () => {
-    window.open(
+    openInNewTab(
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}`,
-      "_blank",
-      "noopener",
     );
   };
 
