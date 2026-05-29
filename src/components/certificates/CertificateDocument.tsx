@@ -14,11 +14,14 @@ export interface CertificateData {
   status?: string;
 }
 
-// Corporate Navy Trust + Champagne Gold palette (inline hex for html2canvas reliability)
-const NAVY = "#0f1e44";
-const NAVY_DEEP = "#0a1530";
-const GOLD = "#c9a84c";
-const GOLD_SOFT = "#e6cf8f";
+// Dark navy → black gradient with Safety 4.0 brand accents (lime + pink)
+const NAVY = "#0c1733";
+const NAVY_DEEP = "#05080f";
+const LIME = "#c1ff72"; // brand lime green
+const PINK = "#ff66c4"; // brand pink
+// Kept GOLD/GOLD_SOFT names as accent aliases to avoid touching every usage
+const GOLD = LIME;
+const GOLD_SOFT = PINK;
 const STEEL = "#3b6fa0";
 const SLATE = "#cbd5e1";
 const MUTED = "#8a93a8";
@@ -51,7 +54,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
         style={{
           width: 1000,
           minHeight: 707,
-          background: `linear-gradient(160deg, ${NAVY} 0%, ${NAVY_DEEP} 100%)`,
+          background: `linear-gradient(155deg, ${NAVY} 0%, #070b18 55%, ${NAVY_DEEP} 100%)`,
           color: "#ffffff",
           fontFamily: SANS,
           position: "relative",
@@ -102,7 +105,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           style={{
             position: "absolute",
             inset: 24,
-            border: `1px solid rgba(201,168,76,0.35)`,
+            border: `1px solid rgba(193,255,114,0.30)`,
             pointerEvents: "none",
           }}
         />
@@ -180,7 +183,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             style={{
               width: 260,
               height: 2,
-              background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)`,
+              background: `linear-gradient(90deg, transparent, ${LIME}, ${PINK}, transparent)`,
               margin: "10px auto 30px",
             }}
           />
@@ -232,7 +235,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>
               {formatDate(cert.completion_date)}
             </div>
-            <div style={{ height: 1, background: "rgba(201,168,76,0.4)", margin: "7px 0", width: 180 }} />
+            <div style={{ height: 1, background: "rgba(193,255,114,0.4)", margin: "7px 0", width: 180 }} />
             <div style={{ color: MUTED, fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5 }}>
               Date of Completion
             </div>
@@ -259,7 +262,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <div
               style={{
                 height: 1,
-                background: "rgba(201,168,76,0.4)",
+                background: "rgba(255,102,196,0.4)",
                 margin: "7px 0",
                 width: 180,
                 marginLeft: "auto",
