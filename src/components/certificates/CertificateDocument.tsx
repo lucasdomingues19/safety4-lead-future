@@ -273,7 +273,34 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           )}
         </div>
 
+        {/* Digital verification strip */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 36,
+            padding: "9px 16px",
+            border: `1px solid rgba(59,111,160,0.4)`,
+            borderRadius: 6,
+            background: "rgba(59,111,160,0.08)",
+            fontFamily: MONO,
+            fontSize: 10.5,
+            letterSpacing: 0.5,
+            position: "relative",
+          }}
+        >
+          <span style={{ color: STEEL }}>
+            STATUS: <span style={{ color: GOLD_SOFT }}>● AUTHENTIC</span>
+          </span>
+          <span style={{ color: MUTED }}>SHA · IMMUTABLE LEDGER · QR-VERIFIED</span>
+          <span style={{ color: STEEL }}>
+            ID: <span style={{ color: GOLD_SOFT }}>{cert.certificate_number}</span>
+          </span>
+        </div>
+
         {/* Footer */}
+
         <div
           style={{
             display: "flex",
