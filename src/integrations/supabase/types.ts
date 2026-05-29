@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      certificates: {
+        Row: {
+          certificate_number: string
+          completion_date: string
+          course_name: string
+          cpd_hours: number | null
+          created_at: string
+          credential_level: string | null
+          id: string
+          issued_at: string
+          issued_by: string | null
+          recipient_email: string
+          recipient_name: string
+          revoke_reason: string | null
+          revoked_at: string | null
+          status: string
+        }
+        Insert: {
+          certificate_number: string
+          completion_date: string
+          course_name: string
+          cpd_hours?: number | null
+          created_at?: string
+          credential_level?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          recipient_email: string
+          recipient_name: string
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          status?: string
+        }
+        Update: {
+          certificate_number?: string
+          completion_date?: string
+          course_name?: string
+          cpd_hours?: number | null
+          created_at?: string
+          credential_level?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          recipient_email?: string
+          recipient_name?: string
+          revoke_reason?: string | null
+          revoked_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           created_at: string
@@ -241,6 +292,20 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      verify_certificate: {
+        Args: { _certificate_number: string }
+        Returns: {
+          certificate_number: string
+          completion_date: string
+          course_name: string
+          cpd_hours: number
+          credential_level: string
+          issued_at: string
+          recipient_name: string
+          revoked_at: string
+          status: string
+        }[]
       }
     }
     Enums: {
