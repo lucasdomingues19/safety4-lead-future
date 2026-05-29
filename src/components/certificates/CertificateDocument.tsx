@@ -72,23 +72,26 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         />
 
-        {/* Subtle wireframe worker, right side */}
+        {/* Subtle low-poly worker, right side */}
         <img
           src={bgWorker}
           alt=""
           style={{
             position: "absolute",
-            right: -40,
-            bottom: -30,
-            width: 540,
-            height: 540,
-            objectFit: "contain",
-            opacity: 0.14,
-            mixBlendMode: "screen",
+            right: -20,
+            bottom: 0,
+            top: 0,
+            height: "100%",
+            width: 520,
+            objectFit: "cover",
+            objectPosition: "left center",
+            opacity: 0.5,
             WebkitMaskImage:
-              "radial-gradient(ellipse 60% 60% at 55% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%)",
+              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 45%), radial-gradient(ellipse 70% 80% at 50% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%)",
+            WebkitMaskComposite: "source-in",
             maskImage:
-              "radial-gradient(ellipse 60% 60% at 55% 50%, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 80%)",
+              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 45%), radial-gradient(ellipse 70% 80% at 50% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%)",
+            maskComposite: "intersect",
             pointerEvents: "none",
           }}
         />
