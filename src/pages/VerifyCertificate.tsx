@@ -33,7 +33,8 @@ const VerifyCertificate = () => {
         _certificate_number: certificateNumber,
       } as never);
 
-      const row = Array.isArray(data) ? (data[0] ?? null) : data;
+      const result = data as unknown;
+      const row = Array.isArray(result) ? (result[0] ?? null) : result;
       if (error || !row) {
         setStatus("notfound");
         return;
