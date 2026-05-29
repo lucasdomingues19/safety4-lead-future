@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import logo from "@/assets/safety-academy-logo.png";
+import logo from "@/assets/safety-academy-logo-transparent.png";
 import bgWorker from "@/assets/certificate-bg-worker.png";
 
 export interface CertificateData {
