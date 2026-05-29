@@ -24,6 +24,9 @@ const MUTED = "#8a93a8";
 
 const SERIF = "'Instrument Serif', Georgia, serif";
 const SANS = "'Work Sans', Inter, Arial, sans-serif";
+const MONO = "'JetBrains Mono', 'SF Mono', 'Courier New', monospace";
+
+
 
 const formatDate = (d: string) =>
   new Date(d).toLocaleDateString("en-GB", {
@@ -65,19 +68,52 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           overflow: "hidden",
         }}
       >
-        {/* Watermark seal */}
+        {/* Digital grid background */}
         <div
           style={{
             position: "absolute",
-            right: -120,
-            bottom: -120,
-            width: 460,
-            height: 460,
-            borderRadius: "50%",
-            border: `60px solid rgba(201,168,76,0.04)`,
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
+            backgroundSize: "34px 34px",
             pointerEvents: "none",
           }}
         />
+
+        {/* Circuit traces */}
+        <svg
+          width="1000"
+          height="707"
+          viewBox="0 0 1000 707"
+          style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+        >
+          <g stroke={GOLD} strokeWidth="1.2" fill="none" opacity="0.22">
+            <path d="M0 120 H120 L150 150 H260" />
+            <path d="M0 200 H80 L110 230 V300" />
+            <path d="M1000 150 H880 L850 180 H720" />
+            <path d="M1000 250 H900 L870 280 V360" />
+            <path d="M1000 560 H840 L810 530 H700" />
+            <path d="M0 580 H160 L190 550 H300" />
+            <path d="M150 707 V640 L180 610" />
+            <path d="M850 707 V650 L820 620" />
+          </g>
+          <g fill={GOLD} opacity="0.5">
+            <circle cx="260" cy="150" r="3.5" />
+            <circle cx="110" cy="300" r="3.5" />
+            <circle cx="720" cy="180" r="3.5" />
+            <circle cx="870" cy="360" r="3.5" />
+            <circle cx="700" cy="530" r="3.5" />
+            <circle cx="300" cy="550" r="3.5" />
+            <circle cx="180" cy="610" r="3.5" />
+            <circle cx="820" cy="620" r="3.5" />
+          </g>
+          {/* Hex node, bottom-right */}
+          <g transform="translate(840 560)" stroke={GOLD} strokeWidth="1.4" fill="none" opacity="0.18">
+            <polygon points="60,0 30,52 -30,52 -60,0 -30,-52 30,-52" />
+            <polygon points="100,0 50,87 -50,87 -100,0 -50,-87 50,-87" />
+          </g>
+        </svg>
+
 
         {/* Double gold frame */}
         <div
@@ -168,14 +204,19 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 14,
-              margin: "14px 0 26px",
+              gap: 10,
+              margin: "12px 0 24px",
             }}
           >
-            <div style={{ height: 1, width: 70, background: "rgba(201,168,76,0.5)" }} />
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: GOLD }} />
-            <div style={{ height: 1, width: 70, background: "rgba(201,168,76,0.5)" }} />
+            <div style={{ height: 1, width: 54, background: "rgba(201,168,76,0.4)" }} />
+            <div style={{ width: 5, height: 5, background: GOLD, transform: "rotate(45deg)" }} />
+            <div style={{ fontFamily: MONO, color: STEEL, fontSize: 10, letterSpacing: 2 }}>
+              {"<verified/>"}
+            </div>
+            <div style={{ width: 5, height: 5, background: GOLD, transform: "rotate(45deg)" }} />
+            <div style={{ height: 1, width: 54, background: "rgba(201,168,76,0.4)" }} />
           </div>
+
 
           <div style={{ color: MUTED, fontSize: 14 }}>This is proudly presented to</div>
           <div
@@ -232,7 +273,34 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           )}
         </div>
 
+        {/* Digital verification strip */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: 36,
+            padding: "9px 16px",
+            border: `1px solid rgba(59,111,160,0.4)`,
+            borderRadius: 6,
+            background: "rgba(59,111,160,0.08)",
+            fontFamily: MONO,
+            fontSize: 10.5,
+            letterSpacing: 0.5,
+            position: "relative",
+          }}
+        >
+          <span style={{ color: STEEL }}>
+            STATUS: <span style={{ color: GOLD_SOFT }}>● AUTHENTIC</span>
+          </span>
+          <span style={{ color: MUTED }}>SHA · IMMUTABLE LEDGER · QR-VERIFIED</span>
+          <span style={{ color: STEEL }}>
+            ID: <span style={{ color: GOLD_SOFT }}>{cert.certificate_number}</span>
+          </span>
+        </div>
+
         {/* Footer */}
+
         <div
           style={{
             display: "flex",
@@ -268,9 +336,10 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           </div>
 
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: GOLD, letterSpacing: 1 }}>
+            <div style={{ fontFamily: MONO, fontSize: 14, fontWeight: 700, color: GOLD, letterSpacing: 0.5 }}>
               {cert.certificate_number}
             </div>
+
             <div
               style={{
                 height: 1,
