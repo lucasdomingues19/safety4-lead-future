@@ -16,6 +16,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
+const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AntiPiracyPolicy = lazy(() => import("./pages/AntiPiracyPolicy"));
