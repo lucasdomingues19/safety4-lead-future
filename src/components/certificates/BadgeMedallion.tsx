@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import type { CertificateData } from "./CertificateDocument";
+import logoGold from "@/assets/safety-academy-logo-gold.png";
 
 // Corporate Navy Trust + Champagne Gold palette
 const NAVY = "#0f1e44";
@@ -94,40 +95,39 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
                 width: size * 0.42,
                 height: size * 0.42,
                 borderRadius: "50%",
-                background: `linear-gradient(135deg, ${GOLD_SOFT} 0%, ${GOLD} 60%, #b8932f 100%)`,
-                color: NAVY_DEEP,
+                background: `radial-gradient(circle at 50% 40%, ${NAVY} 0%, ${NAVY_DEEP} 100%)`,
+                color: GOLD,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
                 textAlign: "center",
                 boxSizing: "border-box",
+                border: `1px solid rgba(201,168,76,0.4)`,
               }}
             >
-              <div
-                style={{
-                  fontFamily: SERIF,
-                  fontSize: size * 0.16,
-                  fontWeight: 400,
-                  lineHeight: 1,
-                }}
-              >
-                S4
-              </div>
+              <img
+                src={logoGold}
+                alt="Safety 4.0 Academy"
+                crossOrigin="anonymous"
+                style={{ width: size * 0.24, height: size * 0.24, objectFit: "contain", marginTop: size * 0.02 }}
+              />
               <div
                 style={{
                   fontSize: size * 0.033,
                   fontWeight: 800,
                   letterSpacing: 3,
-                  marginTop: 4,
+                  marginTop: 2,
+                  color: GOLD_SOFT,
                 }}
               >
                 CERTIFIED
               </div>
-              <div style={{ fontSize: size * 0.028, fontWeight: 700, marginTop: 2 }}>{year}</div>
+              <div style={{ fontSize: size * 0.028, fontWeight: 700, marginTop: 1, color: GOLD }}>{year}</div>
             </div>
           </div>
         </div>
+
 
         <div
           style={{
