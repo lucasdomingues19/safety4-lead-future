@@ -88,7 +88,8 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         />
 
-        {/* Digital grid — mesh (horizontal + vertical), drawn over the worker so the figure reads as part of the mesh */}
+        {/* Digital grid — mesh (horizontal + vertical). Masked so the lines dissolve as they reach
+            the worker, making the mesh appear to flow into and form the polygon figure (movement). */}
         <div
           style={{
             position: "absolute",
@@ -96,6 +97,27 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             backgroundImage:
               "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
+            // Fade the grid out across the worker zone so lines lead toward the figure and stop,
+            // rather than crossing over it — reads as the mesh resolving into the polygon.
+            WebkitMaskImage:
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 48%, rgba(0,0,0,0.18) 70%, rgba(0,0,0,0) 88%)",
+            maskImage:
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 48%, rgba(0,0,0,0.18) 70%, rgba(0,0,0,0) 88%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Flow streaks — thin horizontal lines drifting into the worker, suggesting movement */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              `repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(193,255,114,0.05) 39px, rgba(193,255,114,0.05) 40px)`,
+            WebkitMaskImage:
+              "linear-gradient(90deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 96%)",
+            maskImage:
+              "linear-gradient(90deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 96%)",
             pointerEvents: "none",
           }}
         />
