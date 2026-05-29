@@ -16,6 +16,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
+const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AntiPiracyPolicy = lazy(() => import("./pages/AntiPiracyPolicy"));
@@ -64,6 +65,8 @@ const App = () => (
             <Route path="/faq" element={<FAQ />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/verify/:certificateNumber" element={<VerifyCertificate />} />
+            <Route path="/verify" element={<VerifyCertificate />} />
             
             <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />

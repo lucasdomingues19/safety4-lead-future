@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.send-scorecard-email]
 verify_jwt = false
+
+[functions.issue-certificate]
+verify_jwt = false

@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2 } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
+import { CertificatesTab } from "@/components/admin/CertificatesTab";
 
 interface PageView {
   id: string;
@@ -68,7 +69,7 @@ const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
@@ -559,6 +560,14 @@ const Admin = () => {
             <Building2 className="mr-2 h-4 w-4" />
             Scorecard Insights
           </Button>
+          <Button
+            onClick={() => setActiveTab('certificates')}
+            variant={activeTab === 'certificates' ? 'default' : 'outline'}
+            className={activeTab === 'certificates' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <Award className="mr-2 h-4 w-4" />
+            Certificates
+          </Button>
         </div>
 
         {/* Analytics Tab */}
@@ -806,6 +815,9 @@ const Admin = () => {
 
         {/* Company Insights Tab */}
         {activeTab === 'company' && <CompanyInsightsTab />}
+
+        {/* Certificates Tab */}
+        {activeTab === 'certificates' && <CertificatesTab />}
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (
