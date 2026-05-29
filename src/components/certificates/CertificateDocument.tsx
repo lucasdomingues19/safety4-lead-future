@@ -204,14 +204,19 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: 14,
-              margin: "14px 0 26px",
+              gap: 10,
+              margin: "12px 0 24px",
             }}
           >
-            <div style={{ height: 1, width: 70, background: "rgba(201,168,76,0.5)" }} />
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: GOLD }} />
-            <div style={{ height: 1, width: 70, background: "rgba(201,168,76,0.5)" }} />
+            <div style={{ height: 1, width: 54, background: "rgba(201,168,76,0.4)" }} />
+            <div style={{ width: 5, height: 5, background: GOLD, transform: "rotate(45deg)" }} />
+            <div style={{ fontFamily: MONO, color: STEEL, fontSize: 10, letterSpacing: 2 }}>
+              {"<verified/>"}
+            </div>
+            <div style={{ width: 5, height: 5, background: GOLD, transform: "rotate(45deg)" }} />
+            <div style={{ height: 1, width: 54, background: "rgba(201,168,76,0.4)" }} />
           </div>
+
 
           <div style={{ color: MUTED, fontSize: 14 }}>This is proudly presented to</div>
           <div
