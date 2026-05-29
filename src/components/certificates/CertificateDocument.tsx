@@ -72,6 +72,23 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         />
 
+        {/* Subtle wireframe worker, right side */}
+        <img
+          src={bgWorker}
+          alt=""
+          style={{
+            position: "absolute",
+            right: -60,
+            bottom: -40,
+            width: 560,
+            height: 560,
+            objectFit: "contain",
+            opacity: 0.08,
+            mixBlendMode: "screen",
+            pointerEvents: "none",
+          }}
+        />
+
         {/* Single thin frame */}
         <div
           style={{
