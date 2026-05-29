@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import type { CertificateData } from "./CertificateDocument";
+import logoGold from "@/assets/safety-academy-logo-gold.png";
 
 // Corporate Navy Trust + Champagne Gold palette
 const NAVY = "#0f1e44";
