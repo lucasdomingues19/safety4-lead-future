@@ -60,38 +60,50 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           overflow: "hidden",
         }}
       >
-        {/* Subtle digital grid */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(59,111,160,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.05) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Subtle low-poly worker, right side */}
+        {/* Subtle low-poly worker, deep in the background, blended with the grid */}
         <img
           src={bgWorker}
           alt=""
           style={{
             position: "absolute",
-            right: -20,
+            right: -60,
             bottom: 0,
             top: 0,
             height: "100%",
-            width: 520,
+            width: 640,
             objectFit: "cover",
             objectPosition: "left center",
-            opacity: 0.5,
+            opacity: 0.16,
+            mixBlendMode: "screen",
             WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 45%), radial-gradient(ellipse 70% 80% at 50% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%)",
+              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 55%), radial-gradient(ellipse 75% 85% at 55% 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 92%)",
             WebkitMaskComposite: "source-in",
             maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 45%), radial-gradient(ellipse 70% 80% at 50% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%)",
+              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 55%), radial-gradient(ellipse 75% 85% at 55% 50%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 92%)",
             maskComposite: "intersect",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Digital grid — drawn over the worker so the figure reads as part of the mesh */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Motion streaks — diagonal connective lines suggesting movement toward the figure */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "repeating-linear-gradient(115deg, transparent 0px, transparent 78px, rgba(201,168,76,0.05) 79px, transparent 80px)",
             pointerEvents: "none",
           }}
         />
