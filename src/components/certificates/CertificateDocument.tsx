@@ -145,18 +145,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               </div>
             </div>
           </div>
-          <div
-            style={{
-              color: GOLD,
-              fontSize: 10.5,
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              fontWeight: 700,
-              textAlign: "right",
-            }}
-          >
-            Verified Credential
-          </div>
         </div>
 
         {/* Body */}
@@ -303,7 +291,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               }}
             />
             <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
-              Certificate No. (immutable)
+              Certificate No.
             </div>
           </div>
         </div>
