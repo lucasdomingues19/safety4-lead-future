@@ -30,6 +30,11 @@ interface Certificate {
 
 const SITE_URL = typeof window !== "undefined" ? window.location.origin : "";
 
+const COURSE_OPTIONS = [
+  "Safety 4.0 Accelerator",
+  "Safety 4.0 - Leading Safety in the Digital Age",
+];
+
 export const CertificatesTab = () => {
   const [certs, setCerts] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
