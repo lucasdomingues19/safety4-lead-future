@@ -2,6 +2,8 @@ import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import logo from "@/assets/safety-academy-logo-transparent.png";
 import bgWorker from "@/assets/certificate-bg-worker.png";
+import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
+import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
 export interface CertificateData {
   certificate_number: string;
@@ -239,6 +241,29 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <div style={{ fontFamily: MONO, fontSize: 9.5, fontWeight: 600, color: MUTED, marginTop: 10, whiteSpace: 'nowrap' }}>
               Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
             </div>
+          </div>
+
+          {/* Accreditations */}
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: 8,
+              padding: "12px 18px",
+              display: "flex",
+              alignItems: "center",
+              gap: 18,
+            }}
+          >
+            <img
+              src={ioshApprovedLogo}
+              alt="IOSH Approved Training Provider 5522"
+              style={{ height: 44, width: "auto", objectFit: "contain" }}
+            />
+            <img
+              src={cpdMemberLogo}
+              alt="CPD Member - The CPD Certification Service"
+              style={{ height: 48, width: "auto", objectFit: "contain" }}
+            />
           </div>
         </div>
       </div>
