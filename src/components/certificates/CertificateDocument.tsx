@@ -231,7 +231,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <div style={{ display: "flex", alignItems: "flex-end", gap: 16 }}>
               <div
                 style={{
-                  background: "#c1ff72",
+                  background: "#ffffff",
                   padding: 8,
                   borderRadius: 8,
                   display: "inline-block",
@@ -240,13 +240,13 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
                   boxSizing: "border-box",
                 }}
               >
-                <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#c1ff72" level="M" />
+                <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
               </div>
 
               {/* Accreditations */}
               <div
                 style={{
-                  background: "#c1ff72",
+                  background: "#ffffff",
                   borderRadius: 8,
                   padding: 8,
                   display: "flex",
