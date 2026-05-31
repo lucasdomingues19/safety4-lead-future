@@ -223,7 +223,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            marginTop: 54,
+            marginTop: 90,
             position: "relative",
           }}
         >
