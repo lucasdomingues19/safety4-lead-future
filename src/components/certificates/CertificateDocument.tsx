@@ -242,6 +242,29 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
             </div>
           </div>
+
+          {/* Accreditations */}
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: 8,
+              padding: "12px 18px",
+              display: "flex",
+              alignItems: "center",
+              gap: 18,
+            }}
+          >
+            <img
+              src={ioshApprovedLogo}
+              alt="IOSH Approved Training Provider 5522"
+              style={{ height: 44, width: "auto", objectFit: "contain" }}
+            />
+            <img
+              src={cpdMemberLogo}
+              alt="CPD Member - The CPD Certification Service"
+              style={{ height: 48, width: "auto", objectFit: "contain" }}
+            />
+          </div>
         </div>
       </div>
     );
