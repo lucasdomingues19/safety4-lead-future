@@ -240,28 +240,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
             </div>
           </div>
-
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                fontFamily: SCRIPT,
-                fontSize: 42,
-                lineHeight: 1,
-                color: "#fff",
-                paddingBottom: 4,
-              }}
-            >
-              Lucas Domingues
-            </div>
-            <div style={{ height: 1, background: "rgba(193,255,114,0.4)", margin: "0 auto 7px", width: 200 }} />
-            <div style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>Lucas Domingues</div>
-            <div style={{ color: MUTED, fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5, marginTop: 2 }}>
-              Founder, Lead Coach
-            </div>
-          </div>
-
-          <div style={{ textAlign: "right" }}>
-          </div>
         </div>
       </div>
     );
