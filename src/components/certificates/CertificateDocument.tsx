@@ -261,37 +261,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           </div>
 
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>
-              {formatDate(cert.completion_date)}
-            </div>
-            <div
-              style={{
-                height: 1,
-                background: "rgba(193,255,114,0.4)",
-                margin: "6px 0",
-                width: 180,
-                marginLeft: "auto",
-              }}
-            />
-            <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
-              Date of Completion
-            </div>
-
-            <div style={{ fontFamily: MONO, fontSize: 13, fontWeight: 700, color: GOLD, letterSpacing: 0.5, marginTop: 16 }}>
-              {cert.certificate_number}
-            </div>
-            <div
-              style={{
-                height: 1,
-                background: "rgba(255,102,196,0.4)",
-                margin: "6px 0",
-                width: 180,
-                marginLeft: "auto",
-              }}
-            />
-            <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
-              Certificate No.
-            </div>
           </div>
         </div>
       </div>
