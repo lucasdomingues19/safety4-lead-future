@@ -140,7 +140,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             alignItems: "center",
             position: "relative",
             paddingBottom: 22,
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
