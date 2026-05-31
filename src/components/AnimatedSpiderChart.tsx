@@ -152,7 +152,7 @@ export const AnimatedSpiderChart = ({
       <svg
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="w-[260px] h-[260px] md:w-[320px] md:h-[320px] lg:w-[360px] lg:h-[360px]"
-        style={{ filter: "drop-shadow(0 0 30px rgba(214, 255, 0, 0.08))" }}
+        style={{ filter: "drop-shadow(0 0 30px rgba(0, 255, 0, 0.12))" }}
       >
         {/* Radial gradient background */}
         <defs>
@@ -165,8 +165,8 @@ export const AnimatedSpiderChart = ({
             <stop offset="100%" stopColor="rgb(236, 72, 153)" stopOpacity="0.05" />
           </linearGradient>
           <linearGradient id="afterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(85, 100%, 72%)" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="hsl(85, 100%, 72%)" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="hsl(120, 100%, 50%)" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="hsl(120, 100%, 50%)" stopOpacity="0.05" />
           </linearGradient>
         </defs>
 
@@ -210,13 +210,13 @@ export const AnimatedSpiderChart = ({
         <polygon
           points={getPolygonPoints(currentValues)}
           fill="none"
-          stroke={phase === "after" ? "hsl(85, 100%, 72%)" : "rgb(236, 72, 153)"}
+          stroke={phase === "after" ? "hsl(120, 100%, 50%)" : "rgb(236, 72, 153)"}
           strokeWidth="2"
           strokeLinejoin="round"
           className="transition-all duration-300"
           style={{
             filter: phase === "after"
-              ? "drop-shadow(0 0 8px hsl(85, 100%, 72%, 0.5))"
+              ? "drop-shadow(0 0 8px hsl(120, 100%, 50%, 0.5))"
               : "drop-shadow(0 0 8px rgb(236, 72, 153, 0.4))",
           }}
         />
@@ -232,11 +232,11 @@ export const AnimatedSpiderChart = ({
                 cx={x}
                 cy={y}
                 r="4"
-                fill={phase === "after" ? "hsl(85, 100%, 72%)" : "rgb(236, 72, 153)"}
+                fill={phase === "after" ? "hsl(120, 100%, 50%)" : "rgb(236, 72, 153)"}
                 className="transition-all duration-300"
                 style={{
                   filter: phase === "after"
-                    ? "drop-shadow(0 0 6px hsl(85, 100%, 72%, 0.6))"
+                    ? "drop-shadow(0 0 6px hsl(120, 100%, 50%, 0.6))"
                     : "drop-shadow(0 0 6px rgb(236, 72, 153, 0.5))",
                 }}
               />
@@ -280,7 +280,7 @@ export const AnimatedSpiderChart = ({
             textAnchor="middle"
             dominantBaseline="central"
             className="text-[8px] font-bold"
-            fill={phase === "after" ? "hsl(85, 100%, 72%)" : "rgb(236, 72, 153)"}
+            fill={phase === "after" ? "hsl(120, 100%, 50%)" : "rgb(236, 72, 153)"}
             style={{
               fontFamily: "'Syne', sans-serif",
               transition: "fill 0.3s",
