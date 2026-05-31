@@ -1,6 +1,8 @@
 import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
+import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
+import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
 export const Footer = () => {
   return (
@@ -104,6 +106,23 @@ export const Footer = () => {
               >
                 <Instagram className="w-4 h-4 md:w-5 md:h-5" />
               </a>
+            </div>
+
+            {/* Accreditations */}
+            <div className="mt-6 md:mt-8">
+              <h4 className="text-white font-semibold text-base md:text-lg mb-3 md:mb-4">Accreditations</h4>
+              <div className="bg-white rounded-lg p-4 flex flex-wrap items-center gap-4 md:gap-6">
+                <img
+                  src={ioshApprovedLogo}
+                  alt="IOSH Approved Training Provider 5522"
+                  className="h-12 md:h-14 w-auto"
+                />
+                <img
+                  src={cpdMemberLogo}
+                  alt="CPD Member - The CPD Certification Service"
+                  className="h-12 md:h-14 w-auto"
+                />
+              </div>
             </div>
           </div>
         </div>
