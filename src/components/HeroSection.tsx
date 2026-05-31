@@ -34,9 +34,21 @@ export const HeroSection = () => {
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
             Safety Leadership Without <span className="text-lime-400">Digital Literacy</span> has Become a Liability
           </h1>
-          <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed mb-8 md:mb-12 font-light">
+          <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
             The Safety 4.0 Academy is the world's first <span className="font-bold">IOSH-approved</span> and <span className="font-bold">CPD-accredited</span> programme designed and taught by industry experts for EHS leaders in the digital age.
           </p>
+
+          {/* Skill Boxes */}
+          <div className="flex flex-wrap gap-2 md:gap-3 mb-8 md:mb-12">
+            {["Artificial Intelligence", "Digital Transformation", "SafetyTech", "Data & Analytics", "Safety 4.0", "Risk & Governance"].map((skill) => (
+              <span
+                key={skill}
+                className="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 bg-white/5 border border-white/10 rounded-lg text-xs md:text-sm text-gray-300 font-medium backdrop-blur-sm hover:bg-white/10 hover:border-primary/30 hover:text-primary transition-all duration-300 cursor-default"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-start gap-4">
