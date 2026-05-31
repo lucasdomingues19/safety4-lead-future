@@ -240,9 +240,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
             </div>
           </div>
-
-          <div style={{ textAlign: "right" }}>
-          </div>
         </div>
       </div>
     );
