@@ -227,8 +227,8 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             position: "relative",
           }}
         >
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 16 }}>
-            <div style={{ textAlign: "left" }}>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 16 }}>
               <div
                 style={{
                   background: "#fff",
@@ -239,32 +239,33 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               >
                 <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
               </div>
-              <div style={{ fontFamily: MONO, fontSize: 9.5, fontWeight: 600, color: MUTED, marginTop: 10, whiteSpace: 'nowrap' }}>
-                Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
+
+              {/* Accreditations */}
+              <div
+                style={{
+                  background: "#ffffff",
+                  borderRadius: 8,
+                  padding: "10px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+              >
+                <img
+                  src={ioshApprovedLogo}
+                  alt="IOSH Approved Training Provider 5522"
+                  style={{ height: 40, width: "auto", objectFit: "contain" }}
+                />
+                <img
+                  src={cpdMemberLogo}
+                  alt="CPD Member - The CPD Certification Service"
+                  style={{ height: 44, width: "auto", objectFit: "contain" }}
+                />
               </div>
             </div>
 
-            {/* Accreditations */}
-            <div
-              style={{
-                background: "#ffffff",
-                borderRadius: 8,
-                padding: "10px 14px",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
-              <img
-                src={ioshApprovedLogo}
-                alt="IOSH Approved Training Provider 5522"
-                style={{ height: 40, width: "auto", objectFit: "contain" }}
-              />
-              <img
-                src={cpdMemberLogo}
-                alt="CPD Member - The CPD Certification Service"
-                style={{ height: 44, width: "auto", objectFit: "contain" }}
-              />
+            <div style={{ fontFamily: MONO, fontSize: 9.5, fontWeight: 600, color: MUTED, marginTop: 10, whiteSpace: 'nowrap' }}>
+              Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
             </div>
           </div>
         </div>
