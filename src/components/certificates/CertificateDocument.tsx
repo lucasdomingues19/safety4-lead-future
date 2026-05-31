@@ -89,20 +89,22 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         />
 
-        {/* Digital grid — mesh (horizontal + vertical). Fades out on the left half only so it
-            never overlays the polygon worker on the right. */}
+        {/* Digital grid — hard-clipped to the left so it cannot overlay the polygon worker. */}
         <div
           style={{
             position: "absolute",
-            inset: 0,
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 380,
             backgroundImage:
               "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
-            // Fade the grid out well before the worker so the mesh never crosses the polygon.
+            // Soft fade only inside the clipped left strip; the layer itself ends before the worker.
             WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 22%, rgba(0,0,0,0.1) 36%, rgba(0,0,0,0) 44%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
             maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 22%, rgba(0,0,0,0.1) 36%, rgba(0,0,0,0) 44%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
             pointerEvents: "none",
           }}
         />
