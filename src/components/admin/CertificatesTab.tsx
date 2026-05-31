@@ -45,7 +45,7 @@ export const CertificatesTab = () => {
   const [form, setForm] = useState({
     recipientName: "",
     recipientEmail: "",
-    courseName: "Safety 4.0 Academy Certification",
+    courseName: COURSE_OPTIONS[0],
     completionDate: new Date().toISOString().slice(0, 10),
     credentialLevel: "",
     cpdHours: "",
