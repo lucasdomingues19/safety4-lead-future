@@ -97,12 +97,12 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             backgroundImage:
               "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
-            // Fade the grid out across the worker zone so lines lead toward the figure and stop,
-            // rather than crossing over it — reads as the mesh resolving into the polygon.
+            // Fade the grid out toward the right so the mesh dissolves well before reaching the
+            // polygon worker and never mixes with it.
             WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 48%, rgba(0,0,0,0.18) 70%, rgba(0,0,0,0) 88%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0) 64%)",
             maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 48%, rgba(0,0,0,0.18) 70%, rgba(0,0,0,0) 88%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0) 64%)",
             pointerEvents: "none",
           }}
         />
