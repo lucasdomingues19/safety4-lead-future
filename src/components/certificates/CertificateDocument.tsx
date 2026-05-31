@@ -96,15 +96,15 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             left: 0,
             top: 0,
             bottom: 0,
-            width: 380,
+            width: 640,
             backgroundImage:
               "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
-            // Soft fade only inside the clipped left strip; the layer itself ends before the worker.
+            // Grid reaches toward the centre and dissolves smoothly before the polygon worker.
             WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)",
             maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)",
             pointerEvents: "none",
           }}
         />
