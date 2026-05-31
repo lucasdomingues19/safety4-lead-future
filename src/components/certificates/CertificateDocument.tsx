@@ -239,7 +239,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             >
               <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
             </div>
-            <div style={{ color: MUTED, fontSize: 10, marginTop: 6, letterSpacing: 1 }}>Scan to verify</div>
           </div>
 
           <div style={{ textAlign: "center" }}>
