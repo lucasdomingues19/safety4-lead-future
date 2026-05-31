@@ -231,35 +231,42 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <div style={{ display: "flex", alignItems: "flex-end", gap: 16 }}>
               <div
                 style={{
-                  background: "#fff",
+                  background: "#84cc16",
                   padding: 8,
                   borderRadius: 8,
                   display: "inline-block",
+                  height: 100,
+                  width: 100,
+                  boxSizing: "border-box",
                 }}
               >
-                <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
+                <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#84cc16" level="M" />
               </div>
 
               {/* Accreditations */}
               <div
                 style={{
-                  background: "#ffffff",
+                  background: "#84cc16",
                   borderRadius: 8,
-                  padding: "10px 14px",
+                  padding: 8,
                   display: "flex",
                   alignItems: "center",
-                  gap: 12,
+                  justifyContent: "center",
+                  gap: 10,
+                  height: 100,
+                  width: 100,
+                  boxSizing: "border-box",
                 }}
               >
                 <img
                   src={ioshApprovedLogo}
                   alt="IOSH Approved Training Provider 5522"
-                  style={{ height: 40, width: "auto", objectFit: "contain" }}
+                  style={{ height: 36, width: "auto", objectFit: "contain" }}
                 />
                 <img
                   src={cpdMemberLogo}
                   alt="CPD Member - The CPD Certification Service"
-                  style={{ height: 44, width: "auto", objectFit: "contain" }}
+                  style={{ height: 40, width: "auto", objectFit: "contain" }}
                 />
               </div>
             </div>
