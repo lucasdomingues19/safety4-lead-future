@@ -89,8 +89,8 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           }}
         />
 
-        {/* Digital grid — mesh (horizontal + vertical). Masked so the lines dissolve as they reach
-            the worker, making the mesh appear to flow into and form the polygon figure (movement). */}
+        {/* Digital grid — mesh (horizontal + vertical). Fades out on the left half only so it
+            never overlays the polygon worker on the right. */}
         <div
           style={{
             position: "absolute",
@@ -98,30 +98,15 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             backgroundImage:
               "linear-gradient(rgba(59,111,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,111,160,0.07) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
-            // Fade the grid out toward the right so the mesh dissolves well before reaching the
-            // polygon worker and never mixes with it.
+            // Fade the grid out well before the worker so the mesh never crosses the polygon.
             WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0) 64%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 22%, rgba(0,0,0,0.1) 36%, rgba(0,0,0,0) 44%)",
             maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0) 64%)",
+              "linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 22%, rgba(0,0,0,0.1) 36%, rgba(0,0,0,0) 44%)",
             pointerEvents: "none",
           }}
         />
 
-        {/* Flow streaks — thin horizontal lines drifting into the worker, suggesting movement */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              `repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(193,255,114,0.05) 39px, rgba(193,255,114,0.05) 40px)`,
-            WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 96%)",
-            maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 96%)",
-            pointerEvents: "none",
-          }}
-        />
 
         {/* Single thin frame */}
         <div
