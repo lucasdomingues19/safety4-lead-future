@@ -2,6 +2,8 @@ import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import logo from "@/assets/safety-academy-logo-transparent.png";
 import bgWorker from "@/assets/certificate-bg-worker.png";
+import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
+import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
 export interface CertificateData {
   certificate_number: string;
