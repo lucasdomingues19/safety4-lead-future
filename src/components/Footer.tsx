@@ -1,6 +1,8 @@
 import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
+import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
+import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
 export const Footer = () => {
   return (
