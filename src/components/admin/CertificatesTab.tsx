@@ -168,8 +168,16 @@ export const CertificatesTab = () => {
             </div>
             <div className="space-y-1">
               <Label htmlFor="courseName">Course *</Label>
-              <Input id="courseName" value={form.courseName}
-                onChange={(e) => setForm({ ...form, courseName: e.target.value })} />
+              <Select value={form.courseName} onValueChange={(v) => setForm({ ...form, courseName: v })}>
+                <SelectTrigger id="courseName">
+                  <SelectValue placeholder="Select a course" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COURSE_OPTIONS.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <Label htmlFor="completionDate">Completion date *</Label>
