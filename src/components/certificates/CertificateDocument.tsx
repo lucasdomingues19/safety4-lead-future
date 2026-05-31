@@ -29,6 +29,7 @@ const MUTED = "#8a93a8";
 const SERIF = "'Instrument Serif', Georgia, serif";
 const SANS = "'Work Sans', Inter, Arial, sans-serif";
 const MONO = "'JetBrains Mono', 'SF Mono', 'Courier New', monospace";
+const SCRIPT = "'Great Vibes', 'Brush Script MT', cursive";
 
 const formatDate = (d: string) =>
   new Date(d).toLocaleDateString("en-GB", {
@@ -267,29 +268,54 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           </div>
 
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>
-              {formatDate(cert.completion_date)}
+            <div
+              style={{
+                fontFamily: SCRIPT,
+                fontSize: 42,
+                lineHeight: 1,
+                color: "#fff",
+                paddingBottom: 4,
+              }}
+            >
+              Lucas Domingues
             </div>
-            <div style={{ height: 1, background: "rgba(193,255,114,0.4)", margin: "7px auto", width: 180 }} />
-            <div style={{ color: MUTED, fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5 }}>
-              Date of Completion
+            <div style={{ height: 1, background: "rgba(193,255,114,0.4)", margin: "0 auto 7px", width: 200 }} />
+            <div style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>Lucas Domingues</div>
+            <div style={{ color: MUTED, fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5, marginTop: 2 }}>
+              Founder, Lead Coach
             </div>
           </div>
 
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontFamily: MONO, fontSize: 14, fontWeight: 700, color: GOLD, letterSpacing: 0.5 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>
+              {formatDate(cert.completion_date)}
+            </div>
+            <div
+              style={{
+                height: 1,
+                background: "rgba(193,255,114,0.4)",
+                margin: "6px 0",
+                width: 180,
+                marginLeft: "auto",
+              }}
+            />
+            <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
+              Date of Completion
+            </div>
+
+            <div style={{ fontFamily: MONO, fontSize: 13, fontWeight: 700, color: GOLD, letterSpacing: 0.5, marginTop: 16 }}>
               {cert.certificate_number}
             </div>
             <div
               style={{
                 height: 1,
                 background: "rgba(255,102,196,0.4)",
-                margin: "7px 0",
+                margin: "6px 0",
                 width: 180,
                 marginLeft: "auto",
               }}
             />
-            <div style={{ color: MUTED, fontSize: 11, textTransform: "uppercase", letterSpacing: 1.5 }}>
+            <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
               Certificate No. (immutable)
             </div>
           </div>
