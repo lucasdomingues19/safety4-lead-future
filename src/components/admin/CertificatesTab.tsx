@@ -6,6 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
@@ -27,6 +30,11 @@ interface Certificate {
 
 const SITE_URL = typeof window !== "undefined" ? window.location.origin : "";
 
+const COURSE_OPTIONS = [
+  "Safety 4.0 Accelerator",
+  "Safety 4.0 - Leading Safety in the Digital Age",
+];
+
 export const CertificatesTab = () => {
   const [certs, setCerts] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +45,7 @@ export const CertificatesTab = () => {
   const [form, setForm] = useState({
     recipientName: "",
     recipientEmail: "",
-    courseName: "Safety 4.0 Academy Certification",
+    courseName: COURSE_OPTIONS[0],
     completionDate: new Date().toISOString().slice(0, 10),
     credentialLevel: "",
     cpdHours: "",
@@ -168,8 +176,16 @@ export const CertificatesTab = () => {
             </div>
             <div className="space-y-1">
               <Label htmlFor="courseName">Course *</Label>
-              <Input id="courseName" value={form.courseName}
-                onChange={(e) => setForm({ ...form, courseName: e.target.value })} />
+              <Select value={form.courseName} onValueChange={(v) => setForm({ ...form, courseName: v })}>
+                <SelectTrigger id="courseName">
+                  <SelectValue placeholder="Select a course" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COURSE_OPTIONS.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <Label htmlFor="completionDate">Completion date *</Label>
