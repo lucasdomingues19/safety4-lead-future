@@ -140,9 +140,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               <div style={{ color: "#ffffff", fontSize: 17, fontWeight: 700, letterSpacing: 1 }}>
                 Safety 4.0 Academy
               </div>
-              <div style={{ color: MUTED, fontSize: 11.5, marginTop: 2, letterSpacing: 0.5 }}>
-                Approved training provider by IOSH
-              </div>
             </div>
           </div>
         </div>
