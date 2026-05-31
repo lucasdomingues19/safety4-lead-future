@@ -248,26 +248,26 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
                 style={{
                   background: "#ffffff",
                   borderRadius: 8,
-                  padding: 10,
+                  padding: 6,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 8,
-                  height: 140,
-                  width: 120,
+                  gap: 4,
+                  height: 100,
+                  width: 100,
                   boxSizing: "border-box",
                 }}
               >
                 <img
                   src={ioshApprovedLogo}
                   alt="IOSH Approved Training Provider 5522"
-                  style={{ height: 64, width: "auto", maxWidth: "100%", objectFit: "contain" }}
+                  style={{ height: 48, width: "auto", maxWidth: "100%", objectFit: "contain" }}
                 />
                 <img
                   src={cpdMemberLogo}
                   alt="CPD Member - The CPD Certification Service"
-                  style={{ height: 28, width: "auto", maxWidth: "100%", objectFit: "contain" }}
+                  style={{ height: 20, width: "auto", maxWidth: "100%", objectFit: "contain" }}
                 />
               </div>
             </div>
