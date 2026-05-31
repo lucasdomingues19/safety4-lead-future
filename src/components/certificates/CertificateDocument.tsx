@@ -239,6 +239,12 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             >
               <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
             </div>
+            <div style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: "#fff", marginTop: 12 }}>
+              {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
+            </div>
+            <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5, marginTop: 4 }}>
+              Certificate Issue Date
+            </div>
           </div>
 
           <div style={{ textAlign: "center" }}>
@@ -291,22 +297,6 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             />
             <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
               Certificate No.
-            </div>
-
-            <div style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: "#fff", marginTop: 16 }}>
-              {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
-            </div>
-            <div
-              style={{
-                height: 1,
-                background: "rgba(193,255,114,0.4)",
-                margin: "6px 0",
-                width: 180,
-                marginLeft: "auto",
-              }}
-            />
-            <div style={{ color: MUTED, fontSize: 10.5, textTransform: "uppercase", letterSpacing: 1.5 }}>
-              Certificate Issue Date
             </div>
           </div>
         </div>
