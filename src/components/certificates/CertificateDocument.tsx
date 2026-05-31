@@ -29,6 +29,7 @@ const MUTED = "#8a93a8";
 const SERIF = "'Instrument Serif', Georgia, serif";
 const SANS = "'Work Sans', Inter, Arial, sans-serif";
 const MONO = "'JetBrains Mono', 'SF Mono', 'Courier New', monospace";
+const SCRIPT = "'Great Vibes', 'Brush Script MT', cursive";
 
 const formatDate = (d: string) =>
   new Date(d).toLocaleDateString("en-GB", {
