@@ -921,19 +921,22 @@ const Admin = () => {
                               </span>
                             </TableCell>
                             <TableCell className="text-white">
-                              {scorecardResults[lead.email] ? (
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                  scorecardResults[lead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                                  scorecardResults[lead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
-                                  scorecardResults[lead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
-                                  'bg-red-500/20 text-red-300'
-                                }`}>
-                                  {scorecardResults[lead.email].overall_score}/100
-                                </span>
-                              ) : (
-                                <span className="text-white/30">—</span>
-                              )}
+                              {(() => {
+                                const sc = scorecardResults[(lead.email || '').toLowerCase().trim()];
+                                return sc ? (
+                                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    sc.overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                                    sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
+                                    sc.overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
+                                    sc.overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
+                                    'bg-red-500/20 text-red-300'
+                                  }`}>
+                                    {sc.overall_score}/100
+                                  </span>
+                                ) : (
+                                  <span className="text-white/30">—</span>
+                                );
+                              })()}
                             </TableCell>
                             <TableCell className="text-white">
                               {new Date(lead.created_at).toLocaleDateString()}
