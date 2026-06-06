@@ -155,8 +155,9 @@ const Admin = () => {
       if (data) {
         const resultsMap: Record<string, ScorecardResult> = {};
         data.forEach((r: any) => {
-          if (!resultsMap[r.email]) {
-            resultsMap[r.email] = {
+          const key = (r.email || '').toLowerCase().trim();
+          if (key && !resultsMap[key]) {
+            resultsMap[key] = {
               overall_score: r.overall_score,
               rank_number: r.rank_number,
               rank_label: r.rank_label,
@@ -920,19 +921,22 @@ const Admin = () => {
                               </span>
                             </TableCell>
                             <TableCell className="text-white">
-                              {scorecardResults[lead.email] ? (
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                  scorecardResults[lead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                                  scorecardResults[lead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                                  scorecardResults[lead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
-                                  scorecardResults[lead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
-                                  'bg-red-500/20 text-red-300'
-                                }`}>
-                                  {scorecardResults[lead.email].overall_score}/100
-                                </span>
-                              ) : (
-                                <span className="text-white/30">—</span>
-                              )}
+                              {(() => {
+                                const sc = scorecardResults[(lead.email || '').toLowerCase().trim()];
+                                return sc ? (
+                                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    sc.overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                                    sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
+                                    sc.overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
+                                    sc.overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
+                                    'bg-red-500/20 text-red-300'
+                                  }`}>
+                                    {sc.overall_score}/100
+                                  </span>
+                                ) : (
+                                  <span className="text-white/30">—</span>
+                                );
+                              })()}
                             </TableCell>
                             <TableCell className="text-white">
                               {new Date(lead.created_at).toLocaleDateString()}
@@ -1017,23 +1021,26 @@ const Admin = () => {
                         </div>
                       </div>
                     )}
-                    {scorecardResults[selectedLead.email] && (
+                    {(() => {
+                      const sc = scorecardResults[(selectedLead.email || '').toLowerCase().trim()];
+                      if (!sc) return null;
+                      return (
                       <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
                         <label className="text-sm text-gray-400 block mb-3">Scorecard Results</label>
                         <div className="flex items-center gap-4 mb-3">
-                          <div className="text-3xl font-bold text-white">{scorecardResults[selectedLead.email].overall_score}/100</div>
+                          <div className="text-3xl font-bold text-white">{sc.overall_score}/100</div>
                           <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            scorecardResults[selectedLead.email].overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
-                            scorecardResults[selectedLead.email].overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                            scorecardResults[selectedLead.email].overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
-                            scorecardResults[selectedLead.email].overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
+                            sc.overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                            sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
+                            sc.overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
+                            sc.overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
                             'bg-red-500/20 text-red-300'
                           }`}>
-                            {'★'.repeat(scorecardResults[selectedLead.email].rank_number)}{'☆'.repeat(5 - scorecardResults[selectedLead.email].rank_number)} {scorecardResults[selectedLead.email].rank_label}
+                            {'★'.repeat(sc.rank_number)}{'☆'.repeat(5 - sc.rank_number)} {sc.rank_label}
                           </div>
                         </div>
                         <div className="space-y-2">
-                          {(scorecardResults[selectedLead.email].category_scores || []).map((cat, i) => (
+                          {(sc.category_scores || []).map((cat, i) => (
                             <div key={i} className="flex items-center gap-3">
                               <span className="text-xs text-white/60 w-40 shrink-0">{cat.category}</span>
                               <div className="flex-1 bg-white/10 rounded-full h-2 overflow-hidden">
@@ -1053,7 +1060,8 @@ const Admin = () => {
                           ))}
                         </div>
                       </div>
-                    )}
+                      );
+                    })()}
                   </div>
                 )}
               </DialogContent>
