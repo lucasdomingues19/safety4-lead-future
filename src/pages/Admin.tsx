@@ -155,8 +155,9 @@ const Admin = () => {
       if (data) {
         const resultsMap: Record<string, ScorecardResult> = {};
         data.forEach((r: any) => {
-          if (!resultsMap[r.email]) {
-            resultsMap[r.email] = {
+          const key = (r.email || '').toLowerCase().trim();
+          if (key && !resultsMap[key]) {
+            resultsMap[key] = {
               overall_score: r.overall_score,
               rank_number: r.rank_number,
               rank_label: r.rank_label,
