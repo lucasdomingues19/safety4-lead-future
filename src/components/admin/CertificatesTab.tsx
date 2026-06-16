@@ -12,7 +12,7 @@ import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw } from "lucide-react";
+import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw, Eye, MousePointerClick, Linkedin } from "lucide-react";
 
 interface Certificate {
   id: string;
@@ -26,6 +26,9 @@ interface Certificate {
   status: string;
   issued_at: string;
   revoked_at: string | null;
+  viewed_at: string | null;
+  engaged_at: string | null;
+  linkedin_added_at: string | null;
 }
 
 const SITE_URL = typeof window !== "undefined" ? window.location.origin : "";
