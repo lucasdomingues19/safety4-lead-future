@@ -44,6 +44,7 @@ const VerifyCertificate = () => {
   const [cert, setCert] = useState<CertificateData | null>(null);
   const [searchValue, setSearchValue] = useState("");
   const [linkedinAssist, setLinkedinAssist] = useState<LinkedInAssist | null>(null);
+  const [posting, setPosting] = useState(false);
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
