@@ -409,6 +409,71 @@ const VerifyCertificate = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!linkedinAssist} onOpenChange={(open) => !open && setLinkedinAssist(null)}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>{linkedinAssist?.title}</DialogTitle>
+            <DialogDescription>{linkedinAssist?.detail}</DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 text-sm">
+            {linkedinAssist?.skills ? (
+              <div className="rounded-md border border-border bg-card p-4">
+                <p className="mb-2 font-medium text-foreground">Skills to paste into LinkedIn</p>
+                <p className="text-muted-foreground">{linkedinAssist.skills}</p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="mt-3"
+                  onClick={() => copyToClipboard(linkedinAssist.skills!, "Skills copied")}
+                >
+                  <Copy className="mr-2 h-4 w-4" /> Copy skills
+                </Button>
+              </div>
+            ) : null}
+
+            {linkedinAssist?.postText ? (
+              <div className="rounded-md border border-border bg-card p-4">
+                <p className="mb-2 font-medium text-foreground">Post text</p>
+                <p className="whitespace-pre-line text-muted-foreground">{linkedinAssist.postText}</p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="mt-3"
+                  onClick={() => copyToClipboard(linkedinAssist.postText!, "Post text copied")}
+                >
+                  <Copy className="mr-2 h-4 w-4" /> Copy post text
+                </Button>
+              </div>
+            ) : null}
+
+            {linkedinAssist?.imageFileName ? (
+              <p className="rounded-md border border-primary/30 bg-primary/10 p-3 text-foreground">
+                Certificate image downloaded: <span className="font-medium">{linkedinAssist.imageFileName}</span>
+              </p>
+            ) : null}
+
+            <div className="flex flex-wrap gap-3">
+              <Button type="button" variant="outline" onClick={() => void downloadCertificateImage()}>
+                <ImageIcon className="mr-2 h-4 w-4" /> Download certificate image
+              </Button>
+              {linkedinAssist?.profileUrl ? (
+                <Button type="button" onClick={() => openInNewTab(linkedinAssist.profileUrl!)}>
+                  <Linkedin className="mr-2 h-4 w-4" /> Reopen LinkedIn profile
+                </Button>
+              ) : null}
+              {linkedinAssist?.composerUrl ? (
+                <Button type="button" onClick={() => openInNewTab(linkedinAssist.composerUrl!)}>
+                  <Linkedin className="mr-2 h-4 w-4" /> Reopen LinkedIn post
+                </Button>
+              ) : null}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
