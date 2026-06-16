@@ -35,6 +35,19 @@ const escapeHtml = (text: string): string => {
 
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
+const describeEmailError = (error: unknown): string => {
+  if (!error) return "Email provider rejected the certificate email";
+  if (typeof error === "string") return error;
+  if (typeof error === "object") {
+    const maybe = error as { message?: unknown; name?: unknown; statusCode?: unknown };
+    const parts = [maybe.name, maybe.message, maybe.statusCode ? `status ${maybe.statusCode}` : null]
+      .filter(Boolean)
+      .map(String);
+    return parts.join(" — ") || JSON.stringify(error);
+  }
+  return String(error);
+};
+
 const monthName = (d: Date) =>
   d.toLocaleString("en-GB", { month: "long" });
 
@@ -209,6 +222,14 @@ const handler = async (req: Request): Promise<Response> => {
       subject: "Your Safety 4.0 Academy Certificate",
       html,
     });
+
+    if (emailResponse.error) {
+      const reason = describeEmailError(emailResponse.error);
+      console.error("Certificate email rejected:", cert.certificate_number, reason, emailResponse.error);
+      return new Response(JSON.stringify({ error: `Certificate created, but email was not sent: ${reason}` }), {
+        status: 502, headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     console.log("Certificate email sent:", cert.certificate_number, emailResponse);
 
