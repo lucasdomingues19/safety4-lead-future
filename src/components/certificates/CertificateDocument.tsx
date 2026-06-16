@@ -141,14 +141,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             />
           </div>
 
-          {/* Course badge for IOSH-approved Safety 4.0 */}
-          {cert.course_name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" && (
-            <img
-              src={safety40Badge.url}
-              alt="IOSH-approved Safety 4.0 - Leading Safety in the Digital Age Certified Badge"
-              style={{ width: 90, height: 90, objectFit: "contain" }}
-            />
-          )}
+          {/* Course badge removed from header — displayed elsewhere */}
         </div>
 
         {/* Body */}
