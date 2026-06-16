@@ -47,7 +47,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
         }}
       >
         <img
-          src={safety40Badge.url}
+          src={safety40Badge}
           alt="IOSH-approved Safety 4.0 - Leading Safety in the Digital Age Certified Badge"
           style={{ width: size - 20, height: size - 20, objectFit: "contain" }}
         />
@@ -72,7 +72,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
         }}
       >
         <img
-          src={acceleratorBadge.url}
+          src={acceleratorBadge}
           alt="Safety 4.0 Accelerator Certified Badge"
           style={{ width: size - 20, height: size - 20, objectFit: "contain" }}
         />
@@ -163,7 +163,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
             }}
           >
             <img
-              src={logoAsset.url}
+              src={logoAsset}
               alt="Safety 4.0 Academy"
               style={{ width: size * 0.26, height: size * 0.26, objectFit: "contain", marginTop: size * 0.015 }}
             />
