@@ -510,11 +510,23 @@ const VerifyCertificate = () => {
               </Button>
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button onClick={linkedInAddToProfile} className="bg-[#0a66c2] hover:bg-[#084a8f] text-white">
+              <Button
+                onClick={linkedInPostAutomatic}
+                disabled={posting}
+                className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
+              >
+                {posting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Linkedin className="mr-2 h-4 w-4" />
+                )}
+                {posting ? "Posting…" : "Post to LinkedIn (with image)"}
+              </Button>
+              <Button onClick={linkedInAddToProfile} variant="outline">
                 <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
               </Button>
               <Button onClick={linkedInSharePost} variant="outline">
-                <Share2 className="mr-2 h-4 w-4" /> Share as a post
+                <Share2 className="mr-2 h-4 w-4" /> Share as a post (manual)
               </Button>
             </div>
             <div className="pt-6 text-sm text-muted-foreground space-y-1">
