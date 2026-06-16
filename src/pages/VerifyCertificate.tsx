@@ -465,9 +465,6 @@ const VerifyCertificate = () => {
               <Button onClick={linkedInAddToProfile} variant="outline">
                 <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
               </Button>
-              <Button onClick={linkedInSharePost} variant="outline">
-                <Share2 className="mr-2 h-4 w-4" /> Share as a post (manual)
-              </Button>
             </div>
             <div className="pt-6 text-sm text-muted-foreground space-y-1">
               <p><span className="text-foreground font-medium">Recipient:</span> {cert?.recipient_name}</p>
