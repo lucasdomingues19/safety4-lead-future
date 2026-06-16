@@ -218,78 +218,95 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "space-between",
             alignItems: "flex-end",
             marginTop: 90,
             position: "relative",
             gap: 12,
           }}
         >
-          {/* QR Code square */}
-          <div
-            style={{
-              background: "#ffffff",
-              padding: 6,
-              borderRadius: 8,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: 84,
-              width: 84,
-              boxSizing: "border-box",
-              flexShrink: 0,
-            }}
-          >
-            <QRCodeCanvas value={verifyUrl} size={72} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
-          </div>
+          <div style={{ display: "flex", gap: 12 }}>
+            {/* QR Code square */}
+            <div
+              style={{
+                background: "#ffffff",
+                padding: 6,
+                borderRadius: 8,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 84,
+                width: 84,
+                boxSizing: "border-box",
+                flexShrink: 0,
+              }}
+            >
+              <QRCodeCanvas value={verifyUrl} size={72} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
+            </div>
 
-          {/* IOSH logo square */}
-          <div
-            style={{
-              background: "#ffffff",
-              borderRadius: 8,
-              padding: 5,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: 84,
-              width: 84,
-              boxSizing: "border-box",
-              flexShrink: 0,
-              gap: 2,
-            }}
-          >
-            <img
-              src={ioshApprovedLogo.url}
-              alt="IOSH"
-              style={{ width: 64, height: 48, objectFit: "contain" }}
-            />
-            <div style={{ fontSize: 6, fontWeight: 700, color: NAVY_DEEP, textAlign: "center", lineHeight: 1.2, letterSpacing: 0.2 }}>
-              Approved Training Provider 5522
+            {/* IOSH logo square */}
+            <div
+              style={{
+                background: "#ffffff",
+                borderRadius: 8,
+                padding: 5,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 84,
+                width: 84,
+                boxSizing: "border-box",
+                flexShrink: 0,
+                gap: 2,
+              }}
+            >
+              <img
+                src={ioshApprovedLogo.url}
+                alt="IOSH"
+                style={{ width: 64, height: 48, objectFit: "contain" }}
+              />
+              <div style={{ fontSize: 6, fontWeight: 700, color: NAVY_DEEP, textAlign: "center", lineHeight: 1.2, letterSpacing: 0.2 }}>
+                Approved Training Provider 5522
+              </div>
+            </div>
+
+            {/* CPD logo square */}
+            <div
+              style={{
+                background: "#ffffff",
+                borderRadius: 8,
+                padding: 6,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 84,
+                width: 84,
+                boxSizing: "border-box",
+                flexShrink: 0,
+              }}
+            >
+              <img
+                src={cpdMemberLogo}
+                alt="CPD Member - The CPD Certification Service"
+                style={{ width: 72, height: 72, objectFit: "contain" }}
+              />
             </div>
           </div>
 
-          {/* CPD logo square */}
+          {/* Rights reserved — shown on every certificate */}
           <div
             style={{
-              background: "#ffffff",
-              borderRadius: 8,
-              padding: 6,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: 84,
-              width: 84,
-              boxSizing: "border-box",
-              flexShrink: 0,
+              fontFamily: SANS,
+              fontSize: 10,
+              fontWeight: 500,
+              color: MUTED,
+              textAlign: "right",
+              lineHeight: 1.4,
+              paddingBottom: 4,
             }}
           >
-            <img
-              src={cpdMemberLogo}
-              alt="CPD Member - The CPD Certification Service"
-              style={{ width: 72, height: 72, objectFit: "contain" }}
-            />
+            Safety 4.0 Academy<br />All rights reserved 2026
           </div>
         </div>
 
