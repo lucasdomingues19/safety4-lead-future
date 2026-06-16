@@ -263,6 +263,21 @@ const VerifyCertificate = () => {
         {/* Actions + badge */}
         <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
           <div className="space-y-3">
+            {/* Skills */}
+            <div>
+              <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Skills</h2>
+              <div className="flex flex-wrap gap-2">
+                {["Artificial Intelligence","Digital Transformation","SafetyTech","AI Risk","Compliance and Governance","Leadership","Change Management"].map((skill) => (
+                  <span
+                    key={skill}
+                    className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
             <h2 className="text-lg font-semibold text-foreground">Share & download</h2>
             <div className="flex flex-wrap gap-3">
               <Button onClick={downloadCertificatePdf}>
