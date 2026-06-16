@@ -39,6 +39,15 @@ const VerifyCertificate = () => {
 
   const verifyUrl = `${SITE_URL}/verify/${certificateNumber}`;
 
+  const trackInteraction = (event: "viewed" | "engaged" | "linkedin") => {
+    if (!certificateNumber) return;
+    void supabase.functions
+      .invoke("track-certificate-interaction", {
+        body: { certificateNumber, event },
+      })
+      .catch(() => {});
+  };
+
   useEffect(() => {
     const lookup = async () => {
       if (!certificateNumber) {
@@ -57,8 +66,10 @@ const VerifyCertificate = () => {
       }
       setCert(row as CertificateData);
       setStatus((row as CertificateData).status === "revoked" ? "revoked" : "valid");
+      trackInteraction("viewed");
     };
     lookup();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [certificateNumber]);
 
   const downloadCertificatePdf = async () => {
