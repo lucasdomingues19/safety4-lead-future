@@ -158,6 +158,7 @@ const VerifyCertificate = () => {
     }
   };
 
+  const downloadBadge = async () => {
     if (!badgeRef.current) return;
     try {
       toast.loading("Preparing your badge…", { id: "badge" });
