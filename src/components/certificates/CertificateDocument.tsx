@@ -137,13 +137,8 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <img
               src={logoAsset.url}
               alt="Safety 4.0 Academy"
-              style={{ width: 60, height: 60, objectFit: "contain" }}
+              style={{ width: 100, height: 100, objectFit: "contain" }}
             />
-            <div>
-              <div style={{ color: "#ffffff", fontSize: 17, fontWeight: 700, letterSpacing: 1 }}>
-                Safety 4.0 Academy
-              </div>
-            </div>
           </div>
 
           {/* Course badge for IOSH-approved Safety 4.0 */}
