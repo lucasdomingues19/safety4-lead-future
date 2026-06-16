@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import logo from "@/assets/safety-academy-logo-transparent.png";
+import logoAsset from "@/assets/safety-academy-logo.png.asset.json";
 import bgWorker from "@/assets/certificate-bg-worker.png";
 import ioshApprovedLogo from "@/assets/iosh-logo.png.asset.json";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
@@ -135,7 +135,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <img
-              src={logo}
+              src={logoAsset.url}
               alt="Safety 4.0 Academy"
               style={{ width: 60, height: 60, objectFit: "contain" }}
             />

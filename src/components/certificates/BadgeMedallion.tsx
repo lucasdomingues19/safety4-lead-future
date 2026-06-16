@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import type { CertificateData } from "./CertificateDocument";
-import logo from "@/assets/safety-academy-logo-transparent.png";
+import logoAsset from "@/assets/safety-academy-logo.png.asset.json";
 import safety40Badge from "@/assets/safety-4.0-badge.png.asset.json";
 
 // Corporate Navy Trust + Champagne Gold palette
@@ -134,7 +134,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
             }}
           >
             <img
-              src={logo}
+              src={logoAsset.url}
               alt="Safety 4.0 Academy"
               style={{ width: size * 0.26, height: size * 0.26, objectFit: "contain", marginTop: size * 0.015 }}
             />
