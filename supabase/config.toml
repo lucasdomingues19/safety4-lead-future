@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.issue-certificate]
 verify_jwt = false
+
+[functions.track-certificate-interaction]
+verify_jwt = false
