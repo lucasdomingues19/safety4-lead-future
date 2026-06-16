@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import type { CertificateData } from "./CertificateDocument";
 import logoAsset from "@/assets/safety-academy-logo.png.asset.json";
 import safety40Badge from "@/assets/safety-4.0-badge.png.asset.json";
+import acceleratorBadge from "@/assets/safety-4.0-accelerator-badge.png.asset.json";
 
 // Corporate Navy Trust + Champagne Gold palette
 const NAVY = "#0f1e44";
@@ -25,6 +26,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
   const notchCount = 36;
   const isSafety40Course =
     cert.course_name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age";
+  const isAcceleratorCourse = cert.course_name === "Safety 4.0 Accelerator";
 
   if (isSafety40Course) {
     return (
@@ -45,6 +47,31 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
         <img
           src={safety40Badge.url}
           alt="IOSH-approved Safety 4.0 - Leading Safety in the Digital Age Certified Badge"
+          style={{ width: size - 20, height: size - 20, objectFit: "contain" }}
+        />
+      </div>
+    );
+  }
+
+  if (isAcceleratorCourse) {
+    return (
+      <div
+        ref={ref}
+        style={{
+          width: size,
+          height: size,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          boxSizing: "border-box",
+          padding: 10,
+          overflow: "hidden",
+        }}
+      >
+        <img
+          src={acceleratorBadge.url}
+          alt="Safety 4.0 Accelerator Certified Badge"
           style={{ width: size - 20, height: size - 20, objectFit: "contain" }}
         />
       </div>
