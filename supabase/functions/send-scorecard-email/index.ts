@@ -115,6 +115,27 @@ const handler = async (req: Request): Promise<Response> => {
       });
     }
 
+    // Validate email format before sending any branded email (anti-phishing)
+    if (!isValidEmail(data.email)) {
+      return new Response(JSON.stringify({ error: "Invalid email address" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    // Rate limit by source IP (anti-spam / quota protection)
+    const identifier = getClientIdentifier(req);
+    if (!checkRateLimit(identifier)) {
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please try again in a minute." }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+
     const safeLastName = data.lastName ?? "";
     const categoryScores = Array.isArray(data.categoryScores) ? data.categoryScores : [];
     const normalizedRank = Math.max(
