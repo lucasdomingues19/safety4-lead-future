@@ -51,10 +51,12 @@ const VerifyCertificate = () => {
   const skillsText = CERTIFICATE_SKILLS.join(", ");
 
   const copyToClipboard = (text: string, successMessage: string) => {
-    navigator.clipboard
-      ?.writeText(text)
-      .then(() => toast.success(successMessage))
-      .catch(() => toast.message("Copy this text", { description: text }));
+    const write = navigator.clipboard?.writeText?.(text);
+    if (!write) {
+      toast.message("Copy this text", { description: text });
+      return;
+    }
+    write.then(() => toast.success(successMessage)).catch(() => toast.message("Copy this text", { description: text }));
   };
 
   useEffect(() => {
@@ -236,19 +238,16 @@ const VerifyCertificate = () => {
       certUrl: verifyUrl,
       certId: cert.certificate_number,
     });
-    // Open LinkedIn synchronously inside the click gesture so the browser does
-    // not block the new tab. LinkedIn's "Add to profile" certification flow has
-    // no URL parameter for skills, so we copy the skills list to the clipboard
-    // afterwards and prompt the user to paste it into the Skills field.
-    openInNewTab(`https://www.linkedin.com/profile/add?${params.toString()}`);
-    navigator.clipboard
-      ?.writeText(CERTIFICATE_SKILLS.join(", "))
-      .then(() => toast.success("Skills copied — paste them into the Skills field on LinkedIn"))
-      .catch(() =>
-        toast.message("Add these skills on LinkedIn", {
-          description: CERTIFICATE_SKILLS.join(", "),
-        }),
-      );
+    const profileUrl = `https://www.linkedin.com/profile/add?${params.toString()}`;
+    setLinkedinAssist({
+      title: "Finish your LinkedIn licence",
+      detail:
+        "LinkedIn fills the certificate details from this page, but its public add-to-profile link does not support skills or media uploads. Copy the skills below, then use Add media to upload the certificate image if you want it shown on the credential.",
+      profileUrl,
+      skills: skillsText,
+    });
+    copyToClipboard(skillsText, "Skills copied — paste them into LinkedIn's Skills field");
+    openInNewTab(profileUrl);
   };
 
   const linkedInSharePost = () => {
@@ -257,14 +256,20 @@ const VerifyCertificate = () => {
       `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
       `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
       `Verify my certificate: ${verifyUrl}`;
-    // Open the composer synchronously inside the click gesture (an await before
-    // this would make the browser block the popup). The verify URL lets readers
-    // confirm the certificate; we then save the certificate as a PNG image so the
-    // user can attach it as a photo — LinkedIn cannot attach a file via URL.
-    openInNewTab(
-      `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
-    );
-    void downloadCertificateImage();
+    const composerUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`;
+    setLinkedinAssist({
+      title: "Finish your LinkedIn post",
+      detail:
+        "LinkedIn opens the post composer with your text, but does not allow websites to auto-upload images into personal posts. The certificate image is downloading now — attach it with Add media in the LinkedIn composer.",
+      composerUrl,
+      postText: template,
+    });
+    openInNewTab(composerUrl);
+    void downloadCertificateImage().then((imageFileName) => {
+      if (imageFileName) {
+        setLinkedinAssist((current) => (current ? { ...current, imageFileName } : current));
+      }
+    });
   };
 
   if (status === "loading") {
