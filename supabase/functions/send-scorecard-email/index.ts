@@ -4,6 +4,33 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
+// In-memory IP rate limiting (mirrors capture-lead): max 3 sends per minute per IP
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW = 60000; // 60 seconds
+const MAX_REQUESTS_PER_WINDOW = 3;
+
+const getClientIdentifier = (req: Request): string => {
+  const forwarded = req.headers.get("x-forwarded-for");
+  return forwarded ? forwarded.split(",")[0].trim() : "unknown";
+};
+
+const checkRateLimit = (identifier: string): boolean => {
+  const now = Date.now();
+  const data = rateLimitMap.get(identifier);
+  if (!data || now > data.resetTime) {
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+  if (data.count >= MAX_REQUESTS_PER_WINDOW) return false;
+  data.count++;
+  return true;
+};
+
+const isValidEmail = (email: string): boolean =>
+  typeof email === "string" &&
+  email.length <= 254 &&
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
