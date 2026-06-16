@@ -171,9 +171,9 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               color: "#ffffff",
               // Full line-height so descenders (g, y) stay inside the line box;
               // a tight (<1) value renders differently in html2canvas and pushes
-              // the divider below up into the name in the exported PDF.
+              // the divider up into the name in the exported PDF.
               lineHeight: 1.2,
-              paddingBottom: 6,
+              paddingBottom: 10,
             }}
           >
             {cert.recipient_name}
@@ -183,7 +183,9 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               width: 260,
               height: 2,
               background: `linear-gradient(90deg, transparent, ${LIME}, ${PINK}, transparent)`,
-              margin: "4px auto 30px",
+              // Generous clearance: html2canvas paints serif glyphs a few px lower
+              // than the browser, so keep the divider well below the descenders.
+              margin: "22px auto 28px",
             }}
           />
           <div style={{ color: SLATE, fontSize: 15 }}>for successfully completing</div>
