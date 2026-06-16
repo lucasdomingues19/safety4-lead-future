@@ -74,6 +74,7 @@ const VerifyCertificate = () => {
 
   const downloadCertificatePdf = async () => {
     if (!certRef.current) return;
+    trackInteraction("engaged");
     try {
       if (document.fonts?.ready) await document.fonts.ready;
       const imgs = Array.from(certRef.current.querySelectorAll("img"));
