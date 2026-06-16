@@ -12,6 +12,18 @@ import html2canvas from "html2canvas";
 const SITE_URL =
   typeof window !== "undefined" ? window.location.origin : "https://www.safetyacademy.tech";
 
+const ACADEMY_URL = "https://www.safetyacademy.tech";
+
+const CERTIFICATE_SKILLS = [
+  "Artificial Intelligence",
+  "Digital Transformation",
+  "SafetyTech",
+  "AI Risk",
+  "Compliance and Governance",
+  "Leadership",
+  "Change Management",
+];
+
 type Status = "loading" | "valid" | "revoked" | "notfound" | "search";
 
 const VerifyCertificate = () => {
@@ -145,8 +157,19 @@ const VerifyCertificate = () => {
     document.body.removeChild(a);
   };
 
-  const linkedInAddToProfile = () => {
+  const linkedInAddToProfile = async () => {
     if (!cert) return;
+    // LinkedIn's "Add to profile" certification flow has no URL parameter for
+    // skills, so we copy the skill list to the clipboard and prompt the user to
+    // paste it into the Skills field once the certification dialog opens.
+    try {
+      await navigator.clipboard.writeText(CERTIFICATE_SKILLS.join(", "));
+      toast.success("Skills copied — paste them into the Skills field on LinkedIn");
+    } catch {
+      toast.message("Add these skills on LinkedIn", {
+        description: CERTIFICATE_SKILLS.join(", "),
+      });
+    }
     const d = new Date(cert.completion_date);
     const params = new URLSearchParams({
       startTask: "CERTIFICATION_NAME",
@@ -160,16 +183,17 @@ const VerifyCertificate = () => {
     openInNewTab(`https://www.linkedin.com/profile/add?${params.toString()}`);
   };
 
-  const linkedInSharePost = () => {
+  const linkedInSharePost = async () => {
     if (!cert) return;
-    // LinkedIn's feed composer pre-fills from the `text` param. The user can edit
-    // everything before posting. Including the verify URL lets LinkedIn attach a
-    // link preview and gives readers a one-click way to confirm the certificate.
+    // Bring the actual PDF certificate so the user can attach it to the post —
+    // LinkedIn cannot attach a file via URL, so we download it first, then open
+    // the feed composer pre-filled with the share text. The verify URL still
+    // gives readers a one-click way to confirm the certificate.
+    await downloadCertificatePdf();
     const template =
-      `I am excited to share that I have just completed the ${cert.course_name} ` +
-      `with the Safety 4.0 Academy. I am ready to lead safety forward!\n\n` +
-      `Verify my certificate: ${verifyUrl}\n` +
-      `Safety 4.0 Academy: https://www.linkedin.com/company/safety40academy`;
+      `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
+      `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
+      `Verify my certificate: ${verifyUrl}`;
     openInNewTab(
       `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
     );
@@ -267,7 +291,7 @@ const VerifyCertificate = () => {
             <div>
               <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Skills</h2>
               <div className="flex flex-wrap gap-2">
-                {["Artificial Intelligence","Digital Transformation","SafetyTech","AI Risk","Compliance and Governance","Leadership","Change Management"].map((skill) => (
+                {CERTIFICATE_SKILLS.map((skill) => (
                   <span
                     key={skill}
                     className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground"
