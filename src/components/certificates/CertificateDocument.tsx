@@ -4,7 +4,6 @@ import logoAsset from "@/assets/safety-academy-logo.png.asset.json";
 import bgWorker from "@/assets/certificate-bg-worker.png";
 import ioshApprovedLogo from "@/assets/iosh-logo.png.asset.json";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
-import safety40Badge from "@/assets/safety-4.0-badge.png.asset.json";
 
 export interface CertificateData {
   certificate_number: string;
