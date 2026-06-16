@@ -1,0 +1,1 @@
+UPDATE public.certificates SET course_name = 'IOSH-approved Safety 4.0 - Leading Safety in the Digital Age' WHERE course_name = 'Safety 4.0 Academy';
