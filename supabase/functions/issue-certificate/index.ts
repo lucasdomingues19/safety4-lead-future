@@ -42,20 +42,8 @@ const buildEmailHtml = (cert: {
   certificate_number: string;
   recipient_name: string;
   course_name: string;
-  completion_date: string;
-  credential_level?: string | null;
-  cpd_hours?: number | null;
-}, verifyUrl: string, linkedInUrl: string) => {
-  const completion = new Date(cert.completion_date);
-  const completionStr = completion.toLocaleDateString("en-GB", {
-    day: "numeric", month: "long", year: "numeric",
-  });
-  const cpdRow = cert.cpd_hours
-    ? `<tr><td style="padding:4px 0;color:#94a3b8;font-size:13px;">CPD Hours</td><td style="padding:4px 0;color:#fff;font-size:13px;font-weight:600;text-align:right;">${escapeHtml(String(cert.cpd_hours))}</td></tr>`
-    : "";
-  const levelRow = cert.credential_level
-    ? `<tr><td style="padding:4px 0;color:#94a3b8;font-size:13px;">Credential</td><td style="padding:4px 0;color:#fff;font-size:13px;font-weight:600;text-align:right;">${escapeHtml(cert.credential_level)}</td></tr>`
-    : "";
+}, verifyUrl: string) => {
+  const firstName = escapeHtml(cert.recipient_name.split(" ")[0] || cert.recipient_name);
 
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -64,43 +52,25 @@ const buildEmailHtml = (cert: {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.10);">
 
-        <tr><td style="background:${BRAND_NAVY};padding:34px 36px 28px;text-align:center;">
-          <p style="margin:0 0 6px;color:${BRAND_LIME};font-size:12px;letter-spacing:3px;text-transform:uppercase;">Safety 4.0 Academy</p>
-          <h1 style="margin:0;color:#ffffff;font-size:26px;line-height:1.25;">Congratulations, ${escapeHtml(cert.recipient_name)}!</h1>
-          <p style="margin:12px 0 0;color:#cbd5e1;font-size:14px;">You've earned your official digital certificate</p>
+        <tr><td style="background:${BRAND_NAVY};padding:30px 36px;text-align:center;">
+          <p style="margin:0;color:${BRAND_LIME};font-size:12px;letter-spacing:3px;text-transform:uppercase;">Safety 4.0 Academy</p>
         </td></tr>
 
-        <tr><td style="padding:30px 36px 8px;">
-          <div style="border:2px solid ${BRAND_LIME};border-radius:12px;padding:22px 24px;text-align:center;">
-            <p style="margin:0 0 4px;color:#64748b;font-size:11px;letter-spacing:2px;text-transform:uppercase;">This certifies completion of</p>
-            <h2 style="margin:0;color:${BRAND_NAVY};font-size:20px;">${escapeHtml(cert.course_name)}</h2>
-            <p style="margin:10px 0 0;color:#475569;font-size:13px;">Completed ${completionStr}</p>
-          </div>
+        <tr><td style="padding:34px 40px 8px;color:#1e293b;font-size:15px;line-height:1.7;">
+          <p style="margin:0 0 16px;">Hi ${firstName},</p>
+          <p style="margin:0 0 16px;">We are pleased to share your Safety 4.0 Academy certificate. Please click the link below to access your credentials.</p>
+          <p style="margin:0 0 16px;">Don't forget to share your achievement on LinkedIn and tag the Safety 4.0 Academy page.</p>
+          <p style="margin:0 0 4px;">Proud of you.</p>
+          <p style="margin:0;">Regards,</p>
+          <p style="margin:4px 0 0;font-weight:700;">Safety 4.0 Academy Team</p>
         </td></tr>
 
-        <tr><td style="padding:18px 36px 6px;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:${BRAND_NAVY};border-radius:10px;padding:18px 22px;">
-            <tr><td style="padding:4px 0;color:#94a3b8;font-size:13px;">Certificate No.</td><td style="padding:4px 0;color:${BRAND_LIME};font-size:13px;font-weight:700;text-align:right;letter-spacing:1px;">${escapeHtml(cert.certificate_number)}</td></tr>
-            ${levelRow}
-            ${cpdRow}
-          </table>
-        </td></tr>
-
-        <tr><td style="padding:14px 36px 4px;text-align:center;">
-          <img src="cid:qrcode" width="120" height="120" alt="Verification QR code" style="border:1px solid #e2e8f0;border-radius:10px;padding:6px;background:#fff;" />
-          <p style="margin:8px 0 0;color:#64748b;font-size:11px;">Scan to verify authenticity</p>
-        </td></tr>
-
-        <tr><td style="padding:18px 36px 8px;text-align:center;">
-          <a href="${verifyUrl}" style="display:inline-block;background:${BRAND_LIME};color:${BRAND_NAVY};padding:14px 30px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">View &amp; Download Your Certificate</a>
-        </td></tr>
-        <tr><td style="padding:0 36px 26px;text-align:center;">
-          <a href="${linkedInUrl}" style="display:inline-block;background:#0a66c2;color:#ffffff;padding:12px 26px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">Add to your LinkedIn profile</a>
+        <tr><td style="padding:22px 40px 34px;text-align:center;">
+          <a href="${verifyUrl}" style="display:inline-block;background:${BRAND_LIME};color:${BRAND_NAVY};padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">View &amp; Download Your Certificate</a>
         </td></tr>
 
         <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;">
-          <p style="margin:0;color:#94a3b8;font-size:11px;">Verify anytime at ${escapeHtml(verifyUrl)}</p>
-          <p style="margin:6px 0 0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · approved training provider by IOSH · www.safetyacademy.tech</p>
+          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · approved training provider by IOSH · www.safetyacademy.tech</p>
         </td></tr>
 
       </table>
