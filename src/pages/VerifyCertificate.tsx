@@ -32,7 +32,6 @@ type LinkedInAssist = {
   detail: string;
   profileUrl?: string;
   composerUrl?: string;
-  skills?: string;
   postText?: string;
   imageFileName?: string;
 };
