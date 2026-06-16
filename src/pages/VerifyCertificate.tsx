@@ -114,6 +114,50 @@ const VerifyCertificate = () => {
     }
   };
 
+  // Render the certificate to a high-resolution PNG. LinkedIn cannot attach a
+  // file via URL, so we hand the user an actual image they can drop into the
+  // post (a PNG attaches as a photo; a PDF would attach as a document).
+  const downloadCertificateImage = async () => {
+    if (!certRef.current) return;
+    try {
+      toast.loading("Preparing your certificate image…", { id: "cert-img" });
+      if (document.fonts?.ready) await document.fonts.ready;
+      const node = certRef.current;
+      const imgs = Array.from(node.querySelectorAll("img"));
+      await Promise.all(
+        imgs.map((img) =>
+          img.complete && img.naturalWidth > 0
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                img.addEventListener("load", () => resolve(), { once: true });
+                img.addEventListener("error", () => resolve(), { once: true });
+              }),
+        ),
+      );
+      const scale = Math.max(3, Math.min(4, (window.devicePixelRatio || 1) * 2));
+      const canvas = await html2canvas(node, {
+        scale,
+        backgroundColor: "#05080f",
+        useCORS: true,
+        imageTimeout: 15000,
+        width: node.offsetWidth,
+        height: node.offsetHeight,
+        windowWidth: node.offsetWidth,
+        windowHeight: node.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
+      });
+      const link = document.createElement("a");
+      link.download = `Safety4-Certificate-${cert?.certificate_number}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      toast.success("Certificate image saved — attach it to your LinkedIn post", { id: "cert-img" });
+    } catch (e) {
+      console.error(e);
+      toast.error("Could not generate the certificate image", { id: "cert-img" });
+    }
+  };
+
   const downloadBadge = async () => {
     if (!badgeRef.current) return;
     try {
@@ -192,12 +236,12 @@ const VerifyCertificate = () => {
       `Verify my certificate: ${verifyUrl}`;
     // Open the composer synchronously inside the click gesture (an await before
     // this would make the browser block the popup). The verify URL lets readers
-    // confirm the certificate; we then download the PDF so the user can attach
-    // it to the post — LinkedIn cannot attach a file via URL.
+    // confirm the certificate; we then save the certificate as a PNG image so the
+    // user can attach it as a photo — LinkedIn cannot attach a file via URL.
     openInNewTab(
       `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
     );
-    void downloadCertificatePdf();
+    void downloadCertificateImage();
   };
 
   if (status === "loading") {
