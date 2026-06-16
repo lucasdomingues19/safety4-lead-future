@@ -63,7 +63,7 @@ export const CertificatesTab = () => {
     if (error) {
       toast.error("Could not load certificates");
     } else {
-      setCerts((data as Certificate[]) || []);
+      setCerts((data as unknown as Certificate[]) || []);
     }
     setLoading(false);
   };
