@@ -74,6 +74,30 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Validate email format
+    if (!isValidEmail(formData.email)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email address" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Rate limit by source IP (anti-spam / quota protection)
+    const identifier = getClientIdentifier(req);
+    if (!checkRateLimit(identifier)) {
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please try again in a minute." }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+
     // Send email to hello@safetyacademy.tech
     console.log('Attempting to send email with Resend...');
     const emailResponse = await resend.emails.send({
