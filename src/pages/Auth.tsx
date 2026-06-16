@@ -117,24 +117,13 @@ const Auth = () => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {isLogin ? "Signing in..." : "Creating account..."}
+                    Signing in...
                   </>
                 ) : (
-                  <>{isLogin ? "Sign In" : "Sign Up"}</>
+                  <>Sign In</>
                 )}
               </Button>
             </form>
-            
-            <div className="mt-4 text-center">
-              <button
-                type="button"
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-gray-300 hover:text-white underline"
-                disabled={loading}
-              >
-                {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
-              </button>
-            </div>
           </CardContent>
         </Card>
       </div>
