@@ -119,6 +119,7 @@ const VerifyCertificate = () => {
 
   const downloadCertificateImage = async () => {
     if (!certRef.current) return null;
+    trackInteraction("engaged");
     try {
       if (document.fonts?.ready) await document.fonts.ready;
       const node = certRef.current;
@@ -191,6 +192,7 @@ const VerifyCertificate = () => {
 
   const linkedInPostAutomatic = async () => {
     if (!cert || posting) return;
+    trackInteraction("linkedin");
     setPosting(true);
     try {
       const image = await renderCertificateDataUrl();
@@ -267,6 +269,7 @@ const VerifyCertificate = () => {
 
   const downloadBadge = async () => {
     if (!badgeRef.current) return;
+    trackInteraction("engaged");
     try {
       if (document.fonts?.ready) await document.fonts.ready;
       const bImgs = Array.from(badgeRef.current.querySelectorAll("img"));
@@ -307,6 +310,7 @@ const VerifyCertificate = () => {
 
   const linkedInAddToProfile = () => {
     if (!cert) return;
+    trackInteraction("linkedin");
     const d = new Date(cert.completion_date);
     const params = new URLSearchParams({
       startTask: "CERTIFICATION_NAME",
@@ -323,6 +327,7 @@ const VerifyCertificate = () => {
 
   const linkedInSharePost = () => {
     if (!cert) return;
+    trackInteraction("linkedin");
     const template =
       `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
       `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
