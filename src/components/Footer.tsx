@@ -156,6 +156,10 @@ export const Footer = () => {
             © 2026 Safety 4.0 Academy. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 md:space-x-6">
+            <p className="text-gray-400 text-xs md:text-sm">
+              Safety 4.0 Academy - All rights reserved 2026
+            </p>
+            <span className="text-gray-400 hidden md:inline">•</span>
             <div className="flex items-center space-x-1 md:space-x-2">
               <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-green-400" />
               <span className="text-gray-400 text-xs md:text-sm">IOSH Approved</span>
