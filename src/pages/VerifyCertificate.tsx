@@ -44,6 +44,7 @@ const VerifyCertificate = () => {
   const [cert, setCert] = useState<CertificateData | null>(null);
   const [searchValue, setSearchValue] = useState("");
   const [linkedinAssist, setLinkedinAssist] = useState<LinkedInAssist | null>(null);
+  const [posting, setPosting] = useState(false);
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
@@ -180,6 +181,130 @@ const VerifyCertificate = () => {
       console.error(e);
       toast.error("Could not generate the certificate image", { id: "cert-img" });
       return null;
+    }
+  };
+
+  // Render the certificate to a base64 data URL (no download) so the edge
+  // function can upload it straight to LinkedIn as a real photo attachment.
+  const renderCertificateDataUrl = async (): Promise<string | null> => {
+    if (!certRef.current) return null;
+    if (document.fonts?.ready) await document.fonts.ready;
+    const node = certRef.current;
+    const imgs = Array.from(node.querySelectorAll("img"));
+    await Promise.all(
+      imgs.map((img) =>
+        img.complete && img.naturalWidth > 0
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              img.addEventListener("load", () => resolve(), { once: true });
+              img.addEventListener("error", () => resolve(), { once: true });
+            }),
+      ),
+    );
+    const scale = Math.max(2, Math.min(3, (window.devicePixelRatio || 1) * 1.5));
+    const canvas = await html2canvas(node, {
+      scale,
+      backgroundColor: "#05080f",
+      useCORS: true,
+      imageTimeout: 15000,
+      width: node.offsetWidth,
+      height: node.offsetHeight,
+      windowWidth: node.offsetWidth,
+      windowHeight: node.offsetHeight,
+      scrollX: 0,
+      scrollY: 0,
+    });
+    // JPEG keeps the payload small enough to pass to the edge function.
+    return canvas.toDataURL("image/jpeg", 0.92);
+  };
+
+  // Fully automatic LinkedIn post: signs the member in (per-user OAuth),
+  // uploads the certificate image, and publishes the post with the image
+  // embedded — no manual copy/paste or attach needed.
+  const linkedInPostAutomatic = async () => {
+    if (!cert || posting) return;
+    setPosting(true);
+    try {
+      toast.loading("Preparing your certificate…", { id: "li-auto" });
+      const image = await renderCertificateDataUrl();
+      if (!image) {
+        toast.error("Could not render the certificate", { id: "li-auto" });
+        setPosting(false);
+        return;
+      }
+
+      const text =
+        `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
+        `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
+        `Verify my certificate: ${verifyUrl}`;
+
+      const redirectUri = `${SITE_URL}/linkedin-callback`;
+      const state = Math.random().toString(36).slice(2);
+
+      const { data: authData, error: authErr } = await supabase.functions.invoke("linkedin-share", {
+        body: { action: "authorize", redirectUri, state },
+      });
+      if (authErr || !authData?.url) {
+        toast.error(authData?.error || "LinkedIn posting is not available yet.", { id: "li-auto" });
+        setPosting(false);
+        return;
+      }
+
+      const popup = window.open(authData.url, "linkedin-oauth", "width=600,height=720");
+      if (!popup) {
+        toast.error("Please allow pop-ups to post to LinkedIn.", { id: "li-auto" });
+        setPosting(false);
+        return;
+      }
+
+      toast.loading("Waiting for LinkedIn authorisation…", { id: "li-auto" });
+
+      let closeTimer = 0;
+      const onMessage = async (event: MessageEvent) => {
+        if (event.origin !== window.location.origin) return;
+        if (event.data?.source !== "linkedin-oauth") return;
+        window.removeEventListener("message", onMessage);
+        window.clearInterval(closeTimer);
+        const { code, state: returnedState, error } = event.data as {
+          code?: string;
+          state?: string;
+          error?: string;
+        };
+        if (error || !code || returnedState !== state) {
+          toast.error("LinkedIn authorisation was cancelled.", { id: "li-auto" });
+          setPosting(false);
+          return;
+        }
+        toast.loading("Publishing your post…", { id: "li-auto" });
+        const { data: pubData, error: pubErr } = await supabase.functions.invoke("linkedin-share", {
+          body: { action: "publish", code, redirectUri, image, text },
+        });
+        if (pubErr || pubData?.error || !pubData?.success) {
+          toast.error(pubData?.error || "Could not publish to LinkedIn.", { id: "li-auto" });
+        } else {
+          toast.success("Posted to LinkedIn with your certificate image!", { id: "li-auto" });
+        }
+        setPosting(false);
+      };
+      window.addEventListener("message", onMessage);
+
+      // If the user closes the popup without finishing, stop the spinner.
+      closeTimer = window.setInterval(() => {
+        if (popup.closed) {
+          window.clearInterval(closeTimer);
+          window.setTimeout(() => {
+            window.removeEventListener("message", onMessage);
+            setPosting((p) => {
+              if (p) toast.dismiss("li-auto");
+              return false;
+            });
+          }, 1500);
+        }
+      }, 800);
+    } catch (e) {
+      console.error(e);
+      toast.error("Something went wrong posting to LinkedIn.", { id: "li-auto" });
+      setPosting(false);
     }
   };
 
@@ -385,11 +510,23 @@ const VerifyCertificate = () => {
               </Button>
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button onClick={linkedInAddToProfile} className="bg-[#0a66c2] hover:bg-[#084a8f] text-white">
+              <Button
+                onClick={linkedInPostAutomatic}
+                disabled={posting}
+                className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
+              >
+                {posting ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Linkedin className="mr-2 h-4 w-4" />
+                )}
+                {posting ? "Posting…" : "Post to LinkedIn (with image)"}
+              </Button>
+              <Button onClick={linkedInAddToProfile} variant="outline">
                 <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
               </Button>
               <Button onClick={linkedInSharePost} variant="outline">
-                <Share2 className="mr-2 h-4 w-4" /> Share as a post
+                <Share2 className="mr-2 h-4 w-4" /> Share as a post (manual)
               </Button>
             </div>
             <div className="pt-6 text-sm text-muted-foreground space-y-1">

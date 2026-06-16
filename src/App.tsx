@@ -17,6 +17,7 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
+const LinkedInCallback = lazy(() => import("./pages/LinkedInCallback"));
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AntiPiracyPolicy = lazy(() => import("./pages/AntiPiracyPolicy"));
@@ -67,6 +68,7 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/verify/:certificateNumber" element={<VerifyCertificate />} />
             <Route path="/verify" element={<VerifyCertificate />} />
+            <Route path="/linkedin-callback" element={<LinkedInCallback />} />
             
             <Route path="/anti-piracy-policy" element={<AntiPiracyPolicy />} />
             <Route path="/cookies-policy" element={<CookiesPolicy />} />
