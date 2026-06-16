@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,39 +48,19 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-        if (error) {
-          if (error.message.includes("Invalid login credentials")) {
-            toast.error("Invalid email or password");
-          } else {
-            toast.error(error.message);
-          }
+      if (error) {
+        if (error.message.includes("Invalid login credentials")) {
+          toast.error("Invalid email or password");
         } else {
-          toast.success("Logged in successfully!");
+          toast.error("Unable to sign in. Please try again.");
         }
       } else {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/admin`,
-          },
-        });
-
-        if (error) {
-          if (error.message.includes("already registered")) {
-            toast.error("This email is already registered. Please login instead.");
-          } else {
-            toast.error(error.message);
-          }
-        } else {
-          toast.success("Account created successfully!");
-        }
+        toast.success("Logged in successfully!");
       }
     } catch (error) {
       toast.error("An unexpected error occurred");
@@ -98,10 +77,10 @@ const Auth = () => {
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
             <CardTitle className="text-2xl text-white text-center">
-              {isLogin ? "Admin Login" : "Create Admin Account"}
+              Admin Login
             </CardTitle>
             <CardDescription className="text-gray-300 text-center">
-              {isLogin ? "Sign in to access the analytics dashboard" : "Register to manage your analytics"}
+              Sign in to access the analytics dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -138,24 +117,13 @@ const Auth = () => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {isLogin ? "Signing in..." : "Creating account..."}
+                    Signing in...
                   </>
                 ) : (
-                  <>{isLogin ? "Sign In" : "Sign Up"}</>
+                  <>Sign In</>
                 )}
               </Button>
             </form>
-            
-            <div className="mt-4 text-center">
-              <button
-                type="button"
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-gray-300 hover:text-white underline"
-                disabled={loading}
-              >
-                {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
-              </button>
-            </div>
           </CardContent>
         </Card>
       </div>
