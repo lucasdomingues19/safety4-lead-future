@@ -230,25 +230,25 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             alignItems: "flex-end",
             marginTop: 90,
             position: "relative",
-            gap: 16,
+            gap: 12,
           }}
         >
           {/* QR Code square */}
           <div
             style={{
               background: "#ffffff",
-              padding: 8,
+              padding: 6,
               borderRadius: 8,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              height: 100,
-              width: 100,
+              height: 84,
+              width: 84,
               boxSizing: "border-box",
               flexShrink: 0,
             }}
           >
-            <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
+            <QRCodeCanvas value={verifyUrl} size={72} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
           </div>
 
           {/* IOSH logo square */}
@@ -256,13 +256,13 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             style={{
               background: "#ffffff",
               borderRadius: 8,
-              padding: 6,
+              padding: 5,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              height: 100,
-              width: 100,
+              height: 84,
+              width: 84,
               boxSizing: "border-box",
               flexShrink: 0,
               gap: 2,
@@ -271,9 +271,9 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <img
               src={ioshApprovedLogo.url}
               alt="IOSH"
-              style={{ width: 80, height: 56, objectFit: "contain" }}
+              style={{ width: 64, height: 48, objectFit: "contain" }}
             />
-            <div style={{ fontSize: 7, fontWeight: 700, color: NAVY_DEEP, textAlign: "center", lineHeight: 1.2, letterSpacing: 0.2 }}>
+            <div style={{ fontSize: 6, fontWeight: 700, color: NAVY_DEEP, textAlign: "center", lineHeight: 1.2, letterSpacing: 0.2 }}>
               Approved Training Provider 5522
             </div>
           </div>
@@ -283,12 +283,12 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             style={{
               background: "#ffffff",
               borderRadius: 8,
-              padding: 8,
+              padding: 6,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              height: 100,
-              width: 100,
+              height: 84,
+              width: 84,
               boxSizing: "border-box",
               flexShrink: 0,
             }}
@@ -296,7 +296,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <img
               src={cpdMemberLogo}
               alt="CPD Member - The CPD Certification Service"
-              style={{ width: 84, height: 84, objectFit: "contain" }}
+              style={{ width: 72, height: 72, objectFit: "contain" }}
             />
           </div>
         </div>
