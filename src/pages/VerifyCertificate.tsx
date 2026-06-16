@@ -157,19 +157,8 @@ const VerifyCertificate = () => {
     document.body.removeChild(a);
   };
 
-  const linkedInAddToProfile = async () => {
+  const linkedInAddToProfile = () => {
     if (!cert) return;
-    // LinkedIn's "Add to profile" certification flow has no URL parameter for
-    // skills, so we copy the skill list to the clipboard and prompt the user to
-    // paste it into the Skills field once the certification dialog opens.
-    try {
-      await navigator.clipboard.writeText(CERTIFICATE_SKILLS.join(", "));
-      toast.success("Skills copied — paste them into the Skills field on LinkedIn");
-    } catch {
-      toast.message("Add these skills on LinkedIn", {
-        description: CERTIFICATE_SKILLS.join(", "),
-      });
-    }
     const d = new Date(cert.completion_date);
     const params = new URLSearchParams({
       startTask: "CERTIFICATION_NAME",
@@ -180,23 +169,35 @@ const VerifyCertificate = () => {
       certUrl: verifyUrl,
       certId: cert.certificate_number,
     });
+    // Open LinkedIn synchronously inside the click gesture so the browser does
+    // not block the new tab. LinkedIn's "Add to profile" certification flow has
+    // no URL parameter for skills, so we copy the skills list to the clipboard
+    // afterwards and prompt the user to paste it into the Skills field.
     openInNewTab(`https://www.linkedin.com/profile/add?${params.toString()}`);
+    navigator.clipboard
+      ?.writeText(CERTIFICATE_SKILLS.join(", "))
+      .then(() => toast.success("Skills copied — paste them into the Skills field on LinkedIn"))
+      .catch(() =>
+        toast.message("Add these skills on LinkedIn", {
+          description: CERTIFICATE_SKILLS.join(", "),
+        }),
+      );
   };
 
-  const linkedInSharePost = async () => {
+  const linkedInSharePost = () => {
     if (!cert) return;
-    // Bring the actual PDF certificate so the user can attach it to the post —
-    // LinkedIn cannot attach a file via URL, so we download it first, then open
-    // the feed composer pre-filled with the share text. The verify URL still
-    // gives readers a one-click way to confirm the certificate.
-    await downloadCertificatePdf();
     const template =
       `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
       `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
       `Verify my certificate: ${verifyUrl}`;
+    // Open the composer synchronously inside the click gesture (an await before
+    // this would make the browser block the popup). The verify URL lets readers
+    // confirm the certificate; we then download the PDF so the user can attach
+    // it to the post — LinkedIn cannot attach a file via URL.
     openInNewTab(
       `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
     );
+    void downloadCertificatePdf();
   };
 
   if (status === "loading") {
