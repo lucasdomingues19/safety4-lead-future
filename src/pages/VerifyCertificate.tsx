@@ -533,9 +533,14 @@ const VerifyCertificate = () => {
               <p><span className="text-foreground font-medium">Recipient:</span> {cert?.recipient_name}</p>
               <p><span className="text-foreground font-medium">Course:</span> {cert?.course_name}</p>
               <p>
+                <span className="text-foreground font-medium">Issued:</span>{" "}
+                {cert && new Date(cert.issued_at || cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+              </p>
+              <p>
                 <span className="text-foreground font-medium">Completed:</span>{" "}
                 {cert && new Date(cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
               </p>
+              <p><span className="text-foreground font-medium">Expires on:</span> Does not expire</p>
               {cert?.cpd_hours ? <p><span className="text-foreground font-medium">CPD Hours:</span> {cert.cpd_hours}</p> : null}
             </div>
           </div>
