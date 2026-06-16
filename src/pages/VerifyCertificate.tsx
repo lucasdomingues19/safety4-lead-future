@@ -236,12 +236,12 @@ const VerifyCertificate = () => {
       `Verify my certificate: ${verifyUrl}`;
     // Open the composer synchronously inside the click gesture (an await before
     // this would make the browser block the popup). The verify URL lets readers
-    // confirm the certificate; we then download the PDF so the user can attach
-    // it to the post — LinkedIn cannot attach a file via URL.
+    // confirm the certificate; we then save the certificate as a PNG image so the
+    // user can attach it as a photo — LinkedIn cannot attach a file via URL.
     openInNewTab(
       `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
     );
-    void downloadCertificatePdf();
+    void downloadCertificateImage();
   };
 
   if (status === "loading") {
