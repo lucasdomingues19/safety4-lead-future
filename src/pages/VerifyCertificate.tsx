@@ -51,7 +51,36 @@ const VerifyCertificate = () => {
     if (!certRef.current) return;
     try {
       toast.loading("Preparing your certificate…", { id: "pdf" });
-      const canvas = await html2canvas(certRef.current, { scale: 2, backgroundColor: null, useCORS: true });
+
+      // Make sure web fonts and every image are fully ready before we rasterise,
+      // otherwise html2canvas captures fallback fonts / blank images and the PDF
+      // no longer matches the on-screen certificate (shifted lines, empty boxes).
+      if (document.fonts?.ready) await document.fonts.ready;
+      const imgs = Array.from(certRef.current.querySelectorAll("img"));
+      await Promise.all(
+        imgs.map((img) =>
+          img.complete && img.naturalWidth > 0
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                img.addEventListener("load", () => resolve(), { once: true });
+                img.addEventListener("error", () => resolve(), { once: true });
+              }),
+        ),
+      );
+
+      const node = certRef.current;
+      const canvas = await html2canvas(node, {
+        scale: 2,
+        backgroundColor: null,
+        useCORS: true,
+        imageTimeout: 15000,
+        width: node.offsetWidth,
+        height: node.offsetHeight,
+        windowWidth: node.offsetWidth,
+        windowHeight: node.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
+      });
       const img = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
       pdf.addImage(img, "PNG", 0, 0, canvas.width, canvas.height);
