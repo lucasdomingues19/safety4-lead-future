@@ -22,14 +22,17 @@ export type Database = {
           cpd_hours: number | null
           created_at: string
           credential_level: string | null
+          engaged_at: string | null
           id: string
           issued_at: string
           issued_by: string | null
+          linkedin_added_at: string | null
           recipient_email: string
           recipient_name: string
           revoke_reason: string | null
           revoked_at: string | null
           status: string
+          viewed_at: string | null
         }
         Insert: {
           certificate_number: string
@@ -38,14 +41,17 @@ export type Database = {
           cpd_hours?: number | null
           created_at?: string
           credential_level?: string | null
+          engaged_at?: string | null
           id?: string
           issued_at?: string
           issued_by?: string | null
+          linkedin_added_at?: string | null
           recipient_email: string
           recipient_name: string
           revoke_reason?: string | null
           revoked_at?: string | null
           status?: string
+          viewed_at?: string | null
         }
         Update: {
           certificate_number?: string
@@ -54,14 +60,17 @@ export type Database = {
           cpd_hours?: number | null
           created_at?: string
           credential_level?: string | null
+          engaged_at?: string | null
           id?: string
           issued_at?: string
           issued_by?: string | null
+          linkedin_added_at?: string | null
           recipient_email?: string
           recipient_name?: string
           revoke_reason?: string | null
           revoked_at?: string | null
           status?: string
+          viewed_at?: string | null
         }
         Relationships: []
       }

@@ -12,7 +12,7 @@ import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw } from "lucide-react";
+import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw, Eye, MousePointerClick, Linkedin } from "lucide-react";
 
 interface Certificate {
   id: string;
@@ -26,6 +26,9 @@ interface Certificate {
   status: string;
   issued_at: string;
   revoked_at: string | null;
+  viewed_at: string | null;
+  engaged_at: string | null;
+  linkedin_added_at: string | null;
 }
 
 const SITE_URL = typeof window !== "undefined" ? window.location.origin : "";
@@ -60,7 +63,7 @@ export const CertificatesTab = () => {
     if (error) {
       toast.error("Could not load certificates");
     } else {
-      setCerts((data as Certificate[]) || []);
+      setCerts((data as unknown as Certificate[]) || []);
     }
     setLoading(false);
   };
@@ -153,6 +156,28 @@ export const CertificatesTab = () => {
     toast.success("Verification link copied");
   };
 
+  const InteractionStatus = ({ cert }: { cert: Certificate }) => {
+    const steps = [
+      { label: "Sent", done: true, when: cert.issued_at, Icon: Send, color: "text-primary" },
+      { label: "Viewed by recipient", done: !!cert.viewed_at, when: cert.viewed_at, Icon: Eye, color: "text-secondary" },
+      { label: "Engaged by recipient", done: !!cert.engaged_at, when: cert.engaged_at, Icon: MousePointerClick, color: "text-secondary" },
+      { label: "Added to LinkedIn", done: !!cert.linkedin_added_at, when: cert.linkedin_added_at, Icon: Linkedin, color: "text-[#0a66c2]" },
+    ];
+    return (
+      <div className="flex items-center gap-2">
+        {steps.map(({ label, done, when, Icon, color }) => (
+          <span
+            key={label}
+            title={done ? `${label}${when ? ` · ${new Date(when).toLocaleString("en-GB")}` : ""}` : `Not ${label.toLowerCase()} yet`}
+            className={done ? color : "text-muted-foreground/30"}
+          >
+            <Icon className="h-4 w-4" />
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-8">
       {/* Issue form */}
@@ -232,6 +257,7 @@ export const CertificatesTab = () => {
                     <TableHead>Course</TableHead>
                     <TableHead>Completed</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Engagement</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -255,6 +281,9 @@ export const CertificatesTab = () => {
                         }`}>
                           {c.status === "revoked" ? "Revoked" : "Valid"}
                         </span>
+                      </TableCell>
+                      <TableCell>
+                        <InteractionStatus cert={c} />
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-end gap-1">
