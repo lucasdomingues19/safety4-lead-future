@@ -96,7 +96,24 @@ const VerifyCertificate = () => {
     if (!badgeRef.current) return;
     try {
       toast.loading("Preparing your badge…", { id: "badge" });
-      const canvas = await html2canvas(badgeRef.current, { scale: 3, backgroundColor: null, useCORS: true });
+      if (document.fonts?.ready) await document.fonts.ready;
+      const bImgs = Array.from(badgeRef.current.querySelectorAll("img"));
+      await Promise.all(
+        bImgs.map((img) =>
+          img.complete && img.naturalWidth > 0
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                img.addEventListener("load", () => resolve(), { once: true });
+                img.addEventListener("error", () => resolve(), { once: true });
+              }),
+        ),
+      );
+      const canvas = await html2canvas(badgeRef.current, {
+        scale: 3,
+        backgroundColor: null,
+        useCORS: true,
+        imageTimeout: 15000,
+      });
       const link = document.createElement("a");
       link.download = `Safety4-Badge-${cert?.certificate_number}.png`;
       link.href = canvas.toDataURL("image/png");
