@@ -151,8 +151,17 @@ const VerifyCertificate = () => {
   };
 
   const linkedInSharePost = () => {
+    if (!cert) return;
+    // LinkedIn's feed composer pre-fills from the `text` param. The user can edit
+    // everything before posting. Including the verify URL lets LinkedIn attach a
+    // link preview and gives readers a one-click way to confirm the certificate.
+    const template =
+      `I am excited to share that I have just completed the ${cert.course_name} ` +
+      `with the Safety 4.0 Academy. I am ready to lead safety forward!\n\n` +
+      `Verify my certificate: ${verifyUrl}\n` +
+      `Safety 4.0 Academy: https://www.linkedin.com/company/safety40academy`;
     openInNewTab(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}`,
+      `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
     );
   };
 
