@@ -257,6 +257,7 @@ export const CertificatesTab = () => {
                     <TableHead>Course</TableHead>
                     <TableHead>Completed</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Engagement</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -280,6 +281,9 @@ export const CertificatesTab = () => {
                         }`}>
                           {c.status === "revoked" ? "Revoked" : "Valid"}
                         </span>
+                      </TableCell>
+                      <TableCell>
+                        <InteractionStatus cert={c} />
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-end gap-1">
