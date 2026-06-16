@@ -134,7 +134,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
             }}
           >
             <img
-              src={logo}
+              src={logoAsset.url}
               alt="Safety 4.0 Academy"
               style={{ width: size * 0.26, height: size * 0.26, objectFit: "contain", marginTop: size * 0.015 }}
             />
