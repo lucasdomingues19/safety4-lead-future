@@ -77,10 +77,10 @@ const Auth = () => {
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader>
             <CardTitle className="text-2xl text-white text-center">
-              {isLogin ? "Admin Login" : "Create Admin Account"}
+              Admin Login
             </CardTitle>
             <CardDescription className="text-gray-300 text-center">
-              {isLogin ? "Sign in to access the analytics dashboard" : "Register to manage your analytics"}
+              Sign in to access the analytics dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
