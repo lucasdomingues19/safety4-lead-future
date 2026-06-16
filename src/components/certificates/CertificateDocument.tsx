@@ -217,65 +217,82 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer — three white accreditation squares side by side */}
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
             alignItems: "flex-end",
             marginTop: 90,
             position: "relative",
+            gap: 16,
           }}
         >
-          <div style={{ textAlign: "left" }}>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 16 }}>
-              <div
-                style={{
-                  background: "#ffffff",
-                  padding: 8,
-                  borderRadius: 8,
-                  display: "inline-block",
-                  height: 100,
-                  width: 100,
-                  boxSizing: "border-box",
-                }}
-              >
-                <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
-              </div>
-
-              {/* Accreditations */}
-              <div
-                style={{
-                  background: "#ffffff",
-                  borderRadius: 8,
-                  padding: 4,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 2,
-                  height: 100,
-                  width: 100,
-                  boxSizing: "border-box",
-                }}
-              >
-                <img
-                  src={ioshApprovedLogo}
-                  alt="IOSH Approved Training Provider 5522"
-                  style={{ width: "100%", height: 44, maxWidth: "100%", objectFit: "contain" }}
-                />
-                <img
-                  src={cpdMemberLogo}
-                  alt="CPD Member - The CPD Certification Service"
-                  style={{ width: "100%", height: 44, maxWidth: "100%", objectFit: "contain" }}
-                />
-              </div>
-            </div>
-
-            <div style={{ fontFamily: MONO, fontSize: 9.5, fontWeight: 600, color: MUTED, marginTop: 10, whiteSpace: 'nowrap' }}>
-              Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
-            </div>
+          {/* QR Code square */}
+          <div
+            style={{
+              background: "#ffffff",
+              padding: 8,
+              borderRadius: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 100,
+              width: 100,
+              boxSizing: "border-box",
+              flexShrink: 0,
+            }}
+          >
+            <QRCodeCanvas value={verifyUrl} size={84} fgColor={NAVY_DEEP} bgColor="#ffffff" level="M" />
           </div>
+
+          {/* IOSH logo square */}
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: 8,
+              padding: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 100,
+              width: 100,
+              boxSizing: "border-box",
+              flexShrink: 0,
+            }}
+          >
+            <img
+              src={ioshApprovedLogo}
+              alt="IOSH Approved Training Provider 5522"
+              style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+            />
+          </div>
+
+          {/* CPD logo square */}
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: 8,
+              padding: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: 100,
+              width: 100,
+              boxSizing: "border-box",
+              flexShrink: 0,
+            }}
+          >
+            <img
+              src={cpdMemberLogo}
+              alt="CPD Member - The CPD Certification Service"
+              style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+            />
+          </div>
+        </div>
+
+        <div style={{ fontFamily: MONO, fontSize: 9.5, fontWeight: 600, color: MUTED, marginTop: 10, whiteSpace: 'nowrap' }}>
+          Certificate #{cert.certificate_number} issued on {cert.issued_at ? formatDate(cert.issued_at) : formatDate(cert.completion_date)}
         </div>
       </div>
     );
