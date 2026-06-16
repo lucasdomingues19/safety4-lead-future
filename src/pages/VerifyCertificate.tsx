@@ -48,7 +48,6 @@ const VerifyCertificate = () => {
   const badgeRef = useRef<HTMLDivElement>(null);
 
   const verifyUrl = `${SITE_URL}/verify/${certificateNumber}`;
-  const skillsText = CERTIFICATE_SKILLS.join(", ");
 
   const copyToClipboard = (text: string, successMessage: string) => {
     const write = navigator.clipboard?.writeText?.(text);
@@ -366,11 +365,9 @@ const VerifyCertificate = () => {
     setLinkedinAssist({
       title: "Finish your LinkedIn licence",
       detail:
-        "LinkedIn fills the certificate details from this page, but its public add-to-profile link does not support skills or media uploads. Copy the skills below, then use Add media to upload the certificate image if you want it shown on the credential.",
+        "LinkedIn fills the certificate details from this page, but its public add-to-profile link does not support skills or media uploads. Use Add media to upload the certificate image if you want it shown on the credential.",
       profileUrl,
-      skills: skillsText,
     });
-    copyToClipboard(skillsText, "Skills copied — paste them into LinkedIn's Skills field");
     openInNewTab(profileUrl);
   };
 
@@ -559,22 +556,6 @@ const VerifyCertificate = () => {
           </DialogHeader>
 
           <div className="space-y-4 text-sm">
-            {linkedinAssist?.skills ? (
-              <div className="rounded-md border border-border bg-card p-4">
-                <p className="mb-2 font-medium text-foreground">Skills to paste into LinkedIn</p>
-                <p className="text-muted-foreground">{linkedinAssist.skills}</p>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  className="mt-3"
-                  onClick={() => copyToClipboard(linkedinAssist.skills!, "Skills copied")}
-                >
-                  <Copy className="mr-2 h-4 w-4" /> Copy skills
-                </Button>
-              </div>
-            ) : null}
-
             {linkedinAssist?.postText ? (
               <div className="rounded-md border border-border bg-card p-4">
                 <p className="mb-2 font-medium text-foreground">Post text</p>
