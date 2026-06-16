@@ -12,6 +12,18 @@ import html2canvas from "html2canvas";
 const SITE_URL =
   typeof window !== "undefined" ? window.location.origin : "https://www.safetyacademy.tech";
 
+const ACADEMY_URL = "https://www.safetyacademy.tech";
+
+const CERTIFICATE_SKILLS = [
+  "Artificial Intelligence",
+  "Digital Transformation",
+  "SafetyTech",
+  "AI Risk",
+  "Compliance and Governance",
+  "Leadership",
+  "Change Management",
+];
+
 type Status = "loading" | "valid" | "revoked" | "notfound" | "search";
 
 const VerifyCertificate = () => {
