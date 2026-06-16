@@ -69,9 +69,14 @@ const VerifyCertificate = () => {
       );
 
       const node = certRef.current;
+      // High device-independent resolution so the exported PDF is crisp when
+      // zoomed or printed. Cap by devicePixelRatio so retina screens don't
+      // double it again. backgroundColor matches the navy so no white edge
+      // can show through any sub-pixel rounding gap.
+      const scale = Math.max(3, Math.min(4, (window.devicePixelRatio || 1) * 2));
       const canvas = await html2canvas(node, {
-        scale: 2,
-        backgroundColor: null,
+        scale,
+        backgroundColor: "#05080f",
         useCORS: true,
         imageTimeout: 15000,
         width: node.offsetWidth,
@@ -82,8 +87,13 @@ const VerifyCertificate = () => {
         scrollY: 0,
       });
       const img = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
-      pdf.addImage(img, "PNG", 0, 0, canvas.width, canvas.height);
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [canvas.width, canvas.height],
+        compress: true,
+      });
+      pdf.addImage(img, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
       pdf.save(`Safety4-Certificate-${cert?.certificate_number}.pdf`);
       toast.success("Certificate downloaded", { id: "pdf" });
     } catch (e) {
