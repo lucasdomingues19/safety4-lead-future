@@ -7,9 +7,8 @@ const corsHeaders = {
 };
 
 // Scopes:
-//  - openid, profile  -> read the member URN via /v2/userinfo (Sign In with LinkedIn using OpenID Connect)
 //  - w_member_social   -> publish posts on the member's behalf (Share on LinkedIn)
-const SCOPES = "openid profile w_member_social";
+const SCOPES = "w_member_social";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -91,16 +90,18 @@ serve(async (req) => {
       }
       const accessToken = tokenJson.access_token as string;
 
-      // Read the member URN
-      const meRes = await fetch("https://api.linkedin.com/v2/userinfo", {
+      // Read the member URN. This app currently has Share on LinkedIn access,
+      // so /v2/me is the profile endpoint that pairs with the w_member_social
+      // OAuth product.
+      const meRes = await fetch("https://api.linkedin.com/v2/me", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const me = await meRes.json().catch(() => ({}));
-      if (!meRes.ok || !me.sub) {
-        console.error("userinfo failed", me);
+      if (!meRes.ok || !me.id) {
+        console.error("profile lookup failed", meRes.status, me);
         return json({ error: "Could not read your LinkedIn profile." }, 400);
       }
-      const author = `urn:li:person:${me.sub}`;
+      const author = `urn:li:person:${me.id}`;
 
       // Register an image upload
       const regRes = await fetch("https://api.linkedin.com/v2/assets?action=registerUpload", {
