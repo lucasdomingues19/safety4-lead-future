@@ -1,8 +1,10 @@
 import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import logoAsset from "@/assets/safety-academy-logo.png.asset.json";
+// Locally-bundled images so html2canvas can capture them reliably (CDN/asset.json
+// URLs redirect cross-origin and get dropped from the PDF, leaving blank boxes).
+import logoAsset from "@/assets/safety-academy-logo-cert.png";
 import bgWorker from "@/assets/certificate-bg-worker.png";
-import ioshApprovedLogo from "@/assets/iosh-logo.png.asset.json";
+import ioshApprovedLogo from "@/assets/iosh-logo-cert.png";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
 export interface CertificateData {
@@ -134,7 +136,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <img
-              src={logoAsset.url}
+              src={logoAsset}
               alt="Safety 4.0 Academy"
               style={{ width: 100, height: 100, objectFit: "contain" }}
             />
@@ -167,7 +169,11 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               fontWeight: 400,
               margin: "6px 0 4px",
               color: "#ffffff",
-              lineHeight: 1.05,
+              // Full line-height so descenders (g, y) stay inside the line box;
+              // a tight (<1) value renders differently in html2canvas and pushes
+              // the divider up into the name in the exported PDF.
+              lineHeight: 1.2,
+              paddingBottom: 10,
             }}
           >
             {cert.recipient_name}
@@ -177,7 +183,9 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               width: 260,
               height: 2,
               background: `linear-gradient(90deg, transparent, ${LIME}, ${PINK}, transparent)`,
-              margin: "10px auto 30px",
+              // Generous clearance: html2canvas paints serif glyphs a few px lower
+              // than the browser, so keep the divider well below the descenders.
+              margin: "22px auto 28px",
             }}
           />
           <div style={{ color: SLATE, fontSize: 15 }}>for successfully completing</div>
@@ -262,7 +270,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               }}
             >
               <img
-                src={ioshApprovedLogo.url}
+                src={ioshApprovedLogo}
                 alt="IOSH"
                 style={{ width: 64, height: 48, objectFit: "contain" }}
               />
