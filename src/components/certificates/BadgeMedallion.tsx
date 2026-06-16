@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import type { CertificateData } from "./CertificateDocument";
 import logoAsset from "@/assets/safety-academy-logo.png.asset.json";
 import safety40Badge from "@/assets/safety-4.0-badge.png.asset.json";
+import acceleratorBadge from "@/assets/safety-4.0-accelerator-badge.png.asset.json";
 
 // Corporate Navy Trust + Champagne Gold palette
 const NAVY = "#0f1e44";
