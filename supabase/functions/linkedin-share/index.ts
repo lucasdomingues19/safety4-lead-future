@@ -99,7 +99,13 @@ serve(async (req) => {
       const me = await meRes.json().catch(() => ({}));
       if (!meRes.ok || !me.id) {
         console.error("profile lookup failed", meRes.status, me);
-        return json({ error: "Could not read your LinkedIn profile." }, 400);
+        return json(
+          {
+            error: "LinkedIn could not complete automatic posting, so use the manual share option.",
+            fallback: true,
+          },
+          200,
+        );
       }
       const author = `urn:li:person:${me.id}`;
 
@@ -124,7 +130,7 @@ serve(async (req) => {
       const reg = await regRes.json().catch(() => ({}));
       if (!regRes.ok || !reg?.value?.asset) {
         console.error("registerUpload failed", reg);
-        return json({ error: "Could not prepare the image upload on LinkedIn." }, 400);
+        return json({ error: "Could not prepare the image upload on LinkedIn.", fallback: true }, 200);
       }
       const asset = reg.value.asset as string;
       const uploadUrl =
@@ -133,7 +139,7 @@ serve(async (req) => {
         ]?.uploadUrl;
       if (!uploadUrl) {
         console.error("no uploadUrl", reg);
-        return json({ error: "LinkedIn did not return an upload URL." }, 400);
+        return json({ error: "LinkedIn did not return an upload URL.", fallback: true }, 200);
       }
 
       // Upload the binary image
@@ -147,7 +153,7 @@ serve(async (req) => {
       if (!upRes.ok) {
         const detail = await upRes.text().catch(() => "");
         console.error("image upload failed", upRes.status, detail);
-        return json({ error: "The certificate image could not be uploaded to LinkedIn." }, 400);
+        return json({ error: "The certificate image could not be uploaded to LinkedIn.", fallback: true }, 200);
       }
 
       // Publish the post with the uploaded image
@@ -181,7 +187,7 @@ serve(async (req) => {
       if (!postRes.ok) {
         const detail = await postRes.text().catch(() => "");
         console.error("ugcPosts failed", postRes.status, detail);
-        return json({ error: "The post could not be published on LinkedIn." }, 400);
+        return json({ error: "The post could not be published on LinkedIn.", fallback: true }, 200);
       }
 
       return json({ success: true });

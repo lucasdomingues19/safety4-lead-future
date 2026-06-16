@@ -280,7 +280,12 @@ const VerifyCertificate = () => {
           body: { action: "publish", code, redirectUri, image, text },
         });
         if (pubErr || pubData?.error || !pubData?.success) {
-          toast.error(pubData?.error || "Could not publish to LinkedIn.", { id: "li-auto" });
+          if (pubData?.fallback) {
+            toast.message(pubData.error || "LinkedIn needs manual sharing for this post.", { id: "li-auto" });
+            linkedInSharePost();
+          } else {
+            toast.error(pubData?.error || "Could not publish to LinkedIn.", { id: "li-auto" });
+          }
         } else {
           toast.success("Posted to LinkedIn with your certificate image!", { id: "li-auto" });
         }
