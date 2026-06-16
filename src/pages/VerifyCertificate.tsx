@@ -10,10 +10,12 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const SITE_URL =
-  typeof window !== "undefined" ? window.location.origin : "https://www.safetyacademy.tech";
-
 const ACADEMY_URL = "https://www.safetyacademy.tech";
+
+const SITE_URL =
+  typeof window !== "undefined" && window.location.hostname.endsWith("lovable.app")
+    ? window.location.origin
+    : ACADEMY_URL;
 
 const CERTIFICATE_SKILLS = [
   "Artificial Intelligence",
@@ -278,7 +280,12 @@ const VerifyCertificate = () => {
           body: { action: "publish", code, redirectUri, image, text },
         });
         if (pubErr || pubData?.error || !pubData?.success) {
-          toast.error(pubData?.error || "Could not publish to LinkedIn.", { id: "li-auto" });
+          if (pubData?.fallback) {
+            toast.message(pubData.error || "LinkedIn needs manual sharing for this post.", { id: "li-auto" });
+            linkedInSharePost();
+          } else {
+            toast.error(pubData?.error || "Could not publish to LinkedIn.", { id: "li-auto" });
+          }
         } else {
           toast.success("Posted to LinkedIn with your certificate image!", { id: "li-auto" });
         }
