@@ -68,7 +68,7 @@ const CaseStudies = () => {
           <div className="prose-custom space-y-10">
             <Section title="Professional Background">
               <p>
-                Before enrolling in the IOSH-approved "Safety 4.0: Leading Safety in the Digital Age"
+                Before enrolling in the "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age"
                 programme, I was working as a Safety Compliance Manager for a leading European
                 manufacturer of renewable energy equipment.
               </p>

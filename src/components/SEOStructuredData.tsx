@@ -46,7 +46,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
     const courseSchema = {
       "@context": "https://schema.org",
       "@type": "Course",
-      "name": "Safety 4.0 - Leading Safety in the Digital Age",
+      "name": "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age",
       "description": "IOSH and CPD-approved certification program teaching AI, SafetyTech, IoT sensors, and digital leadership for modern workplace safety professionals",
       "provider": {
         "@type": "EducationalOrganization",
