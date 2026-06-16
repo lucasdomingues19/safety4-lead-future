@@ -203,7 +203,8 @@ const handler = async (req: Request): Promise<Response> => {
     const html = buildEmailHtml(cert, verifyUrl);
 
     const emailResponse = await resend.emails.send({
-      from: "Safety 4.0 Academy <hello@safetyacademy.tech>",
+      from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
+      reply_to: "hello@safetyacademy.tech",
       to: [cert.recipient_email],
       subject: "Your Safety 4.0 Academy Certificate",
       html,
