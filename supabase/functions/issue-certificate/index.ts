@@ -199,26 +199,8 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const verifyUrl = `${SITE_URL}/verify/${cert.certificate_number}`;
-    const completion = new Date(cert.completion_date);
-    const linkedInUrl =
-      "https://www.linkedin.com/profile/add?" +
-      new URLSearchParams({
-        startTask: "CERTIFICATION_NAME",
-        name: cert.course_name,
-        organizationName: "Safety 4.0 Academy",
-        issueYear: String(completion.getFullYear()),
-        issueMonth: String(completion.getMonth() + 1),
-        certUrl: verifyUrl,
-        certId: cert.certificate_number,
-      }).toString();
 
-    // Generate QR code PNG for the verification URL
-    const qrDataUrl: string = await QRCode.toDataURL(verifyUrl, {
-      width: 400, margin: 1, color: { dark: BRAND_NAVY, light: "#ffffff" },
-    });
-    const qrBase64 = qrDataUrl.split("base64,")[1];
-
-    const html = buildEmailHtml(cert, verifyUrl, linkedInUrl);
+    const html = buildEmailHtml(cert, verifyUrl);
 
     const emailResponse = await resend.emails.send({
       from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
