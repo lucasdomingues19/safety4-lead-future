@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CertificateDocument, type CertificateData } from "@/components/certificates/CertificateDocument";
 import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
 import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck, Copy, Image as ImageIcon } from "lucide-react";
@@ -48,6 +49,13 @@ const VerifyCertificate = () => {
 
   const verifyUrl = `${SITE_URL}/verify/${certificateNumber}`;
   const skillsText = CERTIFICATE_SKILLS.join(", ");
+
+  const copyToClipboard = (text: string, successMessage: string) => {
+    navigator.clipboard
+      ?.writeText(text)
+      .then(() => toast.success(successMessage))
+      .catch(() => toast.message("Copy this text", { description: text }));
+  };
 
   useEffect(() => {
     const lookup = async () => {
@@ -130,7 +138,7 @@ const VerifyCertificate = () => {
   // file via URL, so we hand the user an actual image they can drop into the
   // post (a PNG attaches as a photo; a PDF would attach as a document).
   const downloadCertificateImage = async () => {
-    if (!certRef.current) return;
+    if (!certRef.current) return null;
     try {
       toast.loading("Preparing your certificate image…", { id: "cert-img" });
       if (document.fonts?.ready) await document.fonts.ready;
@@ -159,14 +167,17 @@ const VerifyCertificate = () => {
         scrollX: 0,
         scrollY: 0,
       });
+      const imageFileName = `Safety4-Certificate-${cert?.certificate_number}.png`;
       const link = document.createElement("a");
-      link.download = `Safety4-Certificate-${cert?.certificate_number}.png`;
+      link.download = imageFileName;
       link.href = canvas.toDataURL("image/png");
       link.click();
       toast.success("Certificate image saved — attach it to your LinkedIn post", { id: "cert-img" });
+      return imageFileName;
     } catch (e) {
       console.error(e);
       toast.error("Could not generate the certificate image", { id: "cert-img" });
+      return null;
     }
   };
 
