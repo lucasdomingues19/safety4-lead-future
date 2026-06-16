@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CertificateDocument, type CertificateData } from "@/components/certificates/CertificateDocument";
 import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
-import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck } from "lucide-react";
+import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck, Copy, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -26,16 +27,37 @@ const CERTIFICATE_SKILLS = [
 
 type Status = "loading" | "valid" | "revoked" | "notfound" | "search";
 
+type LinkedInAssist = {
+  title: string;
+  detail: string;
+  profileUrl?: string;
+  composerUrl?: string;
+  skills?: string;
+  postText?: string;
+  imageFileName?: string;
+};
+
 const VerifyCertificate = () => {
   const { certificateNumber } = useParams<{ certificateNumber: string }>();
   const navigate = useNavigate();
   const [status, setStatus] = useState<Status>(certificateNumber ? "loading" : "search");
   const [cert, setCert] = useState<CertificateData | null>(null);
   const [searchValue, setSearchValue] = useState("");
+  const [linkedinAssist, setLinkedinAssist] = useState<LinkedInAssist | null>(null);
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
   const verifyUrl = `${SITE_URL}/verify/${certificateNumber}`;
+  const skillsText = CERTIFICATE_SKILLS.join(", ");
+
+  const copyToClipboard = (text: string, successMessage: string) => {
+    const write = navigator.clipboard?.writeText?.(text);
+    if (!write) {
+      toast.message("Copy this text", { description: text });
+      return;
+    }
+    write.then(() => toast.success(successMessage)).catch(() => toast.message("Copy this text", { description: text }));
+  };
 
   useEffect(() => {
     const lookup = async () => {
@@ -118,7 +140,7 @@ const VerifyCertificate = () => {
   // file via URL, so we hand the user an actual image they can drop into the
   // post (a PNG attaches as a photo; a PDF would attach as a document).
   const downloadCertificateImage = async () => {
-    if (!certRef.current) return;
+    if (!certRef.current) return null;
     try {
       toast.loading("Preparing your certificate image…", { id: "cert-img" });
       if (document.fonts?.ready) await document.fonts.ready;
@@ -147,14 +169,17 @@ const VerifyCertificate = () => {
         scrollX: 0,
         scrollY: 0,
       });
+      const imageFileName = `Safety4-Certificate-${cert?.certificate_number}.png`;
       const link = document.createElement("a");
-      link.download = `Safety4-Certificate-${cert?.certificate_number}.png`;
+      link.download = imageFileName;
       link.href = canvas.toDataURL("image/png");
       link.click();
       toast.success("Certificate image saved — attach it to your LinkedIn post", { id: "cert-img" });
+      return imageFileName;
     } catch (e) {
       console.error(e);
       toast.error("Could not generate the certificate image", { id: "cert-img" });
+      return null;
     }
   };
 
@@ -213,19 +238,16 @@ const VerifyCertificate = () => {
       certUrl: verifyUrl,
       certId: cert.certificate_number,
     });
-    // Open LinkedIn synchronously inside the click gesture so the browser does
-    // not block the new tab. LinkedIn's "Add to profile" certification flow has
-    // no URL parameter for skills, so we copy the skills list to the clipboard
-    // afterwards and prompt the user to paste it into the Skills field.
-    openInNewTab(`https://www.linkedin.com/profile/add?${params.toString()}`);
-    navigator.clipboard
-      ?.writeText(CERTIFICATE_SKILLS.join(", "))
-      .then(() => toast.success("Skills copied — paste them into the Skills field on LinkedIn"))
-      .catch(() =>
-        toast.message("Add these skills on LinkedIn", {
-          description: CERTIFICATE_SKILLS.join(", "),
-        }),
-      );
+    const profileUrl = `https://www.linkedin.com/profile/add?${params.toString()}`;
+    setLinkedinAssist({
+      title: "Finish your LinkedIn licence",
+      detail:
+        "LinkedIn fills the certificate details from this page, but its public add-to-profile link does not support skills or media uploads. Copy the skills below, then use Add media to upload the certificate image if you want it shown on the credential.",
+      profileUrl,
+      skills: skillsText,
+    });
+    copyToClipboard(skillsText, "Skills copied — paste them into LinkedIn's Skills field");
+    openInNewTab(profileUrl);
   };
 
   const linkedInSharePost = () => {
@@ -234,14 +256,20 @@ const VerifyCertificate = () => {
       `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
       `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
       `Verify my certificate: ${verifyUrl}`;
-    // Open the composer synchronously inside the click gesture (an await before
-    // this would make the browser block the popup). The verify URL lets readers
-    // confirm the certificate; we then save the certificate as a PNG image so the
-    // user can attach it as a photo — LinkedIn cannot attach a file via URL.
-    openInNewTab(
-      `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`,
-    );
-    void downloadCertificateImage();
+    const composerUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`;
+    setLinkedinAssist({
+      title: "Finish your LinkedIn post",
+      detail:
+        "LinkedIn opens the post composer with your text, but does not allow websites to auto-upload images into personal posts. The certificate image is downloading now — attach it with Add media in the LinkedIn composer.",
+      composerUrl,
+      postText: template,
+    });
+    openInNewTab(composerUrl);
+    void downloadCertificateImage().then((imageFileName) => {
+      if (imageFileName) {
+        setLinkedinAssist((current) => (current ? { ...current, imageFileName } : current));
+      }
+    });
   };
 
   if (status === "loading") {
@@ -381,6 +409,71 @@ const VerifyCertificate = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!linkedinAssist} onOpenChange={(open) => !open && setLinkedinAssist(null)}>
+        <DialogContent className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>{linkedinAssist?.title}</DialogTitle>
+            <DialogDescription>{linkedinAssist?.detail}</DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 text-sm">
+            {linkedinAssist?.skills ? (
+              <div className="rounded-md border border-border bg-card p-4">
+                <p className="mb-2 font-medium text-foreground">Skills to paste into LinkedIn</p>
+                <p className="text-muted-foreground">{linkedinAssist.skills}</p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="mt-3"
+                  onClick={() => copyToClipboard(linkedinAssist.skills!, "Skills copied")}
+                >
+                  <Copy className="mr-2 h-4 w-4" /> Copy skills
+                </Button>
+              </div>
+            ) : null}
+
+            {linkedinAssist?.postText ? (
+              <div className="rounded-md border border-border bg-card p-4">
+                <p className="mb-2 font-medium text-foreground">Post text</p>
+                <p className="whitespace-pre-line text-muted-foreground">{linkedinAssist.postText}</p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="mt-3"
+                  onClick={() => copyToClipboard(linkedinAssist.postText!, "Post text copied")}
+                >
+                  <Copy className="mr-2 h-4 w-4" /> Copy post text
+                </Button>
+              </div>
+            ) : null}
+
+            {linkedinAssist?.imageFileName ? (
+              <p className="rounded-md border border-primary/30 bg-primary/10 p-3 text-foreground">
+                Certificate image downloaded: <span className="font-medium">{linkedinAssist.imageFileName}</span>
+              </p>
+            ) : null}
+
+            <div className="flex flex-wrap gap-3">
+              <Button type="button" variant="outline" onClick={() => void downloadCertificateImage()}>
+                <ImageIcon className="mr-2 h-4 w-4" /> Download certificate image
+              </Button>
+              {linkedinAssist?.profileUrl ? (
+                <Button type="button" onClick={() => openInNewTab(linkedinAssist.profileUrl!)}>
+                  <Linkedin className="mr-2 h-4 w-4" /> Reopen LinkedIn profile
+                </Button>
+              ) : null}
+              {linkedinAssist?.composerUrl ? (
+                <Button type="button" onClick={() => openInNewTab(linkedinAssist.composerUrl!)}>
+                  <Linkedin className="mr-2 h-4 w-4" /> Reopen LinkedIn post
+                </Button>
+              ) : null}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
