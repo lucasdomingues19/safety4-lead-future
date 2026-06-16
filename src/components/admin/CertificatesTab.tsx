@@ -156,6 +156,28 @@ export const CertificatesTab = () => {
     toast.success("Verification link copied");
   };
 
+  const InteractionStatus = ({ cert }: { cert: Certificate }) => {
+    const steps = [
+      { label: "Sent", done: true, when: cert.issued_at, Icon: Send, color: "text-primary" },
+      { label: "Viewed by recipient", done: !!cert.viewed_at, when: cert.viewed_at, Icon: Eye, color: "text-secondary" },
+      { label: "Engaged by recipient", done: !!cert.engaged_at, when: cert.engaged_at, Icon: MousePointerClick, color: "text-secondary" },
+      { label: "Added to LinkedIn", done: !!cert.linkedin_added_at, when: cert.linkedin_added_at, Icon: Linkedin, color: "text-[#0a66c2]" },
+    ];
+    return (
+      <div className="flex items-center gap-2">
+        {steps.map(({ label, done, when, Icon, color }) => (
+          <span
+            key={label}
+            title={done ? `${label}${when ? ` · ${new Date(when).toLocaleString("en-GB")}` : ""}` : `Not ${label.toLowerCase()} yet`}
+            className={done ? color : "text-muted-foreground/30"}
+          >
+            <Icon className="h-4 w-4" />
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-8">
       {/* Issue form */}
