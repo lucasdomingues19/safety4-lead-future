@@ -136,7 +136,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <img
-              src={logoAsset.url}
+              src={logoAsset}
               alt="Safety 4.0 Academy"
               style={{ width: 100, height: 100, objectFit: "contain" }}
             />
@@ -264,7 +264,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               }}
             >
               <img
-                src={ioshApprovedLogo.url}
+                src={ioshApprovedLogo}
                 alt="IOSH"
                 style={{ width: 64, height: 48, objectFit: "contain" }}
               />
