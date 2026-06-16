@@ -10,10 +10,12 @@ import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const SITE_URL =
-  typeof window !== "undefined" ? window.location.origin : "https://www.safetyacademy.tech";
-
 const ACADEMY_URL = "https://www.safetyacademy.tech";
+
+const SITE_URL =
+  typeof window !== "undefined" && window.location.hostname.endsWith("lovable.app")
+    ? window.location.origin
+    : ACADEMY_URL;
 
 const CERTIFICATE_SKILLS = [
   "Artificial Intelligence",
