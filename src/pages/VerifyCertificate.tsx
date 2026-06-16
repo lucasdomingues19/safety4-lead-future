@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { CertificateDocument, type CertificateData } from "@/components/certificates/CertificateDocument";
 import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
-import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck } from "lucide-react";
+import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck, Copy, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -26,16 +26,28 @@ const CERTIFICATE_SKILLS = [
 
 type Status = "loading" | "valid" | "revoked" | "notfound" | "search";
 
+type LinkedInAssist = {
+  title: string;
+  detail: string;
+  profileUrl?: string;
+  composerUrl?: string;
+  skills?: string;
+  postText?: string;
+  imageFileName?: string;
+};
+
 const VerifyCertificate = () => {
   const { certificateNumber } = useParams<{ certificateNumber: string }>();
   const navigate = useNavigate();
   const [status, setStatus] = useState<Status>(certificateNumber ? "loading" : "search");
   const [cert, setCert] = useState<CertificateData | null>(null);
   const [searchValue, setSearchValue] = useState("");
+  const [linkedinAssist, setLinkedinAssist] = useState<LinkedInAssist | null>(null);
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
   const verifyUrl = `${SITE_URL}/verify/${certificateNumber}`;
+  const skillsText = CERTIFICATE_SKILLS.join(", ");
 
   useEffect(() => {
     const lookup = async () => {
