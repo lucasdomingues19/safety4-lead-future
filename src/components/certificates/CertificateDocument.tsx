@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import logo from "@/assets/safety-academy-logo-transparent.png";
 import bgWorker from "@/assets/certificate-bg-worker.png";
-import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
+import ioshApprovedLogo from "@/assets/iosh-logo.png.asset.json";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
 export interface CertificateData {
@@ -264,7 +264,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             }}
           >
             <img
-              src={ioshApprovedLogo}
+              src={ioshApprovedLogo.url}
               alt="IOSH"
               style={{ width: 80, height: 56, objectFit: "contain" }}
             />
