@@ -449,7 +449,7 @@ It empowers organisations to prevent harm more effectively while enabling safety
     slug: "introducing-worlds-first-safety-4-academy",
     title: "Introducing the World's First Safety 4.0 Academy",
     metaDescription: "Announcing the launch of the Safety 4.0 Academy and the world's first IOSH-approved SafetyTech and digital transformation course for EHS leaders.",
-    excerpt: "Today, I'm proud to officially announce the launch of the Safety 4.0 Academy and our flagship programme: IOSH Approved Safety 4.0 – Leading Safely in the Digital Age. The world's first dedicated SafetyTech and digital transformation course for EHS leaders.",
+    excerpt: "Today, I'm proud to officially announce the launch of the Safety 4.0 Academy and our flagship programme: IOSH-approved Safety 4.0 - Leading Safety in the Digital Age. The world's first dedicated SafetyTech and digital transformation course for EHS leaders.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
     publishDate: "2025-12-01",
@@ -466,7 +466,7 @@ For the past year, I've worked quietly on something I truly believe will redefin
 
 Today, I'm proud to officially announce the launch of the **Safety 4.0 Academy** and our flagship programme:
 
-**IOSH Approved Safety 4.0 – Leading Safely in the Digital Age**
+**IOSH-approved Safety 4.0 - Leading Safety in the Digital Age**
 
 The world's first dedicated SafetyTech and digital transformation course for EHS leaders, now officially IOSH-approved and CPD-certified.
 

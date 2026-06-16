@@ -12,7 +12,7 @@ import {
 const Syllabus = () => {
   useEffect(() => {
     setPageSEO({
-      title: "eLearning — IOSH Approved Safety 4.0 Course",
+      title: "eLearning — IOSH-approved Safety 4.0 Course",
       description: "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
       canonical: "https://safetyacademy.tech/elearning",
     });
@@ -30,7 +30,7 @@ const Syllabus = () => {
             <div className="text-center mb-16">
               <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">IOSH APPROVED · CPD ACCREDITED · SELF-PACED</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Safety 4.0: <span className="text-primary">Leading Safety<br />in the Digital Age</span>
+                IOSH-approved Safety 4.0 - <span className="text-primary">Leading Safety<br />in the Digital Age</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-4">
                 The world's first IOSH-approved eLearning programme for safety professionals 
