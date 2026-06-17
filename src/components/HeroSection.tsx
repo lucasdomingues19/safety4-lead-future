@@ -1,4 +1,4 @@
-import { Shield, Award, ArrowRight } from "lucide-react";
+import { Shield, Award, ArrowRight, Wifi } from "lucide-react";
 import AudienceNav from "./AudienceNav";
 import bgWorker from "@/assets/certificate-bg-worker.png";
 
