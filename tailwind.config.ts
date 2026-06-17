@@ -143,10 +143,10 @@ export default {
 				},
 				'glow-pulse': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px hsl(325 100% 70% / 0.3)'
+						boxShadow: '0 0 20px hsl(174 72% 45% / 0.3)'
 					},
 					'50%': {
-						boxShadow: '0 0 40px hsl(325 100% 70% / 0.6)'
+						boxShadow: '0 0 40px hsl(174 72% 45% / 0.6)'
 					}
 				},
 				'scroll': {
