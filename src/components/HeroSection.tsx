@@ -1,6 +1,5 @@
 import { Shield, Award, ArrowRight } from "lucide-react";
 import AudienceNav from "./AudienceNav";
-import heroBg from "@/assets/hero-bg.jpg";
 
 export const HeroSection = () => {
   return (
