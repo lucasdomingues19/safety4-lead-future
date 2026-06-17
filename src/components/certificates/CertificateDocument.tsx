@@ -21,8 +21,8 @@ export interface CertificateData {
 // Dark navy → black gradient with Safety 4.0 brand accents (lime + pink)
 const NAVY = "#0c1733";
 const NAVY_DEEP = "#05080f";
-const LIME = "#14b8a6"; // brand teal
-const PINK = "#0ea5e9"; // brand blue
+const LIME = "#c1ff72"; // brand lime green
+const PINK = "#ff66c4"; // brand pink
 // Kept GOLD/GOLD_SOFT names as accent aliases to avoid touching every usage
 const GOLD = LIME;
 const GOLD_SOFT = PINK;
