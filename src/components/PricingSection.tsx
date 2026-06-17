@@ -23,7 +23,7 @@ export const PricingSection = () => {
     "Invoice / PO accepted",
     "Bulk IOSH & CPD certification"],
 
-    cta: "Train My Team",
+    cta: "Upskill My Team",
     popular: true,
     gradient: "from-lime-500/20 to-green-500/20",
     borderColor: "border-lime-500/50",
