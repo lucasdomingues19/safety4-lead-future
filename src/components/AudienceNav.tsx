@@ -161,12 +161,23 @@ const AudienceNav = () => {
                   const href = "href" in link ? link.href : "/";
                   if (href.includes("#")) handleHashLink(e, href);
                 }}
-                className="block text-sm text-white hover:text-primary transition-colors py-2"
+                className={
+                  "emphasis" in link && link.emphasis
+                    ? "block text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors py-2"
+                    : "block text-sm text-white hover:text-primary transition-colors py-2"
+                }
               >
                 {link.label}
               </Link>
             )
           )}
+          <Link
+            to="/in-company"
+            onClick={() => setMobileOpen(false)}
+            className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            Book a Team Demo
+          </Link>
         </div>
       )}
     </nav>
