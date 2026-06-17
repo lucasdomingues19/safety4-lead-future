@@ -1,5 +1,6 @@
 import { Shield, Award, ArrowRight } from "lucide-react";
 import AudienceNav from "./AudienceNav";
+import bgWorker from "@/assets/certificate-bg-worker.png";
 
 export const HeroSection = () => {
   return (
@@ -19,6 +20,17 @@ export const HeroSection = () => {
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a1530]/95 via-[#0a1530]/70 to-transparent" />
+
+      {/* Polygon worker figure — right side, deep in background */}
+      <img
+        src={bgWorker}
+        alt=""
+        className="absolute right-0 top-0 h-full w-auto object-cover opacity-20 pointer-events-none"
+        style={{
+          maskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
+          WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
+        }}
+      />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="mb-16 md:mb-20" />
