@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw, Eye, MousePointerClick, Linkedin } from "lucide-react";
+import { CertificateDocument } from "@/components/certificates/CertificateDocument";
 
 interface Certificate {
   id: string;
@@ -44,6 +45,7 @@ export const CertificatesTab = () => {
   const [submitting, setSubmitting] = useState(false);
   const [resendingId, setResendingId] = useState<string | null>(null);
   const [toDelete, setToDelete] = useState<Certificate | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const [form, setForm] = useState({
     recipientName: "",
@@ -103,6 +105,14 @@ export const CertificatesTab = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const openPreview = () => {
+    if (!form.recipientName.trim() || !form.courseName.trim()) {
+      toast.error("Enter at least a recipient name and course to preview");
+      return;
+    }
+    setShowPreview(true);
   };
 
   const handleResend = async (cert: Certificate) => {
@@ -227,7 +237,11 @@ export const CertificatesTab = () => {
               <Input id="cpdHours" type="number" min="0" value={form.cpdHours}
                 onChange={(e) => setForm({ ...form, cpdHours: e.target.value })} placeholder="e.g. 20" />
             </div>
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 flex flex-wrap gap-3">
+              <Button type="button" variant="outline" onClick={openPreview}>
+                <Eye className="mr-2 h-4 w-4" />
+                Preview certificate
+              </Button>
               <Button type="submit" disabled={submitting}>
                 {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                 Issue & email certificate
@@ -331,6 +345,47 @@ export const CertificatesTab = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={showPreview} onOpenChange={setShowPreview}>
+        <DialogContent className="max-w-[1040px]">
+          <DialogHeader>
+            <DialogTitle>Certificate preview</DialogTitle>
+            <DialogDescription>
+              Review how the certificate will look before issuing. The certificate number is generated on issue.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="overflow-x-auto">
+            <div style={{ width: 1000, transformOrigin: "top left" }} className="mx-auto">
+              <CertificateDocument
+                cert={{
+                  certificate_number: "SA4-PREVIEW",
+                  recipient_name: form.recipientName.trim() || "Recipient Name",
+                  course_name: form.courseName.trim(),
+                  completion_date: form.completionDate,
+                  issued_at: new Date().toISOString(),
+                  credential_level: form.credentialLevel.trim() || null,
+                  cpd_hours: form.cpdHours ? Number(form.cpdHours) : null,
+                }}
+                verifyUrl={`${SITE_URL}/verify/SA4-PREVIEW`}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPreview(false)}>Close</Button>
+            <Button
+              onClick={(e) => {
+                setShowPreview(false);
+                handleIssue(e as unknown as React.FormEvent);
+              }}
+              disabled={submitting}
+            >
+              {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+              Looks good — issue & email
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };
