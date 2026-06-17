@@ -107,17 +107,21 @@ const AudienceNav = () => {
                   const href = "href" in link ? link.href : "/";
                   if (href.includes("#")) handleHashLink(e, href);
                 }}
-                className="text-sm text-white hover:text-primary transition-colors"
+                className={
+                  "emphasis" in link && link.emphasis
+                    ? "text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors"
+                    : "text-sm text-white hover:text-primary transition-colors"
+                }
               >
                 {link.label}
               </Link>
             )
           )}
           <Link
-            to="/enrol"
+            to="/in-company"
             className="ml-2 px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Join the Waitlist
+            Book a Team Demo
           </Link>
         </div>
 
