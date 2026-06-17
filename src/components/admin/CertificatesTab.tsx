@@ -45,6 +45,7 @@ export const CertificatesTab = () => {
   const [submitting, setSubmitting] = useState(false);
   const [resendingId, setResendingId] = useState<string | null>(null);
   const [toDelete, setToDelete] = useState<Certificate | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const [form, setForm] = useState({
     recipientName: "",
