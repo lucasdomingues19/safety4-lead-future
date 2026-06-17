@@ -328,13 +328,8 @@ const VerifyCertificate = () => {
   const linkedInSharePost = () => {
     if (!cert) return;
     trackInteraction("linkedin");
-    const template =
-      `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
-      `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
-      `Verify my certificate: ${verifyUrl}`;
-    const composerUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`;
-    openInNewTab(composerUrl);
-    void downloadCertificateImage();
+    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}`;
+    openInNewTab(shareUrl);
   };
 
   if (status === "loading") {
@@ -451,16 +446,10 @@ const VerifyCertificate = () => {
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
               <Button
-                onClick={linkedInPostAutomatic}
-                disabled={posting}
+                onClick={linkedInSharePost}
                 className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
               >
-                {posting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Linkedin className="mr-2 h-4 w-4" />
-                )}
-                {posting ? "Posting…" : "Post to LinkedIn (with image)"}
+                <Linkedin className="mr-2 h-4 w-4" /> Share on LinkedIn
               </Button>
               <Button onClick={linkedInAddToProfile} variant="outline">
                 <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
