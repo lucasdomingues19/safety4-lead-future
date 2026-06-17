@@ -149,13 +149,18 @@ const VerifyCertificate = () => {
   };
 
   const openInNewTab = (url: string) => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // Use the top-most window so the new tab escapes the preview iframe
+    // sandbox (otherwise LinkedIn loads in-frame and is blocked with
+    // ERR_BLOCKED_BY_RESPONSE / X-Frame-Options).
+    const opener = window.open(url, "_blank", "noopener,noreferrer");
+    if (!opener) {
+      // Popup blocked — fall back to navigating the top frame directly.
+      try {
+        window.top!.location.href = url;
+      } catch {
+        window.location.href = url;
+      }
+    }
   };
 
   const linkedInAddToProfile = () => {
