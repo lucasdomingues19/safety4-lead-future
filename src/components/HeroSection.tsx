@@ -32,10 +32,10 @@ export const HeroSection = () => {
 
           {/* Headline */}
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white mb-4 md:mb-8">
-            Safety Leadership Without <span className="text-lime-400">Digital Literacy</span> has Become a Liability
+            Build a Safety Function Ready for the <span className="text-lime-400">Digital Age</span>
           </h1>
           <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
-            The Safety 4.0 Academy is the world's first <span className="font-bold">IOSH-approved</span> and <span className="font-bold">CPD-accredited</span> programme designed and taught by industry experts for EHS leaders in the digital age.
+            Upskill your entire EHS team with the world's first <span className="font-bold">IOSH-approved</span> and <span className="font-bold">CPD-accredited</span> Safety 4.0 programme — built to turn AI, SafetyTech and data into measurable risk reduction across your organisation.
           </p>
 
           {/* Skill Boxes */}
@@ -53,21 +53,21 @@ export const HeroSection = () => {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <a
+              href="/in-company"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
+            >
+              Train My Team
+              <ArrowRight className="w-5 h-5" />
+            </a>
+            <a
               href="#pricing"
               onClick={(e) => {
                 e.preventDefault();
                 document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
-            >
-              Start Learning
-              <ArrowRight className="w-5 h-5" />
-            </a>
-            <a
-              href="/contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors active:scale-[0.97]"
             >
-              Talk to Us
+              For Individuals
             </a>
           </div>
         </div>
