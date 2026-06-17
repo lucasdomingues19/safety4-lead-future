@@ -73,21 +73,6 @@ const Index = () => {
         {/* What a team rollout delivers */}
         <SolutionSection />
 
-        {/* ROI — strongest B2B asset, proof before pricing */}
-        <section aria-label="Calculate your team's return on investment" className="py-12 md:py-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                What's the <span className="text-lime-400">return</span> on training your team?
-              </h2>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                Model the financial impact of upskilling your EHS function — based on real industry benchmarks (NSC Injury Facts, Harvard/BCG).
-              </p>
-            </div>
-            <ROICalculator />
-          </div>
-        </section>
-
         {/* Pricing — teams first, individuals second */}
         <section aria-label="Pricing options">
           <PricingSection />
