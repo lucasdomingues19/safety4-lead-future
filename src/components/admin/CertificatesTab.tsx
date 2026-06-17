@@ -345,6 +345,47 @@ export const CertificatesTab = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={showPreview} onOpenChange={setShowPreview}>
+        <DialogContent className="max-w-[1040px]">
+          <DialogHeader>
+            <DialogTitle>Certificate preview</DialogTitle>
+            <DialogDescription>
+              Review how the certificate will look before issuing. The certificate number is generated on issue.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="overflow-x-auto">
+            <div style={{ width: 1000, transformOrigin: "top left" }} className="mx-auto">
+              <CertificateDocument
+                cert={{
+                  certificate_number: "SA4-PREVIEW",
+                  recipient_name: form.recipientName.trim() || "Recipient Name",
+                  course_name: form.courseName.trim(),
+                  completion_date: form.completionDate,
+                  issued_at: new Date().toISOString(),
+                  credential_level: form.credentialLevel.trim() || null,
+                  cpd_hours: form.cpdHours ? Number(form.cpdHours) : null,
+                }}
+                verifyUrl={`${SITE_URL}/verify/SA4-PREVIEW`}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPreview(false)}>Close</Button>
+            <Button
+              onClick={(e) => {
+                setShowPreview(false);
+                handleIssue(e as unknown as React.FormEvent);
+              }}
+              disabled={submitting}
+            >
+              {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
+              Looks good — issue & email
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };
