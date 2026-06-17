@@ -61,6 +61,23 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				/* Brand remap: legacy "lime"/"pink"/"black" utilities now resolve to the
+				   Haven-inspired petrol-navy + teal/blue palette used across the site. */
+				black: '#0e1e25',
+				lime: {
+					300: '#5eead4',
+					400: '#2dd4bf',
+					500: '#14b8a6',
+					600: '#0d9488',
+					700: '#0f766e',
+				},
+				pink: {
+					300: '#7dd3fc',
+					400: '#38bdf8',
+					500: '#0ea5e9',
+					600: '#0284c7',
+					700: '#0369a1',
 				}
 			},
 			backgroundImage: {
@@ -126,10 +143,10 @@ export default {
 				},
 				'glow-pulse': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px hsl(325 100% 70% / 0.3)'
+						boxShadow: '0 0 20px hsl(174 72% 45% / 0.3)'
 					},
 					'50%': {
-						boxShadow: '0 0 40px hsl(325 100% 70% / 0.6)'
+						boxShadow: '0 0 40px hsl(174 72% 45% / 0.6)'
 					}
 				},
 				'scroll': {
