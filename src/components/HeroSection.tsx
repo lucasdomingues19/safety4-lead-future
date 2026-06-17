@@ -6,12 +6,19 @@ export const HeroSection = () => {
     <section className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
       <AudienceNav />
 
-      {/* Full background image */}
+      {/* Grid lines background */}
       <div
-        className="absolute inset-0 bg-cover bg-no-repeat bg-[right_top] md:bg-top"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        className="absolute inset-0"
+        style={{
+          backgroundColor: "#0a1530",
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1530]/95 via-[#0a1530]/70 to-transparent" />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="mb-16 md:mb-20" />
