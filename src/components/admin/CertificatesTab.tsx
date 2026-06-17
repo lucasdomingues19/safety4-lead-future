@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw, Eye, MousePointerClick, Linkedin } from "lucide-react";
+import { CertificateDocument } from "@/components/certificates/CertificateDocument";
 
 interface Certificate {
   id: string;
