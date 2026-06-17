@@ -25,7 +25,7 @@ export const HeroSection = () => {
       <img
         src={bgWorker}
         alt=""
-        className="absolute right-0 top-0 h-full w-auto object-cover opacity-20 pointer-events-none"
+        className="absolute right-0 top-0 h-full w-auto object-cover opacity-20 pointer-events-none translate-x-8"
         style={{
           maskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
           WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
