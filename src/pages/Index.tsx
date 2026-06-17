@@ -68,7 +68,43 @@ const Index = () => {
 
         <TrustedByBanner />
 
-        {/* Video Section */}
+        {/* The organisational problem */}
+        <ProblemStatsSection />
+
+        {/* What a team rollout delivers */}
+        <SolutionSection />
+
+        {/* ROI — strongest B2B asset, proof before pricing */}
+        <section aria-label="Calculate your team's return on investment" className="py-12 md:py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+                What's the <span className="text-lime-400">return</span> on training your team?
+              </h2>
+              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+                Model the financial impact of upskilling your EHS function — based on real industry benchmarks (NSC Injury Facts, Harvard/BCG).
+              </p>
+            </div>
+            <ROICalculator />
+          </div>
+        </section>
+
+        {/* Pricing — teams first, individuals second */}
+        <section aria-label="Pricing options">
+          <PricingSection />
+        </section>
+
+        {/* Founder credibility */}
+        <section id="mentor" aria-label="Meet the founder">
+          <MentorSection />
+        </section>
+
+        {/* Proof from safety leaders */}
+        <section aria-label="What safety leaders are saying">
+          <SocialProofSection />
+        </section>
+
+        {/* Introduction video — secondary, for individuals exploring */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
@@ -91,22 +127,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-        <ProblemStatsSection />
-
-
-        <section aria-label="Pricing options">
-          <PricingSection />
-        </section>
-
-        <section id="mentor" aria-label="Meet the founder">
-          <MentorSection />
-        </section>
-
-        <section aria-label="What safety leaders are saying">
-          <SocialProofSection />
-        </section>
-
 
         <Footer />
       </div>
