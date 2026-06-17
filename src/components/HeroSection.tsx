@@ -33,8 +33,8 @@ export const HeroSection = () => {
       />
 
       {/* WiFi icon on the hard hat */}
-      <div className="absolute top-[14%] right-[18%] pointer-events-none z-[1]">
-        <Wifi className="w-8 h-8 md:w-12 md:h-12 text-lime-400 drop-shadow-[0_0_12px_rgba(132,204,22,0.6)]" />
+      <div className="absolute top-[16%] right-[10%] pointer-events-none z-[1]">
+        <Wifi className="w-6 h-6 md:w-8 md:h-8 text-white/25" strokeWidth={1} fill="none" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
