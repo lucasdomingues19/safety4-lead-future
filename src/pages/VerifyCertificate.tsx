@@ -148,24 +148,8 @@ const VerifyCertificate = () => {
     }
   };
 
-  const openInNewTab = (url: string) => {
-    // Use the top-most window so the new tab escapes the preview iframe
-    // sandbox (otherwise LinkedIn loads in-frame and is blocked with
-    // ERR_BLOCKED_BY_RESPONSE / X-Frame-Options).
-    const opener = window.open(url, "_blank", "noopener,noreferrer");
-    if (!opener) {
-      // Popup blocked — fall back to navigating the top frame directly.
-      try {
-        window.top!.location.href = url;
-      } catch {
-        window.location.href = url;
-      }
-    }
-  };
-
-  const linkedInAddToProfile = () => {
-    if (!cert) return;
-    trackInteraction("linkedin");
+  const getLinkedInProfileUrl = () => {
+    if (!cert) return "#";
     const d = new Date(cert.completion_date);
     const params = new URLSearchParams({
       startTask: "CERTIFICATION_NAME",
@@ -176,16 +160,11 @@ const VerifyCertificate = () => {
       certUrl: verifyUrl,
       certId: cert.certificate_number,
     });
-    const profileUrl = `https://www.linkedin.com/profile/add?${params.toString()}`;
-    openInNewTab(profileUrl);
+    return `https://www.linkedin.com/profile/add?${params.toString()}`;
   };
 
-  const linkedInSharePost = () => {
-    if (!cert) return;
-    trackInteraction("linkedin");
-    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}`;
-    openInNewTab(shareUrl);
-  };
+  const getLinkedInShareUrl = () =>
+    cert ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}` : "#";
 
   if (status === "loading") {
     return (
@@ -300,17 +279,15 @@ const VerifyCertificate = () => {
               </Button>
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button
-                onClick={linkedInSharePost}
-                className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
-              >
-                <Linkedin className="mr-2 h-4 w-4" /> Share on LinkedIn
+              <Button asChild className="bg-[#0a66c2] hover:bg-[#084a8f] text-white">
+                <a href={getLinkedInShareUrl()} target="_top" onClick={() => trackInteraction("linkedin")}>
+                  <Linkedin className="mr-2 h-4 w-4" /> Share on LinkedIn
+                </a>
               </Button>
-              <Button
-                onClick={linkedInAddToProfile}
-                className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
-              >
-                <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
+              <Button asChild className="bg-[#0a66c2] hover:bg-[#084a8f] text-white">
+                <a href={getLinkedInProfileUrl()} target="_top" onClick={() => trackInteraction("linkedin")}>
+                  <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
+                </a>
               </Button>
             </div>
             <div className="pt-6 text-sm text-muted-foreground space-y-1">
