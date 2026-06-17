@@ -229,7 +229,11 @@ export const CertificatesTab = () => {
               <Input id="cpdHours" type="number" min="0" value={form.cpdHours}
                 onChange={(e) => setForm({ ...form, cpdHours: e.target.value })} placeholder="e.g. 20" />
             </div>
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 flex flex-wrap gap-3">
+              <Button type="button" variant="outline" onClick={openPreview}>
+                <Eye className="mr-2 h-4 w-4" />
+                Preview certificate
+              </Button>
               <Button type="submit" disabled={submitting}>
                 {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
                 Issue & email certificate
