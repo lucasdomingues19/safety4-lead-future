@@ -40,15 +40,15 @@ export const StickyCTABar = () => {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></span>
                 <span className="text-white/80 text-sm">
-                  <span className="font-semibold text-lime-400">Only 12 spots left</span> at founding member price
+                  <span className="font-semibold text-lime-400">Upskill your whole EHS team</span> — IOSH-approved Safety 4.0 training
                 </span>
               </div>
             </div>
 
             {/* Mobile message */}
             <div className="sm:hidden flex items-center gap-2 flex-1">
-              <span className="text-lime-400 font-semibold text-sm">Save £200</span>
-              <span className="text-white/60 text-sm">• Limited spots</span>
+              <span className="text-lime-400 font-semibold text-sm">Train your team</span>
+              <span className="text-white/60 text-sm">• Safety 4.0</span>
             </div>
 
             {/* CTA Button */}
@@ -56,7 +56,7 @@ export const StickyCTABar = () => {
               onClick={scrollToPricing}
               className="bg-lime-500 hover:bg-lime-600 text-black font-semibold px-6 py-2 text-sm group whitespace-nowrap"
             >
-              Enrol Now
+              Train My Team
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
 
