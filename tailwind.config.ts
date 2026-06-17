@@ -61,6 +61,23 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				/* Brand remap: legacy "lime"/"pink"/"black" utilities now resolve to the
+				   Haven-inspired petrol-navy + teal/blue palette used across the site. */
+				black: '#0e1e25',
+				lime: {
+					300: '#5eead4',
+					400: '#2dd4bf',
+					500: '#14b8a6',
+					600: '#0d9488',
+					700: '#0f766e',
+				},
+				pink: {
+					300: '#7dd3fc',
+					400: '#38bdf8',
+					500: '#0ea5e9',
+					600: '#0284c7',
+					700: '#0369a1',
 				}
 			},
 			backgroundImage: {
