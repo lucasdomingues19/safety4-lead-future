@@ -301,7 +301,10 @@ const VerifyCertificate = () => {
               >
                 <Linkedin className="mr-2 h-4 w-4" /> Share on LinkedIn
               </Button>
-              <Button onClick={linkedInAddToProfile} variant="outline">
+              <Button
+                onClick={linkedInAddToProfile}
+                className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
+              >
                 <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
               </Button>
             </div>
