@@ -53,7 +53,7 @@ export const HeroSection = () => {
             Build a Safety Function Ready for the <span className="text-lime-400">Digital Age</span>
           </h1>
           <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
-            Upskill your entire EHS team with the world's first <span className="font-bold">IOSH-approved</span> and <span className="font-bold">CPD-accredited</span> Safety 4.0 programme — built to turn AI, SafetyTech and data into measurable risk reduction across your organisation.
+            Upskill your EHS team with the world's first IOSH-approved and CPD-accredited Safety 4.0 programme.
           </p>
 
           {/* Skill Boxes */}
