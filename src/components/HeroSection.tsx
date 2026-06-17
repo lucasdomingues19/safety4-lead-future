@@ -1,4 +1,4 @@
-import { Shield, Award, ArrowRight } from "lucide-react";
+import { Shield, Award, ArrowRight, Wifi } from "lucide-react";
 import AudienceNav from "./AudienceNav";
 import bgWorker from "@/assets/certificate-bg-worker.png";
 
@@ -31,6 +31,11 @@ export const HeroSection = () => {
           WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
         }}
       />
+
+      {/* WiFi icon on the hard hat */}
+      <div className="absolute top-[14%] right-[18%] pointer-events-none z-[1]">
+        <Wifi className="w-8 h-8 md:w-12 md:h-12 text-lime-400 drop-shadow-[0_0_12px_rgba(132,204,22,0.6)]" />
+      </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="mb-16 md:mb-20" />
