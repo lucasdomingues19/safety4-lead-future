@@ -9,6 +9,51 @@ export const PricingSection = () => {
 
   const pricingTiers = [
   {
+    name: "For Teams",
+    price: "From £995",
+    period: "/ seat",
+    description: "Roll out Safety 4.0 across your EHS function — tiered for teams of 5–15+",
+    icon: Building,
+    features: [
+    "Volume pricing (PILOT → CORE → DEPARTMENT)",
+    "On-site or virtual delivery",
+    "Company-specific case studies & curriculum",
+    "Completion & progress dashboards",
+    "Dedicated account manager",
+    "Invoice / PO accepted",
+    "Bulk IOSH & CPD certification"],
+
+    cta: "Train My Team",
+    popular: true,
+    gradient: "from-lime-500/20 to-green-500/20",
+    borderColor: "border-lime-500/50",
+    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
+  },
+  {
+    name: "Accelerator • Cohort",
+    price: "£997",
+    originalPrice: "£1,497",
+    period: "per person",
+    description: "Live group + elearning training with expert guidance and peer interaction",
+    icon: Users,
+    features: [
+    "Everything in eLearning",
+    "4-week live cohort program",
+    "Weekly live sessions with instructor",
+    "Peer networking opportunities",
+    "Group projects & discussions",
+    "Live Q&A sessions",
+
+    "Priority support",
+    "Exclusive community membership"],
+
+    cta: "Apply Now",
+    popular: false,
+    gradient: "from-pink-500/20 to-purple-500/20",
+    borderColor: "border-pink-500/30",
+    buttonColor: "bg-pink-500 hover:bg-pink-600"
+  },
+  {
     name: "eLearning",
     price: "£597",
     originalPrice: "£697",
@@ -32,50 +77,6 @@ export const PricingSection = () => {
     gradient: "from-blue-500/20 to-cyan-500/20",
     borderColor: "border-blue-500/30",
     buttonColor: "bg-blue-500 hover:bg-blue-600"
-  },
-  {
-    name: "Accelerator • Cohort",
-    price: "£997",
-    originalPrice: "£1,497",
-    period: "per person",
-    description: "Live group + elearning training with expert guidance and peer interaction",
-    icon: Users,
-    features: [
-    "Everything in eLearning",
-    "4-week live cohort program",
-    "Weekly live sessions with instructor",
-    "Peer networking opportunities",
-    "Group projects & discussions",
-    "Live Q&A sessions",
-    
-    "Priority support",
-    "Exclusive community membership"],
-
-    cta: "Apply Now",
-    popular: true,
-    gradient: "from-pink-500/20 to-purple-500/20",
-    borderColor: "border-pink-500/50",
-    buttonColor: "bg-pink-500 hover:bg-pink-600"
-  },
-  {
-    name: "For Companies",
-    price: "Special",
-    period: "pricing",
-    description: "Tailored training solution for your organization",
-    icon: Building,
-    features: [
-    "Customized curriculum",
-    "On-site or virtual delivery",
-    "Multiple employee access",
-    "Company-specific case studies",
-    "Post-training support",
-    "Bulk certification discounts"],
-
-    cta: "Discover Now",
-    popular: false,
-    gradient: "from-lime-500/20 to-green-500/20",
-    borderColor: "border-lime-500/30",
-    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
   }];
 
 
