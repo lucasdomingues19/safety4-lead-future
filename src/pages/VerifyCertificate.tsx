@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { CertificateDocument, type CertificateData } from "@/components/certificates/CertificateDocument";
 import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
-import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck } from "lucide-react";
+import { CheckCircle2, XCircle, Download, Linkedin, Loader2, ShieldCheck } from "lucide-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -33,7 +33,7 @@ const VerifyCertificate = () => {
   const [status, setStatus] = useState<Status>(certificateNumber ? "loading" : "search");
   const [cert, setCert] = useState<CertificateData | null>(null);
   const [searchValue, setSearchValue] = useState("");
-  const [posting, setPosting] = useState(false);
+  
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
