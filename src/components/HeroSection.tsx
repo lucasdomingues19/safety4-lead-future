@@ -1,6 +1,6 @@
-import { Shield, Award, ArrowRight, Wifi } from "lucide-react";
+import { Shield, Award, ArrowRight } from "lucide-react";
 import AudienceNav from "./AudienceNav";
-import bgWorker from "@/assets/certificate-bg-worker.png";
+import heroWorker from "@/assets/hero-worker.png.asset.json";
 
 export const HeroSection = () => {
   return (
@@ -21,21 +21,16 @@ export const HeroSection = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a1530]/95 via-[#0a1530]/70 to-transparent" />
 
-      {/* Polygon worker figure — right side, deep in background */}
+      {/* Worker photo — right side */}
       <img
-        src={bgWorker}
+        src={heroWorker.url}
         alt=""
-        className="absolute right-0 top-0 h-full w-auto object-cover opacity-20 pointer-events-none translate-x-8"
+        className="absolute right-0 top-0 h-full w-auto object-cover opacity-80 pointer-events-none"
         style={{
-          maskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
-          WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 40%)",
+          maskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%)",
+          WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%)",
         }}
       />
-
-      {/* WiFi icon on the hard hat */}
-      <div className="absolute top-[16%] right-[10%] pointer-events-none z-[1]">
-        <Wifi className="w-6 h-6 md:w-8 md:h-8 text-white/25" strokeWidth={1} fill="none" />
-      </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="mb-16 md:mb-20" />
