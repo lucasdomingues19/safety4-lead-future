@@ -8,43 +8,43 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Pure Black */
+    --background: 198 45% 10%; /* Petrol Navy #0e1e25 */
     --foreground: 0 0% 100%; /* White */
 
-    --card: 0 0% 8%;
+    --card: 198 38% 13%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 8%;
+    --popover: 198 40% 12%;
     --popover-foreground: 0 0% 100%;
 
-    /* Updated Brand Colors */
-    --primary: 85 100% 72%; /* Lime Green #c1ff72 */
-    --primary-foreground: 0 0% 0%;
+    /* Brand Colors — Haven-inspired teal + blue */
+    --primary: 174 80% 36%; /* Teal #14b8a6 */
+    --primary-foreground: 198 45% 8%;
 
-    --secondary: 325 100% 70%; /* Pink #ff66c4 */
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 199 89% 48%; /* Sky Blue #0ea5e9 */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 55%;
+    --muted: 198 25% 18%;
+    --muted-foreground: 198 12% 65%;
 
-    --accent: 85 100% 72%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 174 72% 45%;
+    --accent-foreground: 198 45% 8%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 0%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 85 100% 72%;
+    --border: 198 25% 22%;
+    --input: 198 25% 22%;
+    --ring: 174 72% 45%;
 
     /* Custom Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 8%));
-    --gradient-secondary: linear-gradient(180deg, hsl(325 100% 70%), hsl(325 100% 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 0%) 0%, hsl(0 0% 8%) 100%);
-    
-    --shadow-glow: 0 0 40px hsl(85 100% 72% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
-    
+    --gradient-primary: linear-gradient(135deg, hsl(198 45% 10%), hsl(198 40% 14%));
+    --gradient-secondary: linear-gradient(180deg, hsl(174 80% 36%), hsl(176 100% 22%));
+    --gradient-hero: linear-gradient(135deg, hsl(198 45% 9%) 0%, hsl(198 40% 13%) 100%);
+
+    --shadow-glow: 0 0 40px hsl(174 72% 45% / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(198 45% 4% / 0.6);
+
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
