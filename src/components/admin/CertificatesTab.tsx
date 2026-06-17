@@ -107,6 +107,14 @@ export const CertificatesTab = () => {
     }
   };
 
+  const openPreview = () => {
+    if (!form.recipientName.trim() || !form.courseName.trim()) {
+      toast.error("Enter at least a recipient name and course to preview");
+      return;
+    }
+    setShowPreview(true);
+  };
+
   const handleResend = async (cert: Certificate) => {
     setResendingId(cert.id);
     try {
