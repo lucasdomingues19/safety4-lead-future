@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { CertificateDocument, type CertificateData } from "@/components/certificates/CertificateDocument";
 import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
-import { CheckCircle2, XCircle, Download, Share2, Linkedin, Loader2, ShieldCheck } from "lucide-react";
+import { CheckCircle2, XCircle, Download, Linkedin, Loader2, ShieldCheck } from "lucide-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -33,7 +33,7 @@ const VerifyCertificate = () => {
   const [status, setStatus] = useState<Status>(certificateNumber ? "loading" : "search");
   const [cert, setCert] = useState<CertificateData | null>(null);
   const [searchValue, setSearchValue] = useState("");
-  const [posting, setPosting] = useState(false);
+  
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
@@ -117,156 +117,6 @@ const VerifyCertificate = () => {
     }
   };
 
-  const downloadCertificateImage = async () => {
-    if (!certRef.current) return null;
-    trackInteraction("engaged");
-    try {
-      if (document.fonts?.ready) await document.fonts.ready;
-      const node = certRef.current;
-      const imgs = Array.from(node.querySelectorAll("img"));
-      await Promise.all(
-        imgs.map((img) =>
-          img.complete && img.naturalWidth > 0
-            ? Promise.resolve()
-            : new Promise<void>((resolve) => {
-                img.addEventListener("load", () => resolve(), { once: true });
-                img.addEventListener("error", () => resolve(), { once: true });
-              }),
-        ),
-      );
-      const scale = Math.max(3, Math.min(4, (window.devicePixelRatio || 1) * 2));
-      const canvas = await html2canvas(node, {
-        scale,
-        backgroundColor: "#05080f",
-        useCORS: true,
-        imageTimeout: 15000,
-        width: node.offsetWidth,
-        height: node.offsetHeight,
-        windowWidth: node.offsetWidth,
-        windowHeight: node.offsetHeight,
-        scrollX: 0,
-        scrollY: 0,
-      });
-      const imageFileName = `Safety4-Certificate-${cert?.certificate_number}.png`;
-      const link = document.createElement("a");
-      link.download = imageFileName;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-      return imageFileName;
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
-  };
-
-  const renderCertificateDataUrl = async (): Promise<string | null> => {
-    if (!certRef.current) return null;
-    if (document.fonts?.ready) await document.fonts.ready;
-    const node = certRef.current;
-    const imgs = Array.from(node.querySelectorAll("img"));
-    await Promise.all(
-      imgs.map((img) =>
-        img.complete && img.naturalWidth > 0
-          ? Promise.resolve()
-          : new Promise<void>((resolve) => {
-              img.addEventListener("load", () => resolve(), { once: true });
-              img.addEventListener("error", () => resolve(), { once: true });
-            }),
-      ),
-    );
-    const scale = Math.max(2, Math.min(3, (window.devicePixelRatio || 1) * 1.5));
-    const canvas = await html2canvas(node, {
-      scale,
-      backgroundColor: "#05080f",
-      useCORS: true,
-      imageTimeout: 15000,
-      width: node.offsetWidth,
-      height: node.offsetHeight,
-      windowWidth: node.offsetWidth,
-      windowHeight: node.offsetHeight,
-      scrollX: 0,
-      scrollY: 0,
-    });
-    return canvas.toDataURL("image/jpeg", 0.92);
-  };
-
-  const linkedInPostAutomatic = async () => {
-    if (!cert || posting) return;
-    trackInteraction("linkedin");
-    setPosting(true);
-    try {
-      const image = await renderCertificateDataUrl();
-      if (!image) {
-        setPosting(false);
-        return;
-      }
-
-      const text =
-        `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
-        `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
-        `Verify my certificate: ${verifyUrl}`;
-
-      const redirectUri = `${SITE_URL}/linkedin-callback`;
-      const state = Math.random().toString(36).slice(2);
-
-      const { data: authData, error: authErr } = await supabase.functions.invoke("linkedin-share", {
-        body: { action: "authorize", redirectUri, state },
-      });
-      if (authErr || !authData?.url) {
-        setPosting(false);
-        return;
-      }
-
-      const popup = window.open(authData.url, "linkedin-oauth", "width=600,height=720");
-      if (!popup) {
-        setPosting(false);
-        return;
-      }
-
-      let closeTimer = 0;
-      const onMessage = async (event: MessageEvent) => {
-        if (event.origin !== window.location.origin) return;
-        if (event.data?.source !== "linkedin-oauth") return;
-        window.removeEventListener("message", onMessage);
-        window.clearInterval(closeTimer);
-        const { code, state: returnedState, error } = event.data as {
-          code?: string;
-          state?: string;
-          error?: string;
-        };
-        if (error || !code || returnedState !== state) {
-          setPosting(false);
-          return;
-        }
-        const { data: pubData, error: pubErr } = await supabase.functions.invoke("linkedin-share", {
-          body: { action: "publish", code, redirectUri, image, text },
-        });
-        if (pubErr || pubData?.error || !pubData?.success) {
-          if (pubData?.fallback) {
-            linkedInSharePost();
-          }
-        }
-        setPosting(false);
-      };
-      window.addEventListener("message", onMessage);
-
-      closeTimer = window.setInterval(() => {
-        if (popup.closed) {
-          window.clearInterval(closeTimer);
-          window.setTimeout(() => {
-            window.removeEventListener("message", onMessage);
-            setPosting((p) => {
-              return false;
-            });
-          }, 1500);
-        }
-      }, 800);
-    } catch (e) {
-      console.error(e);
-      setPosting(false);
-    }
-  };
-
   const downloadBadge = async () => {
     if (!badgeRef.current) return;
     trackInteraction("engaged");
@@ -328,13 +178,8 @@ const VerifyCertificate = () => {
   const linkedInSharePost = () => {
     if (!cert) return;
     trackInteraction("linkedin");
-    const template =
-      `I am excited to share that I have just completed the IOSH-approved ${cert.course_name} ` +
-      `with the Safety 4.0 Academy (${ACADEMY_URL}). I am ready to lead safety forward!\n\n` +
-      `Verify my certificate: ${verifyUrl}`;
-    const composerUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(template)}`;
-    openInNewTab(composerUrl);
-    void downloadCertificateImage();
+    const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}`;
+    openInNewTab(shareUrl);
   };
 
   if (status === "loading") {
@@ -451,16 +296,10 @@ const VerifyCertificate = () => {
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
               <Button
-                onClick={linkedInPostAutomatic}
-                disabled={posting}
+                onClick={linkedInSharePost}
                 className="bg-[#0a66c2] hover:bg-[#084a8f] text-white"
               >
-                {posting ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Linkedin className="mr-2 h-4 w-4" />
-                )}
-                {posting ? "Posting…" : "Post to LinkedIn (with image)"}
+                <Linkedin className="mr-2 h-4 w-4" /> Share on LinkedIn
               </Button>
               <Button onClick={linkedInAddToProfile} variant="outline">
                 <Linkedin className="mr-2 h-4 w-4" /> Add to LinkedIn profile
