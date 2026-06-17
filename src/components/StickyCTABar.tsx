@@ -47,7 +47,7 @@ export const StickyCTABar = () => {
 
             {/* Mobile message */}
             <div className="sm:hidden flex items-center gap-2 flex-1">
-              <span className="text-lime-400 font-semibold text-sm">Train your team</span>
+              <span className="text-lime-400 font-semibold text-sm">Upskill your team</span>
               <span className="text-white/60 text-sm">• Safety 4.0</span>
             </div>
 
@@ -56,7 +56,7 @@ export const StickyCTABar = () => {
               onClick={scrollToPricing}
               className="bg-lime-500 hover:bg-lime-600 text-black font-semibold px-6 py-2 text-sm group whitespace-nowrap"
             >
-              Train My Team
+              Upskill My Team
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
 
