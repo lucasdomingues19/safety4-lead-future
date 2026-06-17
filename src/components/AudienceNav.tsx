@@ -4,9 +4,9 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 const navLinks = [
-  { label: "Home", href: "/" },
+  { label: "For Teams", href: "/in-company", emphasis: true },
   {
-    label: "Programme",
+    label: "For Individuals",
     children: [
       { label: "eLearning", href: "/elearning" },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
@@ -15,11 +15,15 @@ const navLinks = [
   },
   { label: "IOSH & CPD", href: "/certification" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "For Companies", href: "/in-company" },
-  { label: "Ebook", href: "/ebook" },
-  { label: "Scorecard", href: "/scorecard" },
-  { label: "Blog", href: "/blog" },
-  { label: "FAQ", href: "/faq" },
+  {
+    label: "Resources",
+    children: [
+      { label: "Scorecard", href: "/scorecard" },
+      { label: "Ebook", href: "/ebook" },
+      { label: "Blog", href: "/blog" },
+      { label: "FAQ", href: "/faq" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 
