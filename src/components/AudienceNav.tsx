@@ -4,9 +4,9 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 const navLinks = [
-  { label: "Home", href: "/" },
+  { label: "For Teams", href: "/in-company", emphasis: true },
   {
-    label: "Programme",
+    label: "For Individuals",
     children: [
       { label: "eLearning", href: "/elearning" },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
@@ -15,11 +15,15 @@ const navLinks = [
   },
   { label: "IOSH & CPD", href: "/certification" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "For Companies", href: "/in-company" },
-  { label: "Ebook", href: "/ebook" },
-  { label: "Scorecard", href: "/scorecard" },
-  { label: "Blog", href: "/blog" },
-  { label: "FAQ", href: "/faq" },
+  {
+    label: "Resources",
+    children: [
+      { label: "Scorecard", href: "/scorecard" },
+      { label: "Ebook", href: "/ebook" },
+      { label: "Blog", href: "/blog" },
+      { label: "FAQ", href: "/faq" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -103,17 +107,21 @@ const AudienceNav = () => {
                   const href = "href" in link ? link.href : "/";
                   if (href.includes("#")) handleHashLink(e, href);
                 }}
-                className="text-sm text-white hover:text-primary transition-colors"
+                className={
+                  "emphasis" in link && link.emphasis
+                    ? "text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors"
+                    : "text-sm text-white hover:text-primary transition-colors"
+                }
               >
                 {link.label}
               </Link>
             )
           )}
           <Link
-            to="/enrol"
+            to="/in-company"
             className="ml-2 px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Join the Waitlist
+            Book a Team Demo
           </Link>
         </div>
 
@@ -153,12 +161,23 @@ const AudienceNav = () => {
                   const href = "href" in link ? link.href : "/";
                   if (href.includes("#")) handleHashLink(e, href);
                 }}
-                className="block text-sm text-white hover:text-primary transition-colors py-2"
+                className={
+                  "emphasis" in link && link.emphasis
+                    ? "block text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors py-2"
+                    : "block text-sm text-white hover:text-primary transition-colors py-2"
+                }
               >
                 {link.label}
               </Link>
             )
           )}
+          <Link
+            to="/in-company"
+            onClick={() => setMobileOpen(false)}
+            className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            Book a Team Demo
+          </Link>
         </div>
       )}
     </nav>

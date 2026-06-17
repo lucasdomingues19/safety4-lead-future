@@ -9,6 +9,51 @@ export const PricingSection = () => {
 
   const pricingTiers = [
   {
+    name: "For Teams",
+    price: "From £995",
+    period: "/ seat",
+    description: "Roll out Safety 4.0 across your EHS function — tiered for teams of 5–15+",
+    icon: Building,
+    features: [
+    "Volume pricing (PILOT → CORE → DEPARTMENT)",
+    "On-site or virtual delivery",
+    "Company-specific case studies & curriculum",
+    "Completion & progress dashboards",
+    "Dedicated account manager",
+    "Invoice / PO accepted",
+    "Bulk IOSH & CPD certification"],
+
+    cta: "Train My Team",
+    popular: true,
+    gradient: "from-lime-500/20 to-green-500/20",
+    borderColor: "border-lime-500/50",
+    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
+  },
+  {
+    name: "Accelerator • Cohort",
+    price: "£997",
+    originalPrice: "£1,497",
+    period: "per person",
+    description: "Live group + elearning training with expert guidance and peer interaction",
+    icon: Users,
+    features: [
+    "Everything in eLearning",
+    "4-week live cohort program",
+    "Weekly live sessions with instructor",
+    "Peer networking opportunities",
+    "Group projects & discussions",
+    "Live Q&A sessions",
+
+    "Priority support",
+    "Exclusive community membership"],
+
+    cta: "Apply Now",
+    popular: false,
+    gradient: "from-pink-500/20 to-purple-500/20",
+    borderColor: "border-pink-500/30",
+    buttonColor: "bg-pink-500 hover:bg-pink-600"
+  },
+  {
     name: "eLearning",
     price: "£597",
     originalPrice: "£697",
@@ -32,50 +77,6 @@ export const PricingSection = () => {
     gradient: "from-blue-500/20 to-cyan-500/20",
     borderColor: "border-blue-500/30",
     buttonColor: "bg-blue-500 hover:bg-blue-600"
-  },
-  {
-    name: "Accelerator • Cohort",
-    price: "£997",
-    originalPrice: "£1,497",
-    period: "per person",
-    description: "Live group + elearning training with expert guidance and peer interaction",
-    icon: Users,
-    features: [
-    "Everything in eLearning",
-    "4-week live cohort program",
-    "Weekly live sessions with instructor",
-    "Peer networking opportunities",
-    "Group projects & discussions",
-    "Live Q&A sessions",
-    
-    "Priority support",
-    "Exclusive community membership"],
-
-    cta: "Apply Now",
-    popular: true,
-    gradient: "from-pink-500/20 to-purple-500/20",
-    borderColor: "border-pink-500/50",
-    buttonColor: "bg-pink-500 hover:bg-pink-600"
-  },
-  {
-    name: "For Companies",
-    price: "Special",
-    period: "pricing",
-    description: "Tailored training solution for your organization",
-    icon: Building,
-    features: [
-    "Customized curriculum",
-    "On-site or virtual delivery",
-    "Multiple employee access",
-    "Company-specific case studies",
-    "Post-training support",
-    "Bulk certification discounts"],
-
-    cta: "Discover Now",
-    popular: false,
-    gradient: "from-lime-500/20 to-green-500/20",
-    borderColor: "border-lime-500/30",
-    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
   }];
 
 
@@ -86,10 +87,10 @@ export const PricingSection = () => {
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-2">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
-            Choose Your Safety 4.0 <span className="text-lime-400">Learning Path</span>
+            Training Built for <span className="text-lime-400">Teams</span> — and Individuals
           </h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Flexible training options designed to fit your schedule and learning preferences
+            Most organisations start with a team rollout. Prefer to learn solo? Individual options are below.
           </p>
         </div>
 
@@ -107,8 +108,8 @@ export const PricingSection = () => {
               {/* Popular Badge */}
               {tier.popular &&
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-pink-500 text-white px-6 py-2 rounded-full text-sm font-bold">
-                    Most Popular
+                  <div className="bg-lime-500 text-black px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap">
+                    Most Popular for Teams
                   </div>
                 </div>
             }
@@ -158,7 +159,7 @@ export const PricingSection = () => {
               href={
               tier.name === "eLearning" ?
               "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" :
-              tier.name === "For Companies" ?
+              tier.name === "For Teams" ?
               "/in-company" :
               undefined
               }
