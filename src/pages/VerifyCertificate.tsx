@@ -163,8 +163,12 @@ const VerifyCertificate = () => {
     return `https://www.linkedin.com/profile/add?${params.toString()}`;
   };
 
-  const getLinkedInShareUrl = () =>
-    cert ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}` : "#";
+  const getLinkedInShareUrl = () => {
+    if (!cert) return "#";
+    const linkedInPageUrl = "https://www.linkedin.com/company/safety-40-academy";
+    const text = `I am excited to share I just completed the ${cert.course_name} by Safety 4.0 Academy (${linkedInPageUrl}) and I am ready to Lead Safety Forward.\n\nVerify my certificate: ${verifyUrl}`;
+    return `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(text)}`;
+  };
 
   if (status === "loading") {
     return (
