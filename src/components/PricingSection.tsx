@@ -108,8 +108,8 @@ export const PricingSection = () => {
               {/* Popular Badge */}
               {tier.popular &&
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-pink-500 text-white px-6 py-2 rounded-full text-sm font-bold">
-                    Most Popular
+                  <div className="bg-lime-500 text-black px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap">
+                    Most Popular for Teams
                   </div>
                 </div>
             }
