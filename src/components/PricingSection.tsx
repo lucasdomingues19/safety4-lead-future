@@ -9,22 +9,22 @@ export const PricingSection = () => {
 
   const pricingTiers = [
   {
-    name: "For Teams",
-    price: "From £995",
-    period: "/ seat",
-    description: "Roll out Safety 4.0 across your EHS function — tiered for teams of 5–15+",
+    name: "AI Fundamentals in EHS",
+    price: "£97",
+    period: "",
+    description: "A fast-track introduction to AI for EHS professionals",
     icon: Building,
     features: [
-    "Volume pricing (PILOT → CORE → DEPARTMENT)",
-    "On-site or virtual delivery",
-    "Company-specific case studies & curriculum",
-    "Completion & progress dashboards",
-    "Dedicated account manager",
-    "Invoice / PO accepted",
-    "Bulk IOSH & CPD certification"],
+    "90-minute crash course",
+    "Develop basic digital literacy and skills",
+    "Understand AI in EHS",
+    "Build confidence to navigate the AI transition",
+    "Recognise AI risks and governance requirements",
+    "Be ready to go deeper in Safety 4.0"],
 
-    cta: "Upskill My Team",
-    popular: true,
+    cta: "Coming Soon",
+    popular: false,
+    comingSoon: true,
     gradient: "from-lime-500/20 to-green-500/20",
     borderColor: "border-lime-500/50",
     buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
@@ -145,7 +145,13 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              {tier.name === "Accelerator • Cohort" ?
+              {tier.comingSoon ?
+            <Button
+              disabled
+              className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
+                  {tier.cta}
+                </Button> :
+            tier.name === "Accelerator • Cohort" ?
             <a href="/accelerator">
                   <Button
                 className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
@@ -159,8 +165,6 @@ export const PricingSection = () => {
               href={
               tier.name === "eLearning" ?
               "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" :
-              tier.name === "For Teams" ?
-              "/in-company" :
               undefined
               }
               target={tier.name === "eLearning" ? "_blank" : undefined}
