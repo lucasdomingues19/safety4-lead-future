@@ -121,7 +121,7 @@ const AudienceNav = () => {
             to="/in-company"
             className="ml-2 px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Book a Team Demo
+            Enrol Now
           </Link>
         </div>
 
@@ -176,7 +176,7 @@ const AudienceNav = () => {
             onClick={() => setMobileOpen(false)}
             className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
-            Book a Team Demo
+            Enrol Now
           </Link>
         </div>
       )}
