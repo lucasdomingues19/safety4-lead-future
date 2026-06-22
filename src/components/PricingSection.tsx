@@ -145,7 +145,13 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              {tier.name === "Accelerator • Cohort" ?
+              {tier.comingSoon ?
+            <Button
+              disabled
+              className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
+                  {tier.cta}
+                </Button> :
+            tier.name === "Accelerator • Cohort" ?
             <a href="/accelerator">
                   <Button
                 className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
@@ -159,8 +165,6 @@ export const PricingSection = () => {
               href={
               tier.name === "eLearning" ?
               "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" :
-              tier.name === "For Teams" ?
-              "/in-company" :
               undefined
               }
               target={tier.name === "eLearning" ? "_blank" : undefined}
