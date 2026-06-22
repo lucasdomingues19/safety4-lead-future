@@ -23,7 +23,7 @@ export const PricingSection = () => {
     "Be ready to go deeper in Safety 4.0"],
 
     cta: "Coming Soon",
-    popular: true,
+    popular: false,
     comingSoon: true,
     gradient: "from-lime-500/20 to-green-500/20",
     borderColor: "border-lime-500/50",
