@@ -43,14 +43,14 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import ioshCpdCombined from "@/assets/iosh-cpd-combined-transparent.png";
 
 const cohortSchedule = [
-{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "August", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "September", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "October", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "November", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" },
-{ month: "December", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£997" }];
+{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "August", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "September", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "October", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "November", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "December", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" }];
 
 
 const Cohort = () => {
@@ -528,7 +528,7 @@ const Cohort = () => {
                   )}
                   <tr className="bg-card">
                     <td className="p-3 md:p-4 text-sm font-bold text-white">Price</td>
-                    <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£997</td>
+                    <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£1,997</td>
                     <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-muted-foreground">£597</td>
                   </tr>
                 </tbody>
@@ -727,7 +727,7 @@ const Cohort = () => {
 
                 {/* Can Afford */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £997 + VAT FEE? *</label>
+                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £1,997 + VAT FEE? *</label>
                   <div className="flex gap-3">
                     {["Yes", "No"].map((opt) =>
                   <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>

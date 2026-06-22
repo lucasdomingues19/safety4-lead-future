@@ -439,7 +439,7 @@ const Enroll = () => {
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <h3 className="text-xl font-bold mb-3"><h3 className="text-xl font-bold mb-3">£997 <span className="text-sm font-normal text-white/60">+VAT</span></h3></h3>
+                <h3 className="text-xl font-bold mb-3"><h3 className="text-xl font-bold mb-3">£1,997 <span className="text-sm font-normal text-white/60">+VAT</span></h3></h3>
                 <p className="text-sm text-white/60 mb-4">
                   Full programme fee. Includes all modules, live sessions, 1:1 coaching, and certification.
                 </p>
