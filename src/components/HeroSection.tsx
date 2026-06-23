@@ -70,17 +70,8 @@ export const HeroSection = () => {
             Upskill your EHS team with the world's first IOSH-approved and CPD-accredited Safety 4.0 programme.
           </p>
 
-          {/* Skill Boxes */}
-          <div className="flex flex-wrap gap-2 md:gap-3 mb-8 md:mb-12">
-            {["Artificial Intelligence", "Digital Transformation", "SafetyTech", "Data & Analytics", "Safety 4.0", "Risk & Governance"].map((skill) => (
-              <span
-                key={skill}
-                className="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 bg-white/5 border border-white/10 rounded-lg text-xs md:text-sm text-gray-300 font-medium backdrop-blur-sm hover:bg-white/10 hover:border-primary/30 hover:text-primary transition-all duration-300 cursor-default"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
+
+
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-start gap-4">
