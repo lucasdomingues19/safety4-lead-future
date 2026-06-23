@@ -188,7 +188,9 @@ export default {
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
 				'scroll': 'scroll 20s linear infinite',
 				'scroll-reverse': 'scroll-reverse 20s linear infinite',
-				'float': 'float 20s ease-in-out infinite'
+				'float': 'float 20s ease-in-out infinite',
+				'grid-pan': 'grid-pan 8s linear infinite',
+				'grid-glow': 'grid-glow 10s ease-in-out infinite'
 			}
 		}
 	},
