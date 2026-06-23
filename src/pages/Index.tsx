@@ -65,29 +65,6 @@ const Index = () => {
 
         <HeroSection />
 
-        <TrustedByBanner />
-
-        {/* The organisational problem */}
-        <ProblemStatsSection />
-
-        {/* What a team rollout delivers */}
-        <SolutionSection />
-
-        {/* Pricing — teams first, individuals second */}
-        <section aria-label="Pricing options">
-          <PricingSection />
-        </section>
-
-        {/* Founder credibility */}
-        <section id="mentor" aria-label="Meet the founder">
-          <MentorSection />
-        </section>
-
-        {/* Proof from safety leaders */}
-        <section aria-label="What safety leaders are saying">
-          <SocialProofSection />
-        </section>
-
         {/* Introduction video — secondary, for individuals exploring */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
@@ -111,6 +88,31 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        <TrustedByBanner />
+
+        {/* The organisational problem */}
+        <ProblemStatsSection />
+
+        {/* What a team rollout delivers */}
+        <SolutionSection />
+
+        {/* Pricing — teams first, individuals second */}
+        <section aria-label="Pricing options">
+          <PricingSection />
+        </section>
+
+        {/* Founder credibility */}
+        <section id="mentor" aria-label="Meet the founder">
+          <MentorSection />
+        </section>
+
+        {/* Proof from safety leaders */}
+        <section aria-label="What safety leaders are saying">
+          <SocialProofSection />
+        </section>
+
+
 
         <Footer />
       </div>
