@@ -191,10 +191,10 @@ export const PricingSection = () => {
         <div className="text-center mt-16">
           <div className="bg-slate-50 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-slate-900 mb-4">
-              Not sure which option is right for you?
+              Not sure which option is right for your team?
             </h3>
             <p className="text-slate-600 mb-6">
-              Schedule a free consultation with our team to find the perfect training solution for your needs.
+              Schedule a free consultation with our experts to find the perfect training solution for your team needs.
             </p>
             <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
               <Button variant="outline" className="bg-white border-slate-300 text-slate-900 hover:bg-slate-100 px-8 py-6 text-lg">
