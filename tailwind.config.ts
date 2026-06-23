@@ -27,18 +27,18 @@ export default {
 				black: 'hsl(var(--background))',
 				'surface-alt': 'hsl(var(--surface-alt))',
 
-				/* Legacy palette remapped to brand: lime -> teal, pink -> sky blue */
+				/* Legacy palette remapped to brand: lime & pink -> cobalt blue (StartAce-inspired) */
 				lime: {
-					300: '#5eead4',
-					400: '#14b8a6',
-					500: '#14b8a6',
-					600: '#0d9488',
+					300: '#7c93f2',
+					400: '#3858e9',
+					500: '#3858e9',
+					600: '#2c46c4',
 				},
 				pink: {
-					300: '#38bdf8',
-					400: '#0ea5e9',
-					500: '#0ea5e9',
-					600: '#0284c7',
+					300: '#7c93f2',
+					400: '#5b75ef',
+					500: '#3858e9',
+					600: '#2c46c4',
 				},
 
 				primary: {
