@@ -27,6 +27,20 @@ export default {
 				black: 'hsl(var(--background))',
 				'surface-alt': 'hsl(var(--surface-alt))',
 
+				/* Legacy palette remapped to brand: lime -> teal, pink -> sky blue */
+				lime: {
+					300: '#5eead4',
+					400: '#14b8a6',
+					500: '#14b8a6',
+					600: '#0d9488',
+				},
+				pink: {
+					300: '#38bdf8',
+					400: '#0ea5e9',
+					500: '#0ea5e9',
+					600: '#0284c7',
+				},
+
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -129,10 +143,10 @@ export default {
 				},
 				'glow-pulse': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px hsl(325 100% 70% / 0.3)'
+						boxShadow: '0 0 20px hsl(173 80% 40% / 0.3)'
 					},
 					'50%': {
-						boxShadow: '0 0 40px hsl(325 100% 70% / 0.6)'
+						boxShadow: '0 0 40px hsl(173 80% 40% / 0.6)'
 					}
 				},
 				'scroll': {
