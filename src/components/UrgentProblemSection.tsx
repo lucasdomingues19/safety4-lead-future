@@ -33,7 +33,7 @@ export const UrgentProblemSection = () => {
         <div className="text-center max-w-4xl mx-auto animate-fade-in">
           {/* Urgent badge */}
           <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/40 rounded-full px-6 py-2 mb-8">
-            <AlertCircle className="w-5 h-5 text-red-400" />
+            <AlertCircle className="w-5 h-5 text-primary" />
             <span className="text-red-300 font-semibold">The Safety Industry is Transforming NOW</span>
           </div>
 
@@ -52,7 +52,7 @@ export const UrgentProblemSection = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-red-500/30 hover:border-red-500/50 transition-all">
-                <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
+                <AlertCircle className="w-12 h-12 text-primary mx-auto" />
                 <div className="text-4xl font-bold text-red-400">25%</div>
                 <h3 className="text-lg font-semibold text-white">No AI Skills</h3>
                 <p className="text-gray-300 text-sm">
@@ -64,7 +64,7 @@ export const UrgentProblemSection = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/30 hover:border-orange-500/50 transition-all">
-                <TrendingDown className="w-12 h-12 text-orange-400 mx-auto" />
+                <TrendingDown className="w-12 h-12 text-primary mx-auto" />
                 <div className="text-4xl font-bold text-orange-400">61%</div>
                 <h3 className="text-lg font-semibold text-white">Self-Identify as Beginners</h3>
                 <p className="text-gray-300 text-sm">
@@ -76,7 +76,7 @@ export const UrgentProblemSection = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-pink-500/30 hover:border-pink-500/50 transition-all">
-                <TrendingUp className="w-12 h-12 text-pink-400 mx-auto" />
+                <TrendingUp className="w-12 h-12 text-primary mx-auto" />
                 <div className="text-4xl font-bold text-pink-400">49%</div>
                 <h3 className="text-lg font-semibold text-white">Investing in AI</h3>
                 <p className="text-gray-300 text-sm">
@@ -88,7 +88,7 @@ export const UrgentProblemSection = () => {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-red-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all"></div>
               <div className="relative text-center space-y-4 bg-card/80 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30 hover:border-purple-500/50 transition-all">
-                <Clock className="w-12 h-12 text-purple-400 mx-auto" />
+                <Clock className="w-12 h-12 text-primary mx-auto" />
                 <div className="text-4xl font-bold text-purple-400">77%</div>
                 <h3 className="text-lg font-semibold text-white">AI Skills Priority</h3>
                 <p className="text-gray-300 text-sm">
