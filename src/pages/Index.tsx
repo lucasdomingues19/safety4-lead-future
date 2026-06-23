@@ -65,6 +65,8 @@ const Index = () => {
 
         <HeroSection />
 
+        <TrustedByBanner />
+
         {/* Introduction video — secondary, for individuals exploring */}
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
@@ -88,8 +90,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-        <TrustedByBanner />
 
         {/* The organisational problem */}
         <ProblemStatsSection />
