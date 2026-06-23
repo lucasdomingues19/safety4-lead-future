@@ -20,7 +20,7 @@ const programHighlights = [
   { icon: BookOpen, text: "10 On-Demand Modules" },
   { icon: Users, text: "5 Live Sessions" },
   { icon: Award, text: "IOSH & CPD Certified" },
-  { icon: Calendar, text: "4-Week Programme" },
+  { icon: Calendar, text: "6-Week Programme" },
   { icon: Shield, text: "7-Day Money-Back Guarantee" },
 ];
 
