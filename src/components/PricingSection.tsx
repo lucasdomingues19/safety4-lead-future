@@ -15,7 +15,7 @@ export const PricingSection = () => {
     description: "A fast-track introduction to AI for EHS professionals",
     icon: Building,
     features: [
-    "90-minute crash course",
+    "90-minute eLearning course",
     "Develop basic digital literacy and skills",
     "Understand AI in EHS",
     "Build confidence to navigate the AI transition",
