@@ -35,6 +35,7 @@ const logos = [
   { src: pepsicoLogo.url, alt: "PepsiCo" },
   { src: pgLogo.url, alt: "P&G" },
   { src: carrierLogo.url, alt: "Carrier" },
+  { src: havenLogo.url, alt: "Haven" },
 ];
 
 export const TrustedByBanner = () => {
