@@ -25,9 +25,9 @@ export const PricingSection = () => {
     cta: "Coming Soon",
     popular: false,
     comingSoon: true,
-    gradient: "from-lime-500/20 to-green-500/20",
-    borderColor: "border-lime-500/50",
-    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
+    gradient: "from-primary to-secondary",
+    borderColor: "border-slate-200 hover:border-primary/40",
+    buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
     name: "eLearning",
