@@ -57,7 +57,7 @@ export const PricingSection = () => {
   {
     name: "Accelerator • Cohort",
     price: "£1,997",
-    originalPrice: "£1,497",
+    originalPrice: "£2,497",
     period: "per person",
     description: "Live group + elearning training with expert guidance and peer interaction",
     icon: Users,
