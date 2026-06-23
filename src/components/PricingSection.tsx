@@ -183,7 +183,7 @@ export const PricingSection = () => {
           )}
         </div>
 
-        <p className="text-sm md:text-base text-slate-500 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
+        <p className="text-sm md:text-base text-slate-500 mx-auto mt-6 text-center leading-relaxed lg:whitespace-nowrap">
           *Get <a href="/contact?request=reimbursement" className="text-primary hover:text-primary/80 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-primary hover:text-primary/80 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-primary hover:text-primary/80 underline">group</a> (3+ seats)
         </p>
 
