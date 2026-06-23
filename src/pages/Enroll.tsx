@@ -157,12 +157,12 @@ const Enroll = () => {
       <section className="pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="lg:pr-[40%]">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6 whitespace-nowrap">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
               Enrol in the <span className="text-primary">Safety 4.0 Accelerator</span>
             </h1>
             <div className="space-y-4 text-slate-600 text-base leading-relaxed">
               <p>
-                Thank you for your interest in the Safety 4.0 Accelerator, a 4-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
+                Thank you for your interest in the Safety 4.0 Accelerator, a 6-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
               </p>
               <p>
                 Our next cohort runs from <span className="text-slate-900 font-semibold">2nd September – 30th September, 2026</span>.
@@ -440,7 +440,7 @@ const Enroll = () => {
               </div>
 
               <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-                <h3 className="text-xl font-bold mb-3"><h3 className="text-xl font-bold mb-3">£1,997 <span className="text-sm font-normal text-slate-500">+VAT</span></h3></h3>
+                <h3 className="text-xl font-bold mb-3">£1,997 <span className="text-sm font-normal text-slate-500">+VAT</span></h3>
                 <p className="text-sm text-slate-500 mb-4">
                   Full programme fee. Includes all modules, live sessions, 1:1 coaching, and certification.
                 </p>
@@ -481,7 +481,7 @@ const Enroll = () => {
                   Self-paced eLearning — same IOSH-approved content, at your own pace.
                 </p>
                 <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-auto">
-                  View eLearning (£597) <ArrowRight className="w-3 h-3" /> <ArrowRight className="w-3 h-3" />
+                  View eLearning (£597) <ArrowRight className="w-3 h-3" />
                 </a>
               </div>
 

@@ -100,8 +100,8 @@ const Cohort = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Accelerator • Cohort — 4-Week IOSH Approved Live Programme | September 2026",
-      description: "Join the Accelerator • Cohort: 4 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for September 2026.",
+      title: "Accelerator • Cohort — 6-Week IOSH Approved Live Programme | September 2026",
+      description: "Join the Accelerator • Cohort: 6 weeks of live sessions with Lucas Domingues, peer learning, IOSH certification. Only 15 seats per cohort. Apply for September 2026.",
       canonical: "https://safetyacademy.tech/accelerator"
     });
 
@@ -228,7 +228,7 @@ const Cohort = () => {
   { feature: "60+ on-demand video lessons", accelerator: true, elearning: true },
   { feature: "IOSH-approved certificate", accelerator: true, elearning: true },
   { feature: "8+ CPD hours", accelerator: true, elearning: true },
-  { feature: "5 live sessions with Lucas", accelerator: true, elearning: false },
+  { feature: "7 live sessions with Lucas", accelerator: true, elearning: false },
   { feature: "Cohort peer community (10–15 people)", accelerator: true, elearning: false },
   { feature: "Direct Q&A access to Lucas", accelerator: true, elearning: false },
   { feature: "Accountability & cohort structure", accelerator: true, elearning: false },
