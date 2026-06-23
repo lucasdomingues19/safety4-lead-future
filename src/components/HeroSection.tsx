@@ -8,18 +8,32 @@ export const HeroSection = () => {
       <AudienceNav />
 
       {/* Grid lines background */}
+      <div className="absolute inset-0" style={{ backgroundColor: "#0a1530" }} />
+      <div
+        className="absolute inset-0 animate-grid-pan"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(20,184,166,0.12) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(20,184,166,0.12) 1px, transparent 1px)
+          `,
+          backgroundSize: "70px 70px",
+        }}
+      />
+      {/* Brighter accent grid for depth */}
       <div
         className="absolute inset-0"
         style={{
-          backgroundColor: "#0a1530",
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)
           `,
-          backgroundSize: "80px 80px",
+          backgroundSize: "280px 280px",
         }}
       />
+      {/* Moving glow that sweeps across the grid */}
+      <div className="absolute inset-0 animate-grid-glow pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a1530]/95 via-[#0a1530]/70 to-transparent" />
+
 
       {/* Worker photo — right side */}
       <img
