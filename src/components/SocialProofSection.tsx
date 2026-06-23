@@ -101,15 +101,15 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
-  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
-    <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
+  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-white border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+    <p className="text-sm text-slate-900 italic leading-relaxed flex-1 mb-5">
       <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
       {t.content}
     </p>
     <div className="flex items-center gap-3">
       <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
       <div>
-        <div className="text-sm font-bold text-white">{t.name}</div>
+        <div className="text-sm font-bold text-slate-900">{t.name}</div>
         <div className="text-xs text-muted-foreground">{t.role}</div>
       </div>
     </div>
@@ -137,13 +137,13 @@ export const SocialProofSection = () => {
   };
 
   return (
-    <section className="py-20 relative overflow-hidden bg-surface-alt">
+    <section className="py-20 relative overflow-hidden ">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-8">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-8">
             Trusted by <span className="text-lime-400">Safety Leaders</span> Worldwide
           </h2>
-          <p className="text-base md:text-xl text-white whitespace-nowrap">
+          <p className="text-base md:text-xl text-slate-900 whitespace-nowrap">
             Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
           </p>
         </div>
@@ -159,17 +159,17 @@ export const SocialProofSection = () => {
         <div className="flex items-center justify-center gap-4 mt-8">
           <button
             onClick={prev}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors active:scale-95"
+            className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-900 transition-colors active:scale-95"
             aria-label="Previous"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-white/60 text-sm tabular-nums">
+          <span className="text-slate-900/60 text-sm tabular-nums">
             {current + 1} / {total}
           </span>
           <button
             onClick={next}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors active:scale-95"
+            className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-900 transition-colors active:scale-95"
             aria-label="Next"
           >
             <ChevronRight className="w-5 h-5" />

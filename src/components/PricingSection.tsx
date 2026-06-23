@@ -81,15 +81,15 @@ export const PricingSection = () => {
 
 
   return (
-    <section id="pricing" className="py-20 relative overflow-hidden bg-surface-alt">
+    <section id="pricing" className="py-20 relative overflow-hidden ">
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-6">
             Training Built for <span className="text-lime-400">Teams</span> — and Individuals
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Most organisations start with a team rollout. Prefer to learn solo? Individual options are below.
           </p>
         </div>
@@ -101,7 +101,7 @@ export const PricingSection = () => {
           <div
             key={index}
             id={tier.name === "eLearning" ? "elearning" : undefined}
-            className={`relative bg-white/10 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
+            className={`relative bg-slate-100 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
             tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
             }>
             
@@ -117,20 +117,20 @@ export const PricingSection = () => {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className={`w-16 h-16 bg-gradient-to-br ${tier.gradient} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <tier.icon className="w-8 h-8 text-white" />
+                  <tier.icon className="w-8 h-8 text-slate-900" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
-                <p className="text-gray-300 text-sm mb-4">{tier.description}</p>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">{tier.name}</h3>
+                <p className="text-slate-600 text-sm mb-4">{tier.description}</p>
                 <div className="flex items-baseline justify-center space-x-2">
                   {tier.originalPrice ?
                 <div className="flex flex-col items-center">
-                      <span className="text-gray-400 text-lg line-through mb-1">{tier.originalPrice}</span>
-                      <span className="text-4xl font-bold text-white">{tier.price}</span>
+                      <span className="text-slate-500 text-lg line-through mb-1">{tier.originalPrice}</span>
+                      <span className="text-4xl font-bold text-slate-900">{tier.price}</span>
                     </div> :
 
-                <span className="text-4xl font-bold text-white">{tier.price}</span>
+                <span className="text-4xl font-bold text-slate-900">{tier.price}</span>
                 }
-                  <span className="text-gray-400 text-lg">{tier.period}</span>
+                  <span className="text-slate-500 text-lg">{tier.period}</span>
                 </div>
               </div>
 
@@ -139,7 +139,7 @@ export const PricingSection = () => {
                 {tier.features.map((feature, featureIndex) =>
               <div key={featureIndex} className="flex items-start space-x-3">
                     <CheckCircle className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-300 text-sm">{feature}</span>
+                    <span className="text-slate-600 text-sm">{feature}</span>
                   </div>
               )}
               </div>
@@ -148,13 +148,13 @@ export const PricingSection = () => {
               {tier.comingSoon ?
             <Button
               disabled
-              className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
+              className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
                   {tier.cta}
                 </Button> :
             tier.name === "Accelerator • Cohort" ?
             <a href="/accelerator">
                   <Button
-                className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
+                className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg group`}>
                 
                     {tier.cta}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -170,7 +170,7 @@ export const PricingSection = () => {
               target={tier.name === "eLearning" ? "_blank" : undefined}
               rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}>
               
-                  <Button className={`w-full ${tier.buttonColor} text-white font-semibold py-6 text-lg group`}>
+                  <Button className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg group`}>
                     {tier.cta}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -180,21 +180,21 @@ export const PricingSection = () => {
           )}
         </div>
 
-        <p className="text-sm md:text-base text-gray-400 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
+        <p className="text-sm md:text-base text-slate-500 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
           *Get <a href="/contact?request=reimbursement" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
         </p>
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-slate-50 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">
               Not sure which option is right for you?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-slate-600 mb-6">
               Schedule a free consultation with our team to find the perfect training solution for your needs.
             </p>
             <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg">
+              <Button variant="outline" className="border-slate-300 text-slate-900 hover:bg-slate-100 px-8 py-6 text-lg">
                 Schedule Free Consultation
               </Button>
             </a>
