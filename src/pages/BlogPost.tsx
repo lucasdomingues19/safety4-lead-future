@@ -161,7 +161,7 @@ const BlogPost = () => {
                   variant="outline"
                   size="sm"
                   onClick={handleShare}
-                  className="border-slate-300 text-slate-700 hover:bg-slate-100"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   Share

@@ -20,7 +20,7 @@ export default function AntiPiracyPolicy() {
 
       <div className="container mx-auto px-4 py-12">
         <Link to="/">
-          <Button variant="outline" className="mb-8 border-slate-300 text-slate-700 hover:bg-slate-100">
+          <Button variant="default" className="mb-8 bg-primary text-primary-foreground hover:bg-primary/90">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
