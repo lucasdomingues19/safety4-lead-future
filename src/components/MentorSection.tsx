@@ -59,7 +59,7 @@ const MentorSection = () => {
             <div className="relative aspect-square rounded-2xl overflow-hidden" style={{ backgroundColor: "#0a1530" }}>
               {/* Grid lines background (matches hero) */}
               <div
-                className="absolute inset-0"
+                className="absolute inset-0 animate-grid-pan"
                 style={{
                   backgroundImage: `
                     linear-gradient(rgba(20,184,166,0.12) 1px, transparent 1px),
@@ -78,6 +78,8 @@ const MentorSection = () => {
                   backgroundSize: "280px 280px",
                 }}
               />
+              {/* Moving glow that sweeps across the grid */}
+              <div className="absolute inset-0 animate-grid-glow pointer-events-none" />
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH - Safety Leadership Mentor"
