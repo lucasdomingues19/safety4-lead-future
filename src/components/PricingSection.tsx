@@ -74,9 +74,9 @@ export const PricingSection = () => {
 
     cta: "Apply Now",
     popular: false,
-    gradient: "from-pink-500/20 to-purple-500/20",
-    borderColor: "border-pink-500/30",
-    buttonColor: "bg-pink-500 hover:bg-pink-600"
+    gradient: "from-primary to-secondary",
+    borderColor: "border-slate-200 hover:border-primary/40",
+    buttonColor: "bg-primary hover:bg-primary/90"
   }];
 
 
