@@ -82,7 +82,7 @@ const Syllabus = () => {
       </section>
 
       {/* WHAT'S INCLUDED */}
-      <section className="py-16 px-4 border-t border-slate-200">
+      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
@@ -113,7 +113,7 @@ const Syllabus = () => {
       </section>
 
       {/* 10 MODULES CURRICULUM */}
-      <section className="py-16 px-4 border-t border-slate-200">
+      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">10 MODULES · 60+ LESSONS</span>
@@ -164,7 +164,7 @@ const Syllabus = () => {
       </section>
 
       {/* WHO IS IT FOR */}
-      <section className="py-20 px-4 border-t border-slate-200">
+      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
@@ -201,7 +201,7 @@ const Syllabus = () => {
       <CoursePreviewSection />
 
       {/* Final CTA */}
-      <section className="py-20 md:py-28">
+      <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
