@@ -99,18 +99,18 @@ export const SolutionSection = () => {
                 <CardContent className="p-0 h-full">
                   <div className="flex flex-col h-full">
                     {/* Icon */}
-                    <div className="mb-4">
-                      <div className="w-14 h-14 bg-gradient-to-br from-lime-500 to-lime-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <Icon className="w-7 h-7 text-slate-900" />
+                    <div className="mb-5">
+                      <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-md">
+                        <Icon className="w-7 h-7 text-primary-foreground" />
                       </div>
                     </div>
                     
                     {/* Title & Subtitle */}
                     <div className="mb-3">
-                      <h3 className="text-xl font-bold text-slate-900 leading-tight">
+                      <h3 className="text-xl font-extrabold text-slate-900 leading-tight tracking-tight">
                         {benefit.title}
                       </h3>
-                      <p className="text-lime-400 font-semibold text-base">
+                      <p className="text-primary font-semibold text-base">
                         {benefit.subtitle}
                       </p>
                     </div>
