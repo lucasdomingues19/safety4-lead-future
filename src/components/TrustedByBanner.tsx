@@ -12,6 +12,9 @@ import fugroLogo from "@/assets/fugro-logo.png";
 import abbLogo from "@/assets/abb-logo.png";
 import bardLogo from "@/assets/bard-logo.png";
 import bvLogo from "@/assets/bureau-veritas-logo.jpg";
+import pepsicoLogo from "@/assets/pepsico-logo.png.asset.json";
+import pgLogo from "@/assets/pg-logo.png.asset.json";
+import carrierLogo from "@/assets/carrier-logo.jpeg.asset.json";
 
 const logos = [
   { src: legoLogo, alt: "LEGO" },
@@ -28,6 +31,9 @@ const logos = [
   { src: abbLogo, alt: "ABB" },
   { src: bardLogo, alt: "Bard" },
   { src: bvLogo, alt: "Bureau Veritas" },
+  { src: pepsicoLogo.url, alt: "PepsiCo" },
+  { src: pgLogo.url, alt: "P&G" },
+  { src: carrierLogo.url, alt: "Carrier" },
 ];
 
 export const TrustedByBanner = () => {
