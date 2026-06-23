@@ -6,7 +6,7 @@ import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 const navLinks = [
   { label: "For Teams", href: "/in-company", emphasis: true },
   {
-    label: "For Individuals",
+    label: "About",
     children: [
       { label: "eLearning", href: "/elearning" },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
