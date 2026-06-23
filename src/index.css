@@ -8,13 +8,13 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Pure Black */
+    --background: 223 66% 11%; /* Hero Petrol Navy #0a1530 */
     --foreground: 0 0% 100%; /* White */
 
-    --card: 0 0% 8%;
+    --card: 222 47% 16%; /* Lighter navy surface */
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 8%;
+    --popover: 222 47% 16%;
     --popover-foreground: 0 0% 100%;
 
     /* Updated Brand Colors */
@@ -24,8 +24,8 @@ All colors MUST be HSL.
     --secondary: 325 100% 70%; /* Pink #ff66c4 */
     --secondary-foreground: 0 0% 0%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 55%;
+    --muted: 222 35% 20%;
+    --muted-foreground: 215 25% 70%;
 
     --accent: 85 100% 72%;
     --accent-foreground: 0 0% 0%;
@@ -33,9 +33,13 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 0%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
+    --border: 222 30% 24%;
+    --input: 222 30% 24%;
     --ring: 85 100% 72%;
+
+    /* Alternating section band — slightly lighter than the navy base */
+    --surface-alt: 222 47% 16%;
+
 
     /* Custom Design Tokens */
     --gradient-primary: linear-gradient(135deg, hsl(0 0% 0%), hsl(0 0% 8%));
