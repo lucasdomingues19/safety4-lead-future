@@ -437,28 +437,20 @@ const Cohort = () => {
               From safety leaders <span className="text-primary">just like you</span>.
             </h2>
 
-            <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-5 opacity-0 translate-y-6 transition-all duration-700">
+            <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-6 opacity-0 translate-y-6 transition-all duration-700">
               {testimonials.map((t, i) =>
-              <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
-                  <div className="flex gap-0.5 text-amber-500 mb-4">
-                    {Array.from({ length: 5 }).map((_, si) =>
-                  <Star key={si} className="w-4 h-4 fill-amber-500" />
-                  )}
-                  </div>
-                  <p className="text-sm text-slate-700 italic leading-relaxed flex-1 mb-5">
-                    <span className="text-primary text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
+              <div key={i} className="bg-primary border border-primary rounded-2xl md:rounded-3xl p-8 md:p-10 flex flex-col shadow-lg hover:shadow-xl hover:border-secondary transition-all">
+                  <p className="text-base md:text-lg text-primary-foreground italic leading-relaxed flex-1 mb-6">
+                    <span className="text-primary-foreground/70 text-3xl leading-none align-[-8px] mr-1 not-italic">"</span>
                     {t.quote}
                   </p>
                   <div className="flex items-center gap-3">
-                    <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                    <img src={t.photo} alt={t.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0 ring-2 ring-primary-foreground/30" />
                     <div>
-                      <div className="text-sm font-bold text-slate-900">{t.name}</div>
-                      <div className="text-xs text-muted-foreground">{t.role}</div>
+                      <div className="text-base font-bold text-primary-foreground">{t.name}</div>
+                      <div className="text-sm text-primary-foreground/70">{t.role}, {t.company}</div>
                     </div>
                   </div>
-                  <span className="inline-block mt-3 bg-primary/10 border border-primary/25 rounded-full px-3 py-1 text-[10px] text-primary tracking-[1px] font-semibold w-fit">
-                    {t.company}
-                  </span>
                 </div>
               )}
             </div>
