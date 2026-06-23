@@ -101,8 +101,8 @@ const Syllabus = () => {
               { icon: Shield, title: "Email Support", desc: "Get help when you need it throughout your learning journey" },
             ].map((item, i) => (
               <div key={i} className="group rounded-2xl border border-slate-200 bg-white shadow-sm p-6 hover:border-primary/50 transition-colors">
-                <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
-                  <item.icon className="w-5 h-5 text-primary" />
+                <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
+                  <item.icon className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <h3 className="text-[15px] font-bold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
@@ -146,8 +146,8 @@ const Syllabus = () => {
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary/15 group-hover:scale-110 transition-transform duration-500">
-                        <Icon className={`w-5 h-5 ${mod.color}`} />
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-primary group-hover:scale-110 transition-transform duration-500">
+                        <Icon className="w-5 h-5 text-primary-foreground" />
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -187,8 +187,8 @@ const Syllabus = () => {
               { icon: BookOpen, title: "EHS Professionals Seeking Certification", desc: "Experienced practitioners wanting an IOSH & CPD-approved credential in digital safety leadership." },
             ].map((item, i) => (
               <div key={i} className="group relative rounded-2xl border border-slate-200 bg-white shadow-sm p-6 hover:border-primary/50 transition-all duration-500">
-                <div className="w-11 h-11 rounded-xl bg-primary/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500">
-                  <item.icon className="w-5 h-5 text-primary" />
+                <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500">
+                  <item.icon className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
                 <div className="text-sm text-slate-600 leading-relaxed">{item.desc}</div>
