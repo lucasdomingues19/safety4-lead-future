@@ -140,8 +140,11 @@ export const SocialProofSection = () => {
     <section className="py-20 relative overflow-hidden ">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-8">
-            Trusted by <span className="text-lime-400">Safety Leaders</span> Worldwide
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+            Social Proof
+          </p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-8 tracking-tight leading-[1.05]">
+            Trusted by <span className="text-primary">Safety Leaders</span> Worldwide
           </h2>
           <p className="text-base md:text-xl text-slate-900 whitespace-nowrap">
             Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
