@@ -42,14 +42,14 @@ export const ProblemStatsSection = () => {
             })}
           </div>
 
-          <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed text-left">
             <span className="font-bold text-slate-900">The hard truth:</span> traditional safety certifications
             won't protect your career anymore. Compliance-based credentials no longer signal readiness.
             Organisations are actively seeking safety leaders who can leverage AI and digital tools
             — and most professionals aren't there yet.
           </p>
 
-          <p className="text-base md:text-lg text-slate-600 mb-10 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base md:text-lg text-slate-600 mb-10 leading-relaxed text-left">
             While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
             most safety professionals are being left behind — unprepared and unequipped to lead in the digital age.
           </p>
