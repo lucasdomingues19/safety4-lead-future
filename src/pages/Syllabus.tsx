@@ -166,14 +166,16 @@ const Syllabus = () => {
       {/* WHO IS IT FOR */}
       <section className="py-20 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHO IS IT FOR?</div>
-          <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
-            Built for senior EHS leaders<br />
-            <span className="text-primary">ready to lead in the digital age</span>.
-          </h2>
-          <p className="text-lg text-slate-700 max-w-xl mb-12">
-            This programme is designed for experienced safety professionals who want to future-proof their leadership and drive measurable change.
-          </p>
+          <div className="text-center mb-12">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHO IS IT FOR?</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
+              Built for senior EHS leaders<br />
+              <span className="text-primary">ready to lead in the digital age</span>.
+            </h2>
+            <p className="text-lg text-slate-700 max-w-xl mx-auto">
+              This programme is designed for experienced safety professionals who want to future-proof their leadership and drive measurable change.
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
