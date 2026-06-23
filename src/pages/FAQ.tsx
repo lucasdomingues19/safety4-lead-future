@@ -75,7 +75,7 @@ const FAQ = () => {
         <div className="container mx-auto px-4 py-20 relative z-10">
           {/* Back Navigation */}
           <div className="mb-12">
-            <Button variant="outline" size="sm" asChild className="border-slate-300 text-slate-700 hover:bg-slate-100">
+            <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
               <a href="/" className="flex items-center space-x-2">
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to Home</span>
@@ -127,7 +127,7 @@ const FAQ = () => {
                 <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6">
                   <a href="/contact">Contact Our Team</a>
                 </Button>
-                <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 text-lg px-8 py-6" asChild>
+                <Button variant="default" className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6" asChild>
                   <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
                 </Button>
               </div>

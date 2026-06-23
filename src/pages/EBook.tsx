@@ -25,7 +25,7 @@ const EBook = () => {
       <div className="container mx-auto px-4 py-20 relative z-10">
         {/* Back Navigation */}
         <div className="mb-12">
-          <Button variant="outline" size="sm" asChild className="border-slate-300 text-slate-700 hover:bg-slate-100">
+          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
             <a href="/" className="flex items-center space-x-2">
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Home</span>

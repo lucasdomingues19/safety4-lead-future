@@ -117,7 +117,7 @@ const BlogPost = () => {
         <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
           {/* Back Navigation */}
           <div className="mb-12">
-            <Button variant="outline" size="sm" asChild className="border-slate-300 text-slate-700 hover:bg-slate-100">
+            <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
               <Link to="/blog" className="flex items-center space-x-2">
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to Blog</span>
@@ -158,10 +158,10 @@ const BlogPost = () => {
                 </div>
 
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={handleShare}
-                  className="border-slate-300 text-slate-700 hover:bg-slate-100"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   Share
