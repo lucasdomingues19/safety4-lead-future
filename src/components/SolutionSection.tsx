@@ -77,8 +77,11 @@ export const SolutionSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-8">
-            The Solution: <span className="text-lime-400">You need new skills</span>
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+            What You Get
+          </p>
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-slate-900 mb-8 tracking-tight leading-[1.05]">
+            The Solution: <span className="text-primary">You need new skills</span>
           </h2>
           
           <p className="text-xl text-slate-600 leading-relaxed">
@@ -93,24 +96,24 @@ export const SolutionSection = () => {
             return (
               <Card 
                 key={index}
-                className="p-6 border border-slate-200 bg-slate-50 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up h-full"
+                className="p-7 border border-slate-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-primary/40 transition-all duration-300 animate-slide-up h-full"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 <CardContent className="p-0 h-full">
                   <div className="flex flex-col h-full">
                     {/* Icon */}
-                    <div className="mb-4">
-                      <div className="w-14 h-14 bg-gradient-to-br from-lime-500 to-lime-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <Icon className="w-7 h-7 text-slate-900" />
+                    <div className="mb-5">
+                      <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-md">
+                        <Icon className="w-7 h-7 text-primary-foreground" />
                       </div>
                     </div>
                     
                     {/* Title & Subtitle */}
                     <div className="mb-3">
-                      <h3 className="text-xl font-bold text-slate-900 leading-tight">
+                      <h3 className="text-xl font-extrabold text-slate-900 leading-tight tracking-tight">
                         {benefit.title}
                       </h3>
-                      <p className="text-lime-400 font-semibold text-base">
+                      <p className="text-primary font-semibold text-base">
                         {benefit.subtitle}
                       </p>
                     </div>

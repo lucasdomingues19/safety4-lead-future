@@ -17,17 +17,17 @@ All colors MUST be HSL.
     --popover: 222 47% 16%;
     --popover-foreground: 0 0% 100%;
 
-    /* Updated Brand Colors */
-    --primary: 173 80% 40%; /* Teal #14b8a6 */
+    /* StartAce-inspired Brand Colors — bold cobalt blue */
+    --primary: 230 80% 56%; /* Cobalt #3858E9 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 199 89% 48%; /* Sky Blue #0ea5e9 */
+    --secondary: 230 84% 67%; /* Lighter cobalt #5B75EF */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 222 35% 20%;
     --muted-foreground: 215 25% 70%;
 
-    --accent: 173 80% 40%;
+    --accent: 230 80% 56%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -35,18 +35,18 @@ All colors MUST be HSL.
 
     --border: 222 30% 24%;
     --input: 222 30% 24%;
-    --ring: 173 80% 40%;
+    --ring: 230 80% 56%;
 
     /* Alternating section band — slightly lighter than the navy base */
     --surface-alt: 223 66% 11%; /* Match base navy for consistent dark blue across all pages */
 
 
     /* Custom Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(173 80% 40%), hsl(199 89% 48%));
-    --gradient-secondary: linear-gradient(180deg, hsl(199 89% 48%), hsl(199 89% 40%));
+    --gradient-primary: linear-gradient(135deg, hsl(230 80% 56%), hsl(230 84% 67%));
+    --gradient-secondary: linear-gradient(180deg, hsl(230 84% 67%), hsl(230 80% 56%));
     --gradient-hero: linear-gradient(135deg, hsl(223 66% 11%) 0%, hsl(222 47% 16%) 100%);
     
-    --shadow-glow: 0 0 40px hsl(173 80% 40% / 0.3);
+    --shadow-glow: 0 0 40px hsl(230 80% 56% / 0.3);
     --shadow-card: 0 10px 30px -10px hsl(223 66% 11% / 0.5);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

@@ -27,18 +27,18 @@ export default {
 				black: 'hsl(var(--background))',
 				'surface-alt': 'hsl(var(--surface-alt))',
 
-				/* Legacy palette remapped to brand: lime -> teal, pink -> sky blue */
+				/* Legacy palette remapped to brand: lime & pink -> cobalt blue (StartAce-inspired) */
 				lime: {
-					300: '#5eead4',
-					400: '#14b8a6',
-					500: '#14b8a6',
-					600: '#0d9488',
+					300: '#7c93f2',
+					400: '#3858e9',
+					500: '#3858e9',
+					600: '#2c46c4',
 				},
 				pink: {
-					300: '#38bdf8',
-					400: '#0ea5e9',
-					500: '#0ea5e9',
-					600: '#0284c7',
+					300: '#7c93f2',
+					400: '#5b75ef',
+					500: '#3858e9',
+					600: '#2c46c4',
 				},
 
 				primary: {
@@ -143,10 +143,10 @@ export default {
 				},
 				'glow-pulse': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px hsl(173 80% 40% / 0.3)'
+						boxShadow: '0 0 20px hsl(230 80% 56% / 0.3)'
 					},
 					'50%': {
-						boxShadow: '0 0 40px hsl(173 80% 40% / 0.6)'
+						boxShadow: '0 0 40px hsl(230 80% 56% / 0.6)'
 					}
 				},
 				'scroll': {
@@ -186,13 +186,13 @@ export default {
 				},
 				'grid-glow': {
 					'0%': {
-						background: 'radial-gradient(circle 380px at 15% 30%, rgba(20,184,166,0.18), transparent 70%)'
+						background: 'radial-gradient(circle 380px at 15% 30%, rgba(56,88,233,0.20), transparent 70%)'
 					},
 					'50%': {
-						background: 'radial-gradient(circle 480px at 55% 60%, rgba(14,165,233,0.16), transparent 70%)'
+						background: 'radial-gradient(circle 480px at 55% 60%, rgba(91,117,239,0.18), transparent 70%)'
 					},
 					'100%': {
-						background: 'radial-gradient(circle 380px at 15% 30%, rgba(20,184,166,0.18), transparent 70%)'
+						background: 'radial-gradient(circle 380px at 15% 30%, rgba(56,88,233,0.20), transparent 70%)'
 					}
 				}
 			},
