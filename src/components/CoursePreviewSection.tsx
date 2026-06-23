@@ -68,14 +68,14 @@ export const CoursePreviewSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {videoPreviewData.map((video) => (
             <div
               key={video.id}
-              className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-4 border border-white/10 hover:border-primary/40 transition-all duration-300 cursor-pointer group"
+              className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-5 border border-white/10 hover:border-primary/40 transition-all duration-300 cursor-pointer group"
               onClick={() => handleVideoPreview(video)}
             >
-              <div className="relative aspect-video rounded-xl mb-3 overflow-hidden">
+              <div className="relative aspect-video rounded-xl mb-4 overflow-hidden">
                 <iframe
                   className="absolute inset-0 w-full h-full pointer-events-none"
                   src={`https://www.youtube.com/embed/${video.ytId}?autoplay=1&mute=1&loop=1&playlist=${video.ytId}&controls=0&modestbranding=1&rel=0&playsinline=1`}
@@ -85,8 +85,8 @@ export const CoursePreviewSection = () => {
                   allowFullScreen
                 />
               </div>
-              <h3 className="text-white font-semibold text-sm mb-1 group-hover:text-primary transition-colors">{video.title}</h3>
-              <p className="text-gray-400 text-xs leading-relaxed line-clamp-2">{video.shortDescription}</p>
+              <h3 className="text-white font-semibold text-lg mb-1.5 group-hover:text-primary transition-colors">{video.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{video.shortDescription}</p>
               <div className="mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
                 <Play className="w-3 h-3 mr-1" />
                 Click to preview
