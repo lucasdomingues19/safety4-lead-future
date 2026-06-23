@@ -55,8 +55,8 @@ export const ProblemStatsSection = () => {
           </p>
 
           {/* Mission block */}
-          <div className="max-w-3xl mx-auto text-left space-y-6">
-            <h3 className="text-xl md:text-2xl font-bold text-lime-400 text-center">
+          <div className="text-left space-y-6">
+            <h3 className="text-xl md:text-2xl font-bold text-primary">
               The Safety 4.0 Academy exists to change that
             </h3>
 
