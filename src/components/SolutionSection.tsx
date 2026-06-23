@@ -93,7 +93,7 @@ export const SolutionSection = () => {
             return (
               <Card 
                 key={index}
-                className="p-6 border border-slate-200 bg-slate-50 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up h-full"
+                className="p-7 border border-slate-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-primary/40 transition-all duration-300 animate-slide-up h-full"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 <CardContent className="p-0 h-full">
