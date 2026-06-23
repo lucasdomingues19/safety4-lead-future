@@ -13,6 +13,7 @@ import kingsLogo from "@/assets/kings-logo-real.png";
 import lbsLogo from "@/assets/lbs-logo-real.jpg";
 import ufrjLogo from "@/assets/ufrj-logo-real.png";
 import uffLogo from "@/assets/uff-logo-real.png";
+import founderPhoto from "@/assets/founder-lucas.png";
 
 const MentorSection = () => {
   // ============================================
@@ -57,7 +58,7 @@ const MentorSection = () => {
           <div className="relative">
             <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 overflow-hidden">
               <img
-                src="/lucas-domingues.jpeg"
+                src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH - Safety Leadership Mentor"
                 className="w-full h-full object-cover" />
               
