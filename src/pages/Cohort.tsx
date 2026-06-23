@@ -329,7 +329,7 @@ const Cohort = () => {
         <section id="experience" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE ACCELERATOR EXPERIENCE</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               This isn't an online course.<br />
               It's a <span className="text-primary">transformation journey</span>.
             </h2>
@@ -359,7 +359,7 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">4-WEEK PROGRAMME</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-12">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Week by <span className="text-primary">week</span>.
             </h2>
 
@@ -383,7 +383,7 @@ const Cohort = () => {
         <section id="programme" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-2">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-2">
               Accelerator • Cohort
             </h2>
             <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-4">
@@ -431,7 +431,7 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-12">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               From leaders <span className="text-primary">just like you</span>.
             </h2>
 
@@ -478,7 +478,7 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT'S INCLUDED</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-12">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Accelerator vs eLearning.<br />
               <span className="text-primary">Understand the difference</span>.
             </h2>
@@ -758,7 +758,7 @@ const Cohort = () => {
         {/* FAQ Link */}
         <section className="py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl text-center">
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Have questions?
             </h2>
             <p className="text-muted-foreground mb-8">Find answers about the Accelerator, eLearning, and In-Company training.</p>
@@ -774,7 +774,7 @@ const Cohort = () => {
             <div ref={setFadeRef(6)} className="bg-gradient-to-br from-slate-50 to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
-                <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
                   Ready to join the<br />next cohort?
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
