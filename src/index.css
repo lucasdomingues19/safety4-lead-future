@@ -38,7 +38,7 @@ All colors MUST be HSL.
     --ring: 85 100% 72%;
 
     /* Alternating section band — slightly lighter than the navy base */
-    --surface-alt: 222 47% 16%;
+    --surface-alt: 223 66% 11%; /* Match base navy for consistent dark blue across all pages */
 
 
     /* Custom Design Tokens */
