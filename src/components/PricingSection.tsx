@@ -86,8 +86,11 @@ export const PricingSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-2">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-6">
-            Training Built for <span className="text-lime-400">Teams</span> — and Individuals
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+            Pricing
+          </p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
+            Training Built for <span className="text-primary">Teams</span> — and Individuals
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Most organisations start with a team rollout. Prefer to learn solo? Individual options are below.
