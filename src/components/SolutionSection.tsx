@@ -77,8 +77,11 @@ export const SolutionSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-8">
-            The Solution: <span className="text-lime-400">You need new skills</span>
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+            What You Get
+          </p>
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-slate-900 mb-8 tracking-tight leading-[1.05]">
+            The Solution: <span className="text-primary">You need new skills</span>
           </h2>
           
           <p className="text-xl text-slate-600 leading-relaxed">
