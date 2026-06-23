@@ -15,6 +15,7 @@ import bvLogo from "@/assets/bureau-veritas-logo.jpg";
 import pepsicoLogo from "@/assets/pepsico-logo.png.asset.json";
 import pgLogo from "@/assets/pg-logo.png.asset.json";
 import carrierLogo from "@/assets/carrier-logo.jpeg.asset.json";
+import havenLogo from "@/assets/haven-logo.jpeg.asset.json";
 
 const logos = [
   { src: legoLogo, alt: "LEGO" },
@@ -34,6 +35,7 @@ const logos = [
   { src: pepsicoLogo.url, alt: "PepsiCo" },
   { src: pgLogo.url, alt: "P&G" },
   { src: carrierLogo.url, alt: "Carrier" },
+  { src: havenLogo.url, alt: "Haven" },
 ];
 
 export const TrustedByBanner = () => {
