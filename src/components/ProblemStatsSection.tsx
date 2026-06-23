@@ -9,7 +9,7 @@ const stats = [
 
 export const ProblemStatsSection = () => {
   return (
-    <section className="py-16 md:py-24 relative">
+    <section className="py-16 md:py-24 relative bg-surface-alt">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto">
 
