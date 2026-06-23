@@ -13,7 +13,7 @@ export const ProblemStatsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto">
 
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             THE PROBLEM
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
