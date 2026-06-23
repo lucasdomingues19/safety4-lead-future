@@ -88,7 +88,7 @@ const Syllabus = () => {
           <div className="text-center mb-12">
             <span className="inline-block text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT'S INCLUDED</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
-              Everything You Need to Lead in <span className="text-primary">Safety 4.0</span>
+              Your Toolkit to Lead in <span className="text-primary">Safety 4.0</span>
             </h2>
           </div>
 
