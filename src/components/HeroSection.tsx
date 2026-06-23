@@ -77,7 +77,7 @@ export const HeroSection = () => {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <a
               href="/in-company"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-black font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-white font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
             >
               Upskill My Team
               <ArrowRight className="w-5 h-5" />
