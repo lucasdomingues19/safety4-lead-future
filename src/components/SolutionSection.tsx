@@ -50,7 +50,7 @@ export const SolutionSection = () => {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Black to dark blue gradient background */}
-      <div className="absolute inset-0 bg-black"></div>
+      <div className="absolute inset-0 bg-white"></div>
       
       {/* Floating elements - Purple and Lime */}
       <div className="absolute inset-0 overflow-hidden">
@@ -77,11 +77,11 @@ export const SolutionSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-8">
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-8">
             The Solution: <span className="text-lime-400">You need new skills</span>
           </h2>
           
-          <p className="text-xl text-gray-300 leading-relaxed">
+          <p className="text-xl text-slate-600 leading-relaxed">
             We've created the world's first comprehensive digital safety leadership program 
             that transforms traditional safety professionals into future-ready leaders.
           </p>
@@ -93,7 +93,7 @@ export const SolutionSection = () => {
             return (
               <Card 
                 key={index}
-                className="p-6 border border-white/20 bg-white/5 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up h-full"
+                className="p-6 border border-slate-200 bg-slate-50 backdrop-blur-sm hover:border-pink-400/50 transition-all duration-300 hover:scale-105 animate-slide-up h-full"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 <CardContent className="p-0 h-full">
@@ -101,13 +101,13 @@ export const SolutionSection = () => {
                     {/* Icon */}
                     <div className="mb-4">
                       <div className="w-14 h-14 bg-gradient-to-br from-lime-500 to-lime-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <Icon className="w-7 h-7 text-white" />
+                        <Icon className="w-7 h-7 text-slate-900" />
                       </div>
                     </div>
                     
                     {/* Title & Subtitle */}
                     <div className="mb-3">
-                      <h3 className="text-xl font-bold text-white leading-tight">
+                      <h3 className="text-xl font-bold text-slate-900 leading-tight">
                         {benefit.title}
                       </h3>
                       <p className="text-lime-400 font-semibold text-base">
@@ -116,7 +116,7 @@ export const SolutionSection = () => {
                     </div>
                     
                     {/* Description */}
-                    <p className="text-gray-300 text-sm leading-relaxed flex-grow">
+                    <p className="text-slate-600 text-sm leading-relaxed flex-grow">
                       {benefit.description}
                     </p>
                   </div>

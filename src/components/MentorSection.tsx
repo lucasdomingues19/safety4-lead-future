@@ -64,9 +64,9 @@ const MentorSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Meet the <span className="text-primary">Founder</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">Meet the <span className="text-primary">Founder</span>
           </h2>
-          <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base md:text-xl text-slate-600 max-w-3xl mx-auto">
             Learn from an industry expert with years of experience in safety leadership and digital transformation
           </p>
         </div>
@@ -88,11 +88,11 @@ const MentorSection = () => {
           {/* Bio */}
           <div className="space-y-6">
             <div>
-              <h3 className="text-3xl font-bold text-white mb-2">Lucas Domingues</h3>
+              <h3 className="text-3xl font-bold text-slate-900 mb-2">Lucas Domingues</h3>
               <p className="text-xl text-primary font-medium mb-4">MSc, CMIOSH</p>
             </div>
 
-            <div className="space-y-4 text-lg text-gray-300 leading-relaxed">
+            <div className="space-y-4 text-lg text-slate-600 leading-relaxed">
               <p>
                 Lucas brings over 15 years of experience in occupational health and safety, 
                 specializing in digital transformation and modern safety leadership practices.
@@ -138,7 +138,7 @@ const MentorSection = () => {
                 href="https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full font-medium transition-colors">
+                className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#004182] text-slate-900 rounded-full font-medium transition-colors">
                 
                 <Linkedin className="w-5 h-5" />
                 Connect on LinkedIn

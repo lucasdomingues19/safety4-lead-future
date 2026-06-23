@@ -32,15 +32,15 @@ const logos = [
 
 export const TrustedByBanner = () => {
   return (
-    <div className="border-y border-white/10 py-10 overflow-hidden">
+    <div className="border-y border-slate-200 py-10 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="text-[10px] tracking-[3px] text-gray-400 text-center mb-6 font-semibold">
+        <div className="text-[10px] tracking-[3px] text-slate-500 text-center mb-6 font-semibold">
           TRUSTED BY SAFETY TEAMS & PARTNERS AT
         </div>
       </div>
       <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10" />
         <div className="flex animate-scroll w-max" style={{ animationDuration: "30s" }}>
           {[...Array(2)].map((_, setIndex) => (
             <div key={setIndex} className="flex items-center gap-12 md:gap-20 px-6">
