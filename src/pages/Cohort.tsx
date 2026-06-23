@@ -429,9 +429,9 @@ const Cohort = () => {
 
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT ALUMINI GRADUATES SAY</div>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
-              From leaders <span className="text-primary">just like you</span>.
+              From safety leaders <span className="text-primary">just like you</span>.
             </h2>
 
             <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-5 opacity-0 translate-y-6 transition-all duration-700">
