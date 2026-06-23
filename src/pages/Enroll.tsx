@@ -165,7 +165,7 @@ const Enroll = () => {
                 Thank you for your interest in the Safety 4.0 Accelerator, a 4-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
               </p>
               <p>
-                Our next cohort runs from <span className="text-slate-900 font-semibold">2nd June – 30th June, 2026</span>.
+                Our next cohort runs from <span className="text-slate-900 font-semibold">2nd September – 30th September, 2026</span>.
               </p>
               <p>Kindly fill in the application form below.</p>
               <p className="text-sm text-slate-400 italic">
@@ -349,7 +349,8 @@ const Enroll = () => {
                       <SelectValue placeholder="Choose one" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="september-2026">September (waitlisted)</SelectItem>
+                      <SelectItem value="september-2026">September 2026</SelectItem>
+                      <SelectItem value="october-2026">October 2026 (waitlisted)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

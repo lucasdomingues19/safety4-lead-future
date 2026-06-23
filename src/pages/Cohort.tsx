@@ -43,14 +43,12 @@ import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
 import ioshCpdCombined from "@/assets/iosh-cpd-combined-transparent.png";
 
 const cohortSchedule = [
-{ month: "June", year: 2026, startDate: "2 Jun 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "July", year: 2026, startDate: "7 Jul 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "August", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "September", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "October", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "November", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
-{ month: "December", year: 2026, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" }];
+{ month: "September", year: 2026, startDate: "2 Sep 2026", status: "filling" as const, seatsLeft: 10, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "October", year: 2026, startDate: "6 Oct 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 BST", price: "£1,997" },
+{ month: "November", year: 2026, startDate: "3 Nov 2026", status: "open" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 GMT", price: "£1,997" },
+{ month: "December", year: 2026, startDate: "1 Dec 2026", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 GMT", price: "£1,997" },
+{ month: "January", year: 2027, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 GMT", price: "£1,997" },
+{ month: "February", year: 2027, startDate: "", status: "coming_soon" as const, seatsLeft: 15, totalSeats: 15, liveSessions: "Tuesdays, 18:30–20:00 GMT", price: "£1,997" }];
 
 
 const Cohort = () => {
@@ -79,11 +77,11 @@ const Cohort = () => {
   });
 
 
-  // Countdown to June 2, 2026
+  // Countdown to September 2, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const target = new Date("2026-06-02T00:00:00Z").getTime();
+    const target = new Date("2026-09-02T00:00:00Z").getTime();
     const tick = () => {
       const now = Date.now();
       const diff = Math.max(0, target - now);

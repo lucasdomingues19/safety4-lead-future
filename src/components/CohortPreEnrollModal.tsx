@@ -79,7 +79,7 @@ export const CohortPreEnrollModal = ({ open, onOpenChange }: CohortPreEnrollModa
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Save Your Spot in the Cohort</DialogTitle>
           <DialogDescription className="text-base text-white">
-            Join our next live group training program in early 2026. Fill in your details and we'll reach out with the schedule and next steps.
+            Join our next live group training programme starting 2 September 2026. Fill in your details and we'll reach out with the schedule and next steps.
           </DialogDescription>
         </DialogHeader>
 
