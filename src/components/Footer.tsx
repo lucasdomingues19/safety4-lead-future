@@ -111,16 +111,16 @@ export const Footer = () => {
             {/* Accreditations */}
             <div className="mt-6 md:mt-8">
               <h4 className="text-white font-semibold text-base md:text-lg mb-3 md:mb-4">Accreditations</h4>
-              <div className="bg-white rounded-lg p-4 flex flex-wrap items-center gap-4 md:gap-6">
+              <div className="bg-white rounded-lg p-3 inline-flex flex-wrap items-center gap-3 md:gap-4">
                 <img
                   src={ioshApprovedLogo}
                   alt="IOSH Approved Training Provider 5522"
-                  className="h-12 md:h-14 w-auto"
+                  className="h-9 md:h-10 w-auto"
                 />
                 <img
                   src={cpdMemberLogo}
                   alt="CPD Member - The CPD Certification Service"
-                  className="h-12 md:h-14 w-auto"
+                  className="h-9 md:h-10 w-auto"
                 />
               </div>
             </div>
