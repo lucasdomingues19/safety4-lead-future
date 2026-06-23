@@ -260,14 +260,13 @@ const Cohort = () => {
                 {/* Tag */}
 
                 <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-slate-900 mb-6 md:mb-8">
-                  Accelerator •<br />
-                  <span className="text-primary">Cohort </span>
+                  Safety 4.0 Accelerator&nbsp;<br />
+                  <span className="text-primary">Cohort</span>
                 </h1>
 
                 <p className="text-base md:text-xl text-slate-600 max-w-xl leading-relaxed mb-10 font-light">
-                  4 weeks. Live sessions and self-paced modules.
-                  <br />A cohort of EHS professionals
-                   transforming how they lead safety in the digital age.
+                  6 weeks. Live sessions and self-paced modules.
+                  <br />A cohort of EHS leaders navigating the AI transition in the digital age.
                 </p>
 
                 {/* Countdown */}
