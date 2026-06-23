@@ -27,7 +27,7 @@ const Syllabus = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">IOSH APPROVED · CPD ACCREDITED&nbsp;</span>
+              <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">IOSH APPROVED · CPD ACCREDITED&nbsp;</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
                 Safety 4.0&nbsp;
                 <span className="text-primary block">Leading Safety in the Digital Age</span>
@@ -85,7 +85,7 @@ const Syllabus = () => {
       <section className="py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="inline-block text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT'S INCLUDED</span>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Your Toolkit to Lead in <span className="text-primary">Safety 4.0</span>
             </h2>
@@ -116,7 +116,7 @@ const Syllabus = () => {
       <section className="py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="inline-block text-[10px] tracking-[3px] text-primary font-bold mb-4">10 MODULES · 60+ LESSONS</span>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">10 MODULES · 60+ LESSONS</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               A Modern <span className="text-primary">Curriculum</span>
             </h2>
@@ -167,7 +167,7 @@ const Syllabus = () => {
       <section className="py-20 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHO IS IT FOR?</div>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Built for senior EHS leaders<br />
               <span className="text-primary">ready to lead in the digital age</span>.

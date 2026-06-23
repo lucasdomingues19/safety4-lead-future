@@ -328,7 +328,7 @@ const Cohort = () => {
         {/* ACCELERATOR EXPERIENCE */}
         <section id="experience" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE ACCELERATOR EXPERIENCE</div>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE ACCELERATOR EXPERIENCE</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               This isn't an online course.<br />
               It's a <span className="text-primary">transformation journey</span>.
@@ -358,7 +358,7 @@ const Cohort = () => {
         {/* 4-WEEK TIMELINE */}
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">4-WEEK PROGRAMME</div>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">4-WEEK PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Week by <span className="text-primary">week</span>.
             </h2>
@@ -382,7 +382,7 @@ const Cohort = () => {
         {/* THE PROGRAMME */}
         <section id="programme" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-2">
               Accelerator • Cohort
             </h2>
@@ -430,7 +430,7 @@ const Cohort = () => {
 
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT ALUMINI GRADUATES SAY</div>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT ALUMINI GRADUATES SAY</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               From safety leaders <span className="text-primary">just like you</span>.
             </h2>
@@ -477,7 +477,7 @@ const Cohort = () => {
         {/* COMPARISON TABLE */}
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT'S INCLUDED</div>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Accelerator vs eLearning.<br />
               <span className="text-primary">Understand the difference</span>.
