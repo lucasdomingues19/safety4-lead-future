@@ -198,10 +198,12 @@ const Cohort = () => {
 
 
   const timeline = [
-  { weeks: "WK 1", title: "Foundations — Safety 4.0 & the Digital Shift", desc: "What Industry 4.0 means for EHS. Where AI, IoT, and data intersect with safety. The strategic case for change. Building your digital safety foundations" },
-  { weeks: "WK 2", title: "Data strategy, Safetytech applications", desc: "Data strategy for safety functions. Wearables, sensors, computer vision, and drones in practice. Predictive analytics for proactive risk reduction." },
-  { weeks: "WK 3", title: "AI Essentials & Risk, Compliance and Governance", desc: "Machine learning, NLP, and large language models applied to EHS. Practical tools for reporting, risk assessment, incident analysis, and compliance. Live demo session." },
-  { weeks: "WK 4", title: "Leadership, Change and Transformation", desc: "Leading digital transformation in safety. Building AI-ready teams. Board communication and business case development with ROI determination. Final certification assessment." }];
+  { weeks: "WK 1", title: "Leadership — Mindset Activation", desc: "Mindset activation session to challenge leaders to rethink how they adopt and integrate AI. While many focus on algorithms and technical capability, the faculty team highlights the overlooked human dimension of transformation." },
+  { weeks: "WK 2", title: "Diagnose — Name Your Reactive Safety Trap", desc: "Deep dive into the evolution of workplace safety over the years and discover your reactive safety trap and why it is a problem. The illusion of safety at board level. The safety identity most leaders need to release." },
+  { weeks: "WK 3", title: "Leadership — Skills Shift & Career Transition", desc: "Career digital shift and the skills needed to lead safety in the AI era. Navigating the accelerating impact of AI, automation, and digital transformation on work and careers. Focused on mid-career leaders expected to drive transformation from inside their current roles while continuing to deliver business outcomes." },
+  { weeks: "WK 4", title: "Leadership — AI Governance", desc: "AI governance as strategic leadership leverage. Before the adoption of AI tools, learn the importance of setting adequate controls to manage risks related to artificial intelligence." },
+  { weeks: "WK 5", title: "Bonus Masterclass — Optimise EHS with Microsoft Copilot", desc: "Guest AI expert session on Microsoft Copilot. Discover the tools and features of this incredible AI tool which you're probably already working with. A practical learning session designed to help you work with AI as a sniper, not a bazooka." },
+  { weeks: "WK 6", title: "Leadership — Lead Transformation", desc: "Why 70% of digital transformation projects fail — and how to be in the 30%. Capstone presentations: each participant presents their Transformation Roadmap (hypothetical or real) to the cohort for live feedback. Scorecard before/after reveal. Identity close." }];
 
 
   const testimonials = [
