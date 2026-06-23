@@ -18,24 +18,24 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 100%;
 
     /* Updated Brand Colors */
-    --primary: 85 100% 72%; /* Lime Green #c1ff72 */
-    --primary-foreground: 0 0% 0%;
+    --primary: 173 80% 40%; /* Teal #14b8a6 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 325 100% 70%; /* Pink #ff66c4 */
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 199 89% 48%; /* Sky Blue #0ea5e9 */
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 222 35% 20%;
     --muted-foreground: 215 25% 70%;
 
-    --accent: 85 100% 72%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 173 80% 40%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 0%;
 
     --border: 222 30% 24%;
     --input: 222 30% 24%;
-    --ring: 85 100% 72%;
+    --ring: 173 80% 40%;
 
     /* Alternating section band — slightly lighter than the navy base */
     --surface-alt: 223 66% 11%; /* Match base navy for consistent dark blue across all pages */
