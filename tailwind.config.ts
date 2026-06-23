@@ -186,13 +186,13 @@ export default {
 				},
 				'grid-glow': {
 					'0%': {
-						background: 'radial-gradient(circle 380px at 15% 30%, rgba(20,184,166,0.18), transparent 70%)'
+						background: 'radial-gradient(circle 380px at 15% 30%, rgba(56,88,233,0.20), transparent 70%)'
 					},
 					'50%': {
-						background: 'radial-gradient(circle 480px at 55% 60%, rgba(14,165,233,0.16), transparent 70%)'
+						background: 'radial-gradient(circle 480px at 55% 60%, rgba(91,117,239,0.18), transparent 70%)'
 					},
 					'100%': {
-						background: 'radial-gradient(circle 380px at 15% 30%, rgba(20,184,166,0.18), transparent 70%)'
+						background: 'radial-gradient(circle 380px at 15% 30%, rgba(56,88,233,0.20), transparent 70%)'
 					}
 				}
 			},
