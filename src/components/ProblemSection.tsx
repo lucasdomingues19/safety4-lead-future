@@ -43,7 +43,7 @@ export const ProblemSection = () => {
 
           <div className="grid md:grid-cols-3 gap-8 mt-16">
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-              <TrendingDown className="w-12 h-12 text-red-400 mx-auto" />
+              <TrendingDown className="w-12 h-12 text-primary mx-auto" />
               <h3 className="text-xl font-semibold text-white">Falling Behind</h3>
               <p className="text-gray-300">
                 Traditional safety professionals are being outpaced by tech-savvy leaders
@@ -51,7 +51,7 @@ export const ProblemSection = () => {
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.2s'}}>
-              <Clock className="w-12 h-12 text-red-400 mx-auto" />
+              <Clock className="w-12 h-12 text-primary mx-auto" />
               <h3 className="text-xl font-semibold text-white">Limited Career Growth</h3>
               <p className="text-gray-300">
                 Without digital skills, career advancement opportunities become scarce
@@ -59,7 +59,7 @@ export const ProblemSection = () => {
             </div>
             
             <div className="text-center space-y-4 animate-slide-up bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10" style={{animationDelay: '0.4s'}}>
-              <AlertTriangle className="w-12 h-12 text-pink-400 mx-auto" />
+              <AlertTriangle className="w-12 h-12 text-primary mx-auto" />
               <h3 className="text-xl font-semibold text-white">Obsolete Methods</h3>
               <p className="text-gray-300">
                 Old-school safety management can't compete with AI-driven approaches

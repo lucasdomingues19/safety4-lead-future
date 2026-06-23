@@ -161,12 +161,12 @@ export const Footer = () => {
             </p>
             <span className="text-gray-400 hidden md:inline">•</span>
             <div className="flex items-center space-x-1 md:space-x-2">
-              <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-green-400" />
+              <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               <span className="text-gray-400 text-xs md:text-sm">IOSH Approved</span>
             </div>
             <span className="text-gray-400 hidden md:inline">•</span>
             <div className="flex items-center space-x-1 md:space-x-2">
-              <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-green-400" />
+              <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               <span className="text-gray-400 text-xs md:text-sm">CPD Accredited</span>
             </div>
           </div>
