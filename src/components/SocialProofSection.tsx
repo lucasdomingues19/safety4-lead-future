@@ -137,7 +137,7 @@ export const SocialProofSection = () => {
   };
 
   return (
-    <section className="py-20 relative overflow-hidden ">
+    <section className="py-12 md:py-16 relative overflow-hidden ">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
