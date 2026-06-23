@@ -69,30 +69,13 @@ const FAQ = () => {
   return (
     <>
       <SEOStructuredData type="faq" faqItems={allFaqs} />
-      <div className="min-h-screen relative overflow-hidden">
-        <div className="absolute inset-0 bg-black"></div>
+      <div className="min-h-screen bg-white">
         <AudienceNav />
-
-        {/* Floating elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-          <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-          <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-500/20 to-purple-400/10 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
-          <div className="absolute bottom-1/4 -right-20 w-64 h-64 rounded-full bg-gradient-to-br from-lime-500/15 via-lime-400/20 to-lime-600/10 blur-3xl animate-[float_28s_ease-in-out_infinite_reverse]"></div>
-        </div>
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}></div>
-        </div>
 
         <div className="container mx-auto px-4 py-20 relative z-10">
           {/* Back Navigation */}
           <div className="mb-12">
-            <Button variant="outline" size="sm" asChild className="border-border text-foreground hover:bg-muted">
+            <Button variant="outline" size="sm" asChild className="border-slate-300 text-slate-700 hover:bg-slate-100">
               <a href="/" className="flex items-center space-x-2">
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to Home</span>
@@ -102,10 +85,10 @@ const FAQ = () => {
 
           {/* Header */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-foreground">
+            <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-slate-900">
               Frequently Asked <span className="text-primary">Questions</span>
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
               Everything you need to know about eLearning, the Accelerator, and In-Company training
             </p>
           </div>
@@ -114,16 +97,16 @@ const FAQ = () => {
           <div className="max-w-4xl mx-auto space-y-12">
             {categories.map((category, catIndex) => (
               <div key={catIndex}>
-                <h2 className="text-2xl font-bold text-primary mb-6 border-b border-border pb-3">
+                <h2 className="text-2xl font-bold text-primary mb-6 border-b border-slate-200 pb-3">
                   {category.title}
                 </h2>
                 <Accordion type="single" collapsible className="w-full">
                   {category.faqs.map((faq, faqIndex) => (
-                    <AccordionItem key={faqIndex} value={`${catIndex}-${faqIndex}`} className="border-border">
-                      <AccordionTrigger className="text-base font-semibold text-white text-left hover:no-underline py-5">
+                    <AccordionItem key={faqIndex} value={`${catIndex}-${faqIndex}`} className="border-slate-200">
+                      <AccordionTrigger className="text-base font-semibold text-slate-900 text-left hover:no-underline py-5">
                         {faq.question}
                       </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground leading-relaxed">
+                      <AccordionContent className="text-slate-600 leading-relaxed">
                         {faq.answer}
                       </AccordionContent>
                     </AccordionItem>
@@ -135,16 +118,16 @@ const FAQ = () => {
 
           {/* Still Have Questions CTA */}
           <div className="max-w-4xl mx-auto mt-16 text-center">
-            <div className="bg-gradient-to-r from-pink-500/20 to-primary/20 rounded-3xl p-12 border border-border">
-              <h2 className="text-3xl font-bold text-foreground mb-6">Still Have Questions?</h2>
-              <p className="text-lg text-muted-foreground mb-8">
+            <div className="bg-white rounded-3xl p-12 border border-slate-200 shadow-sm">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Still Have Questions?</h2>
+              <p className="text-lg text-slate-600 mb-8">
                 Can't find what you're looking for? Our team is here to help you make the right decision for your safety career.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild className="bg-pink-500 hover:bg-pink-600 text-white text-lg px-8 py-6">
+                <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6">
                   <a href="/contact">Contact Our Team</a>
                 </Button>
-                <Button variant="outline" className="border-border text-foreground hover:bg-muted text-lg px-8 py-6" asChild>
+                <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 text-lg px-8 py-6" asChild>
                   <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
                 </Button>
               </div>

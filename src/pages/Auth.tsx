@@ -70,42 +70,40 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 bg-black"></div>
-      
-      <div className="relative z-10 w-full max-w-md px-4">
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="w-full max-w-md px-4">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-2xl text-white text-center">
+            <CardTitle className="text-2xl text-slate-900 text-center">
               Admin Login
             </CardTitle>
-            <CardDescription className="text-gray-300 text-center">
+            <CardDescription className="text-slate-600 text-center">
               Sign in to access the analytics dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white">Email</Label>
+                <Label htmlFor="email" className="text-slate-700">Email</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="admin@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400"
+                  className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                   disabled={loading}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password" className="text-slate-700">Password</Label>
                 <Input
                   id="password"
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400"
+                  className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                   disabled={loading}
                 />
               </div>

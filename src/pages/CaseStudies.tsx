@@ -19,7 +19,7 @@ const CaseStudies = () => {
 
   return (
     <div className="min-h-screen relative">
-      <div className="fixed inset-0 bg-black -z-10" />
+      <div className="fixed inset-0 bg-white -z-10" />
       <AudienceNav />
 
       {/* Hero */}
@@ -28,10 +28,10 @@ const CaseStudies = () => {
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/15 text-primary text-sm font-semibold mb-4 tracking-wide">
             Alumni Stories
           </span>
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 leading-tight">
             Case Studies
           </h1>
-          <p className="text-white text-base md:text-lg max-w-2xl mx-auto">
+          <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">
             Discover how safety leaders around the world are applying what they learned at the Safety&nbsp;4.0 Academy.
           </p>
         </div>
@@ -41,23 +41,23 @@ const CaseStudies = () => {
       <article className="pb-20">
         <div className="container mx-auto px-4 max-w-3xl">
           {/* Author card */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 mb-10 p-6 rounded-2xl border border-border bg-card/60 backdrop-blur-md">
+          <div className="flex flex-col sm:flex-row items-center gap-6 mb-10 p-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
             <img
               src={stewartDearyPhoto}
               alt="Stewart Deary"
               className="w-24 h-24 rounded-full object-cover ring-2 ring-primary/40"
             />
             <div className="text-center sm:text-left">
-              <h2 className="text-xl font-bold text-foreground">Stewart Deary</h2>
+              <h2 className="text-xl font-bold text-slate-900">Stewart Deary</h2>
               <p className="text-primary font-medium text-sm">Global HSE Director — CRTS Global</p>
-              <p className="text-muted-foreground text-sm mt-1">
+              <p className="text-slate-600 text-sm mt-1">
                 Safety 4.0 Academy Alumni
               </p>
             </div>
           </div>
 
           {/* Title */}
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 leading-snug">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 leading-snug">
             Bringing Safety Leadership into the Digital Age
           </h2>
           <p className="text-primary italic mb-10 text-sm font-medium">
@@ -190,8 +190,8 @@ const CaseStudies = () => {
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div>
-    <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">{title}</h3>
-    <div className="space-y-3 text-muted-foreground text-sm md:text-base leading-relaxed">
+    <h3 className="text-lg md:text-xl font-semibold text-slate-900 mb-3">{title}</h3>
+    <div className="space-y-3 text-slate-600 text-sm md:text-base leading-relaxed">
       {children}
     </div>
   </div>
@@ -199,7 +199,7 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 const Highlight = ({ children }: { children: React.ReactNode }) => (
   <blockquote className="border-l-4 border-primary pl-4 py-2 my-4 bg-primary/5 rounded-r-lg">
-    <p className="text-foreground italic font-medium flex items-start gap-2 text-sm md:text-base">
+    <p className="text-slate-900 italic font-medium flex items-start gap-2 text-sm md:text-base">
       <Quote className="w-4 h-4 text-primary flex-shrink-0 mt-1" />
       <span>{children}</span>
     </p>
