@@ -48,7 +48,7 @@ export const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-12 md:py-16 relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-white"></div>
 
