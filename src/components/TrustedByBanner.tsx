@@ -34,8 +34,8 @@ export const TrustedByBanner = () => {
   return (
     <div className="border-y border-slate-200 py-10 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="text-[10px] tracking-[3px] text-slate-500 text-center mb-6 font-semibold">
-          TRUSTED BY SAFETY TEAMS & PARTNERS AT
+        <div className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary text-center mb-6">
+          TRUSTED BY SAFETY TEAMS &amp; PARTNERS AT
         </div>
       </div>
       <div className="relative">
