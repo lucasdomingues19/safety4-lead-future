@@ -90,7 +90,7 @@ export const PricingSection = () => {
             Pricing
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
-            Training Built for <span className="text-primary">Teams</span> — and Individuals
+            Built to Meet <span className="text-primary">Your Team Needs</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Most organisations start with a team rollout. Prefer to learn solo? Individual options are below.
