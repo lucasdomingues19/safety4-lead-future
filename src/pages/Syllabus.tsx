@@ -87,7 +87,7 @@ const Syllabus = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="inline-block text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT'S INCLUDED</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Everything You Need to Lead in <span className="text-primary">Safety 4.0</span>
             </h2>
           </div>
@@ -118,7 +118,7 @@ const Syllabus = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <span className="inline-block text-[10px] tracking-[3px] text-primary font-bold mb-4">10 MODULES · 60+ LESSONS</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               A Modern <span className="text-primary">Curriculum</span>
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -169,7 +169,7 @@ const Syllabus = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHO IS IT FOR?</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Built for senior EHS leaders<br />
               <span className="text-primary">ready to lead in the digital age</span>.
             </h2>
@@ -205,7 +205,7 @@ const Syllabus = () => {
       <section className="py-20 md:py-28">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
               Start Your Safety 4.0 Journey <span className="text-primary">Today</span>
             </h2>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
