@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 const navLinks = [
-  { label: "For Teams", href: "/in-company", emphasis: true },
+  
   {
     label: "About",
     children: [
