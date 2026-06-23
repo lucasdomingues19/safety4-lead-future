@@ -81,7 +81,7 @@ export const PricingSection = () => {
 
 
   return (
-    <section id="pricing" className="py-20 relative overflow-hidden ">
+    <section id="pricing" className="py-12 md:py-16 relative overflow-hidden ">
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}

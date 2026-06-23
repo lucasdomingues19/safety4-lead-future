@@ -68,7 +68,7 @@ const Index = () => {
         <TrustedByBanner />
 
         {/* Introduction video — secondary, for individuals exploring */}
-        <section className="pt-12 md:pt-16 pb-0">
+        <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 text-center mb-8 md:mb-12">
