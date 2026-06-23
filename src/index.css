@@ -42,11 +42,11 @@ All colors MUST be HSL.
 
 
     /* Custom Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(173 80% 40%), hsl(199 89% 48%));
-    --gradient-secondary: linear-gradient(180deg, hsl(199 89% 48%), hsl(199 89% 40%));
+    --gradient-primary: linear-gradient(135deg, hsl(230 80% 56%), hsl(230 84% 67%));
+    --gradient-secondary: linear-gradient(180deg, hsl(230 84% 67%), hsl(230 80% 56%));
     --gradient-hero: linear-gradient(135deg, hsl(223 66% 11%) 0%, hsl(222 47% 16%) 100%);
     
-    --shadow-glow: 0 0 40px hsl(173 80% 40% / 0.3);
+    --shadow-glow: 0 0 40px hsl(230 80% 56% / 0.3);
     --shadow-card: 0 10px 30px -10px hsl(223 66% 11% / 0.5);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
