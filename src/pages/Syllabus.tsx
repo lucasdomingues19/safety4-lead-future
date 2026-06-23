@@ -160,21 +160,6 @@ const Syllabus = () => {
               );
             })}
           </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-            {[
-              { val: "60+", label: "Studio-recorded video lessons, available on demand" },
-              { val: "8+", label: "CPD hours — verifiable upon completion" },
-              { val: "IOSH", label: "Approved certification recognised globally" },
-              { val: "CPD", label: "Demonstrate continuous professional development in your field" },
-            ].map((s, i) => (
-              <div key={i} className="rounded-xl border border-primary/20 bg-primary/[0.06] p-5">
-                <div className="text-2xl font-black text-primary">{s.val}</div>
-                <div className="text-sm text-slate-600 mt-1">{s.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
