@@ -27,6 +27,20 @@ export default {
 				black: 'hsl(var(--background))',
 				'surface-alt': 'hsl(var(--surface-alt))',
 
+				/* Legacy palette remapped to brand: lime -> teal, pink -> sky blue */
+				lime: {
+					300: '#5eead4',
+					400: '#14b8a6',
+					500: '#14b8a6',
+					600: '#0d9488',
+				},
+				pink: {
+					300: '#38bdf8',
+					400: '#0ea5e9',
+					500: '#0ea5e9',
+					600: '#0284c7',
+				},
+
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
