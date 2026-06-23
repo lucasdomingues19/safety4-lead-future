@@ -387,7 +387,7 @@ const Cohort = () => {
               Accelerator • Cohort
             </h2>
             <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-4">
-              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-primary">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
+              6 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-primary">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
             </h3>
 
             <div className="grid md:grid-cols-2 gap-4">
