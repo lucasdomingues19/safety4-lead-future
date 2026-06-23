@@ -26,7 +26,7 @@ const Scorecard = () => {
       <div className="min-h-screen flex flex-col bg-white">
         <AudienceNav />
         <div className="container mx-auto px-4 pt-6">
-          <Button variant="outline" size="sm" asChild className="border-slate-300 text-slate-700 hover:bg-slate-100">
+          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
             <Link to="/" className="flex items-center space-x-2">
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Home</span>
