@@ -17,7 +17,7 @@ export const ProblemStatsSection = () => {
             THE PROBLEM
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
-            Lack of <span className="text-primary">Digital Skills</span>: Liability
+            <span className="text-primary">Digital Skills Gap</span>: A Hidden Liability
           </h2>
 
           <h3 className="text-lg md:text-2xl font-semibold text-slate-900 mb-6">
