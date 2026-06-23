@@ -55,10 +55,7 @@ export const SolutionSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
-            What You Get
-          </p>
-          <h2 className="text-4xl lg:text-6xl font-extrabold text-slate-900 mb-8 tracking-tight leading-[1.05]">
+          <h2 className="text-4xl lg:text-6xl font-extrabold text-slate-900 mb-8 tracking-tight leading-[1.05] md:whitespace-nowrap">
             The Solution: <span className="text-primary">You need new skills</span>
           </h2>
           
