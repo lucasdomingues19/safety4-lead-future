@@ -73,7 +73,7 @@ const Index = () => {
                 Introducing: <span className="text-primary">Safety 4.0 Academy</span>
               </h2>
               <p className="text-lg md:text-2xl font-semibold text-slate-900 text-center mb-8 md:mb-12">
-                Our Mission? <span className="text-lime-400">Lead Safety Forward.</span> Discover how.
+                Our mission is to <span className="text-primary">Lead Safety Forward.</span> Discover How.
               </p>
               <div className="relative bg-slate-100 backdrop-blur-sm rounded-2xl overflow-hidden border border-slate-200 hover:border-primary/50 transition-all duration-300">
                 <iframe
