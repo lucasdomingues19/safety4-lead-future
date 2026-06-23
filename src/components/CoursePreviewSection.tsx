@@ -59,7 +59,7 @@ export const CoursePreviewSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-8">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05] mb-6 md:mb-8">
-            Course <span className="text-lime-400">Preview</span>
+            <span className="text-lime-400">Course Preview</span>
           </h2>
         </div>
         <div className="max-w-7xl mx-auto mb-8 md:mb-12">
