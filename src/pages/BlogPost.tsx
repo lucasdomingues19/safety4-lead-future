@@ -158,7 +158,7 @@ const BlogPost = () => {
                 </div>
 
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={handleShare}
                   className="bg-primary text-primary-foreground hover:bg-primary/90"
