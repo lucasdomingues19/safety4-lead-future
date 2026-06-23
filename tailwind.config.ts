@@ -158,8 +158,28 @@ export default {
 					'66%': {
 						transform: 'translateY(-10px) rotate(-1deg)'
 					}
+				},
+				'grid-pan': {
+					'0%': {
+						backgroundPosition: '0px 0px'
+					},
+					'100%': {
+						backgroundPosition: '70px 70px'
+					}
+				},
+				'grid-glow': {
+					'0%': {
+						background: 'radial-gradient(circle 380px at 15% 30%, rgba(20,184,166,0.18), transparent 70%)'
+					},
+					'50%': {
+						background: 'radial-gradient(circle 480px at 55% 60%, rgba(14,165,233,0.16), transparent 70%)'
+					},
+					'100%': {
+						background: 'radial-gradient(circle 380px at 15% 30%, rgba(20,184,166,0.18), transparent 70%)'
+					}
 				}
 			},
+
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
