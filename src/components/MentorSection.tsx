@@ -13,7 +13,7 @@ import kingsLogo from "@/assets/kings-logo-real.png";
 import lbsLogo from "@/assets/lbs-logo-real.jpg";
 import ufrjLogo from "@/assets/ufrj-logo-real.png";
 import uffLogo from "@/assets/uff-logo-real.png";
-import founderPhoto from "@/assets/founder-lucas.png";
+import founderPhoto from "@/assets/founder-cutout.png";
 
 const MentorSection = () => {
   // ============================================
