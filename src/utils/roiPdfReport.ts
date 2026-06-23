@@ -81,7 +81,7 @@ function drawFooter(doc: jsPDF) {
 
   doc.setTextColor(...PINK);
   doc.setFontSize(7);
-  doc.text("Book a call \u2192 safetyacademy.tech/in-company", W - MARGIN, fy + 10, { align: "right" });
+  doc.text("Book a call \u2192 safetyacademy.tech/contact", W - MARGIN, fy + 10, { align: "right" });
 }
 
 export function generateROIReport(d: ROIData) {
