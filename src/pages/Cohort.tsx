@@ -326,7 +326,7 @@ const Cohort = () => {
         </section>
 
         {/* ACCELERATOR EXPERIENCE */}
-        <section id="experience" className="py-20 px-4 border-t border-border">
+        <section id="experience" className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE ACCELERATOR EXPERIENCE</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
@@ -358,7 +358,7 @@ const Cohort = () => {
         </section>
 
         {/* 4-WEEK TIMELINE */}
-        <section className="py-20 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">4-WEEK PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -382,7 +382,7 @@ const Cohort = () => {
         </section>
 
         {/* THE PROGRAMME */}
-        <section id="programme" className="py-20 px-4 border-t border-border">
+        <section id="programme" className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-2">
@@ -430,7 +430,7 @@ const Cohort = () => {
           </div>
         </section>
 
-        <section className="py-20 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT ALUMINI GRADUATES SAY</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -477,7 +477,7 @@ const Cohort = () => {
         </section>
 
         {/* COMPARISON TABLE */}
-        <section className="py-20 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -758,7 +758,7 @@ const Cohort = () => {
         </Dialog>
 
         {/* FAQ Link */}
-        <section className="py-16 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl text-center">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Have questions?
@@ -771,7 +771,7 @@ const Cohort = () => {
         </section>
 
         {/* FINAL CTA */}
-        <section className="py-20 px-4">
+        <section className="py-12 md:py-16 px-4">
           <div className="container mx-auto max-w-6xl">
             <div ref={setFadeRef(6)} className="bg-gradient-to-br from-slate-50 to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
