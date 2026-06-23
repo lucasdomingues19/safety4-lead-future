@@ -151,13 +151,13 @@ export const PricingSection = () => {
               {tier.comingSoon ?
             <Button
               disabled
-              className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
+              className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
                   {tier.cta}
                 </Button> :
             tier.name === "Accelerator • Cohort" ?
             <a href="/accelerator">
                   <Button
-                className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg group`}>
+                className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                 
                     {tier.cta}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -173,7 +173,7 @@ export const PricingSection = () => {
               target={tier.name === "eLearning" ? "_blank" : undefined}
               rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}>
               
-                  <Button className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg group`}>
+                  <Button className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
