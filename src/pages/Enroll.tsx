@@ -484,16 +484,6 @@ const Enroll = () => {
                 </a>
               </div>
 
-              <div className="rounded-2xl border border-pink-500/30 bg-pink-500/10 p-5 flex flex-col gap-3">
-                <Building2 className="w-6 h-6 text-pink-500 flex-shrink-0" />
-                <div className="text-sm font-bold text-white">Training your whole team?</div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  In-Company programme — customised curriculum, bulk pricing, and dedicated support.
-                </p>
-                <a href="/in-company" className="inline-flex items-center gap-1 text-xs font-semibold text-pink-500 hover:text-pink-400 transition-colors mt-auto">
-                  Discover In-Company <ArrowRight className="w-3 h-3" />
-                </a>
-              </div>
             </div>
           </div>
         </div>
