@@ -141,7 +141,7 @@ export const PricingSection = () => {
               <div className="space-y-4 mb-8 flex-grow">
                 {tier.features.map((feature, featureIndex) =>
               <div key={featureIndex} className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     <span className="text-slate-600 text-sm">{feature}</span>
                   </div>
               )}
