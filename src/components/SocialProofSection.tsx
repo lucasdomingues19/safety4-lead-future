@@ -140,7 +140,7 @@ export const SocialProofSection = () => {
     <section className="py-12 md:py-16 relative overflow-hidden ">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             DON'T TAKE OUR WORD FOR IT
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-8 tracking-tight leading-[1.05] whitespace-pre-line">
