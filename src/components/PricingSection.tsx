@@ -104,7 +104,7 @@ export const PricingSection = () => {
           <div
             key={index}
             id={tier.name === "eLearning" ? "elearning" : undefined}
-            className={`relative bg-slate-100 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
+            className={`relative bg-white backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
             tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
             }>
             
