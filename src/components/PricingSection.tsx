@@ -63,7 +63,7 @@ export const PricingSection = () => {
     icon: Users,
     features: [
     "Everything in eLearning",
-    "4-week live cohort program",
+    "6-week live cohort program",
     "Weekly live sessions with instructor",
     "Peer networking opportunities",
     "Group projects & discussions",
