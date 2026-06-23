@@ -82,16 +82,6 @@ export const HeroSection = () => {
               Upskill My Team
               <ArrowRight className="w-5 h-5" />
             </a>
-            <a
-              href="#pricing"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-medium text-lg rounded-full border border-white/20 hover:bg-white/20 transition-colors active:scale-[0.97]"
-            >
-              For Individuals
-            </a>
           </div>
         </div>
       </div>
