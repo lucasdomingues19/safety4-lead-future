@@ -71,6 +71,11 @@ const Index = () => {
         <section className="py-12 md:py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-4">
+                <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md">
+                  Introducing
+                </span>
+              </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 text-center mb-8 md:mb-12">
                 <span className="text-primary">Safety 4.0 Academy</span>
               </h2>
