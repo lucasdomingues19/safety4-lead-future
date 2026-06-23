@@ -64,7 +64,7 @@ export const PricingSection = () => {
     features: [
     "Everything in eLearning",
     "6-week live cohort program",
-    "Weekly live sessions with instructor",
+    "Expert-led live sessions with global faculty members",
     "Peer networking opportunities",
     "Group projects & discussions",
     "Live Q&A sessions",
