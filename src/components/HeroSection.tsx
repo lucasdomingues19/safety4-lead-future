@@ -39,7 +39,7 @@ export const HeroSection = () => {
       <img
         src={heroWorker.url}
         alt=""
-        className="absolute right-0 top-0 h-full w-auto object-cover opacity-80 pointer-events-none"
+        className="hidden lg:block absolute right-0 top-0 h-full w-auto object-cover opacity-80 pointer-events-none"
         style={{
           maskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%)",
           WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%)",
