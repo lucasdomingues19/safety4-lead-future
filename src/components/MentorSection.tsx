@@ -13,7 +13,7 @@ import kingsLogo from "@/assets/kings-logo-real.png";
 import lbsLogo from "@/assets/lbs-logo-real.jpg";
 import ufrjLogo from "@/assets/ufrj-logo-real.png";
 import uffLogo from "@/assets/uff-logo-real.png";
-import founderPhoto from "@/assets/founder-lucas.png";
+import founderPhoto from "@/assets/founder-cutout.png";
 
 const MentorSection = () => {
   // ============================================
@@ -56,12 +56,32 @@ const MentorSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           {/* Photo */}
           <div className="relative">
-            <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 overflow-hidden">
+            <div className="relative aspect-square rounded-2xl overflow-hidden" style={{ backgroundColor: "#0a1530" }}>
+              {/* Grid lines background (matches hero) */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(rgba(20,184,166,0.12) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(20,184,166,0.12) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "70px 70px",
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `
+                    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "280px 280px",
+                }}
+              />
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH - Safety Leadership Mentor"
-                className="w-full h-full object-cover" />
-              
+                className="absolute inset-0 w-full h-full object-cover object-top" />
             </div>
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
             <div className="absolute -top-4 -left-4 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
