@@ -1,3 +1,5 @@
+// ============= Full file contents =============
+
 import { useEffect } from "react";
 import { Shield, Award, CheckCircle } from "lucide-react";
 import { Footer } from "@/components/Footer";
@@ -20,42 +22,17 @@ const Certification = () => {
 
   return (
     <>
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Black to dark blue gradient background */}
-      <div className="absolute inset-0 bg-black"></div>
-      
-      {/* Floating elements - Purple and Lime */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Purple blob - Top left */}
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-        
-        {/* Lime blob - Top right */}
-        <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-        
-        {/* Purple blob - Bottom left */}
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-purple-600/15 via-purple-500/20 to-purple-400/10 blur-3xl animate-[float_30s_ease-in-out_infinite]"></div>
-        
-        {/* Lime blob - Bottom right */}
-        <div className="absolute bottom-1/4 -right-20 w-64 h-64 rounded-full bg-gradient-to-br from-lime-500/15 via-lime-400/20 to-lime-600/10 blur-3xl animate-[float_28s_ease-in-out_infinite_reverse]"></div>
-      </div>
-      
-      {/* Subtle grid pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }}></div>
-      </div>
+    <div className="min-h-screen bg-white">
 
       <AudienceNav />
       <div className="container mx-auto px-4 pt-24 pb-20 relative z-10">
 
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6">
-            IOSH & CPD <span className="text-lime-400">Certification</span>
+          <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-slate-900">
+            IOSH & CPD <span className="text-primary">Certification</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Globally recognized credentials that validate your Safety 4.0 expertise
           </p>
         </div>
@@ -64,31 +41,31 @@ const Certification = () => {
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* IOSH Section */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 relative">
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative">
               <div className="text-center mb-8">
-                <div className="w-24 h-18 bg-pink-500 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <span className="text-white text-2xl font-bold">IOSH</span>
+                <div className="w-24 h-18 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <span className="text-primary-foreground text-2xl font-bold">IOSH</span>
                 </div>
-                <h2 className="text-3xl font-bold text-pink-500 mb-4">Institution of Occupational Safety and Health</h2>
-                <p className="text-gray-300">The world's leading professional body for health and safety professionals</p>
+                <h2 className="text-3xl font-bold text-primary mb-4">Institution of Occupational Safety and Health</h2>
+                <p className="text-slate-600">The world's leading professional body for health and safety professionals</p>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Digital certificate issued by IOSH</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Digital certificate issued by IOSH</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Recognised in 130+ countries worldwide</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Recognised in 130+ countries worldwide</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Enhanced career advancement opportunities</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Enhanced career advancement opportunities</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-pink-400" />
-                  <span className="text-gray-300">Strict quality standard met</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Strict quality standard met</span>
                 </div>
               </div>
               
@@ -103,31 +80,31 @@ const Certification = () => {
             </div>
 
             {/* CPD Section */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 relative">
+            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm relative">
               <div className="text-center mb-8">
-                <div className="w-24 h-18 bg-lime-500 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <span className="text-white text-2xl font-bold">CPD</span>
+                <div className="w-24 h-18 bg-primary rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <span className="text-primary-foreground text-2xl font-bold">CPD</span>
                 </div>
-                <h2 className="text-3xl font-bold text-lime-400 mb-4">Continuing Professional Development</h2>
-                <p className="text-gray-300">Structured approach to learning and professional growth</p>
+                <h2 className="text-3xl font-bold text-primary mb-4">Continuing Professional Development</h2>
+                <p className="text-slate-600">Structured approach to learning and professional growth</p>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400" />
-                  <span className="text-gray-300">8+ hours of certified CPD credits</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">8+ hours of certified CPD credits</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400" />
-                  <span className="text-gray-300">Internationally recognized standard</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Internationally recognized standard</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400" />
-                  <span className="text-gray-300">Validates commitment to excellence</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Validates commitment to excellence</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-lime-400" />
-                  <span className="text-gray-300">Required by many professional bodies</span>
+                  <CheckCircle className="w-5 h-5 text-primary" />
+                  <span className="text-slate-600">Required by many professional bodies</span>
                 </div>
               </div>
               
@@ -148,23 +125,23 @@ const Certification = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Left: Certificate */}
             <div>
-              <h2 className="text-3xl font-bold text-white mb-8">Your Certificate</h2>
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+              <h2 className="text-3xl font-bold text-slate-900 mb-8">Your Certificate</h2>
+              <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
                 <img
                   src={certificateSample}
                   alt="IOSH Approved Certificate Sample"
                   className="w-full h-auto rounded-lg shadow-2xl"
                 />
                 <div className="mt-4 space-y-2 text-sm">
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-slate-600">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     <span>Internationally recognized certification</span>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-slate-600">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     <span>8+ hours of CPD credits</span>
                   </div>
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-slate-600">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     <span>Digital & printable certificate</span>
                   </div>
@@ -174,58 +151,58 @@ const Certification = () => {
 
             {/* Right: Certification Process & Benefits */}
             <div>
-              <h2 className="text-3xl font-bold text-white mb-8">Certification Process</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-8">Certification Process</h2>
               <div className="space-y-8 mb-12">
                 <div className="flex items-start space-x-5">
-                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">1</div>
+                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0">1</div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Complete the Program</h3>
-                    <p className="text-gray-300 text-sm">Successfully finish all 10 modules with passing grades on all assessments. Attend the live classes where applicable.</p>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Complete the Program</h3>
+                    <p className="text-slate-600 text-sm">Successfully finish all 10 modules with passing grades on all assessments. Attend the live classes where applicable.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-5">
-                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2</div>
+                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0">2</div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Final Assessment</h3>
-                    <p className="text-gray-300 text-sm">Pass the comprehensive final examination covering all aspects of digital safety leadership and Industry 4.0 applications.</p>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Final Assessment</h3>
+                    <p className="text-slate-600 text-sm">Pass the comprehensive final examination covering all aspects of digital safety leadership and Industry 4.0 applications.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-5">
-                  <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-lime-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3</div>
+                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0">3</div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Certification Award</h3>
-                    <p className="text-gray-300 text-sm">Receive your official IOSH and CPD certified Safety 4.0 Leader credentials, recognized globally.</p>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Certification Award</h3>
+                    <p className="text-slate-600 text-sm">Receive your official IOSH and CPD certified Safety 4.0 Leader credentials, recognized globally.</p>
                   </div>
                 </div>
               </div>
 
-              <h2 className="text-3xl font-bold text-white mb-6">Certification Benefits</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">Certification Benefits</h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-pink-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Award className="w-5 h-5 text-pink-400" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Award className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-white">Global Recognition</h3>
-                    <p className="text-gray-300 text-sm">Your credentials are recognized and respected by employers worldwide</p>
+                    <h3 className="text-base font-semibold text-slate-900">Global Recognition</h3>
+                    <p className="text-slate-600 text-sm">Your credentials are recognized and respected by employers worldwide</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-5 h-5 text-lime-400" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-white">Career Advancement</h3>
-                    <p className="text-gray-300 text-sm">98% of certified professionals report readiness for career advancement</p>
+                    <h3 className="text-base font-semibold text-slate-900">Career Advancement</h3>
+                    <p className="text-slate-600 text-sm">98% of certified professionals report readiness for career advancement</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-lime-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-5 h-5 text-lime-400" />
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <CheckCircle className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-base font-semibold text-white">Industry Authority</h3>
-                    <p className="text-gray-300 text-sm">Become a recognized thought leader in the Safety 4.0 movement</p>
+                    <h3 className="text-base font-semibold text-slate-900">Industry Authority</h3>
+                    <p className="text-slate-600 text-sm">Become a recognized thought leader in the Safety 4.0 movement</p>
                   </div>
                 </div>
               </div>

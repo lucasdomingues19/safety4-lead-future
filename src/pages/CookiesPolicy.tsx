@@ -14,30 +14,21 @@ export default function CookiesPolicy() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Black to dark blue gradient background */}
-      <div className="absolute inset-0 bg-black"></div>
-      
-      {/* Floating elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-br from-purple-500/25 via-purple-600/20 to-violet-500/15 blur-3xl animate-[float_20s_ease-in-out_infinite]"></div>
-        <div className="absolute top-1/4 -right-32 w-80 h-80 rounded-full bg-gradient-to-br from-lime-400/20 via-lime-500/25 to-lime-600/15 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]"></div>
-      </div>
-
-      <div className="relative z-10 container mx-auto px-4 py-12">
+    <div className="min-h-screen bg-white">
+      <div className="container mx-auto px-4 py-12">
         <Link to="/">
-          <Button variant="outline" className="mb-8 border-white/30 text-white hover:bg-white/10">
+          <Button variant="outline" className="mb-8 border-slate-300 text-slate-700 hover:bg-slate-100">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
         </Link>
 
-        <div className="max-w-4xl mx-auto bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10">
-          <h1 className="text-4xl font-bold text-white mb-8">Cookies Policy</h1>
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12 border border-slate-200 shadow-sm">
+          <h1 className="text-4xl font-bold text-slate-900 mb-8">Cookies Policy</h1>
           
-          <div className="space-y-6 text-gray-300 leading-relaxed">
+          <div className="space-y-6 text-slate-700 leading-relaxed">
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">What Are Cookies</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">What Are Cookies</h2>
               <p>
                 Cookies are small text files that are placed on your device when you visit our website. They help us 
                 provide you with a better experience by remembering your preferences and understanding how you use our site.
@@ -45,7 +36,7 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">How We Use Cookies</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">How We Use Cookies</h2>
               <p className="mb-3">Safety 4.0 Academy uses cookies for the following purposes:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li><strong>Essential Cookies:</strong> Required for the website to function properly, including authentication and security</li>
@@ -56,11 +47,11 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Types of Cookies We Use</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Types of Cookies We Use</h2>
               
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Session Cookies</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">Session Cookies</h3>
                   <p>
                     Temporary cookies that are deleted when you close your browser. These are essential for maintaining 
                     your login session and ensuring secure navigation.
@@ -68,7 +59,7 @@ export default function CookiesPolicy() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Persistent Cookies</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">Persistent Cookies</h3>
                   <p>
                     Remain on your device for a set period or until you delete them. These help us remember your 
                     preferences across multiple visits.
@@ -76,7 +67,7 @@ export default function CookiesPolicy() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Third-Party Cookies</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">Third-Party Cookies</h3>
                   <p>
                     Set by third-party services we use, such as analytics providers and payment processors. These help 
                     us understand user behavior and provide secure payment processing.
@@ -86,7 +77,7 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Managing Cookies</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Managing Cookies</h2>
               <p className="mb-3">
                 You can control and manage cookies in several ways:
               </p>
@@ -101,7 +92,7 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Cookie Retention</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Cookie Retention</h2>
               <p>
                 Different cookies have different retention periods:
               </p>
@@ -114,7 +105,7 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Your Consent</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Your Consent</h2>
               <p>
                 By continuing to use our website, you consent to our use of cookies as described in this policy. 
                 You can withdraw your consent at any time by adjusting your browser settings or contacting us directly.
@@ -122,7 +113,7 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Updates to This Policy</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Updates to This Policy</h2>
               <p>
                 We may update this Cookies Policy from time to time to reflect changes in technology, legislation, 
                 or our business practices. We encourage you to review this policy periodically.
@@ -130,16 +121,16 @@ export default function CookiesPolicy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">Contact Us</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Contact Us</h2>
               <p>
                 If you have questions about our use of cookies, please contact us at{" "}
-                <a href="mailto:hello@safetyacademy.tech" className="text-lime-400 hover:text-lime-300">
+                <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
                   hello@safetyacademy.tech
                 </a>
               </p>
             </section>
 
-            <p className="text-sm text-gray-400 pt-6 border-t border-white/10">
+            <p className="text-sm text-slate-500 pt-6 border-t border-slate-200">
               Last updated: January 2025
             </p>
           </div>

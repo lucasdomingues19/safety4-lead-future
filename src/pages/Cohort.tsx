@@ -241,18 +241,10 @@ const Cohort = () => {
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
-      <div className="min-h-screen relative font-dm">
-        <div className="fixed inset-0 bg-black -z-10" />
+      <div className="min-h-screen relative font-dm bg-white text-slate-900">
+        <div className="fixed inset-0 bg-white -z-10" />
 
         {/* Floating background decorations */}
-        <div className="fixed inset-0 -z-[5] overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-purple-500/15 via-purple-600/10 to-violet-500/5 blur-3xl animate-[float_20s_ease-in-out_infinite]" />
-          <div className="absolute top-[20%] -right-32 w-96 h-96 rounded-full bg-gradient-to-br from-lime-400/10 via-lime-500/15 to-lime-600/8 blur-3xl animate-[float_25s_ease-in-out_infinite_reverse]" />
-          <div className="absolute top-[45%] -left-20 w-72 h-72 rounded-full bg-gradient-to-br from-pink-500/10 via-pink-600/8 to-pink-400/5 blur-3xl animate-[float_22s_ease-in-out_infinite]" />
-          <div className="absolute top-[60%] right-[10%] w-80 h-80 rounded-full bg-gradient-to-br from-purple-600/10 via-purple-500/12 to-purple-400/5 blur-3xl animate-[float_30s_ease-in-out_infinite]" />
-          <div className="absolute top-[80%] -left-32 w-96 h-96 rounded-full bg-gradient-to-br from-lime-500/8 via-lime-400/12 to-lime-600/5 blur-3xl animate-[float_28s_ease-in-out_infinite_reverse]" />
-          <div className="absolute bottom-[10%] right-[5%] w-72 h-72 rounded-full bg-gradient-to-br from-pink-500/8 via-pink-400/10 to-pink-600/5 blur-3xl animate-[float_24s_ease-in-out_infinite]" />
-        </div>
 
         {/* NAV */}
         <AudienceNav />
@@ -260,12 +252,6 @@ const Cohort = () => {
         {/* HERO */}
         <section className="min-h-screen flex items-center pt-32 pb-20 px-4 relative overflow-hidden">
           {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
-              backgroundSize: '40px 40px'
-            }} />
-          </div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
             <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
@@ -273,12 +259,12 @@ const Cohort = () => {
               <div className="text-left">
                 {/* Tag */}
 
-                <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-white mb-6 md:mb-8">
+                <h1 className="font-syne text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight text-slate-900 mb-6 md:mb-8">
                   Accelerator •<br />
                   <span className="text-primary">Cohort </span>
                 </h1>
 
-                <p className="text-base md:text-xl text-gray-300 max-w-xl leading-relaxed mb-10 font-light">
+                <p className="text-base md:text-xl text-slate-600 max-w-xl leading-relaxed mb-10 font-light">
                   4 weeks. Live sessions and self-paced modules.
                   <br />A cohort of EHS professionals
                    transforming how they lead safety in the digital age.
@@ -294,7 +280,7 @@ const Cohort = () => {
                     { val: countdown.minutes, label: "MIN" },
                     { val: countdown.seconds, label: "SEC" }].
                     map((item) =>
-                    <div key={item.label} className="bg-card border border-border rounded-xl px-4 py-3 min-w-[72px] text-center">
+                    <div key={item.label} className="bg-white border border-slate-200 shadow-sm rounded-xl px-4 py-3 min-w-[72px] text-center">
                         <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
                         <div className="text-[10px] tracking-[2px] text-muted-foreground font-syne mt-1">{item.label}</div>
                       </div>
@@ -342,26 +328,26 @@ const Cohort = () => {
         {/* ACCELERATOR EXPERIENCE */}
         <section id="experience" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">THE ACCELERATOR EXPERIENCE</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE ACCELERATOR EXPERIENCE</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
               This isn't an online course.<br />
               It's a <span className="text-primary">transformation journey</span>.
             </h2>
-            <p className="text-lg text-white max-w-xl mb-12">
+            <p className="text-lg text-slate-700 max-w-xl mb-12">
               The Accelerator combines on-demand course content with live weekly sessions, a peer cohort, and direct access to Lucas. The result is accountability, community, and a credential.
             </p>
 
             <div ref={setFadeRef(0)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 opacity-0 translate-y-6 transition-all duration-700">
               {experienceItems.map((item, i) =>
-              <div key={i} className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all">
-                  <item.icon className={`w-6 h-6 mb-4 ${i % 2 === 0 ? "text-primary" : "text-pink-500"}`} />
-                  <div className="font-syne text-[15px] font-bold text-white mb-2">{item.title}</div>
+              <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 hover:border-primary/30 transition-all">
+                  <item.icon className={`w-6 h-6 mb-4 ${i % 2 === 0 ? "text-primary" : "text-primary"}`} />
+                  <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
                   <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
                 </div>
               )}
             </div>
 
-            <a href="https://learning.safetyacademy.tech/brochure" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-pink-500 hover:text-pink-400 transition-colors group">
+            <a href="https://learning.safetyacademy.tech/brochure" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group">
               <FileDown className="w-4 h-4" />
               Download Cohort Brochure
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -373,8 +359,8 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">4-WEEK PROGRAMME</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
-              Week by <span className="text-pink-500">week</span>.
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-12">
+              Week by <span className="text-primary">week</span>.
             </h2>
 
             <div ref={setFadeRef(1)} className="space-y-6 max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
@@ -384,7 +370,7 @@ const Cohort = () => {
                     <span className="font-syne text-xs font-bold text-primary tracking-[1px]">{item.weeks}</span>
                   </div>
                   <div>
-                    <div className="font-syne text-[15px] font-bold text-white mb-2">{item.title}</div>
+                    <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
                     <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
                   </div>
                 </div>
@@ -397,11 +383,11 @@ const Cohort = () => {
         <section id="programme" className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">THE PROGRAMME</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-2">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-2">
               Accelerator • Cohort
             </h2>
-            <h3 className="font-syne text-2xl md:text-3xl font-bold text-white leading-tight mb-4">
-              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-pink-500">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
+            <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-4">
+              4 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-primary">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
             </h3>
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -417,9 +403,9 @@ const Cohort = () => {
               { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
               { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." }].
               map((mod, i) =>
-              <div key={i} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
-                  <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-pink-500' : 'text-primary'}`}>MODULE {mod.num}</div>
-                  <div className="text-[15px] font-bold text-white mb-2">{mod.title}</div>
+              <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
+                  <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-primary' : 'text-primary'}`}>MODULE {mod.num}</div>
+                  <div className="text-[15px] font-bold text-slate-900 mb-2">{mod.title}</div>
                   <div className="text-sm text-muted-foreground">{mod.desc}</div>
                 </div>
               )}
@@ -445,26 +431,26 @@ const Cohort = () => {
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
             <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT GRADUATES SAY</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-12">
               From leaders <span className="text-primary">just like you</span>.
             </h2>
 
             <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-5 opacity-0 translate-y-6 transition-all duration-700">
               {testimonials.map((t, i) =>
-              <div key={i} className="bg-card border border-border rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
+              <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-2xl p-7 flex flex-col hover:border-primary/35 transition-colors">
                   <div className="flex gap-0.5 text-amber-500 mb-4">
                     {Array.from({ length: 5 }).map((_, si) =>
                   <Star key={si} className="w-4 h-4 fill-amber-500" />
                   )}
                   </div>
-                  <p className="text-sm text-white italic leading-relaxed flex-1 mb-5">
-                    <span className="text-pink-500 text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
+                  <p className="text-sm text-slate-700 italic leading-relaxed flex-1 mb-5">
+                    <span className="text-primary text-2xl leading-none align-[-8px] mr-1 not-italic">"</span>
                     {t.quote}
                   </p>
                   <div className="flex items-center gap-3">
                     <img src={t.photo} alt={t.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
                     <div>
-                      <div className="text-sm font-bold text-white">{t.name}</div>
+                      <div className="text-sm font-bold text-slate-900">{t.name}</div>
                       <div className="text-xs text-muted-foreground">{t.role}</div>
                     </div>
                   </div>
@@ -479,7 +465,7 @@ const Cohort = () => {
             <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-5 md:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
               <Shield className="w-10 h-10 text-primary flex-shrink-0 mt-1" />
               <div>
-                <div className="font-syne text-lg font-bold text-white mb-2">14-Day Satisfaction Guarantee</div>
+                <div className="font-syne text-lg font-bold text-slate-900 mb-2">14-Day Satisfaction Guarantee</div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   If you complete Week 1 and don't believe the Accelerator is worth your investment, we'll refund you in full — no questions asked.
                 </p>
@@ -491,8 +477,8 @@ const Cohort = () => {
         {/* COMPARISON TABLE */}
         <section className="py-20 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <div className="text-[10px] tracking-[3px] text-pink-500 font-bold mb-4">WHAT'S INCLUDED</div>
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-12">
+            <div className="text-[10px] tracking-[3px] text-primary font-bold mb-4">WHAT'S INCLUDED</div>
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-12">
               Accelerator vs eLearning.<br />
               <span className="text-primary">Understand the difference</span>.
             </h2>
@@ -508,7 +494,7 @@ const Cohort = () => {
                 </thead>
                 <tbody>
                   {comparisonFeatures.map((row, i) =>
-                  <tr key={i} className={i % 2 === 0 ? "bg-white/[0.01]" : ""}>
+                  <tr key={i} className={i % 2 === 0 ? "bg-slate-50" : ""}>
                       <td className="p-3 md:p-4 text-sm text-muted-foreground font-medium border-b border-border">{row.feature}</td>
                       <td className="p-3 md:p-4 text-center border-b border-border">
                         {row.accelerator ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
@@ -519,7 +505,7 @@ const Cohort = () => {
                     </tr>
                   )}
                   <tr className="bg-card">
-                    <td className="p-3 md:p-4 text-sm font-bold text-white">Price</td>
+                    <td className="p-3 md:p-4 text-sm font-bold text-slate-900">Price</td>
                     <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£1,997</td>
                     <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-muted-foreground">£597</td>
                   </tr>
@@ -533,9 +519,9 @@ const Cohort = () => {
 
         {/* APPLICATION MODAL */}
         <Dialog open={!!selectedCohort} onOpenChange={(open) => {if (!open) {setSelectedCohort(null);setFormStep(1);}}}>
-          <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogContent className="bg-white border-slate-200 max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="font-syne text-xl font-black text-white">
+              <DialogTitle className="font-syne text-xl font-black text-slate-900">
                 Apply for {selectedCohort?.month} {selectedCohort?.year} Cohort
               </DialogTitle>
               <DialogDescription className="text-muted-foreground text-sm">
@@ -555,18 +541,18 @@ const Cohort = () => {
                   <div>
                     <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
                     <input required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
+                  className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
                   </div>
                   <div>
                     <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
                     <input required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
+                  className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
                   </div>
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
                   <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
+                className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">PHONE NUMBER *</label>
@@ -574,36 +560,36 @@ const Cohort = () => {
                     <select
                       value={formData.countryCode}
                       onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
-                      className="bg-border/50 border border-border rounded-lg px-2 py-2.5 text-sm text-white w-28 flex-shrink-0 focus:border-primary focus:outline-none transition-colors"
+                      className="bg-white border border-slate-300 rounded-lg px-2 py-2.5 text-sm text-slate-900 w-28 flex-shrink-0 focus:border-primary focus:outline-none transition-colors"
                     >
                       {countryCodes.map((c) => (
-                        <option key={c.code} value={c.code} className="bg-black text-white">
+                        <option key={c.code} value={c.code} className="bg-white text-slate-900">
                           {c.label}
                         </option>
                       ))}
                     </select>
                     <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="7911 123456" />
+                      className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="7911 123456" />
                   </div>
                 </div>
                 <div>
                   <input required value={formData.jobTitle} onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
+                className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
                   <input required value={formData.linkedin} onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
-                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
+                className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
                   <input required value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
+                className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
                 </div>
                 <div>
                   <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
                   <input value={formData.organisation} onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
-                className="w-full bg-border/50 border border-border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
+                className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
                 </div>
                 <Button type="button" onClick={() => {
                 if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.jobTitle || !formData.linkedin || !formData.country) {
@@ -630,10 +616,10 @@ const Cohort = () => {
                   "I'm confident with tools — I need a structure + roadmap",
                   "I'm already driving digital initiatives — I want to level up"].
                   map((opt) =>
-                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.digitalFluency === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.digitalFluency === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="radio" name="digitalFluency" value={opt} checked={formData.digitalFluency === opt}
                     onChange={() => setFormData({ ...formData, digitalFluency: opt })} className="sr-only" />
-                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.digitalFluency === opt ? "border-primary" : "border-muted-foreground"}`}>
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.digitalFluency === opt ? "border-primary" : "border-slate-400"}`}>
                           {formData.digitalFluency === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
@@ -647,10 +633,10 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">WHAT HAVE YOU TRIED TO UPSKILL? * (select all)</label>
                   <div className="space-y-2">
                     {["YouTube / podcasts", "Short courses (Udemy, Coursera, etc.)", "Formal certification / accredited training", "Internal company training (L&D)", "Reading (books, newsletters, blogs)", "Attending webinars / conferences", "Experimenting with tools (ChatGPT, Copilot, Power BI)", "Mentoring / coaching", "Nothing yet"].map((opt) =>
-                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="checkbox" checked={formData.upskillAttempts.includes(opt)}
                     onChange={() => setFormData({ ...formData, upskillAttempts: formData.upskillAttempts.includes(opt) ? formData.upskillAttempts.filter((x) => x !== opt) : [...formData.upskillAttempts, opt] })} className="sr-only" />
-                        <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary" : "border-muted-foreground"}`}>
+                        <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary" : "border-slate-400"}`}>
                           {formData.upskillAttempts.includes(opt) && <CheckCircle className="w-3 h-3 text-primary-foreground" />}
                         </div>
                         {opt}
@@ -664,11 +650,11 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST BLOCKERS * (select all)</label>
                   <div className="space-y-2">
                     {["I don't have time / overloaded with compliance", "I don't know what to focus on", "I start but struggle to stay consistent", "I don't have a clear EHS use case", "I don't trust the outputs / fear getting it wrong", "My organisation isn't supportive", "Security / GDPR / governance concerns", "Budget constraints"].map((opt) =>
-                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500/10 text-white" : "border-border text-muted-foreground hover:border-pink-500/30"}`}>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.blockers.includes(opt) ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="checkbox" checked={formData.blockers.includes(opt)}
                     onChange={() => setFormData({ ...formData, blockers: formData.blockers.includes(opt) ? formData.blockers.filter((x) => x !== opt) : [...formData.blockers, opt] })} className="sr-only" />
-                        <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.blockers.includes(opt) ? "border-pink-500 bg-pink-500" : "border-muted-foreground"}`}>
-                          {formData.blockers.includes(opt) && <CheckCircle className="w-3 h-3 text-white" />}
+                        <div className={`w-4 h-4 rounded border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.blockers.includes(opt) ? "border-primary bg-primary" : "border-slate-400"}`}>
+                          {formData.blockers.includes(opt) && <CheckCircle className="w-3 h-3 text-primary-foreground" />}
                         </div>
                         {opt}
                       </label>
@@ -688,10 +674,10 @@ const Cohort = () => {
                   "Save time by replacing admin with smarter workflows",
                   "Accountability and coaching to stay consistent"].
                   map((opt) =>
-                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.motivation === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.motivation === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="radio" name="motivation" value={opt} checked={formData.motivation === opt}
                     onChange={() => setFormData({ ...formData, motivation: opt })} className="sr-only" />
-                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.motivation === opt ? "border-primary" : "border-muted-foreground"}`}>
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.motivation === opt ? "border-primary" : "border-slate-400"}`}>
                           {formData.motivation === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
@@ -705,10 +691,10 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BUDGET APPROVAL ABILITY *</label>
                   <div className="space-y-2">
                     {["I own the budget and will approve it", "I recommend, someone else approves", "I need full approval"].map((opt) =>
-                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.budgetApproval === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.budgetApproval === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="radio" name="budgetApproval" value={opt} checked={formData.budgetApproval === opt}
                     onChange={() => setFormData({ ...formData, budgetApproval: opt })} className="sr-only" />
-                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.budgetApproval === opt ? "border-primary" : "border-muted-foreground"}`}>
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center ${formData.budgetApproval === opt ? "border-primary" : "border-slate-400"}`}>
                           {formData.budgetApproval === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
@@ -722,7 +708,7 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £1,997 + VAT FEE? *</label>
                   <div className="flex gap-3">
                     {["Yes", "No"].map((opt) =>
-                  <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="radio" name="canAfford" value={opt} checked={formData.canAfford === opt}
                     onChange={() => setFormData({ ...formData, canAfford: opt })} className="sr-only" />
                         {opt}
@@ -736,10 +722,10 @@ const Cohort = () => {
                   <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU COMMIT TO THE COHORT SCHEDULE? *</label>
                   <div className="space-y-2">
                     {["Yes, 100%", "Yes, but will need some adjustments", "No"].map((opt) =>
-                  <label key={opt} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.canCommit === opt ? "border-primary bg-primary/10 text-white" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <label key={opt} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.canCommit === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
                         <input type="radio" name="canCommit" value={opt} checked={formData.canCommit === opt}
                     onChange={() => setFormData({ ...formData, canCommit: opt })} className="sr-only" />
-                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${formData.canCommit === opt ? "border-primary" : "border-muted-foreground"}`}>
+                        <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${formData.canCommit === opt ? "border-primary" : "border-slate-400"}`}>
                           {formData.canCommit === opt && <div className="w-2 h-2 rounded-full bg-primary" />}
                         </div>
                         {opt}
@@ -749,7 +735,7 @@ const Cohort = () => {
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="border-border text-muted-foreground hover:text-white">
+                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="border-border text-muted-foreground hover:text-slate-900">
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back
                   </Button>
                   <Button type="submit" disabled={isSubmitting || !formData.digitalFluency || formData.upskillAttempts.length === 0 || formData.blockers.length === 0 || !formData.motivation || !formData.budgetApproval || !formData.canAfford || !formData.canCommit}
@@ -772,7 +758,7 @@ const Cohort = () => {
         {/* FAQ Link */}
         <section className="py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl text-center">
-            <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+            <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
               Have questions?
             </h2>
             <p className="text-muted-foreground mb-8">Find answers about the Accelerator, eLearning, and In-Company training.</p>
@@ -785,10 +771,10 @@ const Cohort = () => {
         {/* FINAL CTA */}
         <section className="py-20 px-4">
           <div className="container mx-auto max-w-6xl">
-            <div ref={setFadeRef(6)} className="bg-gradient-to-br from-card to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
+            <div ref={setFadeRef(6)} className="bg-gradient-to-br from-slate-50 to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
-                <h2 className="font-syne text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+                <h2 className="font-syne text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-4">
                   Ready to join the<br />next cohort?
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
@@ -800,7 +786,7 @@ const Cohort = () => {
                     </Button>
                   </a>
                   <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 font-bold text-base px-10">
+                    <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 font-bold text-base px-10">
                       Or start with eLearning (£597)
                     </Button>
                   </a>

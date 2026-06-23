@@ -124,7 +124,7 @@ const Enroll = () => {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-white text-slate-900">
         <AudienceNav />
         <AnalyticsTracker>
         <div className="pt-24 pb-20 flex items-center justify-center">
@@ -133,7 +133,7 @@ const Enroll = () => {
               <CheckCircle className="w-10 h-10 text-primary" />
             </div>
             <h1 className="text-4xl font-bold mb-4">Application Received!</h1>
-            <p className="text-white/70 text-lg mb-8">
+            <p className="text-slate-600 text-lg mb-8">
               Thank you for your interest in the Safety 4.0 Accelerator. We'll review your application and get back to you within 48 hours.
             </p>
             <Button variant="hero" onClick={() => navigate("/")}>
@@ -148,7 +148,7 @@ const Enroll = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white text-slate-900">
       <AudienceNav />
       <AnalyticsTracker>
       <SEOStructuredData type="course" />
@@ -160,25 +160,25 @@ const Enroll = () => {
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 whitespace-nowrap">
               Enrol in the <span className="text-primary">Safety 4.0 Accelerator</span>
             </h1>
-            <div className="space-y-4 text-white/70 text-base leading-relaxed">
+            <div className="space-y-4 text-slate-600 text-base leading-relaxed">
               <p>
                 Thank you for your interest in the Safety 4.0 Accelerator, a 4-week long IOSH-approved and CPD accredited programme preparing EHS senior professionals to lead in the digital age.
               </p>
               <p>
-                Our next cohort runs from <span className="text-white font-semibold">2nd June – 30th June, 2026</span>.
+                Our next cohort runs from <span className="text-slate-900 font-semibold">2nd June – 30th June, 2026</span>.
               </p>
               <p>Kindly fill in the application form below.</p>
-              <p className="text-sm text-white/50 italic">
+              <p className="text-sm text-slate-400 italic">
                 *Safety 4.0 Accelerator offers a limited number of need-based partial scholarships for individuals with underrepresented backgrounds and limited financial means. Kindly select the 'I am interested in the Safety 4.0 Accelerator scholarship' option below.
               </p>
               <p>
                 Once your application is submitted, our team will review your candidacy and invite you for a call. If you are accepted to join the programme, payment information will be shared with you to secure your place prior to its commencement.
               </p>
-              <p className="text-sm font-medium text-white/80">
+              <p className="text-sm font-medium text-slate-700">
                 Note: Space is limited and we encourage aspiring participants to enrol early. Admission is based on the application form below and an interview.
               </p>
-              <p className="text-lime-400">
-                If you're interested in the eLearning, please <a href="/#elearning" className="underline hover:text-lime-300">click here</a>.
+              <p className="text-primary">
+                If you're interested in the eLearning, please <a href="/#elearning" className="underline hover:text-primary/80">click here</a>.
               </p>
             </div>
           </div>
@@ -194,44 +194,44 @@ const Enroll = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">First Name *</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">First Name *</label>
                     <Input
                       value={form.firstName}
                       onChange={(e) => handleChange("firstName", e.target.value)}
                       placeholder="First name"
                       required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                      className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Last Name *</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Last Name *</label>
                     <Input
                       value={form.lastName}
                       onChange={(e) => handleChange("lastName", e.target.value)}
                       placeholder="Last name"
                       required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                      className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Email Address *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Email Address *</label>
                   <Input
                     type="email"
                     value={form.email}
                     onChange={(e) => handleChange("email", e.target.value)}
                     placeholder="you@company.com"
                     required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                    className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Phone Number *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone Number *</label>
                   <div className="flex gap-2">
                     <Select value={form.countryCode} onValueChange={(v) => handleChange("countryCode", v)}>
-                      <SelectTrigger className="w-28 bg-white/10 border-white/20 text-white">
+                      <SelectTrigger className="w-28 bg-white border-slate-300 text-slate-900">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -248,61 +248,61 @@ const Enroll = () => {
                       onChange={(e) => handleChange("phone", e.target.value)}
                       placeholder="Phone number"
                       required
-                      className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                      className="flex-1 bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Country *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Country *</label>
                   <Input
                     value={form.country}
                     onChange={(e) => handleChange("country", e.target.value)}
                     placeholder="Your country of residence"
                     required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                    className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">LinkedIn URL *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">LinkedIn URL *</label>
                   <Input
                     type="url"
                     value={form.linkedIn}
                     onChange={(e) => handleChange("linkedIn", e.target.value)}
                     placeholder="https://linkedin.com/in/yourprofile"
                     required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                    className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                   />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Job Title *</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Job Title *</label>
                     <Input
                       value={form.jobTitle}
                       onChange={(e) => handleChange("jobTitle", e.target.value)}
                       placeholder="e.g. HSE Manager"
                       required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                      className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white/80 mb-1.5">Company *</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">Company *</label>
                     <Input
                       value={form.company}
                       onChange={(e) => handleChange("company", e.target.value)}
                       placeholder="Your organisation"
                       required
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+                      className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Years of Safety Experience *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Years of Safety Experience *</label>
                   <Select value={form.experience} onValueChange={(v) => handleChange("experience", v)} required>
-                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue placeholder="Select experience level" />
                     </SelectTrigger>
                     <SelectContent>
@@ -315,9 +315,9 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Which best describes your ability to approve training? *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Which best describes your ability to approve training? *</label>
                   <Select value={form.budgetApproval} onValueChange={(v) => handleChange("budgetApproval", v)} required>
-                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue placeholder="Choose one" />
                     </SelectTrigger>
                     <SelectContent>
@@ -329,9 +329,9 @@ const Enroll = () => {
                 </div>
 
 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Should you be admitted in the programme, how would you fund? *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Should you be admitted in the programme, how would you fund? *</label>
                   <Select value={form.paymentMethod} onValueChange={(v) => handleChange("paymentMethod", v)} required>
-                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue placeholder="Choose one" />
                     </SelectTrigger>
                     <SelectContent>
@@ -343,9 +343,9 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Which cohort are you applying for? *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Which cohort are you applying for? *</label>
                   <Select value={form.cohort} onValueChange={(v) => handleChange("cohort", v)} required>
-                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue placeholder="Choose one" />
                     </SelectTrigger>
                     <SelectContent>
@@ -355,21 +355,21 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">Describe why you wish to join the programme and your expectations *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Describe why you wish to join the programme and your expectations *</label>
                   <Textarea
                     value={form.motivation}
                     onChange={(e) => handleChange("motivation", e.target.value)}
                     placeholder="Tell us what you hope to gain from the programme..."
                     rows={4}
                     required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/40 resize-none"
+                    className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-1.5">How did you hear about the Safety 4.0 Academy? *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">How did you hear about the Safety 4.0 Academy? *</label>
                   <Select value={form.hearAbout} onValueChange={(v) => handleChange("hearAbout", v)} required>
-                    <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue placeholder="Choose one" />
                     </SelectTrigger>
                     <SelectContent>
@@ -387,9 +387,9 @@ const Enroll = () => {
                     id="scholarship"
                     checked={form.scholarshipInterest}
                     onCheckedChange={(checked) => setForm(prev => ({ ...prev, scholarshipInterest: checked === true }))}
-                    className="mt-0.5 border-white/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                    className="mt-0.5 border-slate-300 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   />
-                  <label htmlFor="scholarship" className="text-sm text-white/70 cursor-pointer leading-relaxed">
+                  <label htmlFor="scholarship" className="text-sm text-slate-600 cursor-pointer leading-relaxed">
                     I am interested in the Safety 4.0 Accelerator scholarship
                   </label>
                 </div>
@@ -412,7 +412,7 @@ const Enroll = () => {
                   )}
                 </Button>
 
-                <p className="text-xs text-white/40 text-center">
+                <p className="text-xs text-slate-400 text-center">
                   By submitting, you agree to our{" "}
                   <a href="/privacy-policy" className="underline hover:text-primary">Privacy Policy</a>.
                 </p>
@@ -421,7 +421,7 @@ const Enroll = () => {
 
             {/* Sidebar */}
             <div className="lg:col-span-2 space-y-6">
-              <div className="rounded-2xl border border-lime-500/20 bg-lime-500/[0.05] p-6">
+              <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6">
                 <h3 className="text-xl font-bold mb-4">Programme Highlights</h3>
                 <div className="space-y-4">
                   {programHighlights.map((item, i) => {
@@ -431,19 +431,19 @@ const Enroll = () => {
                         <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center flex-shrink-0">
                           <Icon className="w-4 h-4 text-primary" />
                         </div>
-                        <span className="text-sm text-white/80">{item.text}</span>
+                        <span className="text-sm text-slate-600">{item.text}</span>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <h3 className="text-xl font-bold mb-3"><h3 className="text-xl font-bold mb-3">£1,997 <span className="text-sm font-normal text-white/60">+VAT</span></h3></h3>
-                <p className="text-sm text-white/60 mb-4">
+              <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+                <h3 className="text-xl font-bold mb-3"><h3 className="text-xl font-bold mb-3">£1,997 <span className="text-sm font-normal text-slate-500">+VAT</span></h3></h3>
+                <p className="text-sm text-slate-500 mb-4">
                   Full programme fee. Includes all modules, live sessions, 1:1 coaching, and certification.
                 </p>
-                <div className="space-y-2 text-sm text-white/70">
+                <div className="space-y-2 text-sm text-slate-600">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
                     <span>90-day access to complete course</span>
@@ -459,9 +459,9 @@ const Enroll = () => {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
                 <h3 className="text-lg font-bold mb-2">Have Questions?</h3>
-                <p className="text-sm text-white/60 mb-4">
+                <p className="text-sm text-slate-500 mb-4">
                   Get in touch and we'll help you decide if the programme is right for you.
                 </p>
                 <a
@@ -473,9 +473,9 @@ const Enroll = () => {
               </div>
 
               {/* Fallback cards */}
-              <div className="rounded-2xl border border-border bg-card/60 p-5 flex flex-col gap-3">
+              <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-5 flex flex-col gap-3">
                 <BookOpen className="w-6 h-6 text-primary flex-shrink-0" />
-                <div className="text-sm font-bold text-white">Not ready for the Accelerator?</div>
+                <div className="text-sm font-bold text-slate-900">Not ready for the Accelerator?</div>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   Self-paced eLearning — same IOSH-approved content, at your own pace.
                 </p>
