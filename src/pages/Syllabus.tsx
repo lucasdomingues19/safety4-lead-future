@@ -27,7 +27,7 @@ const Syllabus = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">IOSH APPROVED · CPD ACCREDITED · SELF-PACED</span>
+              <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">IOSH APPROVED · CPD ACCREDITED&nbsp;</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
                 Safety 4.0 - <span className="text-primary">Leading Safety in the Digital Age</span>
               </h1>
