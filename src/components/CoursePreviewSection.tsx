@@ -76,14 +76,20 @@ export const CoursePreviewSection = () => {
               onClick={() => handleVideoPreview(video)}
             >
               <div className="relative aspect-video rounded-xl mb-4 overflow-hidden">
-                <iframe
-                  className="absolute inset-0 w-full h-full pointer-events-none"
-                  src={`https://www.youtube.com/embed/${video.ytId}?autoplay=1&mute=1&loop=1&playlist=${video.ytId}&controls=0&modestbranding=1&rel=0&playsinline=1`}
-                  title={`${video.title} video preview`}
-                  allow="autoplay; encrypted-media; picture-in-picture"
+                <img
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src={`https://i.ytimg.com/vi/${video.ytId}/hqdefault.jpg`}
+                  srcSet={`https://i.ytimg.com/vi/${video.ytId}/hqdefault.jpg 480w, https://i.ytimg.com/vi/${video.ytId}/maxresdefault.jpg 1280w`}
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  alt={`${video.title} preview`}
                   loading="lazy"
-                  allowFullScreen
+                  decoding="async"
                 />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform group-hover:scale-110">
+                    <Play className="h-6 w-6 translate-x-0.5 fill-current" />
+                  </div>
+                </div>
               </div>
               <h3 className="text-white font-semibold text-lg mb-1.5 group-hover:text-primary transition-colors">{video.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{video.shortDescription}</p>

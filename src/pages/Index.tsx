@@ -13,6 +13,7 @@ import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
+import { LiteYouTube } from "@/components/LiteYouTube";
 
 import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
@@ -82,14 +83,12 @@ const Index = () => {
               <p className="text-lg md:text-2xl font-semibold text-slate-900 text-center mb-8 md:mb-12">
                 Our mission is to <span className="text-primary">Lead Safety Forward.</span> Discover How.
               </p>
-              <div className="relative bg-slate-100 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-primary hover:border-secondary transition-all duration-300">
-                <iframe
-                  className="w-full aspect-video rounded-xl"
-                  src="https://www.youtube.com/embed/GUT9G9hnBXI?autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1&modestbranding=1&rel=0"
+              <div className="relative aspect-video bg-slate-100 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-primary hover:border-secondary transition-all duration-300">
+                <LiteYouTube
+                  videoId="GUT9G9hnBXI"
                   title="Safety 4.0 Course Introduction"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  loading="lazy"
+                  params="autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1&modestbranding=1&rel=0"
+                  className="rounded-xl"
                 />
               </div>
             </div>
