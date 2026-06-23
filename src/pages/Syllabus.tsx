@@ -33,8 +33,7 @@ const Syllabus = () => {
                 <span className="text-primary block">Leading Safety in the Digital Age</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-4">
-                The world's first IOSH-approved eLearning programme for safety professionals 
-                ready to master AI, IoT, and digital transformation — at their own pace.
+                The world's first IOSH-approved eLearning programme for safety professionals to develop digital skills and lAI, IoT, and digital transformation — at their own pace.
               </p>
               <p className="text-base text-slate-600 max-w-xl mx-auto">
                 Flexible. Self-paced. Lifelong access. Complete in 30 days.
