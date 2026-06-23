@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 const navLinks = [
-  { label: "For Teams", href: "/in-company", emphasis: true },
+  
   {
     label: "About",
     children: [
@@ -118,7 +118,7 @@ const AudienceNav = () => {
             )
           )}
           <Link
-            to="/in-company"
+            to="/enrol"
             className="ml-2 px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Enrol Now
@@ -172,7 +172,7 @@ const AudienceNav = () => {
             )
           )}
           <Link
-            to="/in-company"
+            to="/enrol"
             onClick={() => setMobileOpen(false)}
             className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >

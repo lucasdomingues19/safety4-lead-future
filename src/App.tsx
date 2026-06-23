@@ -29,7 +29,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 const Scorecard = lazy(() => import("./pages/Scorecard"));
 const Syllabus = lazy(() => import("./pages/Syllabus"));
 const Offer = lazy(() => import("./pages/Offer"));
-const InCompany = lazy(() => import("./pages/InCompany"));
+
 const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
@@ -80,7 +80,7 @@ const App = () => (
             <Route path="/elearning" element={<Syllabus />} />
             <Route path="/syllabus" element={<Syllabus />} />
             <Route path="/offer" element={<Offer />} />
-            <Route path="/in-company" element={<InCompany />} />
+            
             <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/enrol" element={<Enroll />} />
