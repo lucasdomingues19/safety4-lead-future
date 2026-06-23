@@ -340,7 +340,9 @@ const Cohort = () => {
             <div ref={setFadeRef(0)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 opacity-0 translate-y-6 transition-all duration-700">
               {experienceItems.map((item, i) =>
               <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 hover:border-primary/30 transition-all">
-                  <item.icon className={`w-6 h-6 mb-4 ${i % 2 === 0 ? "text-primary" : "text-primary"}`} />
+                  <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-4">
+                    <item.icon className="w-5 h-5 text-primary-foreground" />
+                  </div>
                   <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
                   <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
                 </div>
