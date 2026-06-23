@@ -77,11 +77,11 @@ const Cohort = () => {
   });
 
 
-  // Countdown to June 2, 2026
+  // Countdown to September 2, 2026
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const target = new Date("2026-06-02T00:00:00Z").getTime();
+    const target = new Date("2026-09-02T00:00:00Z").getTime();
     const tick = () => {
       const now = Date.now();
       const diff = Math.max(0, target - now);
