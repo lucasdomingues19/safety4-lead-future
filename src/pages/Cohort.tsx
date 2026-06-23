@@ -360,7 +360,7 @@ const Cohort = () => {
         {/* 4-WEEK TIMELINE */}
         <section className="py-12 md:py-16 px-4 border-t border-border">
           <div className="container mx-auto max-w-6xl">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">4-WEEK PROGRAMME</span>
+            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">6-WEEK PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Week by <span className="text-primary">week</span>.
             </h2>
