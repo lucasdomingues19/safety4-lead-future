@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Linkedin } from "lucide-react";
+import linkedinIcon from "@/assets/linkedin-icon.png.asset.json";
 // Real company logos
 import shield360Logo from "@/assets/shield360-logo-real.png";
 import zenobeLogo from "@/assets/zenobe-logo-real.png";
@@ -142,9 +142,9 @@ const MentorSection = () => {
                 href="https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#004182] text-slate-900 rounded-full font-medium transition-colors">
+                className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full font-medium transition-colors">
                 
-                <Linkedin className="w-5 h-5" />
+                <img src={linkedinIcon.url} alt="LinkedIn" className="w-5 h-5" />
                 Connect on LinkedIn
               </a>
             </div>
