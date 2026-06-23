@@ -144,7 +144,7 @@ export const SocialProofSection = () => {
             DON'T TAKE OUR WORD FOR IT
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-8 tracking-tight leading-[1.05] whitespace-pre-line">
-            Trusted by{"\u00A0"}\n<span className="text-primary">Safety Leaders</span>{"\u00A0"}Worldwide
+            {"Trusted by\u00A0\n"}<span className="text-primary">Safety Leaders</span>{"\u00A0Worldwide"}
           </h2>
           <p className="text-base md:text-xl text-slate-900 whitespace-nowrap">
             Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
