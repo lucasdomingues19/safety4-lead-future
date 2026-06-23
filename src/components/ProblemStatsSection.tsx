@@ -13,8 +13,11 @@ export const ProblemStatsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto">
 
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 md:mb-6">
-            Why <span className="text-lime-400">Safety 4.0</span>?
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary mb-5">
+            The Challenge
+          </p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
+            Why <span className="text-primary">Safety 4.0</span>?
           </h2>
 
           <h3 className="text-lg md:text-2xl font-semibold text-slate-900 mb-6">
