@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Linkedin } from "lucide-react";
+import linkedinIcon from "@/assets/linkedin-icon.png.asset.json";
 // Real company logos
 import shield360Logo from "@/assets/shield360-logo-real.png";
 import zenobeLogo from "@/assets/zenobe-logo-real.png";
