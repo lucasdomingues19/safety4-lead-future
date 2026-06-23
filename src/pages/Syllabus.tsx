@@ -29,7 +29,7 @@ const Syllabus = () => {
             <div className="text-center mb-16">
               <span className="inline-block text-[11px] tracking-[3px] font-bold text-primary mb-4">IOSH APPROVED · CPD ACCREDITED · SELF-PACED</span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
-                IOSH-approved Safety 4.0 - <span className="text-primary">Leading Safety<br />in the Digital Age</span>
+                Safety 4.0 - <span className="text-primary">Leading Safety in the Digital Age</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed mb-4">
                 The world's first IOSH-approved eLearning programme for safety professionals 
