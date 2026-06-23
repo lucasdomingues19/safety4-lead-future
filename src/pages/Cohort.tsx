@@ -368,8 +368,8 @@ const Cohort = () => {
             <div ref={setFadeRef(1)} className="space-y-6 max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
               {timeline.map((item, i) =>
               <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-border last:border-b-0">
-                  <div className="bg-card border border-primary/30 rounded-lg p-3 text-center">
-                    <span className="font-syne text-xs font-bold text-primary tracking-[1px]">{item.weeks}</span>
+                  <div className="bg-primary rounded-lg p-3 text-center">
+                    <span className="font-syne text-xs font-bold text-primary-foreground tracking-[1px]">{item.weeks}</span>
                   </div>
                   <div>
                     <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
