@@ -25,9 +25,9 @@ export const PricingSection = () => {
     cta: "Coming Soon",
     popular: false,
     comingSoon: true,
-    gradient: "from-lime-500/20 to-green-500/20",
-    borderColor: "border-lime-500/50",
-    buttonColor: "bg-lime-500 hover:bg-lime-600 text-black"
+    gradient: "from-primary to-secondary",
+    borderColor: "border-slate-200 hover:border-primary/40",
+    buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
     name: "eLearning",
@@ -50,9 +50,9 @@ export const PricingSection = () => {
 
     cta: "Start Learning",
     popular: false,
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    borderColor: "border-blue-500/30",
-    buttonColor: "bg-blue-500 hover:bg-blue-600"
+    gradient: "from-primary to-secondary",
+    borderColor: "border-slate-200 hover:border-primary/40",
+    buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
     name: "Accelerator • Cohort",
@@ -74,9 +74,9 @@ export const PricingSection = () => {
 
     cta: "Apply Now",
     popular: false,
-    gradient: "from-pink-500/20 to-purple-500/20",
-    borderColor: "border-pink-500/30",
-    buttonColor: "bg-pink-500 hover:bg-pink-600"
+    gradient: "from-primary to-secondary",
+    borderColor: "border-slate-200 hover:border-primary/40",
+    buttonColor: "bg-primary hover:bg-primary/90"
   }];
 
 
@@ -90,7 +90,7 @@ export const PricingSection = () => {
             Pricing
           </p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
-            Training Built for <span className="text-primary">Teams</span> — and Individuals
+            Built to Meet <span className="text-primary">Your Team Needs</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Most organisations start with a team rollout. Prefer to learn solo? Individual options are below.
@@ -104,14 +104,14 @@ export const PricingSection = () => {
           <div
             key={index}
             id={tier.name === "eLearning" ? "elearning" : undefined}
-            className={`relative bg-slate-100 backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
+            className={`relative bg-white backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
             tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
             }>
             
               {/* Popular Badge */}
               {tier.popular &&
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-lime-500 text-black px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap">
+                  <div className="bg-primary text-primary-foreground px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap">
                     Most Popular for Teams
                   </div>
                 </div>
@@ -119,8 +119,8 @@ export const PricingSection = () => {
 
               {/* Header */}
               <div className="text-center mb-8">
-                <div className={`w-16 h-16 bg-gradient-to-br ${tier.gradient} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                  <tier.icon className="w-8 h-8 text-slate-900" />
+                <div className={`w-16 h-16 bg-gradient-to-br ${tier.gradient} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+                  <tier.icon className="w-8 h-8 text-primary-foreground" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">{tier.name}</h3>
                 <p className="text-slate-600 text-sm mb-4">{tier.description}</p>
@@ -141,7 +141,7 @@ export const PricingSection = () => {
               <div className="space-y-4 mb-8 flex-grow">
                 {tier.features.map((feature, featureIndex) =>
               <div key={featureIndex} className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     <span className="text-slate-600 text-sm">{feature}</span>
                   </div>
               )}
@@ -151,13 +151,13 @@ export const PricingSection = () => {
               {tier.comingSoon ?
             <Button
               disabled
-              className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
+              className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
                   {tier.cta}
                 </Button> :
             tier.name === "Accelerator • Cohort" ?
             <a href="/accelerator">
                   <Button
-                className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg group`}>
+                className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                 
                     {tier.cta}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -173,7 +173,7 @@ export const PricingSection = () => {
               target={tier.name === "eLearning" ? "_blank" : undefined}
               rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}>
               
-                  <Button className={`w-full ${tier.buttonColor} text-slate-900 font-semibold py-6 text-lg group`}>
+                  <Button className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -184,7 +184,7 @@ export const PricingSection = () => {
         </div>
 
         <p className="text-sm md:text-base text-slate-500 max-w-3xl mx-auto mt-6 text-center leading-relaxed">
-          *Get <a href="/contact?request=reimbursement" className="text-pink-500 hover:text-pink-400 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-pink-500 hover:text-pink-400 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-pink-500 hover:text-pink-400 underline">group</a> (3+ seats)
+          *Get <a href="/contact?request=reimbursement" className="text-primary hover:text-primary/80 underline">reimbursed</a> by your company, request an <a href="/contact?request=discount" className="text-primary hover:text-primary/80 underline">individual</a> discount, or unlock a reduced price for a <a href="/contact?request=group" className="text-primary hover:text-primary/80 underline">group</a> (3+ seats)
         </p>
 
         {/* Bottom CTA */}
