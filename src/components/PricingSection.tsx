@@ -50,9 +50,9 @@ export const PricingSection = () => {
 
     cta: "Start Learning",
     popular: false,
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    borderColor: "border-blue-500/30",
-    buttonColor: "bg-blue-500 hover:bg-blue-600"
+    gradient: "from-primary to-secondary",
+    borderColor: "border-slate-200 hover:border-primary/40",
+    buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
     name: "Accelerator • Cohort",
