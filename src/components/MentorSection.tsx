@@ -37,7 +37,7 @@ const MentorSection = () => {
   // ============================================
 
   return (
-    <section id="instructor" className="pt-4 pb-20 relative overflow-hidden">
+    <section id="instructor" className="py-12 md:py-16 relative overflow-hidden">
       
 
       <div className="container mx-auto px-4 relative z-10">
