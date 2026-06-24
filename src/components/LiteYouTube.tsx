@@ -7,6 +7,8 @@ interface LiteYouTubeProps {
   /** Extra query params appended when the real player loads (after click). */
   params?: string;
   className?: string;
+  /** Mount the real player immediately and start playing (muted) on load. */
+  autoPlay?: boolean;
 }
 
 /**
@@ -19,8 +21,9 @@ export const LiteYouTube = ({
   title,
   params = "autoplay=1&rel=0&modestbranding=1",
   className = "",
+  autoPlay = false,
 }: LiteYouTubeProps) => {
-  const [activated, setActivated] = useState(false);
+  const [activated, setActivated] = useState(autoPlay);
 
   if (activated) {
     return (
