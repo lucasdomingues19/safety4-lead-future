@@ -7,6 +7,8 @@ interface LiteYouTubeProps {
   /** Extra query params appended when the real player loads (after click). */
   params?: string;
   className?: string;
+  /** Mount the real player immediately and start playing (muted) on load. */
+  autoPlay?: boolean;
 }
 
 /**
