@@ -171,7 +171,7 @@ const VerifyCertificate = () => {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -179,7 +179,7 @@ const VerifyCertificate = () => {
 
   if (status === "notfound") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
         <XCircle className="h-16 w-16 text-destructive mb-4" />
         <h1 className="text-2xl font-bold text-foreground mb-2">Certificate not found</h1>
         <p className="text-muted-foreground max-w-md mb-6">
@@ -195,7 +195,7 @@ const VerifyCertificate = () => {
 
   if (status === "search") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
         <ShieldCheck className="h-14 w-14 text-primary mb-4" />
         <h1 className="text-2xl font-bold text-foreground mb-2">Verify a certificate</h1>
         <p className="text-muted-foreground max-w-md mb-6">
@@ -222,7 +222,7 @@ const VerifyCertificate = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white py-10 px-4">
+    <div className="min-h-screen bg-background py-10 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Verification banner */}
         <div
