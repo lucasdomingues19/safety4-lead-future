@@ -171,7 +171,7 @@ const VerifyCertificate = () => {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -179,12 +179,12 @@ const VerifyCertificate = () => {
 
   if (status === "notfound") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
         <XCircle className="h-16 w-16 text-destructive mb-4" />
-        <h1 className="text-2xl font-bold text-foreground mb-2">Certificate not found</h1>
-        <p className="text-muted-foreground max-w-md mb-6">
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">Certificate not found</h1>
+        <p className="text-slate-500 max-w-md mb-6">
           We couldn't find a certificate with the number{" "}
-          <span className="font-mono text-foreground">{certificateNumber}</span>. Please check the number and try again.
+          <span className="font-mono text-slate-900">{certificateNumber}</span>. Please check the number and try again.
         </p>
         <Button asChild variant="outline">
           <Link to="/">Back to home</Link>
@@ -195,10 +195,10 @@ const VerifyCertificate = () => {
 
   if (status === "search") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
         <ShieldCheck className="h-14 w-14 text-primary mb-4" />
-        <h1 className="text-2xl font-bold text-foreground mb-2">Verify a certificate</h1>
-        <p className="text-muted-foreground max-w-md mb-6">
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">Verify a certificate</h1>
+        <p className="text-slate-500 max-w-md mb-6">
           Enter a Safety 4.0 Academy certificate number to confirm it's genuine.
         </p>
         <form
@@ -213,7 +213,7 @@ const VerifyCertificate = () => {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             placeholder="e.g. SA4-2026-00001"
-            className="flex-1 rounded-md border border-border bg-card px-4 py-2 text-foreground font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="flex-1 rounded-md border border-slate-200 bg-white px-4 py-2 text-slate-900 font-mono placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <Button type="submit">Verify</Button>
         </form>
@@ -222,7 +222,7 @@ const VerifyCertificate = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-10 px-4">
+    <div className="min-h-screen bg-white py-10 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Verification banner */}
         <div
@@ -238,10 +238,10 @@ const VerifyCertificate = () => {
             <XCircle className="h-7 w-7 text-destructive shrink-0" />
           )}
           <div>
-            <p className="font-semibold text-foreground">
+            <p className="font-semibold text-slate-900">
               {status === "valid" ? "Verified authentic certificate" : "This certificate has been revoked"}
             </p>
-            <p className="text-sm text-muted-foreground flex items-center gap-1">
+            <p className="text-sm text-slate-500 flex items-center gap-1">
               <ShieldCheck className="h-3.5 w-3.5" /> Issued by Safety 4.0 Academy · No. {cert?.certificate_number}
             </p>
           </div>
@@ -259,12 +259,12 @@ const VerifyCertificate = () => {
           <div className="space-y-3">
             {/* Skills */}
             <div>
-              <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Skills</h2>
+              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Skills</h2>
               <div className="flex flex-wrap gap-2">
                 {CERTIFICATE_SKILLS.map((skill) => (
                   <span
                     key={skill}
-                    className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground"
+                    className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-900"
                   >
                     {skill}
                   </span>
@@ -272,7 +272,7 @@ const VerifyCertificate = () => {
               </div>
             </div>
 
-            <h2 className="text-lg font-semibold text-foreground">Share &amp; download</h2>
+            <h2 className="text-lg font-semibold text-slate-900">Share &amp; download</h2>
             <div className="flex flex-wrap gap-3">
               <Button onClick={downloadCertificatePdf}>
                 <Download className="mr-2 h-4 w-4" /> Download certificate (PDF)
@@ -293,25 +293,25 @@ const VerifyCertificate = () => {
                 </a>
               </Button>
             </div>
-            <div className="pt-6 text-sm text-muted-foreground space-y-1">
-              <p><span className="text-foreground font-medium">Recipient:</span> {cert?.recipient_name}</p>
-              <p><span className="text-foreground font-medium">Course:</span> {cert?.course_name}</p>
+            <div className="pt-6 text-sm text-slate-500 space-y-1">
+              <p><span className="text-slate-900 font-medium">Recipient:</span> {cert?.recipient_name}</p>
+              <p><span className="text-slate-900 font-medium">Course:</span> {cert?.course_name}</p>
               <p>
-                <span className="text-foreground font-medium">Issued:</span>{" "}
+                <span className="text-slate-900 font-medium">Issued:</span>{" "}
                 {cert && new Date(cert.issued_at || cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
               </p>
               <p>
-                <span className="text-foreground font-medium">Completed:</span>{" "}
+                <span className="text-slate-900 font-medium">Completed:</span>{" "}
                 {cert && new Date(cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
               </p>
-              <p><span className="text-foreground font-medium">Expires on:</span> Does not expire</p>
-              {cert?.cpd_hours ? <p><span className="text-foreground font-medium">CPD Hours:</span> {cert.cpd_hours}</p> : null}
+              <p><span className="text-slate-900 font-medium">Expires on:</span> Does not expire</p>
+              {cert?.cpd_hours ? <p><span className="text-slate-900 font-medium">CPD Hours:</span> {cert.cpd_hours}</p> : null}
             </div>
           </div>
 
           <div className="flex flex-col items-center gap-3">
             <BadgeMedallion ref={badgeRef} cert={cert!} size={260} />
-            <p className="text-xs text-muted-foreground">Your shareable badge</p>
+            <p className="text-xs text-slate-500">Your shareable badge</p>
           </div>
         </div>
       </div>
