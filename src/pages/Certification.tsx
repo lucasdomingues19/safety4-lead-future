@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Shield, Award, CheckCircle } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import AudienceNav from "@/components/AudienceNav";
-import cpdApprovedLogo from "../assets/cpd-approved-logo.png";
+import cpdCertifiedLogo from "../assets/cpd-certified-logo.png.asset.json";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import certificateSample from "@/assets/certificate-sample.png";
 import { trackPageView } from "@/utils/analytics";
@@ -111,9 +111,9 @@ const Certification = () => {
               {/* CPD Logo in bottom right */}
               <div className="absolute bottom-6 right-6">
                 <img 
-                  src={cpdApprovedLogo} 
-                  alt="CPD Approved Logo" 
-                  className="w-32 h-20 object-contain opacity-80 hover:opacity-100 transition-opacity"
+                  src={cpdCertifiedLogo.url} 
+                  alt="CPD Certified - The CPD Certification Service logo" 
+                  className="w-24 h-24 object-contain opacity-90 hover:opacity-100 transition-opacity"
                 />
               </div>
             </div>
