@@ -87,6 +87,7 @@ const Index = () => {
                 <LiteYouTube
                   videoId="GUT9G9hnBXI"
                   title="Safety 4.0 Course Introduction"
+                  autoPlay
                   params="autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1&modestbranding=1&rel=0"
                   className="rounded-xl"
                 />
