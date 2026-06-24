@@ -21,8 +21,9 @@ export const LiteYouTube = ({
   title,
   params = "autoplay=1&rel=0&modestbranding=1",
   className = "",
+  autoPlay = false,
 }: LiteYouTubeProps) => {
-  const [activated, setActivated] = useState(false);
+  const [activated, setActivated] = useState(autoPlay);
 
   if (activated) {
     return (
