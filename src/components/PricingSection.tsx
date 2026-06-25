@@ -22,9 +22,8 @@ export const PricingSection = () => {
     "Recognise AI risks and governance requirements",
     "Be ready to go deeper in Safety 4.0"],
 
-    cta: "Coming Soon",
+    cta: "Join the Waitlist",
     popular: false,
-    comingSoon: true,
     gradient: "from-primary to-secondary",
     borderColor: "border-slate-200 hover:border-primary/40",
     buttonColor: "bg-primary hover:bg-primary/90"
