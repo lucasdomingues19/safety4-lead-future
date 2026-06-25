@@ -147,12 +147,14 @@ export const PricingSection = () => {
               </div>
 
               {/* CTA Button */}
-              {tier.comingSoon ?
-            <Button
-              disabled
-              className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg opacity-70 cursor-not-allowed`}>
-                  {tier.cta}
-                </Button> :
+              {tier.name === "AI Fundamentals in EHS" ?
+            <a href="https://learning.safetyacademy.tech/waitlist" target="_blank" rel="noopener noreferrer">
+                  <Button
+                className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
+                    {tier.cta}
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </a> :
             tier.name === "Accelerator • Cohort" ?
             <a href="/accelerator">
                   <Button
