@@ -34,6 +34,15 @@ const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
 
+// Learning platform (LMS)
+const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
+const LearnDashboard = lazy(() => import("./pages/learn/LearnDashboard"));
+const CourseView = lazy(() => import("./pages/learn/CourseView"));
+const LessonView = lazy(() => import("./pages/learn/LessonView"));
+const CourseManager = lazy(() => import("./pages/admin/CourseManager"));
+
+
+
 // Loading fallback component
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-black">
