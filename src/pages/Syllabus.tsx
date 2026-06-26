@@ -22,8 +22,17 @@ const Syllabus = () => {
     <div className="min-h-screen relative bg-white">
       <AudienceNav />
 
+      <div className="container mx-auto px-4 pt-28 md:pt-32">
+        <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Link to="/" className="flex items-center space-x-2">
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+        </Button>
+      </div>
+
       {/* HERO */}
-      <section className="pt-28 pb-16 md:pt-36 md:pb-20">
+      <section className="pt-8 pb-16 md:pt-10 md:pb-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
