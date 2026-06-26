@@ -58,12 +58,12 @@ export const CoursePreviewSection = () => {
     <section className="py-16 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-8">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05] mb-6 md:mb-8">
-            <span className="text-lime-400">Course Preview</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6 md:mb-8">
+            <span className="text-primary">Course Preview</span>
           </h2>
         </div>
         <div className="max-w-7xl mx-auto mb-8 md:mb-12">
-          <p className="text-base md:text-xl text-gray-300 leading-relaxed text-justify">
+          <p className="text-base md:text-xl text-slate-600 leading-relaxed text-justify">
             Professionally recorded in a studio, featuring over 60 high-quality video lessons for a premium learning experience. Designed by trusted educators and built on proven learning methods, the course makes SafetyTech and AI accessible, practical, and easy to understand for EHS professionals at any stage.
           </p>
         </div>
@@ -72,7 +72,7 @@ export const CoursePreviewSection = () => {
           {videoPreviewData.map((video) => (
             <div
               key={video.id}
-              className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-5 border border-white/10 hover:border-primary/40 transition-all duration-300 cursor-pointer group"
+              className="bg-white shadow-sm rounded-2xl p-5 border border-slate-200 hover:border-primary/40 transition-all duration-300 cursor-pointer group"
               onClick={() => handleVideoPreview(video)}
             >
               <div className="relative aspect-video rounded-xl mb-4 overflow-hidden">
@@ -91,8 +91,8 @@ export const CoursePreviewSection = () => {
                   </div>
                 </div>
               </div>
-              <h3 className="text-white font-semibold text-lg mb-1.5 group-hover:text-primary transition-colors">{video.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{video.shortDescription}</p>
+              <h3 className="text-slate-900 font-semibold text-lg mb-1.5 group-hover:text-primary transition-colors">{video.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">{video.shortDescription}</p>
               <div className="mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
                 <Play className="w-3 h-3 mr-1" />
                 Click to preview
