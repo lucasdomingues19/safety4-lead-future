@@ -272,7 +272,7 @@ const Cohort = () => {
 
                 {/* Countdown */}
                 <div className="mb-10">
-                  <div className="text-[11px] tracking-[3px] text-muted-foreground font-syne mb-4">NEXT COHORT STARTS IN</div>
+                  <div className="text-[11px] tracking-[3px] text-slate-600 font-syne mb-4">NEXT COHORT STARTS IN</div>
                   <div className="flex gap-3">
                     {[
                     { val: countdown.days, label: "DAYS" },
@@ -282,7 +282,7 @@ const Cohort = () => {
                     map((item) =>
                     <div key={item.label} className="bg-white border border-slate-200 shadow-sm rounded-xl px-4 py-3 min-w-[72px] text-center">
                         <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
-                        <div className="text-[10px] tracking-[2px] text-muted-foreground font-syne mt-1">{item.label}</div>
+                        <div className="text-[10px] tracking-[2px] text-slate-600 font-syne mt-1">{item.label}</div>
                       </div>
                     )}
                   </div>
@@ -296,7 +296,7 @@ const Cohort = () => {
                     </Button>
                   </a>
                   <a href="#experience">
-                    <Button variant="outline" size="lg" className="border-border text-muted-foreground hover:border-primary hover:text-primary rounded-full">
+                    <Button variant="outline" size="lg" className="bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-primary hover:text-primary rounded-full">
                       See what's included
                     </Button>
                   </a>
@@ -315,7 +315,7 @@ const Cohort = () => {
         </section>
 
         {/* ACCELERATOR EXPERIENCE */}
-        <section id="experience" className="py-12 md:py-16 px-4 border-t border-border">
+        <section id="experience" className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE ACCELERATOR EXPERIENCE</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
@@ -333,7 +333,7 @@ const Cohort = () => {
                     <item.icon className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
-                  <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
+                  <div className="text-sm text-slate-600 leading-relaxed">{item.desc}</div>
                 </div>
               )}
             </div>
@@ -347,7 +347,7 @@ const Cohort = () => {
         </section>
 
         {/* 4-WEEK TIMELINE */}
-        <section className="py-12 md:py-16 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">6-WEEK PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -356,13 +356,13 @@ const Cohort = () => {
 
             <div ref={setFadeRef(1)} className="space-y-6 max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
               {timeline.map((item, i) =>
-              <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-border last:border-b-0">
+              <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-slate-200 last:border-b-0">
                   <div className="bg-primary rounded-lg p-3 text-center">
                     <span className="font-syne text-xs font-bold text-primary-foreground tracking-[1px]">{item.weeks}</span>
                   </div>
                   <div>
                     <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
-                    <div className="text-sm text-muted-foreground leading-relaxed">{item.desc}</div>
+                    <div className="text-sm text-slate-600 leading-relaxed">{item.desc}</div>
                   </div>
                 </div>
               )}
@@ -371,7 +371,7 @@ const Cohort = () => {
         </section>
 
         {/* THE PROGRAMME */}
-        <section id="programme" className="py-12 md:py-16 px-4 border-t border-border">
+        <section id="programme" className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE PROGRAMME</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-2">
@@ -397,7 +397,7 @@ const Cohort = () => {
               <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
                   <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-primary' : 'text-primary'}`}>MODULE {mod.num}</div>
                   <div className="text-[15px] font-bold text-slate-900 mb-2">{mod.title}</div>
-                  <div className="text-sm text-muted-foreground">{mod.desc}</div>
+                  <div className="text-sm text-slate-600">{mod.desc}</div>
                 </div>
               )}
             </div>
@@ -412,14 +412,14 @@ const Cohort = () => {
               map((s, i) =>
               <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
                   <div className="text-2xl font-black text-primary">{s.val}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{s.label}</div>
+                  <div className="text-sm text-slate-600 mt-1">{s.label}</div>
                 </div>
               )}
             </div>
           </div>
         </section>
 
-        <section className="py-12 md:py-16 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT ALUMINI GRADUATES SAY</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -449,7 +449,7 @@ const Cohort = () => {
               <Shield className="w-10 h-10 text-primary flex-shrink-0 mt-1" />
               <div>
                 <div className="font-syne text-lg font-bold text-slate-900 mb-2">14-Day Satisfaction Guarantee</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   If you complete Week 1 and don't believe the Accelerator is worth your investment, we'll refund you in full — no questions asked.
                 </p>
               </div>
@@ -458,7 +458,7 @@ const Cohort = () => {
         </section>
 
         {/* COMPARISON TABLE */}
-        <section className="py-12 md:py-16 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -470,27 +470,27 @@ const Cohort = () => {
               <table className="w-full max-w-3xl border-collapse">
                 <thead>
                   <tr>
-                    <th className="text-left p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-muted-foreground bg-card border-b-2 border-border">Feature</th>
-                    <th className="p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-primary bg-card border-b-2 border-border text-center">Accelerator</th>
-                    <th className="p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-muted-foreground bg-card border-b-2 border-border text-center">eLearning</th>
+                    <th className="text-left p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-slate-600 bg-slate-50 border-b-2 border-slate-200">Feature</th>
+                    <th className="p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-primary bg-slate-50 border-b-2 border-slate-200 text-center">Accelerator</th>
+                    <th className="p-3 md:p-4 font-syne text-xs font-bold tracking-[1px] text-slate-600 bg-slate-50 border-b-2 border-slate-200 text-center">eLearning</th>
                   </tr>
                 </thead>
                 <tbody>
                   {comparisonFeatures.map((row, i) =>
                   <tr key={i} className={i % 2 === 0 ? "bg-slate-50" : ""}>
-                      <td className="p-3 md:p-4 text-sm text-muted-foreground font-medium border-b border-border">{row.feature}</td>
-                      <td className="p-3 md:p-4 text-center border-b border-border">
-                        {row.accelerator ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
+                      <td className="p-3 md:p-4 text-sm text-slate-600 font-medium border-b border-slate-200">{row.feature}</td>
+                      <td className="p-3 md:p-4 text-center border-b border-slate-200">
+                        {row.accelerator ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-slate-600">—</span>}
                       </td>
-                      <td className="p-3 md:p-4 text-center border-b border-border">
-                        {row.elearning ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-muted-foreground">—</span>}
+                      <td className="p-3 md:p-4 text-center border-b border-slate-200">
+                        {row.elearning ? <CheckCircle className="w-5 h-5 text-primary inline-block" /> : <span className="text-slate-600">—</span>}
                       </td>
                     </tr>
                   )}
-                  <tr className="bg-card">
+                  <tr className="bg-slate-50">
                     <td className="p-3 md:p-4 text-sm font-bold text-slate-900">Price</td>
                     <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£1,997</td>
-                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-muted-foreground">£597</td>
+                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-slate-600">£597</td>
                   </tr>
                 </tbody>
               </table>
@@ -507,7 +507,7 @@ const Cohort = () => {
               <DialogTitle className="font-syne text-xl font-black text-slate-900">
                 Apply for {selectedCohort?.month} {selectedCohort?.year} Cohort
               </DialogTitle>
-              <DialogDescription className="text-muted-foreground text-sm">
+              <DialogDescription className="text-slate-600 text-sm">
                 Starting {selectedCohort?.startDate || "TBC"} · {selectedCohort?.seatsLeft} seats remaining · Step {formStep} of 2
               </DialogDescription>
             </DialogHeader>
@@ -522,23 +522,23 @@ const Cohort = () => {
                 <div className="text-xs font-syne font-bold text-primary tracking-[2px] mb-2">YOUR DETAILS</div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
+                    <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
                     <input required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
                   </div>
                   <div>
-                    <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
+                    <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
                     <input required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
+                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
                   <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">PHONE NUMBER *</label>
+                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">PHONE NUMBER *</label>
                   <div className="flex gap-2">
                     <select
                       value={formData.countryCode}
@@ -560,17 +560,17 @@ const Cohort = () => {
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
+                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
                   <input required value={formData.linkedin} onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
+                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
                   <input required value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
+                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
                   <input value={formData.organisation} onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
                 </div>
@@ -590,7 +590,7 @@ const Cohort = () => {
 
                 {/* Digital Fluency */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">DIGITAL FLUENCY / MATURITY *</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">DIGITAL FLUENCY / MATURITY *</label>
                   <div className="space-y-2">
                     {[
                   "I'm great at safety, but tech isn't my strength",
@@ -613,7 +613,7 @@ const Cohort = () => {
 
                 {/* Upskill attempts */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">WHAT HAVE YOU TRIED TO UPSKILL? * (select all)</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">WHAT HAVE YOU TRIED TO UPSKILL? * (select all)</label>
                   <div className="space-y-2">
                     {["YouTube / podcasts", "Short courses (Udemy, Coursera, etc.)", "Formal certification / accredited training", "Internal company training (L&D)", "Reading (books, newsletters, blogs)", "Attending webinars / conferences", "Experimenting with tools (ChatGPT, Copilot, Power BI)", "Mentoring / coaching", "Nothing yet"].map((opt) =>
                   <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.upskillAttempts.includes(opt) ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
@@ -630,7 +630,7 @@ const Cohort = () => {
 
                 {/* Blockers */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST BLOCKERS * (select all)</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">BIGGEST BLOCKERS * (select all)</label>
                   <div className="space-y-2">
                     {["I don't have time / overloaded with compliance", "I don't know what to focus on", "I start but struggle to stay consistent", "I don't have a clear EHS use case", "I don't trust the outputs / fear getting it wrong", "My organisation isn't supportive", "Security / GDPR / governance concerns", "Budget constraints"].map((opt) =>
                   <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.blockers.includes(opt) ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
@@ -647,7 +647,7 @@ const Cohort = () => {
 
                 {/* Motivation */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BIGGEST MOTIVATION *</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">BIGGEST MOTIVATION *</label>
                   <div className="space-y-2">
                     {[
                   "A clear, structured path to stop consuming and start executing",
@@ -671,7 +671,7 @@ const Cohort = () => {
 
                 {/* Budget Approval */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">BUDGET APPROVAL ABILITY *</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">BUDGET APPROVAL ABILITY *</label>
                   <div className="space-y-2">
                     {["I own the budget and will approve it", "I recommend, someone else approves", "I need full approval"].map((opt) =>
                   <label key={opt} className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.budgetApproval === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
@@ -688,7 +688,7 @@ const Cohort = () => {
 
                 {/* Can Afford */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £1,997 + VAT FEE? *</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">CAN YOU AFFORD THE £1,997 + VAT FEE? *</label>
                   <div className="flex gap-3">
                     {["Yes", "No"].map((opt) =>
                   <label key={opt} className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-sm font-semibold ${formData.canAfford === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
@@ -702,7 +702,7 @@ const Cohort = () => {
 
                 {/* Can Commit */}
                 <div>
-                  <label className="text-[11px] text-muted-foreground block mb-2 tracking-[0.5px]">CAN YOU COMMIT TO THE COHORT SCHEDULE? *</label>
+                  <label className="text-[11px] text-slate-600 block mb-2 tracking-[0.5px]">CAN YOU COMMIT TO THE COHORT SCHEDULE? *</label>
                   <div className="space-y-2">
                     {["Yes, 100%", "Yes, but will need some adjustments", "No"].map((opt) =>
                   <label key={opt} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all text-sm ${formData.canCommit === opt ? "border-primary bg-primary/10 text-slate-900" : "border-slate-300 text-slate-700 hover:border-primary/30"}`}>
@@ -718,7 +718,7 @@ const Cohort = () => {
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="border-border text-muted-foreground hover:text-slate-900">
+                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900">
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back
                   </Button>
                   <Button type="submit" disabled={isSubmitting || !formData.digitalFluency || formData.upskillAttempts.length === 0 || formData.blockers.length === 0 || !formData.motivation || !formData.budgetApproval || !formData.canAfford || !formData.canCommit}
@@ -730,7 +730,7 @@ const Cohort = () => {
                   </Button>
                 </div>
 
-                <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
+                <p className="text-[11px] text-slate-600 text-center leading-relaxed">
                   This is not a payment. We review applications and confirm your place within 24 hours. 14-day satisfaction guarantee.
                 </p>
               </form>
@@ -739,12 +739,12 @@ const Cohort = () => {
         </Dialog>
 
         {/* FAQ Link */}
-        <section className="py-12 md:py-16 px-4 border-t border-border">
+        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl text-center">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Have questions?
             </h2>
-            <p className="text-muted-foreground mb-8">Find answers about the Accelerator, eLearning, and In-Company training.</p>
+            <p className="text-slate-600 mb-8">Find answers about the Accelerator, eLearning, and In-Company training.</p>
             <a href="/faq" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-bold text-lg transition-colors">
               Visit our FAQ page →
             </a>
@@ -760,7 +760,7 @@ const Cohort = () => {
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
                   Ready to join the<br />next cohort?
                 </h2>
-                <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed">
+                <p className="text-lg text-slate-600 max-w-md mx-auto mb-10 leading-relaxed">
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <a href="/enrol">
@@ -776,7 +776,7 @@ const Cohort = () => {
                 </div>
                 <div className="flex flex-wrap gap-6 justify-center mt-7">
                   {["14-day money-back guarantee", "IOSH-approved programme", "Only 15 per cohort", "Payment plans available"].map((item) =>
-                  <span key={item} className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  <span key={item} className="text-xs text-slate-600 flex items-center gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5 text-primary" /> {item}
                     </span>
                   )}
