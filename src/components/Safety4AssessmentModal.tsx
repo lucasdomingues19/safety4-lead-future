@@ -179,22 +179,52 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   const triggerResultsEmail = () => {
     const capturedData = { ...userData };
     const capturedAnswers = [...answers];
-    setTimeout(async () => {
-      try {
-        const total = capturedAnswers.reduce((sum, s) => sum + s, 0);
-        const overallPct = Math.round((total / (questions.length * 5)) * 100);
-        const catScores = CATEGORIES.map((category) => {
-          const categoryQs = questions.filter((q) => q.category === category);
-          const totalPoints = categoryQs.reduce((sum, q) => {
-            const idx = questions.indexOf(q);
-            return sum + (capturedAnswers[idx] || 0);
-          }, 0);
-          const maxPoints = categoryQs.length * 5;
-          const percentage = Math.round((totalPoints / maxPoints) * 100);
-          return { category, percentage };
-        });
-        const rank = getRank(overallPct);
 
+    const total = capturedAnswers.reduce((sum, s) => sum + s, 0);
+    const overallPct = Math.round((total / (questions.length * 5)) * 100);
+    const catScores = CATEGORIES.map((category) => {
+      const categoryQs = questions.filter((q) => q.category === category);
+      const totalPoints = categoryQs.reduce((sum, q) => {
+        const idx = questions.indexOf(q);
+        return sum + (capturedAnswers[idx] || 0);
+      }, 0);
+      const maxPoints = categoryQs.length * 5;
+      const percentage = Math.round((totalPoints / maxPoints) * 100);
+      return { category, percentage };
+    });
+    const rank = getRank(overallPct);
+    const orgMaturityScores = hasMaturityData
+      ? getMaturityScores().map((m) => ({ category: m.mappedCategory, percentage: m.percentage }))
+      : null;
+
+    const postScorecard = (pdfBase64?: string) =>
+      fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        },
+        body: JSON.stringify({
+          firstName: capturedData.firstName,
+          lastName: capturedData.lastName,
+          email: capturedData.email,
+          companyName: capturedData.companyName || null,
+          overallScore: overallPct,
+          rankNumber: rank.rank,
+          rankLabel: rank.label,
+          rankColor: rank.color,
+          rankDescription: rank.description,
+          categoryScores: catScores,
+          orgMaturityScores,
+          pdfBase64,
+        }),
+      });
+
+    // Fire immediately (no artificial delay) so the score is recorded even if the
+    // user closes the tab right after finishing. Generate the PDF, but never let a
+    // slow/failed PDF block the request that saves the score + emails the results.
+    (async () => {
+      try {
         let pdfBase64: string | undefined;
         try {
           pdfBase64 = await generatePdfBase64();
@@ -203,32 +233,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         }
 
         console.log("Auto-sending scorecard email to:", capturedData.email, "Score:", overallPct);
-
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-scorecard-email`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            },
-            body: JSON.stringify({
-              firstName: capturedData.firstName,
-              lastName: capturedData.lastName,
-              email: capturedData.email,
-              companyName: capturedData.companyName || null,
-              overallScore: overallPct,
-              rankNumber: rank.rank,
-              rankLabel: rank.label,
-              rankColor: rank.color,
-              rankDescription: rank.description,
-              categoryScores: catScores,
-              orgMaturityScores: hasMaturityData ? getMaturityScores().map(m => ({ category: m.mappedCategory, percentage: m.percentage })) : null,
-              pdfBase64,
-            }),
-          }
-        );
-
+        const response = await postScorecard(pdfBase64);
         const responseData = await response.json();
         console.log("Scorecard email response:", response.status, responseData);
         if (response.ok) {
@@ -237,7 +242,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
       } catch (err) {
         console.error("Auto-send scorecard email failed:", err);
       }
-    }, 3000);
+    })();
   };
 
   const getCategoryScores = () => {
