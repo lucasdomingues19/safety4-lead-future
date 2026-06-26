@@ -17,8 +17,8 @@ const STEPS: Step[] = [
 ];
 
 const CENTER = 200;
-const R_OUTER = 185;
-const R_INNER = 96;
+const R_OUTER = 176;
+const R_INNER = 92;
 const R_LABEL = (R_OUTER + R_INNER) / 2;
 const GAP_DEG = 2.5; // gap between segments
 const SEG = 360 / STEPS.length;
@@ -85,7 +85,7 @@ export const MTAFrameworkWheel = () => {
               filter={isActive ? "url(#mtaGlow)" : undefined}
               style={{
                 transformOrigin: "200px 200px",
-                transform: isActive ? "scale(1.04)" : "scale(1)",
+                transform: isActive ? "scale(1.02)" : "scale(1)",
                 transition: "transform 0.5s ease, fill 0.5s ease",
               }}
             />
