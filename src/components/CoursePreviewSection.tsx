@@ -91,8 +91,8 @@ export const CoursePreviewSection = () => {
                   </div>
                 </div>
               </div>
-              <h3 className="text-white font-semibold text-lg mb-1.5 group-hover:text-primary transition-colors">{video.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{video.shortDescription}</p>
+              <h3 className="text-slate-900 font-semibold text-lg mb-1.5 group-hover:text-primary transition-colors">{video.title}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">{video.shortDescription}</p>
               <div className="mt-2 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
                 <Play className="w-3 h-3 mr-1" />
                 Click to preview
