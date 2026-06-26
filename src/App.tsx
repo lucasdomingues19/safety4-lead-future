@@ -34,6 +34,15 @@ const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
 
+// Learning platform (LMS)
+const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
+const LearnDashboard = lazy(() => import("./pages/learn/LearnDashboard"));
+const CourseView = lazy(() => import("./pages/learn/CourseView"));
+const LessonView = lazy(() => import("./pages/learn/LessonView"));
+const CourseManager = lazy(() => import("./pages/admin/CourseManager"));
+
+
+
 // Loading fallback component
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-black">
@@ -84,7 +93,13 @@ const App = () => (
             <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/enrol" element={<Enroll />} />
+            <Route path="/learn/auth" element={<LearnAuth />} />
+            <Route path="/learn" element={<LearnDashboard />} />
+            <Route path="/learn/:courseSlug" element={<CourseView />} />
+            <Route path="/learn/:courseSlug/lesson/:lessonId" element={<LessonView />} />
+            <Route path="/admin/courses" element={<CourseManager />} />
             <Route path="*" element={<NotFound />} />
+
           </Routes>
         </Suspense>
         <WhatsAppButton />
