@@ -6,7 +6,7 @@ import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import {
-  ArrowRight, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle,
+  ArrowRight, ArrowLeft, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle,
   Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass,
   Shield, Globe, Zap, Clock, Infinity, CheckCircle, Tablet, GraduationCap
 } from "lucide-react";
