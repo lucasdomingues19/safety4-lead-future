@@ -29,7 +29,7 @@ export const PricingSection = () => {
     buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
-    name: "eLearning",
+    name: "Safety 4.0 eLearning",
     price: "£597",
     originalPrice: "£697",
     period: "one-time",
@@ -54,7 +54,7 @@ export const PricingSection = () => {
     buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
-    name: "Accelerator • Cohort",
+    name: "Safety 4.0 Accelerator\u00A0 Cohort",
     price: "£1,997",
     originalPrice: "£2,497",
     period: "per person",
@@ -102,7 +102,7 @@ export const PricingSection = () => {
           {pricingTiers.map((tier, index) =>
           <div
             key={index}
-            id={tier.name === "eLearning" ? "elearning" : undefined}
+            id={tier.name === "Safety 4.0 eLearning" ? "elearning" : undefined}
             className={`relative bg-white backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
             tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
             }>
@@ -155,7 +155,7 @@ export const PricingSection = () => {
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </a> :
-            tier.name === "Accelerator • Cohort" ?
+            tier.name === "Safety 4.0 Accelerator\u00A0 Cohort" ?
             <a href="/accelerator">
                   <Button
                 className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
@@ -167,12 +167,12 @@ export const PricingSection = () => {
 
             <a
               href={
-              tier.name === "eLearning" ?
+              tier.name === "Safety 4.0 eLearning" ?
               "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" :
               undefined
               }
-              target={tier.name === "eLearning" ? "_blank" : undefined}
-              rel={tier.name === "eLearning" ? "noopener noreferrer" : undefined}>
+              target={tier.name === "Safety 4.0 eLearning" ? "_blank" : undefined}
+              rel={tier.name === "Safety 4.0 eLearning" ? "noopener noreferrer" : undefined}>
               
                   <Button className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
