@@ -147,10 +147,10 @@ const Contact = () => {
 
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-[1.05]">
             Get in <span className="text-primary">Touch</span>
           </h1>
-          <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Ready to transform your safety career? We're here to help you begin your Safety 4.0 journey
           </p>
         </div>
