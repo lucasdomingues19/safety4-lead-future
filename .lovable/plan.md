@@ -1,77 +1,91 @@
-## B2B-First Overhaul — Proposal
+# Phase 1: Core Learning Platform (LMS)
 
-Goal: make the site speak primarily to organisational buyers (Heads of EHS, L&D, Operations, procurement) while keeping a clean secondary path for individuals. No content gets deleted — it gets resequenced and reframed so a company buyer instantly recognises this is for them.
+Goal: move the highest-value, most-feasible chunk of Kajabi — paid course delivery — onto your own platform, reusing the auth, certificates, and payments primitives you already own. Email marketing, newsletters, and complex automations stay on a dedicated tool for now.
 
-The core principle: **one audience per page, one primary action per screen, proof before pricing.** `/in-company` already does this well — the rest of the site should follow its model.
-
----
-
-### 1. Navigation (`AudienceNav.tsx`)
-
-Today the nav leads with individual-learner items and a "Join the Waitlist" button. B2B buyers can't self-identify.
-
-- Promote **"For Teams"** (→ `/in-company`) to a prominent, early nav position with visual emphasis.
-- Group individual offerings (eLearning, Accelerator, Alumni) under a **"For Individuals"** dropdown.
-- Change the primary nav button from "Join the Waitlist" to **"Book a Team Demo"** (→ `/contact` or a scheduling link).
-- Keep IOSH & CPD, Scorecard, Blog, FAQ, Contact as supporting items.
+## What students will be able to do
 
 ```text
-[Logo]  For Teams ▸   For Individuals ▾   IOSH & CPD   Resources ▾   [Book a Team Demo]
+Sign up / log in  ──►  My Learning (dashboard)
+                          │
+                          ├─► Course page (modules + lessons list, % progress)
+                          │       └─► Lesson player (video + rich text + resources)
+                          │               └─► Mark complete  ──► progress saved
+                          │
+                          ├─► Quiz at end of module ──► pass/score recorded
+                          │
+                          └─► On full completion ──► Certificate auto-issued
+                                                     (reuses existing cert system)
+
+Buy course ──► Stripe/Paddle checkout ──► access unlocked automatically
 ```
 
-### 2. Homepage hero (`HeroSection.tsx`)
+## Scope of this phase
 
-The hero currently mixes individual and company signals with two soft CTAs ("Start Learning", "Talk to Us").
+Included:
+- Student accounts (email/password + Google), separate from the existing admin login
+- Course → Module → Lesson content hierarchy with ordering and optional drip
+- Lesson player: embedded video (Vimeo/Bunny/Mux/YouTube-unlisted), rich text, downloadable resources
+- Per-student progress tracking and resume-where-you-left-off
+- Quizzes per module (reuses your assessment patterns), score + pass/fail recorded
+- Paid access gating via built-in payments; purchase unlocks the right course
+- Auto-issue certificate on course completion (reuses certificates + QR verification you already have)
+- Admin authoring screens to create/edit courses, modules, lessons, and quizzes
 
-- Reframe the headline around an **organisational** outcome (e.g. workforce capability / reducing digital-safety risk across teams), keeping the IOSH/CPD trust badges.
-- Subhead names the buyer explicitly ("Upskill your entire EHS function…").
-- **Dual CTA, B2B-first:** primary = **"Train My Team"** (→ `/in-company`); secondary = **"For Individuals"** (→ individual pricing).
-- Add a thin trust strip beneath the hero ("Approved training provider by IOSH · CPD accredited · Trusted by [logos]").
+Explicitly NOT in this phase (kept on existing tools):
+- Bulk email marketing & newsletters (not supported here — keep Mailchimp/Beehiiv/etc.)
+- Community/forum (Phase 2)
+- Visual automation/workflow builder (Phase 2; simple signup→access→welcome triggers are included)
 
-### 3. Homepage section sequence (`Index.tsx`)
+## Data model (new tables)
 
-Resequence so the page reads like a B2B buyer journey rather than a stack of equal-weight blocks:
+All in `public`, with RLS + GRANTs. Roles via the existing `user_roles` table.
 
-```text
-1. Hero (B2B-first, dual CTA)
-2. Trusted-by logos (Siemens, LEGO, Marsh, ABB…)
-3. Problem framed for organisations (capability gap = risk + cost)
-4. Solution: what a team rollout looks like
-5. ROI Calculator (moved up — strongest B2B asset, currently only on /in-company)
-6. Proof: one case study with a real, sourced metric
-7. Pricing: Teams first, Individuals second
-8. Founder/credibility + testimonials
-9. Final CTA: "Book a team demo"
-```
+- `courses` — title, slug, description, cover image, price, published flag
+- `modules` — course_id, title, position, drip_days (offset from enrolment)
+- `lessons` — module_id, title, position, video_url, body (rich text), resources (json), duration
+- `enrollments` — user_id, course_id, status, enrolled_at, completed_at
+- `lesson_progress` — user_id, lesson_id, completed_at
+- `quizzes` — module_id, title, pass_threshold
+- `quiz_questions` — quiz_id, prompt, options (json), correct_index
+- `quiz_attempts` — user_id, quiz_id, score, passed, attempted_at
 
-The individual-focused video, curriculum detail, and learner testimonials stay — they move below the team narrative or onto the `/elearning` and `/accelerator` pages.
+RLS summary:
+- Students: read published course content only for courses they are enrolled in; read/write only their own progress, enrollments, and quiz attempts
+- Admins (`has_role`): full read/write on authoring tables
+- Certificate issuing on completion runs through an edge function with the service role (no client-side issuing), consistent with your current setup
 
-### 4. Pricing (`PricingSection.tsx`)
+## New routes
 
-- Lead with the **Teams / In-Company** offer (real anchor, e.g. "From £X/seat · Teams of 5–15+", with PILOT→CORE→DEPARTMENT tiers visible) instead of the vague "For Companies — Special pricing".
-- Show individual options (eLearning £597, Accelerator £997) as a clearly secondary block.
-- Add procurement-friendly signals: invoice/PO accepted, volume pricing, dedicated account manager, completion dashboards.
+- `/learn` — student dashboard ("My Learning")
+- `/learn/:courseSlug` — course overview + curriculum
+- `/learn/:courseSlug/:lessonId` — lesson player
+- `/account` — student profile/settings
+- Admin authoring lives under the existing `/admin` (new tabs: Courses, Lessons, Quizzes)
+- Student auth gets its own page/flow so it doesn't redirect to `/admin` like the current `Auth.tsx`
 
-### 5. Remove B2C tactics from the homepage
+## How it reuses what you already have
 
-- Move scarcity ("only X spots left"), exit-intent discount popups, and countdown urgency **off the homepage** and reserve them for the individual Cohort/Accelerator pages. These undermine B2B credibility with procurement buyers.
+- Auth + `user_roles` + RLS patterns — already in place
+- Certificates + QR verification + `issue-certificate` edge function — wired to fire on completion
+- Assessment/quiz UI patterns from the scorecard
+- Built-in payments (Stripe/Paddle) for paid access — enabled when you're ready to sell
+- Existing branding/design system (cobalt-on-navy) across all new screens
 
-### 6. Add B2B proof points
+## Build order (incremental, shippable steps)
 
-- One or two short case studies / outcome stats on the homepage and `/in-company` (e.g. "reduced safety-admin time by X hrs/week"). Must use real, sourced or client-approved numbers — no invented metrics.
+1. Data model + RLS + GRANTs (migration)
+2. Admin authoring: create courses/modules/lessons
+3. Student auth + `/learn` dashboard + enrolment (free/manual first)
+4. Lesson player + progress tracking
+5. Quizzes + scoring
+6. Auto-certificate on completion
+7. Payments gating (enable when ready to charge)
 
----
+## Technical notes
 
-### What stays the same
-- `/in-company` (already the strongest B2B page — becomes the canonical destination).
-- All individual offerings remain fully available under "For Individuals".
-- Branding, palette, typography, IOSH/CPD positioning, and existing analytics/tracking.
+- Video is embedded from a video host, never stored as raw files in the database — keeps it fast and cheap.
+- Completion → certificate runs server-side via an edge function to keep issuing tamper-proof.
+- Drip is computed from `enrolled_at + drip_days`, enforced in RLS/queries so locked lessons can't be fetched early.
+- This is a multi-step build; each step above is independently testable so you can validate as we go rather than one big drop.
 
-### Technical notes (for implementation)
-- Frontend/presentation only: edits to `AudienceNav.tsx`, `HeroSection.tsx`, `Index.tsx`, `PricingSection.tsx`, and conditional rendering of `StickyCTABar` / `ExitIntentPopup` / scarcity components by route.
-- No schema, backend, or data-model changes required.
-- Real case-study metrics need to be supplied by you before they go live.
-
----
-
-This is a proposal only — nothing has been changed. Tell me which parts you want, and I'll implement them (we can also stage it: nav + hero first, then pricing, then proof).
+Once you approve, I'll start with Step 1 (data model) and Step 2 (admin authoring) so you can create a real course and see it end-to-end.
