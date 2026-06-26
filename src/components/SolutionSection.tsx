@@ -59,7 +59,7 @@ export const SolutionSection = () => {
             The Solution: <span className="text-primary">You need new skills</span>
           </h2>
           
-          <p className="text-xl text-slate-600 leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
             We've created the world's first comprehensive digital safety leadership program 
             that transforms traditional safety professionals into future-ready leaders.
           </p>
