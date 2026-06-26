@@ -93,7 +93,13 @@ const App = () => (
             <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/enrol" element={<Enroll />} />
+            <Route path="/learn/auth" element={<LearnAuth />} />
+            <Route path="/learn" element={<LearnDashboard />} />
+            <Route path="/learn/:courseSlug" element={<CourseView />} />
+            <Route path="/learn/:courseSlug/lesson/:lessonId" element={<LessonView />} />
+            <Route path="/admin/courses" element={<CourseManager />} />
             <Route path="*" element={<NotFound />} />
+
           </Routes>
         </Suspense>
         <WhatsAppButton />
