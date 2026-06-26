@@ -33,7 +33,7 @@ import {
 "lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
-import { AnimatedSpiderChart } from "@/components/AnimatedSpiderChart";
+import { MTAFrameworkWheel } from "@/components/MTAFrameworkWheel";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
@@ -305,22 +305,11 @@ const Cohort = () => {
 
               </div>
 
-              {/* Right column - Spider Chart */}
+              {/* Right column - MTA Framework Wheel */}
               <div className="hidden lg:flex items-center justify-center">
-                <AnimatedSpiderChart
-                  categories={[
-                  { label: "Knowledge", icon: "🔍" },
-                  { label: "Technology", icon: "⚙️" },
-                  { label: "Risk\nManagement", icon: "🛡" },
-                  { label: "Change\nManagement", icon: "🔄" },
-                  { label: "Leadership", icon: "👤" }]
-                  }
-                  beforeValues={[28, 22, 35, 18, 30]}
-                  afterValues={[85, 80, 90, 75, 88]}
-                  beforeLabel="BEFORE PROGRAMME"
-                  afterLabel="AFTER SAFETY 4.0" />
-                
+                <MTAFrameworkWheel />
               </div>
+
             </div>
           </div>
         </section>
