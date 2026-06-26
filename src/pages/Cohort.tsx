@@ -33,7 +33,7 @@ import {
 "lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
-import { AnimatedSpiderChart } from "@/components/AnimatedSpiderChart";
+import { MTAFrameworkWheel } from "@/components/MTAFrameworkWheel";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
