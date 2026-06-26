@@ -85,7 +85,7 @@ export const MTAFrameworkWheel = () => {
               filter={isActive ? "url(#mtaGlow)" : undefined}
               style={{
                 transformOrigin: "200px 200px",
-                transform: isActive ? "scale(1.04)" : "scale(1)",
+                transform: isActive ? "scale(1.02)" : "scale(1)",
                 transition: "transform 0.5s ease, fill 0.5s ease",
               }}
             />
