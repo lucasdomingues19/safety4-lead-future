@@ -38,7 +38,7 @@ export const AboutAcademySection = () => {
             {/* Left Column - Content */}
             <div className="space-y-6 md:space-y-8 animate-fade-in">
               <div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-[1.05]">
                   About the <span className="text-primary">Safety 4.0 Academy</span>
                 </h2>
                 
