@@ -1,7 +1,9 @@
 // ============= Full file contents =============
 
 import { useEffect } from "react";
-import { Shield, Award, CheckCircle } from "lucide-react";
+import { Shield, Award, CheckCircle, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import AudienceNav from "@/components/AudienceNav";
 import cpdCertifiedLogo from "../assets/cpd-certified-logo.png.asset.json";
@@ -26,6 +28,16 @@ const Certification = () => {
 
       <AudienceNav />
       <div className="container mx-auto px-4 pt-24 pb-20 relative z-10">
+
+        {/* Back Navigation */}
+        <div className="mb-12">
+          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Link to="/" className="flex items-center space-x-2">
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Home</span>
+            </Link>
+          </Button>
+        </div>
 
         {/* Header */}
         <div className="text-center mb-16">
