@@ -21,6 +21,8 @@ import {
 import {
   toEmbedUrl,
   isModuleUnlocked,
+  asLessons,
+  asQuizQuestions,
   type Course,
   type Module,
   type Lesson,
