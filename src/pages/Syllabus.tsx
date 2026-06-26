@@ -28,7 +28,7 @@ const Syllabus = () => {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">IOSH APPROVED · CPD ACCREDITED&nbsp;</span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-[1.05]">
                 Safety 4.0&nbsp;
                 <span className="text-primary block">Leading Safety in the Digital Age</span>
               </h1>
