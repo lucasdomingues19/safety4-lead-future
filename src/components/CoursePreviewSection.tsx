@@ -72,7 +72,7 @@ export const CoursePreviewSection = () => {
           {videoPreviewData.map((video) => (
             <div
               key={video.id}
-              className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-5 border border-white/10 hover:border-primary/40 transition-all duration-300 cursor-pointer group"
+              className="bg-white shadow-sm rounded-2xl p-5 border border-slate-200 hover:border-primary/40 transition-all duration-300 cursor-pointer group"
               onClick={() => handleVideoPreview(video)}
             >
               <div className="relative aspect-video rounded-xl mb-4 overflow-hidden">
