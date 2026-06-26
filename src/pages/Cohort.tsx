@@ -718,7 +718,7 @@ const Cohort = () => {
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="border-slate-200 text-slate-600 hover:text-slate-900">
+                  <Button type="button" variant="outline" onClick={() => setFormStep(1)} className="bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:text-slate-900">
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back
                   </Button>
                   <Button type="submit" disabled={isSubmitting || !formData.digitalFluency || formData.upskillAttempts.length === 0 || formData.blockers.length === 0 || !formData.motivation || !formData.budgetApproval || !formData.canAfford || !formData.canCommit}
