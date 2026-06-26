@@ -22,7 +22,7 @@ export const FinalCTASection = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
-          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-8 tracking-tight leading-[1.05]">
             Join the Safety 4.0 
             <br />
             <span className="text-primary">Academy Now</span>

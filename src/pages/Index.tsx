@@ -77,7 +77,7 @@ const Index = () => {
                   Introducing
                 </span>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 text-center mb-8 md:mb-12">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] text-center mb-8 md:mb-12">
                 <span className="text-primary">Safety 4.0 Academy</span>
               </h2>
               <p className="text-lg md:text-2xl font-semibold text-slate-900 text-center mb-8 md:mb-12">

@@ -85,10 +85,10 @@ const FAQ = () => {
 
           {/* Header */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-slate-900">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-slate-900 tracking-tight leading-[1.05]">
               Frequently Asked <span className="text-primary">Questions</span>
             </h1>
-            <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
               Everything you need to know about eLearning, the Accelerator, and In-Company training
             </p>
           </div>

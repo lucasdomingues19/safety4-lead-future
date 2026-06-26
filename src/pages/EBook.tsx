@@ -35,10 +35,10 @@ const EBook = () => {
 
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-slate-900">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-slate-900 tracking-tight leading-[1.05]">
             Free <span className="text-primary">Safety 4.0</span> eBook
           </h1>
-          <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
             Short read for EHS professionals who is starting to navigate the safetytech and AI transition.
           </p>
         </div>
