@@ -249,6 +249,15 @@ const Cohort = () => {
         {/* NAV */}
         <AudienceNav />
 
+        <div className="container mx-auto max-w-6xl px-4 pt-28 md:pt-32">
+          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Link to="/" className="flex items-center space-x-2">
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Home</span>
+            </Link>
+          </Button>
+        </div>
+
         {/* HERO */}
         <section className="min-h-screen flex items-center pt-32 pb-20 px-4 relative overflow-hidden">
           {/* Grid pattern */}
