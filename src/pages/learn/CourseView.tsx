@@ -90,7 +90,7 @@ const CourseView = () => {
       const grouped: ModuleWithLessons[] = (moduleRows ?? []).map((m) => ({
         ...(m as Module),
         unlocked: isModuleUnlocked(m as Module, enr.enrolled_at),
-        lessons: ((lessonRows ?? []) as Lesson[]).filter((l) => l.module_id === m.id),
+        lessons: asLessons(lessonRows).filter((l) => l.module_id === m.id),
       }));
       setModules(grouped);
     } catch (err) {

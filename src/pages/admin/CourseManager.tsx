@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen } from "lucide-react";
-import type { Course, Module, Lesson, Quiz, QuizQuestion } from "@/lib/lms";
+import { asLessons, asQuizQuestions, type Course, type Module, type Lesson, type Quiz, type QuizQuestion } from "@/lib/lms";
 
 const slugify = (s: string) =>
   s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -328,7 +328,7 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
       .select("*")
       .eq("module_id", module.id)
       .order("position");
-    setLessons((data ?? []) as Lesson[]);
+    setLessons(asLessons(data));
   };
 
   const saveModule = async () => {
@@ -545,7 +545,7 @@ const QuizEditor = ({ moduleId }: { moduleId: string }) => {
         .select("*")
         .eq("quiz_id", q.id)
         .order("position");
-      setQuestions(((qs ?? []) as unknown as QuizQuestion[]));
+      setQuestions(asQuizQuestions(qs));
     } else {
       setQuiz(null);
       setQuestions([]);

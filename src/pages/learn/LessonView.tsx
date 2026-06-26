@@ -93,7 +93,7 @@ const LessonView = () => {
       const { data: lessonRows } = moduleIds.length
         ? await supabase.from("lessons").select("*").in("module_id", moduleIds).order("position")
         : { data: [] as Lesson[] };
-      setLessons((lessonRows ?? []) as Lesson[]);
+      setLessons(asLessons(lessonRows));
 
       const { data: progressRows } = await supabase
         .from("lesson_progress")
@@ -162,7 +162,7 @@ const LessonView = () => {
           .eq("quiz_id", quizData.id)
           .order("position");
         setQuiz(quizData as Quiz);
-        setQuizQuestions(((qs ?? []) as unknown as QuizQuestion[]));
+        setQuizQuestions(asQuizQuestions(qs));
         setQuizOpen(true);
         return;
       }
