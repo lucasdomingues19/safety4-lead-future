@@ -521,11 +521,18 @@ const Admin = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-white">Admin Dashboard</h1>
-          <Button onClick={handleLogout} variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button onClick={() => navigate("/admin/courses")} className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <BookOpen className="mr-2 h-4 w-4" />
+              Course Manager
+            </Button>
+            <Button onClick={handleLogout} variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
+          </div>
         </div>
+
 
         {/* Tab Navigation */}
         <div className="flex gap-4 mb-8">
