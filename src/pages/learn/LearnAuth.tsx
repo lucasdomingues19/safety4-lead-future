@@ -65,7 +65,7 @@ const LearnAuth = () => {
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -74,8 +74,13 @@ const LearnAuth = () => {
           },
         });
         if (error) throw error;
-        toast.success("Account created! You're all set.");
-        navigate("/learn");
+        if (data.session) {
+          toast.success("Account created! You're all set.");
+          navigate("/learn");
+        } else {
+          toast.success("Account created! Check your email to confirm, then sign in.");
+          setMode("signin");
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
