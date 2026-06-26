@@ -296,7 +296,7 @@ const Cohort = () => {
                     </Button>
                   </a>
                   <a href="#experience">
-                    <Button variant="outline" size="lg" className="border-slate-200 text-slate-600 hover:border-primary hover:text-primary rounded-full">
+                    <Button variant="outline" size="lg" className="bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-primary hover:text-primary rounded-full">
                       See what's included
                     </Button>
                   </a>
