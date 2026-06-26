@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Loader2, CheckCircle2, Lock, PlayCircle, ArrowLeft, Clock } from "lucide-react";
 import {
   isModuleUnlocked,
+  asLessons,
   type Course,
   type Module,
   type Lesson,
