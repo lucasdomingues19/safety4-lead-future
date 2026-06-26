@@ -68,6 +68,20 @@ export interface QuizQuestion {
   position: number;
 }
 
+/** Normalize raw lesson rows (resources comes back as Json) into typed Lessons. */
+export const asLessons = (rows: unknown[] | null | undefined): Lesson[] =>
+  ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
+    ...(r as unknown as Lesson),
+    resources: Array.isArray(r.resources) ? (r.resources as LessonResource[]) : [],
+  }));
+
+/** Normalize raw quiz question rows (options comes back as Json). */
+export const asQuizQuestions = (rows: unknown[] | null | undefined): QuizQuestion[] =>
+  ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
+    ...(r as unknown as QuizQuestion),
+    options: Array.isArray(r.options) ? (r.options as string[]) : [],
+  }));
+
 /** Format a price in minor units to a localized currency string. */
 export const formatPrice = (cents: number, currency = "GBP"): string => {
   if (!cents) return "Free";
