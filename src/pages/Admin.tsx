@@ -244,7 +244,7 @@ const Admin = () => {
         for (let from = 0; ; from += pageSize) {
           let q = supabase
             .from('page_views')
-            .select('*')
+            .select('page_path, session_id, visited_at, device_type, country, city, browser')
             .order('visited_at', { ascending: false })
             .range(from, from + pageSize - 1);
 
@@ -264,7 +264,7 @@ const Admin = () => {
         for (let from = 0; ; from += pageSize) {
           let q = supabase
             .from('user_events')
-            .select('*')
+            .select('session_id, event_type, event_data, created_at, page_path')
             .eq('event_type', eventType)
             .order('created_at', { ascending: false })
             .range(from, from + pageSize - 1);

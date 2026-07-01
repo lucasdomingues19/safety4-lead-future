@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS idx_user_events_type_created ON public.user_events (event_type, created_at DESC);
