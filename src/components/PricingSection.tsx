@@ -30,7 +30,7 @@ export const PricingSection = () => {
   },
   {
     name: "Safety 4.0 eLearning",
-    price: "£597",
+    price: "£497",
     originalPrice: "£697",
     period: "one-time",
     description: "Self-paced online learning",
