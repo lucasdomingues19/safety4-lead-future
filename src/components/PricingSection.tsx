@@ -22,7 +22,7 @@ export const PricingSection = () => {
     "Recognise AI risks and governance requirements",
     "Be ready to go deeper in Safety 4.0"],
 
-    cta: "Join the Waitlist",
+    cta: "Start Learning",
     popular: false,
     gradient: "from-primary to-secondary",
     borderColor: "border-slate-200 hover:border-primary/40",
@@ -148,7 +148,7 @@ export const PricingSection = () => {
 
               {/* CTA Button */}
               {tier.name === "AI Fundamentals in EHS" ?
-            <a href="https://learning.safetyacademy.tech/waitlist" target="_blank" rel="noopener noreferrer">
+            <a href="https://learning.safetyacademy.tech/offers/osRfeBFj/checkout" target="_blank" rel="noopener noreferrer">
                   <Button
                 className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
