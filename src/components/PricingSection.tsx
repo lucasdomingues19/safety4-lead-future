@@ -29,7 +29,7 @@ export const PricingSection = () => {
     buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
-    name: "Safety 4.0 eLearning",
+    name: "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age",
     price: "£497",
     originalPrice: "£697",
     period: "one-time",
