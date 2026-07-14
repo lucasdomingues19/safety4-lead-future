@@ -167,12 +167,12 @@ export const PricingSection = () => {
 
             <a
               href={
-              tier.name === "Safety 4.0 eLearning" ?
+              tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ?
               "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" :
               undefined
               }
-              target={tier.name === "Safety 4.0 eLearning" ? "_blank" : undefined}
-              rel={tier.name === "Safety 4.0 eLearning" ? "noopener noreferrer" : undefined}>
+              target={tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ? "_blank" : undefined}
+              rel={tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ? "noopener noreferrer" : undefined}>
               
                   <Button className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
