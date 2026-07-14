@@ -29,7 +29,7 @@ export const PricingSection = () => {
     buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
-    name: "Safety 4.0 eLearning",
+    name: "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age",
     price: "£497",
     originalPrice: "£697",
     period: "one-time",
@@ -102,7 +102,7 @@ export const PricingSection = () => {
           {pricingTiers.map((tier, index) =>
           <div
             key={index}
-            id={tier.name === "Safety 4.0 eLearning" ? "elearning" : undefined}
+            id={tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ? "elearning" : undefined}
             className={`relative bg-white backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
             tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
             }>
@@ -167,12 +167,12 @@ export const PricingSection = () => {
 
             <a
               href={
-              tier.name === "Safety 4.0 eLearning" ?
+              tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ?
               "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" :
               undefined
               }
-              target={tier.name === "Safety 4.0 eLearning" ? "_blank" : undefined}
-              rel={tier.name === "Safety 4.0 eLearning" ? "noopener noreferrer" : undefined}>
+              target={tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ? "_blank" : undefined}
+              rel={tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ? "noopener noreferrer" : undefined}>
               
                   <Button className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
