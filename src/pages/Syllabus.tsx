@@ -5,6 +5,7 @@ import AudienceNav from "@/components/AudienceNav";
 import { CoursePreviewSection } from "@/components/CoursePreviewSection";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
+import { trackPageView } from "@/utils/analytics";
 import {
   ArrowRight, ArrowLeft, FileDown, BookOpen, Award, Rocket, Users, Brain, UserCheck, PlayCircle,
   Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass,
