@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { setPageSEO } from "@/utils/seo";
+import { trackPageView } from "@/utils/analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, CheckCircle, Loader2, Users, Award, BookOpen, Calendar, Shield, Building2 } from "lucide-react";
