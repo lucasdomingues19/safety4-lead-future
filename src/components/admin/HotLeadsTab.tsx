@@ -265,6 +265,12 @@ export const HotLeadsTab = () => {
           signals.push(`Viewed ${uniquePages.size} pages`);
         }
 
+        // Converted if a lead was submitted within this session's window
+        const isConverted = leadsData.some(l => {
+          const d = new Date(l.created_at);
+          return d >= sessionStart && d <= sessionEnd;
+        });
+
         // Only include sessions with meaningful engagement
         if (score >= 20) {
           const firstView = data.views[data.views.length - 1];
@@ -274,7 +280,7 @@ export const HotLeadsTab = () => {
             score,
             signals,
             page_views: pageViewCount,
-            pricing_views: pricingViews,
+            pricing_views: pricingIntent,
             assessment_completed: assessmentCompleted,
             scorecard_score: scorecardScore,
             scorecard_rank: scorecardRank,
@@ -285,7 +291,7 @@ export const HotLeadsTab = () => {
             city: firstView?.city,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
-            is_converted: false
+            is_converted: isConverted
           });
         }
       });
