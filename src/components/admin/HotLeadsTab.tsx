@@ -71,17 +71,18 @@ export const HotLeadsTab = () => {
           .gte('created_at', thirtyDaysAgo.toISOString()),
         supabase
           .from('leads')
-          .select('email'),
+          .select('email, created_at'),
         supabase
           .from('scorecard_results')
           .select('email, overall_score, rank_label, created_at')
+          .gte('created_at', thirtyDaysAgo.toISOString())
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
       
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
-      const convertedEmails = new Set((leadsResult.data || []).map(l => l.email));
+      const leadsData = (leadsResult.data || []) as { email: string; created_at: string }[];
       const scorecardCompletions = scorecardResult.data || [];
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
