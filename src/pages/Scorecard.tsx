@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ClipboardCheck, ArrowLeft } from "lucide-react";
 import { setPageSEO } from "@/utils/seo";
+import { trackPageView } from "@/utils/analytics";
 import { Link } from "react-router-dom";
 
 const Scorecard = () => {
@@ -18,6 +19,7 @@ const Scorecard = () => {
       description: "Take the free Safety 4.0 Scorecard & Digital Maturity Pulse. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
       canonical: "https://safetyacademy.tech/scorecard",
     });
+    trackPageView(window.location.pathname);
   }, []);
 
   return (

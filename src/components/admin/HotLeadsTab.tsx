@@ -71,17 +71,18 @@ export const HotLeadsTab = () => {
           .gte('created_at', thirtyDaysAgo.toISOString()),
         supabase
           .from('leads')
-          .select('email'),
+          .select('email, created_at'),
         supabase
           .from('scorecard_results')
           .select('email, overall_score, rank_label, created_at')
+          .gte('created_at', thirtyDaysAgo.toISOString())
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
       
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
-      const convertedEmails = new Set((leadsResult.data || []).map(l => l.email));
+      const leadsData = (leadsResult.data || []) as { email: string; created_at: string }[];
       const scorecardCompletions = scorecardResult.data || [];
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
@@ -135,38 +136,42 @@ export const HotLeadsTab = () => {
         const pagesVisited = Array.from(uniquePages);
         const pageViewCount = data.views.length;
 
-        // Pricing page views (high intent)
-        const pricingViews = data.views.filter(v => 
-          v.page_path.includes('pricing') || 
+        // Pricing page views (high intent) — includes anchor navigation & offer redirects
+        const pricingViews = data.views.filter(v =>
+          v.page_path.includes('pricing') ||
           v.page_path.includes('#pricing') ||
-          v.page_path.includes('offer')
+          v.page_path.includes('offer') ||
+          v.page_path.includes('/elearning') ||
+          v.page_path.includes('/enrol') ||
+          v.page_path.includes('/accelerator')
         ).length;
 
-        if (pricingViews >= 3) {
+        // Pricing intent via clicks (kajabi checkout, offer/enrol CTAs)
+        const pricingClicks = data.events.filter(e => {
+          if (e.event_type !== 'click') return false;
+          const s = JSON.stringify(e.event_data || {}).toLowerCase();
+          return s.includes('kajabi') || s.includes('checkout') ||
+                 s.includes('mykajabi') || s.includes('/offers/') ||
+                 s.includes('pricing') || s.includes('#pricing');
+        }).length;
+
+        const pricingIntent = pricingViews + pricingClicks;
+        if (pricingIntent >= 3) {
           score += 30;
-          signals.push(`Viewed pricing ${pricingViews}x`);
-        } else if (pricingViews >= 1) {
+          signals.push(`Pricing intent ${pricingIntent}x`);
+        } else if (pricingIntent >= 1) {
           score += 15;
-          signals.push(`Viewed pricing ${pricingViews}x`);
+          signals.push(`Pricing intent ${pricingIntent}x`);
         }
 
-        // Check if this session's lead actually completed the scorecard
-        // Match via leads table: find lead emails for sessions that submitted lead forms
-        const sessionLeadEvents = data.events.filter(e => 
-          e.event_type === 'lead_capture' || 
-          (e.event_data && JSON.stringify(e.event_data).includes('scorecard'))
-        );
-        
-        // Check if any page visited the scorecard results page (indicates completion)
-        const visitedScorecardResults = pagesVisited.some(p => p.includes('/scorecard'));
-        
-        // Cross-reference with actual scorecard_results table
-        // We match by looking at scorecard completions within a similar timeframe
+        // Assessment completion — match any scorecard submitted within session window
+        // (scorecard page now tracks views, but also match via timeframe for robustness)
         const sessionStart = data.firstSeen;
         const sessionEnd = new Date(data.lastSeen.getTime() + 3600000); // +1hr buffer
+        const visitedScorecardResults = pagesVisited.some(p => p.includes('/scorecard'));
         const matchingScorecard = scorecardCompletions.find(sc => {
           const scDate = new Date(sc.created_at);
-          return scDate >= sessionStart && scDate <= sessionEnd && visitedScorecardResults;
+          return scDate >= sessionStart && scDate <= sessionEnd;
         });
 
         const assessmentCompleted = !!matchingScorecard;
@@ -181,9 +186,11 @@ export const HotLeadsTab = () => {
           signals.push('Visited scorecard page');
         }
 
-        // Syllabus page views (research intent)
-        const syllabusViews = data.views.filter(v => 
-          v.page_path.includes('syllabus') || v.page_path.includes('certification')
+        // Syllabus / certification research intent
+        const syllabusViews = data.views.filter(v =>
+          v.page_path.includes('syllabus') ||
+          v.page_path.includes('certification') ||
+          v.page_path.includes('/elearning')
         ).length;
         if (syllabusViews > 0) {
           score += 10;
@@ -258,6 +265,12 @@ export const HotLeadsTab = () => {
           signals.push(`Viewed ${uniquePages.size} pages`);
         }
 
+        // Converted if a lead was submitted within this session's window
+        const isConverted = leadsData.some(l => {
+          const d = new Date(l.created_at);
+          return d >= sessionStart && d <= sessionEnd;
+        });
+
         // Only include sessions with meaningful engagement
         if (score >= 20) {
           const firstView = data.views[data.views.length - 1];
@@ -267,7 +280,7 @@ export const HotLeadsTab = () => {
             score,
             signals,
             page_views: pageViewCount,
-            pricing_views: pricingViews,
+            pricing_views: pricingIntent,
             assessment_completed: assessmentCompleted,
             scorecard_score: scorecardScore,
             scorecard_rank: scorecardRank,
@@ -278,7 +291,7 @@ export const HotLeadsTab = () => {
             city: firstView?.city,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
-            is_converted: false
+            is_converted: isConverted
           });
         }
       });
