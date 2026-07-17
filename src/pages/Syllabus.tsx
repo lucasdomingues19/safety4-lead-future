@@ -18,6 +18,7 @@ const Syllabus = () => {
       description: "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
       canonical: "https://safetyacademy.tech/elearning",
     });
+    trackPageView(window.location.pathname);
   }, []);
 
   return (
