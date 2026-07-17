@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ClipboardCheck, ArrowLeft } from "lucide-react";
 import { setPageSEO } from "@/utils/seo";
+import { trackPageView } from "@/utils/analytics";
 import { Link } from "react-router-dom";
 
 const Scorecard = () => {
