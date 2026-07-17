@@ -56,6 +56,7 @@ const Enroll = () => {
       description: "Apply to join the Safety 4.0 Accelerator programme. IOSH-approved, CPD-certified training for safety professionals.",
       canonical: "https://safetyacademy.tech/enrol",
     });
+    trackPageView(window.location.pathname);
   }, []);
 
   const handleChange = (field: string, value: string) => {
