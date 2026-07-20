@@ -5,6 +5,7 @@ import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
+import aiFundamentalsBadgeAsset from "@/assets/ai-fundamentals-badge.png.asset.json";
 import {
   Accordion,
   AccordionContent,
