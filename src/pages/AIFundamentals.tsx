@@ -59,9 +59,6 @@ const AIFundamentals = () => {
                 Build the AI literacy every modern EHS professional needs in just 90 minutes.
                 Practical. No jargon. No buzzwords. Just actionable skills you can start using immediately.
               </p>
-              <p className="text-base text-slate-600 max-w-xl mx-auto">
-                Trusted by EHS leaders at Carrier, PepsiCo, P&amp;G, Siemens, ABB, LEGO and Marsh.
-              </p>
             </div>
 
             {/* Key Benefits Strip */}
