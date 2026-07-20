@@ -47,8 +47,7 @@ const AIFundamentals = () => {
                 NEW · 90-MINUTE COURSE
               </span>
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-[1.05]">
-                AI Fundamentals in{" "}
-                <span className="text-primary block">EHS</span>
+                AI Fundamentals in <span className="text-primary">EHS</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-4">
                 Build the AI literacy every modern EHS professional needs in just 90 minutes.
