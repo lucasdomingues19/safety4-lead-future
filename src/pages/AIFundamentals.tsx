@@ -6,6 +6,12 @@ import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   ArrowRight, ArrowLeft, Sparkles, Clock, Award, Tablet, CheckCircle,
   Brain, Bot, Lightbulb, ShieldAlert, MessageSquare, Users, Briefcase,
   UserCheck, Compass, BookOpen, Zap, PlayCircle, FileDown,
