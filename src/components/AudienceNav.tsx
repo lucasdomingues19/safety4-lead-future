@@ -51,13 +51,13 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-2 w-64 rounded-lg border border-white/10 bg-black/90 backdrop-blur-xl shadow-lg py-1">
+        <div className="absolute top-full left-0 mt-2 min-w-[16rem] w-max rounded-lg border border-white/10 bg-black/90 backdrop-blur-xl shadow-lg py-1">
           {item.children.map((child) => (
             <Link
               key={child.href}
               to={child.href}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-white hover:text-primary hover:bg-muted/50 transition-colors whitespace-normal"
+              className="block px-4 py-2 text-sm text-white hover:text-primary hover:bg-muted/50 transition-colors whitespace-nowrap"
             >
               {child.label}
             </Link>
