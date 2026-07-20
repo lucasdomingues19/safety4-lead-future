@@ -7,9 +7,9 @@ const navLinks = [
   {
     label: "About",
     children: [
+      { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "IOSH-approved Safety 4.0", href: "/elearning" },
       { label: "AI Fundamentals in EHS", href: "/ai-fundamentals" },
-      { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "Alumni Stories", href: "/case-studies" },
     ],
   },
