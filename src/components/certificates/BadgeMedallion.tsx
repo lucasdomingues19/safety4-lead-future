@@ -5,6 +5,7 @@ import type { CertificateData } from "./CertificateDocument";
 import logoAsset from "@/assets/safety-academy-logo-cert.png";
 import safety40Badge from "@/assets/safety-4.0-badge-cert.png";
 import acceleratorBadge from "@/assets/safety-4.0-accelerator-badge-cert.png";
+import aiFundamentalsBadge from "@/assets/ai-fundamentals-badge-cert.png";
 
 // Corporate Navy Trust + Champagne Gold palette
 const NAVY = "#0f1e44";
@@ -29,6 +30,7 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
   const isSafety40Course =
     cert.course_name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age";
   const isAcceleratorCourse = cert.course_name === "Safety 4.0 Accelerator";
+  const isAIFundamentalsCourse = cert.course_name === "AI Fundamentals in EHS";
 
   if (isSafety40Course) {
     return (
