@@ -37,6 +37,7 @@ const SITE_URL = typeof window !== "undefined" ? window.location.origin : "";
 const COURSE_OPTIONS = [
   "Safety 4.0 Accelerator",
   "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age",
+  "AI Fundamentals in EHS",
 ];
 
 export const CertificatesTab = () => {
