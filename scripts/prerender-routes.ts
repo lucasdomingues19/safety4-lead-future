@@ -17,9 +17,15 @@ export interface RouteSeo {
 const staticRoutes: RouteSeo[] = [
   {
     path: "/elearning",
-    title: "eLearning — IOSH-approved Safety 4.0 Course",
+    title: "IOSH-approved Safety 4.0 — Leading Safety in the Digital Age",
     description:
       "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
+  },
+  {
+    path: "/ai-fundamentals",
+    title: "AI Fundamentals in EHS | Safety 4.0 Academy",
+    description:
+      "Learn the fundamentals of AI for environment, health and safety. A practical introduction to using AI in EHS workflows.",
   },
   {
     path: "/syllabus",

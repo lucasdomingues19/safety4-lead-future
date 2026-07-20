@@ -7,7 +7,8 @@ Safety 4.0 Academy helps safety leaders modernise workplace safety with AI, data
 ## Pages
 
 - [Home](/): Overview of the academy, programmes and certifications.
-- [eLearning Syllabus](/syllabus): Self-paced IOSH-approved Safety 4.0 course, 10 modules, 8+ CPD hours.
+- [IOSH-approved Safety 4.0](/elearning): Self-paced IOSH-approved Safety 4.0 course, 10 modules, 8+ CPD hours.
+- [AI Fundamentals in EHS](/ai-fundamentals): Practical introduction to AI for environment, health and safety.
 - [Accelerator Cohort](/accelerator): 4-week live group programme; next cohort 2–30 June 2026.
 - [Enrol](/enrol): Apply for the Accelerator cohort.
 - [In-Company Training](/in-company): Bespoke training for organisations and teams.
