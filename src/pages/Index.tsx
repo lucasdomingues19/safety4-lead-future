@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
-import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import { CurriculumOverview } from "@/components/CurriculumOverview";
@@ -65,8 +64,6 @@ const Index = () => {
         <NewsletterPopup />
 
         <HeroSection />
-
-        <TrustedByBanner />
 
         {/* Introduction video — secondary, for individuals exploring */}
         <section className="py-12 md:py-16">
