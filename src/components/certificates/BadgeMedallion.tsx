@@ -82,6 +82,31 @@ export const BadgeMedallion = forwardRef<HTMLDivElement, Props>(
     );
   }
 
+  if (isAIFundamentalsCourse) {
+    return (
+      <div
+        ref={ref}
+        style={{
+          width: size,
+          height: size,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          boxSizing: "border-box",
+          padding: 10,
+          overflow: "hidden",
+        }}
+      >
+        <img
+          src={aiFundamentalsBadge}
+          alt="AI Fundamentals in EHS Certified Badge"
+          style={{ width: size - 20, height: size - 20, objectFit: "contain" }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       ref={ref}
