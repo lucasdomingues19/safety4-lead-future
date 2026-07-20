@@ -483,7 +483,7 @@ const Enroll = () => {
                   Self-paced eLearning — same IOSH-approved content, at your own pace.
                 </p>
                 <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-auto">
-                  View eLearning (£597) <ArrowRight className="w-3 h-3" />
+                  View eLearning (£497) <ArrowRight className="w-3 h-3" />
                 </a>
               </div>
 
