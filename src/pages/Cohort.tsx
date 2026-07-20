@@ -499,7 +499,7 @@ const Cohort = () => {
                   <tr className="bg-slate-50">
                     <td className="p-3 md:p-4 text-sm font-bold text-slate-900">Price</td>
                     <td className="p-3 md:p-4 text-center font-syne text-lg font-black text-primary">£1,997</td>
-                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-slate-600">£597</td>
+                    <td className="p-3 md:p-4 text-center font-syne text-lg font-bold text-slate-600">£497</td>
                   </tr>
                 </tbody>
               </table>
@@ -779,7 +779,7 @@ const Cohort = () => {
                   </a>
                   <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer">
                     <Button variant="default" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10">
-                      Or start with eLearning (£597)
+                      Or start with eLearning (£497)
                     </Button>
                   </a>
                 </div>
