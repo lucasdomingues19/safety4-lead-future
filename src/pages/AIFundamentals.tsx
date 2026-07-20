@@ -53,6 +53,11 @@ const AIFundamentals = () => {
                 <Sparkles className="w-3.5 h-3.5" />
                 NEW · 90-MINUTE COURSE
               </span>
+              <img
+                src={aiFundamentalsBadgeAsset.url}
+                alt="AI Fundamentals in EHS Certified Badge"
+                className="w-36 h-36 md:w-44 md:h-44 mx-auto mb-6 object-contain drop-shadow-lg"
+              />
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-[1.05]">
                 AI Fundamentals in <span className="text-primary">EHS</span>
               </h1>
