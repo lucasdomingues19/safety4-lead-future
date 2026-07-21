@@ -124,16 +124,20 @@ export const PricingSection = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">{tier.name}</h3>
                 <p className="text-slate-600 text-sm mb-4">{tier.description}</p>
-                <div className="flex items-baseline justify-center space-x-2">
-                  {tier.originalPrice ?
                 <div className="flex flex-col items-center">
-                      <span className="text-slate-500 text-lg line-through mb-1">{tier.originalPrice}</span>
+                  <div className="flex items-baseline justify-center space-x-2">
+                    {tier.originalPrice ?
+                      <>
+                        <span className="text-slate-500 text-lg line-through">{tier.originalPrice}</span>
+                        <span className="text-4xl font-bold text-slate-900">{tier.price}</span>
+                      </> :
                       <span className="text-4xl font-bold text-slate-900">{tier.price}</span>
-                    </div> :
-
-                <span className="text-4xl font-bold text-slate-900">{tier.price}</span>
-                }
-                  <span className="text-slate-500 text-lg">{tier.period}</span>
+                    }
+                    <span className="text-slate-500 text-lg">{tier.period}</span>
+                  </div>
+                  {tier.name === "AI Fundamentals in EHS" &&
+                    <p className="text-xs text-primary font-semibold mt-2">Founding price — only for the first 100 spots</p>
+                  }
                 </div>
               </div>
 
