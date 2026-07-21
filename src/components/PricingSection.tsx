@@ -10,7 +10,8 @@ export const PricingSection = () => {
   const pricingTiers = [
   {
     name: "AI Fundamentals in EHS",
-    price: "£97",
+    price: "£72",
+    originalPrice: "£97",
     period: "",
     description: "A fast-track introduction to AI for EHS professionals",
     icon: Building,
