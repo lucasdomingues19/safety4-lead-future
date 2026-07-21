@@ -49,9 +49,9 @@ export const PricingSection = () => {
     "Mobile app"],
 
     cta: "Start Learning",
-    popular: false,
+    popular: true,
     gradient: "from-primary to-secondary",
-    borderColor: "border-slate-200 hover:border-primary/40",
+    borderColor: "border-2 border-[#c4ff00] hover:border-[#c4ff00] shadow-lg shadow-[#c4ff00]/20",
     buttonColor: "bg-primary hover:bg-primary/90"
   },
   {
