@@ -905,15 +905,18 @@ const Admin = () => {
                               {lead.phone ? (
                                 <div className="flex items-center gap-2">
                                   <span>{lead.phone}</span>
-                                  <a
-                                    href={`https://wa.me/${lead.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(`Hi ${lead.name.split(' ')[0]}, this is Lucas from Safety 4.0 Academy. Thanks for reaching out — happy to help with any questions about the programme.`)}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const num = lead.phone!.replace(/[^\d]/g, '');
+                                      const msg = encodeURIComponent(`Hi ${lead.name.split(' ')[0]}, this is Lucas from Safety 4.0 Academy. Thanks for reaching out — happy to help with any questions about the programme.`);
+                                      window.open(`https://web.whatsapp.com/send?phone=${num}&text=${msg}`, '_blank', 'noopener,noreferrer');
+                                    }}
                                     title="Message on WhatsApp"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
                                   >
                                     <MessageCircle className="h-4 w-4 text-white" />
-                                  </a>
+                                  </button>
                                 </div>
                               ) : 'N/A'}
                             </TableCell>
