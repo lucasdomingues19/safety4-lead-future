@@ -1004,7 +1004,20 @@ const Admin = () => {
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Phone</label>
-                        <p className="text-white font-medium">{selectedLead.phone || 'N/A'}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium">{selectedLead.phone || 'N/A'}</p>
+                          {selectedLead.phone && (
+                            <a
+                              href={`https://wa.me/${selectedLead.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(`Hi ${selectedLead.name.split(' ')[0]}, this is Lucas from Safety 4.0 Academy. Thanks for reaching out — happy to help with any questions about the programme.`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-medium transition-colors"
+                            >
+                              <MessageCircle className="h-3.5 w-3.5" />
+                              WhatsApp
+                            </a>
+                          )}
+                        </div>
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Source</label>
