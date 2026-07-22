@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
@@ -901,7 +901,22 @@ const Admin = () => {
                           >
                             <TableCell className="text-white">{lead.name}</TableCell>
                             <TableCell className="text-white">{lead.email}</TableCell>
-                            <TableCell className="text-white">{lead.phone || 'N/A'}</TableCell>
+                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                              {lead.phone ? (
+                                <div className="flex items-center gap-2">
+                                  <span>{lead.phone}</span>
+                                  <a
+                                    href={`https://wa.me/${lead.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(`Hi ${lead.name.split(' ')[0]}, this is Lucas from Safety 4.0 Academy. Thanks for reaching out — happy to help with any questions about the programme.`)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    title="Message on WhatsApp"
+                                    className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
+                                  >
+                                    <MessageCircle className="h-4 w-4 text-white" />
+                                  </a>
+                                </div>
+                              ) : 'N/A'}
+                            </TableCell>
                             <TableCell className="text-white">
                               <span className={`px-2 py-1 rounded-full text-xs ${
                                 lead.source === 'assessment' 
@@ -989,7 +1004,20 @@ const Admin = () => {
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Phone</label>
-                        <p className="text-white font-medium">{selectedLead.phone || 'N/A'}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium">{selectedLead.phone || 'N/A'}</p>
+                          {selectedLead.phone && (
+                            <a
+                              href={`https://wa.me/${selectedLead.phone.replace(/[^\d]/g, '')}?text=${encodeURIComponent(`Hi ${selectedLead.name.split(' ')[0]}, this is Lucas from Safety 4.0 Academy. Thanks for reaching out — happy to help with any questions about the programme.`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-medium transition-colors"
+                            >
+                              <MessageCircle className="h-3.5 w-3.5" />
+                              WhatsApp
+                            </a>
+                          )}
+                        </div>
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Source</label>
