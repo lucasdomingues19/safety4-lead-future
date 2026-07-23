@@ -175,7 +175,7 @@ export const ChatWidget = () => {
           </div>
 
           {/* Composer */}
-          <div className="border-t border-slate-200 bg-white p-2 flex items-end gap-2">
+          <div className="border-t border-slate-200 bg-white p-2 flex items-end gap-2 text-slate-900">
             <textarea
               ref={inputRef}
               value={input}
@@ -184,7 +184,7 @@ export const ChatWidget = () => {
               placeholder="Ask about courses, pricing…"
               rows={1}
               maxLength={2000}
-              className="flex-1 resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 max-h-32"
+              className="flex-1 resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 max-h-32"
             />
             <Button
               onClick={send}
