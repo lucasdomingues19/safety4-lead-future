@@ -474,11 +474,16 @@ export const HotLeadsTab = () => {
                           </div>
 
                           {/* Meta Info */}
-                          <div className="flex items-center gap-4 text-xs text-white/50">
+                          <div className="flex items-center gap-4 text-xs text-white/50 flex-wrap">
+                            {lead.company && (
+                              <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/20 text-primary-foreground font-medium">
+                                🏢 {lead.company}
+                              </span>
+                            )}
                             <span className="flex items-center gap-1">
                               <MapPin className="h-3 w-3" />
-                              {lead.city && lead.country 
-                                ? `${lead.city}, ${lead.country}` 
+                              {lead.city && lead.country
+                                ? `${lead.city}, ${lead.country}`
                                 : lead.country || lead.city || 'Unknown location'}
                             </span>
                             <span className="flex items-center gap-1">
