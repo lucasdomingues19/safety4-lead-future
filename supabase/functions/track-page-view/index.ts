@@ -223,42 +223,65 @@ serve(async (req) => {
       );
     }
 
-    // Get geolocation from IP address
+    // Get geolocation + company/ISP from IP address (ip-api.com free tier: 45 req/min)
     let country: string | undefined = undefined;
     let city: string | undefined = undefined;
-    
-    // Extract IP address from headers
-    const ip = req.headers.get('cf-connecting-ip') || 
+    let company: string | undefined = undefined;
+    let isp: string | undefined = undefined;
+
+    const ip = req.headers.get('cf-connecting-ip') ||
                req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
                req.headers.get('x-real-ip');
-    
-    // Try Cloudflare headers first (may not be available in all environments)
-    const cfCountry = req.headers.get('cf-ipcountry');
-    const cfCity = req.headers.get('cf-ipcity');
-    
-    if (cfCountry && cfCountry !== 'XX') {
+
+    // Consumer/residential ISP keywords — if org matches these, don't treat as a company
+    const CONSUMER_ISP_PATTERNS = [
+      /comcast/i, /verizon/i, /at&t\s*mobility/i, /t-mobile/i, /sprint/i, /charter/i,
+      /spectrum/i, /cox\s*communications/i, /centurylink/i, /frontier/i,
+      /vodafone/i, /\bbt\b/i, /british\s*telecom/i, /sky\s*(uk|broadband)/i, /virgin\s*media/i,
+      /talktalk/i, /plusnet/i, /ee\s*limited/i, /three\s*uk/i, /o2/i,
+      /orange/i, /telefonica/i, /movistar/i, /deutsche\s*telekom/i, /telecom\s*italia/i,
+      /jio/i, /airtel/i, /bsnl/i, /rogers/i, /bell\s*canada/i, /telus/i, /shaw/i,
+      /telstra/i, /optus/i, /tpg/i,
+      /residential/i, /broadband/i, /wireless/i, /mobile/i, /cellular/i, /cable/i,
+      /hosting/i, /cloudflare/i, /amazon\.com/i, /google\s*llc/i, /microsoft/i,
+    ];
+
+    if (ip && ip !== '127.0.0.1' && ip !== '::1') {
       try {
-        const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-        country = regionNames.of(cfCountry) || cfCountry;
-      } catch {
-        country = cfCountry;
-      }
-      city = cfCity || undefined;
-      console.log('Geolocation from CF headers:', { country, city });
-    } else if (ip && ip !== '127.0.0.1' && ip !== '::1') {
-      // Fallback to ip-api.com (free, 45 req/min limit for non-commercial)
-      try {
-        const geoResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,city`);
+        const geoResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,city,isp,org,as`);
         if (geoResponse.ok) {
           const geoData = await geoResponse.json();
           if (geoData.status === 'success') {
             country = geoData.country || undefined;
             city = geoData.city || undefined;
-            console.log('Geolocation from IP lookup:', { ip, country, city });
+            isp = geoData.isp || undefined;
+            // Prefer `org` (typically the AS holder / employer network) if it looks corporate
+            const orgCandidate: string | undefined = geoData.org || geoData.isp;
+            if (orgCandidate) {
+              const isConsumer = CONSUMER_ISP_PATTERNS.some((p) => p.test(orgCandidate));
+              if (!isConsumer) {
+                // Clean common suffixes
+                company = orgCandidate
+                  .replace(/,?\s*(Inc\.?|LLC|Ltd\.?|Limited|GmbH|S\.A\.?|B\.V\.?|Corp\.?|Corporation|Co\.?)$/i, '')
+                  .trim();
+              }
+            }
+            console.log('IP lookup:', { ip, country, city, isp, company });
           }
         }
       } catch (error) {
-        console.error('Geolocation lookup failed:', error);
+        console.error('IP lookup failed:', error);
+      }
+    } else {
+      // Fallback to Cloudflare header for country only
+      const cfCountry = req.headers.get('cf-ipcountry');
+      if (cfCountry && cfCountry !== 'XX') {
+        try {
+          const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+          country = regionNames.of(cfCountry) || cfCountry;
+        } catch {
+          country = cfCountry;
+        }
       }
     }
 
@@ -269,12 +292,13 @@ serve(async (req) => {
 
     // Strip challenge fields before insert
     const { _hp, _ts, _js, ...cleanData } = data;
-    
-    // Merge location data with submitted data
+
     const pageViewData = {
       ...cleanData,
       country,
       city,
+      company,
+      isp,
     };
 
     // Insert validated data
