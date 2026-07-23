@@ -63,17 +63,25 @@ export const ChatWidget = () => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
-  const send = async () => {
-    const text = input.trim();
-    if (!text || loading) return;
-    setInput("");
-    setMessages((m) => [...m, { role: "user", content: text }]);
+  const QUICK_OPTIONS = [
+    "What courses do you offer?",
+    "How much does it cost?",
+    "Is it IOSH approved?",
+    "When is the next cohort?",
+    "Speak to a human",
+  ];
+
+  const send = async (text?: string) => {
+    const messageText = (text ?? input).trim();
+    if (!messageText || loading) return;
+    if (!text) setInput("");
+    setMessages((m) => [...m, { role: "user", content: messageText }]);
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("chat-assistant", {
         body: {
           session_id: getOrCreateSessionId(),
-          message: text,
+          message: messageText,
           page_url: window.location.href,
         },
       });
@@ -174,6 +182,27 @@ export const ChatWidget = () => {
             )}
           </div>
 
+          {/* Quick options */}
+          {!escalated && (
+            <div className="border-t border-slate-100 bg-white px-3 pt-2 pb-1">
+              <div className="text-[10px] uppercase tracking-wider text-slate-400 mb-1.5 font-medium">
+                Quick options
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {QUICK_OPTIONS.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => send(option)}
+                    disabled={loading}
+                    className="text-xs px-2.5 py-1.5 rounded-full border border-primary/30 text-primary bg-primary/5 hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Composer */}
           <div className="border-t border-slate-200 bg-white p-2 flex items-end gap-2 text-slate-900">
             <textarea
@@ -187,7 +216,7 @@ export const ChatWidget = () => {
               className="flex-1 resize-none rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40 max-h-32"
             />
             <Button
-              onClick={send}
+              onClick={() => send()}
               disabled={loading || !input.trim()}
               size="icon"
               className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0"
