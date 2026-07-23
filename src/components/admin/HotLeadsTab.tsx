@@ -64,7 +64,7 @@ export const HotLeadsTab = () => {
       const [pageViewsResult, userEventsResult, leadsResult, scorecardResult] = await Promise.all([
         supabase
           .from('page_views')
-          .select('session_id, page_path, visited_at, country, city, device_type, duration')
+          .select('session_id, page_path, visited_at, country, city, company, device_type, duration')
           .gte('visited_at', thirtyDaysAgo.toISOString())
           .order('visited_at', { ascending: false }),
         supabase
