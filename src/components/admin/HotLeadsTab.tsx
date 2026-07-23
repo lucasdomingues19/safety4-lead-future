@@ -20,6 +20,7 @@ interface HotLead {
   last_seen: string;
   country: string | null;
   city: string | null;
+  company: string | null;
   device: string | null;
   pages_visited: string[];
   is_converted: boolean;
@@ -31,6 +32,7 @@ interface PageView {
   visited_at: string;
   country: string | null;
   city: string | null;
+  company: string | null;
   device_type: string | null;
   duration: number | null;
 }
