@@ -318,10 +318,12 @@ export type Database = {
           browser: string | null
           browser_version: string | null
           city: string | null
+          company: string | null
           country: string | null
           device_type: string | null
           duration: number | null
           id: string
+          isp: string | null
           language: string | null
           last_active: string | null
           os: string | null
@@ -340,10 +342,12 @@ export type Database = {
           browser?: string | null
           browser_version?: string | null
           city?: string | null
+          company?: string | null
           country?: string | null
           device_type?: string | null
           duration?: number | null
           id?: string
+          isp?: string | null
           language?: string | null
           last_active?: string | null
           os?: string | null
@@ -362,10 +366,12 @@ export type Database = {
           browser?: string | null
           browser_version?: string | null
           city?: string | null
+          company?: string | null
           country?: string | null
           device_type?: string | null
           duration?: number | null
           id?: string
+          isp?: string | null
           language?: string | null
           last_active?: string | null
           os?: string | null

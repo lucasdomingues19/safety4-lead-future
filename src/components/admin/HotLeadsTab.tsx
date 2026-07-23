@@ -20,6 +20,7 @@ interface HotLead {
   last_seen: string;
   country: string | null;
   city: string | null;
+  company: string | null;
   device: string | null;
   pages_visited: string[];
   is_converted: boolean;
@@ -31,6 +32,7 @@ interface PageView {
   visited_at: string;
   country: string | null;
   city: string | null;
+  company: string | null;
   device_type: string | null;
   duration: number | null;
 }
@@ -62,7 +64,7 @@ export const HotLeadsTab = () => {
       const [pageViewsResult, userEventsResult, leadsResult, scorecardResult] = await Promise.all([
         supabase
           .from('page_views')
-          .select('session_id, page_path, visited_at, country, city, device_type, duration')
+          .select('session_id, page_path, visited_at, country, city, company, device_type, duration')
           .gte('visited_at', thirtyDaysAgo.toISOString())
           .order('visited_at', { ascending: false }),
         supabase
@@ -289,6 +291,7 @@ export const HotLeadsTab = () => {
             last_seen: data.lastSeen.toISOString(),
             country: firstView?.country,
             city: firstView?.city,
+            company: data.views.map(v => v.company).find(c => c && c.length > 0) ?? null,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
             is_converted: isConverted
@@ -471,11 +474,16 @@ export const HotLeadsTab = () => {
                           </div>
 
                           {/* Meta Info */}
-                          <div className="flex items-center gap-4 text-xs text-white/50">
+                          <div className="flex items-center gap-4 text-xs text-white/50 flex-wrap">
+                            {lead.company && (
+                              <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/20 text-primary-foreground font-medium">
+                                🏢 {lead.company}
+                              </span>
+                            )}
                             <span className="flex items-center gap-1">
                               <MapPin className="h-3 w-3" />
-                              {lead.city && lead.country 
-                                ? `${lead.city}, ${lead.country}` 
+                              {lead.city && lead.country
+                                ? `${lead.city}, ${lead.country}`
                                 : lead.country || lead.city || 'Unknown location'}
                             </span>
                             <span className="flex items-center gap-1">
