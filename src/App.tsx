@@ -106,6 +106,7 @@ const App = () => (
           </Routes>
         </Suspense>
         <WhatsAppButton />
+        <ChatWidget />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
