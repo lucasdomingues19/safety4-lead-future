@@ -291,6 +291,7 @@ export const HotLeadsTab = () => {
             last_seen: data.lastSeen.toISOString(),
             country: firstView?.country,
             city: firstView?.city,
+            company: data.views.map(v => v.company).find(c => c && c.length > 0) ?? null,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
             is_converted: isConverted
