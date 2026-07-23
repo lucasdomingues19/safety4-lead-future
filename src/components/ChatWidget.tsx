@@ -63,40 +63,31 @@ export const ChatWidget = () => {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
-  const send = async () => {
-    const text = input.trim();
-    if (!text || loading) return;
-    setInput("");
-    setMessages((m) => [...m, { role: "user", content: text }]);
+  const QUICK_OPTIONS = [
+    "What courses do you offer?",
+    "How much does it cost?",
+    "Is it IOSH approved?",
+    "When is the next cohort?",
+    "Speak to a human",
+  ];
+
+  const send = async (text?: string) => {
+    const messageText = (text ?? input).trim();
+    if (!messageText || loading) return;
+    if (!text) setInput("");
+    setMessages((m) => [...m, { role: "user", content: messageText }]);
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("chat-assistant", {
         body: {
           session_id: getOrCreateSessionId(),
-          message: text,
+          message: messageText,
           page_url: window.location.href,
         },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      const reply: string = data?.reply ?? "Sorry, something went wrong.";
-      setMessages((m) => [...m, { role: "assistant", content: reply }]);
-      if (data?.escalated) setEscalated(true);
-    } catch (e: any) {
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          content:
-            "Sorry — I'm having trouble responding right now. Please tap the WhatsApp button below to reach our team directly.",
-        },
-      ]);
-      setEscalated(true);
-    } finally {
-      setLoading(false);
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
-  };
+      const reply: 
 
   const onKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
