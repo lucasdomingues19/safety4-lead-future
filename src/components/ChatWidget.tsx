@@ -87,7 +87,24 @@ export const ChatWidget = () => {
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      const reply: 
+      const reply: string = data?.reply ?? "Sorry, something went wrong.";
+      setMessages((m) => [...m, { role: "assistant", content: reply }]);
+      if (data?.escalated) setEscalated(true);
+    } catch (e: any) {
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content:
+            "Sorry — I'm having trouble responding right now. Please tap the WhatsApp button below to reach our team directly.",
+        },
+      ]);
+      setEscalated(true);
+    } finally {
+      setLoading(false);
+      setTimeout(() => inputRef.current?.focus(), 50);
+    }
+  };
 
   const onKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
