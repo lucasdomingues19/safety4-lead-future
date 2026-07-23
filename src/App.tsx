@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
 import { WhatsAppButton } from "./components/WhatsAppButton";
+import { ChatWidget } from "./components/ChatWidget";
 
 // Lazy load pages for better performance
 
@@ -105,6 +106,7 @@ const App = () => (
           </Routes>
         </Suspense>
         <WhatsAppButton />
+        <ChatWidget />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
