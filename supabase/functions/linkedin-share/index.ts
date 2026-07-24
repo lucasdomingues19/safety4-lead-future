@@ -174,7 +174,7 @@ serve(async (req) => {
               media: [
                 {
                   status: "READY",
-                  description: { text: "Safety 4.0 Academy certificate" },
+                  description: { text: "SafetyTech Academy certificate" },
                   media: asset,
                   title: { text: "Safety 4.0 - Leading Safety in the Digital Age" },
                 },

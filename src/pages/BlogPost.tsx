@@ -18,7 +18,7 @@ const BlogPost = () => {
     if (post) {
       trackPageView(window.location.pathname);
       setPageSEO({
-        title: `${post.title} | Safety 4.0 Academy Blog`,
+        title: `${post.title} | SafetyTech Academy Blog`,
         description: post.metaDescription,
         canonical: `https://safetytech.academy/blog/${post.slug}`,
         ogImage: `https://safetytech.academy${post.featuredImage}`,
@@ -43,7 +43,7 @@ const BlogPost = () => {
         },
         "publisher": {
           "@type": "Organization",
-          "name": "Safety 4.0 Academy",
+          "name": "SafetyTech Academy",
           "logo": {
             "@type": "ImageObject",
             "url": "https://safetytech.academy/safety-academy-logo.png"

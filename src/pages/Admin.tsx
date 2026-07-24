@@ -223,7 +223,7 @@ const Admin = () => {
 
   const getWhatsAppLeadMessage = (lead: Lead) => {
     const firstName = lead.name.split(' ')[0] || lead.name;
-    return `Hi ${firstName}, this is Lucas from Safety 4.0 Academy. Thanks for reaching out — happy to help with any questions about the programme.`;
+    return `Hi ${firstName}, this is Lucas from SafetyTech Academy. Thanks for reaching out — happy to help with any questions about the programme.`;
   };
 
   const normaliseWhatsAppNumber = (phone: string) => {

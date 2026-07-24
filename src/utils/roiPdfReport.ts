@@ -73,7 +73,7 @@ function drawFooter(doc: jsPDF) {
 
   doc.setFontSize(8);
   doc.setTextColor(...LIME);
-  doc.text("Safety 4.0 Academy", MARGIN, fy + 10);
+  doc.text("SafetyTech Academy", MARGIN, fy + 10);
 
   doc.setTextColor(...GREY);
   doc.setFontSize(7);

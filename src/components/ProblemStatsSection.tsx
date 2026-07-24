@@ -57,7 +57,7 @@ export const ProblemStatsSection = () => {
           {/* Mission block */}
           <div className="text-left space-y-6">
             <h3 className="text-xl md:text-2xl font-bold text-primary">
-              The Safety 4.0 Academy exists to change that
+              The SafetyTech Academy exists to change that
             </h3>
 
             <p className="text-base md:text-lg text-slate-600 leading-relaxed">
@@ -76,7 +76,7 @@ export const ProblemStatsSection = () => {
 
             <p className="text-base md:text-lg text-slate-600 leading-relaxed">
               Whether you're a seasoned EHS Leader willing to upskill yourself and your teams,
-              Safety 4.0 Academy gives you the tools, the language, and the confidence to shape
+              SafetyTech Academy gives you the tools, the language, and the confidence to shape
               what comes next.
             </p>
           </div>

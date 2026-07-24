@@ -16,7 +16,7 @@ export const CTAButton = ({ className = "" }: CTAButtonProps) => {
           document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
         }}
       >
-        Join the Safety 4.0 Academy Now
+        Join the SafetyTech Academy Now
         <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
       </Button>
     </div>

@@ -52,7 +52,7 @@ const Enroll = () => {
 
   useEffect(() => {
     setPageSEO({
-      title: "Enrol – Safety 4.0 Accelerator | Safety 4.0 Academy",
+      title: "Enrol – Safety 4.0 Accelerator | SafetyTech Academy",
       description: "Apply to join the Safety 4.0 Accelerator programme. IOSH-approved, CPD-certified training for safety professionals.",
       canonical: "https://safetytech.academy/enrol",
     });
@@ -370,7 +370,7 @@ const Enroll = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">How did you hear about the Safety 4.0 Academy? *</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1.5">How did you hear about the SafetyTech Academy? *</label>
                   <Select value={form.hearAbout} onValueChange={(v) => handleChange("hearAbout", v)} required>
                     <SelectTrigger className="bg-white border-slate-300 text-slate-900">
                       <SelectValue placeholder="Choose one" />

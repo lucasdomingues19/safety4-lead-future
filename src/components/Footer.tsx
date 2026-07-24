@@ -13,7 +13,7 @@ export const Footer = () => {
           <div className="col-span-2 lg:col-span-2">
             <img 
               src={safetyAcademyLogo} 
-              alt="Safety 4.0 Academy Logo" 
+              alt="SafetyTech Academy Logo" 
               className="h-16 md:h-20 w-auto mb-4 md:mb-6"
             />
             <p className="text-gray-300 text-xs md:text-sm leading-relaxed max-w-md">
@@ -133,7 +133,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-8 md:mt-12 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-xs md:text-sm text-center md:text-left">
-            © 2026 Safety 4.0 Academy. All rights reserved.
+            © 2026 SafetyTech Academy. All rights reserved.
           </p>
           <div className="flex items-center space-x-4 md:space-x-6">
             <div className="flex items-center space-x-1 md:space-x-2">

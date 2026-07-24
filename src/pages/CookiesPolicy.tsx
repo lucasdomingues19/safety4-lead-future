@@ -7,8 +7,8 @@ import { setPageSEO } from "@/utils/seo";
 export default function CookiesPolicy() {
   useEffect(() => {
     setPageSEO({
-      title: "Cookies Policy | Safety 4.0 Academy",
-      description: "Learn how Safety 4.0 Academy uses cookies to improve your experience. Understand the types of cookies we use, how to manage them, and your consent options.",
+      title: "Cookies Policy | SafetyTech Academy",
+      description: "Learn how SafetyTech Academy uses cookies to improve your experience. Understand the types of cookies we use, how to manage them, and your consent options.",
       canonical: "https://safetytech.academy/cookies-policy",
     });
   }, []);
@@ -37,7 +37,7 @@ export default function CookiesPolicy() {
 
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">How We Use Cookies</h2>
-              <p className="mb-3">Safety 4.0 Academy uses cookies for the following purposes:</p>
+              <p className="mb-3">SafetyTech Academy uses cookies for the following purposes:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li><strong>Essential Cookies:</strong> Required for the website to function properly, including authentication and security</li>
                 <li><strong>Performance Cookies:</strong> Help us understand how visitors interact with our website</li>

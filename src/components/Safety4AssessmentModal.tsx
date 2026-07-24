@@ -461,7 +461,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
-    doc.text("Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification program.", margin + 8, y + 14);
+    doc.text("Join the SafetyTech Academy — the world's first IOSH-approved Safety 4.0 certification program.", margin + 8, y + 14);
     doc.setTextColor(214, 255, 0);
     doc.setFont("helvetica", "bold");
     doc.text("www.safetytech.academy/enrol", margin + 8, y + 19);
@@ -470,7 +470,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
     doc.setTextColor(160, 160, 160);
     doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
-    doc.text("© Safety 4.0 Academy", pageWidth / 2 - 20, pageHeight - 8);
+    doc.text("© SafetyTech Academy", pageWidth / 2 - 20, pageHeight - 8);
     doc.setTextColor(60, 120, 200);
     doc.setFont("helvetica", "bold");
     const enrollUrl = "https://www.safetytech.academy/enrol";
@@ -693,7 +693,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-800 text-[#D6FF00] focus:ring-[#D6FF00]"
                 />
                 <Label htmlFor="emailConsent" className="text-gray-400 text-sm font-normal cursor-pointer leading-relaxed">
-                  I agree to receive occasional emails from the Safety 4.0 Academy about courses, events, and safety insights. You can unsubscribe at any time.
+                  I agree to receive occasional emails from the SafetyTech Academy about courses, events, and safety insights. You can unsubscribe at any time.
                 </Label>
               </div>
               <Button
@@ -941,7 +941,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <Zap className="w-10 h-10 mx-auto mb-3 text-[#D6FF00]" />
               <h4 className="font-semibold text-lg mb-2 text-white">Ready to Level Up?</h4>
               <p className="text-gray-400 mb-4 text-sm">
-                Join the Safety 4.0 Academy and transform your career with the world's first IOSH-approved Safety 4.0 program.
+                Join the SafetyTech Academy and transform your career with the world's first IOSH-approved Safety 4.0 program.
               </p>
               <Button
                 className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"

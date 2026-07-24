@@ -7,8 +7,8 @@ const NotFound = () => {
 
   useEffect(() => {
     setPageSEO({
-      title: "Page Not Found | Safety 4.0 Academy",
-      description: "The page you're looking for doesn't exist. Return to Safety 4.0 Academy to explore IOSH-approved digital safety leadership training.",
+      title: "Page Not Found | SafetyTech Academy",
+      description: "The page you're looking for doesn't exist. Return to SafetyTech Academy to explore IOSH-approved digital safety leadership training.",
     });
     console.error(
       "404 Error: User attempted to access non-existent route:",

@@ -98,7 +98,7 @@ const LearnAuth = () => {
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
       <Card className="w-full max-w-md border-white/10 bg-card">
         <CardHeader className="text-center">
-          <img src={logo} alt="Safety 4.0 Academy" className="mx-auto mb-4 h-10 w-auto" />
+          <img src={logo} alt="SafetyTech Academy" className="mx-auto mb-4 h-10 w-auto" />
           <CardTitle className="flex items-center justify-center gap-2 text-2xl">
             <GraduationCap className="h-6 w-6 text-primary" />
             {mode === "signin" ? "Welcome back" : "Create your account"}

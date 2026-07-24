@@ -22,7 +22,7 @@ export const LearnHeader = ({ email }: LearnHeaderProps) => {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-background/95 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/learn" className="flex items-center gap-2">
-          <img src={logo} alt="Safety 4.0 Academy" className="h-8 w-auto" />
+          <img src={logo} alt="SafetyTech Academy" className="h-8 w-auto" />
           <span className="hidden items-center gap-1.5 text-sm font-semibold text-white sm:flex">
             <GraduationCap className="h-4 w-4 text-primary" />
             Learning Hub

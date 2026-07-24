@@ -27,7 +27,7 @@ function getOrCreateSessionId(): string {
 const WELCOME: Msg = {
   role: "assistant",
   content:
-    "Hi 👋 I'm the Safety 4.0 Academy assistant. Ask me about our courses, pricing, curriculum or how to enrol. If I can't help, I'll hand you off to our team on WhatsApp.",
+    "Hi 👋 I'm the SafetyTech Academy assistant. Ask me about our courses, pricing, curriculum or how to enrol. If I can't help, I'll hand you off to our team on WhatsApp.",
 };
 
 export const ChatWidget = () => {
@@ -134,7 +134,7 @@ export const ChatWidget = () => {
           {/* Header */}
           <div className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between">
             <div>
-              <div className="font-semibold text-sm">Safety 4.0 Academy</div>
+              <div className="font-semibold text-sm">SafetyTech Academy</div>
               <div className="text-xs opacity-90">We usually reply in seconds</div>
             </div>
             <button

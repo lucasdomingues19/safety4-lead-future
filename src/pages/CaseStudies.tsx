@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 const CaseStudies = () => {
   useEffect(() => {
     setPageSEO({
-      title: "Case Studies — Safety 4.0 Academy | Real Stories from Alumni",
+      title: "Case Studies — SafetyTech Academy | Real Stories from Alumni",
       description:
-        "Read how Safety 4.0 Academy alumni are transforming safety leadership with digital tools, AI, and data-driven strategies.",
+        "Read how SafetyTech Academy alumni are transforming safety leadership with digital tools, AI, and data-driven strategies.",
       canonical: "https://safetytech.academy/case-studies",
     });
     window.scrollTo(0, 0);
@@ -51,7 +51,7 @@ const CaseStudies = () => {
               <h2 className="text-xl font-bold text-slate-900">Stewart Deary</h2>
               <p className="text-primary font-medium text-sm">Global HSE Director — CRTS Global</p>
               <p className="text-slate-600 text-sm mt-1">
-                Safety 4.0 Academy Alumni
+                SafetyTech Academy Alumni
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ const CaseStudies = () => {
             Bringing Safety Leadership into the Digital Age
           </h2>
           <p className="text-primary italic mb-10 text-sm font-medium">
-            A personal learning journey through the Safety 4.0 Academy IOSH-Approved Programme
+            A personal learning journey through the SafetyTech Academy IOSH-Approved Programme
           </p>
 
           {/* Content sections */}
@@ -101,10 +101,10 @@ const CaseStudies = () => {
               </p>
             </Section>
 
-            <Section title="Discovering the Safety 4.0 Academy">
+            <Section title="Discovering the SafetyTech Academy">
               <p>
                 While researching tools that could be trialled with the global HSE team, I came across
-                the Safety 4.0 Academy on LinkedIn, led by Lucas Domingues, MSc, CMIOSH.
+                the SafetyTech Academy on LinkedIn, led by Lucas Domingues, MSc, CMIOSH.
               </p>
               <p>
                 The Academy's branding was bold, modern, and clearly focused on the future of safety
@@ -150,7 +150,7 @@ const CaseStudies = () => {
               </p>
               <Highlight>
                 I often say I'm not a "silver surfer," but I'm proud to describe myself as a
-                50-year-old vibe coder. That shift in mindset came directly from the Safety 4.0 Academy.
+                50-year-old vibe coder. That shift in mindset came directly from the SafetyTech Academy.
               </Highlight>
             </Section>
 

@@ -8,8 +8,8 @@ import { setPageSEO } from "@/utils/seo";
 export default function AntiPiracyPolicy() {
   useEffect(() => {
     setPageSEO({
-      title: "Anti-Piracy Policy | Safety 4.0 Academy",
-      description: "Safety 4.0 Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
+      title: "Anti-Piracy Policy | SafetyTech Academy",
+      description: "SafetyTech Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
       canonical: "https://safetytech.academy/anti-piracy-policy",
     });
   }, []);
@@ -33,7 +33,7 @@ export default function AntiPiracyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">Protection of Intellectual Property</h2>
               <p>
-                Safety 4.0 Academy is committed to protecting its intellectual property rights. All course materials, 
+                SafetyTech Academy is committed to protecting its intellectual property rights. All course materials, 
                 videos, documents, assessments, and content are protected by copyright and other intellectual property laws.
               </p>
             </section>
@@ -79,7 +79,7 @@ export default function AntiPiracyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">Reporting Piracy</h2>
               <p>
-                If you become aware of any unauthorized use or distribution of Safety 4.0 Academy content, 
+                If you become aware of any unauthorized use or distribution of SafetyTech Academy content, 
                 please report it immediately to <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">hello@safetyacademy.tech</a>.
               </p>
             </section>
@@ -87,7 +87,7 @@ export default function AntiPiracyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">Legal Rights</h2>
               <p>
-                Safety 4.0 Academy reserves all rights under copyright law and will pursue all available legal 
+                SafetyTech Academy reserves all rights under copyright law and will pursue all available legal 
                 remedies against individuals or organizations that violate this policy. This includes but is not 
                 limited to statutory damages, actual damages, legal fees, and injunctive relief.
               </p>

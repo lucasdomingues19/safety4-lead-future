@@ -8,8 +8,8 @@ import { setPageSEO } from "@/utils/seo";
 export default function TermsConditions() {
   useEffect(() => {
     setPageSEO({
-      title: "Terms & Conditions | Safety 4.0 Academy",
-      description: "Read the Terms and Conditions for Safety 4.0 Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
+      title: "Terms & Conditions | SafetyTech Academy",
+      description: "Read the Terms and Conditions for SafetyTech Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
       canonical: "https://safetytech.academy/terms-conditions",
     });
   }, []);
@@ -33,11 +33,11 @@ export default function TermsConditions() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">1. Introduction and Acceptance</h2>
               <p className="mb-4">
-                Safety 4.0 Academy is a product owned and operated by Shield360 Ltd, company number 16266290, 
+                SafetyTech Academy is a product owned and operated by Shield360 Ltd, company number 16266290, 
                 registered in England.
               </p>
               <p>
-                These Terms and Conditions ("Terms") govern your use of Safety 4.0 Academy's website, courses, 
+                These Terms and Conditions ("Terms") govern your use of SafetyTech Academy's website, courses, 
                 and services. By accessing or using our services, you agree to be bound by these Terms. If you 
                 disagree with any part of these Terms, you may not access our services.
               </p>
@@ -46,7 +46,7 @@ export default function TermsConditions() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">2. Definitions</h2>
               <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>"Platform"</strong> refers to Safety 4.0 Academy's website and learning management system</li>
+                <li><strong>"Platform"</strong> refers to SafetyTech Academy's website and learning management system</li>
                 <li><strong>"Services"</strong> include all courses, materials, certifications, and related offerings</li>
                 <li><strong>"User"</strong> or "You" refers to the individual or entity accessing our services</li>
                 <li><strong>"Content"</strong> means all materials, videos, documents, and resources provided through the Platform</li>
@@ -150,7 +150,7 @@ export default function TermsConditions() {
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">7.1 Ownership</h3>
               <p>
                 All Content, trademarks, logos, and intellectual property on the Platform are owned by or 
-                licensed to Safety 4.0 Academy. This includes course materials, videos, assessments, and documentation.
+                licensed to SafetyTech Academy. This includes course materials, videos, assessments, and documentation.
               </p>
 
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">7.2 Limited License</h3>
@@ -226,7 +226,7 @@ export default function TermsConditions() {
 
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">10.3 Limitation of Liability</h3>
               <p>
-                To the maximum extent permitted by law, Safety 4.0 Academy shall not be liable for any indirect, 
+                To the maximum extent permitted by law, SafetyTech Academy shall not be liable for any indirect, 
                 incidental, consequential, or punitive damages arising from your use of the Platform or Services. 
                 Our total liability shall not exceed the amount you paid for the specific course or service.
               </p>
@@ -235,7 +235,7 @@ export default function TermsConditions() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">11. Indemnification</h2>
               <p>
-                You agree to indemnify, defend, and hold harmless Safety 4.0 Academy, its officers, directors, 
+                You agree to indemnify, defend, and hold harmless SafetyTech Academy, its officers, directors, 
                 employees, and agents from any claims, damages, losses, liabilities, and expenses (including 
                 legal fees) arising from your violation of these Terms or misuse of the Platform.
               </p>
@@ -304,7 +304,7 @@ export default function TermsConditions() {
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">16.1 Entire Agreement</h3>
               <p>
                 These Terms, together with our Privacy Policy and other referenced policies, constitute the 
-                entire agreement between you and Safety 4.0 Academy.
+                entire agreement between you and SafetyTech Academy.
               </p>
 
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">16.2 Severability</h3>

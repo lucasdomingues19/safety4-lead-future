@@ -154,7 +154,7 @@ const VerifyCertificate = () => {
     const params = new URLSearchParams({
       startTask: "CERTIFICATION_NAME",
       name: cert.course_name,
-      organizationName: "Safety 4.0 Academy",
+      organizationName: "SafetyTech Academy",
       issueYear: String(d.getFullYear()),
       issueMonth: String(d.getMonth() + 1),
       certUrl: verifyUrl,
@@ -165,7 +165,7 @@ const VerifyCertificate = () => {
 
   const getLinkedInShareUrl = () => {
     if (!cert) return "#";
-    const text = `I am excited to share I just completed the ${cert.course_name} by Safety 4.0 Academy and I am ready to Lead Safety Forward.\n\nVerify my certificate: ${verifyUrl}`;
+    const text = `I am excited to share I just completed the ${cert.course_name} by SafetyTech Academy and I am ready to Lead Safety Forward.\n\nVerify my certificate: ${verifyUrl}`;
     return `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(text)}`;
   };
 
@@ -199,7 +199,7 @@ const VerifyCertificate = () => {
         <ShieldCheck className="h-14 w-14 text-primary mb-4" />
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Verify a certificate</h1>
         <p className="text-slate-500 max-w-md mb-6">
-          Enter a Safety 4.0 Academy certificate number to confirm it's genuine.
+          Enter a SafetyTech Academy certificate number to confirm it's genuine.
         </p>
         <form
           onSubmit={(e) => {
@@ -242,7 +242,7 @@ const VerifyCertificate = () => {
               {status === "valid" ? "Verified authentic certificate" : "This certificate has been revoked"}
             </p>
             <p className="text-sm text-slate-500 flex items-center gap-1">
-              <ShieldCheck className="h-3.5 w-3.5" /> Issued by Safety 4.0 Academy · No. {cert?.certificate_number}
+              <ShieldCheck className="h-3.5 w-3.5" /> Issued by SafetyTech Academy · No. {cert?.certificate_number}
             </p>
           </div>
         </div>
