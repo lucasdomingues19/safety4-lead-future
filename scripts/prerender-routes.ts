@@ -23,7 +23,7 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/ai-fundamentals",
-    title: "AI Fundamentals in EHS | Safety 4.0 Academy",
+    title: "AI Fundamentals in EHS | SafetyTech Academy",
     description:
       "Learn the fundamentals of AI for environment, health and safety. A practical introduction to using AI in EHS workflows.",
   },
@@ -43,25 +43,25 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/enrol",
-    title: "Enrol – Safety 4.0 Accelerator | Safety 4.0 Academy",
+    title: "Enrol – Safety 4.0 Accelerator | SafetyTech Academy",
     description:
       "Apply to join the Safety 4.0 Accelerator programme. IOSH-approved, CPD-certified training for safety professionals.",
   },
   {
     path: "/certification",
-    title: "IOSH & CPD Certification | Safety 4.0 Academy Accreditation",
+    title: "IOSH & CPD Certification | SafetyTech Academy Accreditation",
     description:
       "Earn an IOSH-approved and CPD-certified Safety 4.0 leadership credential. Recognised globally by employers and professional bodies. 8+ CPD hours included.",
   },
   {
     path: "/case-studies",
-    title: "Case Studies — Safety 4.0 Academy | Real Stories from Alumni",
+    title: "Case Studies — SafetyTech Academy | Real Stories from Alumni",
     description:
-      "Read how Safety 4.0 Academy alumni are transforming safety leadership with digital tools, AI, and data-driven strategies.",
+      "Read how SafetyTech Academy alumni are transforming safety leadership with digital tools, AI, and data-driven strategies.",
   },
   {
     path: "/faq",
-    title: "FAQ — Safety 4.0 Academy",
+    title: "FAQ — SafetyTech Academy",
     description:
       "Answers on our eLearning, Accelerator cohort, In-Company training, IOSH certification and pricing.",
   },
@@ -81,9 +81,9 @@ const staticRoutes: RouteSeo[] = [
   {
     path: "/contact",
     title:
-      "Contact Safety 4.0 Academy | Get in Touch for IOSH Training Enquiries",
+      "Contact SafetyTech Academy | Get in Touch for IOSH Training Enquiries",
     description:
-      "Contact the Safety 4.0 Academy team for enrolment enquiries, corporate training, partnerships, or general questions about our IOSH-approved Safety 4.0 certification.",
+      "Contact the SafetyTech Academy team for enrolment enquiries, corporate training, partnerships, or general questions about our IOSH-approved Safety 4.0 certification.",
   },
   {
     path: "/ebook",
@@ -93,33 +93,33 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/privacy-policy",
-    title: "Privacy Policy | Safety 4.0 Academy",
+    title: "Privacy Policy | SafetyTech Academy",
     description:
-      "Safety 4.0 Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
+      "SafetyTech Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
   },
   {
     path: "/terms-conditions",
-    title: "Terms & Conditions | Safety 4.0 Academy",
+    title: "Terms & Conditions | SafetyTech Academy",
     description:
-      "Read the Terms and Conditions for Safety 4.0 Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
+      "Read the Terms and Conditions for SafetyTech Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
   },
   {
     path: "/cookies-policy",
-    title: "Cookies Policy | Safety 4.0 Academy",
+    title: "Cookies Policy | SafetyTech Academy",
     description:
-      "Learn how Safety 4.0 Academy uses cookies to improve your experience. Understand the types of cookies we use, how to manage them, and your consent options.",
+      "Learn how SafetyTech Academy uses cookies to improve your experience. Understand the types of cookies we use, how to manage them, and your consent options.",
   },
   {
     path: "/anti-piracy-policy",
-    title: "Anti-Piracy Policy | Safety 4.0 Academy",
+    title: "Anti-Piracy Policy | SafetyTech Academy",
     description:
-      "Safety 4.0 Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
+      "SafetyTech Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
   },
 ];
 
 const blogRoutes: RouteSeo[] = blogPosts.map((post) => ({
   path: `/blog/${post.slug}`,
-  title: `${post.title} | Safety 4.0 Academy Blog`,
+  title: `${post.title} | SafetyTech Academy Blog`,
   description: post.metaDescription,
   ogImage: `${BASE}${post.featuredImage}`,
   ogType: "article",

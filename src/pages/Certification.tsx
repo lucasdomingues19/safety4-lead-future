@@ -16,7 +16,7 @@ const Certification = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "IOSH & CPD Certification | Safety 4.0 Academy Accreditation",
+      title: "IOSH & CPD Certification | SafetyTech Academy Accreditation",
       description: "Earn an IOSH-approved and CPD-certified Safety 4.0 leadership credential. Recognised globally by employers and professional bodies. 8+ CPD hours included.",
       canonical: "https://safetytech.academy/certification",
     });

@@ -39,7 +39,7 @@ export const AboutAcademySection = () => {
             <div className="space-y-6 md:space-y-8 animate-fade-in">
               <div>
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-[1.05]">
-                  About the <span className="text-primary">Safety 4.0 Academy</span>
+                  About the <span className="text-primary">SafetyTech Academy</span>
                 </h2>
                 
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed mb-6 md:mb-8">
@@ -129,7 +129,7 @@ export const AboutAcademySection = () => {
                     {/* Certificate sample */}
                     <img 
                       src={certificateSample}
-                      alt="Safety 4.0 Academy Certificate Sample - IOSH approved certification"
+                      alt="SafetyTech Academy Certificate Sample - IOSH approved certification"
                       className="w-full h-full object-contain p-4 bg-white/5"
                     />
                   </div>

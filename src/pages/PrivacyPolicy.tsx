@@ -8,8 +8,8 @@ import { setPageSEO } from "@/utils/seo";
 export default function PrivacyPolicy() {
   useEffect(() => {
     setPageSEO({
-      title: "Privacy Policy | Safety 4.0 Academy",
-      description: "Safety 4.0 Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
+      title: "Privacy Policy | SafetyTech Academy",
+      description: "SafetyTech Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
       canonical: "https://safetytech.academy/privacy-policy",
     });
   }, []);
@@ -33,7 +33,7 @@ export default function PrivacyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">Introduction</h2>
               <p>
-                Safety 4.0 Academy ("we", "our", or "us") is committed to protecting your privacy and ensuring 
+                SafetyTech Academy ("we", "our", or "us") is committed to protecting your privacy and ensuring 
                 the security of your personal data. This Privacy Policy explains how we collect, use, store, and 
                 protect your information in compliance with the General Data Protection Regulation (GDPR) and 
                 other applicable data protection laws.
@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
             <section>
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">Data Controller</h2>
               <p>
-                Safety 4.0 Academy is the data controller responsible for your personal data. If you have any 
+                SafetyTech Academy is the data controller responsible for your personal data. If you have any 
                 questions about this policy or our data practices, please contact us at{" "}
                 <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
                   hello@safetyacademy.tech

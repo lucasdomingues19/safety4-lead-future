@@ -546,7 +546,7 @@ export function ROICalculator() {
                 onChange={(e) => setNewsConsent(e.target.checked)}
                 className="mt-0.5 w-4 h-4 rounded border-border accent-primary flex-shrink-0" />
                   <span className="text-xs text-muted-foreground leading-relaxed">
-                    I accept to receive occasional news from the Safety 4.0 Academy
+                    I accept to receive occasional news from the SafetyTech Academy
                   </span>
                 </label>
               </div>

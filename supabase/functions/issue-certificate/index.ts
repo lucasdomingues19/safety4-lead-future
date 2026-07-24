@@ -66,16 +66,16 @@ const buildEmailHtml = (cert: {
       <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.10);">
 
         <tr><td style="background:${BRAND_NAVY};padding:30px 36px;text-align:center;">
-          <p style="margin:0;color:${BRAND_LIME};font-size:12px;letter-spacing:3px;text-transform:uppercase;">Safety 4.0 Academy</p>
+          <p style="margin:0;color:${BRAND_LIME};font-size:12px;letter-spacing:3px;text-transform:uppercase;">SafetyTech Academy</p>
         </td></tr>
 
         <tr><td style="padding:34px 40px 8px;color:#1e293b;font-size:15px;line-height:1.7;">
           <p style="margin:0 0 16px;">Hi ${firstName},</p>
-          <p style="margin:0 0 16px;">We are pleased to share your Safety 4.0 Academy certificate. Please click the link below to access your credentials.</p>
-          <p style="margin:0 0 16px;">Don't forget to share your achievement on LinkedIn and tag the Safety 4.0 Academy page.</p>
+          <p style="margin:0 0 16px;">We are pleased to share your SafetyTech Academy certificate. Please click the link below to access your credentials.</p>
+          <p style="margin:0 0 16px;">Don't forget to share your achievement on LinkedIn and tag the SafetyTech Academy page.</p>
           <p style="margin:0 0 4px;">Proud of you.</p>
           <p style="margin:0;">Regards,</p>
-          <p style="margin:4px 0 0;font-weight:700;">Safety 4.0 Academy Team</p>
+          <p style="margin:4px 0 0;font-weight:700;">SafetyTech Academy Team</p>
         </td></tr>
 
         <tr><td style="padding:22px 40px 34px;text-align:center;">
@@ -83,7 +83,7 @@ const buildEmailHtml = (cert: {
         </td></tr>
 
         <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;">
-          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · approved training provider by IOSH · www.safetytech.academy</p>
+          <p style="margin:0;color:#94a3b8;font-size:11px;">© SafetyTech Academy · approved training provider by IOSH · www.safetytech.academy</p>
         </td></tr>
 
       </table>
@@ -216,10 +216,10 @@ const handler = async (req: Request): Promise<Response> => {
     const html = buildEmailHtml(cert, verifyUrl);
 
     const emailResponse = await resend.emails.send({
-      from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
+      from: "SafetyTech Academy <noreply@safetyacademy.tech>",
       reply_to: "hello@safetyacademy.tech",
       to: [cert.recipient_email],
-      subject: "Your Safety 4.0 Academy Certificate",
+      subject: "Your SafetyTech Academy Certificate",
       html,
     });
 

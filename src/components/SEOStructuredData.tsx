@@ -15,7 +15,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
-      "name": "Safety 4.0 Academy",
+      "name": "SafetyTech Academy",
       "url": "https://safetytech.academy",
       "logo": "https://safetytech.academy/safety-academy-logo.png",
       "description": "The world's first IOSH-approved Safety 4.0 certification program for digital safety leadership",
@@ -50,7 +50,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "description": "IOSH and CPD-approved certification program teaching AI, SafetyTech, IoT sensors, and digital leadership for modern workplace safety professionals",
       "provider": {
         "@type": "EducationalOrganization",
-        "name": "Safety 4.0 Academy",
+        "name": "SafetyTech Academy",
         "sameAs": "https://safetytech.academy"
       },
       "hasCourseInstance": {
@@ -141,7 +141,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
     const videoSchema = {
       "@context": "https://schema.org",
       "@type": "VideoObject",
-      "name": "Safety 4.0 Academy - Course Introduction",
+      "name": "SafetyTech Academy - Course Introduction",
       "description": "Discover how Safety 4.0 transforms workplace safety through AI, IoT, and digital technologies. Learn about the world's first IOSH-approved Safety 4.0 certification program.",
       "thumbnailUrl": "https://safetytech.academy/opengraph-image.png",
       "uploadDate": "2025-11-27T00:00:00Z",
@@ -150,7 +150,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "embedUrl": "https://www.youtube.com/embed/OsKsyXCx8pc",
       "publisher": {
         "@type": "Organization",
-        "name": "Safety 4.0 Academy",
+        "name": "SafetyTech Academy",
         "logo": {
           "@type": "ImageObject",
           "url": "https://safetytech.academy/safety-academy-logo.png"
@@ -194,7 +194,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
         {
           "@type": "HowToStep",
           "position": 1,
-          "name": "Enroll in Safety 4.0 Academy",
+          "name": "Enroll in SafetyTech Academy",
           "text": "Register for the founding member special and gain instant access to all 10 modules"
         },
         {
@@ -230,7 +230,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
     const websiteSchema = {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Safety 4.0 Academy",
+      "name": "SafetyTech Academy",
       "url": "https://safetytech.academy",
       "potentialAction": {
         "@type": "SearchAction",
@@ -243,7 +243,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
     const speakableSchema = {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Safety 4.0 Academy - IOSH Approved Digital Safety Leadership Training",
+      "name": "SafetyTech Academy - IOSH Approved Digital Safety Leadership Training",
       "speakable": {
         "@type": "SpeakableSpecification",
         "cssSelector": ["h1", ".hero-description", ".course-summary"]

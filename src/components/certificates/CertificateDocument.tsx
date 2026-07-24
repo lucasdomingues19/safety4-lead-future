@@ -137,7 +137,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <img
               src={logoAsset}
-              alt="Safety 4.0 Academy"
+              alt="SafetyTech Academy"
               style={{ width: 100, height: 100, objectFit: "contain" }}
             />
           </div>
@@ -314,7 +314,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
               paddingBottom: 4,
             }}
           >
-            Safety 4.0 Academy<br />All rights reserved 2026
+            SafetyTech Academy<br />All rights reserved 2026
           </div>
         </div>
 

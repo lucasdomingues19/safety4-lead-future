@@ -147,7 +147,7 @@ export const SocialProofSection = () => {
             {"Trusted by\u00A0\n"}<span className="text-primary">Safety Leaders</span>{"\u00A0Worldwide"}
           </h2>
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
-            Join global safety professionals who boosted their career's impact with the Safety 4.0 Academy
+            Join global safety professionals who boosted their career's impact with the SafetyTech Academy
           </p>
         </div>
 

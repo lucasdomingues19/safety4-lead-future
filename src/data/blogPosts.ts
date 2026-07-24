@@ -93,9 +93,9 @@ The Sanders–Claude interview is not an argument against AI. It is an argument 
   {
     id: "4",
     slug: "safety-4-academy-soter-ai-partnership",
-    title: "Safety 4.0 Academy × Soter AI: Building AI-Ready Safety Leaders to Leverage AI and SafetyTech",
-    metaDescription: "Safety 4.0 Academy partners with Soter AI, the leading SafetyTech provider, to build AI-ready safety leaders. Discover how this collaboration bridges the gap between AI technology adoption and EHS digital competence for workplace injury prevention.",
-    excerpt: "AI is already reshaping workplace safety — from computer vision to predictive risk insights. But one challenge keeps surfacing: safety leaders are expected to use AI without being trained to understand it. That's why Safety 4.0 Academy has partnered with Soter AI, the leading SafetyTech solution provider.",
+    title: "SafetyTech Academy × Soter AI: Building AI-Ready Safety Leaders to Leverage AI and SafetyTech",
+    metaDescription: "SafetyTech Academy partners with Soter AI, the leading SafetyTech provider, to build AI-ready safety leaders. Discover how this collaboration bridges the gap between AI technology adoption and EHS digital competence for workplace injury prevention.",
+    excerpt: "AI is already reshaping workplace safety — from computer vision to predictive risk insights. But one challenge keeps surfacing: safety leaders are expected to use AI without being trained to understand it. That's why SafetyTech Academy has partnered with Soter AI, the leading SafetyTech solution provider.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
     publishDate: "2026-02-02",
@@ -104,7 +104,7 @@ The Sanders–Claude interview is not an argument against AI. It is an argument 
     tags: ["Soter AI", "SafetyTech Partnership", "AI in Workplace Safety", "EHS Digital Transformation", "Safety Technology", "Injury Prevention", "Predictive Safety", "IOSH Training"],
     featuredImage: "/assets/blog/soter-ai-partnership.png",
     content: `
-# Safety 4.0 Academy × Soter AI
+# SafetyTech Academy × Soter AI
 
 ## Building AI-Ready Safety Leaders to Leverage the Power of AI and Tech
 
@@ -112,7 +112,7 @@ AI is already reshaping workplace safety — from computer vision to predictive 
 
 **Safety leaders are expected to use AI without being trained to understand it.** The risks and opportunities often become an afterthought.
 
-That's why the **Safety 4.0 Academy** has partnered with **Soter AI** — the leading SafetyTech solution provider addressing specific workplace safety challenges, helping organisations prevent injuries, reduce costs, and create safer work environments.
+That's why the **SafetyTech Academy** has partnered with **Soter AI** — the leading SafetyTech solution provider addressing specific workplace safety challenges, helping organisations prevent injuries, reduce costs, and create safer work environments.
 
 ---
 
@@ -120,7 +120,7 @@ That's why the **Safety 4.0 Academy** has partnered with **Soter AI** — the le
 
 **Soter AI** delivers powerful, AI-driven safety technology.
 
-**The Safety 4.0 Academy** focuses on the missing piece: skills, confidence, and digital fluency for EHS leaders.
+**The SafetyTech Academy** focuses on the missing piece: skills, confidence, and digital fluency for EHS leaders.
 
 Together, we help organisations move from:
 
@@ -162,7 +162,7 @@ This partnership is a clear signal to the market:
 Whether you're an organisation implementing Soter AI's technology or a safety professional looking to upskill, this partnership ensures you have access to both:
 
 1. **World-class AI safety technology** from Soter AI
-2. **Industry-recognised training** from the Safety 4.0 Academy
+2. **Industry-recognised training** from the SafetyTech Academy
 
 Together, we're building a future where technology amplifies human expertise — not replaces it.
 
@@ -263,9 +263,9 @@ The professionals who invest in these capabilities now will be the ones shaping 
   {
     id: "2",
     slug: "3-scholarships-safety-4-academy",
-    title: "3 Scholarships to Join the Safety 4.0 Academy",
-    metaDescription: "Apply for one of three scholarships to join the Safety 4.0 Academy. We're offering 25%, 50%, and 100% funded opportunities for EHS professionals ready to lead in the digital age.",
-    excerpt: "At the Safety 4.0 Academy, we believe the future of safety should be accessible, inclusive, and impact-driven. That's why we're offering three scholarships to support EHS professionals ready to lead in the digital age.",
+    title: "3 Scholarships to Join the SafetyTech Academy",
+    metaDescription: "Apply for one of three scholarships to join the SafetyTech Academy. We're offering 25%, 50%, and 100% funded opportunities for EHS professionals ready to lead in the digital age.",
+    excerpt: "At the SafetyTech Academy, we believe the future of safety should be accessible, inclusive, and impact-driven. That's why we're offering three scholarships to support EHS professionals ready to lead in the digital age.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
     publishDate: "2025-12-15",
@@ -274,9 +274,9 @@ The professionals who invest in these capabilities now will be the ones shaping 
     tags: ["Scholarship", "Safety 4.0", "EHS Training", "Career Development", "Accessibility"],
     featuredImage: "/assets/blog/scholarships-announcement.png",
     content: `
-# 3 Scholarships to Join the Safety 4.0 Academy
+# 3 Scholarships to Join the SafetyTech Academy
 
-At the Safety 4.0 Academy, we believe the future of safety should be **accessible, inclusive, and impact-driven**. Talent and potential should not be blocked by financial barriers — especially at a time when safety leaders must rapidly upskill in digital, AI, and SafetyTech capabilities.
+At the SafetyTech Academy, we believe the future of safety should be **accessible, inclusive, and impact-driven**. Talent and potential should not be blocked by financial barriers — especially at a time when safety leaders must rapidly upskill in digital, AI, and SafetyTech capabilities.
 
 That is why we are offering **three scholarships** to support EHS professionals ready to lead in the digital age.
 
@@ -311,7 +311,7 @@ For someone who dreams of becoming a Safety 4.0 Leader but simply cannot afford 
 Applying is simple. We ask you to fill out a short application form sharing:
 
 - Your current situation
-- Why you want to join the Safety 4.0 Academy
+- Why you want to join the SafetyTech Academy
 - How this scholarship would impact your career
 
 **Applications close:** 23rd December 2024
@@ -447,9 +447,9 @@ It empowers organisations to prevent harm more effectively while enabling safety
   {
     id: "0",
     slug: "introducing-worlds-first-safety-4-academy",
-    title: "Introducing the World's First Safety 4.0 Academy",
-    metaDescription: "Announcing the launch of the Safety 4.0 Academy and the world's first IOSH-approved SafetyTech and digital transformation course for EHS leaders.",
-    excerpt: "Today, I'm proud to officially announce the launch of the Safety 4.0 Academy and our flagship programme: IOSH-approved Safety 4.0 - Leading Safety in the Digital Age. The world's first dedicated SafetyTech and digital transformation course for EHS leaders.",
+    title: "Introducing the World's First SafetyTech Academy",
+    metaDescription: "Announcing the launch of the SafetyTech Academy and the world's first IOSH-approved SafetyTech and digital transformation course for EHS leaders.",
+    excerpt: "Today, I'm proud to officially announce the launch of the SafetyTech Academy and our flagship programme: IOSH-approved Safety 4.0 - Leading Safety in the Digital Age. The world's first dedicated SafetyTech and digital transformation course for EHS leaders.",
     author: "Lucas Domingues",
     authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
     publishDate: "2025-12-01",
@@ -458,13 +458,13 @@ It empowers organisations to prevent harm more effectively while enabling safety
     tags: ["Safety 4.0", "Academy Launch", "IOSH Approved", "SafetyTech", "Digital Transformation"],
     featuredImage: "/assets/blog/safety-academy-launch.jpg",
     content: `
-# Introducing the World's First Safety 4.0 Academy
+# Introducing the World's First SafetyTech Academy
 
 ## Shaping the Future of EHS, One Leader at a Time
 
 For the past year, I've worked quietly on something I truly believe will redefine how the global EHS community learns, leads, and adapts to a rapidly changing world.
 
-Today, I'm proud to officially announce the launch of the **Safety 4.0 Academy** and our flagship programme:
+Today, I'm proud to officially announce the launch of the **SafetyTech Academy** and our flagship programme:
 
 **IOSH-approved Safety 4.0 - Leading Safety in the Digital Age**
 

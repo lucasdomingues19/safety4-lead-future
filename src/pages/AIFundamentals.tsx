@@ -23,7 +23,7 @@ const AIFundamentals = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "AI Fundamentals in EHS | Safety 4.0 Academy",
+      title: "AI Fundamentals in EHS | SafetyTech Academy",
       description:
         "Build the AI literacy every modern EHS professional needs in 90 minutes. Practical, no jargon — actionable skills you can use immediately.",
       canonical: "https://safetytech.academy/ai-fundamentals",
@@ -153,7 +153,7 @@ const AIFundamentals = () => {
               "5 practical learning modules",
               "Downloadable SafetyTech glossary",
               "Ready-to-use prompt library",
-              "Certificate of Completion by Safety 4.0 Academy",
+              "Certificate of Completion by SafetyTech Academy",
               "Access from desktop, tablet or mobile",
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -235,7 +235,7 @@ const AIFundamentals = () => {
             {[
               { q: "Do I need any AI experience to take this course?", a: "No. The course is designed for EHS professionals with little or no AI background. We explain concepts in plain language and focus on practical application, not theory." },
               { q: "How long do I have access to the course?", a: "You get lifetime access to the course materials, including any future updates we make to the AI Fundamentals in EHS curriculum." },
-              { q: "Is the certificate recognised by employers?", a: "You will receive a Certificate of Completion issued by Safety 4.0 Academy, an approved training provider by IOSH. It demonstrates practical AI literacy in an EHS context." },
+              { q: "Is the certificate recognised by employers?", a: "You will receive a Certificate of Completion issued by SafetyTech Academy, an approved training provider by IOSH. It demonstrates practical AI literacy in an EHS context." },
               { q: "Can my employer pay for this course?", a: "Yes. At checkout you can use a company card or request an invoice. Many learners expense this as professional development." },
               { q: "What is the time commitment?", a: "The course is 90 minutes in total, split into 5 short modules. You can complete it in one sitting or across multiple sessions." },
               { q: "Is there a money-back guarantee?", a: "Yes. If you are not satisfied, contact us within 7 days of purchase for a full refund — no questions asked." },

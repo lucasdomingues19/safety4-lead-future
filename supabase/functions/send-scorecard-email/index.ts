@@ -240,7 +240,7 @@ const handler = async (req: Request): Promise<Response> => {
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#11113a;border-radius:10px;">
             <tr><td style="padding:24px 28px;text-align:center;">
               <h3 style="margin:0 0 8px;color:#D6FF00;font-size:16px;">Ready to Level Up?</h3>
-              <p style="margin:0 0 16px;color:#cbd5e1;font-size:13px;">Join the Safety 4.0 Academy — the world's first IOSH-approved Safety 4.0 certification.</p>
+              <p style="margin:0 0 16px;color:#cbd5e1;font-size:13px;">Join the SafetyTech Academy — the world's first IOSH-approved Safety 4.0 certification.</p>
               <a href="https://safety4-lead-future.lovable.app/enrol" style="display:inline-block;background:#D6FF00;color:#11113a;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">Enrol Now</a>
             </td></tr>
           </table>
@@ -248,7 +248,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         <!-- Footer -->
         <tr><td style="padding:16px 32px;text-align:center;border-top:1px solid #f1f5f9;">
-          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · www.safetytech.academy</p>
+          <p style="margin:0;color:#94a3b8;font-size:11px;">© SafetyTech Academy · www.safetytech.academy</p>
         </td></tr>
 
       </table>
@@ -272,7 +272,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await sendEmailWithRetry(
       {
-        from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
+        from: "SafetyTech Academy <noreply@safetyacademy.tech>",
         to: [data.email],
         subject: `Your Safety 4.0 Readiness Score: ${data.overallScore}/100 — ${data.rankLabel}`,
         html,
@@ -285,7 +285,7 @@ const handler = async (req: Request): Promise<Response> => {
     try {
       await sendEmailWithRetry(
         {
-          from: "Safety 4.0 Academy <noreply@safetyacademy.tech>",
+          from: "SafetyTech Academy <noreply@safetyacademy.tech>",
           to: ["lucas@getshield360.com"],
           replyTo: data.email,
           subject: `Scorecard Completed: ${data.firstName} ${safeLastName} — ${data.overallScore}/100`,

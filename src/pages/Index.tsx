@@ -35,7 +35,7 @@ const Index = () => {
     trackPageView(window.location.pathname);
     startTimeTracking();
     setPageSEO({
-      title: "Safety 4.0 Academy — IOSH Approved AI & SafetyTech Training",
+      title: "SafetyTech Academy — IOSH Approved AI & SafetyTech Training",
       description: "IOSH & CPD-approved Safety 4.0 certification. Master AI, SafetyTech and IoT for modern workplace safety. Join 1000+ HSE professionals.",
       canonical: "https://safetytech.academy/",
     });
@@ -75,7 +75,7 @@ const Index = () => {
                 </span>
               </div>
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] text-center mb-8 md:mb-12">
-                <span className="text-primary">Safety 4.0 Academy</span>
+                <span className="text-primary">SafetyTech Academy</span>
               </h2>
               <p className="text-lg md:text-2xl font-semibold text-slate-900 text-center mb-8 md:mb-12">
                 Our mission is to <span className="text-primary">Lead Safety Forward.</span> Discover How.
