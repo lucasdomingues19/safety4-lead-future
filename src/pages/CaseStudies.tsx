@@ -12,7 +12,7 @@ const CaseStudies = () => {
       title: "Case Studies — Safety 4.0 Academy | Real Stories from Alumni",
       description:
         "Read how Safety 4.0 Academy alumni are transforming safety leadership with digital tools, AI, and data-driven strategies.",
-      canonical: "https://safetyacademy.tech/case-studies",
+      canonical: "https://safetytech.academy/case-studies",
     });
     window.scrollTo(0, 0);
   }, []);

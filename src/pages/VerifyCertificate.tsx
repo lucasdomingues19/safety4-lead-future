@@ -8,7 +8,7 @@ import { CheckCircle2, XCircle, Download, Linkedin, Loader2, ShieldCheck } from 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const ACADEMY_URL = "https://www.safetyacademy.tech";
+const ACADEMY_URL = "https://www.safetytech.academy";
 
 const SITE_URL =
   typeof window !== "undefined" && window.location.hostname.endsWith("lovable.app")

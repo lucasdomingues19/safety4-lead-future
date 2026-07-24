@@ -1,6 +1,6 @@
 import { blogPosts } from "../src/data/blogPosts";
 
-const BASE = "https://safetyacademy.tech";
+const BASE = "https://safetytech.academy";
 const DEFAULT_OG = `${BASE}/opengraph-image.png`;
 
 export interface RouteSeo {

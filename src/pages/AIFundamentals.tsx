@@ -17,7 +17,7 @@ import {
   UserCheck, Compass, BookOpen, Zap, PlayCircle, FileDown,
 } from "lucide-react";
 
-const CHECKOUT_URL = "https://learning.safetyacademy.tech/offers/osRfeBFj/checkout";
+const CHECKOUT_URL = "https://learning.safetytech.academy/offers/osRfeBFj/checkout";
 
 const AIFundamentals = () => {
   useEffect(() => {
@@ -26,7 +26,7 @@ const AIFundamentals = () => {
       title: "AI Fundamentals in EHS | Safety 4.0 Academy",
       description:
         "Build the AI literacy every modern EHS professional needs in 90 minutes. Practical, no jargon — actionable skills you can use immediately.",
-      canonical: "https://safetyacademy.tech/ai-fundamentals",
+      canonical: "https://safetytech.academy/ai-fundamentals",
     });
   }, []);
 

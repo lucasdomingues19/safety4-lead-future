@@ -20,8 +20,8 @@ const BlogPost = () => {
       setPageSEO({
         title: `${post.title} | Safety 4.0 Academy Blog`,
         description: post.metaDescription,
-        canonical: `https://safetyacademy.tech/blog/${post.slug}`,
-        ogImage: `https://safetyacademy.tech${post.featuredImage}`,
+        canonical: `https://safetytech.academy/blog/${post.slug}`,
+        ogImage: `https://safetytech.academy${post.featuredImage}`,
         ogType: "article",
       });
 
@@ -34,7 +34,7 @@ const BlogPost = () => {
         "@type": "BlogPosting",
         "headline": post.title,
         "description": post.metaDescription,
-        "image": `https://safetyacademy.tech${post.featuredImage}`,
+        "image": `https://safetytech.academy${post.featuredImage}`,
         "author": {
           "@type": "Person",
           "name": post.author,
@@ -46,14 +46,14 @@ const BlogPost = () => {
           "name": "Safety 4.0 Academy",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://safetyacademy.tech/safety-academy-logo.png"
+            "url": "https://safetytech.academy/safety-academy-logo.png"
           }
         },
         "datePublished": post.publishDate,
         "dateModified": post.publishDate,
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": `https://safetyacademy.tech/blog/${post.slug}`
+          "@id": `https://safetytech.academy/blog/${post.slug}`
         },
         "keywords": post.tags.join(", "),
         "articleSection": post.category,
@@ -79,7 +79,7 @@ const BlogPost = () => {
   }
 
   const handleShare = async () => {
-    const shareUrl = `https://www.safetyacademy.tech/blog/${post.slug}`;
+    const shareUrl = `https://www.safetytech.academy/blog/${post.slug}`;
     const shareData = {
       title: post.title,
       text: post.excerpt,
@@ -100,7 +100,7 @@ const BlogPost = () => {
   };
 
   const copyToClipboard = async () => {
-    const shareUrl = `https://www.safetyacademy.tech/blog/${post.slug}`;
+    const shareUrl = `https://www.safetytech.academy/blog/${post.slug}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
       toast.success("Link copied to clipboard!");

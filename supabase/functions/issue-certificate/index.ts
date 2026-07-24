@@ -11,7 +11,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const SITE_URL = "https://www.safetyacademy.tech";
+const SITE_URL = "https://www.safetytech.academy";
 const BRAND_NAVY = "#11113a";
 const BRAND_LIME = "#c1ff72";
 
@@ -83,7 +83,7 @@ const buildEmailHtml = (cert: {
         </td></tr>
 
         <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;">
-          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · approved training provider by IOSH · www.safetyacademy.tech</p>
+          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · approved training provider by IOSH · www.safetytech.academy</p>
         </td></tr>
 
       </table>

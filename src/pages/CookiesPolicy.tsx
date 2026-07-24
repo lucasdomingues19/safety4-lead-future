@@ -9,7 +9,7 @@ export default function CookiesPolicy() {
     setPageSEO({
       title: "Cookies Policy | Safety 4.0 Academy",
       description: "Learn how Safety 4.0 Academy uses cookies to improve your experience. Understand the types of cookies we use, how to manage them, and your consent options.",
-      canonical: "https://safetyacademy.tech/cookies-policy",
+      canonical: "https://safetytech.academy/cookies-policy",
     });
   }, []);
 

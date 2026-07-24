@@ -37,7 +37,7 @@ const Index = () => {
     setPageSEO({
       title: "Safety 4.0 Academy — IOSH Approved AI & SafetyTech Training",
       description: "IOSH & CPD-approved Safety 4.0 certification. Master AI, SafetyTech and IoT for modern workplace safety. Join 1000+ HSE professionals.",
-      canonical: "https://safetyacademy.tech/",
+      canonical: "https://safetytech.academy/",
     });
     
     const cleanupScroll = initScrollTracking();

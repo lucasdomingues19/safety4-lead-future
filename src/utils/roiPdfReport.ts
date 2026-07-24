@@ -77,11 +77,11 @@ function drawFooter(doc: jsPDF) {
 
   doc.setTextColor(...GREY);
   doc.setFontSize(7);
-  doc.text("safetyacademy.tech  ·  hello@safetyacademy.tech", MARGIN, fy + 15);
+  doc.text("safetytech.academy  ·  hello@safetyacademy.tech", MARGIN, fy + 15);
 
   doc.setTextColor(...PINK);
   doc.setFontSize(7);
-  doc.text("Book a call \u2192 safetyacademy.tech/contact", W - MARGIN, fy + 10, { align: "right" });
+  doc.text("Book a call \u2192 safetytech.academy/contact", W - MARGIN, fy + 10, { align: "right" });
 }
 
 export function generateROIReport(d: ROIData) {
