@@ -17,7 +17,7 @@ const Syllabus = () => {
     setPageSEO({
       title: "eLearning — IOSH-approved Safety 4.0 Course",
       description: "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
-      canonical: "https://safetyacademy.tech/elearning",
+      canonical: "https://safetytech.academy/elearning",
     });
     trackPageView(window.location.pathname);
   }, []);
@@ -81,7 +81,7 @@ const Syllabus = () => {
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
-                href="https://learning.safetyacademy.tech/brochure"
+                href="https://learning.safetytech.academy/brochure"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-700 font-medium text-lg rounded-full border border-slate-300 hover:bg-slate-100 transition-colors active:scale-[0.97]"

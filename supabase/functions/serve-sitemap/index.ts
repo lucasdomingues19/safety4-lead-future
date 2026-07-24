@@ -3,127 +3,127 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://safetyacademy.tech/</loc>
+    <loc>https://safetytech.academy/</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/elearning</loc>
+    <loc>https://safetytech.academy/elearning</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/accelerator</loc>
+    <loc>https://safetytech.academy/accelerator</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/enrol</loc>
+    <loc>https://safetytech.academy/enrol</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/in-company</loc>
+    <loc>https://safetytech.academy/in-company</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/certification</loc>
+    <loc>https://safetytech.academy/certification</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/case-studies</loc>
+    <loc>https://safetytech.academy/case-studies</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/faq</loc>
+    <loc>https://safetytech.academy/faq</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/scorecard</loc>
+    <loc>https://safetytech.academy/scorecard</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/blog</loc>
+    <loc>https://safetytech.academy/blog</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/blog/safety-4-academy-soter-ai-partnership</loc>
+    <loc>https://safetytech.academy/blog/safety-4-academy-soter-ai-partnership</loc>
     <lastmod>2026-02-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/blog/ehs-skills-for-2026</loc>
+    <loc>https://safetytech.academy/blog/ehs-skills-for-2026</loc>
     <lastmod>2026-01-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/blog/3-scholarships-safety-4-academy</loc>
+    <loc>https://safetytech.academy/blog/3-scholarships-safety-4-academy</loc>
     <lastmod>2025-12-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/blog/what-is-safety-4-0</loc>
+    <loc>https://safetytech.academy/blog/what-is-safety-4-0</loc>
     <lastmod>2025-12-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/blog/introducing-worlds-first-safety-4-academy</loc>
+    <loc>https://safetytech.academy/blog/introducing-worlds-first-safety-4-academy</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/contact</loc>
+    <loc>https://safetytech.academy/contact</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/ebook</loc>
+    <loc>https://safetytech.academy/ebook</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/privacy-policy</loc>
+    <loc>https://safetytech.academy/privacy-policy</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/terms-conditions</loc>
+    <loc>https://safetytech.academy/terms-conditions</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/cookies-policy</loc>
+    <loc>https://safetytech.academy/cookies-policy</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://safetyacademy.tech/anti-piracy-policy</loc>
+    <loc>https://safetytech.academy/anti-piracy-policy</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

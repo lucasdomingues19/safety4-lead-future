@@ -10,7 +10,7 @@ export default function TermsConditions() {
     setPageSEO({
       title: "Terms & Conditions | Safety 4.0 Academy",
       description: "Read the Terms and Conditions for Safety 4.0 Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
-      canonical: "https://safetyacademy.tech/terms-conditions",
+      canonical: "https://safetytech.academy/terms-conditions",
     });
   }, []);
 

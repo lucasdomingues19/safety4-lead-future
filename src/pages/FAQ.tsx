@@ -19,7 +19,7 @@ const FAQ = () => {
     setPageSEO({
       title: "FAQ — Safety 4.0 Academy",
       description: "Answers on our eLearning, Accelerator cohort, In-Company training, IOSH certification and pricing.",
-      canonical: "https://safetyacademy.tech/faq",
+      canonical: "https://safetytech.academy/faq",
     });
   }, []);
 

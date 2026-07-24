@@ -16,8 +16,8 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "@context": "https://schema.org",
       "@type": "EducationalOrganization",
       "name": "Safety 4.0 Academy",
-      "url": "https://safetyacademy.tech",
-      "logo": "https://safetyacademy.tech/safety-academy-logo.png",
+      "url": "https://safetytech.academy",
+      "logo": "https://safetytech.academy/safety-academy-logo.png",
       "description": "The world's first IOSH-approved Safety 4.0 certification program for digital safety leadership",
       "foundingDate": "2024",
       "areaServed": "Worldwide",
@@ -51,7 +51,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "provider": {
         "@type": "EducationalOrganization",
         "name": "Safety 4.0 Academy",
-        "sameAs": "https://safetyacademy.tech"
+        "sameAs": "https://safetytech.academy"
       },
       "hasCourseInstance": {
         "@type": "CourseInstance",
@@ -143,7 +143,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "@type": "VideoObject",
       "name": "Safety 4.0 Academy - Course Introduction",
       "description": "Discover how Safety 4.0 transforms workplace safety through AI, IoT, and digital technologies. Learn about the world's first IOSH-approved Safety 4.0 certification program.",
-      "thumbnailUrl": "https://safetyacademy.tech/opengraph-image.png",
+      "thumbnailUrl": "https://safetytech.academy/opengraph-image.png",
       "uploadDate": "2025-11-27T00:00:00Z",
       "duration": "PT3M",
       "contentUrl": "https://www.youtube.com/watch?v=OsKsyXCx8pc",
@@ -153,7 +153,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
         "name": "Safety 4.0 Academy",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://safetyacademy.tech/safety-academy-logo.png"
+          "url": "https://safetytech.academy/safety-academy-logo.png"
         }
       }
     };
@@ -167,13 +167,13 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://safetyacademy.tech/"
+          "item": "https://safetytech.academy/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Safety 4.0 Course",
-          "item": "https://safetyacademy.tech/#pricing"
+          "item": "https://safetytech.academy/#pricing"
         }
       ]
     };
@@ -231,10 +231,10 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Safety 4.0 Academy",
-      "url": "https://safetyacademy.tech",
+      "url": "https://safetytech.academy",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://safetyacademy.tech/?q={search_term_string}",
+        "target": "https://safetytech.academy/?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     };
@@ -248,7 +248,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
         "@type": "SpeakableSpecification",
         "cssSelector": ["h1", ".hero-description", ".course-summary"]
       },
-      "url": "https://safetyacademy.tech"
+      "url": "https://safetytech.academy"
     };
 
     insertSchema(organizationSchema);

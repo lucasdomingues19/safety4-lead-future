@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
     setPageSEO({
       title: "Privacy Policy | Safety 4.0 Academy",
       description: "Safety 4.0 Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
-      canonical: "https://safetyacademy.tech/privacy-policy",
+      canonical: "https://safetytech.academy/privacy-policy",
     });
   }, []);
 

@@ -32,7 +32,7 @@ const Contact = () => {
     setPageSEO({
       title: "Contact Safety 4.0 Academy | Get in Touch for IOSH Training Enquiries",
       description: "Contact the Safety 4.0 Academy team for enrolment enquiries, corporate training, partnerships, or general questions about our IOSH-approved Safety 4.0 certification.",
-      canonical: "https://safetyacademy.tech/contact",
+      canonical: "https://safetytech.academy/contact",
     });
   }, []);
 

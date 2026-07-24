@@ -15,7 +15,7 @@ const Blog = () => {
     setPageSEO({
       title: "Safety 4.0 Blog — AI, EHS & SafetyTech Insights",
       description: "Expert articles on AI in workplace safety, SafetyTech trends and IOSH training. Stay ahead in safety leadership.",
-      canonical: "https://safetyacademy.tech/blog",
+      canonical: "https://safetytech.academy/blog",
     });
   }, []);
 

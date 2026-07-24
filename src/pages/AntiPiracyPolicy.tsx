@@ -10,7 +10,7 @@ export default function AntiPiracyPolicy() {
     setPageSEO({
       title: "Anti-Piracy Policy | Safety 4.0 Academy",
       description: "Safety 4.0 Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
-      canonical: "https://safetyacademy.tech/anti-piracy-policy",
+      canonical: "https://safetytech.academy/anti-piracy-policy",
     });
   }, []);
 

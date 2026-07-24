@@ -54,7 +54,7 @@ const Enroll = () => {
     setPageSEO({
       title: "Enrol – Safety 4.0 Accelerator | Safety 4.0 Academy",
       description: "Apply to join the Safety 4.0 Accelerator programme. IOSH-approved, CPD-certified training for safety professionals.",
-      canonical: "https://safetyacademy.tech/enrol",
+      canonical: "https://safetytech.academy/enrol",
     });
     trackPageView(window.location.pathname);
   }, []);

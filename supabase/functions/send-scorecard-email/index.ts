@@ -248,7 +248,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         <!-- Footer -->
         <tr><td style="padding:16px 32px;text-align:center;border-top:1px solid #f1f5f9;">
-          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · www.safetyacademy.tech</p>
+          <p style="margin:0;color:#94a3b8;font-size:11px;">© Safety 4.0 Academy · www.safetytech.academy</p>
         </td></tr>
 
       </table>

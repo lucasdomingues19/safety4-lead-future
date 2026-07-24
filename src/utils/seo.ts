@@ -6,7 +6,7 @@ export const setPageSEO = ({
   title,
   description,
   canonical,
-  ogImage = "https://safetyacademy.tech/opengraph-image.png",
+  ogImage = "https://safetytech.academy/opengraph-image.png",
   ogType = "website",
 }: {
   title: string;

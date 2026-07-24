@@ -3,7 +3,7 @@
   "@type": "WebPage",
   "name": "Safety 4.0 Academy",
   "description": "World's first IOSH-approved and CPD-accredited Safety 4.0 certification program for digital safety leadership",
-  "url": "https://safetyacademy.tech",
+  "url": "https://safetytech.academy",
   
   "mainEntity": {
     "@type": "Course",
@@ -150,7 +150,7 @@
       "partnerDescription": "Leading SafetyTech solution provider specializing in AI-driven workplace injury prevention using computer vision, wearables, and predictive analytics",
       "partnerWebsite": "https://www.soteranalytics.com",
       "announcementDate": "2026-02-02",
-      "announcementUrl": "https://safetyacademy.tech/blog/safety-4-academy-soter-ai-partnership",
+      "announcementUrl": "https://safetytech.academy/blog/safety-4-academy-soter-ai-partnership",
       "partnershipFocus": "Building AI-ready safety leaders who can effectively leverage SafetyTech solutions",
       "keyBenefits": [
         "Combines world-class AI safety technology with IOSH-approved training",
