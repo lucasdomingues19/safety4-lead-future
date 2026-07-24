@@ -14,7 +14,7 @@ export const Footer = () => {
             <img 
               src={safetyAcademyLogo} 
               alt="SafetyTech Academy Logo" 
-              className="h-16 md:h-20 w-auto mb-4 md:mb-6"
+              className="h-10 md:h-12 w-auto mb-4 md:mb-6"
             />
             <p className="text-gray-300 text-xs md:text-sm leading-relaxed max-w-md">
               Transforming traditional safety professionals into future-ready digital leaders 

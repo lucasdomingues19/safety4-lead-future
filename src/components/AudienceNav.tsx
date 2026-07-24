@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
-import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
 
 const navLinks = [
   {
@@ -90,8 +89,8 @@ const AudienceNav = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-black backdrop-blur-xl border-b border-lime-400">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-3 flex-shrink-0 overflow-visible">
-          <img src={safetyAcademyLogo} alt="SafetyTech Academy" className="h-7 md:h-9 w-auto pr-1" />
+        <a href="/" className="flex items-center flex-shrink-0 overflow-visible">
+          <img src="/favicon.png" alt="SafetyTech Academy" className="h-8 md:h-10 w-auto" />
         </a>
 
         {/* Desktop */}
