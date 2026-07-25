@@ -1,6 +1,8 @@
 import { Shield, Award, ArrowRight } from "lucide-react";
 import AudienceNav from "./AudienceNav";
 import heroWorker from "@/assets/hero-worker.png.asset.json";
+import ioshLogo from "@/assets/iosh-approved-logo.jpg";
+import cpdLogo from "@/assets/cpd-approved-logo.png";
 
 export const HeroSection = () => {
   return (
@@ -51,15 +53,19 @@ export const HeroSection = () => {
 
         <div className="max-w-3xl">
           {/* Accreditation Badges */}
-          <div className="flex items-center gap-2 md:gap-4 mb-6 md:mb-8 flex-wrap">
-            <div className="inline-flex items-center space-x-1 md:space-x-2 text-white font-medium bg-white/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-white/20 text-sm md:text-base">
-              <Award className="w-3 h-3 md:w-4 md:h-4" />
-              <span>IOSH Approved</span>
-            </div>
-            <div className="inline-flex items-center space-x-1 md:space-x-2 text-white font-medium bg-white/10 px-3 md:px-6 py-2 md:py-3 rounded-full border border-white/20 text-sm md:text-base">
-              <Shield className="w-3 h-3 md:w-4 md:h-4" />
-              <span>CPD Accredited</span>
-            </div>
+          <div className="flex items-center gap-3 md:gap-5 mb-6 md:mb-8 flex-wrap">
+            <img
+              src={ioshLogo}
+              alt="IOSH Approved"
+              className="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity"
+              title="IOSH Approved"
+            />
+            <img
+              src={cpdLogo}
+              alt="CPD Accredited"
+              className="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity"
+              title="CPD Accredited"
+            />
           </div>
 
           {/* Headline */}
