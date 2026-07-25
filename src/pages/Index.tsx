@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { SolutionSection } from "@/components/SolutionSection";
-import { CurriculumOverview } from "@/components/CurriculumOverview";
 import MentorSection from "@/components/MentorSection";
 
 import { SocialProofSection } from "@/components/SocialProofSection";
@@ -10,11 +9,9 @@ import { PricingSection } from "@/components/PricingSection";
 import { Footer } from "@/components/Footer";
 
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
-import { CTAButton } from "@/components/CTAButton";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { LiteYouTube } from "@/components/LiteYouTube";
 
-import { StickyCTABar } from "@/components/StickyCTABar";
 import { NewsletterPopup } from "@/components/NewsletterPopup";
 
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
@@ -66,8 +63,8 @@ const Index = () => {
         <HeroSection />
 
         {/* Introduction video — secondary, for individuals exploring */}
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4">
+        <section className="py-16 md:py-24">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-4">
                 <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md">

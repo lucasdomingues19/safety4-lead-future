@@ -9,9 +9,9 @@ const stats = [
 
 export const ProblemStatsSection = () => {
   return (
-    <section className="py-12 md:py-16 relative ">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-5xl mx-auto">
+    <section className="py-16 md:py-24 relative ">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center w-full">
 
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             THE PROBLEM

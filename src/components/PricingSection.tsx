@@ -81,9 +81,9 @@ export const PricingSection = () => {
 
 
   return (
-    <section id="pricing" className="py-12 md:py-16 relative overflow-hidden ">
+    <section id="pricing" className="py-16 md:py-24 relative overflow-hidden ">
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16 px-2">
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
@@ -99,7 +99,7 @@ export const PricingSection = () => {
 
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto items-stretch">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full items-stretch">
           {pricingTiers.map((tier, index) =>
           <div
             key={index}

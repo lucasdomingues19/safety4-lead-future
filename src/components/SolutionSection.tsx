@@ -48,12 +48,12 @@ export const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden">
       {/* Black to dark blue gradient background */}
       <div className="absolute inset-0 bg-white"></div>
 
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-8 tracking-tight leading-[1.05] md:whitespace-nowrap">
             The Solution: <span className="text-primary">You need new skills</span>
@@ -65,7 +65,7 @@ export const SolutionSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (

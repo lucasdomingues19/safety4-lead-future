@@ -38,10 +38,10 @@ const MentorSection = () => {
   // ============================================
 
   return (
-    <section id="instructor" className="py-12 md:py-16 relative overflow-hidden">
-      
+    <section id="instructor" className="py-16 md:py-24 relative overflow-hidden">
 
-      <div className="container mx-auto px-4 relative z-10">
+
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             YOUR COACH
