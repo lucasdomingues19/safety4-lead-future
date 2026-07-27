@@ -25,17 +25,17 @@ export const WhatsAppButton = () => {
   const handleWhatsAppClick = async () => {
     const encodedMessage = encodeURIComponent(BUSINESS_MESSAGE);
     const webUrl = `https://web.whatsapp.com/send?phone=${BUSINESS_PHONE}&text=${encodedMessage}`;
-    const appUrl = `whatsapp-business://send?phone=${BUSINESS_PHONE}&text=${encodedMessage}`;
+    const universalUrl = `https://wa.me/${BUSINESS_PHONE}?text=${encodedMessage}`;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     try {
-      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${webUrl}`);
+      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${universalUrl}`);
     } catch {
       /* clipboard unavailable */
     }
 
     if (isMobile) {
-      window.location.href = appUrl;
+      window.location.href = universalUrl;
       return;
     }
 

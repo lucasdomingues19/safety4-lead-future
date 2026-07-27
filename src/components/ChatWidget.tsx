@@ -12,8 +12,8 @@ const BUSINESS_PHONE = "447979116555";
 const BUSINESS_MESSAGE = "Hi Lucas, I was chatting with the site assistant and would like to speak with your team.";
 const WHATSAPP_WEB_URL =
   `https://web.whatsapp.com/send?phone=${BUSINESS_PHONE}&text=` + encodeURIComponent(BUSINESS_MESSAGE);
-const WHATSAPP_APP_URL =
-  `whatsapp-business://send?phone=${BUSINESS_PHONE}&text=` + encodeURIComponent(BUSINESS_MESSAGE);
+const WHATSAPP_UNIVERSAL_URL =
+  `https://wa.me/${BUSINESS_PHONE}?text=` + encodeURIComponent(BUSINESS_MESSAGE);
 
 const isEmbeddedPreview = () => {
   try {
@@ -129,13 +129,13 @@ export const ChatWidget = () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     try {
-      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${WHATSAPP_WEB_URL}`);
+      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${WHATSAPP_UNIVERSAL_URL}`);
     } catch {
       /* clipboard unavailable */
     }
 
     if (isMobile) {
-      window.location.href = WHATSAPP_APP_URL;
+      window.location.href = WHATSAPP_UNIVERSAL_URL;
       return;
     }
 
