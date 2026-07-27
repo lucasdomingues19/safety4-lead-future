@@ -2,14 +2,26 @@ import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
 const SESSION_KEY = "s4a_chat_session_id";
 const HISTORY_KEY = "s4a_chat_history";
-const WHATSAPP_URL =
-  "https://wa.me/447979116555?text=" +
-  encodeURIComponent("Hi Lucas, I was chatting with the site assistant and would like to speak with your team.");
+const BUSINESS_PHONE = "447979116555";
+const BUSINESS_MESSAGE = "Hi Lucas, I was chatting with the site assistant and would like to speak with your team.";
+const WHATSAPP_WEB_URL =
+  `https://web.whatsapp.com/send?phone=${BUSINESS_PHONE}&text=` + encodeURIComponent(BUSINESS_MESSAGE);
+const WHATSAPP_APP_URL =
+  `whatsapp-business://send?phone=${BUSINESS_PHONE}&text=` + encodeURIComponent(BUSINESS_MESSAGE);
+
+const isEmbeddedPreview = () => {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+};
 
 function getOrCreateSessionId(): string {
   try {
@@ -113,6 +125,31 @@ export const ChatWidget = () => {
     }
   };
 
+  const openWhatsApp = async () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    try {
+      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${WHATSAPP_WEB_URL}`);
+    } catch {
+      /* clipboard unavailable */
+    }
+
+    if (isMobile) {
+      window.location.href = WHATSAPP_APP_URL;
+      return;
+    }
+
+    if (isEmbeddedPreview()) {
+      toast.success("WhatsApp link copied. Paste it into a normal browser tab to avoid the preview block.");
+      return;
+    }
+
+    const win = window.open(WHATSAPP_WEB_URL, "_blank", "noopener,noreferrer");
+    if (!win) {
+      toast.error("Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.");
+    }
+  };
+
   if (!mounted) return null;
 
   return (
@@ -170,14 +207,13 @@ export const ChatWidget = () => {
             )}
             {escalated && (
               <div className="pt-2">
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={openWhatsApp}
                   className="block w-full text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-2.5 rounded-lg text-sm transition-colors"
                 >
                   Continue on WhatsApp
-                </a>
+                </button>
               </div>
             )}
           </div>
