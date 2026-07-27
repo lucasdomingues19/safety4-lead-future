@@ -242,12 +242,19 @@ const Admin = () => {
 
     try {
       await navigator.clipboard.writeText(`+${phone}\n${message}`);
-      toast.success('Phone number and message copied. Opening WhatsApp app…');
+      toast.success('Phone number and message copied. Opening WhatsApp Business…');
     } catch {
-      toast.message('Opening WhatsApp app…');
+      toast.message('Opening WhatsApp Business…');
     }
 
-    window.location.href = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
+    // Open WhatsApp Business (mobile) so messages are sent from the business account.
+    // Falls back to the universal wa.me link on desktop/non-mobile devices.
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+    } else {
+      window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+    }
   };
 
   const fetchAnalytics = async (range: DateRange) => {
