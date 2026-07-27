@@ -8,7 +8,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 const SESSION_KEY = "s4a_chat_session_id";
 const HISTORY_KEY = "s4a_chat_history";
 const WHATSAPP_URL =
-  "https://wa.me/4407983819437?text=" +
+  "https://wa.me/447979116555?text=" +
   encodeURIComponent("Hi Lucas, I was chatting with the site assistant and would like to speak with your team.");
 
 function getOrCreateSessionId(): string {

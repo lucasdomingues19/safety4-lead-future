@@ -242,12 +242,19 @@ const Admin = () => {
 
     try {
       await navigator.clipboard.writeText(`+${phone}\n${message}`);
-      toast.success('Phone number and message copied. Opening WhatsApp app…');
+      toast.success('Phone number and message copied. Opening WhatsApp Business…');
     } catch {
-      toast.message('Opening WhatsApp app…');
+      toast.message('Opening WhatsApp Business…');
     }
 
-    window.location.href = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
+    // Open WhatsApp Business (mobile) so messages are sent from the business account.
+    // Falls back to the universal wa.me link on desktop/non-mobile devices.
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+    } else {
+      window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+    }
   };
 
   const fetchAnalytics = async (range: DateRange) => {
@@ -937,7 +944,7 @@ const Admin = () => {
                                   <button
                                     type="button"
                                      onClick={() => openWhatsAppForLead(lead)}
-                                     title="Open WhatsApp app"
+                                     title="Open in WhatsApp Business"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
                                   >
                                     <MessageCircle className="h-4 w-4 text-white" />
@@ -1041,7 +1048,7 @@ const Admin = () => {
                               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-medium transition-colors"
                             >
                               <MessageCircle className="h-3.5 w-3.5" />
-                              WhatsApp
+                              WhatsApp Business
                             </button>
                           )}
                         </div>
