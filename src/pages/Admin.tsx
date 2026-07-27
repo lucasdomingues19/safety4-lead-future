@@ -240,7 +240,9 @@ const Admin = () => {
     const message = getWhatsAppLeadMessage(lead);
     const encodedMessage = encodeURIComponent(message);
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = isAndroid || isIOS;
     const isEmbedded = (() => {
       try {
         return window.self !== window.top;
@@ -249,31 +251,48 @@ const Admin = () => {
       }
     })();
 
-    const appUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+    const businessAppUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(businessAppUrl)};end`;
     const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
     const copiedText = `+${phone}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
 
-    try {
-      await navigator.clipboard.writeText(copiedText);
-    } catch {
-      /* clipboard unavailable */
+    const copyLeadDetails = async () => {
+      try {
+        await navigator.clipboard.writeText(copiedText);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    if (isEmbedded) {
+      const copied = await copyLeadDetails();
+      if (copied) {
+        toast.success('Lead details copied. Open the published admin page in your phone browser to launch WhatsApp Business.');
+      } else {
+        toast.error('Preview blocks WhatsApp. Open the published admin page in your phone browser.');
+      }
+      return;
     }
 
     if (isMobile) {
-      window.location.href = appUrl;
+      void copyLeadDetails();
+      window.location.href = isAndroid ? androidBusinessIntentUrl : businessAppUrl;
+
+      window.setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+          toast.error('Could not open WhatsApp Business. The lead details were copied so you can paste them into WhatsApp Business.');
+        }
+      }, 1500);
       return;
     }
 
-    if (isEmbedded) {
-      toast.success('WhatsApp link copied. Open a normal browser tab, paste it, and use WhatsApp Business Web.');
-      return;
-    }
-
+    const copied = await copyLeadDetails();
     const win = window.open(webUrl, '_blank', 'noopener,noreferrer');
     if (!win) {
-      toast.error('Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.');
+      toast.error(copied ? 'Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.' : 'Pop-up blocked — please allow pop-ups to open WhatsApp Business Web.');
     } else {
-      toast.success('WhatsApp link copied. Opening WhatsApp Business Web…');
+      toast.success(copied ? 'WhatsApp link copied. Opening WhatsApp Business Web…' : 'Opening WhatsApp Business Web…');
     }
   };
 
