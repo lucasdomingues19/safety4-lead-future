@@ -944,7 +944,7 @@ const Admin = () => {
                                   <button
                                     type="button"
                                      onClick={() => openWhatsAppForLead(lead)}
-                                     title="Open WhatsApp app"
+                                     title="Open in WhatsApp Business"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
                                   >
                                     <MessageCircle className="h-4 w-4 text-white" />
