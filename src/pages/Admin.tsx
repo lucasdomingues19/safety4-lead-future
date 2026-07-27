@@ -251,8 +251,8 @@ const Admin = () => {
       }
     })();
 
-    const businessAppUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
-    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(businessAppUrl)};end`;
+    const appUrl = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
+    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(appUrl)};end`;
     const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
     const copiedText = `+${phone}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
 
@@ -277,7 +277,7 @@ const Admin = () => {
 
     if (isMobile) {
       void copyLeadDetails();
-      window.location.href = isAndroid ? androidBusinessIntentUrl : businessAppUrl;
+      window.location.href = isAndroid ? androidBusinessIntentUrl : appUrl;
 
       window.setTimeout(() => {
         if (document.visibilityState === 'visible') {
