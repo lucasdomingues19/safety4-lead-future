@@ -241,26 +241,39 @@ const Admin = () => {
     const encodedMessage = encodeURIComponent(message);
 
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    // web.whatsapp.com avoids the api.whatsapp.com interstitial, which refuses
-    // to load inside embedded/preview frames (ERR_BLOCKED_BY_RESPONSE).
+    const isEmbedded = (() => {
+      try {
+        return window.self !== window.top;
+      } catch {
+        return true;
+      }
+    })();
+
+    const appUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
     const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
+    const copiedText = `+${phone}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
 
     try {
-      await navigator.clipboard.writeText(`+${phone}\n${message}`);
+      await navigator.clipboard.writeText(copiedText);
     } catch {
       /* clipboard unavailable */
     }
 
     if (isMobile) {
-      window.location.href = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+      window.location.href = appUrl;
+      return;
+    }
+
+    if (isEmbedded) {
+      toast.success('WhatsApp link copied. Open a normal browser tab, paste it, and use WhatsApp Business Web.');
       return;
     }
 
     const win = window.open(webUrl, '_blank', 'noopener,noreferrer');
     if (!win) {
-      toast.error('Pop-up blocked — number and message copied. Open WhatsApp Business manually.');
+      toast.error('Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.');
     } else {
-      toast.success('Number and message copied. Opening WhatsApp Business Web…');
+      toast.success('WhatsApp link copied. Opening WhatsApp Business Web…');
     }
   };
 
