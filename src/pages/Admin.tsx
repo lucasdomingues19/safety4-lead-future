@@ -240,22 +240,30 @@ const Admin = () => {
     const message = getWhatsAppLeadMessage(lead);
     const encodedMessage = encodeURIComponent(message);
 
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    // web.whatsapp.com avoids the api.whatsapp.com interstitial, which refuses
+    // to load inside embedded/preview frames (ERR_BLOCKED_BY_RESPONSE).
+    const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
+
     try {
       await navigator.clipboard.writeText(`+${phone}\n${message}`);
-      toast.success('Phone number and message copied. Opening WhatsApp Business…');
     } catch {
-      toast.message('Opening WhatsApp Business…');
+      /* clipboard unavailable */
     }
 
-    // Open WhatsApp Business (mobile) so messages are sent from the business account.
-    // Falls back to the universal wa.me link on desktop/non-mobile devices.
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
       window.location.href = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+      return;
+    }
+
+    const win = window.open(webUrl, '_blank', 'noopener,noreferrer');
+    if (!win) {
+      toast.error('Pop-up blocked — number and message copied. Open WhatsApp Business manually.');
     } else {
-      window.open(`https://wa.me/${phone}?text=${encodedMessage}`, '_blank');
+      toast.success('Number and message copied. Opening WhatsApp Business Web…');
     }
   };
+
 
   const fetchAnalytics = async (range: DateRange) => {
     const requestId = ++analyticsRequestIdRef.current;
