@@ -251,8 +251,9 @@ const Admin = () => {
       }
     })();
 
-    const appUrl = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
-    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(appUrl)};end`;
+    const businessAppUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+    const universalWhatsAppUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(universalWhatsAppUrl)};end`;
     const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
     const copiedText = `+${phone}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
 
@@ -277,11 +278,11 @@ const Admin = () => {
 
     if (isMobile) {
       void copyLeadDetails();
-      window.location.href = isAndroid ? androidBusinessIntentUrl : appUrl;
+      window.location.href = isAndroid ? androidBusinessIntentUrl : businessAppUrl;
 
       window.setTimeout(() => {
         if (document.visibilityState === 'visible') {
-          toast.error('Could not open WhatsApp Business. The lead details were copied so you can paste them into WhatsApp Business.');
+          toast.error('Could not open WhatsApp Business. Make sure WhatsApp Business is installed; the lead details were copied so you can paste them manually.');
         }
       }, 1500);
       return;
