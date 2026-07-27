@@ -1048,7 +1048,7 @@ const Admin = () => {
                               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-medium transition-colors"
                             >
                               <MessageCircle className="h-3.5 w-3.5" />
-                              WhatsApp
+                              WhatsApp Business
                             </button>
                           )}
                         </div>
