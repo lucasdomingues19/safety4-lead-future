@@ -153,7 +153,7 @@ export const PricingSection = () => {
 
               {/* CTA Button */}
               {tier.name === "AI Fundamentals in EHS" ?
-            <a href="https://learning.safetytech.academy/offers/osRfeBFj/checkout" target="_blank" rel="noopener noreferrer">
+            <a href="https://learning.safetyacademy.tech/offers/osRfeBFj/checkout" target="_blank" rel="noopener noreferrer">
                   <Button
                 className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
