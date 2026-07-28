@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 223 66% 11%; /* Hero Petrol Navy #0a1530 */
+    --background: 223 66% 11%; /* Navy #0a1530 */
     --foreground: 0 0% 100%; /* White */
 
     --card: 222 47% 16%; /* Lighter navy surface */
@@ -17,18 +17,18 @@ All colors MUST be HSL.
     --popover: 222 47% 16%;
     --popover-foreground: 0 0% 100%;
 
-    /* StartAce-inspired Brand Colors — bold cobalt blue */
-    --primary: 230 80% 56%; /* Cobalt #3858E9 */
+    /* SafetyTech Academy Brand Colors — locked */
+    --primary: 220 90% 50%; /* Brand Blue #1d5fd6 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 230 84% 67%; /* Lighter cobalt #5B75EF */
+    --secondary: 220 88% 58%; /* Lighter blue */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 222 35% 20%;
-    --muted-foreground: 215 25% 70%;
+    --muted: 222 35% 40%;
+    --muted-foreground: 215 20% 75%;
 
-    --accent: 230 80% 56%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 85 95% 53%; /* Brand Lime #a6e21a */
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 0%;
@@ -42,17 +42,20 @@ All colors MUST be HSL.
 
 
     /* Custom Design Tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(230 80% 56%), hsl(230 84% 67%));
-    --gradient-secondary: linear-gradient(180deg, hsl(230 84% 67%), hsl(230 80% 56%));
+    --gradient-primary: linear-gradient(135deg, hsl(220 90% 50%), hsl(220 88% 58%));
+    --gradient-secondary: linear-gradient(180deg, hsl(220 88% 58%), hsl(220 90% 50%));
     --gradient-hero: linear-gradient(135deg, hsl(223 66% 11%) 0%, hsl(222 47% 16%) 100%);
-    
-    --shadow-glow: 0 0 40px hsl(230 80% 56% / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(223 66% 11% / 0.5);
-    
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
+    --shadow-glow: 0 0 40px hsl(220 90% 50% / 0.25);
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
+    --shadow-sm: 0 2px 8px hsl(0 0% 0% / 0.12);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius-sm: 0.375rem;
     --radius: 0.5rem;
+    --radius-lg: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -72,26 +75,26 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 223 66% 8%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 222 47% 12%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 220 88% 58%;
+    --primary-foreground: 223 66% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 220 90% 50%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 222 35% 30%;
+    --muted-foreground: 215 20% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 85 95% 53%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -126,40 +129,81 @@ All colors MUST be HSL.
   }
 
   /* Typography Scale — Inter only */
+  /* Typography Scale with Improved Spacing */
   h1 {
     font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    @apply text-3xl md:text-5xl lg:text-7xl leading-tight tracking-tight;
+    font-weight: 800;
+    @apply text-3xl md:text-5xl lg:text-7xl leading-[1.05] tracking-tight;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
   }
 
   h2 {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
-    @apply text-2xl md:text-4xl lg:text-5xl leading-tight;
+    @apply text-2xl md:text-4xl lg:text-5xl leading-[1.1];
+    text-wrap: balance;
   }
 
   h3 {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
-    @apply text-xl md:text-2xl lg:text-3xl leading-snug;
+    @apply text-xl md:text-2xl lg:text-3xl leading-[1.2];
   }
 
   h4 {
     font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    @apply text-lg md:text-xl lg:text-2xl leading-snug;
+    font-weight: 600;
+    @apply text-lg md:text-xl leading-[1.3];
   }
 
   h5, h6 {
     font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    @apply text-base md:text-lg leading-snug;
+    font-weight: 600;
+    @apply text-base md:text-lg leading-[1.3];
   }
 
   p {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 400;
-    @apply text-base leading-relaxed;
+    @apply text-base leading-relaxed max-w-[65ch];
+  }
+
+  /* Component Polish */
+  button, [role="button"] {
+    transition: var(--transition-fast);
+  }
+
+  button:hover {
+    transform: translateY(-1px);
+  }
+
+  button:active {
+    transform: translateY(0);
+  }
+
+  button:focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+  }
+
+  /* Card Enhancement */
+  [class*="card"], [class*="Card"] {
+    transition: box-shadow var(--transition-smooth), transform var(--transition-smooth), border-color var(--transition-smooth);
+  }
+
+  [class*="card"]:hover, [class*="Card"]:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Input & Form Enhancement */
+  input, textarea, select {
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 3px hsl(var(--accent) / 0.1);
+    border-color: hsl(var(--accent));
   }
 }
 

@@ -27,18 +27,18 @@ export default {
 				black: 'hsl(var(--background))',
 				'surface-alt': 'hsl(var(--surface-alt))',
 
-				/* Legacy palette remapped to brand: lime & pink -> cobalt blue (StartAce-inspired) */
+				/* SafetyTech Academy Brand Palette */
 				lime: {
-					300: '#7c93f2',
-					400: '#3858e9',
-					500: '#3858e9',
-					600: '#2c46c4',
+					300: '#d4f51f',
+					400: '#a6e21a',
+					500: '#a6e21a',
+					600: '#8ab815',
 				},
-				pink: {
-					300: '#7c93f2',
-					400: '#5b75ef',
-					500: '#3858e9',
-					600: '#2c46c4',
+				blue: {
+					300: '#5b93f6',
+					400: '#1d5fd6',
+					500: '#1d5fd6',
+					600: '#1a4ba3',
 				},
 
 				primary: {
