@@ -53,24 +53,24 @@ export const HeroSection = () => {
 
         <div className="max-w-3xl">
           {/* Accreditation Badges */}
-          <div className="flex items-center gap-3 md:gap-5 mb-6 md:mb-8 flex-wrap">
+          <div className="flex items-center gap-4 md:gap-6 mb-8 md:mb-10 flex-wrap">
             <img
               src={ioshLogo}
               alt="IOSH Approved"
-              className="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity"
+              className="h-10 md:h-12 w-auto filter drop-shadow-lg hover:drop-shadow-xl transition-all duration-200"
               title="IOSH Approved"
             />
             <img
               src={cpdLogo}
               alt="CPD Accredited"
-              className="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity"
+              className="h-10 md:h-12 w-auto filter drop-shadow-lg hover:drop-shadow-xl transition-all duration-200"
               title="CPD Accredited"
             />
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-white mb-4 md:mb-8">
-            Build a Safety Function Ready for the <span style={{ color: "#c4ff00" }}>Digital Age</span>
+            Build a Safety Function Ready for the <span style={{ color: "#a6e21a" }}>Digital Age</span>
           </h1>
           <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
             Upskill your EHS team with the world's first IOSH-approved and CPD-accredited Safety 4.0 programme.
