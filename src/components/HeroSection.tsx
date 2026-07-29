@@ -4,11 +4,13 @@ import heroWorker from "@/assets/hero-worker.png.asset.json";
 
 export const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
+    <section
+      className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center bg-background"
+    >
       <AudienceNav />
 
       {/* Grid lines background */}
-      <div className="absolute inset-0" style={{ backgroundColor: "#0a1530" }} />
+
       <div
         className="absolute inset-0 animate-grid-pan"
         style={{
