@@ -1,7 +1,12 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /learn/auth
+Disallow: /linkedin-callback
 
 Sitemap: https://safetytech.academy/sitemap.xml
+
 
 # ============================================
 # AI & LLM Crawlers (AEO/GEO Optimization)

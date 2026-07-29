@@ -4,11 +4,13 @@ import heroWorker from "@/assets/hero-worker.png.asset.json";
 
 export const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center">
+    <section
+      className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center bg-background"
+    >
       <AudienceNav />
 
       {/* Grid lines background */}
-      <div className="absolute inset-0" style={{ backgroundColor: "#0a1530" }} />
+
       <div
         className="absolute inset-0 animate-grid-pan"
         style={{
@@ -39,7 +41,12 @@ export const HeroSection = () => {
       <img
         src={heroWorker.url}
         alt=""
+        width={1200}
+        height={1200}
+        decoding="async"
+        fetchPriority="high"
         className="hidden lg:block absolute right-0 top-0 h-full w-auto object-cover opacity-80 pointer-events-none"
+
         style={{
           maskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%)",
           WebkitMaskImage: "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 25%)",
@@ -66,7 +73,7 @@ export const HeroSection = () => {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-white mb-4 md:mb-8">
             Build a Safety Function Ready for the <span style={{ color: "#c4ff00" }}>Digital Age</span>
           </h1>
-          <p className="text-base md:text-xl lg:text-2xl text-gray-300 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
+          <p className="text-base md:text-xl lg:text-2xl text-gray-200 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
             Upskill your EHS team with the world's first IOSH-approved and CPD-accredited Safety 4.0 programme.
           </p>
 

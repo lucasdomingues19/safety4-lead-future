@@ -242,7 +242,7 @@ const Cohort = () => {
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
       <div className="min-h-screen relative font-dm bg-white text-slate-900">
-        <div className="fixed inset-0 bg-white -z-10" />
+
 
         {/* Floating background decorations */}
 
