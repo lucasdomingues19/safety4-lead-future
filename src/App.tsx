@@ -30,6 +30,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 const Scorecard = lazy(() => import("./pages/Scorecard"));
 const Syllabus = lazy(() => import("./pages/Syllabus"));
 const Offer = lazy(() => import("./pages/Offer"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 
 const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
