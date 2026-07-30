@@ -1141,7 +1141,19 @@ const Admin = () => {
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Email</label>
-                        <p className="text-white font-medium">{selectedLead.email}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium">{selectedLead.email}</p>
+                          {selectedLead.email && (
+                            <button
+                              type="button"
+                              onClick={() => openComposeForLead(selectedLead)}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-white text-xs font-medium transition-colors"
+                            >
+                              <Mail className="h-3.5 w-3.5" />
+                              Email via Gmail
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Phone</label>
