@@ -56,7 +56,6 @@ interface UserEvent {
 }
 
 interface LeadRecord {
-  session_id: string | null;
   name: string;
   email: string;
   phone: string | null;
