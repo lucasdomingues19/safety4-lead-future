@@ -3,8 +3,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap } from "lucide-react";
+import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap, Mail, Calendar, Copy, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
+import { openWhatsAppBusiness, getWhatsAppLeadMessage, ZOOM_SCHEDULER_URL } from "@/lib/outreach";
+
+interface LeadContact {
+  name: string;
+  email: string;
+  phone: string | null;
+  source: string;
+  created_at: string;
+}
 
 interface HotLead {
   session_id: string;
@@ -24,6 +33,7 @@ interface HotLead {
   device: string | null;
   pages_visited: string[];
   is_converted: boolean;
+  contact: LeadContact | null;
 }
 
 interface PageView {
@@ -42,6 +52,14 @@ interface UserEvent {
   event_type: string;
   event_data: any;
   page_path: string;
+  created_at: string;
+}
+
+interface LeadRecord {
+  name: string;
+  email: string;
+  phone: string | null;
+  source: string;
   created_at: string;
 }
 
@@ -73,7 +91,7 @@ export const HotLeadsTab = () => {
           .gte('created_at', thirtyDaysAgo.toISOString()),
         supabase
           .from('leads')
-          .select('email, created_at'),
+          .select('name, email, phone, source, created_at'),
         supabase
           .from('scorecard_results')
           .select('email, overall_score, rank_label, created_at')
@@ -81,11 +99,22 @@ export const HotLeadsTab = () => {
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
-      
+
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
-      const leadsData = (leadsResult.data || []) as { email: string; created_at: string }[];
+      const rawLeadsData = (leadsResult.data || []) as LeadRecord[];
       const scorecardCompletions = scorecardResult.data || [];
+
+      // Match leads to sessions by time proximity (lead created during or shortly after a session)
+      const findLeadForSession = (sessionStart: Date, sessionEnd: Date): LeadRecord | null => {
+        const bufferEnd = new Date(sessionEnd.getTime() + 2 * 60 * 60 * 1000); // +2h buffer
+        return (
+          rawLeadsData.find((lead) => {
+            const leadDate = new Date(lead.created_at);
+            return leadDate >= sessionStart && leadDate <= bufferEnd;
+          }) || null
+        );
+      };
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
         pageViews
@@ -268,15 +297,13 @@ export const HotLeadsTab = () => {
         }
 
         // Converted if a lead was submitted within this session's window
-        const isConverted = leadsData.some(l => {
-          const d = new Date(l.created_at);
-          return d >= sessionStart && d <= sessionEnd;
-        });
+        const matchedLead = findLeadForSession(sessionStart, sessionEnd);
+        const isConverted = !!matchedLead;
 
         // Only include sessions with meaningful engagement
         if (score >= 20) {
           const firstView = data.views[data.views.length - 1];
-          
+
           scoredLeads.push({
             session_id,
             score,
@@ -294,7 +321,16 @@ export const HotLeadsTab = () => {
             company: data.views.map(v => v.company).find(c => c && c.length > 0) ?? null,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
-            is_converted: isConverted
+            is_converted: isConverted,
+            contact: matchedLead
+              ? {
+                  name: matchedLead.name,
+                  email: matchedLead.email,
+                  phone: matchedLead.phone,
+                  source: matchedLead.source,
+                  created_at: matchedLead.created_at,
+                }
+              : null,
           });
         }
       });
@@ -330,6 +366,63 @@ export const HotLeadsTab = () => {
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     return `${diffDays}d ago`;
+  };
+
+  const getOutreachContext = (lead: HotLead): string => {
+    if (lead.assessment_completed && lead.scorecard_rank) {
+      return `I saw you completed the Safety 4.0 Readiness Scorecard and ranked as "${lead.scorecard_rank}" (${lead.scorecard_score}%).`;
+    }
+    if (lead.pricing_views > 0) {
+      return 'I noticed you were looking at our programmes and pricing.';
+    }
+    if (lead.pages_visited.some(p => p.includes('syllabus'))) {
+      return 'I saw you checking out the syllabus and curriculum details.';
+    }
+    if (lead.pages_visited.some(p => p.includes('instructor'))) {
+      return 'I noticed you were reading about the instructor and our approach.';
+    }
+    return 'I noticed you spent some time on the SafetyTech Academy site.';
+  };
+
+  const handleWhatsApp = async (lead: HotLead) => {
+    if (!lead.contact?.phone) {
+      toast.error('No phone number captured for this lead.');
+      return;
+    }
+    const context = getOutreachContext(lead);
+    const message = getWhatsAppLeadMessage(lead.contact.name, context);
+    const result = await openWhatsAppBusiness(lead.contact.phone, message);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  const handleEmail = (lead: HotLead) => {
+    if (!lead.contact?.email) {
+      toast.error('No email captured for this lead.');
+      return;
+    }
+    const context = getOutreachContext(lead);
+    const subject = encodeURIComponent('SafetyTech Academy — following up on your visit');
+    const body = encodeURIComponent(getWhatsAppLeadMessage(lead.contact.name, context));
+    window.open(`mailto:${lead.contact.email}?subject=${subject}&body=${body}`, '_blank');
+  };
+
+  const handleCopyMessage = async (lead: HotLead) => {
+    if (!lead.contact) {
+      toast.error('No contact details to copy.');
+      return;
+    }
+    const context = getOutreachContext(lead);
+    const text = getWhatsAppLeadMessage(lead.contact.name, context);
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success('Outreach message copied to clipboard.');
+    } catch {
+      toast.error('Could not copy message.');
+    }
   };
 
   if (loading) {
@@ -497,6 +590,98 @@ export const HotLeadsTab = () => {
                               </span>
                             )}
                           </div>
+
+                          {/* Contact & Actions */}
+                          {lead.contact ? (
+                            <div className="pt-3 border-t border-white/10 space-y-3">
+                              <div className="flex flex-wrap items-center gap-3 text-sm">
+                                <span className="font-medium text-white">{lead.contact.name}</span>
+                                <span className="text-white/60">{lead.contact.email}</span>
+                                {lead.contact.phone && (
+                                  <span className="text-lime-400 font-medium">{lead.contact.phone}</span>
+                                )}
+                                <Badge variant="outline" className="text-xs border-white/20 text-white/60">
+                                  {lead.contact.source}
+                                </Badge>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {lead.contact.phone ? (
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleWhatsApp(lead)}
+                                    className="bg-lime-500 hover:bg-lime-400 text-black gap-1"
+                                  >
+                                    <MessageCircle className="h-3.5 w-3.5" />
+                                    WhatsApp
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    size="sm"
+                                    disabled
+                                    variant="outline"
+                                    className="border-white/20 text-white/40 gap-1"
+                                  >
+                                    <MessageCircle className="h-3.5 w-3.5" />
+                                    No WhatsApp
+                                  </Button>
+                                )}
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleEmail(lead)}
+                                  variant="outline"
+                                  className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                >
+                                  <Mail className="h-3.5 w-3.5" />
+                                  Email
+                                </Button>
+                                <a
+                                  href={ZOOM_SCHEDULER_URL}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                  >
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    Book Zoom
+                                  </Button>
+                                </a>
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleCopyMessage(lead)}
+                                  variant="outline"
+                                  className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                >
+                                  <Copy className="h-3.5 w-3.5" />
+                                  Copy message
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="pt-3 border-t border-white/10">
+                              <div className="flex flex-wrap items-center justify-between gap-3">
+                                <span className="text-xs text-white/50">
+                                  No contact captured — visitor is still anonymous.
+                                </span>
+                                <a
+                                  href={ZOOM_SCHEDULER_URL}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                  >
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    Share Zoom link
+                                  </Button>
+                                </a>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
 
