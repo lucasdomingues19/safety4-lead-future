@@ -38,9 +38,10 @@ function getOrCreateSessionId(): string {
 
 const WELCOME: Msg = {
   role: "assistant",
-  content:
-    "Hi 👋 I'm the SafetyTech Academy assistant. Ask me about our courses, pricing, curriculum or how to enrol. If I can't help, I'll hand you off to our team on WhatsApp.",
+  content: "Hello, how can I help you?",
 };
+
+const AUTO_OPEN_KEY = "s4a_chat_auto_opened";
 
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -53,7 +54,17 @@ export const ChatWidget = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 1500);
+    const t = setTimeout(() => {
+      setMounted(true);
+      // Auto-open once per session on desktop only
+      try {
+        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+        if (isDesktop && !sessionStorage.getItem(AUTO_OPEN_KEY)) {
+          sessionStorage.setItem(AUTO_OPEN_KEY, "1");
+          setOpen(true);
+        }
+      } catch {}
+    }, 1500);
     try {
       const saved = localStorage.getItem(HISTORY_KEY);
       if (saved) {
@@ -171,7 +182,7 @@ export const ChatWidget = () => {
           {/* Header */}
           <div className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between">
             <div>
-              <div className="font-semibold text-sm">SafetyTech Academy</div>
+              <div className="font-semibold text-sm">SafetyTech Academy Assistant</div>
               <div className="text-xs opacity-90">We usually reply in seconds</div>
             </div>
             <button
