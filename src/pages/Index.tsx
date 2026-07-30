@@ -55,13 +55,16 @@ const Index = () => {
     };
   }, []);
 
+  const eager = typeof window !== "undefined" && !!window.location.hash;
+
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
       <div className="min-h-screen relative bg-white text-slate-900" role="main">
 
-        
-        <NewsletterPopup />
+        <Suspense fallback={null}>
+          <NewsletterPopup />
+        </Suspense>
 
         <HeroSection />
 
@@ -94,14 +97,20 @@ const Index = () => {
         </section>
 
         {/* The organisational problem */}
-        <ProblemStatsSection />
+        <DeferredSection eager={eager}>
+          <ProblemStatsSection />
+        </DeferredSection>
 
         {/* What a team rollout delivers */}
-        <SolutionSection />
+        <DeferredSection eager={eager}>
+          <SolutionSection />
+        </DeferredSection>
 
         {/* Pricing — teams first, individuals second */}
         <section aria-label="Pricing options">
-          <PricingSection />
+          <DeferredSection eager={eager} minHeight={800}>
+            <PricingSection />
+          </DeferredSection>
           <div className="container mx-auto px-4 pb-12 md:pb-16">
             <p className="text-center text-base text-slate-600">
               Full course details:{" "}
@@ -119,20 +128,25 @@ const Index = () => {
 
         {/* Founder credibility */}
         <section id="mentor" aria-label="Meet the founder">
-          <MentorSection />
+          <DeferredSection eager={eager} minHeight={600}>
+            <MentorSection />
+          </DeferredSection>
         </section>
 
         {/* Proof from safety leaders */}
         <section aria-label="What safety leaders are saying">
-          <SocialProofSection />
+          <DeferredSection eager={eager} minHeight={600}>
+            <SocialProofSection />
+          </DeferredSection>
         </section>
 
-
-
-        <Footer />
+        <DeferredSection eager={eager} minHeight={500}>
+          <Footer />
+        </DeferredSection>
       </div>
     </AnalyticsTracker>
   );
 };
+
 
 export default Index;
