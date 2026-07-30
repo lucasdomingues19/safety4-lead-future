@@ -1253,6 +1253,49 @@ const Admin = () => {
                 )}
               </DialogContent>
             </Dialog>
+
+            {/* Gmail Compose Dialog */}
+            <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
+              <DialogContent className="bg-card border-border text-white sm:max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>Email lead from Gmail</DialogTitle>
+                  <DialogDescription className="text-gray-300">
+                    Sends from your connected Gmail account to{" "}
+                    <span className="font-medium">{composeLead?.email}</span>. Replies come straight back to your inbox.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-gmail-subject">Subject</Label>
+                    <Input
+                      id="lead-gmail-subject"
+                      value={composeSubject}
+                      onChange={(e) => setComposeSubject(e.target.value)}
+                      maxLength={300}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-gmail-body">Message</Label>
+                    <Textarea
+                      id="lead-gmail-body"
+                      value={composeBody}
+                      onChange={(e) => setComposeBody(e.target.value)}
+                      rows={10}
+                      maxLength={10000}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setComposeLead(null)} disabled={sending}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSendGmail} disabled={sending} className="gap-1">
+                    {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                    {sending ? "Sending…" : "Send via Gmail"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </>
         )}
       </div>
