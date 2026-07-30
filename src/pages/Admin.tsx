@@ -1028,7 +1028,21 @@ const Admin = () => {
                             onClick={() => setSelectedLead(lead)}
                           >
                             <TableCell className="text-white">{lead.name}</TableCell>
-                            <TableCell className="text-white">{lead.email}</TableCell>
+                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                              <div className="flex items-center gap-2">
+                                <span>{lead.email}</span>
+                                {lead.email && (
+                                  <button
+                                    type="button"
+                                    onClick={() => openComposeForLead(lead)}
+                                    title="Email via Gmail"
+                                    className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary hover:bg-primary/80 transition-colors"
+                                  >
+                                    <Mail className="h-4 w-4 text-white" />
+                                  </button>
+                                )}
+                              </div>
+                            </TableCell>
                             <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
                               {lead.phone ? (
                                 <div className="flex items-center gap-2">
