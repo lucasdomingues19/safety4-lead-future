@@ -230,19 +230,6 @@ const BlogPost = () => {
               </div>
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-3 mb-12">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-4 py-2 bg-slate-100 rounded-full text-sm text-slate-600 border border-slate-200 flex items-center"
-                >
-                  <Tag className="w-3 h-3 mr-2" />
-                  {tag}
-                </span>
-              ))}
-            </div>
-
             {/* CTA */}
             <div className="bg-slate-50 rounded-3xl p-12 border border-slate-200 text-center mb-12">
               <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to Lead Safety 4.0?</h2>
@@ -259,6 +246,19 @@ const BlogPost = () => {
                 and the{" "}
                 <Link to="/accelerator" className="text-primary underline hover:text-primary/80">Safety 4.0 Accelerator</Link>.
               </p>
+            </div>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-3 mb-12">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-2 bg-slate-100 rounded-full text-sm text-slate-600 border border-slate-200 flex items-center"
+                >
+                  <Tag className="w-3 h-3 mr-2" />
+                  {tag}
+                </span>
+              ))}
             </div>
 
           </article>
