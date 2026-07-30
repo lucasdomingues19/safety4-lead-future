@@ -781,6 +781,49 @@ export const HotLeadsTab = () => {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Email lead from Gmail</DialogTitle>
+            <DialogDescription>
+              Sends from your connected Gmail account to{" "}
+              <span className="font-medium">{composeLead?.contact?.email}</span>. The message appears in your Gmail Sent folder, so replies come straight back to you.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="gmail-subject">Subject</Label>
+              <Input
+                id="gmail-subject"
+                value={composeSubject}
+                onChange={(e) => setComposeSubject(e.target.value)}
+                maxLength={300}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="gmail-body">Message</Label>
+              <Textarea
+                id="gmail-body"
+                value={composeBody}
+                onChange={(e) => setComposeBody(e.target.value)}
+                rows={10}
+                maxLength={10000}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setComposeLead(null)} disabled={sending}>
+              Cancel
+            </Button>
+            <Button onClick={handleSendGmail} disabled={sending} className="gap-1">
+              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {sending ? "Sending…" : "Send via Gmail"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
+
