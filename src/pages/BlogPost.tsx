@@ -250,9 +250,17 @@ const BlogPost = () => {
                 Get IOSH-approved certification in digital safety leadership
               </p>
               <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6">
-                <a href="/#pricing">Explore the Program</a>
+                <Link to="/pricing">Explore the Programme</Link>
               </Button>
+              <p className="text-sm text-slate-600 mt-6">
+                Or explore the{" "}
+                <Link to="/elearning" className="text-primary underline hover:text-primary/80">IOSH-approved Safety 4.0 course</Link>,{" "}
+                <Link to="/ai-fundamentals" className="text-primary underline hover:text-primary/80">AI Fundamentals in EHS</Link>{" "}
+                and the{" "}
+                <Link to="/accelerator" className="text-primary underline hover:text-primary/80">Safety 4.0 Accelerator</Link>.
+              </p>
             </div>
+
           </article>
 
         </div>
