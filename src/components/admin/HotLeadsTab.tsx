@@ -3,9 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap, Mail, Calendar, Copy, MessageCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap, Mail, Calendar, Copy, MessageCircle, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import { openWhatsAppBusiness, getWhatsAppLeadMessage, ZOOM_SCHEDULER_URL } from "@/lib/outreach";
+
 
 interface LeadContact {
   name: string;
@@ -67,6 +73,11 @@ export const HotLeadsTab = () => {
   const [hotLeads, setHotLeads] = useState<HotLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
+  const [composeLead, setComposeLead] = useState<HotLead | null>(null);
+  const [composeSubject, setComposeSubject] = useState("");
+  const [composeBody, setComposeBody] = useState("");
+  const [sending, setSending] = useState(false);
+
 
   useEffect(() => {
     fetchHotLeads();
@@ -405,10 +416,47 @@ export const HotLeadsTab = () => {
       return;
     }
     const context = getOutreachContext(lead);
-    const subject = encodeURIComponent('SafetyTech Academy — following up on your visit');
-    const body = encodeURIComponent(getWhatsAppLeadMessage(lead.contact.name, context));
-    window.open(`mailto:${lead.contact.email}?subject=${subject}&body=${body}`, '_blank');
+    setComposeLead(lead);
+    setComposeSubject('SafetyTech Academy — following up on your visit');
+    setComposeBody(
+      `${getWhatsAppLeadMessage(lead.contact.name, context)}\n\nYou can also grab a slot in my diary here:\n${ZOOM_SCHEDULER_URL}\n\nBest regards,\nLucas Domingues\nSafetyTech Academy`
+    );
   };
+
+  const handleSendGmail = async () => {
+    if (!composeLead?.contact?.email) return;
+    if (!composeSubject.trim() || !composeBody.trim()) {
+      toast.error('Subject and message are required.');
+      return;
+    }
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-lead-gmail', {
+        body: {
+          to: composeLead.contact.email,
+          subject: composeSubject.trim(),
+          body: composeBody,
+        },
+      });
+      if (error) {
+        const details = error instanceof FunctionsHttpError
+          ? await error.context.text()
+          : error.message;
+        console.error('send-lead-gmail failed:', details);
+        toast.error('Could not send via Gmail. Check the function logs for details.');
+        return;
+      }
+      if (data?.error) {
+        toast.error(String(data.error));
+        return;
+      }
+      toast.success(`Email sent from your Gmail to ${composeLead.contact.email}.`);
+      setComposeLead(null);
+    } finally {
+      setSending(false);
+    }
+  };
+
 
   const handleCopyMessage = async (lead: HotLead) => {
     if (!lead.contact) {
@@ -632,7 +680,8 @@ export const HotLeadsTab = () => {
                                   className="border-white/20 text-white hover:bg-white/10 gap-1"
                                 >
                                   <Mail className="h-3.5 w-3.5" />
-                                  Email
+                                  Email via Gmail
+
                                 </Button>
                                 <a
                                   href={ZOOM_SCHEDULER_URL}
@@ -733,6 +782,49 @@ export const HotLeadsTab = () => {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Email lead from Gmail</DialogTitle>
+            <DialogDescription>
+              Sends from your connected Gmail account to{" "}
+              <span className="font-medium">{composeLead?.contact?.email}</span>. The message appears in your Gmail Sent folder, so replies come straight back to you.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="gmail-subject">Subject</Label>
+              <Input
+                id="gmail-subject"
+                value={composeSubject}
+                onChange={(e) => setComposeSubject(e.target.value)}
+                maxLength={300}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="gmail-body">Message</Label>
+              <Textarea
+                id="gmail-body"
+                value={composeBody}
+                onChange={(e) => setComposeBody(e.target.value)}
+                rows={10}
+                maxLength={10000}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setComposeLead(null)} disabled={sending}>
+              Cancel
+            </Button>
+            <Button onClick={handleSendGmail} disabled={sending} className="gap-1">
+              {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {sending ? "Sending…" : "Send via Gmail"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
+
