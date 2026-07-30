@@ -23,7 +23,30 @@ export const LiteYouTube = ({
   className = "",
   autoPlay = false,
 }: LiteYouTubeProps) => {
-  const [activated, setActivated] = useState(autoPlay);
+  const [activated, setActivated] = useState(false);
+  const wrapperRef = useRef<HTMLButtonElement | null>(null);
+
+  // With autoPlay we still avoid loading the ~1MB YouTube player during the
+  // initial page load: the real iframe mounts once the facade is in view.
+  useEffect(() => {
+    if (!autoPlay || activated) return;
+    const el = wrapperRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setActivated(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setActivated(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [autoPlay, activated]);
 
   if (activated) {
     return (
@@ -39,11 +62,13 @@ export const LiteYouTube = ({
 
   return (
     <button
+      ref={wrapperRef}
       type="button"
       onClick={() => setActivated(true)}
       aria-label={`Play video: ${title}`}
       className={`group relative block w-full h-full overflow-hidden ${className}`}
     >
+
       <img
         src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
         srcSet={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg 480w, https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg 1280w`}
