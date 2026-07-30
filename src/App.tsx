@@ -5,8 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
-import { WhatsAppButton } from "./components/WhatsAppButton";
-import { ChatWidget } from "./components/ChatWidget";
+const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
+const ChatWidget = lazy(() => import("./components/ChatWidget").then(m => ({ default: m.ChatWidget })));
 
 // Lazy load pages for better performance
 
@@ -107,8 +107,10 @@ const App = () => (
 
           </Routes>
         </Suspense>
-        <WhatsAppButton />
-        <ChatWidget />
+        <Suspense fallback={null}>
+          <WhatsAppButton />
+          <ChatWidget />
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
