@@ -298,15 +298,13 @@ export const HotLeadsTab = () => {
         }
 
         // Converted if a lead was submitted within this session's window
-        const isConverted = leadsData.some(l => {
-          const d = new Date(l.created_at);
-          return d >= sessionStart && d <= sessionEnd;
-        });
+        const matchedLead = findLeadForSession(sessionStart, sessionEnd);
+        const isConverted = !!matchedLead;
 
         // Only include sessions with meaningful engagement
         if (score >= 20) {
           const firstView = data.views[data.views.length - 1];
-          
+
           scoredLeads.push({
             session_id,
             score,
@@ -324,7 +322,16 @@ export const HotLeadsTab = () => {
             company: data.views.map(v => v.company).find(c => c && c.length > 0) ?? null,
             device: firstView?.device_type,
             pages_visited: pagesVisited,
-            is_converted: isConverted
+            is_converted: isConverted,
+            contact: matchedLead
+              ? {
+                  name: matchedLead.name,
+                  email: matchedLead.email,
+                  phone: matchedLead.phone,
+                  source: matchedLead.source,
+                  created_at: matchedLead.created_at,
+                }
+              : null,
           });
         }
       });
