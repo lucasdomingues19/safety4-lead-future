@@ -680,7 +680,8 @@ export const HotLeadsTab = () => {
                                   className="border-white/20 text-white hover:bg-white/10 gap-1"
                                 >
                                   <Mail className="h-3.5 w-3.5" />
-                                  Email
+                                  Email via Gmail
+
                                 </Button>
                                 <a
                                   href={ZOOM_SCHEDULER_URL}
