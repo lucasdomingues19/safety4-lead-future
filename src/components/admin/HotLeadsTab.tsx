@@ -591,6 +591,98 @@ export const HotLeadsTab = () => {
                               </span>
                             )}
                           </div>
+
+                          {/* Contact & Actions */}
+                          {lead.contact ? (
+                            <div className="pt-3 border-t border-white/10 space-y-3">
+                              <div className="flex flex-wrap items-center gap-3 text-sm">
+                                <span className="font-medium text-white">{lead.contact.name}</span>
+                                <span className="text-white/60">{lead.contact.email}</span>
+                                {lead.contact.phone && (
+                                  <span className="text-lime-400 font-medium">{lead.contact.phone}</span>
+                                )}
+                                <Badge variant="outline" className="text-xs border-white/20 text-white/60">
+                                  {lead.contact.source}
+                                </Badge>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {lead.contact.phone ? (
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleWhatsApp(lead)}
+                                    className="bg-lime-500 hover:bg-lime-400 text-black gap-1"
+                                  >
+                                    <MessageCircle className="h-3.5 w-3.5" />
+                                    WhatsApp
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    size="sm"
+                                    disabled
+                                    variant="outline"
+                                    className="border-white/20 text-white/40 gap-1"
+                                  >
+                                    <MessageCircle className="h-3.5 w-3.5" />
+                                    No WhatsApp
+                                  </Button>
+                                )}
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleEmail(lead)}
+                                  variant="outline"
+                                  className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                >
+                                  <Mail className="h-3.5 w-3.5" />
+                                  Email
+                                </Button>
+                                <a
+                                  href={ZOOM_SCHEDULER_URL}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                  >
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    Book Zoom
+                                  </Button>
+                                </a>
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleCopyMessage(lead)}
+                                  variant="outline"
+                                  className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                >
+                                  <Copy className="h-3.5 w-3.5" />
+                                  Copy message
+                                </Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="pt-3 border-t border-white/10">
+                              <div className="flex flex-wrap items-center justify-between gap-3">
+                                <span className="text-xs text-white/50">
+                                  No contact captured — visitor is still anonymous.
+                                </span>
+                                <a
+                                  href={ZOOM_SCHEDULER_URL}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                  >
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    Share Zoom link
+                                  </Button>
+                                </a>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
 
