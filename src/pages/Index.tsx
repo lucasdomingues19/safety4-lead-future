@@ -1,4 +1,4 @@
-import { lazy, useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { DeferredSection } from "@/components/DeferredSection";
 
