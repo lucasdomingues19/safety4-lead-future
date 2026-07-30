@@ -3,9 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap, Mail, Calendar, Copy, MessageCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap, Mail, Calendar, Copy, MessageCircle, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { FunctionsHttpError } from "@supabase/supabase-js";
 import { openWhatsAppBusiness, getWhatsAppLeadMessage, ZOOM_SCHEDULER_URL } from "@/lib/outreach";
+
 
 interface LeadContact {
   name: string;
