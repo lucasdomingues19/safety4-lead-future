@@ -38,9 +38,10 @@ function getOrCreateSessionId(): string {
 
 const WELCOME: Msg = {
   role: "assistant",
-  content:
-    "Hi 👋 I'm the SafetyTech Academy assistant. Ask me about our courses, pricing, curriculum or how to enrol. If I can't help, I'll hand you off to our team on WhatsApp.",
+  content: "Hello, how can I help you?",
 };
+
+const AUTO_OPEN_KEY = "s4a_chat_auto_opened";
 
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
