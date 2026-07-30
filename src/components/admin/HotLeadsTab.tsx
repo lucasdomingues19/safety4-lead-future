@@ -92,7 +92,7 @@ export const HotLeadsTab = () => {
           .gte('created_at', thirtyDaysAgo.toISOString()),
         supabase
           .from('leads')
-          .select('email, created_at'),
+          .select('session_id, name, email, phone, source, created_at'),
         supabase
           .from('scorecard_results')
           .select('email, overall_score, rank_label, created_at')
@@ -100,11 +100,22 @@ export const HotLeadsTab = () => {
       ]);
 
       if (pageViewsResult.error) throw pageViewsResult.error;
-      
+
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
-      const leadsData = (leadsResult.data || []) as { email: string; created_at: string }[];
+      const rawLeadsData = (leadsResult.data || []) as LeadRecord[];
       const scorecardCompletions = scorecardResult.data || [];
+
+      // Index leads by session_id when available, otherwise keep for time-window matching
+      const leadsBySession = new Map<string, LeadRecord>();
+      const unmatchedLeads: LeadRecord[] = [];
+      rawLeadsData.forEach((lead) => {
+        if (lead.session_id) {
+          leadsBySession.set(lead.session_id, lead);
+        } else {
+          unmatchedLeads.push(lead);
+        }
+      });
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
         pageViews
