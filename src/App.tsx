@@ -107,8 +107,10 @@ const App = () => (
 
           </Routes>
         </Suspense>
-        <WhatsAppButton />
-        <ChatWidget />
+        <Suspense fallback={null}>
+          <WhatsAppButton />
+          <ChatWidget />
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
