@@ -230,6 +230,48 @@ const Admin = () => {
     }
   };
 
+  const openComposeForLead = (lead: Lead) => {
+    if (!lead.email) {
+      toast.error('No email captured for this lead.');
+      return;
+    }
+    const firstName = lead.name?.split(' ')[0] || lead.name || 'there';
+    setComposeLead(lead);
+    setComposeSubject('SafetyTech Academy — following up');
+    setComposeBody(
+      `Hi ${firstName},\n\nThis is Lucas from SafetyTech Academy. Thanks for getting in touch — happy to answer any questions about the programme.\n\nYou can also grab a slot in my diary here:\n${ZOOM_SCHEDULER_URL}\n\nBest regards,\nLucas Domingues\nSafetyTech Academy`
+    );
+  };
+
+  const handleSendGmail = async () => {
+    if (!composeLead?.email) return;
+    if (!composeSubject.trim() || !composeBody.trim()) {
+      toast.error('Subject and message are required.');
+      return;
+    }
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-lead-gmail', {
+        body: { to: composeLead.email, subject: composeSubject.trim(), body: composeBody },
+      });
+      if (error) {
+        const details = error instanceof FunctionsHttpError ? await error.context.text() : error.message;
+        console.error('send-lead-gmail failed:', details);
+        toast.error('Could not send via Gmail. Check the function logs for details.');
+        return;
+      }
+      if (data?.error) {
+        toast.error(String(data.error));
+        return;
+      }
+      toast.success(`Email sent from your Gmail to ${composeLead.email}.`);
+      setComposeLead(null);
+    } finally {
+      setSending(false);
+    }
+  };
+
+
   const getWhatsAppLeadMessage = (lead: Lead) => {
     const firstName = lead.name.split(' ')[0] || lead.name;
     return `Hi ${firstName}, this is Lucas from SafetyTech Academy. Thanks for reaching out — happy to help with any questions about the programme.`;
