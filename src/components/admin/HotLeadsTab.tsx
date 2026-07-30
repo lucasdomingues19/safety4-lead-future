@@ -3,8 +3,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap } from "lucide-react";
+import { Flame, Eye, Clock, Target, MapPin, Monitor, RefreshCw, TrendingUp, Zap, Mail, Calendar, Copy, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
+import { openWhatsAppBusiness, getWhatsAppLeadMessage, ZOOM_SCHEDULER_URL } from "@/lib/outreach";
+
+interface LeadContact {
+  name: string;
+  email: string;
+  phone: string | null;
+  source: string;
+  created_at: string;
+}
 
 interface HotLead {
   session_id: string;
@@ -24,6 +33,7 @@ interface HotLead {
   device: string | null;
   pages_visited: string[];
   is_converted: boolean;
+  contact: LeadContact | null;
 }
 
 interface PageView {
@@ -42,6 +52,15 @@ interface UserEvent {
   event_type: string;
   event_data: any;
   page_path: string;
+  created_at: string;
+}
+
+interface LeadRecord {
+  session_id: string | null;
+  name: string;
+  email: string;
+  phone: string | null;
+  source: string;
   created_at: string;
 }
 
