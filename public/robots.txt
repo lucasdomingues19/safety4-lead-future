@@ -164,7 +164,6 @@ Crawl-delay: 0
 
 # Allow all resource types
 Allow: /assets/
-Allow: /videos/
 Allow: /public/
 Allow: /*.css
 Allow: /*.js
