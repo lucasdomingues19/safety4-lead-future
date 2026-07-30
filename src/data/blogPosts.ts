@@ -66,12 +66,6 @@ We'll continue building practical learning experiences, growing a community that
 ## Thank You
 
 To everyone who has joined a course, attended a webinar or become part of our community, thank you. This recognition belongs to all of you as much as it does to us. Your curiosity and willingness to embrace new ideas are what make SafetyTech Academy what it is, and I'm excited about what we'll build together next.
-
----
-
-## Explore Our Learning Programmes
-
-Ready to build practical, future-ready EHS skills? Discover our [IOSH-approved Safety 4.0 programmes and AI Fundamentals courses](/#pricing).
 `,
   },
   {
