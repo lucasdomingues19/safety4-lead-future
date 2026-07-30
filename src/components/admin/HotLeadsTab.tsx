@@ -73,6 +73,11 @@ export const HotLeadsTab = () => {
   const [hotLeads, setHotLeads] = useState<HotLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
+  const [composeLead, setComposeLead] = useState<HotLead | null>(null);
+  const [composeSubject, setComposeSubject] = useState("");
+  const [composeBody, setComposeBody] = useState("");
+  const [sending, setSending] = useState(false);
+
 
   useEffect(() => {
     fetchHotLeads();
