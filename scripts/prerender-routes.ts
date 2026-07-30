@@ -1,7 +1,7 @@
 import { blogPosts } from "../src/data/blogPosts";
 
 const BASE = "https://safetytech.academy";
-const DEFAULT_OG = `${BASE}/opengraph-image.png`;
+const DEFAULT_OG = `${BASE}/opengraph-image.png?v=3`;
 
 export interface RouteSeo {
   /** Route path, e.g. "/elearning" (no trailing slash except "/") */

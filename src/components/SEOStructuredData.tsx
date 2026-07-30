@@ -143,7 +143,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "@type": "VideoObject",
       "name": "SafetyTech Academy - Course Introduction",
       "description": "Discover how Safety 4.0 transforms workplace safety through AI, IoT, and digital technologies. Learn about the world's first IOSH-approved Safety 4.0 certification program.",
-      "thumbnailUrl": "https://safetytech.academy/opengraph-image.png",
+      "thumbnailUrl": "https://safetytech.academy/opengraph-image.png?v=3",
       "uploadDate": "2025-11-27T00:00:00Z",
       "duration": "PT3M",
       "contentUrl": "https://www.youtube.com/watch?v=OsKsyXCx8pc",
