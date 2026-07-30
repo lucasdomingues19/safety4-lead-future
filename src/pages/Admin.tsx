@@ -79,6 +79,10 @@ const Admin = () => {
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
+  const [composeLead, setComposeLead] = useState<Lead | null>(null);
+  const [composeSubject, setComposeSubject] = useState('');
+  const [composeBody, setComposeBody] = useState('');
+  const [sending, setSending] = useState(false);
   const navigate = useNavigate();
 
   const analyticsRequestIdRef = useRef(0);
