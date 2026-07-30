@@ -3,14 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
+import { FunctionsHttpError } from "@supabase/supabase-js";
+import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
 
 interface PageView {
   id: string;
@@ -74,6 +79,10 @@ const Admin = () => {
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
+  const [composeLead, setComposeLead] = useState<Lead | null>(null);
+  const [composeSubject, setComposeSubject] = useState('');
+  const [composeBody, setComposeBody] = useState('');
+  const [sending, setSending] = useState(false);
   const navigate = useNavigate();
 
   const analyticsRequestIdRef = useRef(0);
@@ -220,6 +229,48 @@ const Admin = () => {
       toast.error("Failed to delete lead");
     }
   };
+
+  const openComposeForLead = (lead: Lead) => {
+    if (!lead.email) {
+      toast.error('No email captured for this lead.');
+      return;
+    }
+    const firstName = lead.name?.split(' ')[0] || lead.name || 'there';
+    setComposeLead(lead);
+    setComposeSubject('SafetyTech Academy — following up');
+    setComposeBody(
+      `Hi ${firstName},\n\nThis is Lucas from SafetyTech Academy. Thanks for getting in touch — happy to answer any questions about the programme.\n\nYou can also grab a slot in my diary here:\n${ZOOM_SCHEDULER_URL}\n\nBest regards,\nLucas Domingues\nSafetyTech Academy`
+    );
+  };
+
+  const handleSendGmail = async () => {
+    if (!composeLead?.email) return;
+    if (!composeSubject.trim() || !composeBody.trim()) {
+      toast.error('Subject and message are required.');
+      return;
+    }
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-lead-gmail', {
+        body: { to: composeLead.email, subject: composeSubject.trim(), body: composeBody },
+      });
+      if (error) {
+        const details = error instanceof FunctionsHttpError ? await error.context.text() : error.message;
+        console.error('send-lead-gmail failed:', details);
+        toast.error('Could not send via Gmail. Check the function logs for details.');
+        return;
+      }
+      if (data?.error) {
+        toast.error(String(data.error));
+        return;
+      }
+      toast.success(`Email sent from your Gmail to ${composeLead.email}.`);
+      setComposeLead(null);
+    } finally {
+      setSending(false);
+    }
+  };
+
 
   const getWhatsAppLeadMessage = (lead: Lead) => {
     const firstName = lead.name.split(' ')[0] || lead.name;
@@ -977,7 +1028,21 @@ const Admin = () => {
                             onClick={() => setSelectedLead(lead)}
                           >
                             <TableCell className="text-white">{lead.name}</TableCell>
-                            <TableCell className="text-white">{lead.email}</TableCell>
+                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                              <div className="flex items-center gap-2">
+                                <span>{lead.email}</span>
+                                {lead.email && (
+                                  <button
+                                    type="button"
+                                    onClick={() => openComposeForLead(lead)}
+                                    title="Email via Gmail"
+                                    className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary hover:bg-primary/80 transition-colors"
+                                  >
+                                    <Mail className="h-4 w-4 text-white" />
+                                  </button>
+                                )}
+                              </div>
+                            </TableCell>
                             <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
                               {lead.phone ? (
                                 <div className="flex items-center gap-2">
@@ -1076,7 +1141,19 @@ const Admin = () => {
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Email</label>
-                        <p className="text-white font-medium">{selectedLead.email}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium">{selectedLead.email}</p>
+                          {selectedLead.email && (
+                            <button
+                              type="button"
+                              onClick={() => openComposeForLead(selectedLead)}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-white text-xs font-medium transition-colors"
+                            >
+                              <Mail className="h-3.5 w-3.5" />
+                              Email via Gmail
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Phone</label>
@@ -1174,6 +1251,49 @@ const Admin = () => {
                     })()}
                   </div>
                 )}
+              </DialogContent>
+            </Dialog>
+
+            {/* Gmail Compose Dialog */}
+            <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
+              <DialogContent className="bg-card border-border text-white sm:max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>Email lead from Gmail</DialogTitle>
+                  <DialogDescription className="text-gray-300">
+                    Sends from your connected Gmail account to{" "}
+                    <span className="font-medium">{composeLead?.email}</span>. Replies come straight back to your inbox.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-gmail-subject">Subject</Label>
+                    <Input
+                      id="lead-gmail-subject"
+                      value={composeSubject}
+                      onChange={(e) => setComposeSubject(e.target.value)}
+                      maxLength={300}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-gmail-body">Message</Label>
+                    <Textarea
+                      id="lead-gmail-body"
+                      value={composeBody}
+                      onChange={(e) => setComposeBody(e.target.value)}
+                      rows={10}
+                      maxLength={10000}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setComposeLead(null)} disabled={sending}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSendGmail} disabled={sending} className="gap-1">
+                    {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                    {sending ? "Sending…" : "Send via Gmail"}
+                  </Button>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           </>
