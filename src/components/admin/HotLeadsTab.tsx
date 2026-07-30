@@ -369,6 +369,63 @@ export const HotLeadsTab = () => {
     return `${diffDays}d ago`;
   };
 
+  const getOutreachContext = (lead: HotLead): string => {
+    if (lead.assessment_completed && lead.scorecard_rank) {
+      return `I saw you completed the Safety 4.0 Readiness Scorecard and ranked as "${lead.scorecard_rank}" (${lead.scorecard_score}%).`;
+    }
+    if (lead.pricing_views > 0) {
+      return 'I noticed you were looking at our programmes and pricing.';
+    }
+    if (lead.pages_visited.some(p => p.includes('syllabus'))) {
+      return 'I saw you checking out the syllabus and curriculum details.';
+    }
+    if (lead.pages_visited.some(p => p.includes('instructor'))) {
+      return 'I noticed you were reading about the instructor and our approach.';
+    }
+    return 'I noticed you spent some time on the SafetyTech Academy site.';
+  };
+
+  const handleWhatsApp = async (lead: HotLead) => {
+    if (!lead.contact?.phone) {
+      toast.error('No phone number captured for this lead.');
+      return;
+    }
+    const context = getOutreachContext(lead);
+    const message = getWhatsAppLeadMessage(lead.contact.name, context);
+    const result = await openWhatsAppBusiness(lead.contact.phone, message);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  const handleEmail = (lead: HotLead) => {
+    if (!lead.contact?.email) {
+      toast.error('No email captured for this lead.');
+      return;
+    }
+    const context = getOutreachContext(lead);
+    const subject = encodeURIComponent('SafetyTech Academy — following up on your visit');
+    const body = encodeURIComponent(getWhatsAppLeadMessage(lead.contact.name, context));
+    window.open(`mailto:${lead.contact.email}?subject=${subject}&body=${body}`, '_blank');
+  };
+
+  const handleCopyMessage = async (lead: HotLead) => {
+    if (!lead.contact) {
+      toast.error('No contact details to copy.');
+      return;
+    }
+    const context = getOutreachContext(lead);
+    const text = getWhatsAppLeadMessage(lead.contact.name, context);
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success('Outreach message copied to clipboard.');
+    } catch {
+      toast.error('Could not copy message.');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
