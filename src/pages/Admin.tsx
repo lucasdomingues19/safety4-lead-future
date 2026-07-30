@@ -3,14 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
+import { FunctionsHttpError } from "@supabase/supabase-js";
+import { ZOOM_SCHEDULER_URL, getWhatsAppLeadMessage } from "@/lib/outreach";
 
 interface PageView {
   id: string;
