@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "4 min read",
     category: "Company News",
     tags: ["Safety Excellence Awards", "IOSH Awards", "SafetyTech Academy", "EHS Learning", "Professional Development", "Safety 4.0", "Community", "Future of Work"],
-    featuredImage: "/assets/blog/award-nominations-2026.jpg",
+    featuredImage: "/__l5e/assets-v1/7d821cbf-5bcf-40f4-bce6-6e5768b49650/award-shortlists-2026.png",
     content: `
 # More Than Award Nominations
 
