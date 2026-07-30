@@ -16,6 +16,59 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "6",
+    slug: "more-than-award-nominations",
+    title: "More Than Award Nominations: Why We Built SafetyTech Academy",
+    metaDescription: "SafetyTech Academy is shortlisted for Best Learning & Training Provider at the 2026 Safety Excellence Awards and the IOSH Awards. Here is what that recognition really represents.",
+    excerpt: "Shortlisted for Best Learning & Training Provider at both the 2026 Safety Excellence Awards and the IOSH Awards. A moment to pause and reflect on why we started this journey — and the community that has grown around it.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2026-07-30",
+    readTime: "4 min read",
+    category: "Company News",
+    tags: ["Safety Excellence Awards", "IOSH Awards", "SafetyTech Academy", "EHS Learning", "Professional Development", "Safety 4.0", "Community", "Future of Work"],
+    featuredImage: "/assets/blog/award-nominations-2026.jpg",
+    content: `
+# More Than Award Nominations
+
+When I found out that SafetyTech Academy had been shortlisted for **Best Learning & Training Provider** in both the **2026 Safety Excellence Awards** and the **IOSH Awards**, my first reaction was one of gratitude.
+
+Not because awards define success, but because they provide a moment to pause and reflect on why we started this journey in the first place.
+
+## A Different Kind of Training Provider
+
+From day one, SafetyTech Academy was never intended to be another health and safety training provider. There are already outstanding organisations delivering technical qualifications and compliance training, and that work remains fundamental to our profession.
+
+Our ambition has always been different.
+
+We believe the next generation of EHS professionals needs more than technical knowledge. They need to understand the technologies that are reshaping our workplaces, from AI and automation to digital tools and data. More importantly, they need the confidence to lead those conversations within their organisations.
+
+That belief has shaped every course, webinar and live session we've delivered.
+
+## Practical Knowledge Over Passing Trends
+
+Rather than focusing on the latest AI tool or chasing technology trends, we've concentrated on helping professionals build practical knowledge they can apply immediately. Technology will continue to evolve, but curiosity, critical thinking and the ability to adapt will always be valuable.
+
+## The Community Is the Real Achievement
+
+Perhaps the thing I'm most proud of isn't the content we've created, but the community that has grown around it.
+
+Our learners come from different countries, industries and career stages, yet they all share something in common. They are committed to learning, challenging themselves and helping move the profession forward. Watching those conversations continue long after a course has finished has been one of the most rewarding parts of building the Academy.
+
+## What the Recognition Signals
+
+Being shortlisted by both the Safety Excellence Awards and the IOSH Awards feels like recognition of that approach. It suggests that professional learning is evolving and that preparing people for the future is becoming just as important as teaching the fundamentals.
+
+Whether we bring home an award or not won't change what we do next.
+
+We'll continue building practical learning experiences, growing a community that shares knowledge openly and helping EHS professionals develop the skills they'll need for the future of work.
+
+## Thank You
+
+To everyone who has joined a course, attended a webinar or become part of our community, thank you. This recognition belongs to all of you as much as it does to us. Your curiosity and willingness to embrace new ideas are what make SafetyTech Academy what it is, and I'm excited about what we'll build together next.
+`,
+  },
+
     id: "5",
     slug: "sanders-claude-interview",
     title: "Sanders–Claude Interview: AI Governance Lessons for EHS Leaders",
