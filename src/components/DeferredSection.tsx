@@ -5,6 +5,8 @@ interface DeferredSectionProps {
   /** Reserved space before the section mounts, avoids layout jumps. */
   minHeight?: number;
   rootMargin?: string;
+  /** Skip deferral (e.g. deep links with a hash that must scroll immediately). */
+  eager?: boolean;
 }
 
 /**
@@ -16,9 +18,11 @@ export const DeferredSection = ({
   children,
   minHeight = 400,
   rootMargin = "600px",
+  eager = false,
 }: DeferredSectionProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(eager);
+
 
   useEffect(() => {
     if (visible) return;
