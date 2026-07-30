@@ -15,7 +15,7 @@ import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
 import { FunctionsHttpError } from "@supabase/supabase-js";
-import { ZOOM_SCHEDULER_URL, getWhatsAppLeadMessage } from "@/lib/outreach";
+import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
 
 interface PageView {
   id: string;
