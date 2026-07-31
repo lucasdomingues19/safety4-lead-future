@@ -138,7 +138,7 @@ export const CertificateDocument = forwardRef<HTMLDivElement, Props>(
             <img
               src={logoAsset}
               alt="SafetyTech Academy"
-              style={{ width: 100, height: 100, objectFit: "contain" }}
+              style={{ width: 240, height: 58, objectFit: "contain", objectPosition: "left center" }}
             />
           </div>
 
