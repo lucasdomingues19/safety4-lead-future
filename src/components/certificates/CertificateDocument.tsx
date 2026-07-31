@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 // Locally-bundled images so html2canvas can capture them reliably (CDN/asset.json
 // URLs redirect cross-origin and get dropped from the PDF, leaving blank boxes).
-import logoAsset from "@/assets/safety-academy-logo-cert.png";
+import logoAsset from "@/assets/safety-academy-logo-cert-transparent.png";
 import bgWorker from "@/assets/certificate-bg-worker.png";
 import ioshApprovedLogo from "@/assets/iosh-logo-cert.png";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
