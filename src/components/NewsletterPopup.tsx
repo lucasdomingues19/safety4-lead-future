@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { X, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
+
 
 const SUBSCRIBE_URL = "https://learning.safetytech.academy/newsletters/safety-4-0-newsletter/subscribe";
 
