@@ -4,7 +4,7 @@ import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
 
 const DOMAINS = ["Visibility", "Literacy", "Governance", "Assurance", "Records"] as const;
 
-const QUESTIONS: { d: number; q: string; a: string[] }[] = [
+const QUESTIONS: { d: number; q: string; a: string[]; na?: string }[] = [
   {
     d: 0,
     q: "Do you have a current list of the AI tools in use across your function, including anything embedded in software you already licence?",
@@ -26,9 +26,26 @@ const QUESTIONS: { d: number; q: string; a: string[] }[] = [
     a: ["We could not produce it", "Weeks, assembled from scratch", "Several days of digging", "A day or two", "Immediately, it is on file"],
   },
   {
+    d: 1,
+    q: "EU AI Act Article 4 requires organisations deploying AI systems to ensure a sufficient level of AI literacy among staff. Where do you stand against that obligation?",
+    a: [
+      "We were not aware of Article 4",
+      "Aware of it, nothing done yet",
+      "Reviewed it, an action plan is forming",
+      "Training delivered, mapped to the obligation informally",
+      "Training delivered, mapped and evidenced against Article 4",
+    ],
+    na: "Not applicable — we have no EU exposure",
+  },
+  {
     d: 2,
     q: "Is there a written policy covering AI use in your function, with a named owner?",
     a: ["No policy", "Drafting has been discussed", "Draft exists, not issued", "Issued policy, no named owner", "Issued, owned, with a review date"],
+  },
+  {
+    d: 2,
+    q: "Are AI tools assessed before they are adopted — data handling, supplier terms, and where the output is allowed to be used?",
+    a: ["No assessment at all", "Ad hoc, by whoever adopts the tool", "Informal checks, not written down", "A check is done and noted", "A documented assessment before adoption, every time"],
   },
   {
     d: 3,
@@ -86,8 +103,12 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
   const domainScores = useMemo(
     () =>
       DOMAINS.map((_, d) => {
-        const idx = QUESTIONS.map((q, i) => (q.d === d ? i : -1)).filter((i) => i >= 0);
-        return idx.reduce((s, i) => s + (scores[i] ?? 0), 0) / idx.length;
+        // -1 marks a "not applicable" answer: excluded from the domain average.
+        const vals = QUESTIONS.map((q, i) => (q.d === d ? (scores[i] ?? 0) : null)).filter(
+          (v): v is number => v !== null && v >= 0,
+        );
+        if (!vals.length) return 0;
+        return vals.reduce((s, v) => s + v, 0) / vals.length;
       }),
     [scores],
   );
@@ -165,6 +186,15 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                 <span>{t}</span>
               </button>
             ))}
+            {QUESTIONS[step].na && (
+              <button
+                onClick={() => answer(-1)}
+                className="flex items-start gap-3.5 text-left rounded-xl border border-dashed border-white/20 bg-transparent hover:bg-white/[0.06] hover:border-primary px-4 py-3.5 text-[15px] text-slate-300 transition-colors"
+              >
+                <span className="font-mono text-xs text-primary pt-0.5">N/A</span>
+                <span>{QUESTIONS[step].na}</span>
+              </button>
+            )}
           </div>
           {step > 0 && (
             <button onClick={() => setStep(step - 1)} className="mt-5 text-sm text-slate-400 underline hover:text-white">
@@ -308,16 +338,16 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               </>
             ) : total <= 15 ? (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Close the competence gap</h4>
+                <h4 className="font-extrabold text-lg text-white mb-2.5">Discover our learning options / Book a Call with Us</h4>
                 <p className="text-sm text-slate-300 mb-5">
                   Safety 4.0: Leading Safety in the Digital Age is approved training by IOSH and CPD-certified, and produces the certificated evidence the
                   literacy obligation asks for. £497.
                 </p>
                 <a href="/elearning" className="block text-center rounded-lg bg-primary px-5 py-4 font-extrabold text-white hover:bg-primary/90">
-                  See the course
+                  Discover our learning options
                 </a>
                 <a href={ZOOM_SCHEDULER_URL} target="_blank" rel="noopener noreferrer" className="block text-center rounded-lg border border-white/20 px-5 py-4 font-semibold text-white mt-3 hover:bg-white/5">
-                  Or talk it through first
+                  Book a Call with Us
                 </a>
               </>
             ) : (
