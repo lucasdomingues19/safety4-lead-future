@@ -10,8 +10,7 @@ export const PricingSection = () => {
   const pricingTiers = [
   {
     name: "AI Fundamentals in EHS",
-    price: "£72",
-    originalPrice: "£97",
+    price: "£97",
     period: "",
     description: "A fast-track introduction to AI for EHS professionals",
     icon: Building,
@@ -135,9 +134,6 @@ export const PricingSection = () => {
                     }
                     <span className="text-slate-500 text-lg">{tier.period}</span>
                   </div>
-                  {tier.name === "AI Fundamentals in EHS" &&
-                    <p className="text-xs text-primary font-semibold mt-2">Founding price — only for the first 100 spots</p>
-                  }
                 </div>
               </div>
 
