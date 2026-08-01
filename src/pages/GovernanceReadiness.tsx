@@ -21,17 +21,17 @@ const GovernanceReadiness = () => {
     <AnalyticsTracker>
       <div className="min-h-screen bg-background text-white">
         <AudienceNav />
-        <main className="container mx-auto px-4 pt-28 pb-16 md:pt-32 md:pb-24">
+        <main className="container mx-auto px-4 pt-24 pb-12 md:pt-32 md:pb-24">
           <div className="max-w-2xl mx-auto">
             <div className="border-b border-white/15 pb-5 mb-7">
-              <div className="font-mono text-xs uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">
+              <div className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">
                 Free assessment
               </div>
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
                 AI in EHS Governance Readiness
               </h1>
-              <p className="text-slate-300 mt-4 max-w-[52ch]">
-                Eight questions, three minutes. You get a scored position across five domains — visibility, literacy, governance, assurance and records —
+              <p className="text-sm sm:text-base text-slate-300 mt-4 max-w-[52ch]">
+                Ten questions, three minutes. You get a scored position across five domains — visibility, literacy, governance, assurance and records —
                 and the three things to fix first.
               </p>
             </div>
