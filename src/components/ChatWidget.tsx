@@ -3,6 +3,7 @@ import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { openWhatsAppBusiness } from "@/lib/outreach";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
