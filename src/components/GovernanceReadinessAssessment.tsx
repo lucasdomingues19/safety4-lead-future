@@ -161,11 +161,15 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
     <div className={compact ? "" : "max-w-2xl mx-auto"}>
       {/* Domain tracker */}
       {stage !== "results" && (
-        <div className="flex gap-1.5 mb-7">
+        <div className="flex gap-1 sm:gap-1.5 mb-6 sm:mb-7">
           {DOMAINS.map((d, i) => (
-            <div key={d} className="flex-1">
+            <div key={d} className="flex-1 min-w-0">
               <div className={`h-1 rounded-full ${i < activeDomain || stage !== "questions" ? "bg-primary" : "bg-white/15"}`} />
-              <span className={`${eyebrow} mt-1.5 block text-[9px] ${i < activeDomain || stage !== "questions" ? "text-white" : "text-slate-400"}`}>{d}</span>
+              <span
+                className={`${eyebrow} mt-1.5 block truncate text-[8px] sm:text-[9px] tracking-[0.08em] sm:tracking-[0.16em] ${i < activeDomain || stage !== "questions" ? "text-white" : "text-slate-400"}`}
+              >
+                {d}
+              </span>
             </div>
           ))}
         </div>
