@@ -11,18 +11,6 @@ const SESSION_KEY = "s4a_chat_session_id";
 const HISTORY_KEY = "s4a_chat_history";
 const BUSINESS_PHONE = "447979116555";
 const BUSINESS_MESSAGE = "Hi Lucas, I was chatting with the site assistant and would like to speak with your team.";
-const WHATSAPP_WEB_URL =
-  `https://web.whatsapp.com/send?phone=${BUSINESS_PHONE}&text=` + encodeURIComponent(BUSINESS_MESSAGE);
-const WHATSAPP_UNIVERSAL_URL =
-  `https://wa.me/${BUSINESS_PHONE}?text=` + encodeURIComponent(BUSINESS_MESSAGE);
-
-const isEmbeddedPreview = () => {
-  try {
-    return window.self !== window.top;
-  } catch {
-    return true;
-  }
-};
 
 function getOrCreateSessionId(): string {
   try {
