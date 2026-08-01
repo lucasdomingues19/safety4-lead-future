@@ -186,6 +186,15 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                 <span>{t}</span>
               </button>
             ))}
+            {QUESTIONS[step].na && (
+              <button
+                onClick={() => answer(-1)}
+                className="flex items-start gap-3.5 text-left rounded-xl border border-dashed border-white/20 bg-transparent hover:bg-white/[0.06] hover:border-primary px-4 py-3.5 text-[15px] text-slate-300 transition-colors"
+              >
+                <span className="font-mono text-xs text-primary pt-0.5">N/A</span>
+                <span>{QUESTIONS[step].na}</span>
+              </button>
+            )}
           </div>
           {step > 0 && (
             <button onClick={() => setStep(step - 1)} className="mt-5 text-sm text-slate-400 underline hover:text-white">
