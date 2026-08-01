@@ -4,7 +4,7 @@ import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
 
 const DOMAINS = ["Visibility", "Literacy", "Governance", "Assurance", "Records"] as const;
 
-const QUESTIONS: { d: number; q: string; a: string[] }[] = [
+const QUESTIONS: { d: number; q: string; a: string[]; na?: string }[] = [
   {
     d: 0,
     q: "Do you have a current list of the AI tools in use across your function, including anything embedded in software you already licence?",
@@ -26,9 +26,26 @@ const QUESTIONS: { d: number; q: string; a: string[] }[] = [
     a: ["We could not produce it", "Weeks, assembled from scratch", "Several days of digging", "A day or two", "Immediately, it is on file"],
   },
   {
+    d: 1,
+    q: "EU AI Act Article 4 requires organisations deploying AI systems to ensure a sufficient level of AI literacy among staff. Where do you stand against that obligation?",
+    a: [
+      "We were not aware of Article 4",
+      "Aware of it, nothing done yet",
+      "Reviewed it, an action plan is forming",
+      "Training delivered, mapped to the obligation informally",
+      "Training delivered, mapped and evidenced against Article 4",
+    ],
+    na: "Not applicable — we have no EU exposure",
+  },
+  {
     d: 2,
     q: "Is there a written policy covering AI use in your function, with a named owner?",
     a: ["No policy", "Drafting has been discussed", "Draft exists, not issued", "Issued policy, no named owner", "Issued, owned, with a review date"],
+  },
+  {
+    d: 2,
+    q: "Are AI tools assessed before they are adopted — data handling, supplier terms, and where the output is allowed to be used?",
+    a: ["No assessment at all", "Ad hoc, by whoever adopts the tool", "Informal checks, not written down", "A check is done and noted", "A documented assessment before adoption, every time"],
   },
   {
     d: 3,
