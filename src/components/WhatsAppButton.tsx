@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { openWhatsAppBusiness } from "@/lib/outreach";
 
 const BUSINESS_PHONE = "447979116555";
 const BUSINESS_MESSAGE = "Hi Lucas, I'm interested in SafetyTech Academy";
