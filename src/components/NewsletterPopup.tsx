@@ -12,12 +12,15 @@ export const NewsletterPopup = () => {
     if (hasSeenPopup) return;
 
     const timer = setTimeout(() => {
+      // Never compete with another popup (e.g. the governance readiness review)
+      if (!claimPopupSlot("newsletter")) return;
       setIsOpen(true);
       sessionStorage.setItem("newsletter_popup_shown", "true");
     }, 60000);
 
     return () => clearTimeout(timer);
   }, []);
+
 
   const handleClose = () => {
     setIsOpen(false);
