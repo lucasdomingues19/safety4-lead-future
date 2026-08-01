@@ -85,7 +85,7 @@ const AIFundamentals = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
-                Start Learning — £72
+                Start Learning — £97
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
@@ -97,7 +97,7 @@ const AIFundamentals = () => {
               </a>
             </div>
             <p className="text-center text-sm text-slate-500">
-              Founding price — only available to the first 100 learners. 7-day money-back guarantee.
+              7-day money-back guarantee.
             </p>
           </div>
         </div>
@@ -272,7 +272,7 @@ const AIFundamentals = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
-                Start Learning — £72
+                Start Learning — £97
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
@@ -284,7 +284,7 @@ const AIFundamentals = () => {
               </a>
             </div>
             <p className="text-sm text-slate-500 mt-4">
-              Founding price — only available to the first 100 learners.
+              Includes lifetime access and a certificate of completion.
             </p>
           </div>
         </div>
