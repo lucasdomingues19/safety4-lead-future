@@ -66,6 +66,12 @@ const staticRoutes: RouteSeo[] = [
       "Answers on our eLearning, Accelerator cohort, In-Company training, IOSH certification and pricing.",
   },
   {
+    path: "/governance-readiness",
+    title: "AI in EHS Governance Readiness Review | SafetyTech Academy",
+    description:
+      "Free 3-minute AI governance readiness review for EHS leaders. Score your position across visibility, literacy, governance, assurance and records.",
+  },
+  {
     path: "/scorecard",
     title:
       "Free Safety 4.0 Scorecard & Digital Maturity | Assess Your Readiness",
