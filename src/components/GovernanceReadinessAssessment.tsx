@@ -338,16 +338,16 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               </>
             ) : total <= 15 ? (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Close the competence gap</h4>
+                <h4 className="font-extrabold text-lg text-white mb-2.5">Discover our learning options / Book a Call with Us</h4>
                 <p className="text-sm text-slate-300 mb-5">
                   Safety 4.0: Leading Safety in the Digital Age is approved training by IOSH and CPD-certified, and produces the certificated evidence the
                   literacy obligation asks for. £497.
                 </p>
                 <a href="/elearning" className="block text-center rounded-lg bg-primary px-5 py-4 font-extrabold text-white hover:bg-primary/90">
-                  See the course
+                  Discover our learning options
                 </a>
                 <a href={ZOOM_SCHEDULER_URL} target="_blank" rel="noopener noreferrer" className="block text-center rounded-lg border border-white/20 px-5 py-4 font-semibold text-white mt-3 hover:bg-white/5">
-                  Or talk it through first
+                  Book a Call with Us
                 </a>
               </>
             ) : (
