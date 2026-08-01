@@ -199,7 +199,7 @@ export const PricingSection = () => {
               Schedule a free consultation with our experts to find the perfect training solution for your team needs.
             </p>
             <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="bg-white border-slate-300 text-slate-900 hover:bg-slate-100 px-8 py-6 text-lg">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg">
                 Schedule Free Consultation
               </Button>
             </a>
