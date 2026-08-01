@@ -5,14 +5,6 @@ import { openWhatsAppBusiness } from "@/lib/outreach";
 const BUSINESS_PHONE = "447979116555";
 const BUSINESS_MESSAGE = "Hi Lucas, I'm interested in SafetyTech Academy";
 
-const isEmbeddedPreview = () => {
-  try {
-    return window.self !== window.top;
-  } catch {
-    return true;
-  }
-};
-
 export const WhatsAppButton = () => {
   const [isVisible, setIsVisible] = useState(false);
 
