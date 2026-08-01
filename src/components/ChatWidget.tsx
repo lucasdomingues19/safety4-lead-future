@@ -3,6 +3,7 @@ import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { openWhatsAppBusiness } from "@/lib/outreach";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -10,18 +11,6 @@ const SESSION_KEY = "s4a_chat_session_id";
 const HISTORY_KEY = "s4a_chat_history";
 const BUSINESS_PHONE = "447979116555";
 const BUSINESS_MESSAGE = "Hi Lucas, I was chatting with the site assistant and would like to speak with your team.";
-const WHATSAPP_WEB_URL =
-  `https://web.whatsapp.com/send?phone=${BUSINESS_PHONE}&text=` + encodeURIComponent(BUSINESS_MESSAGE);
-const WHATSAPP_UNIVERSAL_URL =
-  `https://wa.me/${BUSINESS_PHONE}?text=` + encodeURIComponent(BUSINESS_MESSAGE);
-
-const isEmbeddedPreview = () => {
-  try {
-    return window.self !== window.top;
-  } catch {
-    return true;
-  }
-};
 
 function getOrCreateSessionId(): string {
   try {
@@ -137,28 +126,8 @@ export const ChatWidget = () => {
   };
 
   const openWhatsApp = async () => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    try {
-      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${WHATSAPP_UNIVERSAL_URL}`);
-    } catch {
-      /* clipboard unavailable */
-    }
-
-    if (isMobile) {
-      window.location.href = WHATSAPP_UNIVERSAL_URL;
-      return;
-    }
-
-    if (isEmbeddedPreview()) {
-      toast.success("WhatsApp link copied. Paste it into a normal browser tab to avoid the preview block.");
-      return;
-    }
-
-    const win = window.open(WHATSAPP_WEB_URL, "_blank", "noopener,noreferrer");
-    if (!win) {
-      toast.error("Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.");
-    }
+    const result = await openWhatsAppBusiness(BUSINESS_PHONE, BUSINESS_MESSAGE);
+    toast[result.success ? "success" : "error"](result.message);
   };
 
   if (!mounted) return null;

@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { openWhatsAppBusiness } from "@/lib/outreach";
 
 const BUSINESS_PHONE = "447979116555";
 const BUSINESS_MESSAGE = "Hi Lucas, I'm interested in SafetyTech Academy";
-
-const isEmbeddedPreview = () => {
-  try {
-    return window.self !== window.top;
-  } catch {
-    return true;
-  }
-};
 
 export const WhatsAppButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,31 +16,8 @@ export const WhatsAppButton = () => {
   if (!isVisible) return null;
 
   const handleWhatsAppClick = async () => {
-    const encodedMessage = encodeURIComponent(BUSINESS_MESSAGE);
-    const webUrl = `https://web.whatsapp.com/send?phone=${BUSINESS_PHONE}&text=${encodedMessage}`;
-    const universalUrl = `https://wa.me/${BUSINESS_PHONE}?text=${encodedMessage}`;
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    try {
-      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${universalUrl}`);
-    } catch {
-      /* clipboard unavailable */
-    }
-
-    if (isMobile) {
-      window.location.href = universalUrl;
-      return;
-    }
-
-    if (isEmbeddedPreview()) {
-      toast.success("WhatsApp link copied. Paste it into a normal browser tab to avoid the preview block.");
-      return;
-    }
-
-    const win = window.open(webUrl, "_blank", "noopener,noreferrer");
-    if (!win) {
-      toast.error("Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.");
-    }
+    const result = await openWhatsAppBusiness(BUSINESS_PHONE, BUSINESS_MESSAGE);
+    toast[result.success ? "success" : "error"](result.message);
   };
 
   return (
