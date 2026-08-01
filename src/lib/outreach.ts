@@ -31,11 +31,9 @@ export const openWhatsAppBusiness = async (phone: string, message: string) => {
     }
   })();
 
-  const businessAppUrl = `whatsapp-business://send?phone=${normalized}&text=${encodedMessage}`;
   const universalWhatsAppUrl = `https://wa.me/${normalized}?text=${encodedMessage}`;
-  const androidBusinessIntentUrl = `intent://send?phone=${normalized}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(universalWhatsAppUrl)};end`;
   const webUrl = `https://web.whatsapp.com/send?phone=${normalized}&text=${encodedMessage}`;
-  const copiedText = `+${normalized}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
+  const copiedText = `+${normalized}\n${message}\n\nOpen in WhatsApp:\n${universalWhatsAppUrl}`;
 
   const copyLeadDetails = async () => {
     try {
@@ -52,18 +50,18 @@ export const openWhatsAppBusiness = async (phone: string, message: string) => {
       success: false,
       copied,
       message: copied
-        ? 'Lead details copied. Open the published admin page in your phone browser to launch WhatsApp Business.'
-        : 'Preview blocks WhatsApp. Open the published admin page in your phone browser.',
+        ? 'WhatsApp details copied. Open the published page in your browser to continue.'
+        : 'Preview blocks WhatsApp. Open the published page in your browser.',
     };
   }
 
   if (isMobile) {
     void copyLeadDetails();
-    window.location.href = isAndroid ? androidBusinessIntentUrl : businessAppUrl;
+    window.location.href = universalWhatsAppUrl;
     return {
       success: true,
       copied: true,
-      message: 'Opening WhatsApp Business…',
+      message: 'Opening WhatsApp…',
     };
   }
 
@@ -73,9 +71,9 @@ export const openWhatsAppBusiness = async (phone: string, message: string) => {
     success: !!win,
     copied,
     message: win
-      ? 'WhatsApp link copied. Opening WhatsApp Business Web…'
+      ? 'WhatsApp link copied. Opening WhatsApp Web…'
       : copied
         ? 'Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.'
-        : 'Pop-up blocked — please allow pop-ups to open WhatsApp Business Web.',
+        : 'Pop-up blocked — please allow pop-ups to open WhatsApp Web.',
   };
 };
