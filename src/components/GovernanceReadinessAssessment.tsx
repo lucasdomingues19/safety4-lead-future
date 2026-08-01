@@ -135,7 +135,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
     setSubmitting(true);
     const ds = DOMAINS.map((d, i) => `${d} ${domainScores[i].toFixed(1)}/4`).join(", ");
     try {
-      await supabase.functions.invoke("capture-lead", {
+      const { error: captureError } = await supabase.functions.invoke("capture-lead", {
         body: {
           name: lead.name.trim(),
           email: lead.email.trim(),
@@ -146,8 +146,10 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
           message: `AI Governance Readiness Review — ${band.name} (${total.toFixed(1)}/20). Company: ${lead.company.trim() || "n/a"}. AI users: ${aiUsers}. Domains: ${ds}.`,
         },
       });
-    } catch {
+      if (captureError) console.error("Governance readiness lead capture failed:", captureError);
+    } catch (err) {
       /* results still shown — capture failure must not block the user */
+      console.error("Governance readiness lead capture failed:", err);
     }
     setSubmitting(false);
     setStage("results");
