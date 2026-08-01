@@ -103,8 +103,12 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
   const domainScores = useMemo(
     () =>
       DOMAINS.map((_, d) => {
-        const idx = QUESTIONS.map((q, i) => (q.d === d ? i : -1)).filter((i) => i >= 0);
-        return idx.reduce((s, i) => s + (scores[i] ?? 0), 0) / idx.length;
+        // -1 marks a "not applicable" answer: excluded from the domain average.
+        const vals = QUESTIONS.map((q, i) => (q.d === d ? (scores[i] ?? 0) : null)).filter(
+          (v): v is number => v !== null && v >= 0,
+        );
+        if (!vals.length) return 0;
+        return vals.reduce((s, v) => s + v, 0) / vals.length;
       }),
     [scores],
   );
