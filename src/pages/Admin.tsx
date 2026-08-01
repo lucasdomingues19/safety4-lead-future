@@ -993,6 +993,7 @@ const Admin = () => {
                     <option value="newsletter_popup" className="bg-black">Newsletter</option>
                     <option value="ebook_download" className="bg-black">eBook</option>
                     <option value="brochure_download" className="bg-black">Brochure</option>
+                    <option value="governance_readiness" className="bg-black">Governance Readiness</option>
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-white/40">
@@ -1072,6 +1073,8 @@ const Admin = () => {
                                   ? 'bg-orange-500/20 text-orange-300'
                                   : lead.source === 'brochure_download'
                                   ? 'bg-cyan-500/20 text-cyan-300'
+                                  : lead.source === 'governance_readiness'
+                                  ? 'bg-[#c4ff00]/20 text-[#c4ff00]'
                                   : 'bg-gray-500/20 text-gray-300'
                               }`}>
                                 {lead.source === 'assessment' ? 'Assessment' : 
@@ -1080,6 +1083,7 @@ const Admin = () => {
                                  lead.source === 'cohort-application' ? 'Cohort Application' :
                                  lead.source === 'newsletter_popup' ? 'Newsletter' :
                                  lead.source === 'ebook_download' ? 'eBook' :
+                                 lead.source === 'governance_readiness' ? 'Governance Readiness' :
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
