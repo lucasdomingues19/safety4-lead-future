@@ -138,28 +138,8 @@ export const ChatWidget = () => {
   };
 
   const openWhatsApp = async () => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    try {
-      await navigator.clipboard.writeText(`+${BUSINESS_PHONE}\n${BUSINESS_MESSAGE}\n\n${WHATSAPP_UNIVERSAL_URL}`);
-    } catch {
-      /* clipboard unavailable */
-    }
-
-    if (isMobile) {
-      window.location.href = WHATSAPP_UNIVERSAL_URL;
-      return;
-    }
-
-    if (isEmbeddedPreview()) {
-      toast.success("WhatsApp link copied. Paste it into a normal browser tab to avoid the preview block.");
-      return;
-    }
-
-    const win = window.open(WHATSAPP_WEB_URL, "_blank", "noopener,noreferrer");
-    if (!win) {
-      toast.error("Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.");
-    }
+    const result = await openWhatsAppBusiness(BUSINESS_PHONE, BUSINESS_MESSAGE);
+    toast[result.success ? "success" : "error"](result.message);
   };
 
   if (!mounted) return null;
