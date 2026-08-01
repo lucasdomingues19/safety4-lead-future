@@ -26,7 +26,9 @@ export const NewsletterPopup = () => {
 
   const handleClose = () => {
     setIsOpen(false);
+    releasePopupSlot("newsletter");
   };
+
 
   if (!isOpen) return null;
 
