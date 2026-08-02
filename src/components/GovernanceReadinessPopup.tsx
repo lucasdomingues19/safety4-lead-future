@@ -24,10 +24,10 @@ export const GovernanceReadinessPopup = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-xl my-4 sm:my-8 rounded-2xl border border-primary/40 bg-background p-5 sm:p-6 md:p-8 shadow-2xl animate-scale-in">
+      <div className="relative w-full max-w-xl my-4 sm:my-8 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 md:p-8 shadow-2xl animate-scale-in">
         <button
           onClick={close}
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1.5 text-slate-400 hover:text-white transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1.5 text-slate-500 hover:text-slate-900 transition-colors"
           aria-label="Close"
         >
           <X className="w-5 h-5" />
@@ -41,14 +41,14 @@ export const GovernanceReadinessPopup = () => {
             <div className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">
               Free assessment
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight mb-3">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight mb-3">
               AI in EHS Governance Readiness
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 mb-5">
+            <p className="text-sm sm:text-base text-slate-600 mb-5">
               Ten questions, three minutes. Get a scored position across visibility, literacy, governance, assurance and records — plus the three things
               to fix first.
             </p>
-            <ul className="space-y-2 text-sm text-slate-300 mb-6">
+            <ul className="space-y-2 text-sm text-slate-600 mb-6">
               {[
                 "Where your function stands against the AI literacy obligation",
                 "A domain-by-domain score you can show your board",
@@ -64,7 +64,7 @@ export const GovernanceReadinessPopup = () => {
               <Button onClick={() => setStarted(true)} className="flex-1 py-6 text-base font-semibold">
                 Start the assessment
               </Button>
-              <Button onClick={close} variant="outline" className="sm:w-auto border-white/20 text-white hover:bg-white/10">
+              <Button onClick={close} variant="outline" className="sm:w-auto border-slate-300 text-slate-700 hover:bg-slate-100">
                 Maybe later
               </Button>
             </div>
