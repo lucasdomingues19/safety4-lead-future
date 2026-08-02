@@ -65,10 +65,10 @@ const QUESTIONS: { d: number; q: string; a: string[]; na?: string }[] = [
 ];
 
 const BANDS = [
-  { max: 5, name: "Exposed", tone: "text-red-400", desc: "There is no defensible position on AI use in your function. This would not survive a board question, an insurer enquiry, or a client audit. The gap is not unusual and it is not a reflection of carelessness. AI arrived through software you already owned rather than through procurement, which is exactly why nothing was documented." },
-  { max: 10, name: "Developing", tone: "text-amber-400", desc: "You know AI is in use and you recognise the obligation, but you cannot currently evidence it. Awareness is not the gap. Records are. This is the most common position among the safety functions we assess." },
-  { max: 15, name: "Structured", tone: "text-[#c4ff00]", desc: "A framework exists. The gaps are in coverage and currency rather than in principle. The work from here is narrower: closing specific domains and keeping records live rather than building from nothing." },
-  { max: 20, name: "Assured", tone: "text-emerald-400", desc: "You hold a defensible position across all five domains. The task is maintenance: keeping training current as people join and move, and reviewing as the tools and the regulation change." },
+  { max: 5, name: "Exposed", tone: "text-red-600", desc: "There is no defensible position on AI use in your function. This would not survive a board question, an insurer enquiry, or a client audit. The gap is not unusual and it is not a reflection of carelessness. AI arrived through software you already owned rather than through procurement, which is exactly why nothing was documented." },
+  { max: 10, name: "Developing", tone: "text-amber-600", desc: "You know AI is in use and you recognise the obligation, but you cannot currently evidence it. Awareness is not the gap. Records are. This is the most common position among the safety functions we assess." },
+  { max: 15, name: "Structured", tone: "text-primary", desc: "A framework exists. The gaps are in coverage and currency rather than in principle. The work from here is narrower: closing specific domains and keeping records live rather than building from nothing." },
+  { max: 20, name: "Assured", tone: "text-emerald-600", desc: "You hold a defensible position across all five domains. The task is maintenance: keeping training current as people join and move, and reviewing as the tools and the regulation change." },
 ];
 
 const REMEDY: Record<number, { t: string; w: string }> = {
@@ -164,9 +164,9 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
         <div className="flex gap-1 sm:gap-1.5 mb-6 sm:mb-7">
           {DOMAINS.map((d, i) => (
             <div key={d} className="flex-1 min-w-0">
-              <div className={`h-1 rounded-full ${i < activeDomain || stage !== "questions" ? "bg-primary" : "bg-white/15"}`} />
+              <div className={`h-1 rounded-full ${i < activeDomain || stage !== "questions" ? "bg-primary" : "bg-slate-200"}`} />
               <span
-                className={`${eyebrow} mt-1.5 block truncate text-[8px] sm:text-[9px] tracking-[0.08em] sm:tracking-[0.16em] ${i < activeDomain || stage !== "questions" ? "text-white" : "text-slate-400"}`}
+                className={`${eyebrow} mt-1.5 block truncate text-[8px] sm:text-[9px] tracking-[0.08em] sm:tracking-[0.16em] ${i < activeDomain || stage !== "questions" ? "text-slate-900" : "text-slate-500"}`}
               >
                 {d}
               </span>
@@ -177,16 +177,16 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
 
       {stage === "questions" && (
         <div>
-          <div className={`${eyebrow} text-slate-400 mb-3`}>
+          <div className={`${eyebrow} text-slate-500 mb-3`}>
             Question <span className="text-primary font-semibold">{step + 1}</span> of {QUESTIONS.length} · {DOMAINS[activeDomain]}
           </div>
-          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-snug mb-6">{QUESTIONS[step].q}</h3>
+          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug mb-6">{QUESTIONS[step].q}</h3>
           <div className="flex flex-col gap-2.5">
             {QUESTIONS[step].a.map((t, i) => (
               <button
                 key={t}
                 onClick={() => answer(i)}
-                className="flex items-start gap-3.5 text-left rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-primary px-4 py-3.5 text-[15px] text-white transition-colors"
+                className="flex items-start gap-3.5 text-left rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-slate-900 transition-colors"
               >
                 <span className="font-mono text-xs text-primary pt-0.5">{i}</span>
                 <span>{t}</span>
@@ -195,7 +195,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             {QUESTIONS[step].na && (
               <button
                 onClick={() => answer(-1)}
-                className="flex items-start gap-3.5 text-left rounded-xl border border-dashed border-white/20 bg-transparent hover:bg-white/[0.06] hover:border-primary px-4 py-3.5 text-[15px] text-slate-300 transition-colors"
+                className="flex items-start gap-3.5 text-left rounded-xl border border-dashed border-slate-300 bg-transparent hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-slate-600 transition-colors"
               >
                 <span className="font-mono text-xs text-primary pt-0.5">N/A</span>
                 <span>{QUESTIONS[step].na}</span>
@@ -203,7 +203,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             )}
           </div>
           {step > 0 && (
-            <button onClick={() => setStep(step - 1)} className="mt-5 text-sm text-slate-400 underline hover:text-white">
+            <button onClick={() => setStep(step - 1)} className="mt-5 text-sm text-slate-500 underline hover:text-slate-900">
               Back
             </button>
           )}
@@ -212,8 +212,8 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
 
       {stage === "seats" && (
         <div>
-          <div className={`${eyebrow} text-slate-400 mb-3`}>Final question</div>
-          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-snug mb-6">
+          <div className={`${eyebrow} text-slate-500 mb-3`}>Final question</div>
+          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug mb-6">
             Roughly how many people in your function use AI tools in their work?
           </h3>
           <div className="flex flex-col gap-2.5">
@@ -224,14 +224,14 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                   setAiUsers(v);
                   setStage("gate");
                 }}
-                className="flex items-start gap-3.5 text-left rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-primary px-4 py-3.5 text-[15px] text-white transition-colors"
+                className="flex items-start gap-3.5 text-left rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-slate-900 transition-colors"
               >
                 <span className="font-mono text-xs text-primary pt-0.5">·</span>
                 <span>{t}</span>
               </button>
             ))}
           </div>
-          <button onClick={() => setStage("questions")} className="mt-5 text-sm text-slate-400 underline hover:text-white">
+          <button onClick={() => setStage("questions")} className="mt-5 text-sm text-slate-500 underline hover:text-slate-900">
             Back
           </button>
         </div>
@@ -239,7 +239,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
 
       {stage === "gate" && (
         <form onSubmit={submit} className="space-y-4">
-          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-snug">
+          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug">
             Where should the written position go?
           </h3>
           {[
@@ -250,7 +250,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             { k: "role", l: "Job title", type: "text", ac: "organization-title" },
           ].map((f) => (
             <div key={f.k}>
-              <label htmlFor={`gr-${f.k}`} className={`${eyebrow} text-slate-400 mb-1.5 block`}>
+              <label htmlFor={`gr-${f.k}`} className={`${eyebrow} text-slate-500 mb-1.5 block`}>
                 {f.l}
                 {["name", "email", "phone"].includes(f.k) ? " *" : ""}
               </label>
@@ -260,11 +260,11 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                 autoComplete={f.ac}
                 value={lead[f.k as keyof typeof lead]}
                 onChange={(e) => setLead({ ...lead, [f.k]: e.target.value })}
-                className="w-full rounded-lg border border-white/15 bg-white/[0.04] px-4 py-3 text-white text-base placeholder:text-slate-500 focus:outline-none focus:border-primary"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 text-base placeholder:text-slate-400 focus:outline-none focus:border-primary"
               />
             </div>
           ))}
-          {error && <p className="text-sm text-red-400">{error}</p>}
+          {error && <p className="text-sm text-red-600">{error}</p>}
           <button
             type="submit"
             disabled={submitting}
@@ -272,7 +272,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
           >
             {submitting ? "Scoring…" : "Show my position"}
           </button>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-slate-500 leading-relaxed">
             We will send you a copy so you can forward it internally. No newsletter signup, no sharing with third parties.
           </p>
         </form>
@@ -280,36 +280,36 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
 
       {stage === "results" && (
         <div>
-          <div className={`${eyebrow} text-slate-400 mb-5`}>
+          <div className={`${eyebrow} text-slate-500 mb-5`}>
             {lead.company || "Your function"} · {new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
           </div>
 
-          <div className="rounded-xl border border-white/15 overflow-hidden mb-6">
-            <div className="p-5 border-b border-white/15">
+          <div className="rounded-xl border border-slate-200 overflow-hidden mb-6">
+            <div className="p-5 border-b border-slate-200">
               <div className={`${eyebrow} ${band.tone}`}>Summary position</div>
               <div className={`font-extrabold tracking-tight text-4xl md:text-5xl leading-none mt-2 ${band.tone}`}>{band.name}</div>
-              <div className="font-mono text-[13px] text-slate-400 mt-2.5">{total.toFixed(1)} / 20</div>
+              <div className="font-mono text-[13px] text-slate-500 mt-2.5">{total.toFixed(1)} / 20</div>
             </div>
-            <div className="p-5 bg-white/[0.04] text-[15px] text-white/90">{band.desc}</div>
+            <div className="p-5 bg-slate-50 text-[15px] text-slate-700">{band.desc}</div>
           </div>
 
           <table className="w-full border-collapse mb-7">
             <thead>
               <tr>
-                <th className={`${eyebrow} text-slate-400 text-left font-normal pb-2.5 border-b border-white/15`}>Domain</th>
-                <th className={`${eyebrow} text-slate-400 text-right font-normal pb-2.5 border-b border-white/15`}>Score</th>
+                <th className={`${eyebrow} text-slate-500 text-left font-normal pb-2.5 border-b border-slate-200`}>Domain</th>
+                <th className={`${eyebrow} text-slate-500 text-right font-normal pb-2.5 border-b border-slate-200`}>Score</th>
               </tr>
             </thead>
             <tbody>
               {DOMAINS.map((d, i) => (
                 <tr key={d}>
-                  <td className="py-3.5 border-b border-white/15 align-top">
-                    <span className="font-semibold text-white text-[15px]">{d}</span>
-                    <span className="block text-[13px] text-slate-400 mt-1 leading-relaxed">{REMEDY[i].w}</span>
+                  <td className="py-3.5 border-b border-slate-200 align-top">
+                    <span className="font-semibold text-slate-900 text-[15px]">{d}</span>
+                    <span className="block text-[13px] text-slate-500 mt-1 leading-relaxed">{REMEDY[i].w}</span>
                   </td>
                   <td
-                    className={`py-3.5 border-b border-white/15 text-right font-mono font-semibold whitespace-nowrap align-top ${
-                      domainScores[i] <= 1 ? "text-red-400" : domainScores[i] <= 2.5 ? "text-amber-400" : "text-emerald-400"
+                    className={`py-3.5 border-b border-slate-200 text-right font-mono font-semibold whitespace-nowrap align-top ${
+                      domainScores[i] <= 1 ? "text-red-600" : domainScores[i] <= 2.5 ? "text-amber-600" : "text-emerald-600"
                     }`}
                   >
                     {domainScores[i].toFixed(1)}/4
@@ -319,21 +319,21 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             </tbody>
           </table>
 
-          <h4 className="font-extrabold text-lg text-white mb-3.5">Three things to fix first</h4>
+          <h4 className="font-extrabold text-lg text-slate-900 mb-3.5">Three things to fix first</h4>
           {weakest.map((w) => (
             <div key={w.i} className="border-l-2 border-primary pl-4 mb-4">
-              <b className="block text-[15px] text-white mb-1">{REMEDY[w.i].t}</b>
-              <span className="text-sm text-slate-400">
+              <b className="block text-[15px] text-slate-900 mb-1">{REMEDY[w.i].t}</b>
+              <span className="text-sm text-slate-500">
                 {DOMAINS[w.i]} scored {w.s.toFixed(1)} of 4.
               </span>
             </div>
           ))}
 
-          <div className="rounded-xl border border-primary bg-white/[0.04] p-6 mt-8">
+          <div className="rounded-xl border border-primary bg-slate-50 p-6 mt-8">
             {total <= 10 && aiUsers >= 15 ? (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Book a 30 minute review</h4>
-                <p className="text-sm text-slate-300 mb-5">
+                <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Book a 30 minute review</h4>
+                <p className="text-sm text-slate-600 mb-5">
                   With around {aiUsers >= 50 ? "50 or more" : aiUsers >= 25 ? "25 to 49" : "10 to 24"} people using AI tools and no evidence trail behind
                   them, this is worth half an hour rather than a download. You leave with a written gap position for your board. Free, and the assessment
                   above stands either way.
@@ -344,22 +344,22 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               </>
             ) : total <= 15 ? (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Discover our learning options / Book a Call with Us</h4>
-                <p className="text-sm text-slate-300 mb-5">
+                <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Discover our learning options / Book a Call with Us</h4>
+                <p className="text-sm text-slate-600 mb-5">
                   Safety 4.0: Leading Safety in the Digital Age is approved training by IOSH and CPD-certified, and produces the certificated evidence the
                   literacy obligation asks for. £497.
                 </p>
                 <a href="/elearning" className="block text-center rounded-lg bg-primary px-5 py-4 font-extrabold text-white hover:bg-primary/90">
                   Discover our learning options
                 </a>
-                <a href={ZOOM_SCHEDULER_URL} target="_blank" rel="noopener noreferrer" className="block text-center rounded-lg border border-white/20 px-5 py-4 font-semibold text-white mt-3 hover:bg-white/5">
+                <a href={ZOOM_SCHEDULER_URL} target="_blank" rel="noopener noreferrer" className="block text-center rounded-lg border border-slate-300 px-5 py-4 font-semibold text-primary mt-3 hover:bg-slate-100">
                   Book a Call with Us
                 </a>
               </>
             ) : (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Keep it current</h4>
-                <p className="text-sm text-slate-300 mb-5">
+                <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Keep it current</h4>
+                <p className="text-sm text-slate-600 mb-5">
                   Your position holds. AI Fundamentals in EHS is the refresher that keeps new joiners on the same footing as the rest of your function.
                 </p>
                 <a href="/ai-fundamentals" className="block text-center rounded-lg bg-primary px-5 py-4 font-extrabold text-white hover:bg-primary/90">
@@ -369,7 +369,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             )}
           </div>
 
-          <p className="text-xs text-slate-400 mt-7 pt-5 border-t border-white/15 leading-relaxed">
+          <p className="text-xs text-slate-500 mt-7 pt-5 border-t border-slate-200 leading-relaxed">
             The AI literacy obligation under the EU AI Act has applied since 2 February 2025 to organisations deploying AI systems, not only those building
             them. Article 50 transparency obligations apply from 2 August 2026. High-risk obligations were deferred to 2 December 2027 under the Digital
             Omnibus. The UK has no equivalent statutory framework; the relevant pressure there comes from ISO 42001, insurer due diligence, and the general
