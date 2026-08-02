@@ -166,7 +166,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             <div key={d} className="flex-1 min-w-0">
               <div className={`h-1 rounded-full ${i < activeDomain || stage !== "questions" ? "bg-primary" : "bg-slate-200"}`} />
               <span
-                className={`${eyebrow} mt-1.5 block truncate text-[8px] sm:text-[9px] tracking-[0.08em] sm:tracking-[0.16em] ${i < activeDomain || stage !== "questions" ? "text-white" : "text-slate-500"}`}
+                className={`${eyebrow} mt-1.5 block truncate text-[8px] sm:text-[9px] tracking-[0.08em] sm:tracking-[0.16em] ${i < activeDomain || stage !== "questions" ? "text-slate-900" : "text-slate-500"}`}
               >
                 {d}
               </span>
@@ -180,13 +180,13 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
           <div className={`${eyebrow} text-slate-500 mb-3`}>
             Question <span className="text-primary font-semibold">{step + 1}</span> of {QUESTIONS.length} · {DOMAINS[activeDomain]}
           </div>
-          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-snug mb-6">{QUESTIONS[step].q}</h3>
+          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug mb-6">{QUESTIONS[step].q}</h3>
           <div className="flex flex-col gap-2.5">
             {QUESTIONS[step].a.map((t, i) => (
               <button
                 key={t}
                 onClick={() => answer(i)}
-                className="flex items-start gap-3.5 text-left rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-white transition-colors"
+                className="flex items-start gap-3.5 text-left rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-slate-900 transition-colors"
               >
                 <span className="font-mono text-xs text-primary pt-0.5">{i}</span>
                 <span>{t}</span>
@@ -213,7 +213,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
       {stage === "seats" && (
         <div>
           <div className={`${eyebrow} text-slate-500 mb-3`}>Final question</div>
-          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-snug mb-6">
+          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug mb-6">
             Roughly how many people in your function use AI tools in their work?
           </h3>
           <div className="flex flex-col gap-2.5">
@@ -224,7 +224,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                   setAiUsers(v);
                   setStage("gate");
                 }}
-                className="flex items-start gap-3.5 text-left rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-white transition-colors"
+                className="flex items-start gap-3.5 text-left rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary px-4 py-3.5 text-[15px] text-slate-900 transition-colors"
               >
                 <span className="font-mono text-xs text-primary pt-0.5">·</span>
                 <span>{t}</span>
@@ -239,7 +239,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
 
       {stage === "gate" && (
         <form onSubmit={submit} className="space-y-4">
-          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-snug">
+          <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug">
             Where should the written position go?
           </h3>
           {[
@@ -260,7 +260,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                 autoComplete={f.ac}
                 value={lead[f.k as keyof typeof lead]}
                 onChange={(e) => setLead({ ...lead, [f.k]: e.target.value })}
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-white text-base placeholder:text-slate-400 focus:outline-none focus:border-primary"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 text-base placeholder:text-slate-400 focus:outline-none focus:border-primary"
               />
             </div>
           ))}
@@ -304,7 +304,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               {DOMAINS.map((d, i) => (
                 <tr key={d}>
                   <td className="py-3.5 border-b border-slate-200 align-top">
-                    <span className="font-semibold text-white text-[15px]">{d}</span>
+                    <span className="font-semibold text-slate-900 text-[15px]">{d}</span>
                     <span className="block text-[13px] text-slate-500 mt-1 leading-relaxed">{REMEDY[i].w}</span>
                   </td>
                   <td
@@ -319,10 +319,10 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             </tbody>
           </table>
 
-          <h4 className="font-extrabold text-lg text-white mb-3.5">Three things to fix first</h4>
+          <h4 className="font-extrabold text-lg text-slate-900 mb-3.5">Three things to fix first</h4>
           {weakest.map((w) => (
             <div key={w.i} className="border-l-2 border-primary pl-4 mb-4">
-              <b className="block text-[15px] text-white mb-1">{REMEDY[w.i].t}</b>
+              <b className="block text-[15px] text-slate-900 mb-1">{REMEDY[w.i].t}</b>
               <span className="text-sm text-slate-500">
                 {DOMAINS[w.i]} scored {w.s.toFixed(1)} of 4.
               </span>
@@ -332,7 +332,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
           <div className="rounded-xl border border-primary bg-slate-50 p-6 mt-8">
             {total <= 10 && aiUsers >= 15 ? (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Book a 30 minute review</h4>
+                <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Book a 30 minute review</h4>
                 <p className="text-sm text-slate-600 mb-5">
                   With around {aiUsers >= 50 ? "50 or more" : aiUsers >= 25 ? "25 to 49" : "10 to 24"} people using AI tools and no evidence trail behind
                   them, this is worth half an hour rather than a download. You leave with a written gap position for your board. Free, and the assessment
@@ -344,7 +344,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               </>
             ) : total <= 15 ? (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Discover our learning options / Book a Call with Us</h4>
+                <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Discover our learning options / Book a Call with Us</h4>
                 <p className="text-sm text-slate-600 mb-5">
                   Safety 4.0: Leading Safety in the Digital Age is approved training by IOSH and CPD-certified, and produces the certificated evidence the
                   literacy obligation asks for. £497.
@@ -352,13 +352,13 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                 <a href="/elearning" className="block text-center rounded-lg bg-primary px-5 py-4 font-extrabold text-white hover:bg-primary/90">
                   Discover our learning options
                 </a>
-                <a href={ZOOM_SCHEDULER_URL} target="_blank" rel="noopener noreferrer" className="block text-center rounded-lg border border-slate-300 px-5 py-4 font-semibold text-white mt-3 hover:bg-slate-100">
+                <a href={ZOOM_SCHEDULER_URL} target="_blank" rel="noopener noreferrer" className="block text-center rounded-lg border border-slate-300 px-5 py-4 font-semibold text-primary mt-3 hover:bg-slate-100">
                   Book a Call with Us
                 </a>
               </>
             ) : (
               <>
-                <h4 className="font-extrabold text-lg text-white mb-2.5">Keep it current</h4>
+                <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Keep it current</h4>
                 <p className="text-sm text-slate-600 mb-5">
                   Your position holds. AI Fundamentals in EHS is the refresher that keeps new joiners on the same footing as the rest of your function.
                 </p>
