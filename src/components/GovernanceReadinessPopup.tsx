@@ -24,7 +24,7 @@ export const GovernanceReadinessPopup = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-md my-4 sm:my-6 rounded-2xl border border-white/20 bg-black p-5 sm:p-6 shadow-2xl animate-scale-in">
+      <div className="relative w-full max-w-md my-4 sm:my-6 rounded-2xl border border-white/20 bg-background p-5 sm:p-6 shadow-2xl animate-scale-in">
         <button
           onClick={close}
           className="absolute top-3 right-3 p-1.5 text-gray-400 hover:text-white transition-colors"
@@ -66,8 +66,7 @@ export const GovernanceReadinessPopup = () => {
               </Button>
               <Button
                 onClick={close}
-                variant="ghost"
-                className="w-full text-sm text-gray-400 hover:text-white hover:bg-white/10"
+                className="w-full py-5 text-sm font-semibold bg-black text-white hover:bg-black/80 border border-white/10"
               >
                 Maybe later
               </Button>
