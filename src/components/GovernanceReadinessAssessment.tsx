@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
+import { countryCodes } from "@/data/countryCodes";
+import GovernanceRadarChart from "@/components/GovernanceRadarChart";
 
 const DOMAINS = ["Visibility", "Literacy", "Governance", "Assurance", "Records"] as const;
 
@@ -97,8 +99,10 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
   const [scores, setScores] = useState<number[]>([]);
   const [aiUsers, setAiUsers] = useState(0);
   const [lead, setLead] = useState({ name: "", email: "", phone: "", company: "", role: "" });
+  const [dialCode, setDialCode] = useState("+44");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   const domainScores = useMemo(
     () =>
@@ -131,6 +135,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
     if (!lead.name.trim()) return setError("Please add your name.");
     if (!lead.email.includes("@") || !lead.email.includes(".")) return setError("Please add a valid work email.");
     if (lead.phone.replace(/\D/g, "").length < 7) return setError("Please add a contact phone number.");
+    const fullPhone = `${dialCode} ${lead.phone.trim()}`;
 
     setSubmitting(true);
     const ds = DOMAINS.map((d, i) => `${d} ${domainScores[i].toFixed(1)}/4`).join(", ");
@@ -139,7 +144,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
         body: {
           name: lead.name.trim(),
           email: lead.email.trim(),
-          phone: lead.phone.trim(),
+          phone: fullPhone,
           source: "governance_readiness",
           job_title: lead.role.trim() || null,
           inquiry_type: "AI Governance Readiness Review",
@@ -151,6 +156,25 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
       /* results still shown — capture failure must not block the user */
       console.error("Governance readiness lead capture failed:", err);
     }
+    try {
+      const { error: emailError } = await supabase.functions.invoke("send-governance-email", {
+        body: {
+          name: lead.name.trim(),
+          email: lead.email.trim(),
+          company: lead.company.trim() || null,
+          bandName: band.name,
+          bandDescription: band.desc,
+          total: Number(total.toFixed(1)),
+          domains: DOMAINS.map((d, i) => ({ domain: d, score: Number(domainScores[i].toFixed(1)) })),
+          actions: weakest.map((w) => ({ title: REMEDY[w.i].t, why: REMEDY[w.i].w })),
+        },
+      });
+      if (emailError) console.error("Governance readiness email failed:", emailError);
+      else setEmailSent(true);
+    } catch (err) {
+      console.error("Governance readiness email failed:", err);
+    }
+
     setSubmitting(false);
     setStage("results");
   };
@@ -245,7 +269,6 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
           {[
             { k: "name", l: "Name", type: "text", ac: "name" },
             { k: "email", l: "Work email", type: "email", ac: "email" },
-            { k: "phone", l: "Phone", type: "tel", ac: "tel" },
             { k: "company", l: "Company", type: "text", ac: "organization" },
             { k: "role", l: "Job title", type: "text", ac: "organization-title" },
           ].map((f) => (
@@ -264,6 +287,35 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               />
             </div>
           ))}
+          <div>
+            <label htmlFor="gr-phone" className={`${eyebrow} text-slate-500 mb-1.5 block`}>
+              Phone *
+            </label>
+            <div className="flex gap-2">
+              <select
+                aria-label="Country dialling code"
+                value={dialCode}
+                onChange={(e) => setDialCode(e.target.value)}
+                className="w-[124px] shrink-0 rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 text-slate-900 text-base focus:outline-none focus:border-primary"
+              >
+                {countryCodes.map((c) => (
+                  <option key={c.label} value={c.code}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                id="gr-phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                placeholder="7700 900000"
+                value={lead.phone}
+                onChange={(e) => setLead({ ...lead, phone: e.target.value })}
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 text-base placeholder:text-slate-400 focus:outline-none focus:border-primary"
+              />
+            </div>
+          </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
           <button
             type="submit"
@@ -284,6 +336,12 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
             {lead.company || "Your function"} · {new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
           </div>
 
+          {emailSent && (
+            <p className="text-sm text-slate-600 mb-5 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+              A copy has been emailed to <b className="text-slate-900">{lead.email}</b>.
+            </p>
+          )}
+
           <div className="rounded-xl border border-slate-200 overflow-hidden mb-6">
             <div className="p-5 border-b border-slate-200">
               <div className={`${eyebrow} ${band.tone}`}>Summary position</div>
@@ -291,6 +349,11 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
               <div className="font-mono text-[13px] text-slate-500 mt-2.5">{total.toFixed(1)} / 20</div>
             </div>
             <div className="p-5 bg-slate-50 text-[15px] text-slate-700">{band.desc}</div>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 p-5 mb-6">
+            <div className={`${eyebrow} text-slate-500 mb-3`}>Readiness profile</div>
+            <GovernanceRadarChart labels={[...DOMAINS]} values={domainScores} max={4} />
           </div>
 
           <table className="w-full border-collapse mb-7">
