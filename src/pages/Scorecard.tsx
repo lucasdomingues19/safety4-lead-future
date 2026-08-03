@@ -15,8 +15,8 @@ const Scorecard = () => {
 
   useEffect(() => {
     setPageSEO({
-      title: "Free Safety 4.0 Scorecard & Digital Maturity | Assess Your Readiness",
-      description: "Take the free Safety 4.0 Scorecard & Digital Maturity Pulse. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
+      title: "Free Digital Maturity Scorecard | Assess Your Readiness",
+      description: "Take the free Digital Maturity Scorecard. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
       canonical: "https://safetytech.academy/scorecard",
     });
     trackPageView(window.location.pathname);
