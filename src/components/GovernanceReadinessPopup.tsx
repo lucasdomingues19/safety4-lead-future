@@ -73,7 +73,9 @@ export const GovernanceReadinessPopup = () => {
             </div>
           </>
         ) : (
-          <GovernanceReadinessAssessment compact />
+          <div className="bg-white rounded-xl p-4 sm:p-5 -mx-1 -mb-1">
+            <GovernanceReadinessAssessment compact />
+          </div>
         )}
       </div>
     </div>
