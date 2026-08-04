@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { X, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GovernanceReadinessAssessment } from "@/components/GovernanceReadinessAssessment";
 import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
 
 export const GovernanceReadinessPopup = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,6 +18,11 @@ export const GovernanceReadinessPopup = () => {
   const close = () => {
     setIsOpen(false);
     releasePopupSlot("governance_readiness");
+  };
+
+  const start = () => {
+    close();
+    navigate("/governance-readiness");
   };
 
   if (!isOpen) return null;
