@@ -52,6 +52,14 @@ export const Footer = () => {
             <h4 className="text-white font-semibold text-base md:text-lg mb-4 md:mb-6">Resources</h4>
             <ul className="space-y-2 md:space-y-3">
               <li>
+                <Link
+                  to="/guides"
+                  className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
+                >
+                  Guides
+                </Link>
+              </li>
+              <li>
                 <Link 
                   to="/blog" 
                   className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
@@ -59,6 +67,7 @@ export const Footer = () => {
                   Blog & Insights
                 </Link>
               </li>
+
               <li>
                 <Link 
                   to="/contact" 
