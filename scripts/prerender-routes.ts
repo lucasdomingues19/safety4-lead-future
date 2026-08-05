@@ -1,4 +1,5 @@
 import { blogPosts } from "../src/data/blogPosts";
+import { guides } from "../src/data/guides";
 
 const BASE = "https://safetytech.academy";
 const DEFAULT_OG = `${BASE}/opengraph-image.png?v=3`;
@@ -12,7 +13,18 @@ export interface RouteSeo {
   canonical?: string;
   ogImage?: string;
   ogType?: string;
+  /**
+   * JSON-LD blocks baked into the static HTML head at build time, so crawlers
+   * and AI assistants that never execute JS still see the structured data.
+   */
+  jsonLd?: Record<string, unknown>[];
+  /**
+   * Plain-text content baked into a <noscript> block, so non-JS crawlers read
+   * the actual answer rather than an empty shell.
+   */
+  noscriptContent?: { heading: string; paragraphs: string[] }[];
 }
+
 
 const staticRoutes: RouteSeo[] = [
   {
