@@ -277,5 +277,34 @@ export function applyRouteSeo(template: string, route: RouteSeo): string {
     html = html.replace(/<\/title>/, `</title>\n    ${canonicalTag}`);
   }
 
+  // Structured data baked in at build time — visible to crawlers and AI
+  // assistants that never execute JavaScript.
+  if (route.jsonLd?.length) {
+    const blocks = route.jsonLd
+      .map(
+        (block) =>
+          `    <script type="application/ld+json">${JSON.stringify(block).replace(
+            /</g,
+            "\\u003c",
+          )}</script>`,
+      )
+      .join("\n");
+    html = html.replace(/<\/head>/, `${blocks}\n  </head>`);
+  }
+
+  // Readable fallback content for non-JS crawlers.
+  if (route.noscriptContent?.length) {
+    const body = route.noscriptContent
+      .map(
+        (s) =>
+          `        <h2>${esc(s.heading)}</h2>\n` +
+          s.paragraphs.map((p) => `        <p>${esc(p)}</p>`).join("\n"),
+      )
+      .join("\n");
+    const nsBlock = `    <noscript>\n      <div style="max-width:900px;margin:0 auto;padding:40px 20px;font-family:sans-serif;color:#222;">\n${body}\n      </div>\n    </noscript>\n`;
+    html = html.replace(/<div id="root"><\/div>/, `${nsBlock}    <div id="root"></div>`);
+  }
+
   return html;
+
 }
