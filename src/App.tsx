@@ -38,6 +38,9 @@ const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
 const AIFundamentals = lazy(() => import("./pages/AIFundamentals"));
 const GovernanceReadiness = lazy(() => import("./pages/GovernanceReadiness"));
+const GuidesHub = lazy(() => import("./pages/Guides"));
+const GuidePage = lazy(() => import("./pages/Guide"));
+
 
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
@@ -101,6 +104,9 @@ const App = () => (
             <Route path="/enrol" element={<Enroll />} />
             <Route path="/ai-fundamentals" element={<AIFundamentals />} />
             <Route path="/governance-readiness" element={<GovernanceReadiness />} />
+            <Route path="/guides" element={<GuidesHub />} />
+            <Route path="/guides/:slug" element={<GuidePage />} />
+
             <Route path="/learn/auth" element={<LearnAuth />} />
             <Route path="/learn" element={<LearnDashboard />} />
             <Route path="/learn/:courseSlug" element={<CourseView />} />

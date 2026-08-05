@@ -1,4 +1,5 @@
 import { blogPosts } from "../src/data/blogPosts";
+import { guides } from "../src/data/guides";
 
 const BASE = "https://safetytech.academy";
 const DEFAULT_OG = `${BASE}/opengraph-image.png?v=3`;
@@ -12,7 +13,18 @@ export interface RouteSeo {
   canonical?: string;
   ogImage?: string;
   ogType?: string;
+  /**
+   * JSON-LD blocks baked into the static HTML head at build time, so crawlers
+   * and AI assistants that never execute JS still see the structured data.
+   */
+  jsonLd?: Record<string, unknown>[];
+  /**
+   * Plain-text content baked into a <noscript> block, so non-JS crawlers read
+   * the actual answer rather than an empty shell.
+   */
+  noscriptContent?: { heading: string; paragraphs: string[] }[];
 }
+
 
 const staticRoutes: RouteSeo[] = [
   {
@@ -131,7 +143,90 @@ const blogRoutes: RouteSeo[] = blogPosts.map((post) => ({
   ogType: "article",
 }));
 
-export const prerenderRoutes: RouteSeo[] = [...staticRoutes, ...blogRoutes];
+const guideRoutes: RouteSeo[] = [
+  {
+    path: "/guides",
+    title: "Guides — AI, Safety 4.0 and IOSH Training Explained",
+    description:
+      "In-depth, practitioner-written guides on AI in health and safety, AI risk assessment, Safety 4.0 and IOSH-approved training. Free to read.",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "SafetyTech Academy Guides",
+        url: `${BASE}/guides`,
+        hasPart: guides.map((g) => ({
+          "@type": "Article",
+          headline: g.title,
+          abstract: g.summary,
+          url: `${BASE}/guides/${g.slug}`,
+        })),
+      },
+    ],
+  },
+  ...guides.map((guide): RouteSeo => {
+    const url = `${BASE}/guides/${guide.slug}`;
+    return {
+      path: `/guides/${guide.slug}`,
+      title: guide.metaTitle,
+      description: guide.metaDescription,
+      ogType: "article",
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: guide.title,
+          description: guide.metaDescription,
+          abstract: guide.summary,
+          inLanguage: "en-GB",
+          datePublished: guide.updated,
+          dateModified: guide.updated,
+          mainEntityOfPage: { "@type": "WebPage", "@id": url },
+          author: { "@type": "Organization", name: "SafetyTech Academy", url: BASE },
+          publisher: {
+            "@type": "EducationalOrganization",
+            name: "SafetyTech Academy",
+            url: BASE,
+          },
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: guide.faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: BASE },
+            { "@type": "ListItem", position: 2, name: "Guides", item: `${BASE}/guides` },
+            { "@type": "ListItem", position: 3, name: guide.shortLabel, item: url },
+          ],
+        },
+      ],
+      noscriptContent: [
+        { heading: guide.title, paragraphs: [guide.summary] },
+        { heading: "Key takeaways", paragraphs: guide.keyTakeaways },
+        ...guide.sections.map((s) => ({
+          heading: s.heading,
+          paragraphs: [...(s.body ?? []), ...(s.bullets ?? [])],
+        })),
+        ...guide.faqs.map((f) => ({ heading: f.question, paragraphs: [f.answer] })),
+      ],
+    };
+  }),
+];
+
+export const prerenderRoutes: RouteSeo[] = [
+  ...staticRoutes,
+  ...blogRoutes,
+  ...guideRoutes,
+];
+
 
 /** Apply a route's SEO metadata to the built index.html template string. */
 export function applyRouteSeo(template: string, route: RouteSeo): string {
@@ -182,5 +277,34 @@ export function applyRouteSeo(template: string, route: RouteSeo): string {
     html = html.replace(/<\/title>/, `</title>\n    ${canonicalTag}`);
   }
 
+  // Structured data baked in at build time — visible to crawlers and AI
+  // assistants that never execute JavaScript.
+  if (route.jsonLd?.length) {
+    const blocks = route.jsonLd
+      .map(
+        (block) =>
+          `    <script type="application/ld+json">${JSON.stringify(block).replace(
+            /</g,
+            "\\u003c",
+          )}</script>`,
+      )
+      .join("\n");
+    html = html.replace(/<\/head>/, `${blocks}\n  </head>`);
+  }
+
+  // Readable fallback content for non-JS crawlers.
+  if (route.noscriptContent?.length) {
+    const body = route.noscriptContent
+      .map(
+        (s) =>
+          `        <h2>${esc(s.heading)}</h2>\n` +
+          s.paragraphs.map((p) => `        <p>${esc(p)}</p>`).join("\n"),
+      )
+      .join("\n");
+    const nsBlock = `    <noscript>\n      <div style="max-width:900px;margin:0 auto;padding:40px 20px;font-family:sans-serif;color:#222;">\n${body}\n      </div>\n    </noscript>\n`;
+    html = html.replace(/<div id="root"><\/div>/, `${nsBlock}    <div id="root"></div>`);
+  }
+
   return html;
+
 }
