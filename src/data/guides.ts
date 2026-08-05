@@ -462,7 +462,7 @@ export const guides: Guide[] = [
             [
               "Safety 4.0 Accelerator Cohort",
               "4-week live group programme with peer learning",
-              "£997 + VAT",
+              "£1,997 + VAT",
             ],
             [
               "In-company training",
