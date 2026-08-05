@@ -38,6 +38,9 @@ const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
 const AIFundamentals = lazy(() => import("./pages/AIFundamentals"));
 const GovernanceReadiness = lazy(() => import("./pages/GovernanceReadiness"));
+const GuidesHub = lazy(() => import("./pages/Guides"));
+const GuidePage = lazy(() => import("./pages/Guide"));
+
 
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
