@@ -531,25 +531,25 @@ const Cohort = () => {
                 <div className="text-xs font-syne font-bold text-primary tracking-[2px] mb-2">YOUR DETAILS</div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
-                    <input required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    <label htmlFor="cohort-first-name" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">FIRST NAME *</label>
+                    <input id="cohort-first-name" required value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Jane" />
                   </div>
                   <div>
-                    <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
-                    <input required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    <label htmlFor="cohort-last-name" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">LAST NAME *</label>
+                    <input id="cohort-last-name" required value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Smith" />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
-                  <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  <label htmlFor="cohort-email" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">WORK EMAIL *</label>
+                  <input id="cohort-email" type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="jane@company.com" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">PHONE NUMBER *</label>
+                  <label htmlFor="cohort-phone" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">PHONE NUMBER *</label>
                   <div className="flex gap-2">
-                    <select
+                    <select id="cohort-phone-code" aria-label="Country dialling code"
                       value={formData.countryCode}
                       onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
                       className="bg-white border border-slate-300 rounded-lg px-2 py-2.5 text-sm text-slate-900 w-28 flex-shrink-0 focus:border-primary focus:outline-none transition-colors"
@@ -560,27 +560,28 @@ const Cohort = () => {
                         </option>
                       ))}
                     </select>
-                    <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    <input id="cohort-phone" type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="7911 123456" />
                   </div>
                 </div>
                 <div>
-                  <input required value={formData.jobTitle} onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
+                  <label htmlFor="cohort-job-title" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">JOB TITLE *</label>
+                  <input id="cohort-job-title" required value={formData.jobTitle} onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="HSE Manager" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
-                  <input required value={formData.linkedin} onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
+                  <label htmlFor="cohort-linkedin" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">LINKEDIN PROFILE *</label>
+                  <input id="cohort-linkedin" required value={formData.linkedin} onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="https://linkedin.com/in/yourprofile" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
-                  <input required value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  <label htmlFor="cohort-country" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">COUNTRY *</label>
+                  <input id="cohort-country" required value={formData.country} onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="United Kingdom" />
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
-                  <input value={formData.organisation} onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
+                  <label htmlFor="cohort-organisation" className="text-[11px] text-slate-600 block mb-1.5 tracking-[0.5px]">ORGANISATION</label>
+                  <input id="cohort-organisation" value={formData.organisation} onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
                 className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none transition-colors" placeholder="Acme Corp" />
                 </div>
                 <Button type="button" onClick={() => {
