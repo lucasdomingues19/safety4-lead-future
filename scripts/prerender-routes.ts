@@ -277,6 +277,19 @@ export function applyRouteSeo(template: string, route: RouteSeo): string {
     html = html.replace(/<\/title>/, `</title>\n    ${canonicalTag}`);
   }
 
+  // hreflang alternates must self-reference this route, not the homepage.
+  const setAlternate = (lang: string) => {
+    const re = new RegExp(
+      `<link rel="alternate" hreflang="${lang.replace("-", "\\-")}"[^>]*>`,
+    );
+    const tag = `<link rel="alternate" hreflang="${lang}" href="${canonical}" />`;
+    if (re.test(html)) html = html.replace(re, tag);
+    else html = html.replace(/<\/head>/, `    ${tag}\n  </head>`);
+  };
+  setAlternate("en");
+  setAlternate("x-default");
+
+
   // Structured data baked in at build time — visible to crawlers and AI
   // assistants that never execute JavaScript.
   if (route.jsonLd?.length) {
