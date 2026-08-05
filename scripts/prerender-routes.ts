@@ -143,7 +143,90 @@ const blogRoutes: RouteSeo[] = blogPosts.map((post) => ({
   ogType: "article",
 }));
 
-export const prerenderRoutes: RouteSeo[] = [...staticRoutes, ...blogRoutes];
+const guideRoutes: RouteSeo[] = [
+  {
+    path: "/guides",
+    title: "Guides — AI, Safety 4.0 and IOSH Training Explained",
+    description:
+      "In-depth, practitioner-written guides on AI in health and safety, AI risk assessment, Safety 4.0 and IOSH-approved training. Free to read.",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "SafetyTech Academy Guides",
+        url: `${BASE}/guides`,
+        hasPart: guides.map((g) => ({
+          "@type": "Article",
+          headline: g.title,
+          abstract: g.summary,
+          url: `${BASE}/guides/${g.slug}`,
+        })),
+      },
+    ],
+  },
+  ...guides.map((guide): RouteSeo => {
+    const url = `${BASE}/guides/${guide.slug}`;
+    return {
+      path: `/guides/${guide.slug}`,
+      title: guide.metaTitle,
+      description: guide.metaDescription,
+      ogType: "article",
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: guide.title,
+          description: guide.metaDescription,
+          abstract: guide.summary,
+          inLanguage: "en-GB",
+          datePublished: guide.updated,
+          dateModified: guide.updated,
+          mainEntityOfPage: { "@type": "WebPage", "@id": url },
+          author: { "@type": "Organization", name: "SafetyTech Academy", url: BASE },
+          publisher: {
+            "@type": "EducationalOrganization",
+            name: "SafetyTech Academy",
+            url: BASE,
+          },
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: guide.faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: BASE },
+            { "@type": "ListItem", position: 2, name: "Guides", item: `${BASE}/guides` },
+            { "@type": "ListItem", position: 3, name: guide.shortLabel, item: url },
+          ],
+        },
+      ],
+      noscriptContent: [
+        { heading: guide.title, paragraphs: [guide.summary] },
+        { heading: "Key takeaways", paragraphs: guide.keyTakeaways },
+        ...guide.sections.map((s) => ({
+          heading: s.heading,
+          paragraphs: [...(s.body ?? []), ...(s.bullets ?? [])],
+        })),
+        ...guide.faqs.map((f) => ({ heading: f.question, paragraphs: [f.answer] })),
+      ],
+    };
+  }),
+];
+
+export const prerenderRoutes: RouteSeo[] = [
+  ...staticRoutes,
+  ...blogRoutes,
+  ...guideRoutes,
+];
+
 
 /** Apply a route's SEO metadata to the built index.html template string. */
 export function applyRouteSeo(template: string, route: RouteSeo): string {
