@@ -7,6 +7,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
 import { getPostBySlug } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { setPageSEO } from "@/utils/seo";
 
@@ -66,11 +67,43 @@ const BlogPost = () => {
       script.setAttribute('data-schema', 'blogpost');
       script.text = JSON.stringify(blogPostSchema);
       document.head.appendChild(script);
+
+      // Derive FAQPage schema from a "Frequently asked questions" section (### Q + answer)
+      const faqSection = post.content.split(/^##\s+Frequently asked questions\s*$/mi)[1];
+      if (faqSection) {
+        const block = faqSection.split(/^##\s+/m)[0];
+        const faqs = block
+          .split(/^###\s+/m)
+          .slice(1)
+          .map((chunk) => {
+            const [question, ...rest] = chunk.split("\n");
+            const answer = rest.join(" ").replace(/[*_`>#]/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\s+/g, " ").trim();
+            return { question: question.trim(), answer };
+          })
+          .filter((f) => f.question && f.answer);
+
+        if (faqs.length) {
+          document.querySelector('script[data-schema="blogfaq"]')?.remove();
+          const faqScript = document.createElement('script');
+          faqScript.type = 'application/ld+json';
+          faqScript.setAttribute('data-schema', 'blogfaq');
+          faqScript.text = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.question,
+              acceptedAnswer: { "@type": "Answer", text: f.answer },
+            })),
+          });
+          document.head.appendChild(faqScript);
+        }
+      }
     }
 
     return () => {
-      const blogSchema = document.querySelector('script[data-schema="blogpost"]');
-      if (blogSchema) blogSchema.remove();
+      document.querySelector('script[data-schema="blogpost"]')?.remove();
+      document.querySelector('script[data-schema="blogfaq"]')?.remove();
     };
   }, [post]);
 
@@ -185,7 +218,16 @@ const BlogPost = () => {
               <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-8 lg:p-12">
                 <div className="text-slate-600 leading-relaxed space-y-6">
                   <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
                     components={{
+                      table: ({ children }) => (
+                        <div className="overflow-x-auto my-6">
+                          <table className="w-full text-left border-collapse text-sm">{children}</table>
+                        </div>
+                      ),
+                      thead: ({ children }) => <thead className="bg-slate-100">{children}</thead>,
+                      th: ({ children }) => <th className="border border-slate-200 px-4 py-3 font-bold text-slate-900">{children}</th>,
+                      td: ({ children }) => <td className="border border-slate-200 px-4 py-3 text-slate-600">{children}</td>,
                       h1: ({ children }) => <h1 className="text-3xl font-bold text-slate-900 mt-8 mb-4">{children}</h1>,
                       h2: ({ children }) => <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">{children}</h2>,
                       h3: ({ children }) => <h3 className="text-xl font-bold text-primary mt-6 mb-3">{children}</h3>,
