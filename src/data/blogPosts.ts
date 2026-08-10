@@ -29,8 +29,6 @@ export const blogPosts: BlogPost[] = [
     tags: ["Copilot in PowerPoint", "AI for EHS", "Safety Training", "Toolbox Talks", "Productivity", "ISO 45001", "Microsoft 365", "Safety 4.0"],
     featuredImage: "/blog/5-hour-slide-deck.jpg",
     content: `
-# The 5-Hour Slide Deck: How EHS Professionals Are Getting Their Week Back
-
 Every EHS professional I know has done this.
 
 It's 21:40. The induction pack needs rebuilding for a new site. You've got the risk assessment, the method statement, and last year's deck with the old logo on it. You tell yourself it'll take an hour.
