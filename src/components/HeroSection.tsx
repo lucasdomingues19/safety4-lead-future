@@ -71,10 +71,12 @@ export const HeroSection = () => {
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-white mb-4 md:mb-8">
-            Build a Safety Function Ready for the <span style={{ color: "#c4ff00" }}>Digital Age</span>
+            Safety 4.0 Training for the <span style={{ color: "#c4ff00" }}>Digital Age</span>
           </h1>
           <p className="text-base md:text-xl lg:text-2xl text-gray-200 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
-            Upskill your EHS team with the world's first IOSH-approved and CPD-accredited Safety 4.0 programme.
+            AI workplace safety certification for EHS teams — the world's first IOSH-approved,
+            CPD-accredited Safety 4.0 programme. Build a safety function ready for AI, IoT and
+            SafetyTech.
           </p>
 
 
