@@ -16,6 +16,130 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "7",
+    slug: "5-hour-slide-deck-ehs-copilot",
+    title: "The 5-Hour Slide Deck: How EHS Professionals Are Getting Their Week Back",
+    metaDescription: "Office workers spend around five hours building each presentation, and 48% of decks are training material. Here is how EHS professionals use Copilot in PowerPoint to cut that to about 75 minutes — safely.",
+    excerpt: "It's 21:40 and the induction pack still isn't finished. Research suggests each presentation costs around five hours, with 40% of that on formatting alone. Here is where AI genuinely changes the maths for EHS work — and the one step you must never automate.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2026-08-10",
+    readTime: "7 min read",
+    category: "AI in EHS",
+    tags: ["Copilot in PowerPoint", "AI for EHS", "Safety Training", "Toolbox Talks", "Productivity", "ISO 45001", "Microsoft 365", "Safety 4.0"],
+    featuredImage: "/blog/5-hour-slide-deck.jpg",
+    content: `
+# The 5-Hour Slide Deck: How EHS Professionals Are Getting Their Week Back
+
+Every EHS professional I know has done this.
+
+It's 21:40. The induction pack needs rebuilding for a new site. You've got the risk assessment, the method statement, and last year's deck with the old logo on it. You tell yourself it'll take an hour.
+
+Three hours later you're still nudging a text box two millimetres to the left.
+
+## The number nobody talks about
+
+A GfK study of 1,017 office workers, commissioned by Made in Office, found that employees spend an average of **20 hours a month** working on PowerPoint, producing around **48 presentations a year**.
+
+Do the arithmetic: 240 hours a year, 48 decks. That's roughly **five hours per presentation**.
+
+Two more findings from the same study land hard for our profession:
+
+- **40% of that time goes on formatting alone** — not content, not accuracy, not pedagogy. Alignment, fonts, colours, dragging old slides into new templates.
+- **48% of presentations are built for training documentation.** Training is one of the single biggest use cases for PowerPoint in the workplace.
+
+> Note: the GfK survey was conducted in June 2014 across German companies with 50+ employees. It remains the most comprehensive study of business PowerPoint use published — and if anything, deck volume has gone up since.
+
+Now overlay that on an EHS workload. Toolbox talks. Inductions. Contractor briefings. Board safety reports. Post-incident learning packs. ISO 45001 awareness sessions. That's not five hours once. That's five hours, repeatedly, on work that is genuinely important but almost entirely mechanical.
+
+## Where Copilot actually changes the maths
+
+Copilot in PowerPoint does three things that matter for EHS work.
+
+### 1. It builds decks from your existing documents
+
+This is the big one. You already have the source material — the RAMS, the incident investigation report, the PGR, the policy. Point Copilot at a Word document and ask it to build the deck **from that**, rather than from its own general knowledge. Your content, your terminology, your controls. (Copilot works best with Word files under 24 MB.)
+
+### 2. It generates images inside the deck — and tags them
+
+AI-generated images created in Microsoft 365 carry C2PA content credentials, and the slide's speaker notes record that the image was AI-generated. For anyone who has to defend a training record in an audit or an investigation, that provenance trail is not a footnote. It's the difference between "we used AI" and "we can show what we used AI for."
+
+### 3. It rewrites for the audience
+
+"Rewrite slide 6 at a reading age of 12." "Translate this deck into Portuguese, keeping the technical terms in English." "Turn this 20-slide induction into a 5-minute pre-task brief." Reworking existing material for a different audience is where the hours quietly disappear — and where AI is genuinely strong.
+
+## The honest comparison
+
+| Stage | Manual | With Copilot |
+| --- | --- | --- |
+| Structuring the content | ~60 min | ~10 min |
+| Writing the slides | ~90 min | ~15 min |
+| Sourcing or making visuals | ~45 min | ~10 min |
+| Formatting and brand consistency | ~60 min | ~10 min |
+| Technical accuracy review | ~30 min | ~30 min |
+| **Total** | **~5 hours** | **~75 min** |
+
+Look at the row that doesn't move.
+
+The Australian Government's evaluation of Microsoft 365 Copilot — over 7,000 participants across 60 agencies — found real time savings on slide preparation, but also that editing was almost always required to fit the audience and context, and that **7% of respondents said Copilot added time** to preparing slides. That was the highest "added time" figure of any task they measured.
+
+The reason is simple. Generative AI produces *plausible* content, not *verified* content. In a marketing deck, plausible is survivable. In a confined space entry briefing, plausible is a fatality.
+
+## Where Gamma and video fit
+
+Gamma is worth a look if design is your bottleneck rather than content. It takes a rough outline or an existing deck and produces something that looks like a designer touched it. Useful for external-facing material and client training. Less useful when you need tight control over a specific corporate template.
+
+Video is more complicated than the marketing suggests. Copilot's video creation (via Clipchamp) will write a script, pull stock footage, add voiceover and assemble a draft in minutes. But the stock library doesn't know your site. I have seen AI-assembled safety videos featuring hard hats without chin straps, incorrect harness attachment, and a "confined space" that was obviously a basement. Use it for narration, structure and pacing. Film your own site for anything showing an actual control.
+
+## The part you can't automate
+
+Copilot can build the deck. It cannot be the competent person.
+
+It doesn't know your site. It doesn't know that Line 3 has a guard that's been overridden twice this year. It doesn't know that half your night shift reads English as a second language. It has no legal duty under the Health and Safety at Work etc. Act 1974, and no accountability under ISO 45001 clause 7.2.
+
+You do.
+
+So use the tool. Reclaim the three and a half hours. Then spend thirty minutes of it doing the thing only a competent professional can do: checking that every single claim on those slides is true, current, and right for the people in the room.
+
+That's not the slow part of the job. That's the job.
+
+## Frequently asked questions
+
+### How long does it take to create a PowerPoint presentation?
+
+Research by GfK for Made in Office found office workers spend around 20 hours a month on PowerPoint and produce roughly 48 presentations a year — about **five hours per deck**. Around 40% of that time goes on formatting rather than content.
+
+### Can Copilot build a safety induction from my risk assessment?
+
+Yes. Copilot in PowerPoint can generate a deck from an existing Word document, so you can point it at your RAMS, policy or investigation report and have it use your own wording and controls instead of generic content. Files under 24 MB work best.
+
+### Is it safe to use AI to create health and safety training?
+
+It is safe for structuring, drafting, formatting and translating — but not for verifying. Generative AI produces plausible content, not verified content. A competent person must review every technical claim before the material is delivered, and accountability under ISO 45001 clause 7.2 and the Health and Safety at Work etc. Act 1974 stays with you.
+
+### How much time can Copilot realistically save on a training deck?
+
+Based on the ~5 hour benchmark and the 40% formatting split, a typical deck can drop to roughly 75 minutes — with the technical accuracy review (about 30 minutes) unchanged. The Australian Government's Copilot evaluation also found 7% of users reported it *added* time to slide preparation, so results vary by task.
+
+## Learn to do this properly
+
+If you want a structured way to build these skills — prompting, governance, provenance and the judgement to know when not to use AI — that is exactly what our programmes cover:
+
+- [AI Fundamentals in EHS](/ai-fundamentals) — practical AI skills for safety professionals.
+- [IOSH-approved Safety 4.0 eLearning](/elearning) — self-paced certification in digital safety leadership.
+- [AI in EHS Governance Readiness assessment](/governance-readiness) — a free 10-question check on how ready your organisation is.
+
+## References
+
+1. GfK on behalf of Made in Office, *The Big PowerPoint Study* — survey of 1,017 office workers, Germany, June 2014. [Read the study](https://www.empowersuite.com/hubfs/Marketing/Downloads/The-Big-PowerPoint-Study.pdf)
+2. Digital Transformation Agency (Australian Government), *Microsoft 365 Copilot Evaluation Report — Productivity*. [Read the report](https://www.digital.gov.au/initiatives/copilot-trial/microsoft-365-copilot-evaluation-report-full/productivity)
+3. Microsoft Support, *Create a new presentation with Copilot in PowerPoint*. [Read the guide](https://support.microsoft.com/en-us/office/create-a-new-presentation-with-copilot-in-powerpoint-3222ee03-f5a4-4d27-8642-9c387ab4854d)
+4. Microsoft Support, *Create a video with the Microsoft 365 Copilot app*. [Read the guide](https://support.microsoft.com/en-us/microsoft-365-copilot/create-a-video-with-the-microsoft-365-copilot-app)
+
+*Note: the stage-by-stage time estimates in the comparison table are illustrative, built from the ~5 hour per deck figure derived from the GfK data and the 40% formatting split. They are a planning benchmark, not a measured result.*
+`,
+  },
+  {
     id: "6",
     slug: "more-than-award-nominations",
     title: "More Than Award Nominations: Why We Built SafetyTech Academy",
