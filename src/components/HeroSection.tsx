@@ -84,6 +84,14 @@ export const HeroSection = () => {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <a
               href="/#pricing"
+              onClick={(e) => {
+                const el = document.getElementById("pricing");
+                if (el) {
+                  e.preventDefault();
+                  el.scrollIntoView({ behavior: "smooth" });
+                  window.history.replaceState(null, "", "/#pricing");
+                }
+              }}
               className="inline-flex items-center gap-2 px-8 py-4 bg-lime-500 text-white font-semibold text-lg rounded-full hover:bg-lime-400 transition-colors active:scale-[0.97]"
             >
               Upskill My Team
