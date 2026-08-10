@@ -67,11 +67,43 @@ const BlogPost = () => {
       script.setAttribute('data-schema', 'blogpost');
       script.text = JSON.stringify(blogPostSchema);
       document.head.appendChild(script);
+
+      // Derive FAQPage schema from a "Frequently asked questions" section (### Q + answer)
+      const faqSection = post.content.split(/^##\s+Frequently asked questions\s*$/mi)[1];
+      if (faqSection) {
+        const block = faqSection.split(/^##\s+/m)[0];
+        const faqs = block
+          .split(/^###\s+/m)
+          .slice(1)
+          .map((chunk) => {
+            const [question, ...rest] = chunk.split("\n");
+            const answer = rest.join(" ").replace(/[*_`>#]/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\s+/g, " ").trim();
+            return { question: question.trim(), answer };
+          })
+          .filter((f) => f.question && f.answer);
+
+        if (faqs.length) {
+          document.querySelector('script[data-schema="blogfaq"]')?.remove();
+          const faqScript = document.createElement('script');
+          faqScript.type = 'application/ld+json';
+          faqScript.setAttribute('data-schema', 'blogfaq');
+          faqScript.text = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.question,
+              acceptedAnswer: { "@type": "Answer", text: f.answer },
+            })),
+          });
+          document.head.appendChild(faqScript);
+        }
+      }
     }
 
     return () => {
-      const blogSchema = document.querySelector('script[data-schema="blogpost"]');
-      if (blogSchema) blogSchema.remove();
+      document.querySelector('script[data-schema="blogpost"]')?.remove();
+      document.querySelector('script[data-schema="blogfaq"]')?.remove();
     };
   }, [post]);
 
