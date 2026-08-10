@@ -7,6 +7,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
 import { getPostBySlug } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { setPageSEO } from "@/utils/seo";
 
