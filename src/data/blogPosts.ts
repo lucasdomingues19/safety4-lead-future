@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min read",
     category: "AI in EHS",
     tags: ["Copilot in PowerPoint", "AI for EHS", "Safety Training", "Toolbox Talks", "Productivity", "ISO 45001", "Microsoft 365", "Safety 4.0"],
-    featuredImage: "/blog/5-hour-slide-deck.jpg",
+    featuredImage: "/__l5e/assets-v1/511f24f2-a3bd-4236-8dbf-8eefcd4130a7/5-hour-slide-deck-hero.png",
     content: `
 Every EHS professional I know has done this.
 
