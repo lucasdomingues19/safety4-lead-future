@@ -408,10 +408,11 @@ const Admin = () => {
         return all;
       };
 
-      const [pageViewsData, clickEventsData, timeEventsData] = await Promise.all([
+      const [pageViewsData, clickEventsData, timeEventsData, scrollEventsData] = await Promise.all([
         fetchAllPageViews(),
         fetchAllUserEvents('click'),
-        fetchAllUserEvents('time_on_page')
+        fetchAllUserEvents('time_on_page'),
+        fetchAllUserEvents('scroll')
       ]);
 
       const pageViewsResult = { data: pageViewsData as any[], error: null as any };
@@ -427,18 +428,35 @@ const Admin = () => {
           .map(v => v.session_id)
       );
 
-      // Filter out admin sessions from page views
+      // Bot filter: only count sessions that showed real human behaviour
+      // (any click, scroll, or time-on-page event, or more than one page view)
+      const engagedSessions = new Set<string>();
+      [...(clickEventsData || []), ...(timeEventsData || []), ...(scrollEventsData || [])]
+        .forEach((e: any) => engagedSessions.add(e.session_id));
+
+      const viewsPerSession: Record<string, number> = {};
+      (pageViewsResult.data || []).forEach((v: any) => {
+        viewsPerSession[v.session_id] = (viewsPerSession[v.session_id] || 0) + 1;
+      });
+      Object.entries(viewsPerSession).forEach(([sid, count]) => {
+        if (count > 1) engagedSessions.add(sid);
+      });
+
+      const isHuman = (sid: string) => !adminSessions.has(sid) && engagedSessions.has(sid);
+
+      // Filter out admin + bot sessions from page views
       const filteredPageViews = (pageViewsResult.data || []).filter(
-        v => !adminSessions.has(v.session_id)
+        v => isHuman(v.session_id)
       );
 
-      // Filter out admin sessions from events
+      // Filter out admin + bot sessions from events
       const filteredClickEvents = (offerClicksResult.data || []).filter(
-        e => !adminSessions.has(e.session_id)
+        e => isHuman(e.session_id)
       );
       const filteredTimeEvents = (timeOnPageResult.data || []).filter(
-        e => !adminSessions.has(e.session_id)
+        e => isHuman(e.session_id)
       );
+
 
       // Filter offer-related clicks
       const offerClickEvents = filteredClickEvents.filter(event => {
@@ -751,12 +769,14 @@ const Admin = () => {
           
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Unique Visitors</CardTitle>
+              <CardTitle className="text-sm font-medium text-white">Unique Visitors (humans)</CardTitle>
               <Users className="h-4 w-4 text-white/60" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-white">{stats.uniqueVisitors.toLocaleString()}</div>
+              <p className="text-[11px] text-white/50 mt-1">Bot/no-interaction sessions excluded</p>
             </CardContent>
+
           </Card>
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/30">
