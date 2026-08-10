@@ -769,12 +769,14 @@ const Admin = () => {
           
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Unique Visitors</CardTitle>
+              <CardTitle className="text-sm font-medium text-white">Unique Visitors (humans)</CardTitle>
               <Users className="h-4 w-4 text-white/60" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-white">{stats.uniqueVisitors.toLocaleString()}</div>
+              <p className="text-[11px] text-white/50 mt-1">Bot/no-interaction sessions excluded</p>
             </CardContent>
+
           </Card>
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/30">
