@@ -372,7 +372,7 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
         </Page>
       </div>
 
-      <footer className="bg-background text-white/60 text-xs">
+      <footer className="bg-background text-white/60 text-xs print:hidden">
         <div className="max-w-4xl mx-auto px-6 py-6 flex flex-wrap gap-4 justify-between">
           <span>SafetyTech Academy — approved training provider by IOSH</span>
           <span className="flex flex-wrap items-center gap-4">
