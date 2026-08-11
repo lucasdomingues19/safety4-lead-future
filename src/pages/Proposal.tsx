@@ -122,7 +122,11 @@ const ProposalPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="w-full max-w-md text-center">
-          <img src={logo} alt="SafetyTech Academy" className="h-10 mx-auto mb-8" />
+          <img
+            src={logo}
+            alt="SafetyTech Academy"
+            className="h-20 md:h-24 w-auto max-w-full mx-auto mb-8"
+          />
           <div className="rounded-2xl bg-white/5 border border-white/10 p-6 md:p-8 text-left">
             <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center mb-4">
               <Lock className="h-5 w-5 text-white" />
@@ -165,7 +169,11 @@ const ProposalPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-6 text-center">
         <div>
-          <img src={logo} alt="SafetyTech Academy" className="h-10 mx-auto mb-6" />
+          <img
+            src={logo}
+            alt="SafetyTech Academy"
+            className="h-20 md:h-24 w-auto max-w-full mx-auto mb-6"
+          />
           <p className="text-white/80">{error}</p>
         </div>
       </div>
