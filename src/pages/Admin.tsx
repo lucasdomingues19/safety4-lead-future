@@ -8,12 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2 } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2, FileText } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
+import { ProposalsTab } from "@/components/admin/ProposalsTab";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
 
@@ -74,7 +75,7 @@ const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
@@ -983,6 +984,8 @@ const Admin = () => {
 
         {/* Certificates Tab */}
         {activeTab === 'certificates' && <CertificatesTab />}
+
+        {activeTab === 'proposals' && <ProposalsTab />}
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (
