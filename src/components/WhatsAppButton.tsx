@@ -24,7 +24,7 @@ export const WhatsAppButton = () => {
     <button
       type="button"
       onClick={handleWhatsAppClick}
-      className="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 animate-fade-in"
+      className="print:hidden fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 animate-fade-in"
       aria-label="Chat on WhatsApp"
     >
       <svg viewBox="0 0 24 24" className="w-7 h-7 fill-current">
