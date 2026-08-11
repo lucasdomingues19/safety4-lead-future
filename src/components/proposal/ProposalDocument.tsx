@@ -49,7 +49,7 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
       {/* ---------------- Header ---------------- */}
       <header className="bg-background text-white">
         <div className="max-w-4xl mx-auto px-6 py-8 flex flex-wrap items-center justify-between gap-4">
-          <img src={logo} alt="SafetyTech Academy" className="h-10" />
+          <img src={logo} alt="SafetyTech Academy" className="h-16" />
           <div className="text-right text-xs">
             <p className="font-mono uppercase tracking-[0.25em] text-primary">
               {preview ? "Preview — not sent" : "Private proposal"}
