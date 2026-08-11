@@ -4,6 +4,7 @@ Disallow: /admin
 Disallow: /auth
 Disallow: /learn/auth
 Disallow: /linkedin-callback
+Disallow: /proposal/
 
 Sitemap: https://safetytech.academy/sitemap.xml
 

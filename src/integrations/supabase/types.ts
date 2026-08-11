@@ -480,6 +480,69 @@ export type Database = {
         }
         Relationships: []
       }
+      proposals: {
+        Row: {
+          approver_name: string | null
+          approver_note: string | null
+          contact_email: string | null
+          contact_name: string | null
+          contact_role: string | null
+          created_at: string
+          currency: string
+          discount_pct: number
+          id: string
+          intro_note: string | null
+          items: Json
+          organisation: string
+          responded_at: string | null
+          status: string
+          token: string
+          updated_at: string
+          valid_until: string | null
+          view_count: number
+        }
+        Insert: {
+          approver_name?: string | null
+          approver_note?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_role?: string | null
+          created_at?: string
+          currency?: string
+          discount_pct?: number
+          id?: string
+          intro_note?: string | null
+          items?: Json
+          organisation: string
+          responded_at?: string | null
+          status?: string
+          token?: string
+          updated_at?: string
+          valid_until?: string | null
+          view_count?: number
+        }
+        Update: {
+          approver_name?: string | null
+          approver_note?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_role?: string | null
+          created_at?: string
+          currency?: string
+          discount_pct?: number
+          id?: string
+          intro_note?: string | null
+          items?: Json
+          organisation?: string
+          responded_at?: string | null
+          status?: string
+          token?: string
+          updated_at?: string
+          valid_until?: string | null
+          view_count?: number
+        }
+        Relationships: []
+      }
       quiz_attempts: {
         Row: {
           attempted_at: string
