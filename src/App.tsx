@@ -107,7 +107,9 @@ const App = () => (
             <Route path="/ai-fundamentals" element={<AIFundamentals />} />
             <Route path="/governance-readiness" element={<GovernanceReadiness />} />
             <Route path="/guides" element={<GuidesHub />} />
+            <Route path="/guides/:slug" element={<GuidePage />} />
             <Route path="/proposal/:token" element={<ProposalPage />} />
+
 
             <Route path="/learn/auth" element={<LearnAuth />} />
             <Route path="/learn" element={<LearnDashboard />} />
