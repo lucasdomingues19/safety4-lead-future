@@ -1,11 +1,15 @@
 // Shared catalogue + types for client proposals.
 
+export const SITE_URL = "https://safetytech.academy";
+
 export interface ProposalItem {
   id: string;
   name: string;
   description: string;
   seats: number;
   unitPrice: number; // in whole currency units
+  /** Path or absolute URL of the programme page on the website. */
+  url?: string;
 }
 
 export interface Proposal {
@@ -34,26 +38,31 @@ export const COURSE_CATALOGUE: Omit<ProposalItem, "id" | "seats">[] = [
     description:
       "90-minute eLearning primer: digital literacy, AI in EHS, risks and governance basics.",
     unitPrice: 97,
+    url: "/ai-fundamentals",
   },
   {
     name: "IOSH-approved Safety 4.0 — Leading Safety in the Digital Age",
     description:
       "Self-paced eLearning: 10 modules, 60+ video lessons, assessments, IOSH & CPD certification, 90-day completion window.",
     unitPrice: 497,
+    url: "/elearning",
   },
   {
     name: "Safety 4.0 Accelerator Cohort",
     description:
       "Live 6-week cohort with global faculty, group projects, live Q&A, priority support and community access — includes the eLearning.",
     unitPrice: 1997,
+    url: "/accelerator",
   },
   {
     name: "In-Company Programme (bespoke)",
     description:
       "Tailored delivery for your teams: bespoke case studies, dedicated cohort scheduling and organisational reporting.",
     unitPrice: 0,
+    url: "/contact",
   },
 ];
+
 
 export const formatMoney = (amount: number, currency = "GBP") => {
   try {

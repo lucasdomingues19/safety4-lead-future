@@ -177,3 +177,30 @@ All colors MUST be HSL.
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+/* ---- Proposal / document print styling ---- */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+  }
+
+  .break-before-page {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  /* Scale the proposal so each logical page fits one A4 sheet */
+  .proposal-doc {
+    zoom: 0.72;
+  }
+
+  /* Preserve brand colours in the printed/downloaded PDF */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
