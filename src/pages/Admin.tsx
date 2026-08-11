@@ -722,7 +722,16 @@ const Admin = () => {
             <Award className="mr-2 h-4 w-4" />
             Certificates
           </Button>
+          <Button
+            onClick={() => setActiveTab('proposals')}
+            variant={activeTab === 'proposals' ? 'default' : 'outline'}
+            className={activeTab === 'proposals' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <FileText className="mr-2 h-4 w-4" />
+            Proposals
+          </Button>
         </div>
+
 
         {/* Analytics Tab */}
         {activeTab === 'analytics' && (
