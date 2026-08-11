@@ -135,14 +135,14 @@ export const ProposalsTab = () => {
       items: form.items as unknown as never,
       discount_pct: Number(form.discount_pct) || 0,
       valid_until: form.valid_until || null,
-      status: "draft",
+      status: "sent",
     });
     setSaving(false);
     if (error) {
       toast.error("Could not save proposal");
       return;
     }
-    toast.success("Draft created — preview it, then send from Gmail.");
+    toast.success("Proposal created — preview it, then send from Gmail.");
     setForm(emptyForm());
     load();
   };
