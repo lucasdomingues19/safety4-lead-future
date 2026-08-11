@@ -193,6 +193,11 @@ All colors MUST be HSL.
     page-break-before: always;
   }
 
+  /* Scale the proposal so each logical page fits one A4 sheet */
+  .proposal-doc {
+    zoom: 0.72;
+  }
+
   /* Preserve brand colours in the printed/downloaded PDF */
   * {
     -webkit-print-color-adjust: exact;

@@ -45,7 +45,7 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
   const issued = proposal.created_at ? new Date(proposal.created_at) : new Date();
 
   return (
-    <div className="bg-white text-slate-900">
+    <div className="proposal-doc bg-white text-slate-900">
       {/* ---------------- Header ---------------- */}
       <header className="bg-background text-white">
         <div className="max-w-4xl mx-auto px-6 py-8 flex flex-wrap items-center justify-between gap-4">
