@@ -33,3 +33,6 @@ verify_jwt = true
 
 [functions.send-governance-email]
 verify_jwt = false
+
+[functions.proposal-public]
+verify_jwt = false
