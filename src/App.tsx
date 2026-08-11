@@ -69,6 +69,20 @@ const queryClient = new QueryClient({
   },
 });
 
+// Floating widgets/popups — hidden on private proposal pages
+const GlobalWidgets = () => {
+  const { pathname } = useLocation();
+  if (pathname.startsWith("/proposal")) return null;
+  return (
+    <Suspense fallback={null}>
+      <WhatsAppButton />
+      <GovernanceReadinessGate />
+      <ChatWidget />
+    </Suspense>
+  );
+};
+
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
