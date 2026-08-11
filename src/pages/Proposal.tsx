@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { CheckCircle2, Loader2, Download, Lock } from "lucide-react";
+import { CheckCircle2, Loader2, Download, Lock, Globe, Mail, Phone } from "lucide-react";
 import logo from "@/assets/safety-academy-logo.png";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
 import { asProposal, type Proposal } from "@/lib/proposals";
@@ -276,6 +276,23 @@ const ProposalPage = () => {
           )}
         </div>
       </div>
+
+      <footer className="bg-background text-white/60 text-xs print:hidden">
+        <div className="max-w-4xl mx-auto px-6 py-6 flex flex-wrap gap-4 justify-between">
+          <span>SafetyTech Academy — approved training provider by IOSH</span>
+          <span className="flex flex-wrap items-center gap-4">
+            <span className="flex items-center gap-1">
+              <Globe className="h-3 w-3" /> safetytech.academy
+            </span>
+            <span className="flex items-center gap-1">
+              <Mail className="h-3 w-3" /> hello@safetyacademy.tech
+            </span>
+            <span className="flex items-center gap-1">
+              <Phone className="h-3 w-3" /> +44 7983 819437
+            </span>
+          </span>
+        </div>
+      </footer>
     </div>
   );
 };
