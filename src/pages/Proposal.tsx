@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { CheckCircle2, Loader2, Download } from "lucide-react";
+import { CheckCircle2, Loader2, Download, Lock } from "lucide-react";
 import logo from "@/assets/safety-academy-logo.png";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
 import { asProposal, type Proposal } from "@/lib/proposals";
@@ -19,6 +19,13 @@ const ProposalPage = () => {
   const [name, setName] = useState("");
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [requiresEmail, setRequiresEmail] = useState(false);
+  const [hint, setHint] = useState<string | null>(null);
+  const [emailInput, setEmailInput] = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [verifiedEmail, setVerifiedEmail] = useState<string>(
+    () => sessionStorage.getItem(`proposal-email-${token ?? ""}`) ?? "",
+  );
 
   useEffect(() => {
     document.title = "Training Proposal | SafetyTech Academy";
@@ -35,9 +42,13 @@ const ProposalPage = () => {
   useEffect(() => {
     const load = async () => {
       const { data, error: err } = await supabase.functions.invoke("proposal-public", {
-        body: { token, action: "view" },
+        body: { token, action: "view", email: verifiedEmail },
       });
-      if (err || !data?.proposal) {
+      if (data?.requiresEmail) {
+        setRequiresEmail(true);
+        setHint(data.hint ?? null);
+        if (verifiedEmail) sessionStorage.removeItem(`proposal-email-${token}`);
+      } else if (err || !data?.proposal) {
         setError("This proposal link is invalid or is no longer available.");
       } else {
         const p = asProposal(data.proposal);
@@ -47,7 +58,32 @@ const ProposalPage = () => {
       setLoading(false);
     };
     if (token) load();
-  }, [token]);
+  }, [token, verifiedEmail]);
+
+  const verifyEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const value = emailInput.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+    setVerifying(true);
+    const { data } = await supabase.functions.invoke("proposal-public", {
+      body: { token, action: "view", email: value },
+    });
+    setVerifying(false);
+    if (data?.proposal) {
+      sessionStorage.setItem(`proposal-email-${token}`, value);
+      const p = asProposal(data.proposal);
+      setProposal(p);
+      setName(p.approver_name ?? p.contact_name ?? "");
+      setRequiresEmail(false);
+      setVerifiedEmail(value);
+    } else {
+      setHint(data?.hint ?? null);
+      toast.error(data?.error ?? "That email doesn't match this proposal.");
+    }
+  };
 
   const respond = async (decision: "approved" | "declined") => {
     if (decision === "approved" && name.trim().length < 2) {
@@ -56,7 +92,14 @@ const ProposalPage = () => {
     }
     setSubmitting(true);
     const { data, error: err } = await supabase.functions.invoke("proposal-public", {
-      body: { token, action: "respond", decision, approverName: name, approverNote: note },
+      body: {
+        token,
+        action: "respond",
+        decision,
+        approverName: name,
+        approverNote: note,
+        email: verifiedEmail,
+      },
     });
     setSubmitting(false);
     if (err || !data?.proposal) {
@@ -71,6 +114,49 @@ const ProposalPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (requiresEmail) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background px-6">
+        <div className="w-full max-w-md text-center">
+          <img src={logo} alt="SafetyTech Academy" className="h-10 mx-auto mb-8" />
+          <div className="rounded-2xl bg-white/5 border border-white/10 p-6 md:p-8 text-left">
+            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center mb-4">
+              <Lock className="h-5 w-5 text-white" />
+            </div>
+            <h1 className="text-xl font-extrabold tracking-tight text-white">
+              Confirm your email to view this proposal
+            </h1>
+            <p className="text-white/70 text-sm mt-2">
+              This proposal is private. Enter the email address it was sent to
+              {hint ? ` (${hint})` : ""}.
+            </p>
+            <form onSubmit={verifyEmail} className="mt-5 space-y-3">
+              <Label htmlFor="recipient-email" className="text-white/80 text-xs">
+                Email address
+              </Label>
+              <Input
+                id="recipient-email"
+                type="email"
+                autoFocus
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                placeholder="you@company.com"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
+              />
+              <Button type="submit" size="lg" className="w-full" disabled={verifying}>
+                {verifying ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                View proposal
+              </Button>
+            </form>
+          </div>
+          <p className="text-white/40 text-xs mt-6">
+            Wrong address? Reply to the email you received and we'll re-issue the link.
+          </p>
+        </div>
       </div>
     );
   }
