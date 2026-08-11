@@ -40,6 +40,8 @@ const AIFundamentals = lazy(() => import("./pages/AIFundamentals"));
 const GovernanceReadiness = lazy(() => import("./pages/GovernanceReadiness"));
 const GuidesHub = lazy(() => import("./pages/Guides"));
 const GuidePage = lazy(() => import("./pages/Guide"));
+const ProposalPage = lazy(() => import("./pages/Proposal"));
+
 
 
 // Learning platform (LMS)
