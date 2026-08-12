@@ -87,6 +87,16 @@ const OldProposalRedirect = () => {
   return <Navigate to={`/proposal_${token}`} replace />;
 };
 
+// React Router params must be a whole path segment, so `/proposal_:token`
+// never matches. Match the single segment and parse the prefix ourselves.
+const ProposalSlugRoute = () => {
+  const { slug } = useParams<{ slug: string }>();
+  if (slug?.startsWith("proposal_") && slug.length > "proposal_".length) {
+    return <ProposalPage token={slug.slice("proposal_".length)} />;
+  }
+  return <NotFound />;
+};
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
