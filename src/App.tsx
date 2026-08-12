@@ -122,7 +122,8 @@ const App = () => (
             <Route path="/governance-readiness" element={<GovernanceReadiness />} />
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
-            <Route path="/proposal/:token" element={<ProposalPage />} />
+            <Route path="/proposal_:token" element={<ProposalPage />} />
+            <Route path="/proposal/:token" element={<Navigate replace to={(p) => `/proposal_${p.token}`} />} />
 
 
             <Route path="/learn/auth" element={<LearnAuth />} />
