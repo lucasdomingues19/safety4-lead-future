@@ -138,6 +138,7 @@ const App = () => (
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
             <Route path="/proposal_:token" element={<ProposalPage />} />
+            <Route path="/:slug" element={<ProposalSlugRoute />} />
             <Route path="/proposal/:token" element={<OldProposalRedirect />} />
 
 
