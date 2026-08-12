@@ -402,8 +402,13 @@ https://safetytech.academy
             </Button>
             <Button onClick={save} disabled={saving}>
               {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-              Create proposal &amp; link
+              {editingId ? "Save changes" : "Create proposal & link"}
             </Button>
+            {editingId && (
+              <Button variant="ghost" onClick={cancelEdit}>
+                Cancel edit
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -458,6 +463,9 @@ https://safetytech.academy
                     <div className="flex flex-wrap gap-2">
                       <Button size="sm" variant="outline" onClick={() => setPreview(p)}>
                         <Eye className="h-3 w-3 mr-1" /> Preview
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => startEdit(p)}>
+                        <Pencil className="h-3 w-3 mr-1" /> Edit
                       </Button>
                       <Button size="sm" onClick={() => openSend(p)}>
                         <Send className="h-3 w-3 mr-1" /> Send via Gmail
