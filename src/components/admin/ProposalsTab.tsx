@@ -21,6 +21,7 @@ import {
   ExternalLink,
   FileText,
   Eye,
+  Pencil,
   Send,
 } from "lucide-react";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
@@ -49,6 +50,7 @@ export const ProposalsTab = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());
   const [preview, setPreview] = useState<Proposal | null>(null);
   const [sendFor, setSendFor] = useState<Proposal | null>(null);
@@ -116,6 +118,26 @@ export const ProposalsTab = () => {
     created_at: new Date().toISOString(),
   });
 
+  const startEdit = (p: Proposal) => {
+    setEditingId(p.id);
+    setForm({
+      organisation: p.organisation ?? "",
+      contact_name: p.contact_name ?? "",
+      contact_role: p.contact_role ?? "",
+      contact_email: p.contact_email ?? "",
+      intro_note: p.intro_note ?? "",
+      discount_pct: Number(p.discount_pct) || 0,
+      valid_until: p.valid_until ? p.valid_until.slice(0, 10) : "",
+      items: p.items.map((i) => ({ ...i, id: i.id || crypto.randomUUID() })),
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setForm(emptyForm());
+  };
+
   const save = async () => {
     if (!form.organisation.trim()) {
       toast.error("Organisation name is required");
@@ -126,7 +148,7 @@ export const ProposalsTab = () => {
       return;
     }
     setSaving(true);
-    const { error } = await supabase.from("proposals").insert({
+    const payload = {
       organisation: form.organisation.trim(),
       contact_name: form.contact_name.trim() || null,
       contact_role: form.contact_role.trim() || null,
@@ -135,14 +157,21 @@ export const ProposalsTab = () => {
       items: form.items as unknown as never,
       discount_pct: Number(form.discount_pct) || 0,
       valid_until: form.valid_until || null,
-      status: "sent",
-    });
+    };
+    const { error } = editingId
+      ? await supabase.from("proposals").update(payload).eq("id", editingId)
+      : await supabase.from("proposals").insert({ ...payload, status: "sent" });
     setSaving(false);
     if (error) {
-      toast.error("Could not save proposal");
+      toast.error(editingId ? "Could not update proposal" : "Could not save proposal");
       return;
     }
-    toast.success("Proposal created — preview it, then send from Gmail.");
+    toast.success(
+      editingId
+        ? "Proposal updated — the existing link now shows the new version."
+        : "Proposal created — preview it, then send from Gmail.",
+    );
+    setEditingId(null);
     setForm(emptyForm());
     load();
   };
@@ -221,7 +250,8 @@ https://safetytech.academy
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" /> New proposal
+            <FileText className="h-5 w-5" />{" "}
+            {editingId ? `Editing proposal — ${form.organisation || "untitled"}` : "New proposal"}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -374,8 +404,13 @@ https://safetytech.academy
             </Button>
             <Button onClick={save} disabled={saving}>
               {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-              Create proposal &amp; link
+              {editingId ? "Save changes" : "Create proposal & link"}
             </Button>
+            {editingId && (
+              <Button variant="ghost" onClick={cancelEdit}>
+                Cancel edit
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -430,6 +465,9 @@ https://safetytech.academy
                     <div className="flex flex-wrap gap-2">
                       <Button size="sm" variant="outline" onClick={() => setPreview(p)}>
                         <Eye className="h-3 w-3 mr-1" /> Preview
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => startEdit(p)}>
+                        <Pencil className="h-3 w-3 mr-1" /> Edit
                       </Button>
                       <Button size="sm" onClick={() => openSend(p)}>
                         <Send className="h-3 w-3 mr-1" /> Send via Gmail
