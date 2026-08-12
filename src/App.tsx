@@ -82,6 +82,11 @@ const GlobalWidgets = () => {
   );
 };
 
+const OldProposalRedirect = () => {
+  const { token } = useParams<{ token: string }>();
+  return <Navigate to={`/proposal_${token}`} replace />;
+};
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
