@@ -21,6 +21,7 @@ import {
   ExternalLink,
   FileText,
   Eye,
+  Pencil,
   Send,
 } from "lucide-react";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
