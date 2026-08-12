@@ -443,18 +443,27 @@ https://safetytech.academy
                       <p className="text-xs text-muted-foreground">
                         {formatMoney(t.total, p.currency)} · {p.items.length} course(s) ·{" "}
                         {p.view_count} view(s) ·{" "}
-                        <span
-                          className={
+                        {(() => {
+                          const stage =
                             p.status === "approved"
-                              ? "text-green-600 font-semibold"
+                              ? { label: "Approved", cls: "bg-green-100 text-green-700 border-green-300" }
                               : p.status === "declined"
-                                ? "text-destructive font-semibold"
-                                : ""
-                          }
-                        >
-                          {p.status}
-                        </span>
+                                ? { label: "Declined", cls: "bg-destructive/10 text-destructive border-destructive/30" }
+                                : p.status === "draft"
+                                  ? { label: "Draft", cls: "bg-muted text-muted-foreground border-border" }
+                                  : (p.view_count ?? 0) > 0
+                                    ? { label: "Viewed", cls: "bg-amber-100 text-amber-700 border-amber-300" }
+                                    : { label: "Sent", cls: "bg-primary/10 text-primary border-primary/30" };
+                          return (
+                            <span
+                              className={`inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold ${stage.cls}`}
+                            >
+                              {stage.label}
+                            </span>
+                          );
+                        })()}
                         {p.approver_name ? ` by ${p.approver_name}` : ""}
+
                       </p>
                       {p.approver_note && (
                         <p className="text-xs italic text-muted-foreground mt-1">

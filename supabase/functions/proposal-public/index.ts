@@ -89,6 +89,42 @@ serve(async (req) => {
         .select("*")
         .single();
       if (upErr) throw upErr;
+
+      // Notify the team of the decision
+      try {
+        const key = Deno.env.get("RESEND_API_KEY");
+        if (key) {
+          const total = (Array.isArray(proposal.items) ? proposal.items : []).reduce(
+            (sum: number, i: Record<string, unknown>) =>
+              sum + (Number(i.unitPrice) || 0) * (Number(i.seats) || 1),
+            0,
+          ) * (1 - (Number(proposal.discount_pct) || 0) / 100);
+          await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${key}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              from: "SafetyTech Academy <noreply@safetyacademy.tech>",
+              to: ["lucas@getshield360.com"],
+              subject: `Proposal ${decision}: ${proposal.organisation}`,
+              html: `
+                <h2>Proposal ${decision}</h2>
+                <p><strong>Organisation:</strong> ${proposal.organisation}</p>
+                <p><strong>Contact:</strong> ${proposal.contact_name ?? "-"} (${proposal.contact_email ?? "-"})</p>
+                <p><strong>Responded by:</strong> ${approverName || "-"}</p>
+                <p><strong>Note:</strong> ${approverNote || "-"}</p>
+                <p><strong>Total (excl. VAT):</strong> £${total.toLocaleString("en-GB")}</p>
+                <p><strong>Responded at:</strong> ${new Date().toLocaleString("en-GB")}</p>
+              `,
+            }),
+          });
+        }
+      } catch (mailErr) {
+        console.error("proposal notification email failed", mailErr);
+      }
+
       return json({ proposal: updated });
     }
 
