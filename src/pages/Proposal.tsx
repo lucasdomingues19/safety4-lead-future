@@ -11,8 +11,9 @@ import logo from "@/assets/safety-academy-logo.png";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
 import { asProposal, type Proposal } from "@/lib/proposals";
 
-const ProposalPage = () => {
-  const { token } = useParams<{ token: string }>();
+const ProposalPage = ({ token: tokenProp }: { token?: string }) => {
+  const params = useParams<{ token?: string; slug?: string }>();
+  const token = tokenProp ?? params.token ?? (params.slug?.startsWith("proposal_") ? params.slug.slice("proposal_".length) : undefined);
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
