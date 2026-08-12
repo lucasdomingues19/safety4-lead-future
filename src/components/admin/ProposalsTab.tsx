@@ -156,7 +156,7 @@ export const ProposalsTab = () => {
     }
   };
 
-  const linkFor = (token: string) => `${window.location.origin}/proposal/${token}`;
+  const linkFor = (token: string) => `${window.location.origin}/proposal_${token}`;
 
   const copy = (token: string) => {
     navigator.clipboard.writeText(linkFor(token));
