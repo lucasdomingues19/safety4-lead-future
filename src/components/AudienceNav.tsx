@@ -91,7 +91,7 @@ const AudienceNav = () => {
   }, [location.pathname, navigate]);
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-50 border-b border-slate-200 shadow-md">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 shadow-md" style={{ backgroundColor: '#ffffff' }}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <BrandLogo />
 

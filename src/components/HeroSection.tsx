@@ -8,7 +8,8 @@ import { DigitalDotsText } from "./DigitalDotsText";
 export const HeroSection = () => {
   return (
     <section
-      className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center bg-slate-50"
+      className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center"
+      style={{ backgroundColor: '#f8f8f8' }}
     >
       <AudienceNav />
 
