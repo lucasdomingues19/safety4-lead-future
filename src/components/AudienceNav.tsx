@@ -48,19 +48,19 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 text-sm text-white hover:text-primary transition-colors"
+        className="flex items-center gap-1 text-sm text-slate-900 hover:text-primary transition-colors"
       >
         {item.label}
         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-2 min-w-[16rem] w-max rounded-lg border border-white/10 bg-black/90 backdrop-blur-xl shadow-lg py-1">
+        <div className="absolute top-full left-0 mt-2 min-w-[16rem] w-max rounded-lg border border-slate-200 bg-white shadow-lg py-1">
           {item.children.map((child) => (
             <Link
               key={child.href}
               to={child.href}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-white hover:text-primary hover:bg-muted/50 transition-colors whitespace-nowrap"
+              className="block px-4 py-2 text-sm text-slate-700 hover:text-primary hover:bg-slate-50 transition-colors whitespace-nowrap"
             >
               {child.label}
             </Link>
@@ -91,7 +91,7 @@ const AudienceNav = () => {
   }, [location.pathname, navigate]);
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-white/10 shadow-lg">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <BrandLogo />
 
@@ -110,8 +110,8 @@ const AudienceNav = () => {
                 }}
                 className={
                   "emphasis" in link && link.emphasis
-                    ? "text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors"
-                    : "text-sm text-white hover:text-primary transition-colors"
+                    ? "text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+                    : "text-sm text-slate-700 hover:text-primary transition-colors"
                 }
               >
                 {link.label}
@@ -120,7 +120,7 @@ const AudienceNav = () => {
           )}
           <Link
             to="/enrol"
-            className="ml-2 px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="ml-2 px-5 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"
           >
             Enrol Now
           </Link>
@@ -128,7 +128,7 @@ const AudienceNav = () => {
 
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-foreground p-2"
+          className="lg:hidden text-slate-900 p-2"
           aria-label="Toggle menu"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -137,17 +137,17 @@ const AudienceNav = () => {
 
       {/* Mobile */}
       {mobileOpen && (
-        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border px-4 pb-4 space-y-1">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pb-4 space-y-1">
           {navLinks.map((link) =>
             "children" in link && link.children ? (
               <div key={link.label}>
-                <span className="block text-sm text-muted-foreground py-2 font-medium">{link.label}</span>
+                <span className="block text-sm text-slate-600 py-2 font-medium">{link.label}</span>
                 {link.children.map((child) => (
                   <Link
                     key={child.href}
                     to={child.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block text-sm text-white hover:text-primary transition-colors py-2 pl-4"
+                    className="block text-sm text-slate-700 hover:text-primary transition-colors py-2 pl-4"
                   >
                     {child.label}
                   </Link>
@@ -164,8 +164,8 @@ const AudienceNav = () => {
                 }}
                 className={
                   "emphasis" in link && link.emphasis
-                    ? "block text-sm font-semibold text-lime-400 hover:text-lime-300 transition-colors py-2"
-                    : "block text-sm text-white hover:text-primary transition-colors py-2"
+                    ? "block text-sm font-semibold text-primary hover:text-primary/80 transition-colors py-2"
+                    : "block text-sm text-slate-700 hover:text-primary transition-colors py-2"
                 }
               >
                 {link.label}
@@ -175,7 +175,7 @@ const AudienceNav = () => {
           <Link
             to="/enrol"
             onClick={() => setMobileOpen(false)}
-            className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"
           >
             Enrol Now
           </Link>

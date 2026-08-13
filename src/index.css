@@ -18,10 +18,10 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 100%;
 
     /* SafetyTech Academy Brand Colors — locked */
-    --primary: 220 90% 50%; /* Brand Blue #1d5fd6 */
+    --primary: 240 100% 50%; /* Template Blue #3434FF */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 88% 58%; /* Lighter blue */
+    --secondary: 240 100% 60%; /* Lighter blue */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 222 35% 40%;

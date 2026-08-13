@@ -8,35 +8,13 @@ import { DigitalDotsText } from "./DigitalDotsText";
 export const HeroSection = () => {
   return (
     <section
-      className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center bg-background"
+      className="relative overflow-hidden min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center bg-white"
     >
       <AudienceNav />
 
-      {/* Grid lines background - subtle brand-aligned design */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(29,95,214,0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(29,95,214,0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-        }}
-      />
-      {/* Larger accent grid for depth */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(166,226,26,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(166,226,26,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: "240px 240px",
-        }}
-      />
-      {/* Moving glow that sweeps across the grid */}
-      <div className="absolute inset-0 animate-grid-glow pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1530]/95 via-[#0a1530]/70 to-transparent" />
+      {/* Soft background circles - accent shapes instead of grids */}
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-40 pointer-events-none" />
+      <div className="absolute top-1/2 -left-20 w-72 h-72 bg-blue-50 rounded-full blur-3xl opacity-30 pointer-events-none" />
 
 
       {/* Worker photo — right side */}
@@ -82,10 +60,11 @@ export const HeroSection = () => {
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.08] tracking-tight text-white mb-6 md:mb-8">
-            Build a Safety Function Ready for the <span className="text-accent"><DigitalDotsText text="Digital Age" /></span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.08] tracking-tight mb-6 md:mb-8">
+            <span className="text-slate-900">Build a Safety Function</span><br />
+            <span className="text-primary">Ready for the Digital Age</span>
           </h1>
-          <p className="text-lg md:text-2xl text-gray-300 max-w-3xl leading-relaxed mb-10 md:mb-12 font-light">
+          <p className="text-lg md:text-xl text-slate-600 max-w-3xl leading-relaxed mb-10 md:mb-12 font-light">
             The world's first IOSH-approved, CPD-accredited Safety 4.0 certification for enterprise EHS teams. Equip your safety function with AI, IoT, and digital transformation skills in just 6–12 weeks.
           </p>
 
@@ -102,10 +81,22 @@ export const HeroSection = () => {
                   window.history.replaceState(null, "", "/#pricing");
                 }
               }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-lg rounded-full hover:bg-primary/90 transition-all active:scale-[0.97] shadow-md hover:shadow-lg cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-bold text-lg rounded-xl hover:bg-primary/90 transition-all active:scale-[0.97] shadow-lg hover:shadow-xl cursor-pointer"
             >
-              Upskill My Team
+              OUR COURSES
               <ArrowRight className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => {
+                const el = document.getElementById("instructor");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth" });
+                  window.history.replaceState(null, "", "/#instructor");
+                }
+              }}
+              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-primary text-primary font-bold text-lg rounded-xl hover:bg-primary/10 transition-all cursor-pointer"
+            >
+              ABOUT US
             </button>
           </div>
         </div>
