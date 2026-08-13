@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import MentorSection from "@/components/MentorSection";
+import { DeferredSection } from "@/components/DeferredSection";
 
 // Below-the-fold sections are code-split and mounted on scroll so the initial
 // homepage payload stays small. Content and behaviour are unchanged.
