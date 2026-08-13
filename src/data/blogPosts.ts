@@ -27,7 +27,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 min read",
     category: "AI in EHS",
     tags: ["Copilot in PowerPoint", "AI for EHS", "Safety Training", "Toolbox Talks", "Productivity", "ISO 45001", "Microsoft 365", "Safety 4.0"],
-    featuredImage: "/__l5e/assets-v1/511f24f2-a3bd-4236-8dbf-8eefcd4130a7/5-hour-slide-deck-hero.png",
+    featuredImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=675&fit=crop",
     content: `
 Every EHS professional I know has done this.
 
@@ -149,7 +149,7 @@ If you want a structured way to build these skills — prompting, governance, pr
     readTime: "4 min read",
     category: "Company News",
     tags: ["Safety Excellence Awards", "IOSH Awards", "SafetyTech Academy", "EHS Learning", "Professional Development", "Safety 4.0", "Community", "Future of Work"],
-    featuredImage: "/__l5e/assets-v1/7d821cbf-5bcf-40f4-bce6-6e5768b49650/award-shortlists-2026.png",
+    featuredImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&h=675&fit=crop",
     content: `
 # More Than Award Nominations
 
