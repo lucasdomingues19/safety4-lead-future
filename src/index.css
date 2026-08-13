@@ -257,6 +257,15 @@ All colors MUST be HSL.
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* Hero & Nav Light Theme Override */
+section[style*="f8f8f8"] {
+  background-color: #f8f8f8 !important;
+}
+
+nav[style*="ffffff"] {
+  background-color: #ffffff !important;
+}
 /* ---- Proposal / document print styling ---- */
 @media print {
   @page {
