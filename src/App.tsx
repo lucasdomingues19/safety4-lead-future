@@ -16,8 +16,6 @@ const Certification = lazy(() => import("./pages/Certification"));
 const EBook = lazy(() => import("./pages/EBook"));
 const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogPost = lazy(() => import("./pages/BlogPost"));
 const VerifyCertificate = lazy(() => import("./pages/VerifyCertificate"));
 const LinkedInCallback = lazy(() => import("./pages/LinkedInCallback"));
 
@@ -112,8 +110,6 @@ const App = () => (
             <Route path="/ebook" element={<EBook />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/verify/:certificateNumber" element={<VerifyCertificate />} />
             <Route path="/verify" element={<VerifyCertificate />} />
             <Route path="/linkedin-callback" element={<LinkedInCallback />} />
