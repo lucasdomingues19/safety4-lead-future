@@ -103,8 +103,8 @@ export const PricingSection = () => {
           <div
             key={index}
             id={tier.name === "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age" ? "elearning" : undefined}
-            className={`relative bg-white backdrop-blur-sm rounded-2xl md:rounded-3xl p-5 md:p-8 border ${tier.borderColor} ${
-            tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:scale-[1.02] flex flex-col`
+            className={`relative bg-white backdrop-blur-sm rounded-3xl p-6 md:p-8 border shadow-md hover:shadow-xl ${tier.borderColor} ${
+            tier.popular ? "lg:scale-105" : ""} transition-all duration-300 hover:-translate-y-1 flex flex-col`
             }>
             
               {/* Popular Badge */}

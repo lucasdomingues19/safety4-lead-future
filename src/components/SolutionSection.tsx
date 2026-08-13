@@ -69,17 +69,17 @@ export const SolutionSection = () => {
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
-              <Card 
+              <Card
                 key={index}
-                className="p-7 border border-slate-200 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-primary/40 transition-all duration-300 animate-slide-up h-full"
+                className="p-8 border border-slate-200 bg-white hover:border-primary/50 transition-all duration-300 animate-slide-up h-full group"
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 <CardContent className="p-0 h-full">
                   <div className="flex flex-col h-full">
                     {/* Icon */}
-                    <div className="mb-5">
-                      <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-md">
-                        <Icon className="w-7 h-7 text-primary-foreground" />
+                    <div className="mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                        <Icon className="w-8 h-8 text-white" />
                       </div>
                     </div>
                     
