@@ -18,8 +18,6 @@ import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { LiteYouTube } from "@/components/LiteYouTube";
 
-import { NewsletterPopup } from "@/components/NewsletterPopup";
-
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 
