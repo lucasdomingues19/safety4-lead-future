@@ -57,25 +57,25 @@ const MentorSection = () => {
           {/* Photo */}
           <div className="relative">
             <div className="relative aspect-square rounded-2xl overflow-hidden" style={{ backgroundColor: "#0a1530" }}>
-              {/* Grid lines background (matches hero) */}
+              {/* Grid lines background - subtle brand-aligned */}
               <div
-                className="absolute inset-0 animate-grid-pan"
+                className="absolute inset-0"
                 style={{
                   backgroundImage: `
-                    linear-gradient(rgba(20,184,166,0.12) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(20,184,166,0.12) 1px, transparent 1px)
+                    linear-gradient(rgba(29,95,214,0.08) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(29,95,214,0.08) 1px, transparent 1px)
                   `,
-                  backgroundSize: "70px 70px",
+                  backgroundSize: "60px 60px",
                 }}
               />
               <div
                 className="absolute inset-0"
                 style={{
                   backgroundImage: `
-                    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)
+                    linear-gradient(rgba(166,226,26,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(166,226,26,0.04) 1px, transparent 1px)
                   `,
-                  backgroundSize: "280px 280px",
+                  backgroundSize: "240px 240px",
                 }}
               />
               {/* Moving glow that sweeps across the grid */}
@@ -126,13 +126,13 @@ const MentorSection = () => {
                 <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   Risk Management
                 </span>
-                <span className="px-4 py-2 bg-lime-400/10 text-lime-400 rounded-full text-sm font-medium">
+                <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   SafetyTech
                 </span>
-                <span className="px-4 py-2 bg-lime-400/10 text-lime-400 rounded-full text-sm font-medium">
+                <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   Career Transformation
                 </span>
-                <span className="px-4 py-2 bg-lime-400/10 text-lime-400 rounded-full text-sm font-medium">
+                <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   AI
                 </span>
               </div>
