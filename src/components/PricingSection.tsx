@@ -80,25 +80,25 @@ export const PricingSection = () => {
 
 
   return (
-    <section id="pricing" className="py-16 md:py-24 relative overflow-hidden ">
+    <section id="pricing" className="py-32 md:py-40 relative overflow-hidden">
 
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-10 md:mb-16 px-2">
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
-            Pricing
+        <div className="text-center mb-16 md:mb-20 px-2">
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.3em] text-primary bg-primary/10 inline-block px-4 py-2 rounded-lg mb-6">
+            Transparent Pricing
           </p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
-            Built to Meet <span className="text-primary">Your Team Needs</span>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 mb-6 md:mb-8 tracking-tight leading-[1.08]">
+            Investment in Your Team's Future
           </h2>
-          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Most organisations start with a team rollout. Prefer to learn solo? Individual options are below.
+          <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-light">
+            Choose the right programme for your organization. Most teams start with a cohort rollout for stronger engagement and peer learning.
           </p>
         </div>
 
 
         {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full items-stretch">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full items-stretch mb-20">
           {pricingTiers.map((tier, index) =>
           <div
             key={index}

@@ -54,10 +54,10 @@ export const HeroSection = () => {
         }}
       />
 
-      <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="mb-16 md:mb-20" />
+      <div className="relative z-10 container mx-auto px-4 py-32 md:py-40">
+        <div className="mb-12 md:mb-16" />
 
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           {/* Accreditation Badges - Professional presentation */}
           <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-12 flex-wrap">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-200">
@@ -81,13 +81,11 @@ export const HeroSection = () => {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-white mb-4 md:mb-8">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.08] tracking-tight text-white mb-6 md:mb-8">
             Build a Safety Function Ready for the <span className="text-accent">Digital Age</span>
           </h1>
-          <p className="text-base md:text-xl lg:text-2xl text-gray-200 max-w-2xl leading-relaxed mb-6 md:mb-8 font-light">
-            AI workplace safety certification for EHS teams — the world's first IOSH-approved,
-            CPD-accredited Safety 4.0 programme. Build a safety function ready for AI, IoT and
-            SafetyTech.
+          <p className="text-lg md:text-2xl text-gray-300 max-w-3xl leading-relaxed mb-10 md:mb-12 font-light">
+            The world's first IOSH-approved, CPD-accredited Safety 4.0 certification for enterprise EHS teams. Equip your safety function with AI, IoT, and digital transformation skills in just 6–12 weeks.
           </p>
 
 
