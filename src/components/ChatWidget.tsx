@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { openWhatsAppBusiness } from "@/lib/outreach";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
 const SESSION_KEY = "s4a_chat_session_id";
 const HISTORY_KEY = "s4a_chat_history";
-const WHATSAPP_URL =
-  "https://wa.me/4407983819437?text=" +
-  encodeURIComponent("Hi Lucas, I was chatting with the site assistant and would like to speak with your team.");
+const BUSINESS_PHONE = "447983819437";
+const BUSINESS_MESSAGE = "Hi Lucas, I was chatting with the site assistant and would like to speak with your team.";
 
 function getOrCreateSessionId(): string {
   try {
@@ -26,9 +27,10 @@ function getOrCreateSessionId(): string {
 
 const WELCOME: Msg = {
   role: "assistant",
-  content:
-    "Hi 👋 I'm the SafetyTech Academy assistant. Ask me about our courses, pricing, curriculum or how to enrol. If I can't help, I'll hand you off to our team on WhatsApp.",
+  content: "Hello, how can I help you?",
 };
+
+const AUTO_OPEN_KEY = "s4a_chat_auto_opened";
 
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -41,7 +43,17 @@ export const ChatWidget = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 1500);
+    const t = setTimeout(() => {
+      setMounted(true);
+      // Auto-open once per session on desktop only
+      try {
+        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+        if (isDesktop && !sessionStorage.getItem(AUTO_OPEN_KEY)) {
+          sessionStorage.setItem(AUTO_OPEN_KEY, "1");
+          setOpen(true);
+        }
+      } catch {}
+    }, 1500);
     try {
       const saved = localStorage.getItem(HISTORY_KEY);
       if (saved) {
@@ -113,6 +125,11 @@ export const ChatWidget = () => {
     }
   };
 
+  const openWhatsApp = async () => {
+    const result = await openWhatsAppBusiness(BUSINESS_PHONE, BUSINESS_MESSAGE);
+    toast[result.success ? "success" : "error"](result.message);
+  };
+
   if (!mounted) return null;
 
   return (
@@ -122,7 +139,7 @@ export const ChatWidget = () => {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open chat assistant"
-          className="fixed bottom-6 right-24 z-50 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 animate-fade-in"
+          className="print:hidden fixed bottom-6 right-24 z-50 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 animate-fade-in"
         >
           <MessageCircle className="w-7 h-7" />
         </button>
@@ -130,11 +147,11 @@ export const ChatWidget = () => {
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-[calc(100vw-3rem)] sm:w-[380px] h-[560px] max-h-[calc(100vh-3rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col animate-fade-in overflow-hidden">
+        <div className="print:hidden fixed bottom-6 right-6 z-50 w-[calc(100vw-3rem)] sm:w-[380px] h-[560px] max-h-[calc(100vh-3rem)] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col animate-fade-in overflow-hidden">
           {/* Header */}
           <div className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between">
             <div>
-              <div className="font-semibold text-sm">SafetyTech Academy</div>
+              <div className="font-semibold text-sm">SafetyTech Academy Assistant</div>
               <div className="text-xs opacity-90">We usually reply in seconds</div>
             </div>
             <button
@@ -170,14 +187,13 @@ export const ChatWidget = () => {
             )}
             {escalated && (
               <div className="pt-2">
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={openWhatsApp}
                   className="block w-full text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-2.5 rounded-lg text-sm transition-colors"
                 >
                   Continue on WhatsApp
-                </a>
+                </button>
               </div>
             )}
           </div>

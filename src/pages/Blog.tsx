@@ -134,8 +134,30 @@ const Blog = () => {
             ))}
           </div>
 
-          {/* Newsletter CTA */}
+          {/* Explore our programmes — internal links */}
           <div className="max-w-4xl mx-auto mt-20">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 text-center">Explore Our Programmes</h2>
+            <div className="grid sm:grid-cols-3 gap-4">
+              {[
+                { to: "/elearning", title: "IOSH-approved Safety 4.0", desc: "Self-paced certification in digital safety leadership." },
+                { to: "/ai-fundamentals", title: "AI Fundamentals in EHS", desc: "Practical AI skills for safety professionals." },
+                { to: "/pricing", title: "Pricing & Plans", desc: "Compare options for individuals and teams." },
+              ].map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="block bg-white border border-slate-200 rounded-2xl p-6 hover:border-primary transition-colors"
+                >
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-600">{item.desc}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Newsletter CTA */}
+          <div className="max-w-4xl mx-auto mt-12">
+
             <div className="bg-slate-50 rounded-3xl p-12 border border-slate-200 text-center">
               <h2 className="text-3xl font-bold text-slate-900 mb-4">Stay Ahead in Safety 4.0</h2>
               <p className="text-lg text-slate-600 mb-8">

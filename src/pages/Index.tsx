@@ -1,12 +1,18 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import MentorSection from "@/components/MentorSection";
 
-import { SocialProofSection } from "@/components/SocialProofSection";
-import { PricingSection } from "@/components/PricingSection";
-import { Footer } from "@/components/Footer";
+// Below-the-fold sections are code-split and mounted on scroll so the initial
+// homepage payload stays small. Content and behaviour are unchanged.
+const ProblemStatsSection = lazy(() => import("@/components/ProblemStatsSection").then(m => ({ default: m.ProblemStatsSection })));
+const SolutionSection = lazy(() => import("@/components/SolutionSection").then(m => ({ default: m.SolutionSection })));
+const MentorSection = lazy(() => import("@/components/MentorSection"));
+const SocialProofSection = lazy(() => import("@/components/SocialProofSection").then(m => ({ default: m.SocialProofSection })));
+const PricingSection = lazy(() => import("@/components/PricingSection").then(m => ({ default: m.PricingSection })));
+const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
+const NewsletterPopup = lazy(() => import("@/components/NewsletterPopup").then(m => ({ default: m.NewsletterPopup })));
 
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
@@ -16,6 +22,7 @@ import { NewsletterPopup } from "@/components/NewsletterPopup";
 
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
+
 
 const Index = () => {
   useEffect(() => {
@@ -52,13 +59,16 @@ const Index = () => {
     };
   }, []);
 
+  const eager = typeof window !== "undefined" && !!window.location.hash;
+
   return (
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
-      <div className="min-h-screen relative" role="main">
-        <div className="fixed inset-0 bg-white -z-10"></div>
-        
-        <NewsletterPopup />
+      <div className="min-h-screen relative bg-white text-slate-900" role="main">
+
+        <Suspense fallback={null}>
+          <NewsletterPopup />
+        </Suspense>
 
         <HeroSection />
 
@@ -91,32 +101,56 @@ const Index = () => {
         </section>
 
         {/* The organisational problem */}
-        <ProblemStatsSection />
+        <DeferredSection eager={eager}>
+          <ProblemStatsSection />
+        </DeferredSection>
 
         {/* What a team rollout delivers */}
-        <SolutionSection />
+        <DeferredSection eager={eager}>
+          <SolutionSection />
+        </DeferredSection>
 
         {/* Pricing — teams first, individuals second */}
         <section aria-label="Pricing options">
-          <PricingSection />
+          <DeferredSection eager={eager} minHeight={800}>
+            <PricingSection />
+          </DeferredSection>
+          <div className="container mx-auto px-4 pb-12 md:pb-16">
+            <p className="text-center text-base text-slate-600">
+              Full course details:{" "}
+              <a href="/elearning" className="text-primary underline hover:text-primary/80">IOSH-approved Safety 4.0</a>{" "}
+              ·{" "}
+              <a href="/ai-fundamentals" className="text-primary underline hover:text-primary/80">AI Fundamentals in EHS</a>{" "}
+              ·{" "}
+              <a href="/accelerator" className="text-primary underline hover:text-primary/80">Safety 4.0 Accelerator</a>{" "}
+              ·{" "}
+              <a href="/pricing" className="text-primary underline hover:text-primary/80">Compare all plans</a>
+            </p>
+          </div>
         </section>
+
 
         {/* Founder credibility */}
         <section id="mentor" aria-label="Meet the founder">
-          <MentorSection />
+          <DeferredSection eager={eager} minHeight={600}>
+            <MentorSection />
+          </DeferredSection>
         </section>
 
         {/* Proof from safety leaders */}
         <section aria-label="What safety leaders are saying">
-          <SocialProofSection />
+          <DeferredSection eager={eager} minHeight={600}>
+            <SocialProofSection />
+          </DeferredSection>
         </section>
 
-
-
-        <Footer />
+        <DeferredSection eager={eager} minHeight={500}>
+          <Footer />
+        </DeferredSection>
       </div>
     </AnalyticsTracker>
   );
 };
+
 
 export default Index;

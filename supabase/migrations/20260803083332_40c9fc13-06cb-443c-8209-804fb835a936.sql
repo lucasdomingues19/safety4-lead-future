@@ -1,0 +1,1 @@
+delete from public.leads where email = 'test@example.com' and source = 'governance_readiness';

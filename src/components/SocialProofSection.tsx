@@ -103,14 +103,14 @@ const testimonials = [
 const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
   <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-primary border border-primary rounded-2xl md:rounded-3xl p-8 md:p-10 flex flex-col min-h-[340px] md:min-h-[400px] shadow-lg hover:shadow-xl hover:border-secondary transition-all">
     <p className="text-base md:text-lg text-primary-foreground italic leading-relaxed flex-1 mb-6">
-      <span className="text-primary-foreground/70 text-3xl leading-none align-[-8px] mr-1 not-italic">"</span>
+      <span className="text-primary-foreground/85 text-3xl leading-none align-[-8px] mr-1 not-italic">"</span>
       {t.content}
     </p>
     <div className="flex items-center gap-3">
       <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0 ring-2 ring-primary-foreground/30" />
       <div>
         <div className="text-base font-bold text-primary-foreground">{t.name}</div>
-        <div className="text-sm text-primary-foreground/70">{t.role}</div>
+        <div className="text-sm text-primary-foreground/85">{t.role}</div>
       </div>
     </div>
   </div>

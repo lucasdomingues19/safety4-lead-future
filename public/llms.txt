@@ -2,9 +2,18 @@
 
 > The world's first IOSH-approved Safety 4.0 certification programme — training EHS professionals in AI, SafetyTech, IoT and digital safety leadership.
 
-SafetyTech Academy helps safety leaders modernise workplace safety with AI, data and digital tools. We deliver three learning paths: self-paced eLearning (£497), a 4-week live Accelerator cohort (£997 + VAT), and bespoke In-Company training for teams. All certifications are IOSH-approved and CPD-accredited.
+SafetyTech Academy helps safety leaders modernise workplace safety with AI, data and digital tools. We deliver three learning paths: self-paced eLearning (£497), a 4-week live Accelerator cohort (£1,997 + VAT), and bespoke In-Company training for teams. All certifications are IOSH-approved and CPD-accredited.
+
+## Guides (in-depth reference content)
+
+- [What is Safety 4.0?](/guides/what-is-safety-4-0): Definition of Safety 4.0 — the application of Industry 4.0 technologies (AI, IoT, analytics, wearables, computer vision) to occupational health and safety, shifting practice from reactive investigation to predictive prevention.
+- [AI in Health and Safety](/guides/ai-in-health-and-safety): Practical guide to how AI is used in occupational safety — incident report analysis, document drafting, knowledge retrieval, permit review, computer vision, predictive risk modelling — plus what AI cannot do and how to govern it.
+- [AI Risk Assessment](/guides/ai-risk-assessment): Covers both using AI to draft risk assessments (and its limits around site specificity and hallucinated citations) and formally assessing the risks of deploying AI (automation bias, data protection, deskilling, accountability).
+- [IOSH-Approved Courses Online](/guides/iosh-approved-courses-online): Explains the difference between IOSH-owned certificate courses (Managing Safely, Working Safely), IOSH-approved specialist CPD, and NEBOSH qualifications, and how to choose between them.
 
 ## Pages
+
+
 
 - [Home](/): Overview of the academy, programmes and certifications.
 - [IOSH-approved Safety 4.0](/elearning): Self-paced IOSH-approved Safety 4.0 course, 10 modules, 8+ CPD hours.

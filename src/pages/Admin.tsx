@@ -3,14 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2, FileText } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
+import { ProposalsTab } from "@/components/admin/ProposalsTab";
+import { FunctionsHttpError } from "@supabase/supabase-js";
+import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
 
 interface PageView {
   id: string;
@@ -69,11 +75,15 @@ const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
   const [sourceFilter, setSourceFilter] = useState<string>('all');
+  const [composeLead, setComposeLead] = useState<Lead | null>(null);
+  const [composeSubject, setComposeSubject] = useState('');
+  const [composeBody, setComposeBody] = useState('');
+  const [sending, setSending] = useState(false);
   const navigate = useNavigate();
 
   const analyticsRequestIdRef = useRef(0);
@@ -221,6 +231,48 @@ const Admin = () => {
     }
   };
 
+  const openComposeForLead = (lead: Lead) => {
+    if (!lead.email) {
+      toast.error('No email captured for this lead.');
+      return;
+    }
+    const firstName = lead.name?.split(' ')[0] || lead.name || 'there';
+    setComposeLead(lead);
+    setComposeSubject('SafetyTech Academy — following up');
+    setComposeBody(
+      `Hi ${firstName},\n\nThis is Lucas from SafetyTech Academy. Thanks for getting in touch — happy to answer any questions about the programme.\n\nYou can also grab a slot in my diary here:\n${ZOOM_SCHEDULER_URL}\n\nBest regards,\nLucas Domingues\nSafetyTech Academy`
+    );
+  };
+
+  const handleSendGmail = async () => {
+    if (!composeLead?.email) return;
+    if (!composeSubject.trim() || !composeBody.trim()) {
+      toast.error('Subject and message are required.');
+      return;
+    }
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('send-lead-gmail', {
+        body: { to: composeLead.email, subject: composeSubject.trim(), body: composeBody },
+      });
+      if (error) {
+        const details = error instanceof FunctionsHttpError ? await error.context.text() : error.message;
+        console.error('send-lead-gmail failed:', details);
+        toast.error('Could not send via Gmail. Check the function logs for details.');
+        return;
+      }
+      if (data?.error) {
+        toast.error(String(data.error));
+        return;
+      }
+      toast.success(`Email sent from your Gmail to ${composeLead.email}.`);
+      setComposeLead(null);
+    } finally {
+      setSending(false);
+    }
+  };
+
+
   const getWhatsAppLeadMessage = (lead: Lead) => {
     const firstName = lead.name.split(' ')[0] || lead.name;
     return `Hi ${firstName}, this is Lucas from SafetyTech Academy. Thanks for reaching out — happy to help with any questions about the programme.`;
@@ -240,15 +292,63 @@ const Admin = () => {
     const message = getWhatsAppLeadMessage(lead);
     const encodedMessage = encodeURIComponent(message);
 
-    try {
-      await navigator.clipboard.writeText(`+${phone}\n${message}`);
-      toast.success('Phone number and message copied. Opening WhatsApp app…');
-    } catch {
-      toast.message('Opening WhatsApp app…');
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = isAndroid || isIOS;
+    const isEmbedded = (() => {
+      try {
+        return window.self !== window.top;
+      } catch {
+        return true;
+      }
+    })();
+
+    const businessAppUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
+    const universalWhatsAppUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(universalWhatsAppUrl)};end`;
+    const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
+    const copiedText = `+${phone}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
+
+    const copyLeadDetails = async () => {
+      try {
+        await navigator.clipboard.writeText(copiedText);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    if (isEmbedded) {
+      const copied = await copyLeadDetails();
+      if (copied) {
+        toast.success('Lead details copied. Open the published admin page in your phone browser to launch WhatsApp Business.');
+      } else {
+        toast.error('Preview blocks WhatsApp. Open the published admin page in your phone browser.');
+      }
+      return;
     }
 
-    window.location.href = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
+    if (isMobile) {
+      void copyLeadDetails();
+      window.location.href = isAndroid ? androidBusinessIntentUrl : businessAppUrl;
+
+      window.setTimeout(() => {
+        if (document.visibilityState === 'visible') {
+          toast.error('Could not open WhatsApp Business. Make sure WhatsApp Business is installed; the lead details were copied so you can paste them manually.');
+        }
+      }, 1500);
+      return;
+    }
+
+    const copied = await copyLeadDetails();
+    const win = window.open(webUrl, '_blank', 'noopener,noreferrer');
+    if (!win) {
+      toast.error(copied ? 'Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.' : 'Pop-up blocked — please allow pop-ups to open WhatsApp Business Web.');
+    } else {
+      toast.success(copied ? 'WhatsApp link copied. Opening WhatsApp Business Web…' : 'Opening WhatsApp Business Web…');
+    }
   };
+
 
   const fetchAnalytics = async (range: DateRange) => {
     const requestId = ++analyticsRequestIdRef.current;
@@ -309,10 +409,11 @@ const Admin = () => {
         return all;
       };
 
-      const [pageViewsData, clickEventsData, timeEventsData] = await Promise.all([
+      const [pageViewsData, clickEventsData, timeEventsData, scrollEventsData] = await Promise.all([
         fetchAllPageViews(),
         fetchAllUserEvents('click'),
-        fetchAllUserEvents('time_on_page')
+        fetchAllUserEvents('time_on_page'),
+        fetchAllUserEvents('scroll')
       ]);
 
       const pageViewsResult = { data: pageViewsData as any[], error: null as any };
@@ -328,18 +429,35 @@ const Admin = () => {
           .map(v => v.session_id)
       );
 
-      // Filter out admin sessions from page views
+      // Bot filter: only count sessions that showed real human behaviour
+      // (any click, scroll, or time-on-page event, or more than one page view)
+      const engagedSessions = new Set<string>();
+      [...(clickEventsData || []), ...(timeEventsData || []), ...(scrollEventsData || [])]
+        .forEach((e: any) => engagedSessions.add(e.session_id));
+
+      const viewsPerSession: Record<string, number> = {};
+      (pageViewsResult.data || []).forEach((v: any) => {
+        viewsPerSession[v.session_id] = (viewsPerSession[v.session_id] || 0) + 1;
+      });
+      Object.entries(viewsPerSession).forEach(([sid, count]) => {
+        if (count > 1) engagedSessions.add(sid);
+      });
+
+      const isHuman = (sid: string) => !adminSessions.has(sid) && engagedSessions.has(sid);
+
+      // Filter out admin + bot sessions from page views
       const filteredPageViews = (pageViewsResult.data || []).filter(
-        v => !adminSessions.has(v.session_id)
+        v => isHuman(v.session_id)
       );
 
-      // Filter out admin sessions from events
+      // Filter out admin + bot sessions from events
       const filteredClickEvents = (offerClicksResult.data || []).filter(
-        e => !adminSessions.has(e.session_id)
+        e => isHuman(e.session_id)
       );
       const filteredTimeEvents = (timeOnPageResult.data || []).filter(
-        e => !adminSessions.has(e.session_id)
+        e => isHuman(e.session_id)
       );
+
 
       // Filter offer-related clicks
       const offerClickEvents = filteredClickEvents.filter(event => {
@@ -605,7 +723,16 @@ const Admin = () => {
             <Award className="mr-2 h-4 w-4" />
             Certificates
           </Button>
+          <Button
+            onClick={() => setActiveTab('proposals')}
+            variant={activeTab === 'proposals' ? 'default' : 'outline'}
+            className={activeTab === 'proposals' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+          >
+            <FileText className="mr-2 h-4 w-4" />
+            Proposals
+          </Button>
         </div>
+
 
         {/* Analytics Tab */}
         {activeTab === 'analytics' && (
@@ -652,12 +779,14 @@ const Admin = () => {
           
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Unique Visitors</CardTitle>
+              <CardTitle className="text-sm font-medium text-white">Unique Visitors (humans)</CardTitle>
               <Users className="h-4 w-4 text-white/60" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-white">{stats.uniqueVisitors.toLocaleString()}</div>
+              <p className="text-[11px] text-white/50 mt-1">Bot/no-interaction sessions excluded</p>
             </CardContent>
+
           </Card>
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/30">
@@ -856,6 +985,8 @@ const Admin = () => {
         {/* Certificates Tab */}
         {activeTab === 'certificates' && <CertificatesTab />}
 
+        {activeTab === 'proposals' && <ProposalsTab />}
+
         {/* Leads Tab */}
         {activeTab === 'leads' && (
           <>
@@ -894,6 +1025,7 @@ const Admin = () => {
                     <option value="newsletter_popup" className="bg-black">Newsletter</option>
                     <option value="ebook_download" className="bg-black">eBook</option>
                     <option value="brochure_download" className="bg-black">Brochure</option>
+                    <option value="governance_readiness" className="bg-black">Governance Readiness</option>
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-white/40">
@@ -929,7 +1061,21 @@ const Admin = () => {
                             onClick={() => setSelectedLead(lead)}
                           >
                             <TableCell className="text-white">{lead.name}</TableCell>
-                            <TableCell className="text-white">{lead.email}</TableCell>
+                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                              <div className="flex items-center gap-2">
+                                <span>{lead.email}</span>
+                                {lead.email && (
+                                  <button
+                                    type="button"
+                                    onClick={() => openComposeForLead(lead)}
+                                    title="Email via Gmail"
+                                    className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary hover:bg-primary/80 transition-colors"
+                                  >
+                                    <Mail className="h-4 w-4 text-white" />
+                                  </button>
+                                )}
+                              </div>
+                            </TableCell>
                             <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
                               {lead.phone ? (
                                 <div className="flex items-center gap-2">
@@ -937,7 +1083,7 @@ const Admin = () => {
                                   <button
                                     type="button"
                                      onClick={() => openWhatsAppForLead(lead)}
-                                     title="Open WhatsApp app"
+                                     title="Open in WhatsApp Business"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
                                   >
                                     <MessageCircle className="h-4 w-4 text-white" />
@@ -959,6 +1105,8 @@ const Admin = () => {
                                   ? 'bg-orange-500/20 text-orange-300'
                                   : lead.source === 'brochure_download'
                                   ? 'bg-cyan-500/20 text-cyan-300'
+                                  : lead.source === 'governance_readiness'
+                                  ? 'bg-[#c4ff00]/20 text-[#c4ff00]'
                                   : 'bg-gray-500/20 text-gray-300'
                               }`}>
                                 {lead.source === 'assessment' ? 'Assessment' : 
@@ -967,6 +1115,7 @@ const Admin = () => {
                                  lead.source === 'cohort-application' ? 'Cohort Application' :
                                  lead.source === 'newsletter_popup' ? 'Newsletter' :
                                  lead.source === 'ebook_download' ? 'eBook' :
+                                 lead.source === 'governance_readiness' ? 'Governance Readiness' :
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
@@ -1028,7 +1177,19 @@ const Admin = () => {
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Email</label>
-                        <p className="text-white font-medium">{selectedLead.email}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium">{selectedLead.email}</p>
+                          {selectedLead.email && (
+                            <button
+                              type="button"
+                              onClick={() => openComposeForLead(selectedLead)}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-white text-xs font-medium transition-colors"
+                            >
+                              <Mail className="h-3.5 w-3.5" />
+                              Email via Gmail
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div>
                         <label className="text-sm text-gray-400">Phone</label>
@@ -1041,7 +1202,7 @@ const Admin = () => {
                               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-medium transition-colors"
                             >
                               <MessageCircle className="h-3.5 w-3.5" />
-                              WhatsApp
+                              WhatsApp Business
                             </button>
                           )}
                         </div>
@@ -1126,6 +1287,49 @@ const Admin = () => {
                     })()}
                   </div>
                 )}
+              </DialogContent>
+            </Dialog>
+
+            {/* Gmail Compose Dialog */}
+            <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
+              <DialogContent className="bg-card border-border text-white sm:max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>Email lead from Gmail</DialogTitle>
+                  <DialogDescription className="text-gray-300">
+                    Sends from your connected Gmail account to{" "}
+                    <span className="font-medium">{composeLead?.email}</span>. Replies come straight back to your inbox.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-gmail-subject">Subject</Label>
+                    <Input
+                      id="lead-gmail-subject"
+                      value={composeSubject}
+                      onChange={(e) => setComposeSubject(e.target.value)}
+                      maxLength={300}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="lead-gmail-body">Message</Label>
+                    <Textarea
+                      id="lead-gmail-body"
+                      value={composeBody}
+                      onChange={(e) => setComposeBody(e.target.value)}
+                      rows={10}
+                      maxLength={10000}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setComposeLead(null)} disabled={sending}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSendGmail} disabled={sending} className="gap-1">
+                    {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                    {sending ? "Sending…" : "Send via Gmail"}
+                  </Button>
+                </DialogFooter>
               </DialogContent>
             </Dialog>
           </>

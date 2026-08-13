@@ -34,6 +34,14 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      // Lovable Assets are served from the edge in production/preview.
+      // Proxy them locally so dev previews render uploaded images correctly.
+      "/__l5e/assets-v1": {
+        target: "https://safetytech.academy",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     react(),

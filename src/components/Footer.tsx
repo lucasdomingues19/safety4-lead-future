@@ -8,7 +8,7 @@ export const Footer = () => {
   return (
     <footer className="bg-black border-t border-white/10 py-6 md:py-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
           {/* Logo and Description */}
           <div className="col-span-2 lg:col-span-2">
             <img 
@@ -22,10 +22,43 @@ export const Footer = () => {
             </p>
           </div>
 
+          {/* Programme Links */}
+          <div>
+            <h4 className="text-white font-semibold text-base md:text-lg mb-4 md:mb-6">Programmes</h4>
+            <ul className="space-y-2 md:space-y-3">
+              {[
+                { to: "/elearning", label: "IOSH-approved Safety 4.0" },
+                { to: "/ai-fundamentals", label: "AI Fundamentals in EHS" },
+                { to: "/accelerator", label: "Safety 4.0 Accelerator" },
+                { to: "/pricing", label: "Pricing & Plans" },
+                { to: "/certification", label: "IOSH & CPD Certification" },
+                { to: "/case-studies", label: "Case Studies" },
+              ].map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+
           {/* Support Links */}
           <div>
             <h4 className="text-white font-semibold text-base md:text-lg mb-4 md:mb-6">Resources</h4>
             <ul className="space-y-2 md:space-y-3">
+              <li>
+                <Link
+                  to="/guides"
+                  className="text-gray-300 hover:text-white transition-colors text-xs md:text-sm"
+                >
+                  Guides
+                </Link>
+              </li>
               <li>
                 <Link 
                   to="/blog" 
@@ -34,6 +67,7 @@ export const Footer = () => {
                   Blog & Insights
                 </Link>
               </li>
+
               <li>
                 <Link 
                   to="/contact" 

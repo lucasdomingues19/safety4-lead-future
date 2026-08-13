@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { X, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
+
 
 const SUBSCRIBE_URL = "https://learning.safetytech.academy/newsletters/safety-4-0-newsletter/subscribe";
 
@@ -12,6 +14,8 @@ export const NewsletterPopup = () => {
     if (hasSeenPopup) return;
 
     const timer = setTimeout(() => {
+      // Never compete with another popup (e.g. the governance readiness review)
+      if (!claimPopupSlot("newsletter")) return;
       setIsOpen(true);
       sessionStorage.setItem("newsletter_popup_shown", "true");
     }, 60000);
@@ -19,9 +23,12 @@ export const NewsletterPopup = () => {
     return () => clearTimeout(timer);
   }, []);
 
+
   const handleClose = () => {
     setIsOpen(false);
+    releasePopupSlot("newsletter");
   };
+
 
   if (!isOpen) return null;
 

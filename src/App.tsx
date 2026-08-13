@@ -2,11 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
-import { WhatsAppButton } from "./components/WhatsAppButton";
-import { ChatWidget } from "./components/ChatWidget";
+const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
+const ChatWidget = lazy(() => import("./components/ChatWidget").then(m => ({ default: m.ChatWidget })));
+const GovernanceReadinessGate = lazy(() => import("./components/GovernanceReadinessGate"));
 
 // Lazy load pages for better performance
 
@@ -30,11 +31,18 @@ const Admin = lazy(() => import("./pages/Admin"));
 const Scorecard = lazy(() => import("./pages/Scorecard"));
 const Syllabus = lazy(() => import("./pages/Syllabus"));
 const Offer = lazy(() => import("./pages/Offer"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 
 const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
 const AIFundamentals = lazy(() => import("./pages/AIFundamentals"));
+const GovernanceReadiness = lazy(() => import("./pages/GovernanceReadiness"));
+const GuidesHub = lazy(() => import("./pages/Guides"));
+const GuidePage = lazy(() => import("./pages/Guide"));
+const ProposalPage = lazy(() => import("./pages/Proposal"));
+
+
 
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
@@ -60,6 +68,35 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// Floating widgets/popups — hidden on private proposal pages
+const GlobalWidgets = () => {
+  const { pathname } = useLocation();
+  if (pathname.startsWith("/proposal")) return null;
+  return (
+    <Suspense fallback={null}>
+      <WhatsAppButton />
+      <GovernanceReadinessGate />
+      <ChatWidget />
+    </Suspense>
+  );
+};
+
+const OldProposalRedirect = () => {
+  const { token } = useParams<{ token: string }>();
+  return <Navigate to={`/proposal_${token}`} replace />;
+};
+
+// React Router params must be a whole path segment, so `/proposal_:token`
+// never matches. Match the single segment and parse the prefix ourselves.
+const ProposalSlugRoute = () => {
+  const { slug } = useParams<{ slug: string }>();
+  if (slug?.startsWith("proposal_") && slug.length > "proposal_".length) {
+    return <ProposalPage token={slug.slice("proposal_".length)} />;
+  }
+  return <NotFound />;
+};
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -91,11 +128,20 @@ const App = () => (
             <Route path="/elearning" element={<Syllabus />} />
             <Route path="/syllabus" element={<Syllabus />} />
             <Route path="/offer" element={<Offer />} />
+            <Route path="/pricing" element={<Pricing />} />
             
             <Route path="/accelerator" element={<Cohort />} />
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/enrol" element={<Enroll />} />
             <Route path="/ai-fundamentals" element={<AIFundamentals />} />
+            <Route path="/governance-readiness" element={<GovernanceReadiness />} />
+            <Route path="/guides" element={<GuidesHub />} />
+            <Route path="/guides/:slug" element={<GuidePage />} />
+            <Route path="/proposal_:token" element={<ProposalPage />} />
+            <Route path="/:slug" element={<ProposalSlugRoute />} />
+            <Route path="/proposal/:token" element={<OldProposalRedirect />} />
+
+
             <Route path="/learn/auth" element={<LearnAuth />} />
             <Route path="/learn" element={<LearnDashboard />} />
             <Route path="/learn/:courseSlug" element={<CourseView />} />
@@ -105,8 +151,7 @@ const App = () => (
 
           </Routes>
         </Suspense>
-        <WhatsAppButton />
-        <ChatWidget />
+        <GlobalWidgets />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

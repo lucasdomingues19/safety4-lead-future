@@ -6,7 +6,7 @@ export const setPageSEO = ({
   title,
   description,
   canonical,
-  ogImage = "https://safetytech.academy/opengraph-image.png",
+  ogImage = "https://safetytech.academy/opengraph-image.png?v=3",
   ogType = "website",
 }: {
   title: string;
@@ -60,5 +60,22 @@ export const setPageSEO = ({
       link.href = canonical;
       document.head.appendChild(link);
     }
+
+    // hreflang alternates must self-reference the current page, otherwise
+    // Google treats the page as an alternate of whatever they point to.
+    const setAlternate = (lang: string) => {
+      let alt = document.querySelector(
+        `link[rel="alternate"][hreflang="${lang}"]`,
+      ) as HTMLLinkElement | null;
+      if (!alt) {
+        alt = document.createElement("link");
+        alt.rel = "alternate";
+        alt.hreflang = lang;
+        document.head.appendChild(alt);
+      }
+      alt.href = canonical;
+    };
+    setAlternate("en");
+    setAlternate("x-default");
   }
 };

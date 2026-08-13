@@ -1,0 +1,82 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { X, ShieldCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
+
+export const GovernanceReadinessPopup = () => {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (claimPopupSlot("governance_readiness")) setIsOpen(true);
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const close = () => {
+    setIsOpen(false);
+    releasePopupSlot("governance_readiness");
+  };
+
+  const start = () => {
+    close();
+    navigate("/governance-readiness");
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-md my-4 sm:my-6 rounded-2xl border border-white/20 bg-background p-5 sm:p-6 shadow-2xl animate-scale-in">
+        <button
+          onClick={close}
+          className="absolute top-3 right-3 p-1.5 text-gray-400 hover:text-white transition-colors"
+          aria-label="Close"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-4">
+          <ShieldCheck className="w-6 h-6 text-white" />
+        </div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-white bg-primary inline-block px-2.5 py-1 rounded-md mb-3">
+          Free assessment
+        </div>
+        <h2 className="text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight text-white leading-tight mb-2">
+          AI in EHS Governance Readiness
+        </h2>
+        <p className="text-sm text-gray-300 mb-4">
+          Ten questions, three minutes. Get a scored position across visibility, literacy, governance, assurance and records — plus the three things
+          to fix first.
+        </p>
+        <ul className="space-y-2 text-sm text-gray-300 mb-5">
+          {[
+            "Where your function stands against the AI literacy obligation",
+            "A domain-by-domain score you can show your board",
+            "A prioritised list of the gaps to close first",
+          ].map((t) => (
+            <li key={t} className="flex gap-2.5">
+              <span className="text-primary font-bold">✓</span>
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="flex flex-col gap-2.5">
+          <Button onClick={start} className="w-full py-5 text-sm font-semibold">
+            Start the assessment
+          </Button>
+          <Button
+            onClick={close}
+            className="w-full py-5 text-sm font-semibold bg-black text-white hover:bg-black/80 border border-white/10"
+          >
+            Maybe later
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default GovernanceReadinessPopup;

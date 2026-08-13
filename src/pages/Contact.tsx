@@ -170,10 +170,10 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
+                    <label htmlFor="contact-first-name" className="block text-sm font-medium text-slate-700 mb-2">First Name</label>
                     <Input 
                       type="text" 
-                      name="firstName"
+                      id="contact-first-name" name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
                       placeholder="Enter your first name"
@@ -182,10 +182,10 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
+                    <label htmlFor="contact-last-name" className="block text-sm font-medium text-slate-700 mb-2">Last Name</label>
                     <Input 
                       type="text" 
-                      name="lastName"
+                      id="contact-last-name" name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
                       placeholder="Enter your last name"
@@ -196,10 +196,10 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
                   <Input 
                     type="email" 
-                    name="email"
+                    id="contact-email" name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="Enter your email address"
@@ -209,10 +209,10 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                  <label htmlFor="contact-phone" className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
                   <div className="flex gap-2">
                     <select
-                      name="phoneCode"
+                      id="contact-phone-code" name="phoneCode" aria-label="Country dialling code"
                       value={formData.phoneCode}
                       onChange={handleInputChange}
                       className="bg-white border border-slate-300 text-slate-900 rounded-md px-2 py-2 w-[110px] flex-shrink-0"
@@ -223,7 +223,7 @@ const Contact = () => {
                     </select>
                     <Input 
                       type="tel" 
-                      name="phone"
+                      id="contact-phone" name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
                       placeholder="Enter your phone number"
@@ -234,10 +234,10 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Current Role</label>
+                  <label htmlFor="contact-role" className="block text-sm font-medium text-slate-700 mb-2">Current Role</label>
                   <Input 
                     type="text" 
-                    name="role"
+                    id="contact-role" name="role"
                     value={formData.role}
                     onChange={handleInputChange}
                     placeholder="e.g., Safety Manager, HSE Officer"
@@ -247,9 +247,9 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Inquiry Type</label>
+                  <label htmlFor="contact-inquiry-type" className="block text-sm font-medium text-slate-700 mb-2">Inquiry Type</label>
                   <select 
-                    name="inquiryType"
+                    id="contact-inquiry-type" name="inquiryType"
                     value={formData.inquiryType}
                     onChange={handleInputChange}
                     className="w-full bg-white border border-slate-300 text-slate-900 rounded-md px-3 py-2"
@@ -265,9 +265,9 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Message</label>
+                  <label htmlFor="contact-message" className="block text-sm font-medium text-slate-700 mb-2">Message</label>
                   <Textarea 
-                    name="message"
+                    id="contact-message" name="message"
                     value={formData.message}
                     onChange={handleInputChange}
                     placeholder="Tell us about your safety career goals and how we can help..."

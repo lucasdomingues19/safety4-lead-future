@@ -26,3 +26,13 @@ verify_jwt = false
 
 [functions.chat-assistant]
 verify_jwt = false
+
+[functions.send-lead-gmail]
+verify_jwt = true
+
+
+[functions.send-governance-email]
+verify_jwt = false
+
+[functions.proposal-public]
+verify_jwt = false

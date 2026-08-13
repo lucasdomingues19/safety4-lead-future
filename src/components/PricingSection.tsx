@@ -10,8 +10,7 @@ export const PricingSection = () => {
   const pricingTiers = [
   {
     name: "AI Fundamentals in EHS",
-    price: "£72",
-    originalPrice: "£97",
+    price: "£97",
     period: "",
     description: "A fast-track introduction to AI for EHS professionals",
     icon: Building,
@@ -135,9 +134,6 @@ export const PricingSection = () => {
                     }
                     <span className="text-slate-500 text-lg">{tier.period}</span>
                   </div>
-                  {tier.name === "AI Fundamentals in EHS" &&
-                    <p className="text-xs text-primary font-semibold mt-2">Founding price — only for the first 100 spots</p>
-                  }
                 </div>
               </div>
 
@@ -153,7 +149,7 @@ export const PricingSection = () => {
 
               {/* CTA Button */}
               {tier.name === "AI Fundamentals in EHS" ?
-            <a href="https://learning.safetytech.academy/offers/osRfeBFj/checkout" target="_blank" rel="noopener noreferrer">
+            <a href="https://learning.safetyacademy.tech/offers/osRfeBFj/checkout" target="_blank" rel="noopener noreferrer">
                   <Button
                 className={`w-full ${tier.buttonColor} text-primary-foreground font-semibold py-6 text-lg group`}>
                     {tier.cta}
@@ -203,7 +199,7 @@ export const PricingSection = () => {
               Schedule a free consultation with our experts to find the perfect training solution for your team needs.
             </p>
             <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="bg-white border-slate-300 text-slate-900 hover:bg-slate-100 px-8 py-6 text-lg">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg">
                 Schedule Free Consultation
               </Button>
             </a>

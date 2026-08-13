@@ -18,8 +18,8 @@ const CaseStudies = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative">
-      <div className="fixed inset-0 bg-white -z-10" />
+    <div className="min-h-screen relative bg-white text-slate-900">
+
       <AudienceNav />
 
       {/* Hero */}
