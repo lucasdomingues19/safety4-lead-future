@@ -3,6 +3,7 @@ import AudienceNav from "./AudienceNav";
 import heroWorker from "@/assets/hero-worker.png.asset.json";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
+import { DigitalDotsText } from "./DigitalDotsText";
 
 export const HeroSection = () => {
   return (
@@ -82,7 +83,7 @@ export const HeroSection = () => {
 
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.08] tracking-tight text-white mb-6 md:mb-8">
-            Build a Safety Function Ready for the <span className="text-accent">Digital Age</span>
+            Build a Safety Function Ready for the <span className="text-accent"><DigitalDotsText text="Digital Age" /></span>
           </h1>
           <p className="text-lg md:text-2xl text-gray-300 max-w-3xl leading-relaxed mb-10 md:mb-12 font-light">
             The world's first IOSH-approved, CPD-accredited Safety 4.0 certification for enterprise EHS teams. Equip your safety function with AI, IoT, and digital transformation skills in just 6–12 weeks.
@@ -93,21 +94,19 @@ export const HeroSection = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-start gap-4">
-            <a
-              href="/#pricing"
-              onClick={(e) => {
+            <button
+              onClick={() => {
                 const el = document.getElementById("pricing");
                 if (el) {
-                  e.preventDefault();
                   el.scrollIntoView({ behavior: "smooth" });
                   window.history.replaceState(null, "", "/#pricing");
                 }
               }}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-lg rounded-full hover:bg-primary/90 transition-all active:scale-[0.97] shadow-md hover:shadow-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-lg rounded-full hover:bg-primary/90 transition-all active:scale-[0.97] shadow-md hover:shadow-lg cursor-pointer"
             >
               Upskill My Team
               <ArrowRight className="w-5 h-5" />
-            </a>
+            </button>
           </div>
         </div>
       </div>
