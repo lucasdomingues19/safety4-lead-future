@@ -56,37 +56,14 @@ const MentorSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           {/* Photo */}
           <div className="relative">
-            <div className="relative aspect-square rounded-2xl overflow-hidden" style={{ backgroundColor: "#0a1530" }}>
-              {/* Grid lines background - subtle brand-aligned */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: `
-                    linear-gradient(rgba(29,95,214,0.08) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(29,95,214,0.08) 1px, transparent 1px)
-                  `,
-                  backgroundSize: "60px 60px",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: `
-                    linear-gradient(rgba(166,226,26,0.04) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(166,226,26,0.04) 1px, transparent 1px)
-                  `,
-                  backgroundSize: "240px 240px",
-                }}
-              />
-              {/* Moving glow that sweeps across the grid */}
-              <div className="absolute inset-0 animate-grid-glow pointer-events-none" />
+            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
+            <div className="absolute -top-4 -left-4 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
+            <div className="relative aspect-[3/4] rounded-[30px] overflow-hidden bg-slate-100">
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH - Safety Leadership Mentor"
                 className="absolute inset-0 w-full h-full object-cover object-top" />
             </div>
-            <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl"></div>
-            <div className="absolute -top-4 -left-4 w-32 h-32 bg-primary/5 rounded-full blur-2xl"></div>
           </div>
 
           {/* Bio */}

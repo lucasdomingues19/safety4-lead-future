@@ -94,10 +94,10 @@ export default {
 				'bounce': 'var(--transition-bounce)',
 			},
 			fontFamily: {
-				'sans': ['Inter', 'system-ui', 'sans-serif'],
-				'futura': ['Inter', 'system-ui', 'sans-serif'],
-				'syne': ['Inter', 'system-ui', 'sans-serif'],
-				'dm': ['Inter', 'system-ui', 'sans-serif'],
+				'sans': ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+				'futura': ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+				'syne': ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+				'dm': ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
