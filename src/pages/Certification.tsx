@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import AudienceNav from "@/components/AudienceNav";
-import cpdCertifiedLogo from "../assets/cpd-certified-logo.png.asset.json";
+import cpdCertifiedLogo from "../assets/cpd-approved-logo.png";
 import ioshApprovedLogo from "../assets/iosh-approved-logo.jpg";
 import certificateSample from "@/assets/certificate-sample.png";
 import { trackPageView } from "@/utils/analytics";
@@ -123,7 +123,7 @@ const Certification = () => {
               {/* CPD Logo in bottom right */}
               <div className="absolute bottom-6 right-6">
                 <img 
-                  src={cpdCertifiedLogo.url} 
+                  src={cpdCertifiedLogo} 
                   alt="CPD Certified - The CPD Certification Service logo" 
                   className="w-24 h-24 object-contain opacity-90 hover:opacity-100 transition-opacity"
                 />

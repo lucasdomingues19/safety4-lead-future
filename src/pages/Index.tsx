@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
+import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import MentorSection from "@/components/MentorSection";
@@ -70,6 +71,8 @@ const Index = () => {
         </Suspense>
 
         <HeroSection />
+
+        <TrustedByBanner />
 
         {/* Introduction video — secondary, for individuals exploring */}
         <section className="py-16 md:py-24">

@@ -91,12 +91,12 @@ const AudienceNav = () => {
   }, [location.pathname, navigate]);
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-200 shadow-md" style={{ backgroundColor: '#ffffff' }}>
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <BrandLogo />
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) =>
             "children" in link && link.children ? (
               <DesktopDropdown key={link.label} item={link} />
@@ -111,7 +111,7 @@ const AudienceNav = () => {
                 className={
                   "emphasis" in link && link.emphasis
                     ? "text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
-                    : "text-sm text-slate-700 hover:text-primary transition-colors"
+                    : "text-sm font-medium text-slate-700 hover:text-primary transition-colors"
                 }
               >
                 {link.label}
@@ -120,7 +120,7 @@ const AudienceNav = () => {
           )}
           <Link
             to="/enrol"
-            className="ml-2 px-5 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"
+            className="ml-2 px-6 py-2.5 rounded-full bg-primary text-white text-sm font-bold uppercase tracking-wide hover:bg-primary/90 transition-colors shadow-sm hover:shadow-md"
           >
             Enrol Now
           </Link>
@@ -175,7 +175,7 @@ const AudienceNav = () => {
           <Link
             to="/enrol"
             onClick={() => setMobileOpen(false)}
-            className="block text-center mt-3 px-5 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"
+            className="block text-center mt-3 px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold uppercase tracking-wide hover:bg-primary/90 transition-colors"
           >
             Enrol Now
           </Link>

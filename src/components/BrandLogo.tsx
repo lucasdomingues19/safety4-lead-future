@@ -12,10 +12,10 @@ export const BrandLogo = ({ className = "" }: { className?: string }) => {
 
       {/* Wordmark */}
       <div className="hidden sm:flex flex-col leading-tight">
-        <span className="text-sm font-bold text-white tracking-wide">
+        <span className="text-sm font-extrabold text-slate-900 tracking-wide">
           SAFETYTECH
         </span>
-        <span className="text-xs font-italic text-lime-400">
+        <span className="text-xs font-medium text-primary">
           Academy
         </span>
       </div>
