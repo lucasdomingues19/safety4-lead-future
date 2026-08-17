@@ -16,6 +16,86 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "8",
+    slug: "you-issued-everyone-a-copilot-nobody-trained-the-captain",
+    title: "You Issued Everyone a Copilot. Nobody Trained the Captain.",
+    metaDescription: "Only 35.8% of Microsoft Copilot licenses are used regularly. Learn why the gap is training, not the tool, and what EHS leaders can do about it.",
+    excerpt: "You didn't buy a bad product. You bought a very good one and skipped the part where anyone learns to fly it.",
+    author: "Lucas Domingues",
+    authorTitle: "Safety 4.0 Expert, MSc, CMIOSH",
+    publishDate: "2026-08-17",
+    readTime: "6 min read",
+    category: "AI in EHS",
+    tags: ["Microsoft Copilot", "AI Training", "EHS Leadership", "EU AI Act", "Human Factors", "Safety 4.0", "AI Literacy", "Assurative AI", "Automation"],
+    featuredImage: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=675&fit=crop",
+    content: `
+
+
+**Short answer:** Microsoft Copilot adoption fails in most organisations because of missing AI literacy and role-specific training, not because of the tool. Only 35.8% of Copilot licenses are used regularly, and organisational factors outweigh individual ability by more than 2:1.
+
+Only 35.8% of Microsoft Copilot licenses get used regularly, versus 83.1% for ChatGPT among workers with access to both. Same category of tool, a 47-point gap. Microsoft's own 2026 Work Trend Index found why: organisational factors — culture, manager support, structured rollout — account for more than twice the impact on AI success as individual ability. Two-thirds of the outcome was decided before anyone opened the app.
+
+You didn't buy a bad product. You bought a very good one and skipped the part where anyone learns to fly it.
+
+That's not an argument against Copilot. It's a genuinely capable tool for EHS and sustainability professionals — drafting risk assessments, structuring incident narratives, pulling together a sustainability report. Most organisations already have it: the license is probably sitting in your tenant right now, used by a fraction of the people it's assigned to. The tool was never the gap. The skill to use it was. (We covered the day-to-day version of this in [The 5-Hour Slide Deck](/blog/5-hour-slide-deck-ehs-copilot).)
+
+## Aviation already learned this
+
+In 1983, Lisanne Bainbridge published "Ironies of Automation," now one of the most cited papers in human factors research. Her point: automate the easy parts of a job and the human left holding the hard calls gets less practice, not more support — right when it matters most.
+
+Aviation gave that paradox a face. In 1997, American Airlines found 68% of its incidents and accidents involved automation mismanagement, not failure. The flight computers worked. Crews had stopped knowing when to trust them. Training captain Warren Vanderburgh named the pattern "Children of the Magenta" — pilots following the flight-path line on their display the way you'd follow GPS into a lake, with no sense of when the plan stopped making sense. It's still taught in recurrent training today. Not because the technology got worse — because giving someone a powerful co-pilot without teaching them to work with it doesn't make the flight safer. It just hides the risk.
+
+## Same cockpit, different inbox
+
+Swap the flight deck for a risk assessment, the magenta line for a Copilot-drafted incident report. A co-pilot doesn't replace the judgement of the person in the seat — it assists it. That value only shows up when someone knows when the draft is right, when it's subtly wrong, and when to take the controls back. Skip the training and you haven't automated your EHS or sustainability function — you've added confident autocomplete to a discipline where being confidently wrong has consequences. That's the logic behind assurative AI: the tool drafts and flags, a credentialed human reviews and underwrites. Remove the training and you've kept the assurance claim without the human half that made it true.
+
+It's also no longer just a productivity question. Under the EU AI Act's Article 4, organisations have an AI literacy obligation — in force since February 2025, enforced since 2 August 2026. Untrained AI use in a safety or compliance function is now a documented gap, not just a missed efficiency.
+
+## What actually fixes it
+
+Not a ten-minute video and a link to Microsoft's docs — that's the most common failure mode, and it's why licenses sit unused. What works is role-specific, hands-on training built around the real workflow: how a Copilot draft fits into an incident investigation, a risk assessment, an audit. That's the gap SafetyTech Academy is closing through our [AI Fundamentals in EHS course](/ai-fundamentals) and [IOSH-approved Safety 4.0 training](/#pricing).
+
+If you want to see where your organisation stands first, the free [AI in EHS Governance Readiness assessment](/governance-readiness) scores your AI literacy and oversight gaps in about five minutes.
+
+## Coming soon: Copilot for EHS & Sustainability Professionals
+
+Your team already has the license. We're building the training to go with it — role-specific, hands-on, and built to keep the judgement that makes you competent in the first place.
+
+[Apply to join the waitlist →](https://learning.safetyacademy.tech/forms/2149695548)
+
+Receive details of the program and be the first to know when it becomes available.
+
+## Frequently asked questions
+
+### Why do most Microsoft Copilot licenses go unused?
+
+Microsoft's 2026 Work Trend Index found that organisational factors — culture, manager support and structured rollout — account for more than twice the impact on AI success as individual skill. Only 35.8% of Copilot licenses are used regularly, compared with 83.1% for ChatGPT where workers have access to both.
+
+### What is "Children of the Magenta"?
+
+It is a term coined by American Airlines training captain Warren Vanderburgh in 1997 to describe pilots who follow automation displays uncritically. The phrase is still used in recurrent training because automation mismanagement, not failure, remains a major risk.
+
+### What is assurative AI?
+
+Assurative AI is the practice where the tool drafts and flags, and a credentialed human reviews and underwrites the output. It keeps accountability with a competent person rather than transferring it to the software.
+
+### What does the EU AI Act require for AI literacy?
+
+Article 4 of the EU AI Act requires organisations to ensure a level of AI literacy appropriate to their use of AI systems. It has been in force since February 2025 and enforceable since 2 August 2026.
+
+### How should EHS teams train staff on Copilot?
+
+Role-specific, hands-on training built around real workflows — incident investigation, risk assessment, audit reporting — works better than generic product tutorials. The goal is to keep professional judgement while using the tool to draft and accelerate.
+
+## References
+
+1. Recon Analytics / Microsoft, *Work Trend Index 2026*.
+2. Bainbridge, L. (1983). "Ironies of Automation," *Automatica*, 19(6).
+3. American Airlines Flight Training Dept. (Capt. Warren Vanderburgh, 1997). "Children of the Magenta."
+4. European Union, *Artificial Intelligence Act*, Article 4.
+`,
+  },
+  {
     id: "7",
     slug: "5-hour-slide-deck-ehs-copilot",
     title: "The 5-Hour Slide Deck: How EHS Professionals Are Getting Their Week Back",
