@@ -18,10 +18,10 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 100%;
 
     /* SafetyTech Academy Brand Colors — locked */
-    --primary: 240 100% 50%; /* Template Blue #3434FF */
+    --primary: 240 100% 60%; /* Template Blue #3434FF */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 100% 60%; /* Lighter blue */
+    --secondary: 240 100% 72%; /* Lighter blue */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 222 35% 40%;
@@ -182,7 +182,7 @@ All colors MUST be HSL.
   p {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-weight: 400;
-    @apply text-base leading-relaxed max-w-[70ch];
+    @apply text-base leading-relaxed;
     margin-bottom: 1em;
   }
 

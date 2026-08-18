@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 import AudienceNav from "./AudienceNav";
-import heroPhoto from "@/assets/hero-safety-leader.jpg";
+import heroPhoto from "@/assets/hero-ai-safety-worker.png";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import { DigitalDotsText } from "./DigitalDotsText";
@@ -137,12 +137,12 @@ export const HeroSection = () => {
             className="relative w-full lg:flex-1 max-w-[480px] mx-auto lg:mx-0 animate-hero-zoom"
             style={{ animationDelay: "0.2s" }}
           >
-            <div className="relative aspect-[3/4] rounded-[30px] overflow-hidden">
+            <div className="relative aspect-square rounded-[30px] overflow-hidden">
               <img
                 src={heroPhoto}
-                alt="Safety leader working with AI and digital tools"
-                width={1280}
-                height={720}
+                alt="Safety professional wearing an AI-enabled smart hard hat"
+                width={1200}
+                height={1200}
                 decoding="async"
                 fetchPriority="high"
                 className="absolute inset-0 h-full w-full object-cover"
