@@ -253,17 +253,6 @@ All colors MUST be HSL.
   animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* A single soft light band sweeping diagonally across the hero grid —
-   reads as a "wave" passing through the lines rather than a pan/scroll. */
-@keyframes gridWave {
-  0% { background-position: -200% -200%; }
-  100% { background-position: 200% 200%; }
-}
-
-.animate-grid-wave {
-  animation: gridWave 8s linear infinite;
-}
-
 /* ---- Proposal / document print styling ---- */
 @media print {
   @page {

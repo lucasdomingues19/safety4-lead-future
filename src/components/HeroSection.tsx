@@ -10,23 +10,36 @@ export const HeroSection = () => {
     <section className="relative overflow-hidden bg-white pt-28 pb-24 md:pt-40 md:pb-32">
       <AudienceNav />
 
-      {/* Single static grid, plus one soft diagonal light band sweeping across it */}
+      {/* Single grid, its lines genuinely rippling via an SVG fluid-turbulence filter
+          (not an overlay band — the grid geometry itself distorts like liquid). */}
+      <svg className="absolute w-0 h-0" aria-hidden="true">
+        <filter id="hero-grid-fluid">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.008 0.015"
+            numOctaves="2"
+            seed="7"
+            result="noise"
+          >
+            <animate
+              attributeName="baseFrequency"
+              values="0.008 0.015;0.012 0.009;0.008 0.015"
+              dur="14s"
+              repeatCount="indefinite"
+            />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="26" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(52,52,255,0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(52,52,255,0.08) 1px, transparent 1px)
+            linear-gradient(rgba(52,52,255,0.09) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(52,52,255,0.09) 1px, transparent 1px)
           `,
           backgroundSize: "44px 44px",
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none animate-grid-wave"
-        style={{
-          backgroundImage:
-            "linear-gradient(115deg, transparent 40%, rgba(52,52,255,0.16) 48%, rgba(52,52,255,0.16) 52%, transparent 60%)",
-          backgroundSize: "300% 300%",
+          filter: "url(#hero-grid-fluid)",
         }}
       />
       {/* Fade the grid out toward the bottom so it doesn't fight the content below */}
