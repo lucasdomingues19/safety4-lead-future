@@ -1,13 +1,88 @@
 import { Link } from "react-router-dom";
-import { BarChart3, Building, Tablet, Users, ArrowRight } from "lucide-react";
+import { BarChart3, Sparkles, MessageSquare, Award, ShieldCheck, Users, Calendar, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+// Custom per-course illustrated header — a mini "product mockup" panel plus
+// floating icon chips, themed to what each course is actually about.
+
+const AIFundamentalsIllustration = () => (
+  <div className="absolute inset-0 flex items-center justify-center">
+    {/* Main mockup panel — AI chat/prompt interface */}
+    <div className="relative w-[68%] aspect-[4/3] bg-white rounded-2xl shadow-xl p-4 flex flex-col gap-2 -rotate-2">
+      <div className="h-2 w-3/5 bg-slate-200 rounded-full" />
+      <div className="h-2 w-2/5 bg-slate-200 rounded-full" />
+      <div className="h-2 w-4/5 bg-primary/20 rounded-full mt-1" />
+      <div className="flex-1" />
+      <div className="flex items-center gap-2 bg-primary/10 rounded-xl p-2">
+        <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <Sparkles className="w-3.5 h-3.5 text-white" />
+        </div>
+        <div className="h-2 w-3/5 bg-primary/30 rounded-full" />
+      </div>
+    </div>
+    {/* Floating chips */}
+    <div className="absolute top-[14%] right-[10%] w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center rotate-6">
+      <MessageSquare className="w-6 h-6 text-primary" />
+    </div>
+    <div className="absolute bottom-[16%] left-[8%] w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center -rotate-6">
+      <Sparkles className="w-5 h-5 text-primary" />
+    </div>
+  </div>
+);
+
+const CertificationIllustration = () => (
+  <div className="absolute inset-0 flex items-center justify-center">
+    {/* Main mockup panel — certificate / module checklist */}
+    <div className="relative w-[68%] aspect-[4/3] bg-white rounded-2xl shadow-xl p-4 flex flex-col gap-2.5 rotate-2">
+      <div className="flex items-center justify-between mb-1">
+        <div className="h-2.5 w-2/5 bg-slate-300 rounded-full" />
+        <Award className="w-5 h-5 text-primary" />
+      </div>
+      {[0, 1, 2].map((i) => (
+        <div key={i} className="flex items-center gap-2">
+          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
+          <div className={`h-1.5 rounded-full bg-slate-200 ${i === 1 ? "w-3/5" : "w-4/5"}`} />
+        </div>
+      ))}
+    </div>
+    {/* Floating chips */}
+    <div className="absolute top-[12%] right-[8%] w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center -rotate-6">
+      <ShieldCheck className="w-6 h-6 text-primary" />
+    </div>
+    <div className="absolute bottom-[14%] left-[10%] w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center rotate-6">
+      <Award className="w-5 h-5 text-primary" />
+    </div>
+  </div>
+);
+
+const CohortIllustration = () => (
+  <div className="absolute inset-0 flex items-center justify-center">
+    {/* Main mockup panel — live session grid of participants */}
+    <div className="relative w-[68%] aspect-[4/3] bg-white rounded-2xl shadow-xl p-4 -rotate-2">
+      <div className="grid grid-cols-2 gap-2 h-full">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className={`rounded-lg flex items-center justify-center ${i === 0 ? "bg-primary" : "bg-primary/10"}`}>
+            <div className={`w-5 h-5 rounded-full ${i === 0 ? "bg-white/80" : "bg-primary/30"}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+    {/* Floating chips */}
+    <div className="absolute top-[12%] right-[9%] w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center rotate-6">
+      <Users className="w-6 h-6 text-primary" />
+    </div>
+    <div className="absolute bottom-[15%] left-[9%] w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center -rotate-6">
+      <Calendar className="w-5 h-5 text-primary" />
+    </div>
+  </div>
+);
 
 const courses = [
   {
     name: "AI Fundamentals in EHS",
     href: "/ai-fundamentals",
     description: "A fast-track introduction to AI for EHS professionals.",
-    icon: Building,
+    Illustration: AIFundamentalsIllustration,
     level: "Beginner",
     price: "£97",
     period: "",
@@ -17,7 +92,7 @@ const courses = [
     name: "IOSH-approved Safety 4.0",
     href: "/elearning",
     description: "Self-paced online learning — 10 core modules, 60+ video lessons.",
-    icon: Tablet,
+    Illustration: CertificationIllustration,
     level: "All Levels",
     price: "£497",
     originalPrice: "£697",
@@ -28,7 +103,7 @@ const courses = [
     name: "Safety 4.0 Accelerator Cohort",
     href: "/accelerator",
     description: "Live group training with expert guidance and peer interaction.",
-    icon: Users,
+    Illustration: CohortIllustration,
     level: "Advanced",
     price: "£1,997",
     originalPrice: "£2,497",
@@ -60,7 +135,7 @@ export const PricingSection = () => {
         {/* Course Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-16">
           {courses.map((course) => {
-            const Icon = course.icon;
+            const Illustration = course.Illustration;
             return (
               <Link
                 key={course.href}
@@ -75,12 +150,10 @@ export const PricingSection = () => {
                 )}
 
                 {/* Illustration header */}
-                <div className="relative h-48 bg-primary flex items-center justify-center overflow-hidden">
+                <div className="relative h-48 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300">
                   <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
                   <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
-                  <div className="relative w-20 h-20 bg-white/15 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                    <Icon className="w-10 h-10 text-white" />
-                  </div>
+                  <Illustration />
                 </div>
 
                 {/* Body */}

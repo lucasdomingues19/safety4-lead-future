@@ -1,63 +1,38 @@
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef } from "react";
 import AudienceNav from "./AudienceNav";
 import heroPhoto from "@/assets/hero-ai-safety-worker.png";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import { DigitalDotsText } from "./DigitalDotsText";
 
-// Mirrors the reference site's "Circle Shapes Interaction" — each shape
-// drifts a different amount as the cursor moves, for a layered parallax feel.
-const PARALLAX_SHAPES = [
-  { size: 420, top: "-8%", left: "2%", intensityX: 45, intensityY: 45, className: "bg-primary/[0.05]" },
-  { size: 200, top: "8%", left: "38%", intensityX: -18, intensityY: 16, className: "bg-primary/[0.08]" },
-  { size: 120, top: "2%", left: "68%", intensityX: 20, intensityY: -20, className: "bg-primary/10" },
-  { size: 380, top: "48%", left: "78%", intensityX: -32, intensityY: 26, className: "bg-primary/[0.06]" },
-  { size: 110, top: "78%", left: "18%", intensityX: 16, intensityY: -12, className: "bg-primary/[0.09]" },
+// Decorative shapes drift on their own independent loop — not tied to the
+// cursor — each with its own size, position, path, duration and delay so
+// they never move in sync.
+const DRIFT_SHAPES = [
+  { size: 420, top: "-8%", left: "2%", anim: "animate-blob-drift-a", delay: "0s", className: "bg-primary/[0.14]" },
+  { size: 200, top: "8%", left: "38%", anim: "animate-blob-drift-b", delay: "-3s", className: "bg-primary/[0.20]" },
+  { size: 120, top: "2%", left: "68%", anim: "animate-blob-drift-c", delay: "-7s", className: "bg-primary/[0.24]" },
+  { size: 380, top: "48%", left: "78%", anim: "animate-blob-drift-a", delay: "-9s", className: "bg-primary/[0.16]" },
+  { size: 110, top: "78%", left: "18%", anim: "animate-blob-drift-b", delay: "-5s", className: "bg-primary/[0.22]" },
 ];
 
 export const HeroSection = () => {
-  const shapeRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const sectionRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    let frame = 0;
-    const handleMouseMove = (e: MouseEvent) => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        const xRatio = e.clientX / window.innerWidth - 0.5;
-        const yRatio = e.clientY / window.innerHeight - 0.5;
-        shapeRefs.current.forEach((el, i) => {
-          if (!el) return;
-          const { intensityX, intensityY } = PARALLAX_SHAPES[i];
-          el.style.transform = `translate(${xRatio * intensityX}px, ${yRatio * intensityY}px)`;
-        });
-      });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-white pt-28 pb-24 md:pt-40 md:pb-32">
+    <section className="relative overflow-hidden bg-white pt-28 pb-24 md:pt-40 md:pb-32">
       <AudienceNav />
 
-      {/* Decorative circle shapes — follow the cursor with smoothed CSS transitions */}
+      {/* Decorative circle shapes — drift independently, continuous ambient motion */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {PARALLAX_SHAPES.map((shape, i) => (
+        {DRIFT_SHAPES.map((shape, i) => (
           <div
             key={i}
-            ref={(el) => (shapeRefs.current[i] = el)}
-            className={`absolute rounded-full blur-3xl transition-transform duration-500 ease-out ${shape.className}`}
+            className={`absolute rounded-full blur-2xl ${shape.anim} ${shape.className}`}
             style={{
               width: shape.size,
               height: shape.size,
               top: shape.top,
               left: shape.left,
+              animationDelay: shape.delay,
             }}
           />
         ))}
