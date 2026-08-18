@@ -10,16 +10,22 @@ export const HeroSection = () => {
     <section className="relative overflow-hidden bg-white pt-28 pb-24 md:pt-40 md:pb-32">
       <AudienceNav />
 
-      {/* Soft decorative blobs — asymmetric, low-opacity accents */}
-      <div className="absolute top-10 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 right-0 w-[32rem] h-[32rem] bg-primary/[0.06] rounded-full blur-3xl translate-x-1/4 pointer-events-none" />
+      {/* Soft decorative blobs — asymmetric, low-opacity accents with gentle ambient drift */}
+      <div className="absolute top-10 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none animate-blob-drift" />
+      <div
+        className="absolute -bottom-24 right-0 w-[32rem] h-[32rem] bg-primary/[0.06] rounded-full blur-3xl translate-x-1/4 pointer-events-none animate-blob-drift"
+        style={{ animationDelay: "-4.5s" }}
+      />
 
       <div className="relative z-10 container mx-auto px-4">
         <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-10">
           {/* Left column — copy, fixed max-width like the reference (not a 50/50 grid) */}
           <div className="max-w-[640px] shrink-0">
             {/* Accreditation badges */}
-            <div className="flex items-center gap-3 mb-7 flex-wrap">
+            <div
+              className="flex items-center gap-3 mb-7 flex-wrap animate-hero-fade-up"
+              style={{ animationDelay: "0.05s" }}
+            >
               <div className="flex items-center gap-2 px-3 py-1 rounded border border-slate-200">
                 <img src={ioshLogo} alt="IOSH Approved" className="h-5 w-auto" />
                 <span className="text-xs text-slate-500 font-medium">IOSH Approved</span>
@@ -31,7 +37,7 @@ export const HeroSection = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="mb-6">
+            <h1 className="mb-6 animate-hero-fade-up" style={{ animationDelay: "0.15s" }}>
               Build a Safety Function
               <br />
               <span className="text-primary">
@@ -40,12 +46,18 @@ export const HeroSection = () => {
               <span className="text-primary">.</span>
             </h1>
 
-            <p className="text-lg text-[#69697b] leading-relaxed mb-10 max-w-[520px]">
+            <p
+              className="text-lg text-[#69697b] leading-relaxed mb-10 max-w-[520px] animate-hero-fade-up"
+              style={{ animationDelay: "0.25s" }}
+            >
               The world's first IOSH-approved, CPD-accredited Safety 4.0 certification for enterprise EHS teams. Equip your safety function with AI, IoT, and digital transformation skills in just 6–12 weeks.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div
+              className="flex flex-wrap items-center gap-4 animate-hero-fade-up"
+              style={{ animationDelay: "0.35s" }}
+            >
               <button
                 onClick={() => {
                   const el = document.getElementById("pricing");
@@ -75,7 +87,10 @@ export const HeroSection = () => {
           </div>
 
           {/* Right column — image, reference-matched radius and portrait ratio */}
-          <div className="relative w-full lg:flex-1 max-w-[480px] mx-auto lg:mx-0">
+          <div
+            className="relative w-full lg:flex-1 max-w-[480px] mx-auto lg:mx-0 animate-hero-zoom"
+            style={{ animationDelay: "0.2s" }}
+          >
             <div className="relative aspect-[3/4] rounded-[30px] overflow-hidden">
               <img
                 src={heroPhoto}
