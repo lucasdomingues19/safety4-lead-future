@@ -143,7 +143,7 @@ export const SocialProofSection = () => {
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             DON'T TAKE OUR WORD FOR IT
           </p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 md:mb-8 tracking-tight leading-[1.05] whitespace-pre-line">
+          <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4 md:mb-8 tracking-tight leading-[1.05] whitespace-pre-line">
             {"Trusted by\u00A0\n"}<span className="text-primary">Safety Leaders</span>{"\u00A0Worldwide"}
           </h2>
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed">

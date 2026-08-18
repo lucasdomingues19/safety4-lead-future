@@ -268,7 +268,7 @@ const Cohort = () => {
               <div className="text-left">
                 {/* Tag */}
 
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight text-slate-900 mb-6 md:mb-8">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 mb-6 md:mb-8">
                   Safety 4.0 Accelerator&nbsp;<br />
                   <span className="text-primary">Cohort</span>
                 </h1>
@@ -300,12 +300,12 @@ const Cohort = () => {
                 {/* CTAs */}
                 <div className="flex gap-4 flex-wrap mb-8">
                   <a href="/enrol">
-                    <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-8 shadow-glow animate-glow-pulse rounded-full">
+                    <Button size="lg" className="bg-primary text-white hover:bg-primary/90 font-medium text-base uppercase tracking-[0.08em] px-8 py-[22px] h-auto rounded">
                       Apply for September Cohort <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                   <a href="#experience">
-                    <Button variant="outline" size="lg" className="bg-white border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-primary hover:text-primary rounded-full">
+                    <Button variant="outline" size="lg" className="bg-white border-primary text-primary hover:bg-primary/5 font-medium text-base uppercase tracking-[0.08em] px-8 py-[22px] h-auto rounded">
                       See what's included
                     </Button>
                   </a>
@@ -326,8 +326,8 @@ const Cohort = () => {
         {/* ACCELERATOR EXPERIENCE */}
         <section id="experience" className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE ACCELERATOR EXPERIENCE</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE ACCELERATOR EXPERIENCE</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               This isn't an online course.<br />
               It's a <span className="text-primary">transformation journey</span>.
             </h2>
@@ -358,8 +358,8 @@ const Cohort = () => {
         {/* 4-WEEK TIMELINE */}
         <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">6-WEEK PROGRAMME</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">6-WEEK PROGRAMME</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Week by <span className="text-primary">week</span>.
             </h2>
 
@@ -382,8 +382,8 @@ const Cohort = () => {
         {/* THE PROGRAMME */}
         <section id="programme" className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE PROGRAMME</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-2">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE PROGRAMME</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-2">
               Accelerator • Cohort
             </h2>
             <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-4">
@@ -430,8 +430,8 @@ const Cohort = () => {
 
         <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT ALUMINI GRADUATES SAY</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT ALUMINI GRADUATES SAY</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
               From safety leaders <span className="text-primary">just like you</span>.
             </h2>
 
@@ -469,8 +469,8 @@ const Cohort = () => {
         {/* COMPARISON TABLE */}
         <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-12">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
               Accelerator vs eLearning.<br />
               <span className="text-primary">Understand the difference</span>.
             </h2>
@@ -513,7 +513,7 @@ const Cohort = () => {
         <Dialog open={!!selectedCohort} onOpenChange={(open) => {if (!open) {setSelectedCohort(null);setFormStep(1);}}}>
           <DialogContent className="bg-white border-slate-200 max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="font-syne text-xl font-black text-slate-900">
+              <DialogTitle className="font-syne text-xl font-bold text-slate-900">
                 Apply for {selectedCohort?.month} {selectedCohort?.year} Cohort
               </DialogTitle>
               <DialogDescription className="text-slate-600 text-sm">
@@ -751,7 +751,7 @@ const Cohort = () => {
         {/* FAQ Link */}
         <section className="py-12 md:py-16 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl text-center">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Have questions?
             </h2>
             <p className="text-slate-600 mb-8">Find answers about the Accelerator, eLearning, and In-Company training.</p>
@@ -767,19 +767,19 @@ const Cohort = () => {
             <div ref={setFadeRef(6)} className="bg-gradient-to-br from-slate-50 to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />
               <div className="relative z-10">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+                <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
                   Ready to join the<br />next cohort?
                 </h2>
                 <p className="text-lg text-slate-600 max-w-md mx-auto mb-10 leading-relaxed">
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <a href="/enrol">
-                    <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10 shadow-glow">
+                    <Button size="lg" className="bg-primary text-white hover:bg-primary/90 font-medium text-base uppercase tracking-[0.08em] px-10 py-[22px] h-auto rounded">
                       Apply Now <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
                   <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer">
-                    <Button variant="default" className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-base px-10">
+                    <Button variant="outline" className="bg-white border-primary text-primary hover:bg-primary/5 font-medium text-base uppercase tracking-[0.08em] px-10 py-[22px] h-auto rounded">
                       Or start with eLearning (£497)
                     </Button>
                   </a>

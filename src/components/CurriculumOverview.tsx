@@ -19,7 +19,7 @@ export const CurriculumOverview = () => {
     <section className="py-16 md:py-24 relative">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto mb-10 md:mb-14">
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 md:mb-6 tracking-tight leading-[1.05]">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 md:mb-6 tracking-tight leading-[1.05]">
             The <span className="text-lime-400">Programme</span>
           </h2>
           <p className="text-base md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">

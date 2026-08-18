@@ -48,11 +48,11 @@ const AIFundamentals = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-flex items-center gap-2 px-3 py-1.5 rounded-md mb-4">
+              <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-flex items-center gap-2 px-3 py-1.5 rounded-md mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
                 NEW · 90-MINUTE COURSE
               </span>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-[1.05]">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-[1.05]">
                 AI Fundamentals in <span className="text-primary">EHS</span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-4">
@@ -83,14 +83,14 @@ const AIFundamentals = () => {
                 href={CHECKOUT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-10 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Start Learning — £97
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
                 href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-700 font-medium text-lg rounded-full border border-slate-300 hover:bg-slate-100 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
               >
                 <FileDown className="w-5 h-5" />
                 Talk to Us
@@ -107,8 +107,8 @@ const AIFundamentals = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT YOU'LL LEARN</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT YOU'LL LEARN</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Confidently apply AI in <span className="text-primary">EHS</span>
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -141,8 +141,8 @@ const AIFundamentals = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Everything you need to <span className="text-primary">get started</span>
             </h2>
           </div>
@@ -169,8 +169,8 @@ const AIFundamentals = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Built for EHS professionals<br />
               <span className="text-primary">curious about AI</span>.
             </h2>
@@ -207,7 +207,7 @@ const AIFundamentals = () => {
             <div className="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4">
               <ShieldAlert className="w-6 h-6 text-primary-foreground" />
             </div>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
               7-Day Money-Back Guarantee
             </h3>
             <p className="text-slate-600 leading-relaxed">
@@ -222,8 +222,8 @@ const AIFundamentals = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">FAQ</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">FAQ</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Questions? <span className="text-primary">Answered.</span>
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -258,7 +258,7 @@ const AIFundamentals = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-6">
               Get AI-ready in <span className="text-primary">90 minutes</span>
             </h2>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
@@ -270,14 +270,14 @@ const AIFundamentals = () => {
                 href={CHECKOUT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-10 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Start Learning — £97
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
                 href="/elearning"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-700 font-medium text-lg rounded-full border border-slate-300 hover:bg-slate-100 transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
               >
                 Explore Safety 4.0
                 <ArrowRight className="w-5 h-5" />

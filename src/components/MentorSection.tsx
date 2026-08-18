@@ -46,7 +46,7 @@ const MentorSection = () => {
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             YOUR COACH
           </p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 tracking-tight leading-[1.05]">Meet the <span className="text-primary">Founder</span>
+          <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4 tracking-tight leading-[1.05]">Meet the <span className="text-primary">Founder</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl lg:max-w-none mx-auto lg:whitespace-nowrap">
             Learn from an industry expert with years of experience in safety leadership and digital transformation

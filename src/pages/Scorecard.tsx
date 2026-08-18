@@ -41,7 +41,7 @@ const Scorecard = () => {
               <div className="flex justify-center">
                 <ClipboardCheck className="w-20 h-20 text-primary" />
               </div>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05]">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight leading-[1.05]">
                 Free Digital Maturity Scorecard
               </h1>
               <p className="text-xl text-slate-600">

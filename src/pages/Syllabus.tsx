@@ -40,8 +40,8 @@ const Syllabus = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">IOSH APPROVED · CPD ACCREDITED&nbsp;</span>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-[1.05]">
+              <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">IOSH APPROVED · CPD ACCREDITED&nbsp;</span>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-[1.05]">
                 Safety 4.0&nbsp;
                 <span className="text-primary block">Leading Safety in the Digital Age</span>
               </h1>
@@ -75,7 +75,7 @@ const Syllabus = () => {
                 href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-10 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Start Learning — £497
                 <ArrowRight className="w-5 h-5" />
@@ -84,7 +84,7 @@ const Syllabus = () => {
                 href="https://learning.safetytech.academy/brochure"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-700 font-medium text-lg rounded-full border border-slate-300 hover:bg-slate-100 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
               >
                 <FileDown className="w-5 h-5" />
                 Download Brochure
@@ -98,8 +98,8 @@ const Syllabus = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Your Toolkit to Lead in <span className="text-primary">Safety 4.0</span>
             </h2>
           </div>
@@ -129,8 +129,8 @@ const Syllabus = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">10 MODULES · 60+ LESSONS</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">10 MODULES · 60+ LESSONS</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               A Modern <span className="text-primary">Curriculum</span>
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
@@ -180,8 +180,8 @@ const Syllabus = () => {
       <section className="py-12 md:py-16 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-4">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Built for senior EHS leaders<br />
               <span className="text-primary">ready to lead in the digital age</span>.
             </h2>
@@ -217,7 +217,7 @@ const Syllabus = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-6">
               Start Your Safety 4.0 Journey <span className="text-primary">Today</span>
             </h2>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
@@ -229,14 +229,14 @@ const Syllabus = () => {
                 href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-full hover:bg-primary/90 transition-colors active:scale-[0.97]"
+                className="inline-flex items-center gap-2 px-10 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors active:scale-[0.97]"
               >
                 Start Learning — £497
                 <ArrowRight className="w-5 h-5" />
               </a>
               <a
                 href="/accelerator"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-700 font-medium text-lg rounded-full border border-slate-300 hover:bg-slate-100 transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
               >
                 Explore Accelerator
                 <ArrowRight className="w-5 h-5" />

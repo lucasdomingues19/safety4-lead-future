@@ -35,7 +35,7 @@ const EBook = () => {
 
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-slate-900 tracking-tight leading-[1.05]">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-slate-900 tracking-tight leading-[1.05]">
             Free <span className="text-primary">Safety 4.0</span> eBook
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
