@@ -66,6 +66,24 @@ const staticRoutes: RouteSeo[] = [
       "Earn an IOSH-approved and CPD-certified Safety 4.0 leadership credential. Recognised globally by employers and professional bodies. 8+ CPD hours included.",
   },
   {
+    path: "/courses",
+    title: "Our Courses — IOSH & CPD Approved Safety 4.0 Training",
+    description:
+      "Browse every SafetyTech Academy course: AI Fundamentals in EHS, IOSH-approved Safety 4.0, and the Safety 4.0 Accelerator Cohort.",
+  },
+  {
+    path: "/about-us",
+    title: "About Us — SafetyTech Academy",
+    description:
+      "SafetyTech Academy's mission is to lead safety forward. Meet the team behind the world's first IOSH-approved, CPD-accredited Safety 4.0 certification.",
+  },
+  {
+    path: "/teacher/lucas-domingues",
+    title: "Lucas Domingues, MSc, CMIOSH — Founder | SafetyTech Academy",
+    description:
+      "Meet Lucas Domingues, founder of SafetyTech Academy. 15+ years in occupational health and safety, specializing in digital transformation and Safety 4.0 leadership.",
+  },
+  {
     path: "/case-studies",
     title: "Case Studies — SafetyTech Academy | Real Stories from Alumni",
     description:

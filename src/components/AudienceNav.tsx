@@ -5,14 +5,16 @@ import { BrandLogo } from "./BrandLogo";
 
 const navLinks = [
   {
-    label: "About",
+    label: "Courses",
     children: [
+      { label: "All Courses", href: "/courses" },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "IOSH-approved Safety 4.0", href: "/elearning" },
       { label: "AI Fundamentals in EHS", href: "/ai-fundamentals" },
       { label: "Alumni Stories", href: "/case-studies" },
     ],
   },
+  { label: "About", href: "/about-us" },
   { label: "IOSH & CPD", href: "/certification" },
   { label: "Pricing", href: "/#pricing" },
   {
