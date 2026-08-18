@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import AudienceNav from "./AudienceNav";
 import heroPhoto from "@/assets/hero-ai-safety-worker.png";
 import ioshLogo from "@/assets/iosh-approved-badge.png";
@@ -97,18 +98,12 @@ export const HeroSection = () => {
                 Our Courses
                 <ArrowRight className="w-4 h-4" />
               </button>
-              <button
-                onClick={() => {
-                  const el = document.getElementById("instructor");
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth" });
-                    window.history.replaceState(null, "", "/#instructor");
-                  }
-                }}
-                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors cursor-pointer"
+              <Link
+                to="/about-us"
+                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
               >
                 About Us
-              </button>
+              </Link>
             </div>
           </div>
 

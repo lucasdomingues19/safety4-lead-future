@@ -60,12 +60,6 @@ const staticRoutes: RouteSeo[] = [
       "Apply to join the Safety 4.0 Accelerator programme. IOSH-approved, CPD-certified training for safety professionals.",
   },
   {
-    path: "/certification",
-    title: "IOSH & CPD Certification | SafetyTech Academy Accreditation",
-    description:
-      "Earn an IOSH-approved and CPD-certified Safety 4.0 leadership credential. Recognised globally by employers and professional bodies. 8+ CPD hours included.",
-  },
-  {
     path: "/courses",
     title: "Our Courses — IOSH & CPD Approved Safety 4.0 Training",
     description:

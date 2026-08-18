@@ -12,7 +12,6 @@ const GovernanceReadinessGate = lazy(() => import("./components/GovernanceReadin
 // Lazy load pages for better performance
 
 
-const Certification = lazy(() => import("./pages/Certification"));
 const EBook = lazy(() => import("./pages/EBook"));
 const Contact = lazy(() => import("./pages/Contact"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -111,7 +110,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             
-            <Route path="/certification" element={<Certification />} />
+            <Route path="/certification" element={<Navigate to="/elearning#accreditation" replace />} />
             <Route path="/ebook" element={<EBook />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />

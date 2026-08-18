@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
@@ -101,16 +101,23 @@ const testimonials = [
 ];
 
 const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
-  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-primary border border-primary rounded-2xl md:rounded-3xl p-8 md:p-10 flex flex-col min-h-[340px] md:min-h-[400px] shadow-lg hover:shadow-xl hover:border-secondary transition-all">
-    <p className="text-base md:text-lg text-primary-foreground italic leading-relaxed flex-1 mb-6">
-      <span className="text-primary-foreground/85 text-3xl leading-none align-[-8px] mr-1 not-italic">"</span>
+  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-white border border-slate-200 rounded-2xl md:rounded-3xl p-8 md:p-10 flex flex-col min-h-[340px] md:min-h-[400px] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center gap-0.5">
+        {Array.from({ length: t.rating }).map((_, i) => (
+          <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+        ))}
+      </div>
+      <Quote className="w-8 h-8 text-primary/15 fill-primary/15" />
+    </div>
+    <p className="text-base text-slate-700 leading-relaxed flex-1 mb-6">
       {t.content}
     </p>
-    <div className="flex items-center gap-3">
-      <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0 ring-2 ring-primary-foreground/30" />
+    <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
+      <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
       <div>
-        <div className="text-base font-bold text-primary-foreground">{t.name}</div>
-        <div className="text-sm text-primary-foreground/85">{t.role}</div>
+        <div className="text-base font-bold text-slate-900">{t.name}</div>
+        <div className="text-sm text-slate-500">{t.role}</div>
       </div>
     </div>
   </div>
@@ -140,7 +147,7 @@ export const SocialProofSection = () => {
     <section className="py-16 md:py-24 relative overflow-hidden ">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 animate-fade-in">
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
+          <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
             DON'T TAKE OUR WORD FOR IT
           </p>
           <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4 md:mb-8 tracking-tight leading-[1.05] whitespace-pre-line">

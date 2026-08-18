@@ -15,7 +15,6 @@ const navLinks = [
     ],
   },
   { label: "About", href: "/about-us" },
-  { label: "IOSH & CPD", href: "/certification" },
   { label: "Pricing", href: "/#pricing" },
   {
     label: "Resources",

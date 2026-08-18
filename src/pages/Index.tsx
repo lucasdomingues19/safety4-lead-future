@@ -3,14 +3,12 @@ import { HeroSection } from "@/components/HeroSection";
 import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { ProblemStatsSection } from "@/components/ProblemStatsSection";
 import { SolutionSection } from "@/components/SolutionSection";
-import MentorSection from "@/components/MentorSection";
 import { DeferredSection } from "@/components/DeferredSection";
 
 // Below-the-fold sections are code-split and mounted on scroll so the initial
 // homepage payload stays small. Content and behaviour are unchanged.
 const ProblemStatsSection = lazy(() => import("@/components/ProblemStatsSection").then(m => ({ default: m.ProblemStatsSection })));
 const SolutionSection = lazy(() => import("@/components/SolutionSection").then(m => ({ default: m.SolutionSection })));
-const MentorSection = lazy(() => import("@/components/MentorSection"));
 const SocialProofSection = lazy(() => import("@/components/SocialProofSection").then(m => ({ default: m.SocialProofSection })));
 const PricingSection = lazy(() => import("@/components/PricingSection").then(m => ({ default: m.PricingSection })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
@@ -138,13 +136,6 @@ const Index = () => {
           </DeferredSection>
         </section>
 
-
-        {/* Founder credibility */}
-        <section id="mentor" aria-label="Meet the founder">
-          <DeferredSection eager={eager} minHeight={600}>
-            <MentorSection />
-          </DeferredSection>
-        </section>
 
         {/* Proof from safety leaders */}
         <section aria-label="What safety leaders are saying">

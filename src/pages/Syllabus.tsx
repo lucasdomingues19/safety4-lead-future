@@ -11,6 +11,9 @@ import {
   Layers, BarChart3, Cpu, ShieldCheck, Wrench, Database, Bot, Scale, TrendingUp, Compass,
   Shield, Globe, Zap, Clock, Infinity, CheckCircle, Tablet, GraduationCap
 } from "lucide-react";
+import cpdCertifiedLogo from "@/assets/cpd-approved-logo.png";
+import ioshApprovedLogo from "@/assets/iosh-approved-logo.jpg";
+import certificateSample from "@/assets/certificate-sample.png";
 
 const Syllabus = () => {
   useEffect(() => {
@@ -121,6 +124,64 @@ const Syllabus = () => {
                 <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ACCREDITATION */}
+      <section id="accreditation" className="py-12 md:py-16 px-4 border-t border-slate-200 scroll-mt-24">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">ACCREDITATION</span>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
+              Globally Recognised <span className="text-primary">Credentials</span>
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Earn a certification that validates your Safety 4.0 expertise to employers worldwide.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-6 mb-10">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6 relative">
+              <img src={ioshApprovedLogo} alt="IOSH Approved Training Provider" className="h-10 w-auto mb-4" />
+              <h3 className="text-[15px] font-bold text-slate-900 mb-2">IOSH Approved</h3>
+              <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                Digital certificate issued by the Institution of Occupational Safety and Health, recognised in 130+ countries.
+              </p>
+              <div className="space-y-2">
+                {["Recognised in 130+ countries", "Enhanced career advancement", "Strict quality standard met"].map((item) => (
+                  <div key={item} className="flex items-center gap-2 text-sm text-slate-600">
+                    <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+              <img src={cpdCertifiedLogo} alt="CPD Certified" className="h-10 w-auto mb-4" />
+              <h3 className="text-[15px] font-bold text-slate-900 mb-2">CPD Certified</h3>
+              <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                8+ hours of certified Continuing Professional Development credits, required by many professional bodies.
+              </p>
+              <div className="space-y-2">
+                {["8+ hours of certified CPD credits", "Internationally recognised standard", "Validates commitment to excellence"].map((item) => (
+                  <div key={item} className="flex items-center gap-2 text-sm text-slate-600">
+                    <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-4">
+              <img
+                src={certificateSample}
+                alt="IOSH Approved Certificate Sample"
+                className="w-full h-auto rounded-lg mb-3"
+              />
+              <p className="text-xs text-slate-500 text-center">Sample certificate — digital & printable</p>
+            </div>
           </div>
         </div>
       </section>

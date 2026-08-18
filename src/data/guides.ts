@@ -506,7 +506,7 @@ export const guides: Guide[] = [
       },
     ],
     related: [
-      { label: "IOSH & CPD certification details", href: "/certification" },
+      { label: "IOSH & CPD certification details", href: "/elearning#accreditation" },
       { label: "IOSH-approved Safety 4.0 eLearning", href: "/elearning" },
       { label: "Safety 4.0 Accelerator Cohort", href: "/accelerator" },
       { label: "Compare all plans and pricing", href: "/pricing" },

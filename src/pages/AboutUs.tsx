@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Target, Users, Award, Rocket } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
-import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import founderPhoto from "@/assets/founder-cutout.png";
@@ -58,8 +57,6 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
-
-      <TrustedByBanner />
 
       {/* Values grid */}
       <section className="py-20 md:py-28">
