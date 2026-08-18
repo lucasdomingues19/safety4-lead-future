@@ -10,28 +10,25 @@ export const HeroSection = () => {
     <section className="relative overflow-hidden bg-white pt-28 pb-24 md:pt-40 md:pb-32">
       <AudienceNav />
 
-      {/* Animated grid-line background — fine grid pans slowly, a soft glow sweeps across it */}
-      <div
-        className="absolute inset-0 pointer-events-none animate-grid-pan"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(52,52,255,0.07) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(52,52,255,0.07) 1px, transparent 1px)
-          `,
-          backgroundSize: "40px 40px",
-        }}
-      />
+      {/* Single static grid, plus one soft diagonal light band sweeping across it */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(52,52,255,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(52,52,255,0.05) 1px, transparent 1px)
+            linear-gradient(rgba(52,52,255,0.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(52,52,255,0.08) 1px, transparent 1px)
           `,
-          backgroundSize: "160px 160px",
+          backgroundSize: "44px 44px",
         }}
       />
-      <div className="absolute inset-0 pointer-events-none animate-grid-glow" />
+      <div
+        className="absolute inset-0 pointer-events-none animate-grid-wave"
+        style={{
+          backgroundImage:
+            "linear-gradient(115deg, transparent 40%, rgba(52,52,255,0.16) 48%, rgba(52,52,255,0.16) 52%, transparent 60%)",
+          backgroundSize: "300% 300%",
+        }}
+      />
       {/* Fade the grid out toward the bottom so it doesn't fight the content below */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-white" />
 
@@ -109,6 +106,8 @@ export const HeroSection = () => {
             className="relative w-full lg:flex-1 max-w-[480px] mx-auto lg:mx-0 animate-hero-zoom"
             style={{ animationDelay: "0.2s" }}
           >
+            {/* Lime accent frame — brand accent, kept off any white background by sitting behind the photo */}
+            <div className="absolute -inset-3 rounded-[34px] bg-lime-400 -z-10 rotate-2" />
             <div className="relative aspect-square rounded-[30px] overflow-hidden">
               <img
                 src={heroPhoto}
