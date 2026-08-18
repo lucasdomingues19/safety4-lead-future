@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import AudienceNav from "./AudienceNav";
 import heroPhoto from "@/assets/hero-ai-safety-worker.png";
-import ioshLogo from "@/assets/iosh-approved-logo.jpg";
-import cpdLogo from "@/assets/cpd-approved-logo.png";
+import ioshLogo from "@/assets/iosh-approved-badge.png";
+import cpdLogo from "@/assets/cpd-certified-badge.png";
 import { DigitalDotsText } from "./DigitalDotsText";
 
 export const HeroSection = () => {
@@ -24,7 +24,7 @@ export const HeroSection = () => {
             <animate
               attributeName="baseFrequency"
               values="0.008 0.015;0.012 0.009;0.008 0.015"
-              dur="14s"
+              dur="30s"
               repeatCount="indefinite"
             />
           </feTurbulence>
@@ -54,13 +54,11 @@ export const HeroSection = () => {
               className="flex items-center gap-3 mb-7 flex-wrap animate-hero-fade-up"
               style={{ animationDelay: "0.05s" }}
             >
-              <div className="flex items-center gap-2 px-3 py-1 rounded border border-slate-200">
-                <img src={ioshLogo} alt="IOSH Approved" className="h-5 w-auto" />
-                <span className="text-xs text-slate-500 font-medium">IOSH Approved</span>
+              <div className="flex items-center px-3 py-2.5 rounded border border-slate-200">
+                <img src={ioshLogo} alt="IOSH Approved Training Provider" className="h-11 w-auto" />
               </div>
-              <div className="flex items-center gap-2 px-3 py-1 rounded border border-slate-200">
-                <img src={cpdLogo} alt="CPD Accredited" className="h-5 w-auto" />
-                <span className="text-xs text-slate-500 font-medium">CPD Accredited</span>
+              <div className="flex items-center px-3 py-2.5 rounded border border-slate-200">
+                <img src={cpdLogo} alt="CPD Certified" className="h-11 w-auto" />
               </div>
             </div>
 
@@ -119,18 +117,20 @@ export const HeroSection = () => {
             className="relative w-full lg:flex-1 max-w-[480px] mx-auto lg:mx-0 animate-hero-zoom"
             style={{ animationDelay: "0.2s" }}
           >
-            {/* Lime accent frame — brand accent, kept off any white background by sitting behind the photo */}
-            <div className="absolute -inset-3 rounded-[34px] bg-lime-400 -z-10 rotate-2" />
-            <div className="relative aspect-square rounded-[30px] overflow-hidden">
-              <img
-                src={heroPhoto}
-                alt="Safety professional wearing an AI-enabled smart hard hat"
-                width={1200}
-                height={1200}
-                decoding="async"
-                fetchPriority="high"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
+            <div className="relative animate-hero-float">
+              {/* Lime accent frame — brand accent, kept off any white background by sitting behind the photo */}
+              <div className="absolute -inset-3 rounded-[34px] bg-lime-400 -z-10 rotate-2" />
+              <div className="relative aspect-square rounded-[30px] overflow-hidden">
+                <img
+                  src={heroPhoto}
+                  alt="Safety professional wearing an AI-enabled smart hard hat"
+                  width={1200}
+                  height={1200}
+                  decoding="async"
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

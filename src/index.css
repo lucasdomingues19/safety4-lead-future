@@ -253,6 +253,17 @@ All colors MUST be HSL.
   animation: heroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Subtle vertical float for the hero photo — gentle, no rotation, so it
+   doesn't fight the lime frame's fixed tilt sitting behind it. */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-hero-float {
+  animation: heroFloat 6s ease-in-out infinite;
+}
+
 /* ---- Proposal / document print styling ---- */
 @media print {
   @page {
