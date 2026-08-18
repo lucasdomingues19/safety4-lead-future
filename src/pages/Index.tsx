@@ -136,18 +136,6 @@ const Index = () => {
           <DeferredSection eager={eager} minHeight={800}>
             <PricingSection />
           </DeferredSection>
-          <div className="container mx-auto px-4 pb-12 md:pb-16">
-            <p className="text-center text-base text-slate-600">
-              Full course details:{" "}
-              <a href="/elearning" className="text-primary underline hover:text-primary/80">IOSH-approved Safety 4.0</a>{" "}
-              ·{" "}
-              <a href="/ai-fundamentals" className="text-primary underline hover:text-primary/80">AI Fundamentals in EHS</a>{" "}
-              ·{" "}
-              <a href="/accelerator" className="text-primary underline hover:text-primary/80">Safety 4.0 Accelerator</a>{" "}
-              ·{" "}
-              <a href="/pricing" className="text-primary underline hover:text-primary/80">Compare all plans</a>
-            </p>
-          </div>
         </section>
 
 

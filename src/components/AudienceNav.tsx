@@ -35,6 +35,8 @@ const navLinks = [
 const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const isActive = "children" in item && item.children?.some((c) => location.pathname === c.href);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -50,13 +52,15 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 text-sm text-slate-900 hover:text-primary transition-colors"
+        className={`flex items-center gap-1.5 text-base font-medium transition-colors ${
+          isActive ? "text-primary" : "text-slate-900 hover:text-primary"
+        }`}
       >
         {item.label}
-        <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-2 min-w-[16rem] w-max rounded-lg border border-slate-200 bg-white shadow-lg py-1">
+        <div className="absolute top-full left-0 mt-3 min-w-[16rem] w-max rounded-lg border border-slate-200 bg-white shadow-lg py-1">
           {item.children.map((child) => (
             <Link
               key={child.href}
@@ -93,12 +97,12 @@ const AudienceNav = () => {
   }, [location.pathname, navigate]);
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <BrandLogo />
 
         {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-10">
           {navLinks.map((link) =>
             "children" in link && link.children ? (
               <DesktopDropdown key={link.label} item={link} />
@@ -110,11 +114,11 @@ const AudienceNav = () => {
                   const href = "href" in link ? link.href : "/";
                   if (href.includes("#")) handleHashLink(e, href);
                 }}
-                className={
-                  "emphasis" in link && link.emphasis
-                    ? "text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                    : "text-sm font-medium text-slate-700 hover:text-primary transition-colors"
-                }
+                className={`text-base font-medium transition-colors ${
+                  "href" in link && location.pathname === link.href
+                    ? "text-primary"
+                    : "text-slate-900 hover:text-primary"
+                }`}
               >
                 {link.label}
               </Link>
