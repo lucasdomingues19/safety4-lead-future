@@ -54,10 +54,10 @@ export const HeroSection = () => {
               className="flex items-center gap-3 mb-7 flex-wrap animate-hero-fade-up"
               style={{ animationDelay: "0.05s" }}
             >
-              <div className="flex items-center px-3 py-2.5 rounded border border-slate-200">
+              <div className="flex items-center px-3 py-2.5 rounded border border-slate-200 bg-white shadow-sm">
                 <img src={ioshLogo} alt="IOSH Approved Training Provider" className="h-11 w-auto" />
               </div>
-              <div className="flex items-center px-3 py-2.5 rounded border border-slate-200">
+              <div className="flex items-center px-3 py-2.5 rounded border border-slate-200 bg-white shadow-sm">
                 <img src={cpdLogo} alt="CPD Certified" className="h-11 w-auto" />
               </div>
             </div>

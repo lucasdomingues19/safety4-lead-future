@@ -8,42 +8,36 @@ export const SolutionSection = () => {
       title: "Learn AI, IoT, & SafetyTech",
       subtitle: "without coding",
       description: "Master cutting-edge safety technologies through practical, hands-on training designed for safety professionals.",
-      gradient: "from-primary/20 to-secondary/20"
     },
     {
       icon: Award,
       title: "IOSH & CPD Recognized",
       subtitle: "certification",
       description: "Earn globally recognized credentials that demonstrate your expertise in digital safety leadership.",
-      gradient: "from-secondary/20 to-primary/20"
     },
     {
       icon: Rocket,
       title: "Future-proof your career",
       subtitle: "in hours",
       description: "Transform your safety career with skills that make you indispensable in the digital age.",
-      gradient: "from-primary/20 to-secondary/20"
     },
     {
       icon: Users,
       title: "Global safety leader",
       subtitle: "community",
       description: "Join an exclusive network of forward-thinking safety professionals worldwide.",
-      gradient: "from-secondary/20 to-primary/20"
     },
     {
       icon: PlayCircle,
       title: "Masterclass Sessions",
       subtitle: "with experts",
       description: "Learn from industry leaders through exclusive masterclass sessions covering advanced Safety 4.0 strategies.",
-      gradient: "from-primary/20 to-secondary/20"
     },
     {
       icon: UserCheck,
       title: "1:1 Mentoring",
       subtitle: "personalized guidance",
       description: "Receive personalized coaching and mentorship to accelerate your digital safety transformation journey.",
-      gradient: "from-secondary/20 to-primary/20"
     }
   ];
 
@@ -76,16 +70,17 @@ export const SolutionSection = () => {
               >
                 <CardContent className="p-0 h-full">
                   <div className="flex flex-col h-full">
-                    {/* Icon */}
-                    <div className="mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                        <Icon className="w-8 h-8 text-white" />
+                    {/* Icon — soft circle, dark glyph, small blue accent badge */}
+                    <div className="relative mb-6 w-16 h-16">
+                      <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+                        <Icon className="w-7 h-7 text-slate-900" strokeWidth={1.75} />
                       </div>
+                      <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-primary rounded-full border-2 border-white" />
                     </div>
-                    
+
                     {/* Title & Subtitle */}
                     <div className="mb-3">
-                      <h3 className="text-xl font-extrabold text-slate-900 leading-tight tracking-tight">
+                      <h3 className="text-xl font-bold text-slate-900 leading-tight tracking-tight">
                         {benefit.title}
                       </h3>
                       <p className="text-primary font-semibold text-base">

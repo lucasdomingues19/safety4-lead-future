@@ -108,7 +108,7 @@ const Index = () => {
 
               {/* Right column — video */}
               <div className="relative w-full lg:flex-1">
-                <div className="relative aspect-video rounded-[30px] overflow-hidden shadow-2xl">
+                <div className="relative aspect-video rounded-[30px] overflow-hidden shadow-2xl border-4 border-lime-400">
                   <LiteYouTube
                     videoId="GUT9G9hnBXI"
                     title="Safety 4.0 Course Introduction"

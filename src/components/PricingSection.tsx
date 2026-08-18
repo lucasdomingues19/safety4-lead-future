@@ -119,9 +119,9 @@ export const PricingSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-16">
           <div>
-            <h2 className="mb-4">Our Courses</h2>
+            <h2 className="mb-4">Our Featured Courses</h2>
             <p className="text-lg text-[#69697b] max-w-xl">
-              Choose the right programme for your organization — every course is IOSH-approved and CPD-accredited.
+              Choose the right programme for your organization.
             </p>
           </div>
           <Link
