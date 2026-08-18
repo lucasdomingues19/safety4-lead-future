@@ -1,5 +1,5 @@
 import AudienceNav from "@/components/AudienceNav";
-import { ArrowLeft, Clock, Calendar, Tag } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ import { setPageSEO } from "@/utils/seo";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { blogPosts } from "@/data/blogPosts";
 import { Link } from "react-router-dom";
+import founderPhoto from "@/assets/founder-cutout.png";
 
 const Blog = () => {
   useEffect(() => {
@@ -19,115 +20,87 @@ const Blog = () => {
     });
   }, []);
 
+  const [featured, ...rest] = blogPosts;
+
   return (
     <>
       <SEOStructuredData type="organization" />
       <div className="min-h-screen bg-white">
         <AudienceNav />
 
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          {/* Back Navigation */}
-          <div className="mb-12">
-            <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link to="/" className="flex items-center space-x-2">
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Home</span>
-              </Link>
-            </Button>
-          </div>
-
+        <div className="container mx-auto px-4 pt-28 pb-20 md:pt-32">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
+          <div className="mb-12">
+            <h1 className="mb-4">
               Safety 4.0 <span className="text-primary">Insights</span>
             </h1>
-            <p className="text-xl lg:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg text-[#69697b] max-w-2xl">
               Expert insights on AI, digital transformation, and the future of workplace safety
             </p>
           </div>
 
-          {/* Featured Post */}
-          {blogPosts.length > 0 && (
-            <Link to={`/blog/${blogPosts[0].slug}`} className="block mb-16">
-              <div className="bg-white border border-slate-200 shadow-sm rounded-3xl overflow-hidden hover:border-primary/50 transition-all duration-300 hover:scale-[1.02]">
-                <div className="grid lg:grid-cols-2 gap-8">
-                  <div className="aspect-video overflow-hidden bg-slate-100">
-                    <img
-                      src={blogPosts[0].featuredImage}
-                      alt={blogPosts[0].title}
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="p-8 lg:p-12 flex flex-col justify-center">
-                    <div className="flex items-center space-x-4 mb-4">
-                      <span className="px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                        {blogPosts[0].category}
-                      </span>
-                      <span className="text-slate-500 text-sm flex items-center">
-                        <Calendar className="w-4 h-4 mr-2" />
-                        {new Date(blogPosts[0].publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                      </span>
-                    </div>
-                    <h2 className="text-3xl font-bold text-slate-900 mb-4 hover:text-primary transition-colors">
-                      {blogPosts[0].title}
-                    </h2>
-                    <p className="text-slate-600 mb-6 leading-relaxed">
-                      {blogPosts[0].excerpt}
-                    </p>
-                    <div className="flex items-center space-x-4 text-sm text-slate-500">
-                      <span>{blogPosts[0].author}</span>
-                      <span>•</span>
-                      <span className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {blogPosts[0].readTime}
-                      </span>
-                    </div>
-                  </div>
+          {/* Featured Post — full-bleed image with overlaid title */}
+          {featured && (
+            <Link to={`/blog/${featured.slug}`} className="block mb-16 group">
+              <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[24px] overflow-hidden">
+                <img
+                  src={featured.featuredImage}
+                  alt={featured.title}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b2c]/90 via-[#0b0b2c]/20 to-transparent" />
+                <div className="absolute top-5 right-5 bg-primary text-white px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide">
+                  Featured
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 max-w-2xl">
+                  <h2 className="text-white mb-3">{featured.title}</h2>
+                  <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                    {featured.excerpt}
+                  </p>
                 </div>
               </div>
             </Link>
           )}
 
           {/* Blog Posts Grid */}
+          <h2 className="mb-8">Latest Articles</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.slice(1).map((post) => (
+            {rest.map((post) => (
               <Link
                 key={post.id}
                 to={`/blog/${post.slug}`}
-                className="block group"
+                className="group block bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 h-full flex flex-col group-hover:scale-105">
-                  <div className="aspect-video overflow-hidden">
-                    <img
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 right-3 bg-white text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-sm">
+                    {post.category}
                   </div>
-                  <div className="p-6 flex-1 flex flex-col">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                        {post.category}
-                      </span>
-                      <span className="text-slate-500 text-xs flex items-center">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {post.readTime}
-                      </span>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-[#69697b] text-sm leading-relaxed mb-5 line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={founderPhoto}
+                        alt={post.author}
+                        className="w-8 h-8 rounded-full object-cover bg-slate-100"
+                      />
+                      <span className="text-sm text-slate-700 font-medium">{post.author}</span>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-slate-600 text-sm mb-4 leading-relaxed line-clamp-3 flex-1">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-                      <span className="text-slate-500 text-xs">
-                        {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                      <span className="text-primary text-sm font-medium group-hover:underline">
-                        Read More →
-                      </span>
-                    </div>
+                    <span className="text-xs text-slate-500 flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      {post.readTime}
+                    </span>
                   </div>
                 </div>
               </Link>
@@ -136,7 +109,7 @@ const Blog = () => {
 
           {/* Explore our programmes — internal links */}
           <div className="max-w-4xl mx-auto mt-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-6 text-center">Explore Our Programmes</h2>
+            <h2 className="mb-6 text-center">Explore Our Programmes</h2>
             <div className="grid sm:grid-cols-3 gap-4">
               {[
                 { to: "/elearning", title: "IOSH-approved Safety 4.0", desc: "Self-paced certification in digital safety leadership." },
@@ -149,7 +122,7 @@ const Blog = () => {
                   className="block bg-white border border-slate-200 rounded-2xl p-6 hover:border-primary transition-colors"
                 >
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-600">{item.desc}</p>
+                  <p className="text-sm text-[#69697b]">{item.desc}</p>
                 </Link>
               ))}
             </div>
@@ -157,13 +130,12 @@ const Blog = () => {
 
           {/* Newsletter CTA */}
           <div className="max-w-4xl mx-auto mt-12">
-
             <div className="bg-slate-50 rounded-3xl p-12 border border-slate-200 text-center">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Stay Ahead in Safety 4.0</h2>
-              <p className="text-lg text-slate-600 mb-8">
+              <h2 className="mb-4">Stay Ahead in Safety 4.0</h2>
+              <p className="text-lg text-[#69697b] mb-8">
                 Get the latest insights on AI, digital transformation, and workplace safety delivered to your inbox
               </p>
-              <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6">
+              <Button asChild className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-base font-medium uppercase tracking-[0.08em] rounded">
                 <Link to="/contact">Subscribe to Updates</Link>
               </Button>
             </div>

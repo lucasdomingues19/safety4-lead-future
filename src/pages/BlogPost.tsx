@@ -1,6 +1,5 @@
 import AudienceNav from "@/components/AudienceNav";
-import { ArrowLeft, Clock, Calendar, Tag, Share2, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Clock, Calendar, Tag, Share2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
@@ -10,6 +9,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { setPageSEO } from "@/utils/seo";
+import founderPhoto from "@/assets/founder-cutout.png";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -150,12 +150,13 @@ const BlogPost = () => {
         <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
           {/* Back Navigation */}
           <div className="mb-12">
-            <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Link to="/blog" className="flex items-center space-x-2">
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Blog</span>
-              </Link>
-            </Button>
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Blog
+            </Link>
           </div>
 
           {/* Article Header */}
@@ -175,30 +176,30 @@ const BlogPost = () => {
                 </span>
               </div>
 
-              <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
                 {post.title}
               </h1>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-bold">
-                    {post.author.charAt(0)}
-                  </div>
+                  <img
+                    src={founderPhoto}
+                    alt={post.author}
+                    className="w-12 h-12 rounded-full object-cover bg-slate-100"
+                  />
                   <div>
                     <div className="text-slate-900 font-medium">{post.author}</div>
                     <div className="text-slate-500 text-sm">{post.authorTitle}</div>
                   </div>
                 </div>
 
-                <Button
-                  variant="default"
-                  size="sm"
+                <button
                   onClick={handleShare}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-primary text-primary font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
                 >
-                  <Share2 className="w-4 h-4 mr-2" />
+                  <Share2 className="w-4 h-4" />
                   Share
-                </Button>
+                </button>
               </div>
             </div>
 
@@ -278,9 +279,12 @@ const BlogPost = () => {
               <p className="text-lg text-slate-600 mb-8">
                 Get IOSH-approved certification in digital safety leadership
               </p>
-              <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6">
-                <Link to="/pricing">Explore the Programme</Link>
-              </Button>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-2 px-8 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+              >
+                Explore the Programme
+              </Link>
               <p className="text-sm text-slate-600 mt-6">
                 Or explore the{" "}
                 <Link to="/elearning" className="text-primary underline hover:text-primary/80">IOSH-approved Safety 4.0 course</Link>,{" "}
