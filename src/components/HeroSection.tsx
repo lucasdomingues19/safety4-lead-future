@@ -5,38 +5,35 @@ import ioshLogo from "@/assets/iosh-approved-logo.jpg";
 import cpdLogo from "@/assets/cpd-approved-logo.png";
 import { DigitalDotsText } from "./DigitalDotsText";
 
-// Decorative shapes drift on their own independent loop — not tied to the
-// cursor — each with its own size, position, path, duration and delay so
-// they never move in sync.
-const DRIFT_SHAPES = [
-  { size: 420, top: "-8%", left: "2%", anim: "animate-blob-drift-a", delay: "0s", className: "bg-primary/[0.14]" },
-  { size: 200, top: "8%", left: "38%", anim: "animate-blob-drift-b", delay: "-3s", className: "bg-primary/[0.20]" },
-  { size: 120, top: "2%", left: "68%", anim: "animate-blob-drift-c", delay: "-7s", className: "bg-primary/[0.24]" },
-  { size: 380, top: "48%", left: "78%", anim: "animate-blob-drift-a", delay: "-9s", className: "bg-primary/[0.16]" },
-  { size: 110, top: "78%", left: "18%", anim: "animate-blob-drift-b", delay: "-5s", className: "bg-primary/[0.22]" },
-];
-
 export const HeroSection = () => {
   return (
     <section className="relative overflow-hidden bg-white pt-28 pb-24 md:pt-40 md:pb-32">
       <AudienceNav />
 
-      {/* Decorative circle shapes — drift independently, continuous ambient motion */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {DRIFT_SHAPES.map((shape, i) => (
-          <div
-            key={i}
-            className={`absolute rounded-full blur-2xl ${shape.anim} ${shape.className}`}
-            style={{
-              width: shape.size,
-              height: shape.size,
-              top: shape.top,
-              left: shape.left,
-              animationDelay: shape.delay,
-            }}
-          />
-        ))}
-      </div>
+      {/* Animated grid-line background — fine grid pans slowly, a soft glow sweeps across it */}
+      <div
+        className="absolute inset-0 pointer-events-none animate-grid-pan"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(52,52,255,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(52,52,255,0.07) 1px, transparent 1px)
+          `,
+          backgroundSize: "40px 40px",
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(52,52,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(52,52,255,0.05) 1px, transparent 1px)
+          `,
+          backgroundSize: "160px 160px",
+        }}
+      />
+      <div className="absolute inset-0 pointer-events-none animate-grid-glow" />
+      {/* Fade the grid out toward the bottom so it doesn't fight the content below */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-white" />
 
       <div className="relative z-10 container mx-auto px-4">
         <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-10">
