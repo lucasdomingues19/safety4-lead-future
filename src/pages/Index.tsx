@@ -74,29 +74,48 @@ const Index = () => {
 
         <TrustedByBanner />
 
-        {/* Introduction video — secondary, for individuals exploring */}
-        <section className="py-16 md:py-24">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-4">
-                <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md">
+        {/* Introduction video — full-bleed brand band, matches the reference's testimonial section */}
+        <section className="relative overflow-hidden bg-primary py-20 md:py-28">
+          {/* Soft circle decorations, lighter tint of the same blue for depth */}
+          <div className="absolute -top-32 -left-24 w-96 h-96 bg-white/[0.06] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 -translate-y-1/2 left-1/4 w-64 h-64 bg-white/[0.05] rounded-full pointer-events-none" />
+          <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] bg-white/[0.07] rounded-full translate-x-1/4 pointer-events-none" />
+
+          <div className="relative z-10 container mx-auto px-4">
+            <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
+              {/* Left column — copy */}
+              <div className="max-w-[520px] shrink-0">
+                <span className="text-xs uppercase tracking-[0.2em] text-white/70 font-medium mb-4 block">
                   Introducing
                 </span>
+                <h2 className="text-white mb-6">SafetyTech Academy</h2>
+                <p className="text-white/80 text-lg leading-relaxed mb-10">
+                  Our mission is to lead safety forward. Watch how we're equipping EHS teams with the AI literacy and digital skills to lead in the Safety 4.0 era.
+                </p>
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("pricing");
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth" });
+                      window.history.replaceState(null, "", "/#pricing");
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 px-8 py-[22px] bg-white text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-white/90 transition-colors cursor-pointer"
+                >
+                  Our Courses
+                </button>
               </div>
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.05] text-center mb-8 md:mb-12">
-                <span className="text-primary">SafetyTech Academy</span>
-              </h2>
-              <p className="text-lg md:text-2xl font-semibold text-slate-900 text-center mb-8 md:mb-12">
-                Our mission is to <span className="text-primary">Lead Safety Forward.</span> Discover How.
-              </p>
-              <div className="relative aspect-video bg-slate-100 backdrop-blur-sm rounded-2xl overflow-hidden border-2 border-primary hover:border-secondary transition-all duration-300">
-                <LiteYouTube
-                  videoId="GUT9G9hnBXI"
-                  title="Safety 4.0 Course Introduction"
-                  autoPlay
-                  params="autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1&modestbranding=1&rel=0"
-                  className="rounded-xl"
-                />
+
+              {/* Right column — video */}
+              <div className="relative w-full lg:flex-1">
+                <div className="relative aspect-video rounded-[30px] overflow-hidden shadow-2xl">
+                  <LiteYouTube
+                    videoId="GUT9G9hnBXI"
+                    title="Safety 4.0 Course Introduction"
+                    autoPlay
+                    params="autoplay=1&mute=1&loop=1&playlist=GUT9G9hnBXI&controls=1&modestbranding=1&rel=0"
+                  />
+                </div>
               </div>
             </div>
           </div>

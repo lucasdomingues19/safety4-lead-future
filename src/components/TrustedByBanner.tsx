@@ -35,7 +35,7 @@ export const TrustedByBanner = () => {
     <div className="bg-slate-50 py-14 overflow-hidden">
       <div className="container mx-auto px-4">
         <p className="text-center text-xs sm:text-sm uppercase tracking-[0.25em] text-slate-400 font-semibold mb-8">
-          Our Students Work In Companies Such As
+          Trusted by Leaders Working At
         </p>
       </div>
       <div className="relative">
