@@ -4,6 +4,7 @@ import { Target, Users, Award, Rocket, Linkedin, Briefcase } from "lucide-react"
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { BlueBandDecor } from "@/components/BlueBandDecor";
+import { StoryCarousel } from "@/components/StoryCarousel";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import founderPhoto from "@/assets/founder-cutout.png";
@@ -67,11 +68,35 @@ const AboutUs = () => {
               We're on a mission to lead safety forward — helping EHS professionals build the AI literacy and digital skills to thrive in the Safety 4.0 era, not get left behind by it.
             </p>
             <a
-              href="#mission"
+              href="#story"
               className="inline-flex items-center gap-2 px-8 py-[14px] border border-primary text-primary font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
             >
               Our Story
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story */}
+      <section id="story" className="py-20 md:py-28 scroll-mt-24 border-t border-slate-100">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-5xl mx-auto">
+            <div>
+              <h2 className="mb-6">Our Story</h2>
+              <h3 className="text-xl font-bold text-slate-900 leading-snug mb-5">
+                Placeholder copy — replace with the real story of how SafetyTech Academy started.
+              </h3>
+              <div className="space-y-4 text-[#69697b] leading-relaxed">
+                <p>
+                  This paragraph is a placeholder. Swap it for the story of the problem Lucas saw in the field, why traditional safety training wasn't keeping pace with AI and digital transformation, and what pushed him to build something different.
+                </p>
+                <p>
+                  This second paragraph is also a placeholder — a good spot for how the Academy has grown since, who it now serves, and what's next.
+                </p>
+              </div>
+            </div>
+
+            <StoryCarousel />
           </div>
         </div>
       </section>
