@@ -72,12 +72,6 @@ const staticRoutes: RouteSeo[] = [
       "SafetyTech Academy's mission is to lead safety forward. Meet the team behind the world's first IOSH-approved, CPD-accredited Safety 4.0 certification.",
   },
   {
-    path: "/teacher/lucas-domingues",
-    title: "Lucas Domingues, MSc, CMIOSH — Founder | SafetyTech Academy",
-    description:
-      "Meet Lucas Domingues, founder of SafetyTech Academy. 15+ years in occupational health and safety, specializing in digital transformation and Safety 4.0 leadership.",
-  },
-  {
     path: "/case-studies",
     title: "Case Studies — SafetyTech Academy | Real Stories from Alumni",
     description:
