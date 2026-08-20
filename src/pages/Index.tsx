@@ -17,6 +17,7 @@ const NewsletterPopup = lazy(() => import("@/components/NewsletterPopup").then(m
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { LiteYouTube } from "@/components/LiteYouTube";
+import { BlueBandDecor } from "@/components/BlueBandDecor";
 
 import { trackPageView, initScrollTracking, startTimeTracking, updateTimeOnPage } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
@@ -73,11 +74,8 @@ const Index = () => {
         <TrustedByBanner />
 
         {/* Introduction video — full-bleed brand band, matches the reference's testimonial section */}
-        <section className="relative overflow-hidden bg-primary py-20 md:py-28">
-          {/* Soft circle decorations, lighter tint of the same blue for depth */}
-          <div className="absolute -top-32 -left-24 w-96 h-96 bg-white/[0.06] rounded-full pointer-events-none" />
-          <div className="absolute top-1/2 -translate-y-1/2 left-1/4 w-64 h-64 bg-white/[0.05] rounded-full pointer-events-none" />
-          <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] bg-white/[0.07] rounded-full translate-x-1/4 pointer-events-none" />
+        <section className="relative bg-primary py-20 md:py-28">
+          <BlueBandDecor />
 
           <div className="relative z-10 container mx-auto px-4">
             <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">

@@ -3,9 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Footer } from "@/components/Footer";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
+import { CourseHero } from "@/components/course/CourseHero";
+import { CourseReviews } from "@/components/course/CourseReviews";
+import { RelatedCourses } from "@/components/course/RelatedCourses";
+import { CohortIllustration } from "@/components/CourseIllustrations";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
@@ -249,84 +254,69 @@ const Cohort = () => {
         {/* NAV */}
         <AudienceNav />
 
-        <div className="container mx-auto max-w-6xl px-4 pt-28 md:pt-32">
-          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link to="/" className="flex items-center space-x-2">
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Home</span>
-            </Link>
-          </Button>
-        </div>
+        <CourseHero
+          eyebrow="LIVE COHORT · SEPTEMBER 2026"
+          title={<>Safety 4.0 Accelerator <span className="text-primary">Cohort</span></>}
+          subtitle="A senior executive leadership programme delivered LIVE. 6 weeks of live sessions and self-paced modules, with a cohort of EHS leaders navigating the AI transition together."
+          features={[
+            { icon: Video, label: "7 Live Sessions" },
+            { icon: Users, label: "10–15 Peers Max" },
+            { icon: Award, label: "IOSH & CPD Certified" },
+            { icon: Globe, label: "Alumni Community" },
+          ]}
+          Illustration={CohortIllustration}
+          price="£1,997"
+          originalPrice="£2,497"
+          period="per person"
+          meta={[
+            { icon: Clock, label: "Duration", value: "6 weeks" },
+            { icon: Users, label: "Cohort Size", value: "10–15" },
+            { icon: BookOpen, label: "Modules", value: "10" },
+            { icon: Calendar, label: "Next Start", value: "2 Sep 2026" },
+          ]}
+          cta={{ label: "Apply for September Cohort", href: "/enrol" }}
+          secondaryCta={{ label: "See What's Included", href: "#experience" }}
+          guarantee="14-day satisfaction guarantee"
+        />
 
-        {/* HERO */}
-        <section className="min-h-screen flex items-center pt-32 pb-20 px-4 relative overflow-hidden">
-          {/* Grid pattern */}
-
-          <div className="container mx-auto max-w-6xl relative z-10">
+        {/* COUNTDOWN + MTA WHEEL */}
+        <section className="py-12 md:py-16 px-4 bg-slate-50 border-t border-slate-200">
+          <div className="container mx-auto max-w-6xl">
             <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
-              {/* Left column - Hero content */}
-              <div className="text-left">
-                {/* Tag */}
-
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 mb-6 md:mb-8">
-                  Safety 4.0 Accelerator&nbsp;<br />
-                  <span className="text-primary">Cohort</span>
-                </h1>
-
-                <p className="text-base md:text-xl text-slate-600 max-w-xl leading-relaxed mb-10 font-light">
-                  A senior executive leadership programme delivered LIVE.
-                  <br />6 weeks. Live sessions and self-paced modules.
-                  <br />A cohort of EHS leaders navigating the AI transition in the digital age.
-                </p>
-
-                {/* Countdown */}
-                <div className="mb-10">
-                  <div className="text-[11px] tracking-[3px] text-slate-600 font-syne mb-4">NEXT COHORT STARTS IN</div>
-                  <div className="flex gap-3">
-                    {[
-                    { val: countdown.days, label: "DAYS" },
-                    { val: countdown.hours, label: "HRS" },
-                    { val: countdown.minutes, label: "MIN" },
-                    { val: countdown.seconds, label: "SEC" }].
-                    map((item) =>
-                    <div key={item.label} className="bg-white border border-slate-200 shadow-sm rounded-xl px-4 py-3 min-w-[72px] text-center">
-                        <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
-                        <div className="text-[10px] tracking-[2px] text-slate-600 font-syne mt-1">{item.label}</div>
-                      </div>
-                    )}
-                  </div>
+              <div>
+                <div className="text-[11px] tracking-[3px] text-slate-600 font-syne mb-4">NEXT COHORT STARTS IN</div>
+                <div className="flex gap-3">
+                  {[
+                  { val: countdown.days, label: "DAYS" },
+                  { val: countdown.hours, label: "HRS" },
+                  { val: countdown.minutes, label: "MIN" },
+                  { val: countdown.seconds, label: "SEC" }].
+                  map((item) =>
+                  <div key={item.label} className="bg-white border border-slate-200 shadow-sm rounded-xl px-4 py-3 min-w-[72px] text-center">
+                      <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
+                      <div className="text-[10px] tracking-[2px] text-slate-600 font-syne mt-1">{item.label}</div>
+                    </div>
+                  )}
                 </div>
-
-                {/* CTAs */}
-                <div className="flex gap-4 flex-wrap mb-8">
-                  <a href="/enrol">
-                    <Button size="lg" className="bg-primary text-white hover:bg-primary/90 font-medium text-base uppercase tracking-[0.08em] px-8 py-[22px] h-auto rounded">
-                      Apply for September Cohort <ArrowRight className="w-5 h-5 ml-2" />
-                    </Button>
-                  </a>
-                  <a href="#experience">
-                    <Button variant="outline" size="lg" className="bg-white border-primary text-primary hover:bg-primary/5 font-medium text-base uppercase tracking-[0.08em] px-8 py-[22px] h-auto rounded">
-                      See what's included
-                    </Button>
-                  </a>
-                </div>
-
-
               </div>
 
-              {/* Right column - MTA Framework Wheel */}
               <div className="hidden lg:flex items-center justify-center">
                 <MTAFrameworkWheel />
               </div>
-
             </div>
           </div>
         </section>
 
         {/* ACCELERATOR EXPERIENCE */}
-        <section id="experience" className="py-12 md:py-16 px-4 border-t border-slate-200">
-          <div className="container mx-auto max-w-6xl">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE ACCELERATOR EXPERIENCE</span>
+        <div className="container mx-auto px-4 max-w-6xl pt-12 md:pt-16">
+          <Tabs defaultValue="about" className="w-full">
+            <TabsList className="h-auto p-1 bg-slate-100 rounded-lg mb-10">
+              <TabsTrigger value="about" className="text-sm px-5 py-2.5 rounded-md">About the Course</TabsTrigger>
+              <TabsTrigger value="content" className="text-sm px-5 py-2.5 rounded-md">Course Content</TabsTrigger>
+              <TabsTrigger value="reviews" className="text-sm px-5 py-2.5 rounded-md">Reviews</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="about" id="experience" className="mt-0 space-y-4">
             <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               This isn't an online course.<br />
               It's a <span className="text-primary">transformation journey</span>.
@@ -335,7 +325,7 @@ const Cohort = () => {
               The Accelerator combines on-demand course content with live weekly sessions, a peer cohort, and direct access to Lucas. The result is accountability, community, and a credential.
             </p>
 
-            <div ref={setFadeRef(0)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 opacity-0 translate-y-6 transition-all duration-700">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {experienceItems.map((item, i) =>
               <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 hover:border-primary/30 transition-all">
                   <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-4">
@@ -352,106 +342,6 @@ const Cohort = () => {
               Download Cohort Brochure
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
-          </div>
-        </section>
-
-        {/* 4-WEEK TIMELINE */}
-        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-          <div className="container mx-auto max-w-6xl">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">6-WEEK PROGRAMME</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
-              Week by <span className="text-primary">week</span>.
-            </h2>
-
-            <div ref={setFadeRef(1)} className="space-y-6 max-w-3xl opacity-0 translate-y-6 transition-all duration-700">
-              {timeline.map((item, i) =>
-              <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-slate-200 last:border-b-0">
-                  <div className="bg-primary rounded-lg p-3 text-center">
-                    <span className="font-syne text-xs font-bold text-primary-foreground tracking-[1px]">{item.weeks}</span>
-                  </div>
-                  <div>
-                    <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
-                    <div className="text-sm text-slate-600 leading-relaxed">{item.desc}</div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* THE PROGRAMME */}
-        <section id="programme" className="py-12 md:py-16 px-4 border-t border-slate-200">
-          <div className="container mx-auto max-w-6xl">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">THE PROGRAMME</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-2">
-              Accelerator • Cohort
-            </h2>
-            <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-4">
-              6 weeks. 10 modules. 60+ lessons and masterclasses.<br />One <span className="text-primary">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
-            </h3>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              {[
-              { num: "01", title: "Introduction & Orientation", desc: "Course overview, objectives, CPD & IOSH value, learner expectations." },
-              { num: "02", title: "What is Safety 4.0?", desc: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution." },
-              { num: "03", title: "The Safety Status Quo is Broken", desc: "Compliance-heavy culture, lagging indicators, reactive safety trap." },
-              { num: "04", title: "Skills for the Safety Leader in the Digital Age", desc: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills." },
-              { num: "05", title: "Safetytech Practical Applications", desc: "Wearables, IoT, drones, mobile-first systems, computer vision." },
-              { num: "06", title: "Building your Digital Safety Toolkit", desc: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes." },
-              { num: "07", title: "Data Strategy: From Chaos to Clarity", desc: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits." },
-              { num: "08", title: "AI Essentials for Safety Leaders", desc: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks." },
-              { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
-              { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." }].
-              map((mod, i) =>
-              <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
-                  <div className={`text-[11px] tracking-[2px] font-bold mb-2 ${i % 2 === 1 ? 'text-primary' : 'text-primary'}`}>MODULE {mod.num}</div>
-                  <div className="text-[15px] font-bold text-slate-900 mb-2">{mod.title}</div>
-                  <div className="text-sm text-slate-600">{mod.desc}</div>
-                </div>
-              )}
-            </div>
-
-            {/* Stats row */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-              {[
-              { val: "60+", label: "Studio-recorded video lessons, available on demand" },
-              { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
-              { val: "IOSH", label: "Approved certification recognised globally" },
-              { val: "Global", label: "Impact — delivered to teams in 12+ countries" }].
-              map((s, i) =>
-              <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
-                  <div className="text-2xl font-black text-primary">{s.val}</div>
-                  <div className="text-sm text-slate-600 mt-1">{s.label}</div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-          <div className="container mx-auto max-w-6xl">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT ALUMINI GRADUATES SAY</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
-              From safety leaders <span className="text-primary">just like you</span>.
-            </h2>
-
-            <div ref={setFadeRef(2)} className="grid md:grid-cols-2 gap-6 opacity-0 translate-y-6 transition-all duration-700">
-              {testimonials.map((t, i) =>
-              <div key={i} className="bg-primary border border-primary rounded-2xl md:rounded-3xl p-8 md:p-10 flex flex-col shadow-lg hover:shadow-xl hover:border-secondary transition-all">
-                  <p className="text-base md:text-lg text-primary-foreground italic leading-relaxed flex-1 mb-6">
-                    <span className="text-primary-foreground/70 text-3xl leading-none align-[-8px] mr-1 not-italic">"</span>
-                    {t.quote}
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <img src={t.photo} alt={t.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0 ring-2 ring-primary-foreground/30" />
-                    <div>
-                      <div className="text-base font-bold text-primary-foreground">{t.name}</div>
-                      <div className="text-sm text-primary-foreground/70">{t.role}, {t.company}</div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
 
             {/* Money-back guarantee */}
             <div className="mt-12 bg-primary/5 border border-primary/20 rounded-2xl p-5 md:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
@@ -463,8 +353,88 @@ const Cohort = () => {
                 </p>
               </div>
             </div>
-          </div>
-        </section>
+          </TabsContent>
+
+          <TabsContent value="content" id="programme" className="mt-0 space-y-16">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
+                Week by <span className="text-primary">week</span>.
+              </h2>
+
+              <div className="space-y-6 max-w-3xl">
+                {timeline.map((item, i) =>
+                <div key={i} className="grid grid-cols-[80px_1fr] gap-6 items-start pb-6 border-b border-slate-200 last:border-b-0">
+                    <div className="bg-primary rounded-lg p-3 text-center">
+                      <span className="font-syne text-xs font-bold text-primary-foreground tracking-[1px]">{item.weeks}</span>
+                    </div>
+                    <div>
+                      <div className="font-syne text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
+                      <div className="text-sm text-slate-600 leading-relaxed">{item.desc}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-syne text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-6">
+                10 modules. 60+ lessons and masterclasses.<br />One <span className="text-primary">IOSH-certified</span> and <span className="text-primary">CPD-accredited</span> outcome.
+              </h3>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                {[
+                { num: "01", title: "Introduction & Orientation", desc: "Course overview, objectives, CPD & IOSH value, learner expectations." },
+                { num: "02", title: "What is Safety 4.0?", desc: "Definition of Safety 4.0, triangle (People, Processes, Tech), role of data, 4th Industrial Revolution." },
+                { num: "03", title: "The Safety Status Quo is Broken", desc: "Compliance-heavy culture, lagging indicators, reactive safety trap." },
+                { num: "04", title: "Skills for the Safety Leader in the Digital Age", desc: "Digital literacy, AI/data awareness, adaptive intelligence, communication skills." },
+                { num: "05", title: "Safetytech Practical Applications", desc: "Wearables, IoT, drones, mobile-first systems, computer vision." },
+                { num: "06", title: "Building your Digital Safety Toolkit", desc: "Practical day-to-day tools: reporting apps, AI writing, automation, QR codes." },
+                { num: "07", title: "Data Strategy: From Chaos to Clarity", desc: "Data collection, centralisation, cleaning, analysis; pitfalls & benefits." },
+                { num: "08", title: "AI Essentials for Safety Leaders", desc: "AI history, ML, NLP, LLMs, CV, agentic AI, real-world cases, myths & risks." },
+                { num: "09", title: "Compliance, Risk & Governance Essentials", desc: "Digital compliance, regulation, governance frameworks, ethical AI." },
+                { num: "10", title: "Digital Safety Transformation Framework", desc: "ROI, executive influence, linking safety to business performance." }].
+                map((mod, i) =>
+                <div key={i} className="bg-white border border-slate-200 shadow-sm rounded-xl p-5 hover:border-primary/30 hover:-translate-y-0.5 transition-all">
+                    <div className="text-[11px] tracking-[2px] font-bold mb-2 text-primary">MODULE {mod.num}</div>
+                    <div className="text-[15px] font-bold text-slate-900 mb-2">{mod.title}</div>
+                    <div className="text-sm text-slate-600">{mod.desc}</div>
+                  </div>
+                )}
+              </div>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+                {[
+                { val: "60+", label: "Studio-recorded video lessons, available on demand" },
+                { val: "CPD", label: "Continued Professional Development — verifiable CPD hours upon completion" },
+                { val: "IOSH", label: "Approved certification recognised globally" },
+                { val: "Global", label: "Impact — delivered to teams in 12+ countries" }].
+                map((s, i) =>
+                <div key={i} className="bg-primary/8 border border-primary/25 rounded-xl p-5">
+                    <div className="text-2xl font-black text-primary">{s.val}</div>
+                    <div className="text-sm text-slate-600 mt-1">{s.label}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reviews" className="mt-0">
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-10">
+              From safety leaders <span className="text-primary">just like you</span>.
+            </h2>
+            <CourseReviews
+              reviews={testimonials.map((t) => ({
+                name: t.name,
+                role: `${t.role}, ${t.company}`,
+                content: t.quote,
+                rating: 5,
+                image: t.photo,
+              }))}
+            />
+          </TabsContent>
+        </Tabs>
+        </div>
 
         {/* COMPARISON TABLE */}
         <section className="py-12 md:py-16 px-4 border-t border-slate-200">
@@ -796,6 +766,7 @@ const Cohort = () => {
           </div>
         </section>
 
+        <RelatedCourses currentHref="/accelerator" />
 
         <Footer />
       </div>

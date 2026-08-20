@@ -1,23 +1,29 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
+import { CourseHero } from "@/components/course/CourseHero";
+import { CourseReviews } from "@/components/course/CourseReviews";
+import { RelatedCourses } from "@/components/course/RelatedCourses";
+import { AIFundamentalsIllustration } from "@/components/CourseIllustrations";
+import { testimonials } from "@/components/SocialProofSection";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  ArrowRight, ArrowLeft, Sparkles, Clock, Award, Tablet, CheckCircle,
+  CheckCircle2, Clock, PlayCircle, Award, Tablet,
   Brain, Bot, Lightbulb, ShieldAlert, MessageSquare, Users, Briefcase,
-  UserCheck, Compass, BookOpen, Zap, PlayCircle, FileDown,
+  UserCheck, Compass, BookOpen, Zap, Sparkles,
 } from "lucide-react";
 
 const CHECKOUT_URL = "https://learning.safetytech.academy/offers/osRfeBFj/checkout";
+
+const reviews = testimonials.filter((t) => ["Dan Warnock", "Shebin Abraham"].includes(t.name));
 
 const AIFundamentals = () => {
   useEffect(() => {
@@ -31,206 +37,119 @@ const AIFundamentals = () => {
   }, []);
 
   return (
-    <div className="min-h-screen relative bg-white">
+    <div className="min-h-screen bg-white">
       <AudienceNav />
 
-      <div className="container mx-auto px-4 pt-28 md:pt-32">
-        <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-          <Link to="/" className="flex items-center space-x-2">
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home</span>
-          </Link>
-        </Button>
+      <CourseHero
+        eyebrow="NEW · 90-MINUTE COURSE"
+        title={<>AI Fundamentals in <span className="text-primary">EHS</span></>}
+        subtitle="Build the AI literacy every modern EHS professional needs in just 90 minutes. Practical. No jargon. No buzzwords. Just actionable skills you can start using immediately."
+        features={[
+          { icon: PlayCircle, label: "5 Practical Modules" },
+          { icon: BookOpen, label: "Prompt Library" },
+          { icon: Award, label: "Certificate" },
+          { icon: Tablet, label: "Any Device" },
+        ]}
+        Illustration={AIFundamentalsIllustration}
+        price="£97"
+        meta={[
+          { icon: Clock, label: "Level", value: "Beginner" },
+          { icon: PlayCircle, label: "Duration", value: "90 minutes" },
+          { icon: BookOpen, label: "Modules", value: "5" },
+          { icon: Award, label: "Certificate", value: "Included" },
+        ]}
+        cta={{ label: "Start Learning — £97", href: CHECKOUT_URL, external: true }}
+        secondaryCta={{ label: "Talk to Us", href: "/contact" }}
+        guarantee="7-day money-back guarantee"
+      />
+
+      <div className="container mx-auto px-4 max-w-4xl pb-20">
+        <Tabs defaultValue="about" className="w-full">
+          <TabsList className="h-auto p-1 bg-slate-100 rounded-lg mb-10">
+            <TabsTrigger value="about" className="text-sm px-5 py-2.5 rounded-md">About the Course</TabsTrigger>
+            <TabsTrigger value="content" className="text-sm px-5 py-2.5 rounded-md">Course Content</TabsTrigger>
+            <TabsTrigger value="reviews" className="text-sm px-5 py-2.5 rounded-md">Reviews</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="about" className="space-y-14 mt-0">
+            <div>
+              <h2 className="mb-4">Confidently apply AI in EHS</h2>
+              <p className="text-[#69697b] leading-relaxed">
+                No previous AI knowledge required. Just bring your curiosity. By the end of this course you'll be able to:
+              </p>
+              <div className="grid sm:grid-cols-2 gap-5 mt-6">
+                {[
+                  { icon: Brain, title: "Understand AI in EHS", desc: "Grasp what AI is and how it applies directly to environment, health and safety." },
+                  { icon: Bot, title: "Use AI Tools Responsibly", desc: "Apply AI in your workflows effectively, ethically and with the right guardrails." },
+                  { icon: Lightbulb, title: "Spot Practical Use Cases", desc: "Identify opportunities that save time and improve decision-making." },
+                  { icon: ShieldAlert, title: "Recognise Risks & Limits", desc: "Understand common risks, biases and limitations of AI in a safety context." },
+                  { icon: MessageSquare, title: "Write Better Prompts", desc: "Craft effective prompts that consistently produce better, usable results." },
+                  { icon: Zap, title: "Start Using It Immediately", desc: "Walk away with real skills you can apply from day one." },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-start gap-3">
+                    <item.icon className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={1.75} />
+                    <div>
+                      <div className="text-sm font-bold text-slate-900 mb-1">{item.title}</div>
+                      <div className="text-sm text-[#69697b] leading-relaxed">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="mb-4">Who is it for?</h2>
+              <div className="grid sm:grid-cols-2 gap-5">
+                {[
+                  { icon: UserCheck, title: "EHS Advisors & Supervisors", desc: "Ground-level practitioners who want to bring AI into their day-to-day work." },
+                  { icon: Users, title: "EHS Managers", desc: "Team leaders introducing AI-driven ways of working across their function." },
+                  { icon: Briefcase, title: "EHS Heads & Directors", desc: "Senior leaders wanting a clear, jargon-free view of AI's role in safety." },
+                  { icon: Compass, title: "EHS Consultants", desc: "Advisors who need to speak the AI language with clients and stakeholders." },
+                  { icon: BookOpen, title: "Career Changers into EHS", desc: "Anyone stepping into safety who wants to arrive ready for the digital age." },
+                  { icon: Sparkles, title: "Anyone Curious About AI", desc: "Wondering where to start with AI in safety? This is your starting line." },
+                ].map((item) => (
+                  <div key={item.title} className="flex items-start gap-3">
+                    <item.icon className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={1.75} />
+                    <div>
+                      <div className="text-sm font-bold text-slate-900 mb-1">{item.title}</div>
+                      <div className="text-sm text-[#69697b] leading-relaxed">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="content" className="mt-0">
+            <h2 className="mb-6">What's included</h2>
+            <ul className="grid sm:grid-cols-2 gap-3">
+              {[
+                "90-minute on-demand course",
+                "5 practical learning modules",
+                "Downloadable SafetyTech glossary",
+                "Ready-to-use prompt library",
+                "Certificate of Completion by SafetyTech Academy",
+                "Access from desktop, tablet or mobile",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4">
+                  <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-sm text-slate-800 font-medium">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </TabsContent>
+
+          <TabsContent value="reviews" className="mt-0">
+            <h2 className="mb-6">What learners say</h2>
+            <CourseReviews reviews={reviews} />
+          </TabsContent>
+        </Tabs>
       </div>
 
-      {/* HERO */}
-      <section className="pt-8 pb-16 md:pt-10 md:pb-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-flex items-center gap-2 px-3 py-1.5 rounded-md mb-4">
-                <Sparkles className="w-3.5 h-3.5" />
-                NEW · 90-MINUTE COURSE
-              </span>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-[1.05]">
-                AI Fundamentals in <span className="text-primary">EHS</span>
-              </h1>
-              <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-4">
-                Build the AI literacy every modern EHS professional needs in just 90 minutes.
-                Practical. No jargon. No buzzwords. Just actionable skills you can start using immediately.
-              </p>
-            </div>
-
-            {/* Key Benefits Strip */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
-              {[
-                { icon: Clock, label: "90 Minutes", desc: "On-demand, bite-sized" },
-                { icon: PlayCircle, label: "5 Modules", desc: "Practical & actionable" },
-                { icon: Award, label: "Certificate", desc: "Issued on completion" },
-                { icon: Tablet, label: "Any Device", desc: "Desktop, tablet, mobile" },
-              ].map((b, i) => (
-                <div key={i} className="rounded-xl border border-primary/20 bg-primary/[0.06] p-5 text-center">
-                  <b.icon className="w-7 h-7 text-primary mx-auto mb-2" />
-                  <div className="text-sm font-bold text-slate-900">{b.label}</div>
-                  <div className="text-xs text-slate-600 mt-1">{b.desc}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-              <a
-                href={CHECKOUT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors active:scale-[0.97]"
-              >
-                Start Learning — £97
-                <ArrowRight className="w-5 h-5" />
-              </a>
-              <a
-                href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
-              >
-                <FileDown className="w-5 h-5" />
-                Talk to Us
-              </a>
-            </div>
-            <p className="text-center text-sm text-slate-500">
-              7-day money-back guarantee.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT YOU'LL LEARN */}
-      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT YOU'LL LEARN</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
-              Confidently apply AI in <span className="text-primary">EHS</span>
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              By the end of this course you'll be able to:
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { icon: Brain, title: "Understand AI in EHS", desc: "Grasp what AI is and how it applies directly to environment, health and safety." },
-              { icon: Bot, title: "Use AI Tools Responsibly", desc: "Apply AI in your workflows effectively, ethically and with the right guardrails." },
-              { icon: Lightbulb, title: "Spot Practical Use Cases", desc: "Identify opportunities that save time and improve decision-making across your function." },
-              { icon: ShieldAlert, title: "Recognise Risks & Limits", desc: "Understand the common risks, biases and limitations of AI in a safety context." },
-              { icon: MessageSquare, title: "Write Better Prompts", desc: "Craft effective prompts that consistently produce better, more usable results." },
-              { icon: Zap, title: "Start Using It Immediately", desc: "Walk away with real skills you can apply from day one — no theory-only fluff." },
-            ].map((item, i) => (
-              <div key={i} className="group rounded-2xl border border-slate-200 bg-white shadow-sm p-6 hover:border-primary/50 transition-colors">
-                <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
-                  <item.icon className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <h3 className="text-[15px] font-bold text-slate-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHAT'S INCLUDED */}
-      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
-              Everything you need to <span className="text-primary">get started</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-            {[
-              "90-minute on-demand course",
-              "5 practical learning modules",
-              "Downloadable SafetyTech glossary",
-              "Ready-to-use prompt library",
-              "Certificate of Completion by SafetyTech Academy",
-              "Access from desktop, tablet or mobile",
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <span className="text-sm md:text-base text-slate-800 font-medium">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHO IS IT FOR */}
-      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHO IS IT FOR?</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
-              Built for EHS professionals<br />
-              <span className="text-primary">curious about AI</span>.
-            </h2>
-            <p className="text-lg text-slate-700 max-w-xl mx-auto">
-              No previous AI knowledge required. Just bring your curiosity.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { icon: UserCheck, title: "EHS Advisors, Coordinators & Supervisors", desc: "Ground-level practitioners who want to bring AI into their day-to-day work." },
-              { icon: Users, title: "EHS Managers", desc: "Team leaders looking to introduce AI-driven ways of working across their function." },
-              { icon: Briefcase, title: "EHS Heads, Directors & Above", desc: "Senior leaders wanting a clear, jargon-free view of AI's role in modern safety." },
-              { icon: Compass, title: "EHS Consultants", desc: "Advisors who need to speak the AI language fluently with clients and stakeholders." },
-              { icon: BookOpen, title: "Career Changers into EHS", desc: "Anyone stepping into safety who wants to arrive ready for the digital age." },
-              { icon: Sparkles, title: "Anyone Curious About AI in EHS", desc: "If you're wondering where to start with AI in safety — this is your starting line." },
-            ].map((item, i) => (
-              <div key={i} className="group relative rounded-2xl border border-slate-200 bg-white shadow-sm p-6 hover:border-primary/50 transition-all duration-500">
-                <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500">
-                  <item.icon className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <div className="text-[15px] font-bold text-slate-900 mb-2">{item.title}</div>
-                <div className="text-sm text-slate-600 leading-relaxed">{item.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* GUARANTEE */}
-      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-        <div className="container mx-auto max-w-3xl">
-          <div className="rounded-2xl border border-primary/20 bg-primary/[0.06] p-8 md:p-10 text-center">
-            <div className="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4">
-              <ShieldAlert className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
-              7-Day Money-Back Guarantee
-            </h3>
-            <p className="text-slate-600 leading-relaxed">
-              Start the course. If you genuinely don't believe you've gained value, contact us within
-              7 days for a full refund. No questions asked.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="py-12 md:py-16 px-4 border-t border-slate-200">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-12">
-            <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">FAQ</span>
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
-              Questions? <span className="text-primary">Answered.</span>
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Quick answers to help you decide if this course is right for you.
-            </p>
-          </div>
-
+      <section className="py-16 md:py-20 px-4 border-t border-slate-200">
+        <div className="container mx-auto max-w-3xl">
+          <h2 className="mb-8 text-center">Questions? Answered.</h2>
           <Accordion type="single" collapsible className="w-full">
             {[
               { q: "Do I need any AI experience to take this course?", a: "No. The course is designed for EHS professionals with little or no AI background. We explain concepts in plain language and focus on practical application, not theory." },
@@ -245,7 +164,7 @@ const AIFundamentals = () => {
                 <AccordionTrigger className="text-base font-semibold text-slate-900 text-left hover:no-underline py-5">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-slate-600 leading-relaxed">
+                <AccordionContent className="text-[#69697b] leading-relaxed">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
@@ -254,41 +173,7 @@ const AIFundamentals = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-6">
-              Get AI-ready in <span className="text-primary">90 minutes</span>
-            </h2>
-            <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-              Join EHS professionals from leading organisations who are building the practical AI
-              skills that modern safety demands.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href={CHECKOUT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors active:scale-[0.97]"
-              >
-                Start Learning — £97
-                <ArrowRight className="w-5 h-5" />
-              </a>
-              <a
-                href="/elearning"
-                className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
-              >
-                Explore Safety 4.0
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </div>
-            <p className="text-sm text-slate-500 mt-4">
-              Includes lifetime access and a certificate of completion.
-            </p>
-          </div>
-        </div>
-      </section>
+      <RelatedCourses currentHref="/ai-fundamentals" />
 
       <Footer />
     </div>

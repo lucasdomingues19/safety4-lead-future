@@ -13,7 +13,7 @@ import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
 import renauldWilsonPhoto from "@/assets/renauld-wilson-photo.png";
 import danWarnockPhoto from "@/assets/dan-warnock-photo.jpeg";
 
-const testimonials = [
+export const testimonials = [
   {
     name: "Shebin Abraham",
     role: "Founder",

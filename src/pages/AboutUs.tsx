@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Target, Users, Award, Rocket, Linkedin, Briefcase } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
+import { BlueBandDecor } from "@/components/BlueBandDecor";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import founderPhoto from "@/assets/founder-cutout.png";
@@ -54,21 +55,29 @@ const AboutUs = () => {
       <AudienceNav />
 
       {/* Hero */}
-      <section className="pt-28 pb-20 md:pt-32 md:pb-24">
+      <section className="pt-28 pb-20 md:pt-32 md:pb-24 text-center">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl">
-            <h1 className="mb-6">
-              About <span className="text-primary">SafetyTech Academy</span>
+          <div className="max-w-3xl mx-auto">
+            <h1 className="mb-6 text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
+              Our Mission to Lead Safety
+              <br />
+              <span className="text-primary">Forward.</span>
             </h1>
-            <p className="text-lg text-[#69697b] leading-relaxed">
+            <p className="text-lg text-[#69697b] leading-relaxed max-w-xl mx-auto mb-10">
               We're on a mission to lead safety forward — helping EHS professionals build the AI literacy and digital skills to thrive in the Safety 4.0 era, not get left behind by it.
             </p>
+            <a
+              href="#mission"
+              className="inline-flex items-center gap-2 px-8 py-[14px] border border-primary text-primary font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
+            >
+              Our Story
+            </a>
           </div>
         </div>
       </section>
 
       {/* Values grid */}
-      <section className="py-20 md:py-28">
+      <section id="mission" className="py-20 md:py-28 scroll-mt-24">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 md:gap-10">
             {values.map((value) => {
@@ -96,19 +105,15 @@ const AboutUs = () => {
           photo allowed to overflow the band on purpose while the decorative
           circles stay clipped to it. */}
       <section className="relative bg-primary py-20 md:py-28">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-32 -left-24 w-96 h-96 bg-white/[0.06] rounded-full" />
-          <div className="absolute top-1/2 -translate-y-1/2 left-1/4 w-64 h-64 bg-white/[0.05] rounded-full" />
-          <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] bg-white/[0.07] rounded-full translate-x-1/4" />
-        </div>
+        <BlueBandDecor />
 
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-12 items-end max-w-5xl mx-auto">
-            <div className="lg:flex-1 max-w-sm mx-auto lg:mx-0 w-full flex justify-center lg:justify-start overflow-visible">
+            <div className="lg:flex-1 max-w-md mx-auto lg:mx-0 w-full flex justify-center lg:justify-start overflow-visible">
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH"
-                className="w-full max-w-xs h-auto -mt-24 md:-mt-36 drop-shadow-2xl"
+                className="w-full max-w-sm h-auto -mt-24 md:-mt-36 drop-shadow-2xl"
               />
             </div>
             <div className="lg:flex-1 text-center lg:text-left pb-4">
@@ -117,6 +122,9 @@ const AboutUs = () => {
               </span>
               <h2 className="text-white mb-3">Lucas Domingues</h2>
               <p className="text-white/80 text-lg mb-8">MSc, CMIOSH</p>
+              <blockquote className="text-white text-xl md:text-2xl font-medium leading-snug mb-8 max-w-md mx-auto lg:mx-0">
+                "I started the SafetyTech Academy because AI is here to stay and EHS leaders can't be left behind."
+              </blockquote>
               <a
                 href="https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/"
                 target="_blank"
