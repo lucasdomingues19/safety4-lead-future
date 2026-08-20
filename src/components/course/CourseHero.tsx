@@ -25,6 +25,7 @@ interface CourseHeroProps {
   title: ReactNode;
   subtitle: string;
   features: CourseFeature[];
+  icon: string;
   badgeSrc: string;
   price: string;
   originalPrice?: string;
@@ -40,6 +41,7 @@ export const CourseHero = ({
   title,
   subtitle,
   features,
+  icon,
   badgeSrc,
   price,
   originalPrice,
@@ -74,28 +76,36 @@ export const CourseHero = ({
               ))}
             </div>
 
-            <Link to="/about-us" className="inline-flex items-center gap-3 group">
-              <img
-                src={founderPhoto}
-                alt="Lucas Domingues"
-                className="w-11 h-11 rounded-full object-cover object-top bg-slate-100"
-              />
-              <div>
-                <div className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">
-                  Lucas Domingues
+            <div className="flex items-center justify-between max-w-xl">
+              <Link to="/about-us" className="inline-flex items-center gap-3 group">
+                <img
+                  src={founderPhoto}
+                  alt="Lucas Domingues"
+                  className="w-11 h-11 rounded-full object-cover object-top bg-slate-100"
+                />
+                <div>
+                  <div className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">
+                    Lucas Domingues
+                  </div>
+                  <div className="text-xs text-[#69697b]">MSc, CMIOSH — Course Instructor</div>
                 </div>
-                <div className="text-xs text-[#69697b]">MSc, CMIOSH — Course Instructor</div>
-              </div>
-            </Link>
+              </Link>
+
+              <img
+                src={badgeSrc}
+                alt="Accreditation badge"
+                className="w-16 h-16 rounded-xl shadow-lg rotate-3 animate-float"
+              />
+            </div>
           </div>
 
           {/* Right — sticky price/meta card */}
           <div className="lg:sticky lg:top-28">
             <div className="rounded-[20px] border border-slate-200 shadow-lg overflow-hidden bg-white">
-              <div className="relative h-44 bg-primary overflow-hidden flex items-center justify-center">
-                <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
-                <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
-                <img src={badgeSrc} alt="Accreditation badge" className="relative w-28 h-28 rounded-xl shadow-lg" />
+              <div className="relative h-44 bg-white border-2 border-primary overflow-hidden flex items-center justify-center">
+                <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full" />
+                <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-primary/5 rounded-full" />
+                <img src={icon} alt="" className="relative w-28 h-28 object-contain" />
               </div>
 
               <div className="p-6">

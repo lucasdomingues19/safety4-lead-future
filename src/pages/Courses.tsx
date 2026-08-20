@@ -41,15 +41,15 @@ const Courses = () => {
                 className="group relative flex flex-col bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 {course.popular && (
-                  <div className="absolute top-4 right-4 z-10 bg-white text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-sm">
+                  <div className="absolute top-4 right-4 z-10 bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-sm">
                     Most Popular
                   </div>
                 )}
 
                 <Link to={course.href} className="block">
-                  <div className="relative h-52 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
-                    <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
-                    <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
+                  <div className="relative h-52 bg-white border-2 border-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
+                    <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full" />
+                    <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-primary/5 rounded-full" />
                     <img src={course.icon} alt="" className="relative w-32 h-32 md:w-36 md:h-36 object-contain" />
                   </div>
                 </Link>

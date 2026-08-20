@@ -7,6 +7,7 @@ import { CourseHero } from "@/components/course/CourseHero";
 import { CourseReviews } from "@/components/course/CourseReviews";
 import { RelatedCourses } from "@/components/course/RelatedCourses";
 import badgeAIFundamentals from "@/assets/badge-ai-fundamentals.png";
+import iconAIFundamentals from "@/assets/icon-ai-fundamentals.png";
 import { testimonials } from "@/components/SocialProofSection";
 import {
   Accordion,
@@ -50,6 +51,7 @@ const AIFundamentals = () => {
           { icon: Award, label: "Certificate" },
           { icon: Tablet, label: "Any Device" },
         ]}
+        icon={iconAIFundamentals}
         badgeSrc={badgeAIFundamentals}
         price="£97"
         meta={[
