@@ -1,4 +1,7 @@
 import { Sparkles, MessageSquare, Award, ShieldCheck, Users, Calendar, CheckCircle2 } from "lucide-react";
+import badgeAIFundamentals from "@/assets/badge-ai-fundamentals.png";
+import badgeElearning from "@/assets/badge-elearning.png";
+import badgeAccelerator from "@/assets/badge-accelerator.png";
 
 // Per-course illustrated header — a mini "product mockup" panel plus
 // floating icon chips, themed to what each course is actually about.
@@ -74,6 +77,7 @@ export interface CourseMeta {
   href: string;
   description: string;
   Illustration: React.ComponentType;
+  badge: string;
   level: string;
   price: string;
   originalPrice?: string;
@@ -89,6 +93,7 @@ export const courses: CourseMeta[] = [
     href: "/ai-fundamentals",
     description: "A fast-track introduction to AI for EHS professionals.",
     Illustration: AIFundamentalsIllustration,
+    badge: badgeAIFundamentals,
     level: "Beginner",
     price: "£97",
     period: "",
@@ -101,6 +106,7 @@ export const courses: CourseMeta[] = [
     href: "/elearning",
     description: "Self-paced online learning — 10 core modules, 60+ video lessons.",
     Illustration: CertificationIllustration,
+    badge: badgeElearning,
     level: "All Levels",
     price: "£497",
     originalPrice: "£697",
@@ -114,6 +120,7 @@ export const courses: CourseMeta[] = [
     href: "/accelerator",
     description: "Live group training with expert guidance and peer interaction.",
     Illustration: CohortIllustration,
+    badge: badgeAccelerator,
     level: "Advanced",
     price: "£1,997",
     originalPrice: "£2,497",

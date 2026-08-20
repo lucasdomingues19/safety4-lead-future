@@ -55,6 +55,12 @@ const Courses = () => {
                   </div>
                 </Link>
 
+                <img
+                  src={course.badge}
+                  alt={`${course.name} accreditation badge`}
+                  className="absolute top-44 right-5 w-16 h-16 md:w-[72px] md:h-[72px] rounded-xl shadow-lg z-10"
+                />
+
                 <div className="flex flex-col flex-grow p-6 md:p-8">
                   <Link to={course.href}>
                     <h3 className="text-xl font-bold text-slate-900 mb-3 leading-snug hover:text-primary transition-colors">

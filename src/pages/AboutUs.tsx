@@ -104,7 +104,7 @@ const AboutUs = () => {
       {/* Founder — full-bleed brand band matching the homepage introduction section,
           photo allowed to overflow the band on purpose while the decorative
           circles stay clipped to it. */}
-      <section className="relative bg-primary py-20 md:py-28">
+      <section className="relative bg-primary py-8 md:py-10">
         <BlueBandDecor />
 
         <div className="relative z-10 container mx-auto px-4">

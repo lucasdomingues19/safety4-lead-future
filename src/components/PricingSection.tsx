@@ -48,6 +48,12 @@ export const PricingSection = () => {
                   </div>
                 </Link>
 
+                <img
+                  src={course.badge}
+                  alt={`${course.name} accreditation badge`}
+                  className="absolute top-44 right-5 w-16 h-16 md:w-[72px] md:h-[72px] rounded-xl shadow-lg z-10"
+                />
+
                 {/* Body */}
                 <div className="flex flex-col flex-grow p-6 md:p-8">
                   <Link to={course.href}>

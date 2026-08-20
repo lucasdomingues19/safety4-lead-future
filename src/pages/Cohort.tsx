@@ -254,21 +254,21 @@ const Cohort = () => {
         <AudienceNav />
 
         {/* COUNTDOWN BAR */}
-        <section className="bg-primary pt-24 md:pt-28 pb-4">
-          <div className="container mx-auto max-w-6xl px-4 flex flex-wrap items-center justify-center gap-4 md:gap-6">
-            <span className="text-white/80 text-[11px] uppercase tracking-[0.2em] font-semibold font-syne">
+        <section className="bg-primary pt-24 md:pt-28 pb-2.5">
+          <div className="container mx-auto max-w-6xl px-4 flex flex-wrap items-center justify-center gap-3 md:gap-5">
+            <span className="text-white/80 text-[10px] uppercase tracking-[0.2em] font-semibold font-syne">
               Next Cohort Starts In
             </span>
-            <div className="flex gap-2.5">
+            <div className="flex gap-2">
               {[
               { val: countdown.days, label: "DAYS" },
               { val: countdown.hours, label: "HRS" },
               { val: countdown.minutes, label: "MIN" },
               { val: countdown.seconds, label: "SEC" }].
               map((item) =>
-              <div key={item.label} className="bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 min-w-[56px] text-center">
-                  <div className="font-syne text-lg md:text-xl font-black text-white leading-none">{item.val}</div>
-                  <div className="text-[9px] tracking-[1.5px] text-white/70 font-syne mt-0.5">{item.label}</div>
+              <div key={item.label} className="bg-white/10 border border-white/20 rounded-md px-2.5 py-1 min-w-[44px] text-center">
+                  <div className="font-syne text-sm md:text-base font-black text-white leading-none">{item.val}</div>
+                  <div className="text-[7px] tracking-[1.5px] text-white/70 font-syne mt-0.5">{item.label}</div>
                 </div>
               )}
             </div>
@@ -277,8 +277,9 @@ const Cohort = () => {
 
         {/* CourseHero has its own pt-28 md:pt-32 baked in to clear the fixed
             nav when it's the first section on a page; here it's second, so
-            cancel that redundant top padding with a matching negative margin. */}
-        <div className="-mt-28 md:-mt-32">
+            most of that padding is redundant — cancel most of it but leave
+            some so the hero doesn't sit flush against the countdown bar. */}
+        <div className="-mt-20 md:-mt-24">
         <CourseHero
           eyebrow="LIVE COHORT · SEPTEMBER 2026"
           title={<>Safety 4.0 Accelerator <span className="text-primary">Cohort</span></>}
