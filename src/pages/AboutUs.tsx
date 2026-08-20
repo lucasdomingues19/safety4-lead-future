@@ -109,22 +109,22 @@ const AboutUs = () => {
 
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-12 items-end max-w-5xl mx-auto">
-            <div className="lg:flex-1 max-w-md mx-auto lg:mx-0 w-full flex justify-center lg:justify-start overflow-visible">
+            <div className="lg:flex-1 w-full flex justify-center lg:justify-start overflow-visible">
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH"
-                className="w-full max-w-sm h-auto -mt-24 md:-mt-36 drop-shadow-2xl"
+                className="h-[420px] md:h-[600px] w-auto max-w-full object-contain -mt-16 md:-mt-24 drop-shadow-2xl"
               />
             </div>
             <div className="lg:flex-1 text-center lg:text-left pb-4">
+              <blockquote className="text-white text-2xl md:text-4xl font-medium leading-snug mb-8 max-w-lg mx-auto lg:mx-0">
+                "I started the SafetyTech Academy because AI is here to stay and EHS leaders can't be left behind."
+              </blockquote>
               <span className="text-xs uppercase tracking-[0.2em] text-white/70 font-medium mb-4 block">
                 Founder, SafetyTech Academy
               </span>
               <h2 className="text-white mb-3">Lucas Domingues</h2>
               <p className="text-white/80 text-lg mb-8">MSc, CMIOSH</p>
-              <blockquote className="text-white text-xl md:text-2xl font-medium leading-snug mb-8 max-w-md mx-auto lg:mx-0">
-                "I started the SafetyTech Academy because AI is here to stay and EHS leaders can't be left behind."
-              </blockquote>
               <a
                 href="https://www.linkedin.com/in/lucas-domingues-msc-cmiosh-49b2b820/"
                 target="_blank"
