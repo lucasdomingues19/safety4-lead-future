@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { TestimonialCard } from "@/components/TestimonialCard";
 import shebinAbrahamPhoto from "@/assets/shebin-abraham-photo.jpeg";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import eamonnDohertyPhoto from "@/assets/eamonn-doherty-photo.jpeg";
@@ -100,29 +101,6 @@ export const testimonials = [
   }
 ];
 
-const TestimonialCard = ({ t }: { t: typeof testimonials[0] }) => (
-  <div className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] bg-white border border-slate-200 rounded-2xl md:rounded-3xl p-8 md:p-10 flex flex-col min-h-[340px] md:min-h-[400px] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-    <div className="flex items-center justify-between mb-5">
-      <div className="flex items-center gap-0.5">
-        {Array.from({ length: t.rating }).map((_, i) => (
-          <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-        ))}
-      </div>
-      <Quote className="w-8 h-8 text-primary/15 fill-primary/15" />
-    </div>
-    <p className="text-base text-slate-700 leading-relaxed flex-1 mb-6">
-      {t.content}
-    </p>
-    <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
-      <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-      <div>
-        <div className="text-base font-bold text-slate-900">{t.name}</div>
-        <div className="text-sm text-slate-500">{t.role}</div>
-      </div>
-    </div>
-  </div>
-);
-
 export const SocialProofSection = () => {
   const [current, setCurrent] = useState(0);
   const total = testimonials.length;
@@ -161,7 +139,11 @@ export const SocialProofSection = () => {
         <div className="relative overflow-hidden">
           <div className="flex gap-6 transition-transform duration-700 ease-out">
             {getVisible().map((t, i) => (
-              <TestimonialCard key={`${current}-${i}`} t={t} />
+              <TestimonialCard
+                key={`${current}-${i}`}
+                t={t}
+                className="flex-shrink-0 w-full md:w-[calc(33.333%-16px)] min-h-[380px] md:min-h-[420px] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              />
             ))}
           </div>
         </div>

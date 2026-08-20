@@ -14,7 +14,7 @@ import {
   Layers, BarChart3, Cpu, Wrench, Database, Bot, Scale, TrendingUp, Compass,
   Shield, Globe, Zap, Clock, Infinity, Tablet, GraduationCap,
 } from "lucide-react";
-import cpdCertifiedLogo from "@/assets/cpd-approved-logo.png";
+import cpdCertifiedLogo from "@/assets/cpd-certified-badge.png";
 import ioshApprovedLogo from "@/assets/iosh-approved-logo.jpg";
 import certificateSample from "@/assets/certificate-sample.png";
 

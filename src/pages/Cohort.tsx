@@ -38,9 +38,8 @@ import {
 "lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
-import { MTAFrameworkWheel } from "@/components/MTAFrameworkWheel";
 import ioshLogo from "@/assets/iosh-approved-logo.jpg";
-import cpdLogo from "@/assets/cpd-approved-logo.png";
+import cpdLogo from "@/assets/cpd-certified-badge.png";
 import anaCoutinhoPhoto from "@/assets/ana-coutinho-photo.jpeg";
 import stewartDearyPhoto from "@/assets/stewart-deary-photo.jpeg";
 import jacquelineCarrPhoto from "@/assets/jacqueline-carr-photo.jpeg";
@@ -254,6 +253,32 @@ const Cohort = () => {
         {/* NAV */}
         <AudienceNav />
 
+        {/* COUNTDOWN BAR */}
+        <section className="bg-primary pt-24 md:pt-28 pb-4">
+          <div className="container mx-auto max-w-6xl px-4 flex flex-wrap items-center justify-center gap-4 md:gap-6">
+            <span className="text-white/80 text-[11px] uppercase tracking-[0.2em] font-semibold font-syne">
+              Next Cohort Starts In
+            </span>
+            <div className="flex gap-2.5">
+              {[
+              { val: countdown.days, label: "DAYS" },
+              { val: countdown.hours, label: "HRS" },
+              { val: countdown.minutes, label: "MIN" },
+              { val: countdown.seconds, label: "SEC" }].
+              map((item) =>
+              <div key={item.label} className="bg-white/10 border border-white/20 rounded-lg px-3 py-1.5 min-w-[56px] text-center">
+                  <div className="font-syne text-lg md:text-xl font-black text-white leading-none">{item.val}</div>
+                  <div className="text-[9px] tracking-[1.5px] text-white/70 font-syne mt-0.5">{item.label}</div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* CourseHero has its own pt-28 md:pt-32 baked in to clear the fixed
+            nav when it's the first section on a page; here it's second, so
+            cancel that redundant top padding with a matching negative margin. */}
+        <div className="-mt-28 md:-mt-32">
         <CourseHero
           eyebrow="LIVE COHORT · SEPTEMBER 2026"
           title={<>Safety 4.0 Accelerator <span className="text-primary">Cohort</span></>}
@@ -278,34 +303,7 @@ const Cohort = () => {
           secondaryCta={{ label: "See What's Included", href: "#experience" }}
           guarantee="14-day satisfaction guarantee"
         />
-
-        {/* COUNTDOWN + MTA WHEEL */}
-        <section className="py-12 md:py-16 px-4 bg-slate-50 border-t border-slate-200">
-          <div className="container mx-auto max-w-6xl">
-            <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
-              <div>
-                <div className="text-[11px] tracking-[3px] text-slate-600 font-syne mb-4">NEXT COHORT STARTS IN</div>
-                <div className="flex gap-3">
-                  {[
-                  { val: countdown.days, label: "DAYS" },
-                  { val: countdown.hours, label: "HRS" },
-                  { val: countdown.minutes, label: "MIN" },
-                  { val: countdown.seconds, label: "SEC" }].
-                  map((item) =>
-                  <div key={item.label} className="bg-white border border-slate-200 shadow-sm rounded-xl px-4 py-3 min-w-[72px] text-center">
-                      <div className="font-syne text-3xl font-black text-primary leading-none">{item.val}</div>
-                      <div className="text-[10px] tracking-[2px] text-slate-600 font-syne mt-1">{item.label}</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="hidden lg:flex items-center justify-center">
-                <MTAFrameworkWheel />
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
 
         {/* ACCELERATOR EXPERIENCE */}
         <div className="container mx-auto px-4 max-w-6xl pt-12 md:pt-16">
