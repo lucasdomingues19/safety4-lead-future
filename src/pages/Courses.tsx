@@ -35,7 +35,6 @@ const Courses = () => {
         {/* Course Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {courses.map((course) => {
-            const Illustration = course.Illustration;
             return (
               <div
                 key={course.href}
@@ -48,18 +47,12 @@ const Courses = () => {
                 )}
 
                 <Link to={course.href} className="block">
-                  <div className="relative h-52 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300">
+                  <div className="relative h-52 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
                     <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
                     <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
-                    <Illustration />
+                    <img src={course.icon} alt="" className="relative w-32 h-32 md:w-36 md:h-36 object-contain" />
                   </div>
                 </Link>
-
-                <img
-                  src={course.badge}
-                  alt={`${course.name} accreditation badge`}
-                  className="absolute top-44 right-5 w-16 h-16 md:w-[72px] md:h-[72px] rounded-xl shadow-lg z-10"
-                />
 
                 <div className="flex flex-col flex-grow p-6 md:p-8">
                   <Link to={course.href}>

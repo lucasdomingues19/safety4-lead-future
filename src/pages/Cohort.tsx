@@ -10,7 +10,7 @@ import { SEOStructuredData } from "@/components/SEOStructuredData";
 import { CourseHero } from "@/components/course/CourseHero";
 import { CourseReviews } from "@/components/course/CourseReviews";
 import { RelatedCourses } from "@/components/course/RelatedCourses";
-import { CohortIllustration } from "@/components/CourseIllustrations";
+import badgeAcceleratorHero from "@/assets/badge-accelerator.png";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import { supabase } from "@/integrations/supabase/client";
@@ -290,7 +290,7 @@ const Cohort = () => {
             { icon: Award, label: "IOSH & CPD Certified" },
             { icon: Globe, label: "Alumni Community" },
           ]}
-          Illustration={CohortIllustration}
+          badgeSrc={badgeAcceleratorHero}
           price="£1,997"
           originalPrice="£2,497"
           period="per person"

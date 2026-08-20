@@ -25,7 +25,7 @@ interface CourseHeroProps {
   title: ReactNode;
   subtitle: string;
   features: CourseFeature[];
-  Illustration: React.ComponentType;
+  badgeSrc: string;
   price: string;
   originalPrice?: string;
   period?: string;
@@ -40,7 +40,7 @@ export const CourseHero = ({
   title,
   subtitle,
   features,
-  Illustration,
+  badgeSrc,
   price,
   originalPrice,
   period,
@@ -92,10 +92,10 @@ export const CourseHero = ({
           {/* Right — sticky price/meta card */}
           <div className="lg:sticky lg:top-28">
             <div className="rounded-[20px] border border-slate-200 shadow-lg overflow-hidden bg-white">
-              <div className="relative h-44 bg-primary overflow-hidden">
+              <div className="relative h-44 bg-primary overflow-hidden flex items-center justify-center">
                 <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
                 <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
-                <Illustration />
+                <img src={badgeSrc} alt="Accreditation badge" className="relative w-28 h-28 rounded-xl shadow-lg" />
               </div>
 
               <div className="p-6">

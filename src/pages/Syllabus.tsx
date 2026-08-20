@@ -6,7 +6,7 @@ import { trackPageView } from "@/utils/analytics";
 import { CourseHero } from "@/components/course/CourseHero";
 import { CourseReviews } from "@/components/course/CourseReviews";
 import { RelatedCourses } from "@/components/course/RelatedCourses";
-import { CertificationIllustration } from "@/components/CourseIllustrations";
+import badgeElearningHero from "@/assets/badge-elearning.png";
 import { testimonials } from "@/components/SocialProofSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -59,7 +59,7 @@ const Syllabus = () => {
           { icon: Clock, label: "Self-Paced" },
           { icon: Infinity, label: "Lifelong Access" },
         ]}
-        Illustration={CertificationIllustration}
+        badgeSrc={badgeElearningHero}
         price="£497"
         originalPrice="£697"
         meta={[

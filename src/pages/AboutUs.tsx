@@ -113,7 +113,7 @@ const AboutUs = () => {
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH"
-                className="h-[420px] md:h-[600px] w-auto max-w-full object-contain -mt-16 md:-mt-24 drop-shadow-2xl"
+                className="h-[420px] md:h-[600px] w-auto max-w-full object-contain -mt-8 md:-mt-14 drop-shadow-2xl"
               />
             </div>
             <div className="lg:flex-1 text-center lg:text-left pb-4">
