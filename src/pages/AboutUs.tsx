@@ -126,22 +126,32 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Founder — full-bleed brand band matching the homepage introduction section,
-          photo allowed to overflow the band on purpose while the decorative
-          circles stay clipped to it. */}
+      {/* Founder — full-bleed brand band matching the homepage introduction section.
+          On desktop the photo is pinned to the band's full outer height
+          (absolute + h-full against the relative section), independent of
+          the padding that sizes the band itself, so it always fills it
+          edge to edge rather than floating with gaps. Mobile keeps a
+          simpler in-flow photo since there's no room to break out sideways. */}
       <section className="relative bg-primary py-8 md:py-10">
         <BlueBandDecor />
 
+        <img
+          src={founderPhoto}
+          alt="Lucas Domingues, MSc, CMIOSH"
+          className="hidden lg:block absolute left-6 xl:left-12 bottom-0 z-10 h-full w-auto max-w-[420px] object-contain object-bottom drop-shadow-2xl pointer-events-none"
+        />
+
         <div className="relative z-10 container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-12 items-end max-w-5xl mx-auto">
-            <div className="lg:flex-1 w-full flex justify-center lg:justify-start overflow-visible">
+          <div className="max-w-5xl mx-auto">
+            <div className="lg:hidden flex justify-center mb-8">
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH"
-                className="h-[420px] md:h-[600px] w-auto max-w-full object-contain -mt-8 md:-mt-14 drop-shadow-2xl"
+                className="h-[420px] w-auto max-w-full object-contain drop-shadow-2xl"
               />
             </div>
-            <div className="lg:flex-1 text-center lg:text-left pb-4">
+
+            <div className="lg:pl-[420px] xl:pl-[460px] text-center lg:text-left">
               <blockquote className="text-white text-2xl md:text-4xl font-medium leading-snug mb-8 max-w-lg mx-auto lg:mx-0">
                 "I started the SafetyTech Academy because AI is here to stay and EHS leaders can't be left behind."
               </blockquote>
