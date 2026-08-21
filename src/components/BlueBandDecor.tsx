@@ -1,35 +1,30 @@
 import { useRef, useState } from "react";
 
-// A scattered field of small "digital" dots for full-bleed brand-blue
-// sections — each drifts continuously (staggered float animation) and
-// the whole field also responds to mouse position for parallax depth.
+// A "digital rain" field of small square pixels for full-bleed brand-blue
+// sections — grid-aligned like a data/pixel matrix, each one drifting on
+// its own continuous loop (staggered) plus responding to mouse position
+// for parallax depth.
 
-const DOTS = [
-  { x: 6, y: 15, size: 3, depth: 0.4, delay: 0 },
-  { x: 14, y: 62, size: 2, depth: 0.7, delay: 1.2 },
-  { x: 22, y: 30, size: 4, depth: 0.3, delay: 2.4 },
-  { x: 9, y: 85, size: 2, depth: 0.9, delay: 0.6 },
-  { x: 31, y: 8, size: 3, depth: 0.5, delay: 3.1 },
-  { x: 38, y: 48, size: 2, depth: 0.8, delay: 1.8 },
-  { x: 27, y: 72, size: 3, depth: 0.4, delay: 2.9 },
-  { x: 45, y: 20, size: 2, depth: 0.6, delay: 0.3 },
-  { x: 52, y: 88, size: 3, depth: 0.5, delay: 3.6 },
-  { x: 60, y: 40, size: 4, depth: 0.3, delay: 1.5 },
-  { x: 48, y: 62, size: 2, depth: 0.9, delay: 2.1 },
-  { x: 67, y: 12, size: 3, depth: 0.5, delay: 0.9 },
-  { x: 73, y: 55, size: 2, depth: 0.7, delay: 3.3 },
-  { x: 80, y: 78, size: 3, depth: 0.4, delay: 1.1 },
-  { x: 85, y: 25, size: 2, depth: 0.8, delay: 2.7 },
-  { x: 91, y: 45, size: 4, depth: 0.3, delay: 0.5 },
-  { x: 94, y: 70, size: 2, depth: 0.6, delay: 3.9 },
-  { x: 76, y: 32, size: 3, depth: 0.5, delay: 1.9 },
-  { x: 17, y: 45, size: 2, depth: 0.7, delay: 2.5 },
-  { x: 58, y: 15, size: 2, depth: 0.6, delay: 0.8 },
-  { x: 40, y: 90, size: 3, depth: 0.4, delay: 3.4 },
-  { x: 88, y: 92, size: 2, depth: 0.8, delay: 1.4 },
-  { x: 4, y: 40, size: 2, depth: 0.6, delay: 2.2 },
-  { x: 63, y: 68, size: 3, depth: 0.4, delay: 0.2 },
-];
+const COLS = 14;
+const ROWS = 5;
+
+const DOTS = Array.from({ length: COLS * ROWS }, (_, i) => {
+  const col = i % COLS;
+  const row = Math.floor(i / COLS);
+  // deterministic pseudo-random jitter per cell, no Math.random so SSR/CSR match
+  const seed = (col * 13 + row * 37) % 97;
+  const show = seed % 3 !== 0; // skip ~1/3 of cells for an irregular matrix
+  return {
+    x: (col / (COLS - 1)) * 100 + (((seed % 5) - 2) * 1.4),
+    y: (row / (ROWS - 1)) * 100 + ((((seed * 7) % 5) - 2) * 3),
+    size: 2 + (seed % 3),
+    depth: 0.3 + (seed % 7) / 10,
+    delay: (seed % 40) / 10,
+    duration: 5 + (seed % 5),
+    bright: seed % 11 === 0,
+    show,
+  };
+}).filter((d) => d.show);
 
 export const BlueBandDecor = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -58,17 +53,18 @@ export const BlueBandDecor = () => {
           style={{
             left: `${dot.x}%`,
             top: `${dot.y}%`,
-            transform: `translate3d(${pos.x * 40 * dot.depth}px, ${pos.y * 40 * dot.depth}px, 0)`,
+            transform: `translate3d(${pos.x * 36 * dot.depth}px, ${pos.y * 36 * dot.depth}px, 0)`,
             transition: "transform 0.4s ease-out",
           }}
         >
           <span
-            className="block rounded-full bg-white animate-dot-float"
+            className="block bg-white animate-dot-float"
             style={{
               width: dot.size,
               height: dot.size,
-              opacity: 0.35 + dot.depth * 0.35,
+              opacity: dot.bright ? 0.8 : 0.25 + dot.depth * 0.3,
               animationDelay: `${dot.delay}s`,
+              animationDuration: `${dot.duration}s`,
             }}
           />
         </div>
