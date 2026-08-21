@@ -109,8 +109,8 @@ export const BlueBandDecor = () => {
               x2={live[b].x}
               y2={live[b].y}
               stroke={accentEdge ? "#a6e21a" : "white"}
-              strokeOpacity={accentEdge ? 0.4 : 0.45}
-              strokeWidth={0.35}
+              strokeOpacity={accentEdge ? 0.22 : 0.18}
+              strokeWidth={0.1}
             />
           );
         })}
@@ -121,9 +121,9 @@ export const BlueBandDecor = () => {
               key={i}
               cx={n.x}
               cy={n.y}
-              r={accent ? n.r * 1.3 : n.r}
+              r={(accent ? n.r * 1.15 : n.r) * 0.6}
               fill={accent ? "#a6e21a" : "white"}
-              fillOpacity={accent ? 0.9 : NODES[i].phase % 4 === 0 ? 0.75 : 0.4}
+              fillOpacity={accent ? 0.7 : NODES[i].phase % 4 === 0 ? 0.55 : 0.3}
             />
           );
         })}
