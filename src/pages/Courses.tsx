@@ -28,7 +28,7 @@ const Courses = () => {
             Our <span className="text-primary">Courses</span>
           </h1>
           <p className="text-lg text-[#69697b]">
-            Every SafetyTech Academy course is IOSH-approved and CPD-accredited — choose the format that fits how your team learns.
+            Every SafetyTech Academy course is carefully designed to meet the needs of modern EHS leadership and the latest developments in digital safety technology.
           </p>
         </div>
 

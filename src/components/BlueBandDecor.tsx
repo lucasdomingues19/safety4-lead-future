@@ -1,34 +1,75 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-// A "digital rain" field of small square pixels for full-bleed brand-blue
-// sections — grid-aligned like a data/pixel matrix, each one drifting on
-// its own continuous loop (staggered) plus responding to mouse position
-// for parallax depth.
+// An animated "network" decoration for full-bleed brand-blue sections —
+// nodes drift slowly on independent sine paths, connected to their
+// nearest neighbours by thin lines, like a live data/plexus graph.
+// The whole layer also parallaxes gently with the mouse.
 
-const COLS = 14;
-const ROWS = 5;
+const NODE_COUNT = 16;
 
-const DOTS = Array.from({ length: COLS * ROWS }, (_, i) => {
-  const col = i % COLS;
-  const row = Math.floor(i / COLS);
-  // deterministic pseudo-random jitter per cell, no Math.random so SSR/CSR match
-  const seed = (col * 13 + row * 37) % 97;
-  const show = seed % 3 !== 0; // skip ~1/3 of cells for an irregular matrix
+interface Node {
+  baseX: number;
+  baseY: number;
+  ampX: number;
+  ampY: number;
+  freqX: number;
+  freqY: number;
+  phase: number;
+  r: number;
+}
+
+const NODES: Node[] = Array.from({ length: NODE_COUNT }, (_, i) => {
+  const seed = (i * 53) % 97;
+  const col = i % 5;
+  const row = Math.floor(i / 5);
   return {
-    x: (col / (COLS - 1)) * 100 + (((seed % 5) - 2) * 1.4),
-    y: (row / (ROWS - 1)) * 100 + ((((seed * 7) % 5) - 2) * 3),
-    size: 2 + (seed % 3),
-    depth: 0.3 + (seed % 7) / 10,
-    delay: (seed % 40) / 10,
-    duration: 5 + (seed % 5),
-    bright: seed % 11 === 0,
-    show,
+    baseX: 8 + col * 22 + ((seed % 9) - 4),
+    baseY: 12 + row * 28 + (((seed * 3) % 9) - 4),
+    ampX: 3 + (seed % 5),
+    ampY: 2 + (seed % 4),
+    freqX: 0.15 + (seed % 5) / 40,
+    freqY: 0.12 + (seed % 7) / 45,
+    phase: seed,
+    r: 1.6 + (seed % 3) * 0.5,
   };
-}).filter((d) => d.show);
+});
+
+// Connect each node to its 2 nearest neighbours (by base position) — a
+// fixed topology computed once, positions just drift within it.
+const EDGES: [number, number][] = (() => {
+  const edges: [number, number][] = [];
+  const seen = new Set<string>();
+  NODES.forEach((n, i) => {
+    const distances = NODES.map((o, j) => ({
+      j,
+      d: i === j ? Infinity : (o.baseX - n.baseX) ** 2 + (o.baseY - n.baseY) ** 2,
+    })).sort((a, b) => a.d - b.d);
+    distances.slice(0, 2).forEach(({ j }) => {
+      const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        edges.push([i, j]);
+      }
+    });
+  });
+  return edges;
+})();
 
 export const BlueBandDecor = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [t, setT] = useState(0);
+
+  useEffect(() => {
+    let raf: number;
+    const start = performance.now();
+    const tick = (now: number) => {
+      setT((now - start) / 1000);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -39,6 +80,12 @@ export const BlueBandDecor = () => {
     });
   };
 
+  const live = NODES.map((n) => ({
+    x: n.baseX + Math.sin(t * n.freqX + n.phase) * n.ampX,
+    y: n.baseY + Math.cos(t * n.freqY + n.phase) * n.ampY,
+    r: n.r,
+  }));
+
   return (
     <div
       ref={ref}
@@ -46,29 +93,40 @@ export const BlueBandDecor = () => {
       onMouseLeave={() => setPos({ x: 0, y: 0 })}
       className="absolute inset-0 overflow-hidden pointer-events-none"
     >
-      {DOTS.map((dot, i) => (
-        <div
-          key={i}
-          className="absolute"
-          style={{
-            left: `${dot.x}%`,
-            top: `${dot.y}%`,
-            transform: `translate3d(${pos.x * 36 * dot.depth}px, ${pos.y * 36 * dot.depth}px, 0)`,
-            transition: "transform 0.4s ease-out",
-          }}
-        >
-          <span
-            className="block bg-white animate-dot-float"
-            style={{
-              width: dot.size,
-              height: dot.size,
-              opacity: dot.bright ? 0.8 : 0.25 + dot.depth * 0.3,
-              animationDelay: `${dot.delay}s`,
-              animationDuration: `${dot.duration}s`,
-            }}
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-0 w-full h-full transition-transform duration-500 ease-out"
+        style={{ transform: `translate3d(${pos.x * 24}px, ${pos.y * 24}px, 0)` }}
+      >
+        {EDGES.map(([a, b], i) => (
+          <line
+            key={i}
+            x1={live[a].x}
+            y1={live[a].y}
+            x2={live[b].x}
+            y2={live[b].y}
+            stroke="white"
+            strokeOpacity={0.18}
+            strokeWidth={0.15}
+            vectorEffect="non-scaling-stroke"
           />
-        </div>
-      ))}
+        ))}
+        {live.map((n, i) => {
+          const accent = NODES[i].phase % 8 === 0;
+          return (
+            <circle
+              key={i}
+              cx={n.x}
+              cy={n.y}
+              r={accent ? n.r * 1.3 : n.r}
+              fill={accent ? "#a6e21a" : "white"}
+              fillOpacity={accent ? 0.9 : NODES[i].phase % 4 === 0 ? 0.75 : 0.4}
+              vectorEffect="non-scaling-stroke"
+            />
+          );
+        })}
+      </svg>
     </div>
   );
 };

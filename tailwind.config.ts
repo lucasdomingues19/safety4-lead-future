@@ -177,11 +177,20 @@ export default {
 					}
 				},
 				'dot-float': {
-					'0%, 100%': {
-						transform: 'translateY(0px)'
+					'0%': {
+						transform: 'translate(0px, 0px)'
+					},
+					'25%': {
+						transform: 'translate(8px, -18px)'
 					},
 					'50%': {
-						transform: 'translateY(-8px)'
+						transform: 'translate(-6px, -30px)'
+					},
+					'75%': {
+						transform: 'translate(-14px, -12px)'
+					},
+					'100%': {
+						transform: 'translate(0px, 0px)'
 					}
 				},
 				'grid-pan': {
@@ -215,7 +224,8 @@ export default {
 				'scroll-reverse': 'scroll-reverse 20s linear infinite',
 				'float': 'float 20s ease-in-out infinite',
 				'grid-pan': 'grid-pan 8s linear infinite',
-				'grid-glow': 'grid-glow 10s ease-in-out infinite'
+				'grid-glow': 'grid-glow 10s ease-in-out infinite',
+				'dot-float': 'dot-float 4s ease-in-out infinite'
 			}
 		}
 	},

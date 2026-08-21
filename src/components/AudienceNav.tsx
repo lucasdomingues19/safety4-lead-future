@@ -4,6 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 
 const navLinks = [
+  { label: "Home", href: "/" },
   {
     label: "Courses",
     children: [
