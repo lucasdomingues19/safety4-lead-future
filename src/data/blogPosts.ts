@@ -229,7 +229,7 @@ If you want a structured way to build these skills — prompting, governance, pr
     readTime: "4 min read",
     category: "Company News",
     tags: ["Safety Excellence Awards", "IOSH Awards", "SafetyTech Academy", "EHS Learning", "Professional Development", "Safety 4.0", "Community", "Future of Work"],
-    featuredImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&h=675&fit=crop",
+    featuredImage: "/assets/blog/award-nominations-2026.jpg",
     content: `
 # More Than Award Nominations
 
