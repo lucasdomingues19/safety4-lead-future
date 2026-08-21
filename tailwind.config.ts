@@ -176,6 +176,14 @@ export default {
 						transform: 'translateY(-10px) rotate(-1deg)'
 					}
 				},
+				'dot-float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-8px)'
+					}
+				},
 				'grid-pan': {
 					'0%': {
 						backgroundPosition: '0px 0px'

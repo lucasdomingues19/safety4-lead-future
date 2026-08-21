@@ -94,7 +94,7 @@ export const CourseHero = ({
               <img
                 src={badgeSrc}
                 alt="Accreditation badge"
-                className="w-24 h-24 rounded-xl shadow-lg rotate-3 animate-float"
+                className="w-32 h-32 rounded-xl shadow-lg rotate-3 animate-float"
               />
             </div>
           </div>
