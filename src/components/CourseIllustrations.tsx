@@ -5,6 +5,9 @@ import badgeAccelerator from "@/assets/badge-accelerator.png";
 import iconAIFundamentals from "@/assets/icon-ai-fundamentals.png";
 import iconElearning from "@/assets/icon-elearning.png";
 import iconAccelerator from "@/assets/icon-accelerator.png";
+import iconWhiteAIFundamentals from "@/assets/icon-white-ai-fundamentals.png";
+import iconWhiteElearning from "@/assets/icon-white-elearning.png";
+import iconWhiteAccelerator from "@/assets/icon-white-accelerator.png";
 
 // Per-course illustrated header — a mini "product mockup" panel plus
 // floating icon chips, themed to what each course is actually about.
@@ -82,6 +85,7 @@ export interface CourseMeta {
   Illustration: React.ComponentType;
   badge: string;
   icon: string;
+  iconWhite: string;
   level: string;
   price: string;
   originalPrice?: string;
@@ -99,6 +103,7 @@ export const courses: CourseMeta[] = [
     Illustration: AIFundamentalsIllustration,
     badge: badgeAIFundamentals,
     icon: iconAIFundamentals,
+    iconWhite: iconWhiteAIFundamentals,
     level: "Beginner",
     price: "£97",
     period: "",
@@ -113,6 +118,7 @@ export const courses: CourseMeta[] = [
     Illustration: CertificationIllustration,
     badge: badgeElearning,
     icon: iconElearning,
+    iconWhite: iconWhiteElearning,
     level: "All Levels",
     price: "£497",
     originalPrice: "£697",
@@ -128,6 +134,7 @@ export const courses: CourseMeta[] = [
     Illustration: CohortIllustration,
     badge: badgeAccelerator,
     icon: iconAccelerator,
+    iconWhite: iconWhiteAccelerator,
     level: "Advanced",
     price: "£1,997",
     originalPrice: "£2,497",

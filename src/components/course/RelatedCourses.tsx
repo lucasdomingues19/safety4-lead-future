@@ -27,10 +27,10 @@ export const RelatedCourses = ({ currentHref }: { currentHref: string }) => {
                 to={course.href}
                 className="group relative flex flex-col bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="relative h-40 bg-white border-2 border-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
-                  <div className="absolute -top-8 -right-8 w-32 h-32 bg-primary/5 rounded-full" />
-                  <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-primary/5 rounded-full" />
-                  <img src={course.icon} alt="" className="relative w-24 h-24 object-contain" />
+                <div className="relative h-40 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
+                  <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
+                  <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
+                  <img src={course.iconWhite} alt="" className="relative w-24 h-24 object-contain" />
                 </div>
 
                 <div className="p-6">
