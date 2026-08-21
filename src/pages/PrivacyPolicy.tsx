@@ -19,12 +19,6 @@ export default function PrivacyPolicy() {
       <AudienceNav />
 
       <div className="container mx-auto px-4 py-12">
-        <Link to="/">
-          <Button variant="default" className="mb-8 bg-primary text-primary-foreground hover:bg-primary/90">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
-        </Link>
 
         <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12 border border-slate-200 shadow-sm">
           <h1 className="text-4xl font-bold text-slate-900 mb-8">Privacy Policy</h1>

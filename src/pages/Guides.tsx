@@ -43,7 +43,7 @@ const GuidesHub = () => {
     <div className="min-h-screen bg-white text-slate-900">
       <AudienceNav />
 
-      <main className="container mx-auto px-4 py-12 md:py-16">
+      <main className="container mx-auto px-4 py-10 md:py-14">
         <div className="max-w-4xl mx-auto">
           <div className="text-center">
             <span className="font-mono text-xs uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md">

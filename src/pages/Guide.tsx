@@ -98,7 +98,7 @@ const GuidePage = () => {
     <div className="min-h-screen bg-white text-slate-900">
       <AudienceNav />
 
-      <article className="container mx-auto px-4 py-12 md:py-16">
+      <article className="container mx-auto px-4 py-10 md:py-14">
         <div className="max-w-3xl mx-auto">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="mb-6">

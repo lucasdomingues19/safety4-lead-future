@@ -74,7 +74,7 @@ const Index = () => {
         <TrustedByBanner />
 
         {/* Introduction video — full-bleed brand band, matches the reference's testimonial section */}
-        <section className="relative bg-primary py-20 md:py-28">
+        <section className="relative bg-primary py-10 md:py-14">
           <BlueBandDecor />
 
           <div className="relative z-10 container mx-auto px-4">

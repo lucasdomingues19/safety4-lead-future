@@ -99,19 +99,21 @@ export const BlueBandDecor = () => {
         className="absolute inset-0 w-full h-full transition-transform duration-500 ease-out"
         style={{ transform: `translate3d(${pos.x * 24}px, ${pos.y * 24}px, 0)` }}
       >
-        {EDGES.map(([a, b], i) => (
-          <line
-            key={i}
-            x1={live[a].x}
-            y1={live[a].y}
-            x2={live[b].x}
-            y2={live[b].y}
-            stroke="white"
-            strokeOpacity={0.18}
-            strokeWidth={0.15}
-            vectorEffect="non-scaling-stroke"
-          />
-        ))}
+        {EDGES.map(([a, b], i) => {
+          const accentEdge = NODES[a].phase % 8 === 0 || NODES[b].phase % 8 === 0;
+          return (
+            <line
+              key={i}
+              x1={live[a].x}
+              y1={live[a].y}
+              x2={live[b].x}
+              y2={live[b].y}
+              stroke={accentEdge ? "#a6e21a" : "white"}
+              strokeOpacity={accentEdge ? 0.4 : 0.45}
+              strokeWidth={0.35}
+            />
+          );
+        })}
         {live.map((n, i) => {
           const accent = NODES[i].phase % 8 === 0;
           return (
@@ -122,7 +124,6 @@ export const BlueBandDecor = () => {
               r={accent ? n.r * 1.3 : n.r}
               fill={accent ? "#a6e21a" : "white"}
               fillOpacity={accent ? 0.9 : NODES[i].phase % 4 === 0 ? 0.75 : 0.4}
-              vectorEffect="non-scaling-stroke"
             />
           );
         })}

@@ -78,7 +78,7 @@ const AboutUs = () => {
       </section>
 
       {/* Our Story */}
-      <section id="story" className="py-20 md:py-28 scroll-mt-24 border-t border-slate-100">
+      <section id="story" className="py-10 md:py-14 scroll-mt-24 border-t border-slate-100">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-5xl mx-auto">
             <div>
@@ -102,7 +102,7 @@ const AboutUs = () => {
       </section>
 
       {/* Values grid */}
-      <section id="mission" className="py-20 md:py-28 scroll-mt-24">
+      <section id="mission" className="py-10 md:py-14 scroll-mt-24">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 md:gap-10">
             {values.map((value) => {
@@ -175,7 +175,7 @@ const AboutUs = () => {
       </section>
 
       {/* Founder bio */}
-      <section className="py-20 md:py-28">
+      <section className="py-10 md:py-14">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <div className="space-y-5 text-[#69697b] leading-relaxed mb-8">
@@ -219,7 +219,7 @@ const AboutUs = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 md:py-28">
+      <section className="py-10 md:py-14">
         <div className="container mx-auto px-4 text-center max-w-2xl">
           <h2 className="mb-4">Ready to lead safety forward?</h2>
           <p className="text-[#69697b] mb-8">

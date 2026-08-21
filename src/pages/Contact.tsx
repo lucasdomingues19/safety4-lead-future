@@ -135,15 +135,6 @@ const Contact = () => {
       <AudienceNav />
 
       <div className="container mx-auto px-4 py-20">
-        {/* Back Navigation */}
-        <div className="mb-12">
-          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <a href="/" className="flex items-center space-x-2">
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Home</span>
-            </a>
-          </Button>
-        </div>
 
         {/* Header */}
         <div className="text-center mb-16">

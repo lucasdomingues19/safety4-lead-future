@@ -6,7 +6,7 @@ export const RelatedCourses = ({ currentHref }: { currentHref: string }) => {
   const related = courses.filter((c) => c.href !== currentHref);
 
   return (
-    <section className="py-16 md:py-24 border-t border-slate-200">
+    <section className="py-10 md:py-14 border-t border-slate-200">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex items-center justify-between mb-10">
           <h2>Related Courses</h2>

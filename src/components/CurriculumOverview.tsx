@@ -16,7 +16,7 @@ const modules = [
 
 export const CurriculumOverview = () => {
   return (
-    <section className="py-16 md:py-24 relative">
+    <section className="py-10 md:py-14 relative">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-5xl mx-auto mb-10 md:mb-14">
           <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4 md:mb-6 tracking-tight leading-[1.05]">

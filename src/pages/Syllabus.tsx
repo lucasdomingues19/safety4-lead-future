@@ -157,7 +157,7 @@ const Syllabus = () => {
       </div>
 
       {/* ACCREDITATION */}
-      <section id="accreditation" className="py-16 md:py-20 px-4 border-t border-slate-200 scroll-mt-24">
+      <section id="accreditation" className="py-10 md:py-14 px-4 border-t border-slate-200 scroll-mt-24">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="mb-4">Globally Recognised <span className="text-primary">Credentials</span></h2>

@@ -4,7 +4,7 @@ import certificateSample from "../assets/certificate-sample.png";
 
 export const AboutAcademySection = () => {
   return (
-    <section id="about-academy" className="py-12 md:py-20 relative overflow-hidden">
+    <section id="about-academy" className="py-10 md:py-14 relative overflow-hidden">
       {/* Dark gradient background matching other sections */}
       <div className="absolute inset-0 bg-black"></div>
       

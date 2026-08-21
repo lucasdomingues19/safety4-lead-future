@@ -149,7 +149,7 @@ const AIFundamentals = () => {
       </div>
 
       {/* FAQ */}
-      <section className="py-16 md:py-20 px-4 border-t border-slate-200">
+      <section className="py-10 md:py-14 px-4 border-t border-slate-200">
         <div className="container mx-auto max-w-3xl">
           <h2 className="mb-8 text-center">Questions? Answered.</h2>
           <Accordion type="single" collapsible className="w-full">

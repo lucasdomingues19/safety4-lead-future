@@ -438,7 +438,7 @@ const Cohort = () => {
         </div>
 
         {/* COMPARISON TABLE */}
-        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
+        <section className="py-10 md:py-14 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl">
             <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">WHAT'S INCLUDED</span>
             <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-12">
@@ -720,7 +720,7 @@ const Cohort = () => {
         </Dialog>
 
         {/* FAQ Link */}
-        <section className="py-12 md:py-16 px-4 border-t border-slate-200">
+        <section className="py-10 md:py-14 px-4 border-t border-slate-200">
           <div className="container mx-auto max-w-6xl text-center">
             <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 tracking-tight leading-[1.05] mb-4">
               Have questions?
@@ -733,7 +733,7 @@ const Cohort = () => {
         </section>
 
         {/* FINAL CTA */}
-        <section className="py-12 md:py-16 px-4">
+        <section className="py-10 md:py-14 px-4">
           <div className="container mx-auto max-w-6xl">
             <div ref={setFadeRef(6)} className="bg-gradient-to-br from-slate-50 to-primary/5 border border-primary/20 rounded-3xl p-12 md:p-20 text-center relative overflow-hidden opacity-0 translate-y-6 transition-all duration-700">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_50%,hsl(85,100%,72%,0.04)_0%,transparent_70%)] pointer-events-none" />

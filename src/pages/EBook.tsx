@@ -23,16 +23,6 @@ const EBook = () => {
       <AudienceNav />
 
       <div className="container mx-auto px-4 py-20 relative z-10">
-        {/* Back Navigation */}
-        <div className="mb-12">
-          <Button variant="default" size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <a href="/" className="flex items-center space-x-2">
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Home</span>
-            </a>
-          </Button>
-        </div>
-
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-slate-900 tracking-tight leading-[1.05]">

@@ -9,7 +9,7 @@ const stats = [
 
 export const ProblemStatsSection = () => {
   return (
-    <section className="py-16 md:py-24 relative ">
+    <section className="py-10 md:py-14 relative ">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center w-full">
 

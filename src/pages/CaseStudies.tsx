@@ -169,15 +169,6 @@ const CaseStudies = () => {
           </div>
 
           {/* Back link */}
-          <div className="mt-12">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Link>
-          </div>
         </div>
       </article>
 
