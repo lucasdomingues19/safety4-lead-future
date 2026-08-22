@@ -121,7 +121,7 @@ export const BlueBandDecor = () => {
               key={i}
               cx={n.x}
               cy={n.y}
-              r={(accent ? n.r * 1.15 : n.r) * 0.6}
+              r={(accent ? n.r * 1.15 : n.r) * 0.35}
               fill={accent ? "#a6e21a" : "white"}
               fillOpacity={accent ? 0.7 : NODES[i].phase % 4 === 0 ? 0.55 : 0.3}
             />

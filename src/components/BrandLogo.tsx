@@ -1,24 +1,22 @@
 import { Link } from "react-router-dom";
+import brandLogo from "@/assets/brand-logo.png";
+import brandMarkBlue from "@/assets/brand-mark-blue.png";
 
 export const BrandLogo = ({ className = "" }: { className?: string }) => {
   return (
-    <Link to="/" className={`flex items-center gap-2.5 flex-shrink-0 group ${className}`}>
-      {/* Favicon mark */}
+    <Link to="/" className={`flex items-center flex-shrink-0 group ${className}`}>
+      {/* Full wordmark on larger screens */}
       <img
-        src="/favicon.png"
+        src={brandLogo}
         alt="SafetyTech Academy"
-        className="h-8 md:h-10 w-auto"
+        className="hidden sm:block h-8 md:h-9 w-auto"
       />
-
-      {/* Wordmark */}
-      <div className="hidden sm:flex flex-col leading-tight">
-        <span className="text-sm font-extrabold text-slate-900 tracking-wide">
-          SAFETYTECH
-        </span>
-        <span className="text-xs font-medium text-primary">
-          Academy
-        </span>
-      </div>
+      {/* Mark only on very small screens */}
+      <img
+        src={brandMarkBlue}
+        alt="SafetyTech Academy"
+        className="sm:hidden h-8 w-auto"
+      />
     </Link>
   );
 };

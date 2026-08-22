@@ -1,6 +1,6 @@
 import { Linkedin, Youtube, Instagram, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import safetyAcademyLogo from "@/assets/safety-academy-logo.png";
+import brandMarkWhite from "@/assets/brand-mark-white.png";
 import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
 
@@ -11,11 +11,21 @@ export const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
           {/* Logo and Description */}
           <div className="col-span-2 lg:col-span-2">
-            <img 
-              src={safetyAcademyLogo} 
-              alt="SafetyTech Academy Logo" 
-              className="h-10 md:h-12 w-auto mb-4 md:mb-6"
-            />
+            <div className="flex items-center gap-2.5 mb-4 md:mb-6">
+              <img
+                src={brandMarkWhite}
+                alt="SafetyTech Academy"
+                className="h-8 md:h-10 w-auto"
+              />
+              <div className="flex flex-col leading-tight">
+                <span className="text-sm md:text-base font-extrabold text-white tracking-wide">
+                  SAFETYTECH
+                </span>
+                <span className="text-xs md:text-sm italic text-white/80">
+                  Academy
+                </span>
+              </div>
+            </div>
             <p className="text-white/70 text-xs md:text-sm leading-relaxed max-w-md">
               Transforming traditional safety professionals into future-ready digital leaders 
               through comprehensive Safety 4.0 training and certification programs.
