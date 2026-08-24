@@ -43,7 +43,7 @@ export const CopilotROICalculator = () => {
               className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 text-base focus:outline-none focus:border-primary"
             />
             <p className="text-xs text-slate-400 mt-1.5">
-              Conservative estimate — Copilot users typically report saving an hour or more per week once trained.
+              Conservative default — Copilot users typically report saving an hour or more per week once trained to use it well.
             </p>
           </div>
           <div>

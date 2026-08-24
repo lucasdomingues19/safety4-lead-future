@@ -258,8 +258,8 @@ const CopilotEHS = () => {
         <div className="container mx-auto px-4 max-w-4xl">
           <h2 className="mb-2 text-center">See the return for your team</h2>
           <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
-            Copilot users report saving in the order of an hour or more per week once trained to use it well.
-            Enter your own numbers to see the value.
+            The training pays for itself quickly — even a conservative time saving adds up fast across a team.
+            Enter your own numbers below.
           </p>
           <CopilotROICalculator />
         </div>
