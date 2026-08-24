@@ -1,8 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { TrustedByBanner } from "@/components/TrustedByBanner";
-import { ProblemStatsSection } from "@/components/ProblemStatsSection";
-import { SolutionSection } from "@/components/SolutionSection";
 import { DeferredSection } from "@/components/DeferredSection";
 
 // Below-the-fold sections are code-split and mounted on scroll so the initial
