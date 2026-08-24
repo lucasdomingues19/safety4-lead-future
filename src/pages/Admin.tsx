@@ -564,8 +564,8 @@ const Admin = () => {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-white text-xl">Loading...</div>
+      <div className="admin-light-theme min-h-screen flex items-center justify-center bg-white">
+        <div className="text-slate-900 text-xl">Loading...</div>
       </div>
     );
   }
@@ -573,16 +573,16 @@ const Admin = () => {
   if (!isAdmin || !stats) return null;
 
   return (
-    <div className="min-h-screen bg-black p-8">
+    <div className="admin-light-theme min-h-screen bg-white p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-white">Admin Dashboard</h1>
+          <h1 className="text-4xl font-bold text-slate-900">Admin Dashboard</h1>
           <div className="flex items-center gap-3">
             <Button onClick={() => navigate("/admin/courses")} className="bg-primary text-primary-foreground hover:bg-primary/90">
               <BookOpen className="mr-2 h-4 w-4" />
               Course Manager
             </Button>
-            <Button onClick={handleLogout} variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20">
+            <Button onClick={handleLogout} variant="outline" className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50">
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
@@ -595,7 +595,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('analytics')}
             variant={activeTab === 'analytics' ? 'default' : 'outline'}
-            className={activeTab === 'analytics' ? '' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+            className={activeTab === 'analytics' ? '' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
           >
             <Eye className="mr-2 h-4 w-4" />
             Analytics
@@ -603,7 +603,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('hotleads')}
             variant={activeTab === 'hotleads' ? 'default' : 'outline'}
-            className={activeTab === 'hotleads' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+            className={activeTab === 'hotleads' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
           >
             <Flame className="mr-2 h-4 w-4" />
             Hot Leads
@@ -611,7 +611,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('leads')}
             variant={activeTab === 'leads' ? 'default' : 'outline'}
-            className={activeTab === 'leads' ? '' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+            className={activeTab === 'leads' ? '' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
           >
             <Users className="mr-2 h-4 w-4" />
             Leads ({leads.length})
@@ -619,7 +619,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('company')}
             variant={activeTab === 'company' ? 'default' : 'outline'}
-            className={activeTab === 'company' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+            className={activeTab === 'company' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
           >
             <Building2 className="mr-2 h-4 w-4" />
             Scorecard Insights
@@ -627,7 +627,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('certificates')}
             variant={activeTab === 'certificates' ? 'default' : 'outline'}
-            className={activeTab === 'certificates' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+            className={activeTab === 'certificates' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
           >
             <Award className="mr-2 h-4 w-4" />
             Certificates
@@ -635,7 +635,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('proposals')}
             variant={activeTab === 'proposals' ? 'default' : 'outline'}
-            className={activeTab === 'proposals' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+            className={activeTab === 'proposals' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
           >
             <FileText className="mr-2 h-4 w-4" />
             Proposals
@@ -652,7 +652,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('7days')}
                 variant={dateRange === '7days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '7days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === '7days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
               >
                 Last 7 Days
               </Button>
@@ -660,7 +660,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('30days')}
                 variant={dateRange === '30days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '30days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === '30days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
               >
                 Last 30 Days
               </Button>
@@ -668,7 +668,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('alltime')}
                 variant={dateRange === 'alltime' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === 'alltime' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white/10 text-white border-white/20 hover:bg-white/20'}
+                className={dateRange === 'alltime' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
               >
                 All Time
               </Button>
@@ -676,74 +676,74 @@ const Admin = () => {
 
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Total Page Views</CardTitle>
-              <Eye className="h-4 w-4 text-white/60" />
+              <CardTitle className="text-sm font-medium text-slate-900">Total Page Views</CardTitle>
+              <Eye className="h-4 w-4 text-slate-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{stats.totalViews.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-slate-900">{stats.totalViews.toLocaleString()}</div>
             </CardContent>
           </Card>
           
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Unique Visitors (humans)</CardTitle>
-              <Users className="h-4 w-4 text-white/60" />
+              <CardTitle className="text-sm font-medium text-slate-900">Unique Visitors (humans)</CardTitle>
+              <Users className="h-4 w-4 text-slate-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{stats.uniqueVisitors.toLocaleString()}</div>
-              <p className="text-[11px] text-white/50 mt-1">Bot/no-interaction sessions excluded</p>
+              <div className="text-3xl font-bold text-slate-900">{stats.uniqueVisitors.toLocaleString()}</div>
+              <p className="text-[11px] text-slate-500 mt-1">Bot/no-interaction sessions excluded</p>
             </CardContent>
 
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/30">
+          <Card className="bg-white border-primary/30 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Offer Clicks</CardTitle>
-              <ShoppingCart className="h-4 w-4 text-lime-400" />
+              <CardTitle className="text-sm font-medium text-slate-900">Offer Clicks</CardTitle>
+              <ShoppingCart className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-lime-400">{stats.offerClicks.toLocaleString()}</div>
-              <p className="text-xs text-white/60 mt-1">Enrollment button clicks</p>
+              <div className="text-3xl font-bold text-primary">{stats.offerClicks.toLocaleString()}</div>
+              <p className="text-xs text-slate-500 mt-1">Enrollment button clicks</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-orange-500/30">
+          <Card className="bg-white border-orange-300 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Kajabi Click-throughs</CardTitle>
-              <Target className="h-4 w-4 text-orange-400" />
+              <CardTitle className="text-sm font-medium text-slate-900">Kajabi Click-throughs</CardTitle>
+              <Target className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-orange-400">{stats.kajabiClicks.toLocaleString()}</div>
-              <p className="text-xs text-white/60 mt-1">{stats.kajabiUniqueVisitors} unique visitors</p>
+              <div className="text-3xl font-bold text-orange-500">{stats.kajabiClicks.toLocaleString()}</div>
+              <p className="text-xs text-slate-500 mt-1">{stats.kajabiUniqueVisitors} unique visitors</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-white">Avg. Session Duration</CardTitle>
-              <Calendar className="h-4 w-4 text-white/60" />
+              <CardTitle className="text-sm font-medium text-slate-900">Avg. Session Duration</CardTitle>
+              <Calendar className="h-4 w-4 text-slate-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{stats.avgSessionDuration}m</div>
+              <div className="text-3xl font-bold text-slate-900">{stats.avgSessionDuration}m</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white">Views Over Time ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
+              <CardTitle className="text-slate-900">Views Over Time ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={stats.dailyViews}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                  <XAxis dataKey="date" stroke="#ffffff80" />
-                  <YAxis stroke="#ffffff80" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="date" stroke="#64748b" />
+                  <YAxis stroke="#64748b" />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
                   <Legend />
                   <Line type="monotone" dataKey="views" stroke="#0088FE" strokeWidth={2} />
                 </LineChart>
@@ -751,18 +751,18 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white">Unique Visitors ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
-              <CardDescription className="text-gray-300">Distinct visitors per day</CardDescription>
+              <CardTitle className="text-slate-900">Unique Visitors ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
+              <CardDescription className="text-slate-600">Distinct visitors per day</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={stats.dailyUniqueVisitors}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                  <XAxis dataKey="date" stroke="#ffffff80" />
-                  <YAxis stroke="#ffffff80" />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="date" stroke="#64748b" />
+                  <YAxis stroke="#64748b" />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
                   <Legend />
                   <Line type="monotone" dataKey="visitors" stroke="#00C49F" strokeWidth={2} name="Unique Visitors" />
                 </LineChart>
@@ -773,9 +773,9 @@ const Admin = () => {
 
         {/* Third row - Device Breakdown & Offer Clicks */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white">Device Breakdown</CardTitle>
+              <CardTitle className="text-slate-900">Device Breakdown</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -794,26 +794,26 @@ const Admin = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
                 </PieChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-lime-500/20">
+          <Card className="bg-white border-primary/20 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white">Offer Clicks ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
-              <CardDescription className="text-gray-300">Daily enrollment button clicks</CardDescription>
+              <CardTitle className="text-slate-900">Offer Clicks ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
+              <CardDescription className="text-slate-600">Daily enrollment button clicks</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={stats.dailyOfferClicks}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                  <XAxis dataKey="date" stroke="#ffffff80" />
-                  <YAxis stroke="#ffffff80" allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="date" stroke="#64748b" />
+                  <YAxis stroke="#64748b" allowDecimals={false} />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
                   <Legend />
-                  <Bar dataKey="clicks" fill="#84cc16" name="Offer Clicks" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="clicks" fill="#3434FF" name="Offer Clicks" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -821,23 +821,23 @@ const Admin = () => {
         </div>
 
         {/* Kajabi Click-throughs Chart */}
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-orange-500/20 mb-8">
+        <Card className="bg-white border-orange-200 shadow-sm mb-8">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Target className="h-5 w-5 text-orange-400" />
+            <CardTitle className="text-slate-900 flex items-center gap-2">
+              <Target className="h-5 w-5 text-orange-500" />
               Kajabi Portal Click-throughs ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})
             </CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardDescription className="text-slate-600">
               Visitors who clicked through to the enrollment page • Total: {stats.kajabiClicks} clicks from {stats.kajabiUniqueVisitors} unique visitors
             </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={stats.dailyKajabiClicks}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                <XAxis dataKey="date" stroke="#ffffff80" />
-                <YAxis stroke="#ffffff80" allowDecimals={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #ffffff20' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="date" stroke="#64748b" />
+                <YAxis stroke="#64748b" allowDecimals={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
                 <Legend />
                 <Bar dataKey="clicks" fill="#f97316" name="Total Clicks" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="unique" fill="#fb923c" name="Unique Visitors" radius={[4, 4, 0, 0]} />
@@ -848,34 +848,34 @@ const Admin = () => {
 
         {/* Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white">Top Pages</CardTitle>
-              <CardDescription className="text-gray-300">Most visited pages</CardDescription>
+              <CardTitle className="text-slate-900">Top Pages</CardTitle>
+              <CardDescription className="text-slate-600">Most visited pages</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {stats.topPages.map((page, index) => (
                   <div key={index} className="flex justify-between items-center">
-                    <span className="text-white">{page.page}</span>
-                    <span className="text-white/60">{page.views} views</span>
+                    <span className="text-slate-900">{page.page}</span>
+                    <span className="text-slate-500">{page.views} views</span>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+          <Card className="bg-white border-slate-200 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white">Top Countries</CardTitle>
-              <CardDescription className="text-gray-300">Traffic by location</CardDescription>
+              <CardTitle className="text-slate-900">Top Countries</CardTitle>
+              <CardDescription className="text-slate-600">Traffic by location</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {stats.topCountries.map((country, index) => (
                   <div key={index} className="flex justify-between items-center">
-                    <span className="text-white">{country.country || 'Unknown'}</span>
-                    <span className="text-white/60">{country.views} views</span>
+                    <span className="text-slate-900">{country.country || 'Unknown'}</span>
+                    <span className="text-slate-500">{country.views} views</span>
                   </div>
                 ))}
               </div>
@@ -899,18 +899,18 @@ const Admin = () => {
         {/* Leads Tab */}
         {activeTab === 'leads' && (
           <>
-            <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+            <Card className="bg-white border-slate-200 shadow-sm">
               <CardHeader>
                 <div className="flex justify-between items-center">
                   <div>
-                    <CardTitle className="text-white">Lead Management</CardTitle>
-                    <CardDescription className="text-gray-300">
+                    <CardTitle className="text-slate-900">Lead Management</CardTitle>
+                    <CardDescription className="text-slate-600">
                       View and export leads from assessment and contact form. Click any row to view full details.
                     </CardDescription>
                   </div>
                   <Button
                     onClick={exportLeadsToCSV}
-                    className="bg-lime-500 hover:bg-lime-600 text-black"
+                    className="bg-primary hover:bg-primary/90 text-white"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Export to Excel
@@ -920,45 +920,45 @@ const Admin = () => {
               <CardContent>
                 {/* Source Filter */}
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-sm text-white/60">Filter by source:</span>
+                  <span className="text-sm text-slate-500">Filter by source:</span>
                   <select
                     value={sourceFilter}
                     onChange={(e) => setSourceFilter(e.target.value)}
-                    className="bg-white/10 border border-white/20 text-white text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-lime-500/50"
+                    className="bg-white border border-slate-200 text-slate-900 text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/50"
                   >
-                    <option value="all" className="bg-black">All Sources</option>
-                    <option value="assessment" className="bg-black">Assessment</option>
-                    <option value="contact_form" className="bg-black">Contact Form</option>
-                    <option value="cohort-pre-enrollment" className="bg-black">Cohort Pre-Enroll</option>
-                    <option value="cohort-application" className="bg-black">Cohort Application</option>
-                    <option value="newsletter_popup" className="bg-black">Newsletter</option>
-                    <option value="ebook_download" className="bg-black">eBook</option>
-                    <option value="brochure_download" className="bg-black">Brochure</option>
-                    <option value="governance_readiness" className="bg-black">Governance Readiness</option>
+                    <option value="all" >All Sources</option>
+                    <option value="assessment" >Assessment</option>
+                    <option value="contact_form" >Contact Form</option>
+                    <option value="cohort-pre-enrollment" >Cohort Pre-Enroll</option>
+                    <option value="cohort-application" >Cohort Application</option>
+                    <option value="newsletter_popup" >Newsletter</option>
+                    <option value="ebook_download" >eBook</option>
+                    <option value="brochure_download" >Brochure</option>
+                    <option value="governance_readiness" >Governance Readiness</option>
                   </select>
                   {sourceFilter !== 'all' && (
-                    <span className="text-xs text-white/40">
+                    <span className="text-xs text-slate-400">
                       {leads.filter(l => l.source === sourceFilter).length} leads
                     </span>
                   )}
                 </div>
-                <div className="rounded-md border border-white/20">
+                <div className="rounded-md border border-slate-200">
                   <Table>
                     <TableHeader>
-                      <TableRow className="border-white/20 hover:bg-white/5">
-                        <TableHead className="text-white">Name</TableHead>
-                        <TableHead className="text-white">Email</TableHead>
-                        <TableHead className="text-white">Phone</TableHead>
-                        <TableHead className="text-white">Source</TableHead>
-                        <TableHead className="text-white">Score</TableHead>
-                        <TableHead className="text-white">Date</TableHead>
-                        <TableHead className="text-white">Actions</TableHead>
+                      <TableRow className="border-slate-200 hover:bg-slate-50">
+                        <TableHead className="text-slate-900">Name</TableHead>
+                        <TableHead className="text-slate-900">Email</TableHead>
+                        <TableHead className="text-slate-900">Phone</TableHead>
+                        <TableHead className="text-slate-900">Source</TableHead>
+                        <TableHead className="text-slate-900">Score</TableHead>
+                        <TableHead className="text-slate-900">Date</TableHead>
+                        <TableHead className="text-slate-900">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {leads.filter(l => sourceFilter === 'all' || l.source === sourceFilter).length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={7} className="text-center text-white/60 py-8">
+                          <TableCell colSpan={7} className="text-center text-slate-500 py-8">
                             {sourceFilter === 'all' ? 'No leads captured yet' : `No ${sourceFilter.replace('_', ' ')} leads yet`}
                           </TableCell>
                         </TableRow>
@@ -966,11 +966,11 @@ const Admin = () => {
                         leads.filter(l => sourceFilter === 'all' || l.source === sourceFilter).map((lead) => (
                           <TableRow 
                             key={lead.id} 
-                            className="border-white/20 hover:bg-white/5 cursor-pointer"
+                            className="border-slate-200 hover:bg-slate-50 cursor-pointer"
                             onClick={() => setSelectedLead(lead)}
                           >
-                            <TableCell className="text-white">{lead.name}</TableCell>
-                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                            <TableCell className="text-slate-900">{lead.name}</TableCell>
+                            <TableCell className="text-slate-900" onClick={(e) => e.stopPropagation()}>
                               <div className="flex items-center gap-2">
                                 <span>{lead.email}</span>
                                 {lead.email && (
@@ -980,12 +980,12 @@ const Admin = () => {
                                     title="Email via Gmail"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary hover:bg-primary/80 transition-colors"
                                   >
-                                    <Mail className="h-4 w-4 text-white" />
+                                    <Mail className="h-4 w-4 text-slate-900" />
                                   </button>
                                 )}
                               </div>
                             </TableCell>
-                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                            <TableCell className="text-slate-900" onClick={(e) => e.stopPropagation()}>
                               {lead.phone ? (
                                 <div className="flex items-center gap-2">
                                   <span>{lead.phone}</span>
@@ -995,28 +995,28 @@ const Admin = () => {
                                      title="Open in WhatsApp Business"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
                                   >
-                                    <MessageCircle className="h-4 w-4 text-white" />
+                                    <MessageCircle className="h-4 w-4 text-slate-900" />
                                   </button>
                                 </div>
                               ) : 'N/A'}
                             </TableCell>
-                            <TableCell className="text-white">
+                            <TableCell className="text-slate-900">
                               <span className={`px-2 py-1 rounded-full text-xs ${
                                 lead.source === 'assessment' 
                                   ? 'bg-primary/20 text-primary' 
                                   : lead.source === 'contact_form'
-                                  ? 'bg-green-500/20 text-green-300'
+                                  ? 'bg-green-100 text-green-700'
                                   : lead.source === 'cohort-pre-enrollment' || lead.source === 'cohort-application'
-                                  ? 'bg-purple-500/20 text-purple-300'
+                                  ? 'bg-purple-100 text-purple-700'
                                   : lead.source === 'newsletter_popup'
-                                  ? 'bg-pink-500/20 text-pink-300'
+                                  ? 'bg-pink-100 text-pink-700'
                                   : lead.source === 'ebook_download'
-                                  ? 'bg-orange-500/20 text-orange-300'
+                                  ? 'bg-orange-100 text-orange-700'
                                   : lead.source === 'brochure_download'
-                                  ? 'bg-cyan-500/20 text-cyan-300'
+                                  ? 'bg-cyan-100 text-cyan-700'
                                   : lead.source === 'governance_readiness'
-                                  ? 'bg-[#c4ff00]/20 text-[#c4ff00]'
-                                  : 'bg-gray-500/20 text-gray-300'
+                                  ? 'bg-indigo-100 text-indigo-700'
+                                  : 'bg-gray-500/20 text-slate-600'
                               }`}>
                                 {lead.source === 'assessment' ? 'Assessment' : 
                                  lead.source === 'contact_form' ? 'Contact Form' :
@@ -1028,33 +1028,33 @@ const Admin = () => {
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
-                            <TableCell className="text-white">
+                            <TableCell className="text-slate-900">
                               {(() => {
                                 const sc = scorecardResults[(lead.email || '').toLowerCase().trim()];
                                 return sc ? (
                                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                    sc.overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                                    sc.overall_score >= 85 ? 'bg-green-100 text-green-700' :
                                     sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                                    sc.overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
-                                    sc.overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
-                                    'bg-red-500/20 text-red-300'
+                                    sc.overall_score >= 55 ? 'bg-yellow-100 text-yellow-700' :
+                                    sc.overall_score >= 35 ? 'bg-orange-100 text-orange-700' :
+                                    'bg-red-100 text-red-700'
                                   }`}>
                                     {sc.overall_score}/100
                                   </span>
                                 ) : (
-                                  <span className="text-white/30">—</span>
+                                  <span className="text-slate-300">—</span>
                                 );
                               })()}
                             </TableCell>
-                            <TableCell className="text-white">
+                            <TableCell className="text-slate-900">
                               {new Date(lead.created_at).toLocaleDateString()}
                             </TableCell>
-                            <TableCell className="text-white" onClick={(e) => e.stopPropagation()}>
+                            <TableCell className="text-slate-900" onClick={(e) => e.stopPropagation()}>
                               <Button
                                 onClick={() => deleteLead(lead.id)}
                                 variant="ghost"
                                 size="sm"
-                                className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                                className="text-red-500 hover:text-red-600 hover:bg-red-50"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -1070,10 +1070,10 @@ const Admin = () => {
 
             {/* Lead Detail Dialog */}
             <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-              <DialogContent className="bg-card border-border text-white max-w-2xl">
+              <DialogContent className="bg-white border-slate-200 text-slate-900 max-w-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-2xl">Lead Details</DialogTitle>
-                  <DialogDescription className="text-gray-300">
+                  <DialogDescription className="text-slate-600">
                     Full information for this lead
                   </DialogDescription>
                 </DialogHeader>
@@ -1081,18 +1081,18 @@ const Admin = () => {
                   <div className="space-y-4 mt-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm text-gray-400">Name</label>
-                        <p className="text-white font-medium">{selectedLead.name}</p>
+                        <label className="text-sm text-slate-500">Name</label>
+                        <p className="text-slate-900 font-medium">{selectedLead.name}</p>
                       </div>
                       <div>
-                        <label className="text-sm text-gray-400">Email</label>
+                        <label className="text-sm text-slate-500">Email</label>
                         <div className="flex items-center gap-2">
-                          <p className="text-white font-medium">{selectedLead.email}</p>
+                          <p className="text-slate-900 font-medium">{selectedLead.email}</p>
                           {selectedLead.email && (
                             <button
                               type="button"
                               onClick={() => openComposeForLead(selectedLead)}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-white text-xs font-medium transition-colors"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-slate-900 text-xs font-medium transition-colors"
                             >
                               <Mail className="h-3.5 w-3.5" />
                               Email via Gmail
@@ -1101,14 +1101,14 @@ const Admin = () => {
                         </div>
                       </div>
                       <div>
-                        <label className="text-sm text-gray-400">Phone</label>
+                        <label className="text-sm text-slate-500">Phone</label>
                         <div className="flex items-center gap-2">
-                          <p className="text-white font-medium">{selectedLead.phone || 'N/A'}</p>
+                          <p className="text-slate-900 font-medium">{selectedLead.phone || 'N/A'}</p>
                           {selectedLead.phone && (
                             <button
                               type="button"
                               onClick={() => openWhatsAppForLead(selectedLead)}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-medium transition-colors"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-slate-900 text-xs font-medium transition-colors"
                             >
                               <MessageCircle className="h-3.5 w-3.5" />
                               WhatsApp Business
@@ -1117,12 +1117,12 @@ const Admin = () => {
                         </div>
                       </div>
                       <div>
-                        <label className="text-sm text-gray-400">Source</label>
-                        <p className="text-white font-medium capitalize">{selectedLead.source.replace('_', ' ')}</p>
+                        <label className="text-sm text-slate-500">Source</label>
+                        <p className="text-slate-900 font-medium capitalize">{selectedLead.source.replace('_', ' ')}</p>
                       </div>
                       <div>
-                        <label className="text-sm text-gray-400">Date</label>
-                        <p className="text-white font-medium">
+                        <label className="text-sm text-slate-500">Date</label>
+                        <p className="text-slate-900 font-medium">
                           {new Date(selectedLead.created_at).toLocaleDateString('en-US', { 
                             year: 'numeric', 
                             month: 'long', 
@@ -1134,22 +1134,22 @@ const Admin = () => {
                       </div>
                       {selectedLead.role && (
                         <div>
-                          <label className="text-sm text-gray-400">Role</label>
-                          <p className="text-white font-medium">{selectedLead.role}</p>
+                          <label className="text-sm text-slate-500">Role</label>
+                          <p className="text-slate-900 font-medium">{selectedLead.role}</p>
                         </div>
                       )}
                       {selectedLead.inquiry_type && (
                         <div>
-                          <label className="text-sm text-gray-400">Inquiry Type</label>
-                          <p className="text-white font-medium capitalize">{selectedLead.inquiry_type.replace('_', ' ')}</p>
+                          <label className="text-sm text-slate-500">Inquiry Type</label>
+                          <p className="text-slate-900 font-medium capitalize">{selectedLead.inquiry_type.replace('_', ' ')}</p>
                         </div>
                       )}
                     </div>
                     {selectedLead.message && (
                       <div className="col-span-2">
-                        <label className="text-sm text-gray-400">Message</label>
-                        <div className="mt-2 p-4 bg-white/5 rounded-lg border border-white/10">
-                          <p className="text-white whitespace-pre-wrap">{selectedLead.message}</p>
+                        <label className="text-sm text-slate-500">Message</label>
+                        <div className="mt-2 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                          <p className="text-slate-900 whitespace-pre-wrap">{selectedLead.message}</p>
                         </div>
                       </div>
                     )}
@@ -1157,16 +1157,16 @@ const Admin = () => {
                       const sc = scorecardResults[(selectedLead.email || '').toLowerCase().trim()];
                       if (!sc) return null;
                       return (
-                      <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
-                        <label className="text-sm text-gray-400 block mb-3">Scorecard Results</label>
+                      <div className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                        <label className="text-sm text-slate-500 block mb-3">Scorecard Results</label>
                         <div className="flex items-center gap-4 mb-3">
-                          <div className="text-3xl font-bold text-white">{sc.overall_score}/100</div>
+                          <div className="text-3xl font-bold text-slate-900">{sc.overall_score}/100</div>
                           <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            sc.overall_score >= 85 ? 'bg-green-500/20 text-green-300' :
+                            sc.overall_score >= 85 ? 'bg-green-100 text-green-700' :
                             sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                            sc.overall_score >= 55 ? 'bg-yellow-500/20 text-yellow-300' :
-                            sc.overall_score >= 35 ? 'bg-orange-500/20 text-orange-300' :
-                            'bg-red-500/20 text-red-300'
+                            sc.overall_score >= 55 ? 'bg-yellow-100 text-yellow-700' :
+                            sc.overall_score >= 35 ? 'bg-orange-100 text-orange-700' :
+                            'bg-red-100 text-red-700'
                           }`}>
                             {'★'.repeat(sc.rank_number)}{'☆'.repeat(5 - sc.rank_number)} {sc.rank_label}
                           </div>
@@ -1174,8 +1174,8 @@ const Admin = () => {
                         <div className="space-y-2">
                           {(sc.category_scores || []).map((cat, i) => (
                             <div key={i} className="flex items-center gap-3">
-                              <span className="text-xs text-white/60 w-40 shrink-0">{cat.category}</span>
-                              <div className="flex-1 bg-white/10 rounded-full h-2 overflow-hidden">
+                              <span className="text-xs text-slate-500 w-40 shrink-0">{cat.category}</span>
+                              <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
                                 <div 
                                   className={`h-full rounded-full ${
                                     cat.percentage >= 85 ? 'bg-green-500' :
@@ -1187,7 +1187,7 @@ const Admin = () => {
                                   style={{ width: `${cat.percentage}%` }}
                                 />
                               </div>
-                              <span className="text-xs text-white/80 w-10 text-right">{cat.percentage}%</span>
+                              <span className="text-xs text-slate-600 w-10 text-right">{cat.percentage}%</span>
                             </div>
                           ))}
                         </div>
@@ -1201,10 +1201,10 @@ const Admin = () => {
 
             {/* Gmail Compose Dialog */}
             <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
-              <DialogContent className="bg-card border-border text-white sm:max-w-lg">
+              <DialogContent className="bg-white border-slate-200 text-slate-900 sm:max-w-lg">
                 <DialogHeader>
                   <DialogTitle>Email lead from Gmail</DialogTitle>
-                  <DialogDescription className="text-gray-300">
+                  <DialogDescription className="text-slate-600">
                     Sends from your connected Gmail account to{" "}
                     <span className="font-medium">{composeLead?.email}</span>. Replies come straight back to your inbox.
                   </DialogDescription>

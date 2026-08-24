@@ -82,6 +82,35 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  /*
+   * The base tokens above are dark (navy background, white foreground) —
+   * inherited from the original dark-themed template and still relied on
+   * by the /learn student portal. The admin panel was rebuilt light/brand
+   * this session; rather than touching every shadcn Input/Select/Dialog
+   * usage individually, this scoped override redeclares the tokens those
+   * components consume so anything nested under it (Admin.tsx, the admin
+   * tab components, CourseManager.tsx) renders light automatically.
+   */
+  .admin-light-theme {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+  }
+
   .dark {
     --background: 223 66% 8%;
     --foreground: 210 40% 98%;

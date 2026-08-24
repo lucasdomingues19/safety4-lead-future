@@ -54,23 +54,23 @@ const CourseManager = () => {
 
   if (checking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="admin-light-theme flex min-h-screen items-center justify-center bg-white">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="border-b border-white/10">
+    <div className="admin-light-theme min-h-screen bg-white">
+      <div className="border-b border-slate-200">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <button
             onClick={() => navigate("/admin")}
-            className="flex items-center gap-2 text-sm text-white/70 hover:text-white"
+            className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
           >
             <ArrowLeft className="h-4 w-4" /> Back to admin
           </button>
-          <h1 className="flex items-center gap-2 font-bold text-white">
+          <h1 className="flex items-center gap-2 font-bold text-slate-900">
             <BookOpen className="h-5 w-5 text-primary" /> Course Manager
           </h1>
         </div>
@@ -88,11 +88,11 @@ const CourseManager = () => {
                 key={c.id}
                 onClick={() => setSelected(c)}
                 className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm ${
-                  selected?.id === c.id ? "bg-primary/15 text-white" : "text-white/70 hover:bg-white/5"
+                  selected?.id === c.id ? "bg-primary/15 text-slate-900" : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
                 <span className="truncate">{c.title}</span>
-                {!c.published && <span className="text-xs text-white/40">draft</span>}
+                {!c.published && <span className="text-xs text-slate-400">draft</span>}
               </button>
             ))}
           </div>
@@ -111,7 +111,7 @@ const CourseManager = () => {
               }}
             />
           ) : (
-            <p className="text-white/60">Select a course or create a new one to start.</p>
+            <p className="text-slate-500">Select a course or create a new one to start.</p>
           )}
         </main>
       </div>
@@ -189,9 +189,9 @@ const CourseEditor = ({
 
   return (
     <div className="space-y-8">
-      <Card className="border-white/10 bg-card">
+      <Card className="border-slate-200 bg-white">
         <CardHeader>
-          <CardTitle className="text-white">Course details</CardTitle>
+          <CardTitle className="text-slate-900">Course details</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -271,16 +271,16 @@ const CourseEditor = ({
       </Card>
 
       {/* Modules */}
-      <Card className="border-white/10 bg-card">
+      <Card className="border-slate-200 bg-white">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-white">Modules & lessons</CardTitle>
+          <CardTitle className="text-slate-900">Modules & lessons</CardTitle>
           <Button size="sm" onClick={addModule}>
             <Plus className="mr-2 h-4 w-4" /> Add module
           </Button>
         </CardHeader>
         <CardContent>
           {modules.length === 0 ? (
-            <p className="text-sm text-white/50">No modules yet.</p>
+            <p className="text-sm text-slate-500">No modules yet.</p>
           ) : (
             <Accordion type="multiple" className="space-y-2">
               {modules.map((m) => (
@@ -343,8 +343,8 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
   };
 
   return (
-    <AccordionItem value={module.id} className="rounded-lg border border-white/10 px-3">
-      <AccordionTrigger className="text-white hover:no-underline">{form.title}</AccordionTrigger>
+    <AccordionItem value={module.id} className="rounded-lg border border-slate-200 px-3">
+      <AccordionTrigger className="text-slate-900 hover:no-underline">{form.title}</AccordionTrigger>
       <AccordionContent className="space-y-4 pb-4">
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-1.5">
@@ -385,9 +385,9 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
           </Button>
         </div>
 
-        <div className="border-t border-white/10 pt-4">
+        <div className="border-t border-slate-200 pt-4">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-semibold text-white/70">Lessons</span>
+            <span className="text-sm font-semibold text-slate-600">Lessons</span>
             <Button size="sm" variant="outline" onClick={addLesson}>
               <Plus className="mr-2 h-4 w-4" /> Add lesson
             </Button>
@@ -440,7 +440,7 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
   };
 
   return (
-    <div className="rounded-lg border border-white/10 bg-background/40 p-3">
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
       <div className="grid gap-3 md:grid-cols-[1fr_100px_100px]">
         <div className="space-y-1.5">
           <Label className="text-xs">Lesson title</Label>
@@ -570,7 +570,7 @@ const QuizEditor = ({ moduleId }: { moduleId: string }) => {
 
   return (
     <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
-      <p className="mb-3 text-sm font-semibold text-white/80">Module quiz (optional)</p>
+      <p className="mb-3 text-sm font-semibold text-slate-600">Module quiz (optional)</p>
       {!quiz ? (
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1.5">
@@ -647,7 +647,7 @@ const QuestionEditor = ({ question, onChange }: { question: QuizQuestion; onChan
   };
 
   return (
-    <div className="rounded-md border border-white/10 bg-background/40 p-3">
+    <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
       <div className="space-y-1.5">
         <Label className="text-xs">Question</Label>
         <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} />

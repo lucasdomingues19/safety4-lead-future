@@ -324,7 +324,7 @@ export const CompanyInsightsTab = () => {
   };
 
   if (loading) {
-    return <div className="text-white text-center py-12">Loading company insights...</div>;
+    return <div className="text-slate-900 text-center py-12">Loading company insights...</div>;
   }
 
   const COMPARISON_COLORS = ["#D6FF00", "#3b82f6", "#f97316", "#22c55e", "#a855f7"];
@@ -334,9 +334,9 @@ export const CompanyInsightsTab = () => {
       {/* Filters */}
       <div className="flex flex-wrap gap-4 items-end">
         <div className="space-y-1">
-          <label className="text-xs text-white/60 uppercase tracking-wider">Company</label>
+          <label className="text-xs text-slate-500 uppercase tracking-wider">Company</label>
           <Select value={selectedCompany} onValueChange={(v) => { setSelectedCompany(v); setSelectedCompanies(new Set()); }}>
-            <SelectTrigger className="w-[220px] bg-white/10 border-white/20 text-white">
+            <SelectTrigger className="w-[220px] bg-slate-100 border-slate-200 text-slate-900">
               <SelectValue placeholder="All companies" />
             </SelectTrigger>
             <SelectContent>
@@ -354,20 +354,20 @@ export const CompanyInsightsTab = () => {
               onClick={() => setDateFilter(d)}
               variant={dateFilter === d ? "default" : "outline"}
               size="sm"
-              className={dateFilter === d ? "bg-blue-600 hover:bg-blue-700" : "bg-white/10 text-white border-white/20 hover:bg-white/20"}
+              className={dateFilter === d ? "bg-blue-600 hover:bg-blue-700" : "bg-white text-slate-600 border-slate-300 hover:bg-slate-50"}
             >
               {d === "7days" ? "7 Days" : d === "30days" ? "30 Days" : d === "90days" ? "90 Days" : "All Time"}
             </Button>
           ))}
         </div>
         <div className="space-y-1">
-          <label className="text-xs text-white/60 uppercase tracking-wider">Aggregate By</label>
+          <label className="text-xs text-slate-500 uppercase tracking-wider">Aggregate By</label>
           <Tabs value={aggregateBy} onValueChange={(v) => { setAggregateBy(v as AggregateBy); setSelectedCompanies(new Set()); setSelectedRespondents(new Set()); }}>
-            <TabsList className="bg-white/10 border border-white/20">
-              <TabsTrigger value="company" className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white">
+            <TabsList className="bg-slate-100 border border-slate-200">
+              <TabsTrigger value="company" className="text-slate-900 data-[state=active]:bg-slate-100 data-[state=active]:text-slate-900">
                 <Building2 className="h-3 w-3 mr-1" /> Company
               </TabsTrigger>
-              <TabsTrigger value="respondent" className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white">
+              <TabsTrigger value="respondent" className="text-slate-900 data-[state=active]:bg-slate-100 data-[state=active]:text-slate-900">
                 <User className="h-3 w-3 mr-1" /> Respondent
               </TabsTrigger>
             </TabsList>
@@ -377,36 +377,36 @@ export const CompanyInsightsTab = () => {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Respondents</CardTitle>
-            <Users className="h-4 w-4 text-white/60" />
+            <CardTitle className="text-sm font-medium text-slate-900">Respondents</CardTitle>
+            <Users className="h-4 w-4 text-slate-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">{filtered.length}</div>
+            <div className="text-3xl font-bold text-slate-900">{filtered.length}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Avg. Score</CardTitle>
-            <TrendingUp className="h-4 w-4 text-white/60" />
+            <CardTitle className="text-sm font-medium text-slate-900">Avg. Score</CardTitle>
+            <TrendingUp className="h-4 w-4 text-slate-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">{avgScore}<span className="text-lg text-white/50">/100</span></div>
+            <div className="text-3xl font-bold text-slate-900">{avgScore}<span className="text-lg text-slate-500">/100</span></div>
           </CardContent>
         </Card>
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-green-500/30">
+        <Card className="bg-white border-slate-200 shadow-sm border-green-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Strongest Area</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-900">Strongest Area</CardTitle>
             <Award className="h-4 w-4 text-green-400" />
           </CardHeader>
           <CardContent>
             <div className="text-lg font-semibold text-green-400 leading-tight">{topCategory}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 border-red-500/30">
+        <Card className="bg-white border-slate-200 shadow-sm border-red-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-white">Weakest Area</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-900">Weakest Area</CardTitle>
             <Award className="h-4 w-4 text-red-400" />
           </CardHeader>
           <CardContent>
@@ -418,10 +418,10 @@ export const CompanyInsightsTab = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Radar Chart - Personal + Org Maturity */}
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-white">Average Scores by Category</CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardTitle className="text-slate-900">Average Scores by Category</CardTitle>
+            <CardDescription className="text-slate-600">
               {selectedCompany !== "all" ? selectedCompany : "All companies"} · {filtered.length} respondent{filtered.length !== 1 ? "s" : ""}
               {hasOrgData && " · Personal vs Org Maturity Scores"}
             </CardDescription>
@@ -442,16 +442,16 @@ export const CompanyInsightsTab = () => {
                 </RadarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="text-white/40 text-center py-16">No data for selected filters</div>
+              <div className="text-slate-400 text-center py-16">No data for selected filters</div>
             )}
           </CardContent>
         </Card>
 
         {/* Distribution Bar Chart */}
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-white">Score Distribution</CardTitle>
-            <CardDescription className="text-gray-300">Number of respondents per rank band</CardDescription>
+            <CardTitle className="text-slate-900">Score Distribution</CardTitle>
+            <CardDescription className="text-slate-600">Number of respondents per rank band</CardDescription>
           </CardHeader>
           <CardContent>
             {filtered.length > 0 ? (
@@ -469,7 +469,7 @@ export const CompanyInsightsTab = () => {
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="text-white/40 text-center py-16">No data for selected filters</div>
+              <div className="text-slate-400 text-center py-16">No data for selected filters</div>
             )}
           </CardContent>
         </Card>
@@ -477,10 +477,10 @@ export const CompanyInsightsTab = () => {
 
       {/* Selected Companies Comparison Radar */}
       {aggregateBy === "company" && aggregatedSelectionData && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-white">Selected Companies — Aggregated View</CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardTitle className="text-slate-900">Selected Companies — Aggregated View</CardTitle>
+            <CardDescription className="text-slate-600">
               {aggregatedSelectionData.companyCount} compan{aggregatedSelectionData.companyCount === 1 ? "y" : "ies"} · {aggregatedSelectionData.count} respondent{aggregatedSelectionData.count !== 1 ? "s" : ""}
               {aggregatedSelectionData.hasOrg && " · Personal vs Org Maturity"}
             </CardDescription>
@@ -501,7 +501,7 @@ export const CompanyInsightsTab = () => {
             </ResponsiveContainer>
             <div className="mt-3 flex flex-wrap gap-2">
               {aggregatedSelectionData.companies.map((c) => (
-                <span key={c} className="text-xs bg-white/10 text-white/70 px-2 py-1 rounded-full">{c}</span>
+                <span key={c} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-full">{c}</span>
               ))}
             </div>
           </CardContent>
@@ -510,10 +510,10 @@ export const CompanyInsightsTab = () => {
 
       {/* Selected Respondents Comparison Radar */}
       {aggregateBy === "respondent" && aggregatedRespondentData && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-white">Selected Respondents — Aggregated View</CardTitle>
-            <CardDescription className="text-gray-300">
+            <CardTitle className="text-slate-900">Selected Respondents — Aggregated View</CardTitle>
+            <CardDescription className="text-slate-600">
               {aggregatedRespondentData.respondentCount} respondent{aggregatedRespondentData.respondentCount !== 1 ? "s" : ""} · {aggregatedRespondentData.count} result{aggregatedRespondentData.count !== 1 ? "s" : ""}
               {aggregatedRespondentData.hasOrg && " · Personal vs Org Maturity"}
             </CardDescription>
@@ -521,26 +521,26 @@ export const CompanyInsightsTab = () => {
           <CardContent>
             {/* Overall grades summary */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-white/5 rounded-lg p-4 text-center">
-                <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Overall Grade</p>
+              <div className="bg-slate-50 rounded-lg p-4 text-center">
+                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Overall Grade</p>
                 <p className="text-3xl font-bold" style={{ color: aggregatedRespondentData.rankBand.color }}>
-                  {aggregatedRespondentData.overallAvg}<span className="text-lg text-white/50">/100</span>
+                  {aggregatedRespondentData.overallAvg}<span className="text-lg text-slate-500">/100</span>
                 </p>
                 <p className="text-xs mt-1" style={{ color: aggregatedRespondentData.rankBand.color }}>
                   {aggregatedRespondentData.rankBand.label}
                 </p>
               </div>
-              <div className="bg-white/5 rounded-lg p-4 text-center">
-                <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Personal Avg</p>
+              <div className="bg-slate-50 rounded-lg p-4 text-center">
+                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Personal Avg</p>
                 <p className="text-3xl font-bold text-[#D6FF00]">
-                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-white/50">/100</span>
+                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-slate-500">/100</span>
                 </p>
               </div>
               {aggregatedRespondentData.orgAvg !== null && (
-                <div className="bg-white/5 rounded-lg p-4 text-center">
-                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Org Maturity Avg</p>
+                <div className="bg-slate-50 rounded-lg p-4 text-center">
+                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Org Maturity Avg</p>
                   <p className="text-3xl font-bold text-blue-400">
-                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-white/50">/100</span>
+                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-slate-500">/100</span>
                   </p>
                 </div>
               )}
@@ -560,7 +560,7 @@ export const CompanyInsightsTab = () => {
             </ResponsiveContainer>
             <div className="mt-3 flex flex-wrap gap-2">
               {aggregatedRespondentData.respondents.map((r) => (
-                <span key={r} className="text-xs bg-white/10 text-white/70 px-2 py-1 rounded-full">{r}</span>
+                <span key={r} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-full">{r}</span>
               ))}
             </div>
           </CardContent>
@@ -569,22 +569,22 @@ export const CompanyInsightsTab = () => {
 
       {/* Companies Overview with Checkboxes */}
       {aggregateBy === "company" && selectedCompany === "all" && companies.length > 0 && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <Building2 className="h-5 w-5" />
                 Companies Overview
               </CardTitle>
               <div className="flex items-center gap-3">
                 {selectedCompanies.size > 0 && (
-                  <span className="text-xs text-white/50">{selectedCompanies.size} selected</span>
+                  <span className="text-xs text-slate-500">{selectedCompanies.size} selected</span>
                 )}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={selectAllCompanies}
-                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 text-xs"
+                  className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50 text-xs"
                 >
                   {selectedCompanies.size === companies.length ? "Deselect All" : "Select All"}
                 </Button>
@@ -601,33 +601,33 @@ export const CompanyInsightsTab = () => {
                   <div
                     key={company}
                     className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
-                      selectedCompanies.has(company) ? "bg-white/15 ring-1 ring-white/30" : "bg-white/5 hover:bg-white/10"
+                      selectedCompanies.has(company) ? "bg-slate-100 ring-1 ring-primary/40" : "bg-slate-50 hover:bg-slate-100"
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <Checkbox
                         checked={selectedCompanies.has(company)}
                         onCheckedChange={() => toggleCompanySelection(company)}
-                        className="border-white/40 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
+                        className="border-slate-300 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
                       />
-                      <Building2 className="h-4 w-4 text-white/40" />
+                      <Building2 className="h-4 w-4 text-slate-400" />
                       <span
-                        className="text-white font-medium cursor-pointer hover:underline"
+                        className="text-slate-900 font-medium cursor-pointer hover:underline"
                         onClick={() => setSelectedCompany(company)}
                       >
                         {company}
                       </span>
-                      <span className="text-white/40 text-sm">({companyResults.length} respondent{companyResults.length !== 1 ? "s" : ""})</span>
+                      <span className="text-slate-400 text-sm">({companyResults.length} respondent{companyResults.length !== 1 ? "s" : ""})</span>
                       {hasOrgScores && (
-                        <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full">Org Data</span>
+                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Org Data</span>
                       )}
                     </div>
                     <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      companyAvg >= 85 ? "bg-green-500/20 text-green-300" :
-                      companyAvg >= 70 ? "bg-blue-500/20 text-blue-300" :
-                      companyAvg >= 55 ? "bg-yellow-500/20 text-yellow-300" :
-                      companyAvg >= 35 ? "bg-orange-500/20 text-orange-300" :
-                      "bg-red-500/20 text-red-300"
+                      companyAvg >= 85 ? "bg-green-100 text-green-700" :
+                      companyAvg >= 70 ? "bg-blue-100 text-blue-700" :
+                      companyAvg >= 55 ? "bg-yellow-100 text-yellow-700" :
+                      companyAvg >= 35 ? "bg-orange-100 text-orange-700" :
+                      "bg-red-100 text-red-700"
                     }`}>
                       Avg: {companyAvg}/100
                     </div>
@@ -641,22 +641,22 @@ export const CompanyInsightsTab = () => {
 
       {/* Respondents Overview with Checkboxes */}
       {aggregateBy === "respondent" && respondents.length > 0 && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <User className="h-5 w-5" />
                 Respondents Overview
               </CardTitle>
               <div className="flex items-center gap-3">
                 {selectedRespondents.size > 0 && (
-                  <span className="text-xs text-white/50">{selectedRespondents.size} selected</span>
+                  <span className="text-xs text-slate-500">{selectedRespondents.size} selected</span>
                 )}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={selectAllRespondents}
-                  className="bg-white/10 text-white border-white/20 hover:bg-white/20 text-xs"
+                  className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50 text-xs"
                 >
                   {selectedRespondents.size === respondentNames.length ? "Deselect All" : "Select All"}
                 </Button>
@@ -669,28 +669,28 @@ export const CompanyInsightsTab = () => {
                 <div
                   key={resp.name}
                   className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
-                    selectedRespondents.has(resp.name) ? "bg-white/15 ring-1 ring-white/30" : "bg-white/5 hover:bg-white/10"
+                    selectedRespondents.has(resp.name) ? "bg-slate-100 ring-1 ring-primary/40" : "bg-slate-50 hover:bg-slate-100"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <Checkbox
                       checked={selectedRespondents.has(resp.name)}
                       onCheckedChange={() => toggleRespondentSelection(resp.name)}
-                      className="border-white/40 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
+                      className="border-slate-300 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
                     />
-                    <User className="h-4 w-4 text-white/40" />
-                    <span className="text-white font-medium">{resp.name}</span>
-                    <span className="text-white/40 text-sm">({resp.count} result{resp.count !== 1 ? "s" : ""})</span>
+                    <User className="h-4 w-4 text-slate-400" />
+                    <span className="text-slate-900 font-medium">{resp.name}</span>
+                    <span className="text-slate-400 text-sm">({resp.count} result{resp.count !== 1 ? "s" : ""})</span>
                     {resp.hasOrg && (
-                      <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full">Org Data</span>
+                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Org Data</span>
                     )}
                   </div>
                   <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    resp.avgScore >= 85 ? "bg-green-500/20 text-green-300" :
-                    resp.avgScore >= 70 ? "bg-blue-500/20 text-blue-300" :
-                    resp.avgScore >= 55 ? "bg-yellow-500/20 text-yellow-300" :
-                    resp.avgScore >= 35 ? "bg-orange-500/20 text-orange-300" :
-                    "bg-red-500/20 text-red-300"
+                    resp.avgScore >= 85 ? "bg-green-100 text-green-700" :
+                    resp.avgScore >= 70 ? "bg-blue-100 text-blue-700" :
+                    resp.avgScore >= 55 ? "bg-yellow-100 text-yellow-700" :
+                    resp.avgScore >= 35 ? "bg-orange-100 text-orange-700" :
+                    "bg-red-100 text-red-700"
                   }`}>
                     Avg: {resp.avgScore}/100
                   </div>

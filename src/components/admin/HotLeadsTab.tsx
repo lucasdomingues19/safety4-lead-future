@@ -476,7 +476,7 @@ export const HotLeadsTab = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <RefreshCw className="h-8 w-8 text-white animate-spin" />
+        <RefreshCw className="h-8 w-8 text-slate-900 animate-spin" />
       </div>
     );
   }
@@ -525,36 +525,36 @@ export const HotLeadsTab = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+        <Card className="bg-white border-slate-200 shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-white flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-slate-900 flex items-center gap-2">
               <Zap className="h-4 w-4" /> Total Tracked
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">{hotLeads.length}</div>
-            <p className="text-xs text-white/60">Last 30 days</p>
+            <div className="text-3xl font-bold text-slate-900">{hotLeads.length}</div>
+            <p className="text-xs text-slate-500">Last 30 days</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Hot Leads List */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20">
+      <Card className="bg-white border-slate-200 shadow-sm">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-white flex items-center gap-2">
+              <CardTitle className="text-slate-900 flex items-center gap-2">
                 <Flame className="h-5 w-5 text-orange-400" />
                 Hot Leads Dashboard
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <CardDescription className="text-slate-600">
                 Anonymous visitors showing high purchase intent. Last updated: {lastRefresh.toLocaleTimeString()}
               </CardDescription>
             </div>
             <Button
               onClick={fetchHotLeads}
               variant="outline"
-              className="bg-white/10 text-white border-white/20 hover:bg-white/20"
+              className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50"
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Refresh
@@ -563,7 +563,7 @@ export const HotLeadsTab = () => {
         </CardHeader>
         <CardContent>
           {hotLeads.length === 0 ? (
-            <div className="text-center py-12 text-white/60">
+            <div className="text-center py-12 text-slate-500">
               <Eye className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>No high-intent visitors detected yet.</p>
               <p className="text-sm">Visitors will appear here once they show buying signals.</p>
@@ -575,14 +575,14 @@ export const HotLeadsTab = () => {
                 return (
                   <div 
                     key={lead.session_id}
-                    className="p-4 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                    className="p-4 rounded-lg bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-4">
                         {/* Rank & Score */}
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-white/30">#{index + 1}</div>
-                          <div className={`mt-1 px-2 py-1 rounded-full text-xs font-medium text-white ${heat.color}`}>
+                          <div className="text-2xl font-bold text-slate-300">#{index + 1}</div>
+                          <div className={`mt-1 px-2 py-1 rounded-full text-xs font-medium text-slate-900 ${heat.color}`}>
                             {lead.score}
                           </div>
                         </div>
@@ -590,7 +590,7 @@ export const HotLeadsTab = () => {
                         {/* Details */}
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <Badge className={`${heat.color} text-white border-0`}>
+                            <Badge className={`${heat.color} text-slate-900 border-0`}>
                               {heat.icon}
                               <span className="ml-1">{heat.label}</span>
                             </Badge>
@@ -607,7 +607,7 @@ export const HotLeadsTab = () => {
                             {lead.signals.map((signal, i) => (
                               <span 
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded bg-white/10 text-white/80"
+                                className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600"
                               >
                                 {signal}
                               </span>
@@ -615,7 +615,7 @@ export const HotLeadsTab = () => {
                           </div>
 
                           {/* Meta Info */}
-                          <div className="flex items-center gap-4 text-xs text-white/50 flex-wrap">
+                          <div className="flex items-center gap-4 text-xs text-slate-500 flex-wrap">
                             {lead.company && (
                               <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-primary/20 text-primary-foreground font-medium">
                                 🏢 {lead.company}
@@ -641,14 +641,14 @@ export const HotLeadsTab = () => {
 
                           {/* Contact & Actions */}
                           {lead.contact ? (
-                            <div className="pt-3 border-t border-white/10 space-y-3">
+                            <div className="pt-3 border-t border-slate-100 space-y-3">
                               <div className="flex flex-wrap items-center gap-3 text-sm">
-                                <span className="font-medium text-white">{lead.contact.name}</span>
-                                <span className="text-white/60">{lead.contact.email}</span>
+                                <span className="font-medium text-slate-900">{lead.contact.name}</span>
+                                <span className="text-slate-500">{lead.contact.email}</span>
                                 {lead.contact.phone && (
-                                  <span className="text-lime-400 font-medium">{lead.contact.phone}</span>
+                                  <span className="text-primary font-medium">{lead.contact.phone}</span>
                                 )}
-                                <Badge variant="outline" className="text-xs border-white/20 text-white/60">
+                                <Badge variant="outline" className="text-xs border-slate-200 text-slate-500">
                                   {lead.contact.source}
                                 </Badge>
                               </div>
@@ -657,7 +657,7 @@ export const HotLeadsTab = () => {
                                   <Button
                                     size="sm"
                                     onClick={() => handleWhatsApp(lead)}
-                                    className="bg-lime-500 hover:bg-lime-400 text-black gap-1"
+                                    className="bg-primary hover:bg-primary/90 text-white gap-1"
                                   >
                                     <MessageCircle className="h-3.5 w-3.5" />
                                     WhatsApp
@@ -667,7 +667,7 @@ export const HotLeadsTab = () => {
                                     size="sm"
                                     disabled
                                     variant="outline"
-                                    className="border-white/20 text-white/40 gap-1"
+                                    className="border-slate-200 text-slate-400 gap-1"
                                   >
                                     <MessageCircle className="h-3.5 w-3.5" />
                                     No WhatsApp
@@ -677,7 +677,7 @@ export const HotLeadsTab = () => {
                                   size="sm"
                                   onClick={() => handleEmail(lead)}
                                   variant="outline"
-                                  className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                  className="border-slate-200 text-slate-900 hover:bg-slate-100 gap-1"
                                 >
                                   <Mail className="h-3.5 w-3.5" />
                                   Email via Gmail
@@ -691,7 +691,7 @@ export const HotLeadsTab = () => {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                    className="border-slate-200 text-slate-900 hover:bg-slate-100 gap-1"
                                   >
                                     <Calendar className="h-3.5 w-3.5" />
                                     Book Zoom
@@ -701,7 +701,7 @@ export const HotLeadsTab = () => {
                                   size="sm"
                                   onClick={() => handleCopyMessage(lead)}
                                   variant="outline"
-                                  className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                  className="border-slate-200 text-slate-900 hover:bg-slate-100 gap-1"
                                 >
                                   <Copy className="h-3.5 w-3.5" />
                                   Copy message
@@ -709,9 +709,9 @@ export const HotLeadsTab = () => {
                               </div>
                             </div>
                           ) : (
-                            <div className="pt-3 border-t border-white/10">
+                            <div className="pt-3 border-t border-slate-100">
                               <div className="flex flex-wrap items-center justify-between gap-3">
-                                <span className="text-xs text-white/50">
+                                <span className="text-xs text-slate-500">
                                   No contact captured — visitor is still anonymous.
                                 </span>
                                 <a
@@ -722,7 +722,7 @@ export const HotLeadsTab = () => {
                                   <Button
                                     size="sm"
                                     variant="outline"
-                                    className="border-white/20 text-white hover:bg-white/10 gap-1"
+                                    className="border-slate-200 text-slate-900 hover:bg-slate-100 gap-1"
                                   >
                                     <Calendar className="h-3.5 w-3.5" />
                                     Share Zoom link
@@ -736,8 +736,8 @@ export const HotLeadsTab = () => {
 
                       {/* Last Seen */}
                       <div className="text-right">
-                        <div className="text-sm text-white/60">Last seen</div>
-                        <div className="text-white font-medium">{formatTimeAgo(lead.last_seen)}</div>
+                        <div className="text-sm text-slate-500">Last seen</div>
+                        <div className="text-slate-900 font-medium">{formatTimeAgo(lead.last_seen)}</div>
                       </div>
                     </div>
                   </div>
@@ -749,35 +749,35 @@ export const HotLeadsTab = () => {
       </Card>
 
       {/* Scoring Guide */}
-      <Card className="bg-white/5 backdrop-blur-lg border-white/10">
+      <Card className="bg-slate-50 backdrop-blur-lg border-slate-100">
         <CardHeader>
-          <CardTitle className="text-white text-sm">Intent Scoring Guide</CardTitle>
+          <CardTitle className="text-slate-900 text-sm">Intent Scoring Guide</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-white/70">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-slate-600">
             <div>
-              <span className="font-medium text-lime-400">+35</span> Clicked enrollment
+              <span className="font-medium text-primary">+35</span> Clicked enrollment
             </div>
             <div>
-              <span className="font-medium text-lime-400">+30</span> Pricing 3+ times
+              <span className="font-medium text-primary">+30</span> Pricing 3+ times
             </div>
             <div>
-              <span className="font-medium text-lime-400">+25</span> Completed assessment
+              <span className="font-medium text-primary">+25</span> Completed assessment
             </div>
             <div>
-              <span className="font-medium text-lime-400">+20</span> 3+ visit days
+              <span className="font-medium text-primary">+20</span> 3+ visit days
             </div>
             <div>
-              <span className="font-medium text-lime-400">+15</span> Pricing 1-2 times
+              <span className="font-medium text-primary">+15</span> Pricing 1-2 times
             </div>
             <div>
-              <span className="font-medium text-lime-400">+15</span> 10+ min on site
+              <span className="font-medium text-primary">+15</span> 10+ min on site
             </div>
             <div>
-              <span className="font-medium text-lime-400">+10</span> Deep scroll (75%+)
+              <span className="font-medium text-primary">+10</span> Deep scroll (75%+)
             </div>
             <div>
-              <span className="font-medium text-lime-400">+10</span> Viewed syllabus
+              <span className="font-medium text-primary">+10</span> Viewed syllabus
             </div>
           </div>
         </CardContent>
