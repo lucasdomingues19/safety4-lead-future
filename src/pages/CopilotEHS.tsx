@@ -101,7 +101,7 @@ const CopilotEHS = () => {
       <CourseHero
         eyebrow="B2B GROUP TRAINING · LAUNCHING OCTOBER 2026"
         title={<>Microsoft Copilot for <span className="text-primary">EHS & Sustainability</span></>}
-        subtitle="Your team already has the Copilot licence. This program builds the practical, audit-ready competence to use it safely in risk assessments, incident reporting and compliance work — the training most organisations skip."
+        subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
         features={[
           { icon: Users, label: "Live or Self-Paced" },
           { icon: ShieldCheck, label: "Article 4 Aligned" },
@@ -132,33 +132,6 @@ const CopilotEHS = () => {
           />
         </div>
       </div>
-
-      {/* The opportunity */}
-      <section className="py-10 md:py-14 border-t border-slate-200">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="mb-4">The opportunity</h2>
-          <div className="space-y-5 text-[#69697b] leading-relaxed">
-            <p>
-              AI is moving into everyday safety work, and the rules are catching up with it. Under the EU AI Act,
-              organisations have a legal obligation to ensure their people have adequate AI literacy — Article 4
-              has applied since February 2025, with enforcement provisions live from August 2026. For an EHS
-              function using or planning to use tools like Microsoft Copilot, that means the people handling risk
-              assessments, incident data, permits and reporting need to be genuinely competent with AI, not just
-              given access to it.
-            </p>
-            <p>
-              This program builds that capability and is designed to help evidence it. It is grounded in a simple
-              principle we call <strong className="text-slate-900">Assurative AI</strong>: AI drafts and flags, a
-              competent person reviews, corrects, and underwrites. Your people stay accountable, the AI makes them
-              faster, and the output stays audit-defensible.
-            </p>
-            <p>
-              This is an enablement and transformation program, not tick-box training — built specifically for EHS
-              and sustainability professionals and applied to their own safety work and organisational context.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Assurative AI + GRACE */}
       <section className="py-10 md:py-14 border-t border-slate-200 bg-slate-50">
