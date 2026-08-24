@@ -10,7 +10,10 @@ import { CopilotROICalculator } from "@/components/CopilotROICalculator";
 import { CopilotWaitlistForm } from "@/components/CopilotWaitlistForm";
 import badgeCopilot from "@/assets/badge-copilot.png";
 import iconCopilot from "@/assets/icon-copilot.png";
-import heroCopilotCourse from "@/assets/hero-copilot-course.jpg";
+import iconWord from "@/assets/icon-word.png";
+import iconExcel from "@/assets/icon-excel.png";
+import iconPowerpoint from "@/assets/icon-powerpoint.png";
+import iconOutlook from "@/assets/icon-outlook.png";
 import {
   Accordion,
   AccordionContent,
@@ -124,17 +127,59 @@ const CopilotEHS = () => {
 
       {/* Copilot across the everyday EHS toolkit */}
       <div className="container mx-auto px-4">
-        <div className="relative max-w-6xl mx-auto rounded-[24px] overflow-hidden">
-          <img
-            src={heroCopilotCourse}
-            alt="Microsoft Copilot working across Word, Excel, PowerPoint, Teams and OneNote"
-            className="w-full h-auto object-cover"
-          />
+        <div
+          className="relative max-w-6xl mx-auto rounded-[24px] overflow-hidden aspect-[890/344]"
+          style={{ background: "linear-gradient(135deg, #f3e8ff 0%, #eef2ff 40%, #e0f2fe 70%, #dbeafe 100%)" }}
+        >
           <div className="absolute inset-0 flex items-center">
             <p className="text-slate-900 font-bold leading-snug max-w-[46%] pl-4 sm:pl-8 md:pl-12 text-xs sm:text-lg md:text-2xl lg:text-3xl">
               "You have the tool, now make your EHS & sustainability function competent."
             </p>
           </div>
+
+          {/* Copilot logo, centered in the right-hand two-thirds */}
+          <img
+            src={iconCopilot}
+            alt="Microsoft Copilot"
+            className="absolute w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 drop-shadow-xl"
+            style={{ left: "70%", top: "47%", transform: "translate(-50%, -50%)" }}
+          />
+
+          {/* Floating Microsoft app icons — outer span handles position (left/top
+              + centering translate), inner img handles the float animation, so
+              the animation's own transform doesn't clobber the positioning one. */}
+          <span className="absolute" style={{ left: "58%", top: "18%", transform: "translate(-50%, -50%) rotate(3deg)" }}>
+            <img
+              src={iconWord}
+              alt="Microsoft Word"
+              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
+              style={{ animationDelay: "0s" }}
+            />
+          </span>
+          <span className="absolute" style={{ left: "83%", top: "20%", transform: "translate(-50%, -50%) rotate(-2deg)" }}>
+            <img
+              src={iconExcel}
+              alt="Microsoft Excel"
+              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
+              style={{ animationDelay: "3s" }}
+            />
+          </span>
+          <span className="absolute" style={{ left: "55%", top: "78%", transform: "translate(-50%, -50%) rotate(-3deg)" }}>
+            <img
+              src={iconPowerpoint}
+              alt="Microsoft PowerPoint"
+              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
+              style={{ animationDelay: "6s" }}
+            />
+          </span>
+          <span className="absolute" style={{ left: "85%", top: "76%", transform: "translate(-50%, -50%) rotate(2deg)" }}>
+            <img
+              src={iconOutlook}
+              alt="Microsoft Outlook"
+              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
+              style={{ animationDelay: "9s" }}
+            />
+          </span>
         </div>
       </div>
 
