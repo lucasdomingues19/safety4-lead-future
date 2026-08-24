@@ -1,4 +1,4 @@
-import { blogPosts } from "../src/data/blogPosts";
+import { createClient } from "@supabase/supabase-js";
 import { guides } from "../src/data/guides";
 
 const BASE = "https://safetytech.academy";
@@ -141,13 +141,40 @@ const staticRoutes: RouteSeo[] = [
   },
 ];
 
-const blogRoutes: RouteSeo[] = blogPosts.map((post) => ({
-  path: `/blog/${post.slug}`,
-  title: `${post.title} | SafetyTech Academy Blog`,
-  description: post.metaDescription,
-  ogImage: `${BASE}${post.featuredImage}`,
-  ogType: "article",
-}));
+interface BlogPostSeoRow {
+  slug: string;
+  title: string;
+  meta_description: string;
+  featured_image: string;
+}
+
+/**
+ * Fetches published posts from Supabase at build time. Throws on failure —
+ * a build that can't reach the DB should fail loudly, not silently ship a
+ * site with zero blog SEO pages.
+ */
+async function getBlogRoutes(supabaseUrl: string, supabaseKey: string): Promise<RouteSeo[]> {
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error(
+      "seo-prerender: VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY are not set — cannot fetch blog posts for prerendering.",
+    );
+  }
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("slug,title,meta_description,featured_image")
+    .eq("published", true);
+  if (error) {
+    throw new Error(`seo-prerender: failed to fetch blog posts for prerendering — ${error.message}`);
+  }
+  return ((data ?? []) as BlogPostSeoRow[]).map((post) => ({
+    path: `/blog/${post.slug}`,
+    title: `${post.title} | SafetyTech Academy Blog`,
+    description: post.meta_description,
+    ogImage: post.featured_image.startsWith("http") ? post.featured_image : `${BASE}${post.featured_image}`,
+    ogType: "article",
+  }));
+}
 
 const guideRoutes: RouteSeo[] = [
   {
@@ -227,11 +254,10 @@ const guideRoutes: RouteSeo[] = [
   }),
 ];
 
-export const prerenderRoutes: RouteSeo[] = [
-  ...staticRoutes,
-  ...blogRoutes,
-  ...guideRoutes,
-];
+export async function getPrerenderRoutes(supabaseUrl: string, supabaseKey: string): Promise<RouteSeo[]> {
+  const blogRoutes = await getBlogRoutes(supabaseUrl, supabaseKey);
+  return [...staticRoutes, ...blogRoutes, ...guideRoutes];
+}
 
 
 /** Apply a route's SEO metadata to the built index.html template string. */
