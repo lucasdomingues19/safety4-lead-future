@@ -1,13 +1,16 @@
-import { Sparkles, MessageSquare, Award, ShieldCheck, Users, Calendar, CheckCircle2 } from "lucide-react";
+import { Sparkles, MessageSquare, Award, ShieldCheck, Users, Calendar, CheckCircle2, Bot, FileCheck } from "lucide-react";
 import badgeAIFundamentals from "@/assets/badge-ai-fundamentals.png";
 import badgeElearning from "@/assets/badge-elearning.png";
 import badgeAccelerator from "@/assets/badge-accelerator.png";
+import badgeCopilot from "@/assets/badge-copilot-placeholder.png";
 import iconAIFundamentals from "@/assets/icon-ai-fundamentals.png";
 import iconElearning from "@/assets/icon-elearning.png";
 import iconAccelerator from "@/assets/icon-accelerator.png";
+import iconCopilot from "@/assets/icon-copilot-placeholder.png";
 import iconWhiteAIFundamentals from "@/assets/icon-white-ai-fundamentals.png";
 import iconWhiteElearning from "@/assets/icon-white-elearning.png";
 import iconWhiteAccelerator from "@/assets/icon-white-accelerator.png";
+import iconWhiteCopilot from "@/assets/icon-white-copilot-placeholder.png";
 
 // Per-course illustrated header — a mini "product mockup" panel plus
 // floating icon chips, themed to what each course is actually about.
@@ -78,6 +81,32 @@ export const CohortIllustration = () => (
   </div>
 );
 
+export const CopilotIllustration = () => (
+  <div className="absolute inset-0 flex items-center justify-center">
+    <div className="relative w-[74%] aspect-[4/3] bg-white rounded-2xl shadow-2xl p-4 flex flex-col gap-2 rotate-2">
+      <div className="flex items-center gap-2 mb-1">
+        <div className="w-5 h-5 rounded-full bg-primary shrink-0" />
+        <div className="h-2 w-2/5 bg-slate-200 rounded-full" />
+      </div>
+      <div className="h-2 w-4/5 bg-slate-200 rounded-full" />
+      <div className="h-2 w-3/5 bg-primary/20 rounded-full" />
+      <div className="flex-1" />
+      <div className="flex items-center gap-2 bg-primary/10 rounded-xl p-2">
+        <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <Bot className="w-3.5 h-3.5 text-white" />
+        </div>
+        <div className="h-2 w-3/5 bg-primary/30 rounded-full" />
+      </div>
+    </div>
+    <div className="absolute top-[14%] right-[9%] w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center rotate-6">
+      <Bot className="w-6 h-6 text-primary" />
+    </div>
+    <div className="absolute bottom-[16%] left-[8%] w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center -rotate-6">
+      <FileCheck className="w-5 h-5 text-primary" />
+    </div>
+  </div>
+);
+
 export interface CourseMeta {
   name: string;
   href: string;
@@ -96,6 +125,21 @@ export interface CourseMeta {
 }
 
 export const courses: CourseMeta[] = [
+  {
+    name: "Microsoft Copilot for EHS & Sustainability",
+    href: "/copilot-for-ehs",
+    description: "Practical, audit-ready Copilot training for EHS & sustainability teams — built for the EU AI Act Article 4 obligation.",
+    Illustration: CopilotIllustration,
+    badge: badgeCopilot,
+    icon: iconCopilot,
+    iconWhite: iconWhiteCopilot,
+    level: "Group Training",
+    price: "Custom Pricing",
+    period: "",
+    popular: false,
+    features: ["12-module live or self-paced curriculum", "EU AI Act Article 4 aligned", "Group pricing for 10–30+ participants"],
+    cta: "Join Waitlist",
+  },
   {
     name: "AI Fundamentals in EHS",
     href: "/ai-fundamentals",

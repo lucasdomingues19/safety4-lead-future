@@ -40,6 +40,12 @@ const staticRoutes: RouteSeo[] = [
       "Learn the fundamentals of AI for environment, health and safety. A practical introduction to using AI in EHS workflows.",
   },
   {
+    path: "/copilot-for-ehs",
+    title: "Microsoft Copilot for EHS & Sustainability | SafetyTech Academy",
+    description:
+      "Group training that turns Microsoft Copilot licences into genuine, audit-ready AI competence for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
+  },
+  {
     path: "/syllabus",
     title: "eLearning — IOSH-approved Safety 4.0 Course",
     description:

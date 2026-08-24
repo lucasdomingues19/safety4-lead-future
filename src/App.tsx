@@ -38,6 +38,7 @@ const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
 const Enroll = lazy(() => import("./pages/Enroll"));
 const AIFundamentals = lazy(() => import("./pages/AIFundamentals"));
+const CopilotEHS = lazy(() => import("./pages/CopilotEHS"));
 const GovernanceReadiness = lazy(() => import("./pages/GovernanceReadiness"));
 const GuidesHub = lazy(() => import("./pages/Guides"));
 const GuidePage = lazy(() => import("./pages/Guide"));
@@ -138,6 +139,7 @@ const App = () => (
             <Route path="/case-studies" element={<CaseStudies />} />
             <Route path="/enrol" element={<Enroll />} />
             <Route path="/ai-fundamentals" element={<AIFundamentals />} />
+            <Route path="/copilot-for-ehs" element={<CopilotEHS />} />
             <Route path="/governance-readiness" element={<GovernanceReadiness />} />
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
