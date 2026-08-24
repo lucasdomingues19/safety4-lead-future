@@ -173,17 +173,25 @@ const CourseEditor = ({
 
   const remove = async () => {
     if (!confirm("Delete this course and all its content?")) return;
-    await supabase.from("courses").delete().eq("id", course.id);
+    const { error } = await supabase.from("courses").delete().eq("id", course.id);
+    if (error) {
+      toast.error("Delete failed");
+      return;
+    }
     toast.success("Course deleted");
     onDeleted();
   };
 
   const addModule = async () => {
-    await supabase.from("modules").insert({
+    const { error } = await supabase.from("modules").insert({
       course_id: course.id,
       title: `Module ${modules.length + 1}`,
       position: modules.length,
     });
+    if (error) {
+      toast.error("Add module failed");
+      return;
+    }
     loadModules();
   };
 
@@ -314,7 +322,7 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
   };
 
   const saveModule = async () => {
-    await supabase
+    const { error } = await supabase
       .from("modules")
       .update({
         title: form.title,
@@ -323,22 +331,34 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
         position: form.position,
       })
       .eq("id", module.id);
+    if (error) {
+      toast.error("Save failed");
+      return;
+    }
     toast.success("Module saved");
     onChange();
   };
 
   const removeModule = async () => {
     if (!confirm("Delete this module?")) return;
-    await supabase.from("modules").delete().eq("id", module.id);
+    const { error } = await supabase.from("modules").delete().eq("id", module.id);
+    if (error) {
+      toast.error("Delete failed");
+      return;
+    }
     onChange();
   };
 
   const addLesson = async () => {
-    await supabase.from("lessons").insert({
+    const { error } = await supabase.from("lessons").insert({
       module_id: module.id,
       title: `Lesson ${lessons.length + 1}`,
       position: lessons.length,
     });
+    if (error) {
+      toast.error("Add lesson failed");
+      return;
+    }
     loadLessons();
   };
 
@@ -418,7 +438,7 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
       .map((line) => line.split("|").map((s) => s.trim()))
       .filter((parts) => parts[0] && parts[1])
       .map(([label, url]) => ({ label, url }));
-    await supabase
+    const { error } = await supabase
       .from("lessons")
       .update({
         title: form.title,
@@ -429,13 +449,21 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
         resources,
       })
       .eq("id", lesson.id);
+    if (error) {
+      toast.error("Save failed");
+      return;
+    }
     toast.success("Lesson saved");
     onChange();
   };
 
   const remove = async () => {
     if (!confirm("Delete this lesson?")) return;
-    await supabase.from("lessons").delete().eq("id", lesson.id);
+    const { error } = await supabase.from("lessons").delete().eq("id", lesson.id);
+    if (error) {
+      toast.error("Delete failed");
+      return;
+    }
     onChange();
   };
 
@@ -535,36 +563,52 @@ const QuizEditor = ({ moduleId }: { moduleId: string }) => {
   };
 
   const createQuiz = async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("quizzes")
       .insert({ module_id: moduleId, title, pass_threshold: threshold })
       .select()
       .single();
+    if (error) {
+      toast.error("Create quiz failed");
+      return;
+    }
     setQuiz(data as Quiz);
     toast.success("Quiz created");
   };
 
   const saveQuiz = async () => {
     if (!quiz) return;
-    await supabase.from("quizzes").update({ title, pass_threshold: threshold }).eq("id", quiz.id);
+    const { error } = await supabase.from("quizzes").update({ title, pass_threshold: threshold }).eq("id", quiz.id);
+    if (error) {
+      toast.error("Save failed");
+      return;
+    }
     toast.success("Quiz saved");
   };
 
   const deleteQuiz = async () => {
     if (!quiz || !confirm("Delete this quiz?")) return;
-    await supabase.from("quizzes").delete().eq("id", quiz.id);
+    const { error } = await supabase.from("quizzes").delete().eq("id", quiz.id);
+    if (error) {
+      toast.error("Delete failed");
+      return;
+    }
     load();
   };
 
   const addQuestion = async () => {
     if (!quiz) return;
-    await supabase.from("quiz_questions").insert({
+    const { error } = await supabase.from("quiz_questions").insert({
       quiz_id: quiz.id,
       prompt: "New question",
       options: ["Option A", "Option B"],
       correct_index: 0,
       position: questions.length,
     });
+    if (error) {
+      toast.error("Add question failed");
+      return;
+    }
     load();
   };
 
@@ -633,16 +677,24 @@ const QuestionEditor = ({ question, onChange }: { question: QuizQuestion; onChan
 
   const save = async () => {
     const options = optionsText.split("\n").map((s) => s.trim()).filter(Boolean);
-    await supabase
+    const { error } = await supabase
       .from("quiz_questions")
       .update({ prompt, options, correct_index: Math.min(correct, options.length - 1) })
       .eq("id", question.id);
+    if (error) {
+      toast.error("Save failed");
+      return;
+    }
     toast.success("Question saved");
     onChange();
   };
 
   const remove = async () => {
-    await supabase.from("quiz_questions").delete().eq("id", question.id);
+    const { error } = await supabase.from("quiz_questions").delete().eq("id", question.id);
+    if (error) {
+      toast.error("Delete failed");
+      return;
+    }
     onChange();
   };
 

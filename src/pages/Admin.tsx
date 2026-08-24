@@ -563,6 +563,16 @@ const Admin = () => {
     navigate("/");
   };
 
+  // "Copilot Waitlist" leads all share source: 'contact_form' (capture-lead's
+  // source field is server-side whitelisted and doesn't have a dedicated
+  // value for this yet) but are tagged via inquiry_type, so filter on that
+  // instead of source for this one category.
+  const leadMatchesFilter = (lead: Lead, filter: string) =>
+    filter === 'all' ||
+    (filter === 'copilot_waitlist' ? lead.inquiry_type === 'Copilot Waitlist' : lead.source === filter);
+
+  const filteredLeads = leads.filter(l => leadMatchesFilter(l, sourceFilter));
+
   if (checking) {
     return (
       <div className="admin-light-theme min-h-screen flex items-center justify-center bg-white">
@@ -940,8 +950,10 @@ const Admin = () => {
                     <option value="all" >All Sources</option>
                     <option value="assessment" >Assessment</option>
                     <option value="contact_form" >Contact Form</option>
+                    <option value="copilot_waitlist" >Copilot Waitlist</option>
                     <option value="cohort-pre-enrollment" >Cohort Pre-Enroll</option>
                     <option value="cohort-application" >Cohort Application</option>
+                    <option value="accelerator-enrol" >Accelerator Enrol</option>
                     <option value="newsletter_popup" >Newsletter</option>
                     <option value="ebook_download" >eBook</option>
                     <option value="brochure_download" >Brochure</option>
@@ -949,7 +961,7 @@ const Admin = () => {
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-slate-400">
-                      {leads.filter(l => l.source === sourceFilter).length} leads
+                      {filteredLeads.length} leads
                     </span>
                   )}
                 </div>
@@ -967,14 +979,14 @@ const Admin = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {leads.filter(l => sourceFilter === 'all' || l.source === sourceFilter).length === 0 ? (
+                      {filteredLeads.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={7} className="text-center text-slate-500 py-8">
-                            {sourceFilter === 'all' ? 'No leads captured yet' : `No ${sourceFilter.replace('_', ' ')} leads yet`}
+                            {sourceFilter === 'all' ? 'No leads captured yet' : `No ${sourceFilter.replace(/_|-/g, ' ')} leads yet`}
                           </TableCell>
                         </TableRow>
                       ) : (
-                        leads.filter(l => sourceFilter === 'all' || l.source === sourceFilter).map((lead) => (
+                        filteredLeads.map((lead) => (
                           <TableRow 
                             key={lead.id} 
                             className="border-slate-200 hover:bg-slate-50 cursor-pointer"
@@ -1013,12 +1025,16 @@ const Admin = () => {
                             </TableCell>
                             <TableCell className="text-slate-900">
                               <span className={`px-2 py-1 rounded-full text-xs ${
-                                lead.source === 'assessment' 
-                                  ? 'bg-primary/20 text-primary' 
+                                lead.inquiry_type === 'Copilot Waitlist'
+                                  ? 'bg-teal-100 text-teal-700'
+                                  : lead.source === 'assessment'
+                                  ? 'bg-primary/20 text-primary'
                                   : lead.source === 'contact_form'
                                   ? 'bg-green-100 text-green-700'
                                   : lead.source === 'cohort-pre-enrollment' || lead.source === 'cohort-application'
                                   ? 'bg-purple-100 text-purple-700'
+                                  : lead.source === 'accelerator-enrol'
+                                  ? 'bg-blue-100 text-blue-700'
                                   : lead.source === 'newsletter_popup'
                                   ? 'bg-pink-100 text-pink-700'
                                   : lead.source === 'ebook_download'
@@ -1029,10 +1045,12 @@ const Admin = () => {
                                   ? 'bg-indigo-100 text-indigo-700'
                                   : 'bg-gray-500/20 text-slate-600'
                               }`}>
-                                {lead.source === 'assessment' ? 'Assessment' : 
+                                {lead.inquiry_type === 'Copilot Waitlist' ? 'Copilot Waitlist' :
+                                 lead.source === 'assessment' ? 'Assessment' :
                                  lead.source === 'contact_form' ? 'Contact Form' :
                                  lead.source === 'cohort-pre-enrollment' ? 'Cohort Pre-Enroll' :
                                  lead.source === 'cohort-application' ? 'Cohort Application' :
+                                 lead.source === 'accelerator-enrol' ? 'Accelerator Enrol' :
                                  lead.source === 'newsletter_popup' ? 'Newsletter' :
                                  lead.source === 'ebook_download' ? 'eBook' :
                                  lead.source === 'governance_readiness' ? 'Governance Readiness' :
@@ -1053,7 +1071,7 @@ const Admin = () => {
                                     {sc.overall_score}/100
                                   </span>
                                 ) : (
-                                  <span className="text-slate-300">—</span>
+                                  <span className="text-slate-400">—</span>
                                 );
                               })()}
                             </TableCell>

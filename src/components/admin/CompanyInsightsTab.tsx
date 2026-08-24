@@ -398,19 +398,19 @@ export const CompanyInsightsTab = () => {
         <Card className="bg-white border-slate-200 shadow-sm border-green-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-900">Strongest Area</CardTitle>
-            <Award className="h-4 w-4 text-green-400" />
+            <Award className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-semibold text-green-400 leading-tight">{topCategory}</div>
+            <div className="text-lg font-semibold text-green-600 leading-tight">{topCategory}</div>
           </CardContent>
         </Card>
         <Card className="bg-white border-slate-200 shadow-sm border-red-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-900">Weakest Area</CardTitle>
-            <Award className="h-4 w-4 text-red-400" />
+            <Award className="h-4 w-4 text-red-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-semibold text-red-400 leading-tight">{bottomCategory}</div>
+            <div className="text-lg font-semibold text-red-600 leading-tight">{bottomCategory}</div>
           </CardContent>
         </Card>
       </div>
@@ -430,15 +430,15 @@ export const CompanyInsightsTab = () => {
             {radarData.length > 0 ? (
               <ResponsiveContainer width="100%" height={320}>
                 <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                  <PolarGrid stroke="#ffffff20" />
-                  <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
-                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
+                  <PolarGrid stroke="#e2e8f0" />
+                  <PolarAngleAxis dataKey="category" tick={{ fill: "#64748b", fontSize: 11 }} />
+                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
                   <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                   {hasOrgData && (
                     <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                   )}
-                  <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
-                  <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
+                  <Legend wrapperStyle={{ color: "#334155", fontSize: 12 }} />
+                  <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
                 </RadarChart>
               </ResponsiveContainer>
             ) : (
@@ -457,10 +457,10 @@ export const CompanyInsightsTab = () => {
             {filtered.length > 0 ? (
               <ResponsiveContainer width="100%" height={320}>
                 <BarChart data={distributionData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                  <XAxis dataKey="name" stroke="#ffffff80" tick={{ fontSize: 11 }} />
-                  <YAxis stroke="#ffffff80" allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
+                  <YAxis stroke="#64748b" allowDecimals={false} />
+                  <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
                   <Bar dataKey="count" name="Respondents" radius={[4, 4, 0, 0]}>
                     {distributionData.map((entry, index) => (
                       <Cell key={index} fill={entry.color} />
@@ -488,15 +488,15 @@ export const CompanyInsightsTab = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
               <RadarChart data={aggregatedSelectionData.categories} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="#ffffff20" />
-                <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
+                <PolarGrid stroke="#e2e8f0" />
+                <PolarAngleAxis dataKey="category" tick={{ fill: "#64748b", fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
                 <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                 {aggregatedSelectionData.hasOrg && (
                   <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                 )}
-                <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
+                <Legend wrapperStyle={{ color: "#334155", fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
               </RadarChart>
             </ResponsiveContainer>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -539,7 +539,7 @@ export const CompanyInsightsTab = () => {
               {aggregatedRespondentData.orgAvg !== null && (
                 <div className="bg-slate-50 rounded-lg p-4 text-center">
                   <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Org Maturity Avg</p>
-                  <p className="text-3xl font-bold text-blue-400">
+                  <p className="text-3xl font-bold text-blue-600">
                     {aggregatedRespondentData.orgAvg}<span className="text-lg text-slate-500">/100</span>
                   </p>
                 </div>
@@ -547,15 +547,15 @@ export const CompanyInsightsTab = () => {
             </div>
             <ResponsiveContainer width="100%" height={400}>
               <RadarChart data={aggregatedRespondentData.categories} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="#ffffff20" />
-                <PolarAngleAxis dataKey="category" tick={{ fill: "#cbd5e1", fontSize: 11 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#ffffff60", fontSize: 10 }} />
+                <PolarGrid stroke="#e2e8f0" />
+                <PolarAngleAxis dataKey="category" tick={{ fill: "#64748b", fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
                 <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                 {aggregatedRespondentData.hasOrg && (
                   <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                 )}
-                <Legend wrapperStyle={{ color: "#fff", fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#1e293b", border: "1px solid #ffffff20" }} />
+                <Legend wrapperStyle={{ color: "#334155", fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
               </RadarChart>
             </ResponsiveContainer>
             <div className="mt-3 flex flex-wrap gap-2">

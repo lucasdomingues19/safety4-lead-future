@@ -489,39 +489,39 @@ export const HotLeadsTab = () => {
     <div className="space-y-6">
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-red-500/20 backdrop-blur-lg border-red-500/30">
+        <Card className="bg-red-50 border-red-200 shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-red-200 flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-red-700 flex items-center gap-2">
               <Flame className="h-4 w-4" /> On Fire
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-red-400">{onFireCount}</div>
-            <p className="text-xs text-red-200/60">Score 80+</p>
+            <div className="text-3xl font-bold text-red-600">{onFireCount}</div>
+            <p className="text-xs text-red-500">Score 80+</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-orange-500/20 backdrop-blur-lg border-orange-500/30">
+        <Card className="bg-orange-50 border-orange-200 shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-orange-200 flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-orange-700 flex items-center gap-2">
               <Flame className="h-4 w-4" /> Hot Leads
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-orange-400">{hotCount}</div>
-            <p className="text-xs text-orange-200/60">Score 60-79</p>
+            <div className="text-3xl font-bold text-orange-600">{hotCount}</div>
+            <p className="text-xs text-orange-500">Score 60-79</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-yellow-500/20 backdrop-blur-lg border-yellow-500/30">
+        <Card className="bg-amber-50 border-amber-200 shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-yellow-200 flex items-center gap-2">
+            <CardTitle className="text-sm font-medium text-amber-700 flex items-center gap-2">
               <TrendingUp className="h-4 w-4" /> Warm Leads
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-yellow-400">{warmCount}</div>
-            <p className="text-xs text-yellow-200/60">Score 40-59</p>
+            <div className="text-3xl font-bold text-amber-600">{warmCount}</div>
+            <p className="text-xs text-amber-500">Score 40-59</p>
           </CardContent>
         </Card>
 
@@ -544,7 +544,7 @@ export const HotLeadsTab = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-slate-900 flex items-center gap-2">
-                <Flame className="h-5 w-5 text-orange-400" />
+                <Flame className="h-5 w-5 text-orange-500" />
                 Hot Leads Dashboard
               </CardTitle>
               <CardDescription className="text-slate-600">
@@ -581,7 +581,7 @@ export const HotLeadsTab = () => {
                       <div className="flex items-start gap-4">
                         {/* Rank & Score */}
                         <div className="text-center">
-                          <div className="text-2xl font-bold text-slate-300">#{index + 1}</div>
+                          <div className="text-2xl font-bold text-slate-400">#{index + 1}</div>
                           <div className={`mt-1 px-2 py-1 rounded-full text-xs font-medium text-slate-900 ${heat.color}`}>
                             {lead.score}
                           </div>
