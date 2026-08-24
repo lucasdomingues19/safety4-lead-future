@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2, FileText, Newspaper } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2, FileText, Newspaper, Sun, Moon } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
@@ -19,6 +19,7 @@ import { BlogManager } from "@/components/admin/BlogManager";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { ZOOM_SCHEDULER_URL, openWhatsAppBusiness, getWhatsAppLeadMessage } from "@/lib/outreach";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
+import { useAdminTheme } from "@/hooks/useAdminTheme";
 
 interface PageView {
   id: string;
@@ -74,6 +75,15 @@ type DateRange = '7days' | '30days' | 'alltime';
 
 const Admin = () => {
   const { checking, isAdmin } = useAdminGuard();
+  const { theme, toggleTheme } = useAdminTheme();
+  const isDark = theme === "dark";
+  const chartColors = {
+    grid: isDark ? "#334155" : "#e2e8f0",
+    axis: isDark ? "#94a3b8" : "#64748b",
+    tooltipBg: isDark ? "#1e293b" : "#ffffff",
+    tooltipBorder: isDark ? "#334155" : "#e2e8f0",
+    tooltipText: isDark ? "#f1f5f9" : "#0f172a",
+  };
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals' | 'blog'>('analytics');
@@ -575,8 +585,8 @@ const Admin = () => {
 
   if (checking) {
     return (
-      <div className="admin-light-theme min-h-screen flex items-center justify-center bg-white">
-        <div className="text-slate-900 text-xl">Loading...</div>
+      <div className={`${theme === "light" ? "admin-light-theme" : "dark"} min-h-screen flex items-center justify-center bg-white dark:bg-slate-900`}>
+        <div className="text-slate-900 dark:text-slate-50 text-xl">Loading...</div>
       </div>
     );
   }
@@ -584,16 +594,25 @@ const Admin = () => {
   if (!isAdmin || !stats) return null;
 
   return (
-    <div className="admin-light-theme min-h-screen bg-white p-8">
+    <div className={`${theme === "light" ? "admin-light-theme" : "dark"} min-h-screen bg-white dark:bg-slate-900 p-8`}>
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-900">Admin Dashboard</h1>
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-50">Admin Dashboard</h1>
           <div className="flex items-center gap-3">
+            <Button
+              onClick={toggleTheme}
+              variant="outline"
+              size="icon"
+              className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
+              aria-label="Toggle light/dark appearance"
+            >
+              {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+            </Button>
             <Button onClick={() => navigate("/admin/courses")} className="bg-primary text-primary-foreground hover:bg-primary/90">
               <BookOpen className="mr-2 h-4 w-4" />
               Course Manager
             </Button>
-            <Button onClick={handleLogout} variant="outline" className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50">
+            <Button onClick={handleLogout} variant="outline" className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800">
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
@@ -606,7 +625,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('analytics')}
             variant={activeTab === 'analytics' ? 'default' : 'outline'}
-            className={activeTab === 'analytics' ? '' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'analytics' ? '' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <Eye className="mr-2 h-4 w-4" />
             Analytics
@@ -614,7 +633,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('hotleads')}
             variant={activeTab === 'hotleads' ? 'default' : 'outline'}
-            className={activeTab === 'hotleads' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'hotleads' ? 'bg-orange-500 hover:bg-orange-600' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <Flame className="mr-2 h-4 w-4" />
             Hot Leads
@@ -622,7 +641,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('leads')}
             variant={activeTab === 'leads' ? 'default' : 'outline'}
-            className={activeTab === 'leads' ? '' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'leads' ? '' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <Users className="mr-2 h-4 w-4" />
             Leads ({leads.length})
@@ -630,7 +649,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('company')}
             variant={activeTab === 'company' ? 'default' : 'outline'}
-            className={activeTab === 'company' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'company' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <Building2 className="mr-2 h-4 w-4" />
             Scorecard Insights
@@ -638,7 +657,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('certificates')}
             variant={activeTab === 'certificates' ? 'default' : 'outline'}
-            className={activeTab === 'certificates' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'certificates' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <Award className="mr-2 h-4 w-4" />
             Certificates
@@ -646,7 +665,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('proposals')}
             variant={activeTab === 'proposals' ? 'default' : 'outline'}
-            className={activeTab === 'proposals' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'proposals' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <FileText className="mr-2 h-4 w-4" />
             Proposals
@@ -654,7 +673,7 @@ const Admin = () => {
           <Button
             onClick={() => setActiveTab('blog')}
             variant={activeTab === 'blog' ? 'default' : 'outline'}
-            className={activeTab === 'blog' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+            className={activeTab === 'blog' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
           >
             <Newspaper className="mr-2 h-4 w-4" />
             Blog
@@ -671,7 +690,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('7days')}
                 variant={dateRange === '7days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '7days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+                className={dateRange === '7days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
               >
                 Last 7 Days
               </Button>
@@ -679,7 +698,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('30days')}
                 variant={dateRange === '30days' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === '30days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+                className={dateRange === '30days' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
               >
                 Last 30 Days
               </Button>
@@ -687,7 +706,7 @@ const Admin = () => {
                 onClick={() => handleDateRangeChange('alltime')}
                 variant={dateRange === 'alltime' ? 'default' : 'outline'}
                 size="sm"
-                className={dateRange === 'alltime' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+                className={dateRange === 'alltime' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
               >
                 All Time
               </Button>
@@ -695,74 +714,74 @@ const Admin = () => {
 
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900">Total Page Views</CardTitle>
-              <Eye className="h-4 w-4 text-slate-500" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Total Page Views</CardTitle>
+              <Eye className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">{stats.totalViews.toLocaleString()}</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{stats.totalViews.toLocaleString()}</div>
             </CardContent>
           </Card>
           
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900">Unique Visitors (humans)</CardTitle>
-              <Users className="h-4 w-4 text-slate-500" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Unique Visitors (humans)</CardTitle>
+              <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">{stats.uniqueVisitors.toLocaleString()}</div>
-              <p className="text-[11px] text-slate-500 mt-1">Bot/no-interaction sessions excluded</p>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{stats.uniqueVisitors.toLocaleString()}</div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Bot/no-interaction sessions excluded</p>
             </CardContent>
 
           </Card>
 
-          <Card className="bg-white border-primary/30 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-primary/30 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900">Offer Clicks</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Offer Clicks</CardTitle>
               <ShoppingCart className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-primary">{stats.offerClicks.toLocaleString()}</div>
-              <p className="text-xs text-slate-500 mt-1">Enrollment button clicks</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Enrollment button clicks</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-orange-300 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-orange-300 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900">Kajabi Click-throughs</CardTitle>
-              <Target className="h-4 w-4 text-orange-500" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Kajabi Click-throughs</CardTitle>
+              <Target className="h-4 w-4 text-orange-500 dark:text-orange-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-orange-500">{stats.kajabiClicks.toLocaleString()}</div>
-              <p className="text-xs text-slate-500 mt-1">{stats.kajabiUniqueVisitors} unique visitors</p>
+              <div className="text-3xl font-bold text-orange-500 dark:text-orange-400">{stats.kajabiClicks.toLocaleString()}</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{stats.kajabiUniqueVisitors} unique visitors</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900">Avg. Session Duration</CardTitle>
-              <Calendar className="h-4 w-4 text-slate-500" />
+              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Avg. Session Duration</CardTitle>
+              <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-slate-900">{stats.avgSessionDuration}m</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{stats.avgSessionDuration}m</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-slate-900">Views Over Time ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Views Over Time ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={stats.dailyViews}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="date" stroke="#64748b" />
-                  <YAxis stroke="#64748b" />
-                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="date" stroke={chartColors.axis} />
+                  <YAxis stroke={chartColors.axis} />
+                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
                   <Legend />
                   <Line type="monotone" dataKey="views" stroke="#0088FE" strokeWidth={2} />
                 </LineChart>
@@ -770,18 +789,18 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-slate-900">Unique Visitors ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
-              <CardDescription className="text-slate-600">Distinct visitors per day</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Unique Visitors ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Distinct visitors per day</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={stats.dailyUniqueVisitors}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="date" stroke="#64748b" />
-                  <YAxis stroke="#64748b" />
-                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="date" stroke={chartColors.axis} />
+                  <YAxis stroke={chartColors.axis} />
+                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
                   <Legend />
                   <Line type="monotone" dataKey="visitors" stroke="#00C49F" strokeWidth={2} name="Unique Visitors" />
                 </LineChart>
@@ -792,9 +811,9 @@ const Admin = () => {
 
         {/* Third row - Device Breakdown & Offer Clicks */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-slate-900">Device Breakdown</CardTitle>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Device Breakdown</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -813,24 +832,24 @@ const Admin = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
+                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
                 </PieChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-primary/20 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-primary/20 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-slate-900">Offer Clicks ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
-              <CardDescription className="text-slate-600">Daily enrollment button clicks</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Offer Clicks ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Daily enrollment button clicks</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={stats.dailyOfferClicks}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="date" stroke="#64748b" />
-                  <YAxis stroke="#64748b" allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="date" stroke={chartColors.axis} />
+                  <YAxis stroke={chartColors.axis} allowDecimals={false} />
+                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
                   <Legend />
                   <Bar dataKey="clicks" fill="#3434FF" name="Offer Clicks" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -840,23 +859,23 @@ const Admin = () => {
         </div>
 
         {/* Kajabi Click-throughs Chart */}
-        <Card className="bg-white border-orange-200 shadow-sm mb-8">
+        <Card className="bg-white dark:bg-slate-900 border-orange-200 shadow-sm mb-8">
           <CardHeader>
-            <CardTitle className="text-slate-900 flex items-center gap-2">
-              <Target className="h-5 w-5 text-orange-500" />
+            <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
+              <Target className="h-5 w-5 text-orange-500 dark:text-orange-400" />
               Kajabi Portal Click-throughs ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})
             </CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardDescription className="text-slate-600 dark:text-slate-400">
               Visitors who clicked through to the enrollment page • Total: {stats.kajabiClicks} clicks from {stats.kajabiUniqueVisitors} unique visitors
             </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={stats.dailyKajabiClicks}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="date" stroke="#64748b" />
-                <YAxis stroke="#64748b" allowDecimals={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 8, color: '#0f172a' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                <XAxis dataKey="date" stroke={chartColors.axis} />
+                <YAxis stroke={chartColors.axis} allowDecimals={false} />
+                <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
                 <Legend />
                 <Bar dataKey="clicks" fill="#f97316" name="Total Clicks" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="unique" fill="#fb923c" name="Unique Visitors" radius={[4, 4, 0, 0]} />
@@ -867,34 +886,34 @@ const Admin = () => {
 
         {/* Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-slate-900">Top Pages</CardTitle>
-              <CardDescription className="text-slate-600">Most visited pages</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Top Pages</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Most visited pages</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {stats.topPages.map((page, index) => (
                   <div key={index} className="flex justify-between items-center">
-                    <span className="text-slate-900">{page.page}</span>
-                    <span className="text-slate-500">{page.views} views</span>
+                    <span className="text-slate-900 dark:text-slate-50">{page.page}</span>
+                    <span className="text-slate-500 dark:text-slate-400">{page.views} views</span>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white border-slate-200 shadow-sm">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-slate-900">Top Countries</CardTitle>
-              <CardDescription className="text-slate-600">Traffic by location</CardDescription>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Top Countries</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Traffic by location</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {stats.topCountries.map((country, index) => (
                   <div key={index} className="flex justify-between items-center">
-                    <span className="text-slate-900">{country.country || 'Unknown'}</span>
-                    <span className="text-slate-500">{country.views} views</span>
+                    <span className="text-slate-900 dark:text-slate-50">{country.country || 'Unknown'}</span>
+                    <span className="text-slate-500 dark:text-slate-400">{country.views} views</span>
                   </div>
                 ))}
               </div>
@@ -908,7 +927,7 @@ const Admin = () => {
         {activeTab === 'hotleads' && <HotLeadsTab />}
 
         {/* Company Insights Tab */}
-        {activeTab === 'company' && <CompanyInsightsTab />}
+        {activeTab === 'company' && <CompanyInsightsTab theme={theme} />}
 
         {/* Certificates Tab */}
         {activeTab === 'certificates' && <CertificatesTab />}
@@ -920,12 +939,12 @@ const Admin = () => {
         {/* Leads Tab */}
         {activeTab === 'leads' && (
           <>
-            <Card className="bg-white border-slate-200 shadow-sm">
+            <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
               <CardHeader>
                 <div className="flex justify-between items-center">
                   <div>
-                    <CardTitle className="text-slate-900">Lead Management</CardTitle>
-                    <CardDescription className="text-slate-600">
+                    <CardTitle className="text-slate-900 dark:text-slate-50">Lead Management</CardTitle>
+                    <CardDescription className="text-slate-600 dark:text-slate-400">
                       View and export leads from assessment and contact form. Click any row to view full details.
                     </CardDescription>
                   </div>
@@ -941,11 +960,11 @@ const Admin = () => {
               <CardContent>
                 {/* Source Filter */}
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-sm text-slate-500">Filter by source:</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">Filter by source:</span>
                   <select
                     value={sourceFilter}
                     onChange={(e) => setSourceFilter(e.target.value)}
-                    className="bg-white border border-slate-200 text-slate-900 text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 text-sm rounded-md px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/50"
                   >
                     <option value="all" >All Sources</option>
                     <option value="assessment" >Assessment</option>
@@ -960,28 +979,28 @@ const Admin = () => {
                     <option value="governance_readiness" >Governance Readiness</option>
                   </select>
                   {sourceFilter !== 'all' && (
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-400 dark:text-slate-500">
                       {filteredLeads.length} leads
                     </span>
                   )}
                 </div>
-                <div className="rounded-md border border-slate-200">
+                <div className="rounded-md border border-slate-200 dark:border-slate-700">
                   <Table>
                     <TableHeader>
-                      <TableRow className="border-slate-200 hover:bg-slate-50">
-                        <TableHead className="text-slate-900">Name</TableHead>
-                        <TableHead className="text-slate-900">Email</TableHead>
-                        <TableHead className="text-slate-900">Phone</TableHead>
-                        <TableHead className="text-slate-900">Source</TableHead>
-                        <TableHead className="text-slate-900">Score</TableHead>
-                        <TableHead className="text-slate-900">Date</TableHead>
-                        <TableHead className="text-slate-900">Actions</TableHead>
+                      <TableRow className="border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+                        <TableHead className="text-slate-900 dark:text-slate-50">Name</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Email</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Phone</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Source</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Score</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Date</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredLeads.length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={7} className="text-center text-slate-500 py-8">
+                          <TableCell colSpan={7} className="text-center text-slate-500 dark:text-slate-400 py-8">
                             {sourceFilter === 'all' ? 'No leads captured yet' : `No ${sourceFilter.replace(/_|-/g, ' ')} leads yet`}
                           </TableCell>
                         </TableRow>
@@ -989,11 +1008,11 @@ const Admin = () => {
                         filteredLeads.map((lead) => (
                           <TableRow 
                             key={lead.id} 
-                            className="border-slate-200 hover:bg-slate-50 cursor-pointer"
+                            className="border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
                             onClick={() => setSelectedLead(lead)}
                           >
-                            <TableCell className="text-slate-900">{lead.name}</TableCell>
-                            <TableCell className="text-slate-900" onClick={(e) => e.stopPropagation()}>
+                            <TableCell className="text-slate-900 dark:text-slate-50">{lead.name}</TableCell>
+                            <TableCell className="text-slate-900 dark:text-slate-50" onClick={(e) => e.stopPropagation()}>
                               <div className="flex items-center gap-2">
                                 <span>{lead.email}</span>
                                 {lead.email && (
@@ -1003,12 +1022,12 @@ const Admin = () => {
                                     title="Email via Gmail"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary hover:bg-primary/80 transition-colors"
                                   >
-                                    <Mail className="h-4 w-4 text-slate-900" />
+                                    <Mail className="h-4 w-4 text-slate-900 dark:text-slate-50" />
                                   </button>
                                 )}
                               </div>
                             </TableCell>
-                            <TableCell className="text-slate-900" onClick={(e) => e.stopPropagation()}>
+                            <TableCell className="text-slate-900 dark:text-slate-50" onClick={(e) => e.stopPropagation()}>
                               {lead.phone ? (
                                 <div className="flex items-center gap-2">
                                   <span>{lead.phone}</span>
@@ -1018,32 +1037,32 @@ const Admin = () => {
                                      title="Open in WhatsApp Business"
                                     className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#25D366] hover:bg-[#20bd5a] transition-colors"
                                   >
-                                    <MessageCircle className="h-4 w-4 text-slate-900" />
+                                    <MessageCircle className="h-4 w-4 text-slate-900 dark:text-slate-50" />
                                   </button>
                                 </div>
                               ) : 'N/A'}
                             </TableCell>
-                            <TableCell className="text-slate-900">
+                            <TableCell className="text-slate-900 dark:text-slate-50">
                               <span className={`px-2 py-1 rounded-full text-xs ${
                                 lead.inquiry_type === 'Copilot Waitlist'
-                                  ? 'bg-teal-100 text-teal-700'
+                                  ? 'bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300'
                                   : lead.source === 'assessment'
                                   ? 'bg-primary/20 text-primary'
                                   : lead.source === 'contact_form'
-                                  ? 'bg-green-100 text-green-700'
+                                  ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
                                   : lead.source === 'cohort-pre-enrollment' || lead.source === 'cohort-application'
-                                  ? 'bg-purple-100 text-purple-700'
+                                  ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
                                   : lead.source === 'accelerator-enrol'
-                                  ? 'bg-blue-100 text-blue-700'
+                                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
                                   : lead.source === 'newsletter_popup'
-                                  ? 'bg-pink-100 text-pink-700'
+                                  ? 'bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300'
                                   : lead.source === 'ebook_download'
-                                  ? 'bg-orange-100 text-orange-700'
+                                  ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300'
                                   : lead.source === 'brochure_download'
-                                  ? 'bg-cyan-100 text-cyan-700'
+                                  ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300'
                                   : lead.source === 'governance_readiness'
-                                  ? 'bg-indigo-100 text-indigo-700'
-                                  : 'bg-gray-500/20 text-slate-600'
+                                  ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300'
+                                  : 'bg-gray-500/20 text-slate-600 dark:text-slate-400'
                               }`}>
                                 {lead.inquiry_type === 'Copilot Waitlist' ? 'Copilot Waitlist' :
                                  lead.source === 'assessment' ? 'Assessment' :
@@ -1057,33 +1076,33 @@ const Admin = () => {
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
-                            <TableCell className="text-slate-900">
+                            <TableCell className="text-slate-900 dark:text-slate-50">
                               {(() => {
                                 const sc = scorecardResults[(lead.email || '').toLowerCase().trim()];
                                 return sc ? (
                                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                    sc.overall_score >= 85 ? 'bg-green-100 text-green-700' :
+                                    sc.overall_score >= 85 ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' :
                                     sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                                    sc.overall_score >= 55 ? 'bg-yellow-100 text-yellow-700' :
-                                    sc.overall_score >= 35 ? 'bg-orange-100 text-orange-700' :
-                                    'bg-red-100 text-red-700'
+                                    sc.overall_score >= 55 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300' :
+                                    sc.overall_score >= 35 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300' :
+                                    'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300'
                                   }`}>
                                     {sc.overall_score}/100
                                   </span>
                                 ) : (
-                                  <span className="text-slate-400">—</span>
+                                  <span className="text-slate-400 dark:text-slate-500">—</span>
                                 );
                               })()}
                             </TableCell>
-                            <TableCell className="text-slate-900">
+                            <TableCell className="text-slate-900 dark:text-slate-50">
                               {new Date(lead.created_at).toLocaleDateString()}
                             </TableCell>
-                            <TableCell className="text-slate-900" onClick={(e) => e.stopPropagation()}>
+                            <TableCell className="text-slate-900 dark:text-slate-50" onClick={(e) => e.stopPropagation()}>
                               <Button
                                 onClick={() => deleteLead(lead.id)}
                                 variant="ghost"
                                 size="sm"
-                                className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                                className="text-red-500 dark:text-red-400 hover:text-red-600 dark:text-red-400 hover:bg-red-50"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -1099,10 +1118,10 @@ const Admin = () => {
 
             {/* Lead Detail Dialog */}
             <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
-              <DialogContent className="bg-white border-slate-200 text-slate-900 max-w-2xl">
+              <DialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 max-w-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-2xl">Lead Details</DialogTitle>
-                  <DialogDescription className="text-slate-600">
+                  <DialogDescription className="text-slate-600 dark:text-slate-400">
                     Full information for this lead
                   </DialogDescription>
                 </DialogHeader>
@@ -1110,18 +1129,18 @@ const Admin = () => {
                   <div className="space-y-4 mt-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm text-slate-500">Name</label>
-                        <p className="text-slate-900 font-medium">{selectedLead.name}</p>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Name</label>
+                        <p className="text-slate-900 dark:text-slate-50 font-medium">{selectedLead.name}</p>
                       </div>
                       <div>
-                        <label className="text-sm text-slate-500">Email</label>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Email</label>
                         <div className="flex items-center gap-2">
-                          <p className="text-slate-900 font-medium">{selectedLead.email}</p>
+                          <p className="text-slate-900 dark:text-slate-50 font-medium">{selectedLead.email}</p>
                           {selectedLead.email && (
                             <button
                               type="button"
                               onClick={() => openComposeForLead(selectedLead)}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-slate-900 text-xs font-medium transition-colors"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary hover:bg-primary/80 text-slate-900 dark:text-slate-50 text-xs font-medium transition-colors"
                             >
                               <Mail className="h-3.5 w-3.5" />
                               Email via Gmail
@@ -1130,14 +1149,14 @@ const Admin = () => {
                         </div>
                       </div>
                       <div>
-                        <label className="text-sm text-slate-500">Phone</label>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Phone</label>
                         <div className="flex items-center gap-2">
-                          <p className="text-slate-900 font-medium">{selectedLead.phone || 'N/A'}</p>
+                          <p className="text-slate-900 dark:text-slate-50 font-medium">{selectedLead.phone || 'N/A'}</p>
                           {selectedLead.phone && (
                             <button
                               type="button"
                               onClick={() => openWhatsAppForLead(selectedLead)}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-slate-900 text-xs font-medium transition-colors"
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-slate-900 dark:text-slate-50 text-xs font-medium transition-colors"
                             >
                               <MessageCircle className="h-3.5 w-3.5" />
                               WhatsApp Business
@@ -1146,12 +1165,12 @@ const Admin = () => {
                         </div>
                       </div>
                       <div>
-                        <label className="text-sm text-slate-500">Source</label>
-                        <p className="text-slate-900 font-medium capitalize">{selectedLead.source.replace('_', ' ')}</p>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Source</label>
+                        <p className="text-slate-900 dark:text-slate-50 font-medium capitalize">{selectedLead.source.replace('_', ' ')}</p>
                       </div>
                       <div>
-                        <label className="text-sm text-slate-500">Date</label>
-                        <p className="text-slate-900 font-medium">
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Date</label>
+                        <p className="text-slate-900 dark:text-slate-50 font-medium">
                           {new Date(selectedLead.created_at).toLocaleDateString('en-US', { 
                             year: 'numeric', 
                             month: 'long', 
@@ -1163,22 +1182,22 @@ const Admin = () => {
                       </div>
                       {selectedLead.role && (
                         <div>
-                          <label className="text-sm text-slate-500">Role</label>
-                          <p className="text-slate-900 font-medium">{selectedLead.role}</p>
+                          <label className="text-sm text-slate-500 dark:text-slate-400">Role</label>
+                          <p className="text-slate-900 dark:text-slate-50 font-medium">{selectedLead.role}</p>
                         </div>
                       )}
                       {selectedLead.inquiry_type && (
                         <div>
-                          <label className="text-sm text-slate-500">Inquiry Type</label>
-                          <p className="text-slate-900 font-medium capitalize">{selectedLead.inquiry_type.replace('_', ' ')}</p>
+                          <label className="text-sm text-slate-500 dark:text-slate-400">Inquiry Type</label>
+                          <p className="text-slate-900 dark:text-slate-50 font-medium capitalize">{selectedLead.inquiry_type.replace('_', ' ')}</p>
                         </div>
                       )}
                     </div>
                     {selectedLead.message && (
                       <div className="col-span-2">
-                        <label className="text-sm text-slate-500">Message</label>
-                        <div className="mt-2 p-4 bg-slate-50 rounded-lg border border-slate-100">
-                          <p className="text-slate-900 whitespace-pre-wrap">{selectedLead.message}</p>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Message</label>
+                        <div className="mt-2 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-800">
+                          <p className="text-slate-900 dark:text-slate-50 whitespace-pre-wrap">{selectedLead.message}</p>
                         </div>
                       </div>
                     )}
@@ -1186,16 +1205,16 @@ const Admin = () => {
                       const sc = scorecardResults[(selectedLead.email || '').toLowerCase().trim()];
                       if (!sc) return null;
                       return (
-                      <div className="mt-4 p-4 bg-slate-50 rounded-lg border border-slate-100">
-                        <label className="text-sm text-slate-500 block mb-3">Scorecard Results</label>
+                      <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-100 dark:border-slate-800">
+                        <label className="text-sm text-slate-500 dark:text-slate-400 block mb-3">Scorecard Results</label>
                         <div className="flex items-center gap-4 mb-3">
-                          <div className="text-3xl font-bold text-slate-900">{sc.overall_score}/100</div>
+                          <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{sc.overall_score}/100</div>
                           <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            sc.overall_score >= 85 ? 'bg-green-100 text-green-700' :
+                            sc.overall_score >= 85 ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' :
                             sc.overall_score >= 70 ? 'bg-primary/20 text-primary' :
-                            sc.overall_score >= 55 ? 'bg-yellow-100 text-yellow-700' :
-                            sc.overall_score >= 35 ? 'bg-orange-100 text-orange-700' :
-                            'bg-red-100 text-red-700'
+                            sc.overall_score >= 55 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300' :
+                            sc.overall_score >= 35 ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300' :
+                            'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300'
                           }`}>
                             {'★'.repeat(sc.rank_number)}{'☆'.repeat(5 - sc.rank_number)} {sc.rank_label}
                           </div>
@@ -1203,8 +1222,8 @@ const Admin = () => {
                         <div className="space-y-2">
                           {(sc.category_scores || []).map((cat, i) => (
                             <div key={i} className="flex items-center gap-3">
-                              <span className="text-xs text-slate-500 w-40 shrink-0">{cat.category}</span>
-                              <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
+                              <span className="text-xs text-slate-500 dark:text-slate-400 w-40 shrink-0">{cat.category}</span>
+                              <div className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
                                 <div 
                                   className={`h-full rounded-full ${
                                     cat.percentage >= 85 ? 'bg-green-500' :
@@ -1216,7 +1235,7 @@ const Admin = () => {
                                   style={{ width: `${cat.percentage}%` }}
                                 />
                               </div>
-                              <span className="text-xs text-slate-600 w-10 text-right">{cat.percentage}%</span>
+                              <span className="text-xs text-slate-600 dark:text-slate-400 w-10 text-right">{cat.percentage}%</span>
                             </div>
                           ))}
                         </div>
@@ -1230,10 +1249,10 @@ const Admin = () => {
 
             {/* Gmail Compose Dialog */}
             <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
-              <DialogContent className="bg-white border-slate-200 text-slate-900 sm:max-w-lg">
+              <DialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 sm:max-w-lg">
                 <DialogHeader>
                   <DialogTitle>Email lead from Gmail</DialogTitle>
-                  <DialogDescription className="text-slate-600">
+                  <DialogDescription className="text-slate-600 dark:text-slate-400">
                     Sends from your connected Gmail account to{" "}
                     <span className="font-medium">{composeLead?.email}</span>. Replies come straight back to your inbox.
                   </DialogDescription>

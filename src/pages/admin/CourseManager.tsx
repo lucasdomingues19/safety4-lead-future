@@ -14,9 +14,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen } from "lucide-react";
+import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen, Sun, Moon } from "lucide-react";
 import { asLessons, asQuizQuestions, type Course, type Module, type Lesson, type Quiz, type QuizQuestion } from "@/lib/lms";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
+import { useAdminTheme } from "@/hooks/useAdminTheme";
 
 const slugify = (s: string) =>
   s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -24,6 +25,7 @@ const slugify = (s: string) =>
 const CourseManager = () => {
   const navigate = useNavigate();
   const { checking, isAdmin } = useAdminGuard();
+  const { theme, toggleTheme } = useAdminTheme();
   const [courses, setCourses] = useState<Course[]>([]);
   const [selected, setSelected] = useState<Course | null>(null);
 
@@ -54,25 +56,36 @@ const CourseManager = () => {
 
   if (checking) {
     return (
-      <div className="admin-light-theme flex min-h-screen items-center justify-center bg-white">
+      <div className={`${theme === "light" ? "admin-light-theme" : "dark"} flex min-h-screen items-center justify-center bg-white dark:bg-slate-900`}>
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="admin-light-theme min-h-screen bg-white">
-      <div className="border-b border-slate-200">
+    <div className={`${theme === "light" ? "admin-light-theme" : "dark"} min-h-screen bg-white dark:bg-slate-900`}>
+      <div className="border-b border-slate-200 dark:border-slate-700">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <button
             onClick={() => navigate("/admin")}
-            className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+            className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-slate-50"
           >
             <ArrowLeft className="h-4 w-4" /> Back to admin
           </button>
-          <h1 className="flex items-center gap-2 font-bold text-slate-900">
-            <BookOpen className="h-5 w-5 text-primary" /> Course Manager
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="flex items-center gap-2 font-bold text-slate-900 dark:text-slate-50">
+              <BookOpen className="h-5 w-5 text-primary" /> Course Manager
+            </h1>
+            <Button
+              onClick={toggleTheme}
+              variant="outline"
+              size="icon"
+              className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
+              aria-label="Toggle light/dark appearance"
+            >
+              {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -88,11 +101,11 @@ const CourseManager = () => {
                 key={c.id}
                 onClick={() => setSelected(c)}
                 className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm ${
-                  selected?.id === c.id ? "bg-primary/15 text-slate-900" : "text-slate-600 hover:bg-slate-50"
+                  selected?.id === c.id ? "bg-primary/15 text-slate-900 dark:text-slate-50" : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
                 }`}
               >
                 <span className="truncate">{c.title}</span>
-                {!c.published && <span className="text-xs text-slate-400">draft</span>}
+                {!c.published && <span className="text-xs text-slate-400 dark:text-slate-500">draft</span>}
               </button>
             ))}
           </div>
@@ -111,7 +124,7 @@ const CourseManager = () => {
               }}
             />
           ) : (
-            <p className="text-slate-500">Select a course or create a new one to start.</p>
+            <p className="text-slate-500 dark:text-slate-400">Select a course or create a new one to start.</p>
           )}
         </main>
       </div>
@@ -197,9 +210,9 @@ const CourseEditor = ({
 
   return (
     <div className="space-y-8">
-      <Card className="border-slate-200 bg-white">
+      <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
         <CardHeader>
-          <CardTitle className="text-slate-900">Course details</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-slate-50">Course details</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -279,16 +292,16 @@ const CourseEditor = ({
       </Card>
 
       {/* Modules */}
-      <Card className="border-slate-200 bg-white">
+      <Card className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-slate-900">Modules & lessons</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-slate-50">Modules & lessons</CardTitle>
           <Button size="sm" onClick={addModule}>
             <Plus className="mr-2 h-4 w-4" /> Add module
           </Button>
         </CardHeader>
         <CardContent>
           {modules.length === 0 ? (
-            <p className="text-sm text-slate-500">No modules yet.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">No modules yet.</p>
           ) : (
             <Accordion type="multiple" className="space-y-2">
               {modules.map((m) => (
@@ -363,8 +376,8 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
   };
 
   return (
-    <AccordionItem value={module.id} className="rounded-lg border border-slate-200 px-3">
-      <AccordionTrigger className="text-slate-900 hover:no-underline">{form.title}</AccordionTrigger>
+    <AccordionItem value={module.id} className="rounded-lg border border-slate-200 dark:border-slate-700 px-3">
+      <AccordionTrigger className="text-slate-900 dark:text-slate-50 hover:no-underline">{form.title}</AccordionTrigger>
       <AccordionContent className="space-y-4 pb-4">
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-1.5">
@@ -405,9 +418,9 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
           </Button>
         </div>
 
-        <div className="border-t border-slate-200 pt-4">
+        <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-semibold text-slate-600">Lessons</span>
+            <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">Lessons</span>
             <Button size="sm" variant="outline" onClick={addLesson}>
               <Plus className="mr-2 h-4 w-4" /> Add lesson
             </Button>
@@ -468,7 +481,7 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
   };
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+    <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3">
       <div className="grid gap-3 md:grid-cols-[1fr_100px_100px]">
         <div className="space-y-1.5">
           <Label className="text-xs">Lesson title</Label>
@@ -614,7 +627,7 @@ const QuizEditor = ({ moduleId }: { moduleId: string }) => {
 
   return (
     <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
-      <p className="mb-3 text-sm font-semibold text-slate-600">Module quiz (optional)</p>
+      <p className="mb-3 text-sm font-semibold text-slate-600 dark:text-slate-400">Module quiz (optional)</p>
       {!quiz ? (
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1.5">
@@ -699,7 +712,7 @@ const QuestionEditor = ({ question, onChange }: { question: QuizQuestion; onChan
   };
 
   return (
-    <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+    <div className="rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3">
       <div className="space-y-1.5">
         <Label className="text-xs">Question</Label>
         <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} />

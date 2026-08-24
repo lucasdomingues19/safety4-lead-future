@@ -51,7 +51,18 @@ const CANONICAL_CATEGORIES = [
   "Leadership & Future Readiness",
 ];
 
-export const CompanyInsightsTab = () => {
+export const CompanyInsightsTab = ({ theme }: { theme: "light" | "dark" }) => {
+  const isDark = theme === "dark";
+  const chartColors = {
+    grid: isDark ? "#334155" : "#e2e8f0",
+    axis: isDark ? "#94a3b8" : "#64748b",
+    tickMuted: isDark ? "#64748b" : "#94a3b8",
+    legend: isDark ? "#cbd5e1" : "#334155",
+    tooltipBg: isDark ? "#1e293b" : "#ffffff",
+    tooltipBorder: isDark ? "#334155" : "#e2e8f0",
+    tooltipText: isDark ? "#f1f5f9" : "#0f172a",
+  };
+
   const [results, setResults] = useState<ScorecardRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCompany, setSelectedCompany] = useState<string>("all");
@@ -324,7 +335,7 @@ export const CompanyInsightsTab = () => {
   };
 
   if (loading) {
-    return <div className="text-slate-900 text-center py-12">Loading company insights...</div>;
+    return <div className="text-slate-900 dark:text-slate-50 text-center py-12">Loading company insights...</div>;
   }
 
   const COMPARISON_COLORS = ["#D6FF00", "#3b82f6", "#f97316", "#22c55e", "#a855f7"];
@@ -334,9 +345,9 @@ export const CompanyInsightsTab = () => {
       {/* Filters */}
       <div className="flex flex-wrap gap-4 items-end">
         <div className="space-y-1">
-          <label className="text-xs text-slate-500 uppercase tracking-wider">Company</label>
+          <label className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Company</label>
           <Select value={selectedCompany} onValueChange={(v) => { setSelectedCompany(v); setSelectedCompanies(new Set()); }}>
-            <SelectTrigger className="w-[220px] bg-slate-100 border-slate-200 text-slate-900">
+            <SelectTrigger className="w-[220px] bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50">
               <SelectValue placeholder="All companies" />
             </SelectTrigger>
             <SelectContent>
@@ -354,20 +365,20 @@ export const CompanyInsightsTab = () => {
               onClick={() => setDateFilter(d)}
               variant={dateFilter === d ? "default" : "outline"}
               size="sm"
-              className={dateFilter === d ? "bg-blue-600 hover:bg-blue-700" : "bg-white text-slate-600 border-slate-300 hover:bg-slate-50"}
+              className={dateFilter === d ? "bg-blue-600 hover:bg-blue-700" : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"}
             >
               {d === "7days" ? "7 Days" : d === "30days" ? "30 Days" : d === "90days" ? "90 Days" : "All Time"}
             </Button>
           ))}
         </div>
         <div className="space-y-1">
-          <label className="text-xs text-slate-500 uppercase tracking-wider">Aggregate By</label>
+          <label className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">Aggregate By</label>
           <Tabs value={aggregateBy} onValueChange={(v) => { setAggregateBy(v as AggregateBy); setSelectedCompanies(new Set()); setSelectedRespondents(new Set()); }}>
-            <TabsList className="bg-slate-100 border border-slate-200">
-              <TabsTrigger value="company" className="text-slate-900 data-[state=active]:bg-slate-100 data-[state=active]:text-slate-900">
+            <TabsList className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <TabsTrigger value="company" className="text-slate-900 dark:text-slate-50 data-[state=active]:bg-slate-100 dark:bg-slate-800 data-[state=active]:text-slate-900 dark:text-slate-50">
                 <Building2 className="h-3 w-3 mr-1" /> Company
               </TabsTrigger>
-              <TabsTrigger value="respondent" className="text-slate-900 data-[state=active]:bg-slate-100 data-[state=active]:text-slate-900">
+              <TabsTrigger value="respondent" className="text-slate-900 dark:text-slate-50 data-[state=active]:bg-slate-100 dark:bg-slate-800 data-[state=active]:text-slate-900 dark:text-slate-50">
                 <User className="h-3 w-3 mr-1" /> Respondent
               </TabsTrigger>
             </TabsList>
@@ -377,40 +388,40 @@ export const CompanyInsightsTab = () => {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-900">Respondents</CardTitle>
-            <Users className="h-4 w-4 text-slate-500" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Respondents</CardTitle>
+            <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-slate-900">{filtered.length}</div>
+            <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{filtered.length}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-900">Avg. Score</CardTitle>
-            <TrendingUp className="h-4 w-4 text-slate-500" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Avg. Score</CardTitle>
+            <TrendingUp className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-slate-900">{avgScore}<span className="text-lg text-slate-500">/100</span></div>
+            <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{avgScore}<span className="text-lg text-slate-500 dark:text-slate-400">/100</span></div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-slate-200 shadow-sm border-green-500/30">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm border-green-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-900">Strongest Area</CardTitle>
-            <Award className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Strongest Area</CardTitle>
+            <Award className="h-4 w-4 text-green-600 dark:text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-semibold text-green-600 leading-tight">{topCategory}</div>
+            <div className="text-lg font-semibold text-green-600 dark:text-green-400 leading-tight">{topCategory}</div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-slate-200 shadow-sm border-red-500/30">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm border-red-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-slate-900">Weakest Area</CardTitle>
-            <Award className="h-4 w-4 text-red-600" />
+            <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Weakest Area</CardTitle>
+            <Award className="h-4 w-4 text-red-600 dark:text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-semibold text-red-600 leading-tight">{bottomCategory}</div>
+            <div className="text-lg font-semibold text-red-600 dark:text-red-400 leading-tight">{bottomCategory}</div>
           </CardContent>
         </Card>
       </div>
@@ -418,10 +429,10 @@ export const CompanyInsightsTab = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Radar Chart - Personal + Org Maturity */}
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-slate-900">Average Scores by Category</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardTitle className="text-slate-900 dark:text-slate-50">Average Scores by Category</CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400">
               {selectedCompany !== "all" ? selectedCompany : "All companies"} · {filtered.length} respondent{filtered.length !== 1 ? "s" : ""}
               {hasOrgData && " · Personal vs Org Maturity Scores"}
             </CardDescription>
@@ -430,37 +441,37 @@ export const CompanyInsightsTab = () => {
             {radarData.length > 0 ? (
               <ResponsiveContainer width="100%" height={320}>
                 <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                  <PolarGrid stroke="#e2e8f0" />
-                  <PolarAngleAxis dataKey="category" tick={{ fill: "#64748b", fontSize: 11 }} />
-                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
+                  <PolarGrid stroke={chartColors.grid} />
+                  <PolarAngleAxis dataKey="category" tick={{ fill: chartColors.axis, fontSize: 11 }} />
+                  <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: chartColors.tickMuted, fontSize: 10 }} />
                   <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                   {hasOrgData && (
                     <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                   )}
-                  <Legend wrapperStyle={{ color: "#334155", fontSize: 12 }} />
-                  <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
+                  <Legend wrapperStyle={{ color: chartColors.legend, fontSize: 12 }} />
+                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} itemStyle={{ color: chartColors.tooltipText }} labelStyle={{ color: chartColors.tooltipText }} />
                 </RadarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="text-slate-400 text-center py-16">No data for selected filters</div>
+              <div className="text-slate-400 dark:text-slate-500 text-center py-16">No data for selected filters</div>
             )}
           </CardContent>
         </Card>
 
         {/* Distribution Bar Chart */}
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-slate-900">Score Distribution</CardTitle>
-            <CardDescription className="text-slate-600">Number of respondents per rank band</CardDescription>
+            <CardTitle className="text-slate-900 dark:text-slate-50">Score Distribution</CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400">Number of respondents per rank band</CardDescription>
           </CardHeader>
           <CardContent>
             {filtered.length > 0 ? (
               <ResponsiveContainer width="100%" height={320}>
                 <BarChart data={distributionData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 11 }} />
-                  <YAxis stroke="#64748b" allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+                  <XAxis dataKey="name" stroke={chartColors.axis} tick={{ fontSize: 11 }} />
+                  <YAxis stroke={chartColors.axis} allowDecimals={false} />
+                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} itemStyle={{ color: chartColors.tooltipText }} labelStyle={{ color: chartColors.tooltipText }} />
                   <Bar dataKey="count" name="Respondents" radius={[4, 4, 0, 0]}>
                     {distributionData.map((entry, index) => (
                       <Cell key={index} fill={entry.color} />
@@ -469,7 +480,7 @@ export const CompanyInsightsTab = () => {
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="text-slate-400 text-center py-16">No data for selected filters</div>
+              <div className="text-slate-400 dark:text-slate-500 text-center py-16">No data for selected filters</div>
             )}
           </CardContent>
         </Card>
@@ -477,10 +488,10 @@ export const CompanyInsightsTab = () => {
 
       {/* Selected Companies Comparison Radar */}
       {aggregateBy === "company" && aggregatedSelectionData && (
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-slate-900">Selected Companies — Aggregated View</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardTitle className="text-slate-900 dark:text-slate-50">Selected Companies — Aggregated View</CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400">
               {aggregatedSelectionData.companyCount} compan{aggregatedSelectionData.companyCount === 1 ? "y" : "ies"} · {aggregatedSelectionData.count} respondent{aggregatedSelectionData.count !== 1 ? "s" : ""}
               {aggregatedSelectionData.hasOrg && " · Personal vs Org Maturity"}
             </CardDescription>
@@ -488,20 +499,20 @@ export const CompanyInsightsTab = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
               <RadarChart data={aggregatedSelectionData.categories} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="#e2e8f0" />
-                <PolarAngleAxis dataKey="category" tick={{ fill: "#64748b", fontSize: 11 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
+                <PolarGrid stroke={chartColors.grid} />
+                <PolarAngleAxis dataKey="category" tick={{ fill: chartColors.axis, fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: chartColors.tickMuted, fontSize: 10 }} />
                 <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                 {aggregatedSelectionData.hasOrg && (
                   <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                 )}
-                <Legend wrapperStyle={{ color: "#334155", fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
+                <Legend wrapperStyle={{ color: chartColors.legend, fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} itemStyle={{ color: chartColors.tooltipText }} labelStyle={{ color: chartColors.tooltipText }} />
               </RadarChart>
             </ResponsiveContainer>
             <div className="mt-3 flex flex-wrap gap-2">
               {aggregatedSelectionData.companies.map((c) => (
-                <span key={c} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-full">{c}</span>
+                <span key={c} className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-1 rounded-full">{c}</span>
               ))}
             </div>
           </CardContent>
@@ -510,10 +521,10 @@ export const CompanyInsightsTab = () => {
 
       {/* Selected Respondents Comparison Radar */}
       {aggregateBy === "respondent" && aggregatedRespondentData && (
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-slate-900">Selected Respondents — Aggregated View</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardTitle className="text-slate-900 dark:text-slate-50">Selected Respondents — Aggregated View</CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400">
               {aggregatedRespondentData.respondentCount} respondent{aggregatedRespondentData.respondentCount !== 1 ? "s" : ""} · {aggregatedRespondentData.count} result{aggregatedRespondentData.count !== 1 ? "s" : ""}
               {aggregatedRespondentData.hasOrg && " · Personal vs Org Maturity"}
             </CardDescription>
@@ -521,46 +532,46 @@ export const CompanyInsightsTab = () => {
           <CardContent>
             {/* Overall grades summary */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-slate-50 rounded-lg p-4 text-center">
-                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Overall Grade</p>
+              <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center">
+                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Overall Grade</p>
                 <p className="text-3xl font-bold" style={{ color: aggregatedRespondentData.rankBand.color }}>
-                  {aggregatedRespondentData.overallAvg}<span className="text-lg text-slate-500">/100</span>
+                  {aggregatedRespondentData.overallAvg}<span className="text-lg text-slate-500 dark:text-slate-400">/100</span>
                 </p>
                 <p className="text-xs mt-1" style={{ color: aggregatedRespondentData.rankBand.color }}>
                   {aggregatedRespondentData.rankBand.label}
                 </p>
               </div>
-              <div className="bg-slate-50 rounded-lg p-4 text-center">
-                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Personal Avg</p>
+              <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center">
+                <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Personal Avg</p>
                 <p className="text-3xl font-bold text-[#D6FF00]">
-                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-slate-500">/100</span>
+                  {aggregatedRespondentData.personalAvg}<span className="text-lg text-slate-500 dark:text-slate-400">/100</span>
                 </p>
               </div>
               {aggregatedRespondentData.orgAvg !== null && (
-                <div className="bg-slate-50 rounded-lg p-4 text-center">
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Org Maturity Avg</p>
-                  <p className="text-3xl font-bold text-blue-600">
-                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-slate-500">/100</span>
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 text-center">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Org Maturity Avg</p>
+                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    {aggregatedRespondentData.orgAvg}<span className="text-lg text-slate-500 dark:text-slate-400">/100</span>
                   </p>
                 </div>
               )}
             </div>
             <ResponsiveContainer width="100%" height={400}>
               <RadarChart data={aggregatedRespondentData.categories} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="#e2e8f0" />
-                <PolarAngleAxis dataKey="category" tick={{ fill: "#64748b", fontSize: 11 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
+                <PolarGrid stroke={chartColors.grid} />
+                <PolarAngleAxis dataKey="category" tick={{ fill: chartColors.axis, fontSize: 11 }} />
+                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: chartColors.tickMuted, fontSize: 10 }} />
                 <Radar name="Personal Scores" dataKey="Personal Scores" stroke="#D6FF00" fill="#D6FF00" fillOpacity={0.3} strokeWidth={2} />
                 {aggregatedRespondentData.hasOrg && (
                   <Radar name="Org Maturity" dataKey="Org Maturity" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.15} strokeWidth={2} strokeDasharray="4 4" />
                 )}
-                <Legend wrapperStyle={{ color: "#334155", fontSize: 12 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} itemStyle={{ color: "#0f172a" }} labelStyle={{ color: "#0f172a" }} />
+                <Legend wrapperStyle={{ color: chartColors.legend, fontSize: 12 }} />
+                <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} itemStyle={{ color: chartColors.tooltipText }} labelStyle={{ color: chartColors.tooltipText }} />
               </RadarChart>
             </ResponsiveContainer>
             <div className="mt-3 flex flex-wrap gap-2">
               {aggregatedRespondentData.respondents.map((r) => (
-                <span key={r} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-full">{r}</span>
+                <span key={r} className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-1 rounded-full">{r}</span>
               ))}
             </div>
           </CardContent>
@@ -569,22 +580,22 @@ export const CompanyInsightsTab = () => {
 
       {/* Companies Overview with Checkboxes */}
       {aggregateBy === "company" && selectedCompany === "all" && companies.length > 0 && (
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-slate-900 flex items-center gap-2">
+              <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
                 <Building2 className="h-5 w-5" />
                 Companies Overview
               </CardTitle>
               <div className="flex items-center gap-3">
                 {selectedCompanies.size > 0 && (
-                  <span className="text-xs text-slate-500">{selectedCompanies.size} selected</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{selectedCompanies.size} selected</span>
                 )}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={selectAllCompanies}
-                  className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50 text-xs"
+                  className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs"
                 >
                   {selectedCompanies.size === companies.length ? "Deselect All" : "Select All"}
                 </Button>
@@ -601,33 +612,33 @@ export const CompanyInsightsTab = () => {
                   <div
                     key={company}
                     className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
-                      selectedCompanies.has(company) ? "bg-slate-100 ring-1 ring-primary/40" : "bg-slate-50 hover:bg-slate-100"
+                      selectedCompanies.has(company) ? "bg-slate-100 dark:bg-slate-800 ring-1 ring-primary/40" : "bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800"
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <Checkbox
                         checked={selectedCompanies.has(company)}
                         onCheckedChange={() => toggleCompanySelection(company)}
-                        className="border-slate-300 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
+                        className="border-slate-300 dark:border-slate-600 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
                       />
-                      <Building2 className="h-4 w-4 text-slate-400" />
+                      <Building2 className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                       <span
-                        className="text-slate-900 font-medium cursor-pointer hover:underline"
+                        className="text-slate-900 dark:text-slate-50 font-medium cursor-pointer hover:underline"
                         onClick={() => setSelectedCompany(company)}
                       >
                         {company}
                       </span>
-                      <span className="text-slate-400 text-sm">({companyResults.length} respondent{companyResults.length !== 1 ? "s" : ""})</span>
+                      <span className="text-slate-400 dark:text-slate-500 text-sm">({companyResults.length} respondent{companyResults.length !== 1 ? "s" : ""})</span>
                       {hasOrgScores && (
-                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Org Data</span>
+                        <span className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-2 py-0.5 rounded-full">Org Data</span>
                       )}
                     </div>
                     <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      companyAvg >= 85 ? "bg-green-100 text-green-700" :
-                      companyAvg >= 70 ? "bg-blue-100 text-blue-700" :
-                      companyAvg >= 55 ? "bg-yellow-100 text-yellow-700" :
-                      companyAvg >= 35 ? "bg-orange-100 text-orange-700" :
-                      "bg-red-100 text-red-700"
+                      companyAvg >= 85 ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300" :
+                      companyAvg >= 70 ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300" :
+                      companyAvg >= 55 ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300" :
+                      companyAvg >= 35 ? "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300" :
+                      "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
                     }`}>
                       Avg: {companyAvg}/100
                     </div>
@@ -641,22 +652,22 @@ export const CompanyInsightsTab = () => {
 
       {/* Respondents Overview with Checkboxes */}
       {aggregateBy === "respondent" && respondents.length > 0 && (
-        <Card className="bg-white border-slate-200 shadow-sm">
+        <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-slate-900 flex items-center gap-2">
+              <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
                 <User className="h-5 w-5" />
                 Respondents Overview
               </CardTitle>
               <div className="flex items-center gap-3">
                 {selectedRespondents.size > 0 && (
-                  <span className="text-xs text-slate-500">{selectedRespondents.size} selected</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{selectedRespondents.size} selected</span>
                 )}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={selectAllRespondents}
-                  className="bg-white text-slate-600 border-slate-300 hover:bg-slate-50 text-xs"
+                  className="bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs"
                 >
                   {selectedRespondents.size === respondentNames.length ? "Deselect All" : "Select All"}
                 </Button>
@@ -669,28 +680,28 @@ export const CompanyInsightsTab = () => {
                 <div
                   key={resp.name}
                   className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
-                    selectedRespondents.has(resp.name) ? "bg-slate-100 ring-1 ring-primary/40" : "bg-slate-50 hover:bg-slate-100"
+                    selectedRespondents.has(resp.name) ? "bg-slate-100 dark:bg-slate-800 ring-1 ring-primary/40" : "bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <Checkbox
                       checked={selectedRespondents.has(resp.name)}
                       onCheckedChange={() => toggleRespondentSelection(resp.name)}
-                      className="border-slate-300 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
+                      className="border-slate-300 dark:border-slate-600 data-[state=checked]:bg-[#D6FF00] data-[state=checked]:border-[#D6FF00] data-[state=checked]:text-black"
                     />
-                    <User className="h-4 w-4 text-slate-400" />
-                    <span className="text-slate-900 font-medium">{resp.name}</span>
-                    <span className="text-slate-400 text-sm">({resp.count} result{resp.count !== 1 ? "s" : ""})</span>
+                    <User className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+                    <span className="text-slate-900 dark:text-slate-50 font-medium">{resp.name}</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-sm">({resp.count} result{resp.count !== 1 ? "s" : ""})</span>
                     {resp.hasOrg && (
-                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Org Data</span>
+                      <span className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-2 py-0.5 rounded-full">Org Data</span>
                     )}
                   </div>
                   <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    resp.avgScore >= 85 ? "bg-green-100 text-green-700" :
-                    resp.avgScore >= 70 ? "bg-blue-100 text-blue-700" :
-                    resp.avgScore >= 55 ? "bg-yellow-100 text-yellow-700" :
-                    resp.avgScore >= 35 ? "bg-orange-100 text-orange-700" :
-                    "bg-red-100 text-red-700"
+                    resp.avgScore >= 85 ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300" :
+                    resp.avgScore >= 70 ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300" :
+                    resp.avgScore >= 55 ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300" :
+                    resp.avgScore >= 35 ? "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300" :
+                    "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
                   }`}>
                     Avg: {resp.avgScore}/100
                   </div>

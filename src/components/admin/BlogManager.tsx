@@ -156,9 +156,9 @@ export const BlogManager = () => {
   return (
     <div className="space-y-8">
       {/* Editor */}
-      <Card className="bg-white border-slate-200 shadow-sm">
+      <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-slate-900">
+          <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-50">
             <FileText className="h-5 w-5 text-primary" />
             {editingId ? "Edit post" : "New post"}
           </CardTitle>
@@ -194,7 +194,7 @@ export const BlogManager = () => {
                   Generate from title
                 </Button>
               </div>
-              <p className="text-xs text-slate-400">Lives at /blog/{form.slug || "..."}</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Lives at /blog/{form.slug || "..."}</p>
             </div>
             <div className="space-y-1 md:col-span-2">
               <Label htmlFor="bp-excerpt">Excerpt</Label>
@@ -280,15 +280,15 @@ export const BlogManager = () => {
       </Card>
 
       {/* List */}
-      <Card className="bg-white border-slate-200 shadow-sm">
+      <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-slate-900">Blog posts ({posts.length})</CardTitle>
+          <CardTitle className="text-slate-900 dark:text-slate-50">Blog posts ({posts.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex justify-center py-10"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>
           ) : posts.length === 0 ? (
-            <p className="text-slate-500 text-sm py-6 text-center">No blog posts yet.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm py-6 text-center">No blog posts yet.</p>
           ) : (
             <div className="overflow-x-auto">
               <Table>
@@ -306,14 +306,14 @@ export const BlogManager = () => {
                     <TableRow key={p.id}>
                       <TableCell className="max-w-[280px]">
                         <div className="font-medium truncate">{p.title}</div>
-                        <div className="text-xs text-slate-400 truncate">/blog/{p.slug}</div>
+                        <div className="text-xs text-slate-400 dark:text-slate-500 truncate">/blog/{p.slug}</div>
                       </TableCell>
                       <TableCell className="text-sm">{p.category}</TableCell>
                       <TableCell className="text-sm">{new Date(p.publish_date).toLocaleDateString("en-GB")}</TableCell>
                       <TableCell>
                         <span
                           className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                            p.published ? "bg-green-100 text-green-700" : "bg-slate-100 text-slate-600"
+                            p.published ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
                           }`}
                         >
                           {p.published ? "Published" : "Draft"}
@@ -330,7 +330,7 @@ export const BlogManager = () => {
                             <Pencil className="h-4 w-4" />
                           </Button>
                           <Button size="icon" variant="ghost" title="Delete" onClick={() => setToDelete(p)}>
-                            <Trash2 className="h-4 w-4 text-red-500" />
+                            <Trash2 className="h-4 w-4 text-red-500 dark:text-red-400" />
                           </Button>
                         </div>
                       </TableCell>
