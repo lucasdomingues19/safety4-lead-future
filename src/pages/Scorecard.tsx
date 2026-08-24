@@ -5,10 +5,8 @@ import { useState, useEffect } from "react";
 import { Safety4AssessmentModal } from "@/components/Safety4AssessmentModal";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ClipboardCheck, ArrowLeft } from "lucide-react";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
-import { Link } from "react-router-dom";
 
 const Scorecard = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -25,28 +23,28 @@ const Scorecard = () => {
   return (
     <>
 
-      <div className="min-h-screen flex flex-col bg-white">
+      <div className="min-h-screen flex flex-col bg-white text-slate-900">
         <AudienceNav />
-        <main className="flex-grow flex items-center justify-center px-4 py-16">
-          <div className="max-w-2xl w-full text-center space-y-8">
-            <div className="space-y-4">
-              <div className="flex justify-center">
-                <ClipboardCheck className="w-20 h-20 text-primary" />
+        <main className="container mx-auto px-4 pt-24 pb-12 md:pt-32 md:pb-24 flex-grow">
+          <div className="max-w-2xl mx-auto">
+            <div className="border-b border-slate-200 pb-5 mb-7 text-center">
+              <div className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-4">
+                Free assessment
               </div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight leading-[1.05]">
-                Free Digital Maturity Scorecard
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05] text-slate-900">
+                Digital Maturity Scorecard
               </h1>
-              <p className="text-xl text-slate-600">
-                Discover where you stand in the digital transformation of workplace safety
+              <p className="text-sm sm:text-base text-slate-600 mt-4 max-w-[52ch] mx-auto">
+                Fifteen statements, three minutes. Get a scored position across five categories — awareness, technology, risk &amp; compliance, change management and leadership — plus a personalised PDF report.
               </p>
             </div>
 
-            <div className="bg-white border border-slate-200 shadow-sm rounded-lg p-8 space-y-4">
-              <h2 className="text-2xl font-semibold text-slate-900">What You'll Get:</h2>
-              <ul className="text-left text-slate-600 space-y-3">
+            <div className="rounded-xl border border-slate-200 p-6 mb-8">
+              <h2 className="font-mono text-[11px] uppercase tracking-[0.16em] text-slate-500 mb-4">What you'll get</h2>
+              <ul className="text-left text-slate-700 space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-primary mt-1">✓</span>
-                  <span>Personalized assessment of your Safety 4.0 readiness</span>
+                  <span>Personalised assessment of your Safety 4.0 readiness</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary mt-1">✓</span>
@@ -63,12 +61,14 @@ const Scorecard = () => {
               </ul>
             </div>
 
-            <Button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-            >
-              Start Your Free Assessment
-            </Button>
+            <div className="text-center">
+              <Button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-primary text-white hover:bg-primary/90 text-base px-8 py-6 rounded-lg font-extrabold transition-colors"
+              >
+                Start Your Free Assessment
+              </Button>
+            </div>
           </div>
         </main>
 

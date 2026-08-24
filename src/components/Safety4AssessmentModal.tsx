@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
-import { CheckCircle, ArrowRight, ArrowLeft, Award, Zap, Download, Star, Mail, Building2 } from "lucide-react";
+import { CheckCircle, ArrowRight, Zap, Download, Star, Mail, Building2 } from "lucide-react";
 import { toast } from "sonner";
 import { countryCodes } from "@/data/countryCodes";
 import {
@@ -563,11 +562,13 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
   const categoryScores = step === "results" ? getCategoryScores() : [];
   const radarData = step === "results" ? getRadarData() : [];
 
+  const eyebrow = "font-mono text-[11px] uppercase tracking-[0.16em]";
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-slate-700">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border-slate-200">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center text-white">
+          <DialogTitle className={`${eyebrow} text-left text-primary`}>
             {step === "assessment" && "Safety 4.0 Scorecard & Digital Maturity"}
             {step === "capture" && "Unlock Your Results"}
             {step === "maturity_prompt" && "One More Step"}
@@ -580,53 +581,59 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         {step === "assessment" && (
           <div className="space-y-6 p-4 md:p-6">
             <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">
-                  Question {currentQuestion + 1} of {questions.length}
-                </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-[#D6FF00]/20 text-[#D6FF00]">
-                  {questions[currentQuestion].category}
-                </span>
+              <div className={`${eyebrow} text-slate-500 mb-3`}>
+                Question <span className="text-primary font-semibold">{currentQuestion + 1}</span> of {questions.length} · {questions[currentQuestion].category}
               </div>
-              <Progress value={progress} className="w-full h-2" />
+              <div className="flex gap-1 sm:gap-1.5">
+                {CATEGORIES.map((cat, i) => (
+                  <div
+                    key={cat}
+                    className={`h-1 flex-1 rounded-full ${
+                      CATEGORIES.indexOf(questions[currentQuestion].category as typeof CATEGORIES[number]) > i ||
+                      CATEGORIES.indexOf(questions[currentQuestion].category as typeof CATEGORIES[number]) === i
+                        ? "bg-primary"
+                        : "bg-slate-200"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-lg md:text-xl font-semibold text-white leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug">
                 {questions[currentQuestion].text}
               </h3>
 
-              <div className="space-y-3">
+              <div className="flex flex-col gap-2.5">
                 {questions[currentQuestion].options.map((option, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleAnswerSelect(option.points)}
-                    className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
+                    className={`flex items-start gap-3.5 text-left rounded-xl border px-4 py-3.5 text-[15px] transition-colors ${
                       answers[currentQuestion] === option.points
-                        ? "border-[#D6FF00] bg-[#D6FF00]/15 shadow-lg shadow-[#D6FF00]/10"
-                        : "border-slate-600 hover:border-slate-400 hover:bg-slate-700/50"
+                        ? "border-primary bg-primary/10 text-slate-900"
+                        : "border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary text-slate-900"
                     }`}
                   >
-                    {option.text}
+                    <span className="font-mono text-xs text-primary pt-0.5">{idx}</span>
+                    <span>{option.text}</span>
                   </button>
                 ))}
               </div>
 
-              <div className="flex justify-between">
-                <Button
-                  variant="outline"
-                  onClick={handlePreviousQuestion}
-                  disabled={currentQuestion === 0}
-                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Previous
-                </Button>
+              <div className="flex justify-between items-center">
+                {currentQuestion > 0 ? (
+                  <button onClick={handlePreviousQuestion} className="text-sm text-slate-500 underline hover:text-slate-900">
+                    Back
+                  </button>
+                ) : (
+                  <span />
+                )}
 
                 {answers[currentQuestion] !== undefined && currentQuestion < questions.length - 1 && (
                   <Button
                     onClick={() => setCurrentQuestion(currentQuestion + 1)}
-                    className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
+                    className="bg-primary text-white hover:bg-primary/90"
                   >
                     Next
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -642,46 +649,46 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
           <div className="space-y-6 p-4 md:p-6">
             <div className="text-center mb-6">
               <div className="flex justify-center mb-4">
-                <CheckCircle className="w-16 h-16 text-[#D6FF00]" />
+                <CheckCircle className="w-16 h-16 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">Assessment Complete!</h3>
-              <p className="text-gray-400">
+              <h3 className="text-xl font-extrabold tracking-tight mb-2 text-slate-900">Assessment Complete!</h3>
+              <p className="text-slate-500">
                 Enter your details to unlock your personalised Safety 4.0 Readiness Score, spider chart, and detailed breakdown.
               </p>
             </div>
 
             <div className="grid gap-4 max-w-md mx-auto">
               <div>
-                <Label htmlFor="firstName" className="text-gray-300">First Name *</Label>
-                <Input id="firstName" value={userData.firstName} onChange={(e) => setUserData({ ...userData, firstName: e.target.value })} placeholder="Enter your first name" className="bg-slate-800 border-slate-600 text-white" required />
+                <Label htmlFor="firstName" className={`${eyebrow} text-slate-500`}>First Name *</Label>
+                <Input id="firstName" value={userData.firstName} onChange={(e) => setUserData({ ...userData, firstName: e.target.value })} placeholder="Enter your first name" className="bg-slate-50 border-slate-200 text-slate-900" required />
               </div>
               <div>
-                <Label htmlFor="lastName" className="text-gray-300">Last Name *</Label>
-                <Input id="lastName" value={userData.lastName} onChange={(e) => setUserData({ ...userData, lastName: e.target.value })} placeholder="Enter your last name" className="bg-slate-800 border-slate-600 text-white" required />
+                <Label htmlFor="lastName" className={`${eyebrow} text-slate-500`}>Last Name *</Label>
+                <Input id="lastName" value={userData.lastName} onChange={(e) => setUserData({ ...userData, lastName: e.target.value })} placeholder="Enter your last name" className="bg-slate-50 border-slate-200 text-slate-900" required />
               </div>
               <div>
-                <Label htmlFor="email" className="text-gray-300">Email Address *</Label>
-                <Input id="email" type="email" value={userData.email} onChange={(e) => setUserData({ ...userData, email: e.target.value })} placeholder="Enter your email address" className="bg-slate-800 border-slate-600 text-white" required />
+                <Label htmlFor="email" className={`${eyebrow} text-slate-500`}>Email Address *</Label>
+                <Input id="email" type="email" value={userData.email} onChange={(e) => setUserData({ ...userData, email: e.target.value })} placeholder="Enter your email address" className="bg-slate-50 border-slate-200 text-slate-900" required />
               </div>
               <div>
-                <Label htmlFor="companyName" className="text-gray-300">Company Name *</Label>
-                <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-800 border-slate-600 text-white" required />
+                <Label htmlFor="companyName" className={`${eyebrow} text-slate-500`}>Company Name *</Label>
+                <Input id="companyName" value={userData.companyName} onChange={(e) => setUserData({ ...userData, companyName: e.target.value })} placeholder="Enter your company name" className="bg-slate-50 border-slate-200 text-slate-900" required />
               </div>
               <div>
-                <Label htmlFor="phone" className="text-gray-300">Phone Number *</Label>
+                <Label htmlFor="phone" className={`${eyebrow} text-slate-500`}>Phone Number *</Label>
                 <div className="flex gap-2">
                   <select
                     value={userData.phoneCode}
                     onChange={(e) => setUserData({ ...userData, phoneCode: e.target.value })}
-                    className="bg-slate-800 border border-slate-600 text-white rounded-md px-2 py-2 w-[110px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-[#D6FF00]"
+                    className="bg-slate-50 border border-slate-200 text-slate-900 rounded-md px-2 py-2 w-[110px] flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     {countryCodes.map((c) => (
-                      <option key={c.code} value={c.code} className="bg-slate-800 text-white">
+                      <option key={c.code} value={c.code}>
                         {c.label}
                       </option>
                     ))}
                   </select>
-                  <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Phone number" className="bg-slate-800 border-slate-600 text-white" required />
+                  <Input id="phone" type="tel" value={userData.phone} onChange={(e) => setUserData({ ...userData, phone: e.target.value })} placeholder="Phone number" className="bg-slate-50 border-slate-200 text-slate-900" required />
                 </div>
               </div>
               <div className="flex items-start gap-3 mt-2">
@@ -690,15 +697,15 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   id="emailConsent"
                   checked={userData.emailConsent}
                   onChange={(e) => setUserData({ ...userData, emailConsent: e.target.checked })}
-                  className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-800 text-[#D6FF00] focus:ring-[#D6FF00]"
+                  className="mt-1 h-4 w-4 rounded border-slate-300 bg-slate-50 text-primary focus:ring-primary"
                 />
-                <Label htmlFor="emailConsent" className="text-gray-400 text-sm font-normal cursor-pointer leading-relaxed">
+                <Label htmlFor="emailConsent" className="text-slate-500 text-sm font-normal cursor-pointer leading-relaxed">
                   I agree to receive occasional emails from the SafetyTech Academy about courses, events, and safety insights. You can unsubscribe at any time.
                 </Label>
               </div>
               <Button
                 onClick={handleUserDataSubmit}
-                className="w-full mt-4 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
+                className="w-full mt-4 bg-primary text-white hover:bg-primary/90 py-5 text-base font-semibold"
                 disabled={!userData.firstName || !userData.lastName || !userData.email || !userData.companyName || !userData.phone || isSubmitting}
               >
                 {isSubmitting ? "Loading..." : "Unlock My Results"}
@@ -712,19 +719,19 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         {step === "maturity_prompt" && (
           <div className="space-y-6 p-4 md:p-6">
             <div className="text-center space-y-4">
-              <div className="mx-auto w-16 h-16 bg-[#D6FF00]/20 rounded-full flex items-center justify-center">
-                <Building2 className="w-8 h-8 text-[#D6FF00]" />
+              <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                <Building2 className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-white">Would you like to continue and complete a digital maturity pulse?</h3>
-              <p className="text-gray-400 max-w-md mx-auto">
+              <h3 className="text-xl font-extrabold tracking-tight text-slate-900">Would you like to continue and complete a digital maturity pulse?</h3>
+              <p className="text-slate-500 max-w-md mx-auto">
                 Complete a quick 5-statement Digital Maturity Pulse to see how your personal readiness compares with your organisation's capabilities — overlaid on the same radar chart.
               </p>
-              <p className="text-gray-500 text-sm">Takes less than 1 minute</p>
+              <p className="text-slate-400 text-sm">Takes less than 1 minute</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
               <Button
                 onClick={() => setStep("maturity")}
-                className="flex-1 bg-[#D6FF00] text-black hover:bg-[#c5ee00] py-5 text-base font-semibold"
+                className="flex-1 bg-primary text-white hover:bg-primary/90 py-5 text-base font-semibold"
               >
                 Yes, Continue
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -734,7 +741,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   setStep("capture");
                 }}
                 variant="outline"
-                className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700 py-5 text-base"
+                className="flex-1 border-slate-300 text-slate-600 hover:bg-slate-50 py-5 text-base"
               >
                 Skip & See Results
               </Button>
@@ -746,23 +753,22 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         {step === "maturity" && (
           <div className="space-y-6 p-4 md:p-6">
             <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-400">
-                  Statement {currentMaturityQ + 1} of {MATURITY_DIMENSIONS.length}
-                </span>
-                <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-500/20 text-blue-300">
-                  {MATURITY_DIMENSIONS[currentMaturityQ].label}
-                </span>
+              <div className={`${eyebrow} text-slate-500 mb-3`}>
+                Statement <span className="text-primary font-semibold">{currentMaturityQ + 1}</span> of {MATURITY_DIMENSIONS.length} · {MATURITY_DIMENSIONS[currentMaturityQ].label}
               </div>
-              <Progress value={((currentMaturityQ + 1) / MATURITY_DIMENSIONS.length) * 100} className="w-full h-2" />
+              <div className="flex gap-1 sm:gap-1.5">
+                {MATURITY_DIMENSIONS.map((dim, i) => (
+                  <div key={dim.id} className={`h-1 flex-1 rounded-full ${i <= currentMaturityQ ? "bg-primary" : "bg-slate-200"}`} />
+                ))}
+              </div>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-lg md:text-xl font-semibold text-white leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-slate-900 leading-snug">
                 {MATURITY_DIMENSIONS[currentMaturityQ].statement}
               </h3>
 
-              <div className="space-y-3">
+              <div className="flex flex-col gap-2.5">
                 {MATURITY_LIKERT.map((option, idx) => (
                   <button
                     key={idx}
@@ -776,34 +782,33 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                         setStep("capture");
                       }
                     }}
-                    className={`w-full p-4 text-left border rounded-xl transition-all duration-200 text-white hover:scale-[1.01] ${
+                    className={`flex items-start gap-3.5 text-left rounded-xl border px-4 py-3.5 text-[15px] transition-colors ${
                       maturityAnswers[currentMaturityQ] === option.points
-                        ? "border-blue-400 bg-blue-500/15 shadow-lg shadow-blue-500/10"
-                        : "border-slate-600 hover:border-slate-400 hover:bg-slate-700/50"
+                        ? "border-primary bg-primary/10 text-slate-900"
+                        : "border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-primary text-slate-900"
                     }`}
                   >
-                    {option.text}
+                    <span className="font-mono text-xs text-primary pt-0.5">{idx}</span>
+                    <span>{option.text}</span>
                   </button>
                 ))}
               </div>
 
-              <div className="flex justify-between">
-                <Button
-                  variant="outline"
+              <div className="flex justify-between items-center">
+                <button
                   onClick={() => {
                     if (currentMaturityQ > 0) setCurrentMaturityQ(currentMaturityQ - 1);
                     else setStep("maturity_prompt");
                   }}
-                  className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                  className="text-sm text-slate-500 underline hover:text-slate-900"
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Previous
-                </Button>
+                  Back
+                </button>
 
                 {maturityAnswers[currentMaturityQ] !== undefined && currentMaturityQ < MATURITY_DIMENSIONS.length - 1 && (
                   <Button
                     onClick={() => setCurrentMaturityQ(currentMaturityQ + 1)}
-                    className="bg-blue-500 text-white hover:bg-blue-600"
+                    className="bg-primary text-white hover:bg-primary/90"
                   >
                     Next
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -818,37 +823,41 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
         {step === "results" && rankInfo && (
           <div className="space-y-8 p-4 md:p-6" ref={resultsRef}>
             {/* Rank & Score Header */}
-            <div className="text-center space-y-3">
-              <div className="flex justify-center gap-1 mb-2">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star
-                    key={s}
-                    className={`w-7 h-7 ${s <= rankInfo.rank ? "fill-[#D6FF00] text-[#D6FF00]" : "text-slate-600"}`}
-                  />
-                ))}
-              </div>
-              <h3 className="text-3xl font-bold" style={{ color: rankInfo.color }}>
-                {rankInfo.label}
-              </h3>
-              <p className="text-gray-400 max-w-md mx-auto">{rankInfo.description}</p>
-              <div className="flex items-center justify-center gap-6 mt-4">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-white">{overallPercentage}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wider">Score / 100</div>
+            <div className="rounded-xl border border-slate-200 overflow-hidden">
+              <div className="p-5 border-b border-slate-200 text-center">
+                <div className="flex justify-center gap-1 mb-2">
+                  {[1, 2, 3, 4, 5].map((s) =>
+                    s <= rankInfo.rank ? (
+                      <Star key={s} className="w-6 h-6" style={{ fill: rankInfo.color, color: rankInfo.color }} />
+                    ) : (
+                      <Star key={s} className="w-6 h-6 text-slate-300" />
+                    ),
+                  )}
                 </div>
-                <div className="w-px h-12 bg-slate-700" />
-                <div className="text-center">
-                  <div className="text-4xl font-bold" style={{ color: rankInfo.color }}>{rankInfo.rank}</div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wider">Rank / 5</div>
+                <div className={`${eyebrow}`} style={{ color: rankInfo.color }}>Your position</div>
+                <div className="font-extrabold tracking-tight text-3xl md:text-4xl leading-none mt-2" style={{ color: rankInfo.color }}>
+                  {rankInfo.label}
+                </div>
+                <div className="flex items-center justify-center gap-6 mt-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-extrabold text-slate-900">{overallPercentage}</div>
+                    <div className="text-xs text-slate-400 uppercase tracking-wider">Score / 100</div>
+                  </div>
+                  <div className="w-px h-10 bg-slate-200" />
+                  <div className="text-center">
+                    <div className="text-3xl font-extrabold" style={{ color: rankInfo.color }}>{rankInfo.rank}</div>
+                    <div className="text-xs text-slate-400 uppercase tracking-wider">Rank / 5</div>
+                  </div>
                 </div>
               </div>
+              <div className="p-5 bg-slate-50 text-[15px] text-slate-700 text-center">{rankInfo.description}</div>
             </div>
 
             {/* Spider Chart */}
-            <div className="bg-white rounded-2xl p-4 md:p-6" id="scorecard-radar-chart">
-              <h4 className="text-center font-semibold text-sm text-gray-700 mb-2">
+            <div className="rounded-xl border border-slate-200 p-4 md:p-6" id="scorecard-radar-chart">
+              <div className={`${eyebrow} text-slate-500 mb-3 text-center`}>
                 Your Safety 4.0 Readiness Profile
-              </h4>
+              </div>
               <ResponsiveContainer width="100%" height={340}>
                 <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
                   <PolarGrid stroke="#e2e8f0" />
@@ -874,8 +883,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                     <Radar
                       name="Org Maturity"
                       dataKey="Org Maturity"
-                      stroke="#3b82f6"
-                      fill="#3b82f6"
+                      stroke="#f59e0b"
+                      fill="#f59e0b"
                       fillOpacity={0.2}
                       strokeWidth={2}
                       strokeDasharray="6 3"
@@ -884,9 +893,9 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
                   <Radar
                     name="Your Score"
                     dataKey="Your Score"
-                    stroke="#11113a"
-                    fill="#D6FF00"
-                    fillOpacity={0.45}
+                    stroke="#3434FF"
+                    fill="#3434FF"
+                    fillOpacity={0.3}
                     strokeWidth={2}
                   />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -896,16 +905,16 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
 
             {/* Category Breakdown */}
             <div className="space-y-3">
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider">Category Breakdown</h4>
+              <h4 className={`${eyebrow} text-slate-500`}>Category Breakdown</h4>
               {categoryScores.map((cat, idx) => {
                 const catRank = getRank(cat.percentage);
                 return (
                   <div key={idx} className="space-y-1.5">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-300">{cat.category}</span>
+                      <span className="text-slate-700">{cat.category}</span>
                       <span className="font-bold" style={{ color: catRank.color }}>{cat.percentage}%</span>
                     </div>
-                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-700"
                         style={{ width: `${cat.percentage}%`, backgroundColor: catRank.color }}
@@ -921,7 +930,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <Button
                 onClick={generatePdf}
                 disabled={isGeneratingPdf}
-                className="bg-white text-slate-900 hover:bg-gray-100 py-5 text-base font-semibold w-full sm:w-auto sm:px-12"
+                className="bg-primary text-white hover:bg-primary/90 py-5 text-base font-semibold w-full sm:w-auto sm:px-12"
               >
                 <Download className="w-5 h-5 mr-2" />
                 {isGeneratingPdf ? "Generating..." : "Download PDF"}
@@ -929,7 +938,8 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
               <Button
                 onClick={sendResultsEmail}
                 disabled={isSendingEmail || emailSent}
-                className="bg-slate-700 text-white hover:bg-slate-600 py-5 text-base font-semibold w-full sm:w-auto sm:px-12"
+                variant="outline"
+                className="border-slate-300 text-primary hover:bg-slate-50 py-5 text-base font-semibold w-full sm:w-auto sm:px-12"
               >
                 <Mail className="w-5 h-5 mr-2" />
                 {emailSent ? "Email Sent ✓" : isSendingEmail ? "Sending..." : "Send via Email"}
@@ -937,14 +947,14 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             </div>
 
             {/* CTA */}
-            <div className="bg-gradient-to-r from-[#D6FF00]/20 to-[#D6FF00]/5 border border-[#D6FF00]/30 rounded-xl p-6 text-center">
-              <Zap className="w-10 h-10 mx-auto mb-3 text-[#D6FF00]" />
-              <h4 className="font-semibold text-lg mb-2 text-white">Ready to Level Up?</h4>
-              <p className="text-gray-400 mb-4 text-sm">
+            <div className="rounded-xl border border-primary bg-slate-50 p-6 text-center">
+              <Zap className="w-10 h-10 mx-auto mb-3 text-primary" />
+              <h4 className="font-extrabold text-lg mb-2 text-slate-900">Ready to Level Up?</h4>
+              <p className="text-slate-500 mb-4 text-sm">
                 Join the SafetyTech Academy and transform your career with the world's first IOSH-approved Safety 4.0 program.
               </p>
               <Button
-                className="bg-[#D6FF00] text-black hover:bg-[#c5ee00]"
+                className="bg-primary text-white hover:bg-primary/90"
                 onClick={() => {
                   handleClose();
                   window.location.href = "/enrol";
@@ -955,7 +965,7 @@ export const Safety4AssessmentModal = ({ isOpen, onClose }: AssessmentModalProps
             </div>
 
             <div className="flex justify-center">
-              <Button variant="outline" onClick={resetAssessment} className="border-slate-600 text-slate-300 hover:bg-slate-700">
+              <Button variant="outline" onClick={resetAssessment} className="border-slate-300 text-slate-600 hover:bg-slate-50">
                 Retake Assessment
               </Button>
             </div>
