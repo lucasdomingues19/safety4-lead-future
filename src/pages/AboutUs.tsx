@@ -84,14 +84,20 @@ const AboutUs = () => {
             <div>
               <h2 className="mb-6">Our Story</h2>
               <h3 className="text-xl font-bold text-slate-900 leading-snug mb-5">
-                Placeholder copy — replace with the real story of how SafetyTech Academy started.
+                SafetyTech Academy was born from field observations: technology was transforming the workplace faster than safety professionals were being prepared for it.
               </h3>
               <div className="space-y-4 text-[#69697b] leading-relaxed">
                 <p>
-                  This paragraph is a placeholder. Swap it for the story of the problem Lucas saw in the field, why traditional safety training wasn't keeping pace with AI and digital transformation, and what pushed him to build something different.
+                  After 15+ years in EHS and Sustainability, Lucas saw the gap first-hand. AI, automation and digital tools were creating new opportunities to work smarter, but traditional safety training wasn't keeping pace.
+                </p>
+                <p className="italic text-slate-900 border-l-2 border-primary pl-4">
+                  "We can't manage Industry 4.0 risks with outdated safety methods," he says.
                 </p>
                 <p>
-                  This second paragraph is also a placeholder — a good spot for how the Academy has grown since, who it now serves, and what's next.
+                  So he built SafetyTech Academy to help EHS and Sustainability professionals understand, adopt and lead with technology — combining practical industry experience with AI and digital transformation.
+                </p>
+                <p>
+                  Today, the Academy helps professionals and organisations navigate the transition to Safety 4.0 with the knowledge, tools and confidence to thrive in the digital age.
                 </p>
               </div>
             </div>
