@@ -4,19 +4,40 @@ import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
-import { getPostBySlug, getRecentPosts } from "@/data/blogPosts";
+import { getPostBySlug, getRecentPosts, type BlogPost as BlogPostType } from "@/lib/blog";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { setPageSEO } from "@/utils/seo";
 import founderPhoto from "@/assets/founder-cutout.png";
 
+const BASE = "https://safetytech.academy";
+// featuredImage is either a site-relative path or a full external URL (e.g.
+// Unsplash) — only prepend the origin for the relative case.
+const absoluteImageUrl = (src: string) => (src.startsWith("http") ? src : `${BASE}${src}`);
+
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = slug ? getPostBySlug(slug) : undefined;
-  const relatedPosts = post
-    ? getRecentPosts(4).filter((p) => p.slug !== post.slug).slice(0, 3)
-    : [];
+  const [post, setPost] = useState<BlogPostType | undefined>(undefined);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    getPostBySlug(slug).then((found) => {
+      setPost(found);
+      setLoading(false);
+      if (found) {
+        getRecentPosts(4).then((recent) => {
+          setRelatedPosts(recent.filter((p) => p.slug !== found.slug).slice(0, 3));
+        });
+      }
+    });
+  }, [slug]);
 
   useEffect(() => {
     if (post) {
@@ -25,7 +46,7 @@ const BlogPost = () => {
         title: `${post.title} | SafetyTech Academy Blog`,
         description: post.metaDescription,
         canonical: `https://safetytech.academy/blog/${post.slug}`,
-        ogImage: `https://safetytech.academy${post.featuredImage}`,
+        ogImage: absoluteImageUrl(post.featuredImage),
         ogType: "article",
       });
 
@@ -38,7 +59,7 @@ const BlogPost = () => {
         "@type": "BlogPosting",
         "headline": post.title,
         "description": post.metaDescription,
-        "image": `https://safetytech.academy${post.featuredImage}`,
+        "image": absoluteImageUrl(post.featuredImage),
         "author": {
           "@type": "Person",
           "name": post.author,
@@ -109,6 +130,18 @@ const BlogPost = () => {
       document.querySelector('script[data-schema="blogfaq"]')?.remove();
     };
   }, [post]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <AudienceNav />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-slate-200 border-t-primary rounded-full animate-spin" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!post) {
     return <Navigate to="/blog" replace />;

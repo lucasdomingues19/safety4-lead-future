@@ -2,15 +2,18 @@ import AudienceNav from "@/components/AudienceNav";
 import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
-import { blogPosts } from "@/data/blogPosts";
+import { getAllPublished, type BlogPost } from "@/lib/blog";
 import { Link } from "react-router-dom";
 import founderPhoto from "@/assets/founder-cutout.png";
 
 const Blog = () => {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
@@ -18,9 +21,13 @@ const Blog = () => {
       description: "Expert articles on AI in workplace safety, SafetyTech trends and IOSH training. Stay ahead in safety leadership.",
       canonical: "https://safetytech.academy/blog",
     });
+    getAllPublished().then((data) => {
+      setPosts(data);
+      setLoading(false);
+    });
   }, []);
 
-  const [featured, ...rest] = blogPosts;
+  const [featured, ...rest] = posts;
 
   return (
     <>
@@ -39,8 +46,14 @@ const Blog = () => {
             </p>
           </div>
 
+          {loading && (
+            <div className="flex justify-center py-20">
+              <div className="w-8 h-8 border-2 border-slate-200 border-t-primary rounded-full animate-spin" />
+            </div>
+          )}
+
           {/* Featured Post — full-bleed image with overlaid title */}
-          {featured && (
+          {!loading && featured && (
             <Link to={`/blog/${featured.slug}`} className="block mb-16 group">
               <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-[24px] overflow-hidden">
                 <img
@@ -65,6 +78,8 @@ const Blog = () => {
           )}
 
           {/* Blog Posts Grid */}
+          {!loading && rest.length > 0 && (
+          <>
           <h2 className="mb-8">Latest Articles</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {rest.map((post) => (
@@ -112,6 +127,8 @@ const Blog = () => {
               </Link>
             ))}
           </div>
+          </>
+          )}
 
           {/* Explore our programmes — internal links */}
           <div className="max-w-4xl mx-auto mt-20">
