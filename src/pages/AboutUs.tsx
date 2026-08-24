@@ -141,16 +141,27 @@ const AboutUs = () => {
       <section className="relative bg-primary py-8 md:py-10">
         <BlueBandDecor />
 
-        <div className="relative z-10 container mx-auto px-4">
-          <div className="relative max-w-5xl mx-auto">
-            <img
-              src={founderPhoto}
-              alt="Lucas Domingues, MSc, CMIOSH"
-              loading="lazy"
-              decoding="async"
-              className="hidden lg:block absolute left-0 bottom-0 z-10 h-full w-auto max-w-[420px] object-contain object-bottom drop-shadow-2xl pointer-events-none"
-            />
+        {/* Photo layer — spans the band's full outer height (absolute inset-0
+            against the relative section) so it fills edge to edge regardless
+            of how tall the text content is, while the container/max-w-5xl
+            wrapper inside it mirrors the text column below so the photo's
+            left edge lines up with the text instead of the viewport edge. */}
+        <div className="hidden lg:block absolute inset-0 z-10 pointer-events-none">
+          <div className="container mx-auto px-4 h-full">
+            <div className="relative max-w-5xl mx-auto h-full">
+              <img
+                src={founderPhoto}
+                alt="Lucas Domingues, MSc, CMIOSH"
+                loading="lazy"
+                decoding="async"
+                className="absolute left-0 bottom-0 h-full w-auto max-w-[420px] object-contain object-bottom drop-shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
 
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
             <div className="lg:hidden flex justify-center mb-8">
               <img
                 src={founderPhoto}
