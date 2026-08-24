@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
@@ -6,6 +7,7 @@ import { trackPageView } from "@/utils/analytics";
 import { CourseHero } from "@/components/course/CourseHero";
 import { RelatedCourses } from "@/components/course/RelatedCourses";
 import { CopilotROICalculator } from "@/components/CopilotROICalculator";
+import { CopilotWaitlistForm } from "@/components/CopilotWaitlistForm";
 import badgeCopilot from "@/assets/badge-copilot.png";
 import iconCopilot from "@/assets/icon-copilot.png";
 import heroCopilotCourse from "@/assets/hero-copilot-course.jpg";
@@ -17,10 +19,7 @@ import {
 } from "@/components/ui/accordion";
 import {
   CheckCircle2, Users, Calendar, Laptop, ShieldCheck, Target,
-  ArrowRight,
 } from "lucide-react";
-
-const WAITLIST_URL = "https://learning.safetyacademy.tech/forms/2149695548";
 
 const modules = [
   {
@@ -74,6 +73,8 @@ const modules = [
 ];
 
 const CopilotEHS = () => {
+  const location = useLocation();
+
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
@@ -83,6 +84,15 @@ const CopilotEHS = () => {
       canonical: "https://safetytech.academy/copilot-for-ehs",
     });
   }, []);
+
+  // React Router doesn't auto-scroll to a hash target — do it manually so
+  // the hero's "Join the Waitlist" CTA (an internal Link to #waitlist)
+  // actually brings the form into view.
+  useEffect(() => {
+    if (location.hash === "#waitlist") {
+      document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [location.hash]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -107,7 +117,7 @@ const CopilotEHS = () => {
           { icon: Target, label: "Group size", value: "10–30+ participants" },
           { icon: Calendar, label: "Launch", value: "October 2026" },
         ]}
-        cta={{ label: "Join the Waitlist", href: WAITLIST_URL, external: true }}
+        cta={{ label: "Join the Waitlist", href: "/copilot-for-ehs#waitlist" }}
         secondaryCta={{ label: "Talk to Us", href: "/contact" }}
         guarantee="Live cohorts launch October 2026 — waitlist members get early access."
       />
@@ -304,30 +314,18 @@ const CopilotEHS = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-10 md:py-14 border-t border-slate-200">
+      {/* Waitlist */}
+      <section id="waitlist" className="py-10 md:py-14 border-t border-slate-200 scroll-mt-20">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="mb-4">Ready to give your team real Copilot competence?</h2>
           <p className="text-[#69697b] leading-relaxed mb-8 max-w-xl mx-auto">
             Live cohorts launch October 2026. Join the waitlist for early access and a quote scaled to your team.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={WAITLIST_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
-            >
-              Join the Waitlist
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-[18px] border border-primary text-primary font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
-            >
-              Talk to Us
-            </a>
-          </div>
+          <CopilotWaitlistForm />
+          <p className="text-sm text-[#69697b] mt-6">
+            Prefer to talk it through first?{" "}
+            <a href="/contact" className="text-primary underline hover:text-primary/80">Talk to us</a>.
+          </p>
         </div>
       </section>
 
