@@ -2,15 +2,15 @@ import { Sparkles, MessageSquare, Award, ShieldCheck, Users, Calendar, CheckCirc
 import badgeAIFundamentals from "@/assets/badge-ai-fundamentals.png";
 import badgeElearning from "@/assets/badge-elearning.png";
 import badgeAccelerator from "@/assets/badge-accelerator.png";
-import badgeCopilot from "@/assets/badge-copilot-placeholder.png";
+import badgeCopilot from "@/assets/badge-copilot.png";
 import iconAIFundamentals from "@/assets/icon-ai-fundamentals.png";
 import iconElearning from "@/assets/icon-elearning.png";
 import iconAccelerator from "@/assets/icon-accelerator.png";
-import iconCopilot from "@/assets/icon-copilot-placeholder.png";
+import iconCopilot from "@/assets/icon-copilot.png";
 import iconWhiteAIFundamentals from "@/assets/icon-white-ai-fundamentals.png";
 import iconWhiteElearning from "@/assets/icon-white-elearning.png";
 import iconWhiteAccelerator from "@/assets/icon-white-accelerator.png";
-import iconWhiteCopilot from "@/assets/icon-white-copilot-placeholder.png";
+import iconWhiteCopilot from "@/assets/icon-white-copilot.png";
 
 // Per-course illustrated header — a mini "product mockup" panel plus
 // floating icon chips, themed to what each course is actually about.

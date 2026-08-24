@@ -6,8 +6,9 @@ import { trackPageView } from "@/utils/analytics";
 import { CourseHero } from "@/components/course/CourseHero";
 import { RelatedCourses } from "@/components/course/RelatedCourses";
 import { CopilotROICalculator } from "@/components/CopilotROICalculator";
-import badgeCopilot from "@/assets/badge-copilot-placeholder.png";
-import iconCopilot from "@/assets/icon-copilot-placeholder.png";
+import badgeCopilot from "@/assets/badge-copilot.png";
+import iconCopilot from "@/assets/icon-copilot.png";
+import heroCopilotCourse from "@/assets/hero-copilot-course.jpg";
 import {
   Accordion,
   AccordionContent,
@@ -110,6 +111,17 @@ const CopilotEHS = () => {
         secondaryCta={{ label: "Talk to Us", href: "/contact" }}
         guarantee="Live cohorts launch October 2026 — waitlist members get early access."
       />
+
+      {/* Copilot across the everyday EHS toolkit */}
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto rounded-[24px] overflow-hidden">
+          <img
+            src={heroCopilotCourse}
+            alt="Microsoft Copilot working across Word, Excel, PowerPoint, Teams and OneNote"
+            className="w-full h-auto object-cover"
+          />
+        </div>
+      </div>
 
       {/* The opportunity */}
       <section className="py-10 md:py-14 border-t border-slate-200">
