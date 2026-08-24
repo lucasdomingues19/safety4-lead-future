@@ -30,8 +30,6 @@ const WELCOME: Msg = {
   content: "Hello, how can I help you?",
 };
 
-const AUTO_OPEN_KEY = "s4a_chat_auto_opened";
-
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([WELCOME]);
@@ -45,14 +43,6 @@ export const ChatWidget = () => {
   useEffect(() => {
     const t = setTimeout(() => {
       setMounted(true);
-      // Auto-open once per session on desktop only
-      try {
-        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-        if (isDesktop && !sessionStorage.getItem(AUTO_OPEN_KEY)) {
-          sessionStorage.setItem(AUTO_OPEN_KEY, "1");
-          setOpen(true);
-        }
-      } catch {}
     }, 1500);
     try {
       const saved = localStorage.getItem(HISTORY_KEY);

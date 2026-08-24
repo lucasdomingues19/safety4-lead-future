@@ -124,12 +124,17 @@ const CopilotEHS = () => {
 
       {/* Copilot across the everyday EHS toolkit */}
       <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto rounded-[24px] overflow-hidden">
+        <div className="relative max-w-6xl mx-auto rounded-[24px] overflow-hidden">
           <img
             src={heroCopilotCourse}
             alt="Microsoft Copilot working across Word, Excel, PowerPoint, Teams and OneNote"
             className="w-full h-auto object-cover"
           />
+          <div className="absolute inset-0 flex items-center">
+            <p className="text-slate-900 font-bold leading-snug max-w-[46%] pl-4 sm:pl-8 md:pl-12 text-xs sm:text-lg md:text-2xl lg:text-3xl">
+              "You have the tool, now make your EHS & sustainability function competent."
+            </p>
+          </div>
         </div>
       </div>
 
