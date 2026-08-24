@@ -14,6 +14,7 @@ import iconWord from "@/assets/icon-word.png";
 import iconExcel from "@/assets/icon-excel.png";
 import iconPowerpoint from "@/assets/icon-powerpoint.png";
 import iconOutlook from "@/assets/icon-outlook.png";
+import iconTeams from "@/assets/icon-teams.png";
 import {
   Accordion,
   AccordionContent,
@@ -147,37 +148,48 @@ const CopilotEHS = () => {
 
           {/* Floating Microsoft app icons — outer span handles position (left/top
               + centering translate), inner img handles the float animation, so
-              the animation's own transform doesn't clobber the positioning one. */}
-          <span className="absolute" style={{ left: "58%", top: "18%", transform: "translate(-50%, -50%) rotate(3deg)" }}>
+              the animation's own transform doesn't clobber the positioning one.
+              Positions form a tight ring close around the Copilot logo (70%,47%),
+              with vertical % offsets scaled up ~2.6x horizontal ones to compensate
+              for the container's wide/short aspect ratio and read as a circle. */}
+          <span className="absolute" style={{ left: "64%", top: "29%", transform: "translate(-50%, -50%) rotate(3deg)" }}>
             <img
               src={iconWord}
               alt="Microsoft Word"
-              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
+              className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 drop-shadow-lg animate-float"
               style={{ animationDelay: "0s" }}
             />
           </span>
-          <span className="absolute" style={{ left: "83%", top: "20%", transform: "translate(-50%, -50%) rotate(-2deg)" }}>
+          <span className="absolute" style={{ left: "77%", top: "31%", transform: "translate(-50%, -50%) rotate(-2deg)" }}>
             <img
               src={iconExcel}
               alt="Microsoft Excel"
-              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
-              style={{ animationDelay: "3s" }}
+              className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 drop-shadow-lg animate-float"
+              style={{ animationDelay: "2.5s" }}
             />
           </span>
-          <span className="absolute" style={{ left: "55%", top: "78%", transform: "translate(-50%, -50%) rotate(-3deg)" }}>
+          <span className="absolute" style={{ left: "79%", top: "47%", transform: "translate(-50%, -50%) rotate(2deg)" }}>
+            <img
+              src={iconTeams}
+              alt="Microsoft Teams"
+              className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 drop-shadow-lg animate-float"
+              style={{ animationDelay: "5s" }}
+            />
+          </span>
+          <span className="absolute" style={{ left: "62%", top: "63%", transform: "translate(-50%, -50%) rotate(-3deg)" }}>
             <img
               src={iconPowerpoint}
               alt="Microsoft PowerPoint"
-              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
-              style={{ animationDelay: "6s" }}
+              className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 drop-shadow-lg animate-float"
+              style={{ animationDelay: "7.5s" }}
             />
           </span>
-          <span className="absolute" style={{ left: "85%", top: "76%", transform: "translate(-50%, -50%) rotate(2deg)" }}>
+          <span className="absolute" style={{ left: "78%", top: "64%", transform: "translate(-50%, -50%) rotate(2deg)" }}>
             <img
               src={iconOutlook}
               alt="Microsoft Outlook"
-              className="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg animate-float"
-              style={{ animationDelay: "9s" }}
+              className="w-9 h-9 sm:w-12 sm:h-12 md:w-16 md:h-16 drop-shadow-lg animate-float"
+              style={{ animationDelay: "10s" }}
             />
           </span>
         </div>
