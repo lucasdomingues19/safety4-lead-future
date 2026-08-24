@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author: string
+          author_title: string
+          category: string
+          content: string
+          created_at: string
+          excerpt: string
+          featured_image: string
+          id: string
+          meta_description: string
+          published: boolean
+          publish_date: string
+          read_time: string
+          slug: string
+          tags: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string
+          author_title?: string
+          category?: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          featured_image?: string
+          id?: string
+          meta_description?: string
+          published?: boolean
+          publish_date?: string
+          read_time?: string
+          slug: string
+          tags?: Json
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          author_title?: string
+          category?: string
+          content?: string
+          created_at?: string
+          excerpt?: string
+          featured_image?: string
+          id?: string
+          meta_description?: string
+          published?: boolean
+          publish_date?: string
+          read_time?: string
+          slug?: string
+          tags?: Json
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           certificate_number: string

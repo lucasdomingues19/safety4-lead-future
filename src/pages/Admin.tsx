@@ -8,13 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2, FileText } from "lucide-react";
+import { LogOut, Users, Eye, Globe, Monitor, Calendar, Download, Trash2, ShoppingCart, Flame, Target, Building2, Award, BookOpen, MessageCircle, Mail, Send, Loader2, FileText, Newspaper } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { HotLeadsTab } from "@/components/admin/HotLeadsTab";
 import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
 import { ProposalsTab } from "@/components/admin/ProposalsTab";
+import { BlogManager } from "@/components/admin/BlogManager";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { ZOOM_SCHEDULER_URL, openWhatsAppBusiness, getWhatsAppLeadMessage } from "@/lib/outreach";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
@@ -75,7 +76,7 @@ const Admin = () => {
   const { checking, isAdmin } = useAdminGuard();
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals' | 'blog'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
@@ -640,6 +641,14 @@ const Admin = () => {
             <FileText className="mr-2 h-4 w-4" />
             Proposals
           </Button>
+          <Button
+            onClick={() => setActiveTab('blog')}
+            variant={activeTab === 'blog' ? 'default' : 'outline'}
+            className={activeTab === 'blog' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'}
+          >
+            <Newspaper className="mr-2 h-4 w-4" />
+            Blog
+          </Button>
         </div>
 
 
@@ -895,6 +904,8 @@ const Admin = () => {
         {activeTab === 'certificates' && <CertificatesTab />}
 
         {activeTab === 'proposals' && <ProposalsTab />}
+
+        {activeTab === 'blog' && <BlogManager />}
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (
