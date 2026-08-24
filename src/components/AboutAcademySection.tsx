@@ -127,9 +127,11 @@ export const AboutAcademySection = () => {
                 <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 hover:border-primary/50 transition-all duration-300">
                   <div className="aspect-[4/5] overflow-hidden rounded-xl">
                     {/* Certificate sample */}
-                    <img 
+                    <img
                       src={certificateSample}
                       alt="SafetyTech Academy Certificate Sample - IOSH approved certification"
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain p-4 bg-white/5"
                     />
                   </div>

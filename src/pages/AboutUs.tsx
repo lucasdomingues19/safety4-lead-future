@@ -138,6 +138,8 @@ const AboutUs = () => {
         <img
           src={founderPhoto}
           alt="Lucas Domingues, MSc, CMIOSH"
+          loading="lazy"
+          decoding="async"
           className="hidden lg:block absolute left-6 xl:left-12 bottom-0 z-10 h-full w-auto max-w-[420px] object-contain object-bottom drop-shadow-2xl pointer-events-none"
         />
 
@@ -147,6 +149,8 @@ const AboutUs = () => {
               <img
                 src={founderPhoto}
                 alt="Lucas Domingues, MSc, CMIOSH"
+                loading="lazy"
+                decoding="async"
                 className="h-[420px] w-auto max-w-full object-contain drop-shadow-2xl"
               />
             </div>

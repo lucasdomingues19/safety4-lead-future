@@ -43,7 +43,13 @@ export const PricingSection = () => {
                   <div className="relative h-52 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
                     <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
                     <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
-                    <img src={course.iconWhite} alt="" className="relative w-32 h-32 md:w-36 md:h-36 object-contain" />
+                    <img
+                      src={course.iconWhite}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="relative w-32 h-32 md:w-36 md:h-36 object-contain"
+                    />
                   </div>
                 </Link>
 

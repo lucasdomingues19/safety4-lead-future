@@ -37,9 +37,11 @@ const EBook = () => {
           <div className="flex flex-col items-center space-y-8">
             {/* eBook Cover */}
             <div className="relative max-w-md">
-              <img 
-                src={bookCover} 
+              <img
+                src={bookCover}
                 alt="Become the Safety 4.0 Leader eBook cover by Lucas Domingues"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto rounded-2xl shadow-2xl border border-slate-200"
               />
             </div>

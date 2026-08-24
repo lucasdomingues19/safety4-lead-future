@@ -15,6 +15,8 @@ export const Footer = () => {
               <img
                 src={brandMarkWhite}
                 alt="SafetyTech Academy"
+                loading="lazy"
+                decoding="async"
                 className="h-8 md:h-10 w-auto"
               />
               <div className="flex flex-col leading-tight">
@@ -159,11 +161,15 @@ export const Footer = () => {
                 <img
                   src={ioshApprovedLogo}
                   alt="IOSH Approved Training Provider 5522"
+                  loading="lazy"
+                  decoding="async"
                   className="h-9 md:h-10 w-auto"
                 />
                 <img
                   src={cpdMemberLogo}
                   alt="CPD Member - The CPD Certification Service"
+                  loading="lazy"
+                  decoding="async"
                   className="h-9 md:h-10 w-auto"
                 />
               </div>

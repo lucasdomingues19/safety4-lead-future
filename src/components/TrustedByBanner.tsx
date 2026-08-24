@@ -52,6 +52,8 @@ export const TrustedByBanner = () => {
                   <img
                     src={logo.src}
                     alt={logo.alt}
+                    loading="lazy"
+                    decoding="async"
                     className="max-h-10 md:max-h-14 max-w-20 md:max-w-28 object-contain"
                   />
                 </div>

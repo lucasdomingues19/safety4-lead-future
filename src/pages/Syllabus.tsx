@@ -168,7 +168,13 @@ const Syllabus = () => {
 
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-              <img src={ioshApprovedLogo} alt="IOSH Approved Training Provider" className="h-10 w-auto mb-4" />
+              <img
+                src={ioshApprovedLogo}
+                alt="IOSH Approved Training Provider"
+                loading="lazy"
+                decoding="async"
+                className="h-10 w-auto mb-4"
+              />
               <h3 className="text-[15px] font-bold text-slate-900 mb-2">IOSH Approved</h3>
               <p className="text-sm text-[#69697b] leading-relaxed mb-4">
                 Digital certificate issued by the Institution of Occupational Safety and Health, recognised in 130+ countries.
@@ -184,7 +190,13 @@ const Syllabus = () => {
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-              <img src={cpdCertifiedLogo} alt="CPD Certified" className="h-10 w-auto mb-4" />
+              <img
+                src={cpdCertifiedLogo}
+                alt="CPD Certified"
+                loading="lazy"
+                decoding="async"
+                className="h-10 w-auto mb-4"
+              />
               <h3 className="text-[15px] font-bold text-slate-900 mb-2">CPD Certified</h3>
               <p className="text-sm text-[#69697b] leading-relaxed mb-4">
                 8+ hours of certified Continuing Professional Development credits, required by many professional bodies.
@@ -203,6 +215,8 @@ const Syllabus = () => {
               <img
                 src={certificateSample}
                 alt="IOSH Approved Certificate Sample"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-auto rounded-lg mb-3"
               />
               <p className="text-xs text-slate-500 text-center">Sample certificate — digital & printable</p>

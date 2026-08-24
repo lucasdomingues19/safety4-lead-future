@@ -132,7 +132,13 @@ const LearnDashboard = () => {
               {enrolledCourses.map((course) => (
                 <Card key={course.id} className="flex flex-col overflow-hidden border-white/10 bg-card">
                   {course.cover_image_url && (
-                    <img src={course.cover_image_url} alt={course.title} className="h-40 w-full object-cover" />
+                    <img
+                      src={course.cover_image_url}
+                      alt={course.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-40 w-full object-cover"
+                    />
                   )}
                   <CardHeader>
                     <CardTitle className="text-lg text-white">{course.title}</CardTitle>
@@ -176,7 +182,13 @@ const LearnDashboard = () => {
               {catalogue.map((course) => (
                 <Card key={course.id} className="flex flex-col overflow-hidden border-white/10 bg-card">
                   {course.cover_image_url && (
-                    <img src={course.cover_image_url} alt={course.title} className="h-40 w-full object-cover" />
+                    <img
+                      src={course.cover_image_url}
+                      alt={course.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-40 w-full object-cover"
+                    />
                   )}
                   <CardHeader>
                     <div className="mb-2 flex items-center gap-2">

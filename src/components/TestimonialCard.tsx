@@ -25,6 +25,8 @@ export const TestimonialCard = ({ t, className = "" }: { t: Testimonial; classNa
       <img
         src={t.image}
         alt={t.name}
+        loading="lazy"
+        decoding="async"
         className="w-14 h-14 rounded-full object-cover mx-auto mb-3"
       />
       <div className="text-base font-bold text-slate-900">{t.name}</div>

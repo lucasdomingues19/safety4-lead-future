@@ -45,6 +45,8 @@ const CaseStudies = () => {
             <img
               src={stewartDearyPhoto}
               alt="Stewart Deary"
+              loading="lazy"
+              decoding="async"
               className="w-24 h-24 rounded-full object-cover ring-2 ring-primary/40"
             />
             <div className="text-center sm:text-left">

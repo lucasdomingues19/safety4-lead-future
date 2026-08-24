@@ -30,7 +30,13 @@ export const StoryCarousel = () => {
             }`}
           >
             {slide.image ? (
-              <img src={slide.image} alt={slide.alt} className="w-full h-full object-cover" />
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-primary/10 to-primary/5">
                 <ImageIcon className="w-10 h-10 text-primary/40" strokeWidth={1.5} />

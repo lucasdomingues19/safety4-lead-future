@@ -46,6 +46,8 @@ const Blog = () => {
                 <img
                   src={featured.featuredImage}
                   alt={featured.title}
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b2c]/90 via-[#0b0b2c]/20 to-transparent" />
@@ -75,6 +77,8 @@ const Blog = () => {
                   <img
                     src={post.featuredImage}
                     alt={post.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 right-3 bg-white text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-sm">
@@ -93,6 +97,8 @@ const Blog = () => {
                       <img
                         src={founderPhoto}
                         alt={post.author}
+                        loading="lazy"
+                        decoding="async"
                         className="w-8 h-8 rounded-full object-cover bg-slate-100"
                       />
                       <span className="text-sm text-slate-700 font-medium">{post.author}</span>

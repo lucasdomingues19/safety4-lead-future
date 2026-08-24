@@ -185,6 +185,8 @@ const BlogPost = () => {
                   <img
                     src={founderPhoto}
                     alt={post.author}
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-12 rounded-full object-cover bg-slate-100"
                   />
                   <div>

@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import AudienceNav from "./AudienceNav";
-import heroPhoto from "@/assets/hero-ai-safety-worker.png";
+import heroPhoto from "@/assets/hero-ai-safety-worker.jpg";
 import ioshLogo from "@/assets/iosh-approved-badge.png";
 import cpdLogo from "@/assets/cpd-certified-badge.png";
 import { DigitalDotsText } from "./DigitalDotsText";
@@ -119,8 +119,8 @@ export const HeroSection = () => {
                 <img
                   src={heroPhoto}
                   alt="Safety professional wearing an AI-enabled smart hard hat"
-                  width={1200}
-                  height={1200}
+                  width={960}
+                  height={960}
                   decoding="async"
                   fetchPriority="high"
                   className="absolute inset-0 h-full w-full object-cover"
