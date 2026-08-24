@@ -22,7 +22,7 @@ import {
   UserCheck, Compass, BookOpen, Zap, Sparkles,
 } from "lucide-react";
 
-const CHECKOUT_URL = "https://learning.safetyacademy.tech/offers/osRfeBFj/checkout";
+const CHECKOUT_URL = "https://learning.safetytech.academy/offers/osRfeBFj/checkout";
 
 const reviews = testimonials.filter((t) => ["Dan Warnock", "Shebin Abraham"].includes(t.name));
 

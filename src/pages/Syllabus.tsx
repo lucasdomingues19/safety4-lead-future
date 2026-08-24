@@ -71,7 +71,7 @@ const Syllabus = () => {
           { icon: GraduationCap, label: "Programme", value: "90 Days" },
         ]}
         cta={{ label: "Start Learning — £497", href: "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV", external: true }}
-        secondaryCta={{ label: "Download Brochure", href: "https://learning.safetyacademy.tech/brochure", external: true }}
+        secondaryCta={{ label: "Download Brochure", href: "https://learning.safetytech.academy/brochure", external: true }}
       />
 
       <div className="container mx-auto px-4 max-w-4xl pb-20">

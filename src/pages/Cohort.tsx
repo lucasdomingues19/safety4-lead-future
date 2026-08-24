@@ -338,7 +338,7 @@ const Cohort = () => {
               )}
             </div>
 
-            <a href="https://learning.safetyacademy.tech/brochure" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group">
+            <a href="https://learning.safetytech.academy/brochure" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group">
               <FileDown className="w-4 h-4" />
               Download Cohort Brochure
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -61,7 +61,7 @@ If you want to see where your organisation stands first, the free [AI in EHS Gov
 
 Your team already has the license. We're building the training to go with it — role-specific, hands-on, and built to keep the judgement that makes you competent in the first place.
 
-[Apply to join the waitlist →](https://learning.safetyacademy.tech/forms/2149695548)
+[Apply to join the waitlist →](https://learning.safetytech.academy/forms/2149695548)
 
 Receive details of the program and be the first to know when it becomes available.
 

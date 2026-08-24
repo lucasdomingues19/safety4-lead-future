@@ -32,7 +32,7 @@ The world's first IOSH-approved and CPD-accredited Safety 4.0 programme. We trai
 
 **3. AI Fundamentals in EHS — £72** (was £97, founding price, first 100 spots only)
 - Focused primer on AI for EHS professionals
-- Enrol: https://learning.safetyacademy.tech/offers/osRfeBFj/checkout
+- Enrol: https://learning.safetytech.academy/offers/osRfeBFj/checkout
 
 **4. In-Company Training**
 - Customised for your organisation and sector
