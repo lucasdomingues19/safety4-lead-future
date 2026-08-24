@@ -9,6 +9,7 @@ const navLinks = [
     label: "Courses",
     children: [
       { label: "All Courses", href: "/courses" },
+      { label: "Microsoft Copilot for EHS & Sustainability", href: "/copilot-for-ehs" },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "IOSH-approved Safety 4.0", href: "/elearning" },
       { label: "AI Fundamentals in EHS", href: "/ai-fundamentals" },

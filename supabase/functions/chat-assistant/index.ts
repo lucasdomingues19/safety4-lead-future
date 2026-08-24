@@ -113,17 +113,19 @@ Deno.serve(async (req) => {
       content: message,
     });
 
-    // Call Lovable AI Gateway
-    const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Call the Anthropic API directly
+    const aiRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Lovable-API-Key": Deno.env.get("LOVABLE_API_KEY")!,
+        "x-api-key": Deno.env.get("ANTHROPIC_API_KEY")!,
+        "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "google/gemini-3.6-flash",
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
           ...(history ?? []),
           { role: "user", content: message },
         ],
@@ -132,22 +134,22 @@ Deno.serve(async (req) => {
 
     if (!aiRes.ok) {
       const errText = await aiRes.text();
-      console.error("AI Gateway error:", aiRes.status, errText);
-      if (aiRes.status === 429) {
+      console.error("Anthropic API error:", aiRes.status, errText);
+      if (aiRes.status === 429 || aiRes.status === 529) {
         return new Response(JSON.stringify({ error: "Busy right now. Please try again shortly." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (aiRes.status === 402) {
+      if (aiRes.status === 400 || aiRes.status === 401) {
         return new Response(JSON.stringify({ error: "AI service unavailable. Please contact us on WhatsApp." }), {
           status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      throw new Error("AI gateway error");
+      throw new Error("Anthropic API error");
     }
 
     const aiData = await aiRes.json();
-    const reply = aiData.choices?.[0]?.message?.content ?? "Sorry, I didn't catch that. Could you rephrase?";
+    const reply = aiData.content?.[0]?.text ?? "Sorry, I didn't catch that. Could you rephrase?";
 
     // Check for escalation signal
     const escalated = /whatsapp button below/i.test(reply);

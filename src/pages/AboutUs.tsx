@@ -141,16 +141,16 @@ const AboutUs = () => {
       <section className="relative bg-primary py-8 md:py-10">
         <BlueBandDecor />
 
-        <img
-          src={founderPhoto}
-          alt="Lucas Domingues, MSc, CMIOSH"
-          loading="lazy"
-          decoding="async"
-          className="hidden lg:block absolute left-6 xl:left-12 bottom-0 z-10 h-full w-auto max-w-[420px] object-contain object-bottom drop-shadow-2xl pointer-events-none"
-        />
-
         <div className="relative z-10 container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
+          <div className="relative max-w-5xl mx-auto">
+            <img
+              src={founderPhoto}
+              alt="Lucas Domingues, MSc, CMIOSH"
+              loading="lazy"
+              decoding="async"
+              className="hidden lg:block absolute left-0 bottom-0 z-10 h-full w-auto max-w-[420px] object-contain object-bottom drop-shadow-2xl pointer-events-none"
+            />
+
             <div className="lg:hidden flex justify-center mb-8">
               <img
                 src={founderPhoto}
