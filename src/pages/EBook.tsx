@@ -76,7 +76,7 @@ const EBook = () => {
                 asChild
                 className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg py-6 px-10 group"
               >
-                <a href="https://learning.safetytech.academy/become-the-safety-4-0-leader" target="_blank" rel="noopener noreferrer">
+                <a href="https://learning.safetyacademy.tech/become-the-safety-4-0-leader" target="_blank" rel="noopener noreferrer">
                   <Download className="w-5 h-5 mr-2 group-hover:translate-y-1 transition-transform" />
                   Download Free eBook
                 </a>

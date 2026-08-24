@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
 
 
-const SUBSCRIBE_URL = "https://learning.safetytech.academy/newsletters/safety-4-0-newsletter/subscribe";
+const SUBSCRIBE_URL = "https://learning.safetyacademy.tech/newsletters/safety-4-0-newsletter/subscribe";
 
 export const NewsletterPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
