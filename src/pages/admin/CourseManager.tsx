@@ -16,39 +16,21 @@ import {
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen } from "lucide-react";
 import { asLessons, asQuizQuestions, type Course, type Module, type Lesson, type Quiz, type QuizQuestion } from "@/lib/lms";
+import { useAdminGuard } from "@/hooks/useAdminGuard";
 
 const slugify = (s: string) =>
   s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 const CourseManager = () => {
   const navigate = useNavigate();
-  const [checking, setChecking] = useState(true);
+  const { checking, isAdmin } = useAdminGuard();
   const [courses, setCourses] = useState<Course[]>([]);
   const [selected, setSelected] = useState<Course | null>(null);
 
   useEffect(() => {
-    (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
-      if (!data) {
-        toast.error("Admin access required");
-        navigate("/");
-        return;
-      }
-      setChecking(false);
-      loadCourses();
-    })();
+    if (isAdmin) loadCourses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAdmin]);
 
   const loadCourses = async () => {
     const { data } = await supabase.from("courses").select("*").order("created_at");

@@ -16,7 +16,8 @@ import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
 import { ProposalsTab } from "@/components/admin/ProposalsTab";
 import { FunctionsHttpError } from "@supabase/supabase-js";
-import { ZOOM_SCHEDULER_URL } from "@/lib/outreach";
+import { ZOOM_SCHEDULER_URL, openWhatsAppBusiness, getWhatsAppLeadMessage } from "@/lib/outreach";
+import { useAdminGuard } from "@/hooks/useAdminGuard";
 
 interface PageView {
   id: string;
@@ -71,8 +72,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 type DateRange = '7days' | '30days' | 'alltime';
 
 const Admin = () => {
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { checking, isAdmin } = useAdminGuard();
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals'>('analytics');
@@ -89,50 +89,21 @@ const Admin = () => {
   const analyticsRequestIdRef = useRef(0);
 
   useEffect(() => {
-    checkAdminAccess();
-  }, []);
-
-  useEffect(() => {
     if (isAdmin) {
       fetchAnalytics(dateRange);
     }
   }, [isAdmin, dateRange]);
 
+  useEffect(() => {
+    if (isAdmin) {
+      fetchLeads();
+      fetchScorecardResults();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAdmin]);
+
   const handleDateRangeChange = (range: DateRange) => {
     setDateRange(range);
-  };
-
-  const checkAdminAccess = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-
-      // Check if user has admin role
-      const { data: roles, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', session.user.id)
-        .eq('role', 'admin')
-        .single();
-
-      if (error || !roles) {
-        toast.error("Access denied. Admin privileges required.");
-        navigate("/");
-        return;
-      }
-
-      setIsAdmin(true);
-      await Promise.all([fetchAnalytics(dateRange), fetchLeads(), fetchScorecardResults()]);
-    } catch (error) {
-      console.error("Admin access error:", error);
-      navigate("/auth");
-    } finally {
-      setLoading(false);
-    }
   };
 
   const fetchLeads = async () => {
@@ -183,6 +154,8 @@ const Admin = () => {
     }
   };
 
+  const csvField = (value: string) => `"${value.replace(/"/g, '""')}"`;
+
   const exportLeadsToCSV = () => {
     if (leads.length === 0) {
       toast.error("No leads to export");
@@ -193,11 +166,11 @@ const Admin = () => {
     const csvContent = [
       headers.join(','),
       ...leads.map(lead => [
-        `"${lead.name}"`,
-        `"${lead.email}"`,
-        `"${lead.phone || 'N/A'}"`,
-        `"${lead.source}"`,
-        `"${new Date(lead.created_at).toLocaleDateString()}"`
+        csvField(lead.name),
+        csvField(lead.email),
+        csvField(lead.phone || 'N/A'),
+        csvField(lead.source),
+        csvField(new Date(lead.created_at).toLocaleDateString())
       ].join(','))
     ].join('\n');
 
@@ -273,79 +246,14 @@ const Admin = () => {
   };
 
 
-  const getWhatsAppLeadMessage = (lead: Lead) => {
-    const firstName = lead.name.split(' ')[0] || lead.name;
-    return `Hi ${firstName}, this is Lucas from SafetyTech Academy. Thanks for reaching out — happy to help with any questions about the programme.`;
-  };
-
-  const normaliseWhatsAppNumber = (phone: string) => {
-    const digits = phone.replace(/[^\d]/g, '');
-    if (digits.startsWith('00')) return digits.slice(2);
-    if (digits.startsWith('0')) return `44${digits.slice(1)}`;
-    return digits;
-  };
-
   const openWhatsAppForLead = async (lead: Lead) => {
     if (!lead.phone) return;
-
-    const phone = normaliseWhatsAppNumber(lead.phone);
-    const message = getWhatsAppLeadMessage(lead);
-    const encodedMessage = encodeURIComponent(message);
-
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const isMobile = isAndroid || isIOS;
-    const isEmbedded = (() => {
-      try {
-        return window.self !== window.top;
-      } catch {
-        return true;
-      }
-    })();
-
-    const businessAppUrl = `whatsapp-business://send?phone=${phone}&text=${encodedMessage}`;
-    const universalWhatsAppUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-    const androidBusinessIntentUrl = `intent://send?phone=${phone}&text=${encodedMessage}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(universalWhatsAppUrl)};end`;
-    const webUrl = `https://web.whatsapp.com/send?phone=${phone}&text=${encodedMessage}`;
-    const copiedText = `+${phone}\n${message}\n\nOpen in WhatsApp Business Web:\n${webUrl}`;
-
-    const copyLeadDetails = async () => {
-      try {
-        await navigator.clipboard.writeText(copiedText);
-        return true;
-      } catch {
-        return false;
-      }
-    };
-
-    if (isEmbedded) {
-      const copied = await copyLeadDetails();
-      if (copied) {
-        toast.success('Lead details copied. Open the published admin page in your phone browser to launch WhatsApp Business.');
-      } else {
-        toast.error('Preview blocks WhatsApp. Open the published admin page in your phone browser.');
-      }
-      return;
-    }
-
-    if (isMobile) {
-      void copyLeadDetails();
-      window.location.href = isAndroid ? androidBusinessIntentUrl : businessAppUrl;
-
-      window.setTimeout(() => {
-        if (document.visibilityState === 'visible') {
-          toast.error('Could not open WhatsApp Business. Make sure WhatsApp Business is installed; the lead details were copied so you can paste them manually.');
-        }
-      }, 1500);
-      return;
-    }
-
-    const copied = await copyLeadDetails();
-    const win = window.open(webUrl, '_blank', 'noopener,noreferrer');
-    if (!win) {
-      toast.error(copied ? 'Pop-up blocked — WhatsApp link copied. Paste it into a new browser tab.' : 'Pop-up blocked — please allow pop-ups to open WhatsApp Business Web.');
+    const message = getWhatsAppLeadMessage(lead.name);
+    const result = await openWhatsAppBusiness(lead.phone, message);
+    if (result.success) {
+      toast.success(result.message);
     } else {
-      toast.success(copied ? 'WhatsApp link copied. Opening WhatsApp Business Web…' : 'Opening WhatsApp Business Web…');
+      toast.error(result.message);
     }
   };
 
@@ -367,10 +275,11 @@ const Admin = () => {
       // 'alltime' means no filter
       // Build queries with optional date filter
       const pageSize = 1000;
+      const maxBatches = 50; // caps a single fetch at 50k rows so a heavy-traffic "all time" query can't hang indefinitely
 
       const fetchAllPageViews = async () => {
         let all: any[] = [];
-        for (let from = 0; ; from += pageSize) {
+        for (let from = 0, batch = 0; batch < maxBatches; from += pageSize, batch++) {
           let q = supabase
             .from('page_views')
             .select('page_path, session_id, visited_at, device_type, country, city, browser')
@@ -381,16 +290,16 @@ const Admin = () => {
 
           const res = await q;
           if (res.error) throw res.error;
-          const batch = res.data || [];
-          all = all.concat(batch);
-          if (batch.length < pageSize) break;
+          const rows = res.data || [];
+          all = all.concat(rows);
+          if (rows.length < pageSize) break;
         }
         return all;
       };
 
       const fetchAllUserEvents = async (eventType: string) => {
         let all: any[] = [];
-        for (let from = 0; ; from += pageSize) {
+        for (let from = 0, batch = 0; batch < maxBatches; from += pageSize, batch++) {
           let q = supabase
             .from('user_events')
             .select('session_id, event_type, event_data, created_at, page_path')
@@ -402,9 +311,9 @@ const Admin = () => {
 
           const res = await q;
           if (res.error) throw res.error;
-          const batch = res.data || [];
-          all = all.concat(batch);
-          if (batch.length < pageSize) break;
+          const rows = res.data || [];
+          all = all.concat(rows);
+          if (rows.length < pageSize) break;
         }
         return all;
       };
@@ -653,7 +562,7 @@ const Admin = () => {
     navigate("/");
   };
 
-  if (loading) {
+  if (checking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-white text-xl">Loading...</div>

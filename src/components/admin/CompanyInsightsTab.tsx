@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -73,6 +74,7 @@ export const CompanyInsightsTab = () => {
       setResults((data as any[]) || []);
     } catch (err) {
       console.error("Error fetching scorecard results:", err);
+      toast.error("Failed to load scorecard insights");
     } finally {
       setLoading(false);
     }
