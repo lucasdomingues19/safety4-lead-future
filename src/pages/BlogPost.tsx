@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { trackPageView } from "@/utils/analytics";
-import { getPostBySlug } from "@/data/blogPosts";
+import { getPostBySlug, getRecentPosts } from "@/data/blogPosts";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
@@ -14,6 +14,9 @@ import founderPhoto from "@/assets/founder-cutout.png";
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getPostBySlug(slug) : undefined;
+  const relatedPosts = post
+    ? getRecentPosts(4).filter((p) => p.slug !== post.slug).slice(0, 3)
+    : [];
 
   useEffect(() => {
     if (post) {
@@ -147,23 +150,33 @@ const BlogPost = () => {
       <div className="min-h-screen bg-white">
         <AudienceNav />
 
-        <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
-          {/* Back Navigation */}
-          <div className="mb-12">
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Blog
-            </Link>
-          </div>
+        <div className="container mx-auto px-4 pt-28 pb-20 md:pt-32 relative z-10">
+          {/* Featured Image — full-bleed within the container, like the Blog listing hero */}
+          {post.featuredImage && (
+            <div className="max-w-5xl mx-auto mb-10 md:mb-14">
+              <div className="aspect-[16/9] md:aspect-[21/9] rounded-[24px] overflow-hidden">
+                <img
+                  src={post.featuredImage}
+                  alt={post.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Article Header */}
-          <article className="max-w-4xl mx-auto">
-            <div className="mb-8">
+          <article className="max-w-3xl mx-auto">
+            <div className="mb-10">
+              <Link
+                to="/blog"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-primary transition-colors mb-6"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Back to Blog
+              </Link>
+
               <div className="flex flex-wrap items-center gap-4 mb-6">
-                <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                <span className="px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-semibold uppercase tracking-wide">
                   {post.category}
                 </span>
                 <span className="text-slate-500 text-sm flex items-center">
@@ -176,11 +189,11 @@ const BlogPost = () => {
                 </span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-8 leading-tight">
                 {post.title}
               </h1>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between pb-8 border-b border-slate-100">
                 <div className="flex items-center space-x-4">
                   <img
                     src={founderPhoto}
@@ -205,22 +218,10 @@ const BlogPost = () => {
               </div>
             </div>
 
-            {/* Featured Image */}
-            {post.featuredImage && (
-              <div className="aspect-video rounded-2xl mb-12 overflow-hidden">
-                <img
-                  src={post.featuredImage}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
-
             {/* Article Content */}
             <div className="prose prose-lg max-w-none mb-12">
-              <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-8 lg:p-12">
-                <div className="text-slate-600 leading-relaxed space-y-6">
-                  <ReactMarkdown
+              <div className="text-slate-600 leading-relaxed space-y-6">
+                <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
                       table: ({ children }) => (
@@ -271,12 +272,24 @@ const BlogPost = () => {
                   >
                     {post.content}
                   </ReactMarkdown>
-                </div>
               </div>
             </div>
 
+            {/* Tags */}
+            <div className="flex flex-wrap gap-3 mb-12">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-2 bg-slate-100 rounded-full text-sm text-slate-600 border border-slate-200 flex items-center"
+                >
+                  <Tag className="w-3 h-3 mr-2" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+
             {/* CTA */}
-            <div className="bg-slate-50 rounded-3xl p-12 border border-slate-200 text-center mb-12">
+            <div className="bg-slate-50 rounded-3xl p-12 border border-slate-200 text-center">
               <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to Lead Safety 4.0?</h2>
               <p className="text-lg text-slate-600 mb-8">
                 Get IOSH-approved certification in digital safety leadership
@@ -295,22 +308,44 @@ const BlogPost = () => {
                 <Link to="/accelerator" className="text-primary underline hover:text-primary/80">Safety 4.0 Accelerator</Link>.
               </p>
             </div>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-3 mb-12">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-4 py-2 bg-slate-100 rounded-full text-sm text-slate-600 border border-slate-200 flex items-center"
-                >
-                  <Tag className="w-3 h-3 mr-2" />
-                  {tag}
-                </span>
-              ))}
-            </div>
-
           </article>
 
+          {/* Related Articles */}
+          {relatedPosts.length > 0 && (
+            <div className="max-w-5xl mx-auto mt-20">
+              <h2 className="mb-8">Latest Articles</h2>
+              <div className="grid md:grid-cols-3 gap-8">
+                {relatedPosts.map((related) => (
+                  <Link
+                    key={related.id}
+                    to={`/blog/${related.slug}`}
+                    className="group block bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <img
+                        src={related.featuredImage}
+                        alt={related.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 right-3 bg-white text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide shadow-sm">
+                        {related.category}
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                        {related.title}
+                      </h3>
+                      <p className="text-[#69697b] text-sm leading-relaxed line-clamp-2">
+                        {related.excerpt}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />
