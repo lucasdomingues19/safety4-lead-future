@@ -125,8 +125,11 @@ const Index = () => {
           <SolutionSection />
         </DeferredSection>
 
-        {/* Pricing — teams first, individuals second */}
-        <section aria-label="Pricing options">
+        {/* Pricing — teams first, individuals second.
+            id lives here (not inside PricingSection) so getElementById("pricing")
+            finds a target immediately, even before the deferred section below
+            has scrolled into view and mounted its lazy content. */}
+        <section id="pricing" aria-label="Pricing options">
           <DeferredSection eager={eager} minHeight={800}>
             <PricingSection />
           </DeferredSection>
