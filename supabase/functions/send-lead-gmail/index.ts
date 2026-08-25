@@ -22,16 +22,17 @@ const toBase64Url = (input: string) => {
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 };
 
-const buildRawEmail = (to: string, subject: string, body: string) =>
+const buildRawEmail = (to: string, subject: string, body: string, from?: string) =>
   toBase64Url(
     [
+      from ? `From: ${from}` : undefined,
       `To: ${to}`,
       `Subject: ${encodeHeader(subject)}`,
       'Content-Type: text/plain; charset="UTF-8"',
       "MIME-Version: 1.0",
       "",
       body,
-    ].join("\r\n"),
+    ].filter(Boolean).join("\r\n"),
   );
 
 const json = (payload: unknown, status = 200) =>
@@ -129,9 +130,10 @@ serve(async (req: Request): Promise<Response> => {
     }
 
     const accessToken = await generateAccessToken(serviceAccountJson);
-    const rawEmail = buildRawEmail(to, subject.trim(), body);
+    const fromEmail = "lucas@safetytech.academy";
+    const rawEmail = buildRawEmail(to, subject.trim(), body, fromEmail);
 
-    const response = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/send", {
+    const response = await fetch(`https://www.googleapis.com/gmail/v1/users/${encodeURIComponent(fromEmail)}/messages/send`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
