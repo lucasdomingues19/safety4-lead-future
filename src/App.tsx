@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Index from "./pages/Index";
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
 const ChatWidget = lazy(() => import("./components/ChatWidget").then(m => ({ default: m.ChatWidget })));
@@ -71,6 +71,22 @@ const queryClient = new QueryClient({
   },
 });
 
+// React Router keeps the browser's scroll position across client-side
+// navigations by default, so clicking a link near the bottom of a page
+// (e.g. a Related Courses card) lands on the new page still scrolled
+// down. Reset to the top on every route change, unless the URL carries
+// a hash — pages with their own hash-scroll behavior (e.g. #waitlist)
+// handle that themselves.
+const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+  return null;
+};
+
 // Floating widgets/popups — hidden on private proposal pages
 const GlobalWidgets = () => {
   const { pathname } = useLocation();
@@ -106,6 +122,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
