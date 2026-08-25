@@ -39,6 +39,8 @@ interface Lead {
   phone: string | null;
   source: string;
   created_at: string;
+  status: 'new' | 'contacted' | 'qualified' | 'converted' | 'rejected';
+  last_contacted_at: string | null;
   message?: string;
   role?: string;
   inquiry_type?: string;
@@ -67,6 +69,7 @@ interface Stats {
   dailyUniqueVisitors: Array<{ date: string; visitors: number }>;
   topCountries: Array<{ country: string; views: number }>;
   browserStats: Array<{ browser: string; views: number }>;
+  sourceBreakdown: Array<{ name: string; value: number }>;
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
@@ -112,6 +115,21 @@ const Admin = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin]);
+
+  useEffect(() => {
+    if (leads.length > 0 && stats) {
+      const sourceCount: Record<string, number> = {};
+      leads.forEach(lead => {
+        sourceCount[lead.source] = (sourceCount[lead.source] || 0) + 1;
+      });
+      const sourceBreakdown = Object.entries(sourceCount)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value);
+
+      setStats({ ...stats, sourceBreakdown });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leads]);
 
   const handleDateRangeChange = (range: DateRange) => {
     setDateRange(range);
@@ -563,7 +581,8 @@ const Admin = () => {
       dailyViews,
       dailyUniqueVisitors,
       topCountries,
-      browserStats
+      browserStats,
+      sourceBreakdown: []
     });
   };
 
@@ -884,6 +903,64 @@ const Admin = () => {
           </CardContent>
         </Card>
 
+        {/* Lead Source Breakdown */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Lead Source Breakdown</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Distribution of leads by source</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {stats.sourceBreakdown.length > 0 ? (
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={stats.sourceBreakdown}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {stats.sourceBreakdown.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex items-center justify-center h-[300px] text-slate-500 dark:text-slate-400">
+                  No leads data available
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-slate-900 dark:text-slate-50">Lead Source Details</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-400">Count by source channel</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {stats.sourceBreakdown.length > 0 ? (
+                  stats.sourceBreakdown.map((source, index) => (
+                    <div key={index} className="flex justify-between items-center">
+                      <span className="text-slate-900 dark:text-slate-50 capitalize">{source.name.replace(/_|-/g, ' ')}</span>
+                      <span className="text-slate-500 dark:text-slate-400 font-medium">{source.value} leads</span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-slate-500 dark:text-slate-400">No leads captured yet</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Tables */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
@@ -992,7 +1069,9 @@ const Admin = () => {
                         <TableHead className="text-slate-900 dark:text-slate-50">Email</TableHead>
                         <TableHead className="text-slate-900 dark:text-slate-50">Phone</TableHead>
                         <TableHead className="text-slate-900 dark:text-slate-50">Source</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Status</TableHead>
                         <TableHead className="text-slate-900 dark:text-slate-50">Score</TableHead>
+                        <TableHead className="text-slate-900 dark:text-slate-50">Last Contact</TableHead>
                         <TableHead className="text-slate-900 dark:text-slate-50">Date</TableHead>
                         <TableHead className="text-slate-900 dark:text-slate-50">Actions</TableHead>
                       </TableRow>
@@ -1076,6 +1155,24 @@ const Admin = () => {
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
+                            <TableCell className="text-slate-900 dark:text-slate-50" onClick={(e) => e.stopPropagation()}>
+                              <select
+                                value={lead.status || 'new'}
+                                onChange={(e) => {
+                                  const newStatus = e.target.value as 'new' | 'contacted' | 'qualified' | 'converted' | 'rejected';
+                                  supabase.from('leads').update({ status: newStatus }).eq('id', lead.id).then(() => {
+                                    setLeads(leads.map(l => l.id === lead.id ? { ...l, status: newStatus } : l));
+                                  });
+                                }}
+                                className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-slate-50 text-xs rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                              >
+                                <option value="new">New</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="qualified">Qualified</option>
+                                <option value="converted">Converted</option>
+                                <option value="rejected">Rejected</option>
+                              </select>
+                            </TableCell>
                             <TableCell className="text-slate-900 dark:text-slate-50">
                               {(() => {
                                 const sc = scorecardResults[(lead.email || '').toLowerCase().trim()];
@@ -1093,6 +1190,9 @@ const Admin = () => {
                                   <span className="text-slate-400 dark:text-slate-500">—</span>
                                 );
                               })()}
+                            </TableCell>
+                            <TableCell className="text-slate-900 dark:text-slate-50">
+                              {lead.last_contacted_at ? new Date(lead.last_contacted_at).toLocaleDateString() : '—'}
                             </TableCell>
                             <TableCell className="text-slate-900 dark:text-slate-50">
                               {new Date(lead.created_at).toLocaleDateString()}
@@ -1169,15 +1269,50 @@ const Admin = () => {
                         <p className="text-slate-900 dark:text-slate-50 font-medium capitalize">{selectedLead.source.replace('_', ' ')}</p>
                       </div>
                       <div>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Status</label>
+                        <select
+                          value={selectedLead.status || 'new'}
+                          onChange={(e) => {
+                            const newStatus = e.target.value as 'new' | 'contacted' | 'qualified' | 'converted' | 'rejected';
+                            supabase.from('leads').update({ status: newStatus }).eq('id', selectedLead.id).then(() => {
+                              setLeads(leads.map(l => l.id === selectedLead.id ? { ...l, status: newStatus } : l));
+                              setSelectedLead({ ...selectedLead, status: newStatus });
+                            });
+                          }}
+                          className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-900 dark:text-slate-50 rounded px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/50 w-full"
+                        >
+                          <option value="new">New</option>
+                          <option value="contacted">Contacted</option>
+                          <option value="qualified">Qualified</option>
+                          <option value="converted">Converted</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+                      </div>
+                      <div>
                         <label className="text-sm text-slate-500 dark:text-slate-400">Date</label>
                         <p className="text-slate-900 dark:text-slate-50 font-medium">
-                          {new Date(selectedLead.created_at).toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
+                          {new Date(selectedLead.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
                             day: 'numeric',
                             hour: '2-digit',
                             minute: '2-digit'
                           })}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="text-sm text-slate-500 dark:text-slate-400">Last Contacted</label>
+                        <p className="text-slate-900 dark:text-slate-50 font-medium">
+                          {selectedLead.last_contacted_at
+                            ? new Date(selectedLead.last_contacted_at).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })
+                            : '—'
+                          }
                         </p>
                       </div>
                       {selectedLead.role && (

@@ -7,13 +7,10 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
-const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_mail/gmail/v1";
-
 const isEmail = (v: unknown): v is string =>
   typeof v === "string" && v.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
 const encodeHeader = (value: string) =>
-  // RFC 2047 encode so accents/emoji in names or subjects survive
   /^[\x20-\x7E]*$/.test(value)
     ? value
     : `=?UTF-8?B?${btoa(String.fromCharCode(...new TextEncoder().encode(value)))}?=`;
@@ -43,6 +40,52 @@ const json = (payload: unknown, status = 200) =>
     headers: { "Content-Type": "application/json", ...corsHeaders },
   });
 
+const generateAccessToken = async (serviceAccountJson: string): Promise<string> => {
+  const sa = JSON.parse(serviceAccountJson);
+  const header = toBase64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
+  const now = Math.floor(Date.now() / 1000);
+  const payload = toBase64Url(
+    JSON.stringify({
+      iss: sa.client_email,
+      scope: "https://www.googleapis.com/auth/gmail.send",
+      aud: "https://oauth2.googleapis.com/token",
+      exp: now + 3600,
+      iat: now,
+    }),
+  );
+
+  const signatureInput = `${header}.${payload}`;
+  const key = await crypto.subtle.importKey(
+    "pkcs8",
+    new TextEncoder().encode(sa.private_key),
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signatureBuffer = await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5",
+    key,
+    new TextEncoder().encode(signatureInput),
+  );
+  const signature = toBase64Url(
+    String.fromCharCode(...new Uint8Array(signatureBuffer)),
+  );
+
+  const jwt = `${signatureInput}.${signature}`;
+  const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
+  });
+
+  if (!tokenResponse.ok) {
+    throw new Error(`Failed to get access token: ${await tokenResponse.text()}`);
+  }
+
+  const { access_token } = await tokenResponse.json();
+  return access_token;
+};
+
 serve(async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -70,10 +113,9 @@ serve(async (req: Request): Promise<Response> => {
 
     if (!roleRow) return json({ error: "Admin privileges required" }, 403);
 
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
-    const gmailKey = Deno.env.get("GOOGLE_MAIL_API_KEY");
-    if (!lovableApiKey || !gmailKey) {
-      return json({ error: "Gmail connection is not configured for this project." }, 500);
+    const serviceAccountJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
+    if (!serviceAccountJson) {
+      return json({ error: "Gmail API is not configured. Service account credentials missing." }, 500);
     }
 
     const { to, subject, body } = await req.json();
@@ -86,21 +128,23 @@ serve(async (req: Request): Promise<Response> => {
       return json({ error: "Message body is required (max 10,000 characters)" }, 400);
     }
 
-    const response = await fetch(`${GATEWAY_URL}/users/me/messages/send`, {
+    const accessToken = await generateAccessToken(serviceAccountJson);
+    const rawEmail = buildRawEmail(to, subject.trim(), body);
+
+    const response = await fetch("https://www.googleapis.com/gmail/v1/users/me/messages/send", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${lovableApiKey}`,
-        "X-Connection-Api-Key": gmailKey,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ raw: buildRawEmail(to, subject.trim(), body) }),
+      body: JSON.stringify({ raw: rawEmail }),
     });
 
     if (!response.ok) {
       const errorBody = await response.text();
       console.error(`Gmail send failed [${response.status}]: ${errorBody}`);
       return json(
-        { error: "Gmail request failed", status: response.status, details: errorBody },
+        { error: "Gmail API request failed", status: response.status, details: errorBody },
         response.status,
       );
     }
@@ -110,6 +154,6 @@ serve(async (req: Request): Promise<Response> => {
     return json({ success: true, id: result?.id, threadId: result?.threadId });
   } catch (error) {
     console.error("send-lead-gmail error:", error);
-    return json({ error: "Failed to send email via Gmail." }, 500);
+    return json({ error: "Failed to send email via Gmail API." }, 500);
   }
 });
