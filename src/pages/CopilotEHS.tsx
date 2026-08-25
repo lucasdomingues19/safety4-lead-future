@@ -318,7 +318,7 @@ const CopilotEHS = () => {
       {/* ROI calculator */}
       <section className="py-10 md:py-14 border-t border-slate-200">
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="mb-2 text-center">See the return for your team</h2>
+          <h2 className="mb-2 text-center">What's the return for your team?</h2>
           <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
             The training pays for itself quickly — even a conservative time saving adds up fast across a team.
             Enter your own numbers below.
