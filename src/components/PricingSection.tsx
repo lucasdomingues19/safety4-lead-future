@@ -23,8 +23,8 @@ export const PricingSection = () => {
           </Link>
         </div>
 
-        {/* Course Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-16">
+        {/* Course Cards + Consultation CTA */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mb-16">
           {courses.map((course) => {
             return (
               <div
@@ -100,6 +100,30 @@ export const PricingSection = () => {
               </div>
             );
           })}
+
+          {/* Consultation CTA Tile - integrated into grid */}
+          <div className="group relative flex flex-col bg-gradient-to-br from-slate-50 to-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 md:col-span-2 lg:col-span-1">
+            <div className="flex flex-col h-full p-6 md:p-8 justify-between">
+              <div className="flex-grow flex flex-col justify-center">
+                <h3 className="text-xl font-bold text-slate-900 mb-3 leading-snug">
+                  Unsure Which is Right?
+                </h3>
+                <p className="text-[#69697b] text-sm leading-relaxed">
+                  Let our experts help you find the perfect solution for your team's needs.
+                </p>
+              </div>
+
+              <a
+                href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full px-6 py-3.5 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors mt-6"
+              >
+                Schedule Consultation
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
         </div>
 
         <p className="text-sm md:text-base text-[#69697b] mx-auto text-center leading-relaxed">
@@ -110,23 +134,6 @@ export const PricingSection = () => {
           discount, or unlock a reduced price for a{" "}
           <a href="/contact?request=group" className="text-primary hover:text-primary/80 underline">group</a> (3+ seats)
         </p>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-slate-900 mb-4">
-              Not sure which option is right for your team?
-            </h3>
-            <p className="text-[#69697b] mb-6">
-              Schedule a free consultation with our experts to find the perfect training solution for your team needs.
-            </p>
-            <a href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-base font-medium uppercase tracking-[0.08em] rounded">
-                Schedule Free Consultation
-              </Button>
-            </a>
-          </div>
-        </div>
       </div>
     </section>
   );
