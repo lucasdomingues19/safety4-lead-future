@@ -77,8 +77,13 @@ serve(async (req: Request): Promise<Response> => {
   }
 
   try {
+    console.log("Starting send-lead-gmail request");
+
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return json({ error: "Unauthorized" }, 401);
+    if (!authHeader) {
+      console.error("Missing authorization header");
+      return json({ error: "Unauthorized" }, 401);
+    }
 
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -87,7 +92,10 @@ serve(async (req: Request): Promise<Response> => {
 
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabaseAdmin.auth.getUser(token);
-    if (userError || !userData?.user) return json({ error: "Unauthorized" }, 401);
+    if (userError || !userData?.user) {
+      console.error("Auth error:", userError);
+      return json({ error: "Unauthorized" }, 401);
+    }
 
     const { data: roleRow } = await supabaseAdmin
       .from("user_roles")
@@ -96,35 +104,47 @@ serve(async (req: Request): Promise<Response> => {
       .eq("role", "admin")
       .maybeSingle();
 
-    if (!roleRow) return json({ error: "Admin privileges required" }, 403);
+    if (!roleRow) {
+      console.error("User not admin:", userData.user.id);
+      return json({ error: "Admin privileges required" }, 403);
+    }
+
+    console.log("Auth successful for user:", userData.user.id);
 
     const serviceAccountJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
     if (!serviceAccountJson) {
-      console.error("GOOGLE_SERVICE_ACCOUNT_JSON secret not found in environment");
-      return json({ error: "Gmail API is not configured. Service account credentials missing." }, 500);
+      console.error("GOOGLE_SERVICE_ACCOUNT_JSON secret not found");
+      return json({ error: "Gmail API is not configured" }, 500);
     }
+    console.log("Service account JSON found, length:", serviceAccountJson.length);
 
+    let sa;
     try {
-      JSON.parse(serviceAccountJson);
+      sa = JSON.parse(serviceAccountJson);
+      console.log("Service account parsed, client_email:", sa.client_email);
     } catch (e) {
       console.error("Invalid JSON in GOOGLE_SERVICE_ACCOUNT_JSON:", e);
-      return json({ error: "Invalid service account credentials format" }, 500);
+      return json({ error: "Invalid credentials format" }, 500);
     }
 
     const { to, subject, body } = await req.json();
 
-    if (!isEmail(to)) return json({ error: "Invalid recipient email address" }, 400);
+    if (!isEmail(to)) return json({ error: "Invalid recipient email" }, 400);
     if (typeof subject !== "string" || !subject.trim() || subject.length > 300) {
-      return json({ error: "Subject is required (max 300 characters)" }, 400);
+      return json({ error: "Invalid subject" }, 400);
     }
     if (typeof body !== "string" || !body.trim() || body.length > 10000) {
-      return json({ error: "Message body is required (max 10,000 characters)" }, 400);
+      return json({ error: "Invalid body" }, 400);
     }
 
+    console.log("Generating access token...");
     const accessToken = await generateAccessToken(serviceAccountJson);
+    console.log("Access token generated");
+
     const fromEmail = "lucas@safetytech.academy";
     const rawEmail = buildRawEmail(to, subject.trim(), body, fromEmail);
 
+    console.log("Sending email via Gmail API to:", to);
     const response = await fetch(`https://www.googleapis.com/gmail/v1/users/${encodeURIComponent(fromEmail)}/messages/send`, {
       method: "POST",
       headers: {
@@ -136,18 +156,19 @@ serve(async (req: Request): Promise<Response> => {
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error(`Gmail send failed [${response.status}]: ${errorBody}`);
+      console.error(`Gmail API error [${response.status}]:`, errorBody);
       return json(
-        { error: "Gmail API request failed", status: response.status, details: errorBody },
+        { error: "Gmail API failed", status: response.status, details: errorBody },
         response.status,
       );
     }
 
     const result = await response.json();
-    console.log("Gmail message sent:", result?.id);
+    console.log("Email sent successfully, ID:", result?.id);
     return json({ success: true, id: result?.id, threadId: result?.threadId });
   } catch (error) {
-    console.error("send-lead-gmail error:", error);
-    return json({ error: "Failed to send email via Gmail API." }, 500);
+    console.error("Unhandled error in send-lead-gmail:", error instanceof Error ? error.message : String(error));
+    console.error("Full error:", error);
+    return json({ error: "Failed to send email", details: error instanceof Error ? error.message : String(error) }, 500);
   }
 });
