@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
-import * as jose from "https://deno.land/x/jose@v5.4.1/index.ts";
+import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,65 +11,11 @@ const corsHeaders = {
 const isEmail = (v: unknown): v is string =>
   typeof v === "string" && v.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
-const encodeHeader = (value: string) =>
-  /^[\x20-\x7E]*$/.test(value)
-    ? value
-    : `=?UTF-8?B?${btoa(String.fromCharCode(...new TextEncoder().encode(value)))}?=`;
-
-const toBase64Url = (input: string) => {
-  const bytes = new TextEncoder().encode(input);
-  let binary = "";
-  bytes.forEach((b) => (binary += String.fromCharCode(b)));
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-};
-
-const buildRawEmail = (to: string, subject: string, body: string, from?: string) =>
-  toBase64Url(
-    [
-      from ? `From: ${from}` : undefined,
-      `To: ${to}`,
-      `Subject: ${encodeHeader(subject)}`,
-      'Content-Type: text/plain; charset="UTF-8"',
-      "MIME-Version: 1.0",
-      "",
-      body,
-    ].filter(Boolean).join("\r\n"),
-  );
-
 const json = (payload: unknown, status = 200) =>
   new Response(JSON.stringify(payload), {
     status,
     headers: { "Content-Type": "application/json", ...corsHeaders },
   });
-
-const generateAccessToken = async (serviceAccountJson: string): Promise<string> => {
-  const sa = JSON.parse(serviceAccountJson);
-  const now = Math.floor(Date.now() / 1000);
-
-  const privateKey = await jose.importPKCS8(sa.private_key, "RS256");
-  const jwt = await new jose.SignJWT({
-    iss: sa.client_email,
-    scope: "https://www.googleapis.com/auth/gmail.send",
-    aud: "https://oauth2.googleapis.com/token",
-    exp: now + 3600,
-    iat: now,
-  })
-    .setProtectedHeader({ alg: "RS256" })
-    .sign(privateKey);
-
-  const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
-  });
-
-  if (!tokenResponse.ok) {
-    throw new Error(`Failed to get access token: ${await tokenResponse.text()}`);
-  }
-
-  const { access_token } = await tokenResponse.json();
-  return access_token;
-};
 
 serve(async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -111,20 +57,10 @@ serve(async (req: Request): Promise<Response> => {
 
     console.log("Auth successful for user:", userData.user.id);
 
-    const serviceAccountJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
-    if (!serviceAccountJson) {
-      console.error("GOOGLE_SERVICE_ACCOUNT_JSON secret not found");
-      return json({ error: "Gmail API is not configured" }, 500);
-    }
-    console.log("Service account JSON found, length:", serviceAccountJson.length);
-
-    let sa;
-    try {
-      sa = JSON.parse(serviceAccountJson);
-      console.log("Service account parsed, client_email:", sa.client_email);
-    } catch (e) {
-      console.error("Invalid JSON in GOOGLE_SERVICE_ACCOUNT_JSON:", e);
-      return json({ error: "Invalid credentials format" }, 500);
+    const gmailPassword = Deno.env.get("GMAIL_APP_PASSWORD");
+    if (!gmailPassword) {
+      console.error("GMAIL_APP_PASSWORD not configured");
+      return json({ error: "Email is not configured" }, 500);
     }
 
     const { to, subject, body } = await req.json();
@@ -137,38 +73,29 @@ serve(async (req: Request): Promise<Response> => {
       return json({ error: "Invalid body" }, 400);
     }
 
-    console.log("Generating access token...");
-    const accessToken = await generateAccessToken(serviceAccountJson);
-    console.log("Access token generated");
+    console.log("Connecting to Gmail SMTP...");
+    const client = new SmtpClient();
 
-    const fromEmail = "lucas@safetytech.academy";
-    const rawEmail = buildRawEmail(to, subject.trim(), body, fromEmail);
-
-    console.log("Sending email via Gmail API to:", to);
-    const response = await fetch(`https://www.googleapis.com/gmail/v1/users/${encodeURIComponent(fromEmail)}/messages/send`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ raw: rawEmail }),
+    await client.connectTLS({
+      hostname: "smtp.gmail.com",
+      port: 465,
+      username: "lucas@safetytech.academy",
+      password: gmailPassword,
     });
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error(`Gmail API error [${response.status}]:`, errorBody);
-      return json(
-        { error: "Gmail API failed", status: response.status, details: errorBody },
-        response.status,
-      );
-    }
+    console.log("Sending email to:", to);
+    await client.send({
+      from: "lucas@safetytech.academy",
+      to: to,
+      subject: subject.trim(),
+      content: body,
+    });
 
-    const result = await response.json();
-    console.log("Email sent successfully, ID:", result?.id);
-    return json({ success: true, id: result?.id, threadId: result?.threadId });
+    await client.close();
+    console.log("Email sent successfully");
+    return json({ success: true, message: "Email sent successfully" });
   } catch (error) {
-    console.error("Unhandled error in send-lead-gmail:", error instanceof Error ? error.message : String(error));
-    console.error("Full error:", error);
+    console.error("Error:", error instanceof Error ? error.message : String(error));
     return json({ error: "Failed to send email", details: error instanceof Error ? error.message : String(error) }, 500);
   }
 });
