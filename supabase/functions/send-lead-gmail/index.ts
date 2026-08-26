@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
+import * as jose from "https://deno.land/x/jose@v5.4.1/index.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -43,36 +44,19 @@ const json = (payload: unknown, status = 200) =>
 
 const generateAccessToken = async (serviceAccountJson: string): Promise<string> => {
   const sa = JSON.parse(serviceAccountJson);
-  const header = toBase64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
   const now = Math.floor(Date.now() / 1000);
-  const payload = toBase64Url(
-    JSON.stringify({
-      iss: sa.client_email,
-      scope: "https://www.googleapis.com/auth/gmail.send",
-      aud: "https://oauth2.googleapis.com/token",
-      exp: now + 3600,
-      iat: now,
-    }),
-  );
 
-  const signatureInput = `${header}.${payload}`;
-  const key = await crypto.subtle.importKey(
-    "pkcs8",
-    new TextEncoder().encode(sa.private_key),
-    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
-  const signatureBuffer = await crypto.subtle.sign(
-    "RSASSA-PKCS1-v1_5",
-    key,
-    new TextEncoder().encode(signatureInput),
-  );
-  const signature = toBase64Url(
-    String.fromCharCode(...new Uint8Array(signatureBuffer)),
-  );
+  const privateKey = await jose.importPKCS8(sa.private_key, "RS256");
+  const jwt = await new jose.SignJWT({
+    iss: sa.client_email,
+    scope: "https://www.googleapis.com/auth/gmail.send",
+    aud: "https://oauth2.googleapis.com/token",
+    exp: now + 3600,
+    iat: now,
+  })
+    .setProtectedHeader({ alg: "RS256" })
+    .sign(privateKey);
 
-  const jwt = `${signatureInput}.${signature}`;
   const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
