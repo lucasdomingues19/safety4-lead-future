@@ -1384,7 +1384,7 @@ const Admin = () => {
 
             {/* Gmail Compose Dialog */}
             <Dialog open={!!composeLead} onOpenChange={(open) => !open && setComposeLead(null)}>
-              <DialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-50 sm:max-w-lg">
+              <DialogContent className="bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-50 sm:max-w-lg [&>*]:text-slate-900 dark:[&>*]:text-slate-50">
                 <DialogHeader>
                   <DialogTitle>Email lead from Gmail</DialogTitle>
                   <DialogDescription className="text-slate-600 dark:text-slate-400">
@@ -1401,7 +1401,11 @@ const Admin = () => {
                       onChange={(e) => setComposeSubject(e.target.value)}
                       maxLength={300}
                       placeholder="Email subject"
-                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50"
+                      style={{
+                        backgroundColor: 'var(--tw-bg-opacity) ? #f8fafc : #1e293b',
+                        color: '#0f172a',
+                      }}
+                      className="!bg-white dark:!bg-slate-700 !text-slate-900 dark:!text-slate-50 border-2 border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -1413,7 +1417,11 @@ const Admin = () => {
                       rows={10}
                       maxLength={10000}
                       placeholder="Email message..."
-                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 resize-none"
+                      style={{
+                        backgroundColor: '#f8fafc',
+                        color: '#0f172a',
+                      }}
+                      className="!bg-white dark:!bg-slate-700 !text-slate-900 dark:!text-slate-50 border-2 border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 resize-none"
                     />
                   </div>
                 </div>
