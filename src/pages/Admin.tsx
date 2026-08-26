@@ -1394,22 +1394,24 @@ const Admin = () => {
                 </DialogHeader>
                 <div className="space-y-3">
                   <div className="space-y-1.5">
-                    <Label htmlFor="lead-gmail-subject">Subject</Label>
+                    <Label htmlFor="lead-gmail-subject" className="text-slate-900 dark:text-slate-50">Subject</Label>
                     <Input
                       id="lead-gmail-subject"
                       value={composeSubject}
                       onChange={(e) => setComposeSubject(e.target.value)}
                       maxLength={300}
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border-slate-200 dark:border-slate-700"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="lead-gmail-body">Message</Label>
+                    <Label htmlFor="lead-gmail-body" className="text-slate-900 dark:text-slate-50">Message</Label>
                     <Textarea
                       id="lead-gmail-body"
                       value={composeBody}
                       onChange={(e) => setComposeBody(e.target.value)}
                       rows={10}
                       maxLength={10000}
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border-slate-200 dark:border-slate-700"
                     />
                   </div>
                 </div>
