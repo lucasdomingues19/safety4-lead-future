@@ -100,7 +100,15 @@ serve(async (req: Request): Promise<Response> => {
 
     const serviceAccountJson = Deno.env.get("GOOGLE_SERVICE_ACCOUNT_JSON");
     if (!serviceAccountJson) {
+      console.error("GOOGLE_SERVICE_ACCOUNT_JSON secret not found in environment");
       return json({ error: "Gmail API is not configured. Service account credentials missing." }, 500);
+    }
+
+    try {
+      JSON.parse(serviceAccountJson);
+    } catch (e) {
+      console.error("Invalid JSON in GOOGLE_SERVICE_ACCOUNT_JSON:", e);
+      return json({ error: "Invalid service account credentials format" }, 500);
     }
 
     const { to, subject, body } = await req.json();

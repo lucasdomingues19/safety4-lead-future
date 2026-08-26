@@ -1400,7 +1400,8 @@ const Admin = () => {
                       value={composeSubject}
                       onChange={(e) => setComposeSubject(e.target.value)}
                       maxLength={300}
-                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border-slate-200 dark:border-slate-700"
+                      placeholder="Email subject"
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -1411,7 +1412,8 @@ const Admin = () => {
                       onChange={(e) => setComposeBody(e.target.value)}
                       rows={10}
                       maxLength={10000}
-                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border-slate-200 dark:border-slate-700"
+                      placeholder="Email message..."
+                      className="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 border border-slate-300 dark:border-slate-600 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 resize-none"
                     />
                   </div>
                 </div>
