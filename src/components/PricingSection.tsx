@@ -23,8 +23,8 @@ export const PricingSection = () => {
           </Link>
         </div>
 
-        {/* Course Cards + Consultation Button */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch mb-16">
+        {/* Course Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-16">
           {courses.map((course) => {
             return (
               <div
@@ -101,24 +101,25 @@ export const PricingSection = () => {
             );
           })}
 
-          {/* Consultation CTA - in blank 4th grid space */}
-          <div className="hidden lg:flex flex-col items-center justify-center text-center gap-4 p-8">
-            <h3 className="text-lg font-bold text-slate-900">
-              Not sure which option is right for your team?
-            </h3>
-            <p className="text-[#69697b] text-sm leading-relaxed">
-              Schedule a free consultation with our experts to find the perfect training solution for your team needs.
-            </p>
-            <a
-              href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors mt-2 w-full"
-            >
-              Schedule Free Consultation
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
+        </div>
+
+        {/* Consultation CTA Section - Below grid */}
+        <div className="bg-slate-50 rounded-[20px] border border-slate-200 p-8 md:p-12 text-center mb-8">
+          <h3 className="text-2xl font-bold text-slate-900 mb-3">
+            Not sure which option is right for your team?
+          </h3>
+          <p className="text-[#69697b] text-base leading-relaxed mb-6 max-w-2xl mx-auto">
+            Schedule a free consultation with our experts to find the perfect training solution for your team needs.
+          </p>
+          <a
+            href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+          >
+            Schedule Free Consultation
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
 
         <p className="text-sm md:text-base text-[#69697b] mx-auto text-center leading-relaxed">
