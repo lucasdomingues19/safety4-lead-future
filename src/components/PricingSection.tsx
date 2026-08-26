@@ -101,15 +101,21 @@ export const PricingSection = () => {
             );
           })}
 
-          {/* Consultation CTA Button - in blank space */}
-          <div className="hidden lg:flex items-center justify-center">
+          {/* Consultation CTA - in blank 4th grid space */}
+          <div className="hidden lg:flex flex-col items-center justify-center text-center gap-4 p-8">
+            <h3 className="text-lg font-bold text-slate-900">
+              Not sure which option is right for your team?
+            </h3>
+            <p className="text-[#69697b] text-sm leading-relaxed">
+              Schedule a free consultation with our experts to find the perfect training solution for your team needs.
+            </p>
             <a
               href="https://scheduler.zoom.us/lucas-domingues/30-mins-with-lucas-safety-4-0-academy"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors mt-2 w-full"
             >
-              <span>Not sure which is right for your team?</span>
+              Schedule Free Consultation
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>
