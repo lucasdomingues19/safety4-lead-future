@@ -106,10 +106,10 @@ export const PricingSection = () => {
             <div className="flex flex-col h-full p-6 md:p-8 justify-between">
               <div className="flex-grow flex flex-col justify-center">
                 <h3 className="text-xl font-bold text-slate-900 mb-3 leading-snug">
-                  Unsure Which is Right?
+                  Not sure which option is right for your team?
                 </h3>
                 <p className="text-[#69697b] text-sm leading-relaxed">
-                  Let our experts help you find the perfect solution for your team's needs.
+                  Let our experts help you find the perfect solution.
                 </p>
               </div>
 
