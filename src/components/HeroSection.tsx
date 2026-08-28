@@ -65,7 +65,7 @@ export const HeroSection = () => {
 
             {/* Headline */}
             <h1 className="mb-6 animate-hero-fade-up" style={{ animationDelay: "0.15s" }}>
-              Build a Safety Function
+              Build an EHS Function
               <br />
               <span className="text-primary">
                 Ready for the <DigitalDotsText text="Digital Age" />
@@ -77,7 +77,7 @@ export const HeroSection = () => {
               className="text-lg text-[#69697b] leading-relaxed mb-10 max-w-[520px] animate-hero-fade-up"
               style={{ animationDelay: "0.25s" }}
             >
-              The world's first IOSH-approved, CPD-accredited Safety 4.0 certification for enterprise EHS teams. Equip your safety function with AI, IoT, and digital transformation skills in just 6–12 weeks.
+              The capability-building partner for organisations navigating AI and digital transformation in EHS & Sustainability.
             </p>
 
             {/* CTAs */}
