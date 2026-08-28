@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import AudienceNav from "@/components/AudienceNav";
+import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
+import { trackPageView } from "@/utils/analytics";
 
 export const ForOrganisations = () => {
   useEffect(() => {
+    trackPageView(window.location.pathname);
     setPageSEO({
       title: "Build an AI-Ready EHS Function | SafetyTech Academy",
       description: "Transform your EHS team's capability. IOSH-approved training for organizations navigating AI and SafetyTech. Executive briefings to enterprise programs.",
@@ -16,17 +18,21 @@ export const ForOrganisations = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
+      <AudienceNav />
+
       {/* Hero Section */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-b from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900">
-              Build an AI-Ready EHS Function
+      <section className="py-28 md:py-40 text-center">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05]">
+              Build an AI-Ready
+              <br />
+              <span className="text-primary">EHS Function.</span>
             </h1>
-            <p className="text-xl text-slate-600 mb-8">
+            <p className="text-lg text-[#69697b] leading-relaxed max-w-2xl mx-auto mb-10">
               Practical Safety 4.0 capability building for EHS teams navigating AI, data and SafetyTech.
             </p>
-            <div className="flex flex-wrap gap-3 mb-12">
+            <div className="flex flex-wrap gap-3 justify-center mb-12">
               <span className="px-4 py-2 bg-white border border-slate-200 rounded-full text-sm font-medium text-slate-700">
                 IOSH-Approved
               </span>
@@ -45,16 +51,16 @@ export const ForOrganisations = () => {
       </section>
 
       {/* Problem Statement Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-10 md:py-14 border-t border-slate-100">
+        <div className="container mx-auto px-4">
           <div className="max-w-3xl mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-slate-900">Does this sound familiar?</h2>
-            <p className="text-lg text-slate-600 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900">Does this sound familiar?</h2>
+            <p className="text-lg text-[#69697b] leading-relaxed mb-8">
               Your organization is exploring AI, but your EHS team faces real obstacles:
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
             {[
               "Your organization is exploring AI, but EHS doesn't have a clear position on how it should be used",
               "Safety technology pilots are appearing across sites, but there's no common framework for evaluation",
@@ -65,7 +71,7 @@ export const ForOrganisations = () => {
             ].map((problem, idx) => (
               <div key={idx} className="flex gap-4 items-start">
                 <div className="text-slate-400 text-xl mt-1">•</div>
-                <p className="text-slate-700">{problem}</p>
+                <p className="text-[#69697b]">{problem}</p>
               </div>
             ))}
           </div>
@@ -73,9 +79,9 @@ export const ForOrganisations = () => {
       </section>
 
       {/* Solution Section */}
-      <section className="py-16 md:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-slate-900">
+      <section className="py-10 md:py-14">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-900">
             What changes when your EHS team becomes AI-ready
           </h2>
 
@@ -106,12 +112,12 @@ export const ForOrganisations = () => {
                 description: "Translate learning into concrete priorities and next actions for your EHS function.",
               },
             ].map((outcome, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-lg border border-slate-200">
-                <div className="flex gap-3 mb-3">
-                  <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                  <h3 className="font-bold text-slate-900">{outcome.title}</h3>
+              <div key={idx} className="flex gap-4">
+                <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2">{outcome.title}</h3>
+                  <p className="text-[#69697b] text-sm">{outcome.description}</p>
                 </div>
-                <p className="text-slate-600 text-sm">{outcome.description}</p>
               </div>
             ))}
           </div>
@@ -119,12 +125,12 @@ export const ForOrganisations = () => {
       </section>
 
       {/* Methodology Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-slate-900">
+      <section className="py-10 md:py-14 border-t border-slate-100">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-900">
             SafetyTech's Transformation Methodology
           </h2>
-          <p className="text-lg text-slate-600 mb-12 max-w-2xl">
+          <p className="text-lg text-[#69697b] leading-relaxed mb-12 max-w-2xl">
             From AI curiosity to responsible implementation. Our proven framework helps organizations build capability at every stage.
           </p>
 
@@ -169,9 +175,9 @@ export const ForOrganisations = () => {
       </section>
 
       {/* Training Options */}
-      <section className="py-16 md:py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-slate-900">
+      <section className="py-10 md:py-14">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-slate-900">
             Training solutions for every organizational need
           </h2>
 
@@ -199,30 +205,26 @@ export const ForOrganisations = () => {
                 features: ["IOSH-approved", "Advanced topics", "Implementation planning"],
               },
             ].map((option, idx) => (
-              <Card key={idx} className="border-slate-200 hover:border-primary transition-colors">
-                <CardHeader>
-                  <CardTitle className="text-lg">{option.name}</CardTitle>
-                  <CardDescription className="text-primary font-medium">{option.duration}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-slate-600 mb-4">{option.description}</p>
-                  <p className="text-xs font-medium text-slate-500 mb-4">{option.audience}</p>
-                  <ul className="space-y-2">
-                    {option.features.map((feature, fi) => (
-                      <li key={fi} className="flex gap-2 items-start text-sm text-slate-700">
-                        <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+              <div key={idx} className="border border-slate-200 rounded-lg p-6 hover:border-primary hover:shadow-md transition-all">
+                <h3 className="font-bold text-slate-900 mb-2">{option.name}</h3>
+                <p className="text-primary font-medium text-sm mb-3">{option.duration}</p>
+                <p className="text-[#69697b] text-sm mb-4">{option.description}</p>
+                <p className="text-xs font-medium text-slate-500 mb-4">{option.audience}</p>
+                <ul className="space-y-2">
+                  {option.features.map((feature, fi) => (
+                    <li key={fi} className="flex gap-2 items-start text-sm text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
 
-          <div className="mt-12 bg-white p-8 rounded-lg border border-slate-200">
+          <div className="mt-12 border border-slate-200 rounded-lg p-8 bg-white">
             <h3 className="font-bold text-slate-900 mb-4">Enterprise & Bespoke Programmes</h3>
-            <p className="text-slate-600 mb-6">
+            <p className="text-[#69697b] mb-6">
               For organizations requiring tailored solutions: custom programmes designed around your specific tools, workflows, industry and timeline. From 6 weeks to 12+ months.
             </p>
             <Link
@@ -237,8 +239,8 @@ export const ForOrganisations = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-primary text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-10 md:py-14 bg-primary text-white">
+        <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to transform your EHS function?</h2>
           <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
             Let's discuss your team's needs and design a programme that works for your organization.
@@ -246,20 +248,22 @@ export const ForOrganisations = () => {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-bold rounded hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-[22px] bg-white text-primary font-bold text-base uppercase tracking-[0.08em] rounded hover:bg-blue-50 transition-colors"
             >
               Discuss Team Training
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/assess-readiness"
-              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white font-bold rounded hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-[22px] border-2 border-white text-white font-bold text-base uppercase tracking-[0.08em] rounded hover:bg-blue-700 transition-colors"
             >
               Assess Your Readiness
             </Link>
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
