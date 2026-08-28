@@ -43,8 +43,7 @@ const GovernanceReadiness = lazy(() => import("./pages/GovernanceReadiness"));
 const GuidesHub = lazy(() => import("./pages/Guides"));
 const GuidePage = lazy(() => import("./pages/Guide"));
 const ProposalPage = lazy(() => import("./pages/Proposal"));
-
-
+const ForOrganisations = lazy(() => import("./pages/ForOrganisations"));
 
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
@@ -150,6 +149,7 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/for-organisations" element={<ForOrganisations />} />
             <Route path="/teacher/lucas-domingues" element={<Navigate to="/about-us" replace />} />
 
             <Route path="/accelerator" element={<Cohort />} />

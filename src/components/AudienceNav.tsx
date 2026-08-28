@@ -5,6 +5,7 @@ import { BrandLogo } from "./BrandLogo";
 
 const navLinks = [
   { label: "Home", href: "/" },
+  { label: "For Organisations", href: "/for-organisations" },
   {
     label: "Courses",
     children: [

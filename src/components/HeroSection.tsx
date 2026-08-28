@@ -85,24 +85,18 @@ export const HeroSection = () => {
               className="flex flex-wrap items-center gap-4 animate-hero-fade-up"
               style={{ animationDelay: "0.35s" }}
             >
-              <button
-                onClick={() => {
-                  const el = document.getElementById("pricing");
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth" });
-                    window.history.replaceState(null, "", "/#pricing");
-                  }
-                }}
-                className="inline-flex items-center gap-2 px-8 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors cursor-pointer"
-              >
-                Our Courses
-                <ArrowRight className="w-4 h-4" />
-              </button>
               <Link
-                to="/about-us"
+                to="/contact"
+                className="inline-flex items-center gap-2 px-8 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+              >
+                Discuss Team Training
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/assess-readiness"
                 className="inline-flex items-center gap-2 px-8 py-[22px] border border-primary text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/5 transition-colors"
               >
-                About Us
+                Assess Your EHS Team AI Readiness
               </Link>
             </div>
           </div>
