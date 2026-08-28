@@ -13,8 +13,8 @@ const Scorecard = () => {
 
   useEffect(() => {
     setPageSEO({
-      title: "Free Digital Maturity Scorecard | Assess Your Readiness",
-      description: "Take the free Digital Maturity Scorecard. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
+      title: "Free EHS AI Readiness Assessment | Digital Maturity Scorecard",
+      description: "Assess your EHS team's readiness for AI and digital transformation. Evaluate organizational maturity across awareness, technology, governance, change management and leadership. Get a detailed PDF report.",
       canonical: "https://safetytech.academy/scorecard",
     });
     trackPageView(window.location.pathname);
@@ -35,7 +35,7 @@ const Scorecard = () => {
                 Digital Maturity Scorecard
               </h1>
               <p className="text-sm sm:text-base text-slate-600 mt-4 max-w-[52ch] mx-auto">
-                Fifteen statements, three minutes. Get a scored position across five categories — awareness, technology, risk &amp; compliance, change management and leadership — plus a personalised PDF report.
+                Quick assessment for EHS teams. Evaluate your organization's AI readiness across five critical dimensions — awareness, technology, governance, change management and leadership — with a detailed PDF report.
               </p>
             </div>
 
@@ -44,15 +44,15 @@ const Scorecard = () => {
               <ul className="text-left text-slate-700 space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-primary mt-1">✓</span>
-                  <span>Personalised assessment of your Safety 4.0 readiness</span>
+                  <span>Organizational assessment of your EHS team's AI readiness</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary mt-1">✓</span>
-                  <span>Detailed breakdown across 5 key categories</span>
+                  <span>Benchmark your maturity across 5 critical dimensions</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary mt-1">✓</span>
-                  <span>Actionable insights to advance your safety programs</span>
+                  <span>Identify priority capability gaps and next steps</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-primary mt-1">✓</span>
