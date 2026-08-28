@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +11,7 @@ import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { FileText, Loader2, Plus, Trash2, Pencil, Eye, ExternalLink } from "lucide-react";
+import { FileText, Loader2, Plus, Trash2, Pencil, Eye, ExternalLink, Upload, Image as ImageIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -53,9 +53,11 @@ const emptyForm = () => ({
 });
 
 export const BlogManager = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [posts, setPosts] = useState<BlogPostRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());
   const [toDelete, setToDelete] = useState<BlogPostRow | null>(null);
@@ -153,6 +155,44 @@ export const BlogManager = () => {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const timestamp = Date.now();
+      const fileName = `blog-${timestamp}-${file.name.replace(/[^a-z0-9.-]/gi, '')}`;
+
+      const { error: uploadError, data } = await supabase.storage
+        .from("blog-images")
+        .upload(fileName, file, { upsert: false });
+
+      if (uploadError) {
+        toast.error("Upload failed: " + uploadError.message);
+        setUploading(false);
+        return;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("blog-images")
+        .getPublicUrl(fileName);
+
+      setForm((f) => ({ ...f, featured_image: urlData.publicUrl }));
+      toast.success("Image uploaded successfully");
+    } catch (err) {
+      toast.error("Upload error");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Editor */}
@@ -241,8 +281,40 @@ export const BlogManager = () => {
               <Input id="bp-tags" value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} placeholder="AI, Safety Leadership" />
             </div>
             <div className="space-y-1 md:col-span-2">
-              <Label htmlFor="bp-image">Featured image URL</Label>
-              <Input id="bp-image" value={form.featured_image} onChange={(e) => setForm({ ...form, featured_image: e.target.value })} placeholder="https://..." />
+              <Label htmlFor="bp-image">Featured image</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="bp-image"
+                  value={form.featured_image}
+                  onChange={(e) => setForm({ ...form, featured_image: e.target.value })}
+                  placeholder="https://..."
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={uploading}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {uploading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Upload className="mr-2 h-4 w-4" />
+                  )}
+                  Upload
+                </Button>
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              {form.featured_image && (
+                <div className="mt-2 text-sm">
+                  <img src={form.featured_image} alt="Preview" className="h-24 rounded border border-slate-200 dark:border-slate-700" />
+                </div>
+              )}
             </div>
             <div className="space-y-1 md:col-span-2">
               <div className="flex items-center justify-between">
