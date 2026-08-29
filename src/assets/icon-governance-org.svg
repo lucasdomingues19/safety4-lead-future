@@ -1,0 +1,27 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Organizational Structure/Governance -->
+  <g transform="translate(100, 90)">
+    <!-- Top node -->
+    <circle cx="0" cy="-25" r="7" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+
+    <!-- Left branch -->
+    <circle cx="-20" cy="0" r="7" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+    <line x1="-5" y1="-20" x2="-15" y2="0" stroke="#000" stroke-width="2"/>
+
+    <!-- Right branch -->
+    <circle cx="20" cy="0" r="7" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+    <line x1="5" y1="-20" x2="15" y2="0" stroke="#000" stroke-width="2"/>
+
+    <!-- Bottom left -->
+    <circle cx="-30" cy="25" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+    <line x1="-22" y1="6" x2="-28" y2="19" stroke="#000" stroke-width="1.5"/>
+
+    <!-- Bottom middle -->
+    <circle cx="0" cy="28" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+    <line x1="0" y1="7" x2="0" y2="22" stroke="#000" stroke-width="1.5"/>
+
+    <!-- Bottom right -->
+    <circle cx="30" cy="25" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+    <line x1="22" y1="6" x2="28" y2="19" stroke="#000" stroke-width="1.5"/>
+  </g>
+</svg>

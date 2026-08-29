@@ -1,0 +1,21 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- ROI/Profit - chart going up -->
+  <g transform="translate(100, 95)">
+    <!-- Axes -->
+    <line x1="-35" y1="25" x2="35" y2="25" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-35" y1="25" x2="-35" y2="-35" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Bars - trending up -->
+    <rect x="-28" y="10" width="8" height="15" fill="#3B82F6" stroke="#000" stroke-width="1"/>
+    <rect x="-15" y="-5" width="8" height="30" fill="#3B82F6" stroke="#000" stroke-width="1"/>
+    <rect x="-2" y="-18" width="8" height="43" fill="#3B82F6" stroke="#000" stroke-width="1"/>
+    <rect x="11" y="-30" width="8" height="55" fill="#3B82F6" stroke="#000" stroke-width="1"/>
+
+    <!-- Trend line -->
+    <path d="M -24 10 L -11 -5 L 2 -18 L 15 -30" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Dollar sign accent -->
+    <circle cx="30" cy="-30" r="8" fill="none" stroke="#3B82F6" stroke-width="2"/>
+    <text x="30" y="-27" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">$</text>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Workflow/Process transformation -->
+  <g transform="translate(100, 90)">
+    <!-- Left box (manual/old) -->
+    <rect x="-32" y="-12" width="20" height="24" fill="#3B82F6" stroke="#000" stroke-width="2" rx="2"/>
+    <line x1="-26" y1="-6" x2="-18" y2="-6" stroke="#000" stroke-width="1"/>
+    <line x1="-26" y1="0" x2="-18" y2="0" stroke="#000" stroke-width="1"/>
+
+    <!-- Arrow right with curve -->
+    <path d="M -10 0 Q 0 -8 10 0" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M 10 0 L 4 -3 M 10 0 L 4 3" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Right box (automation/new) -->
+    <rect x="12" y="-12" width="20" height="24" fill="#3B82F6" stroke="#000" stroke-width="2" rx="2"/>
+    <!-- Gears/automation symbol inside -->
+    <circle cx="18" cy="-4" r="3" fill="none" stroke="#000" stroke-width="1"/>
+    <circle cx="24" cy="0" r="3" fill="none" stroke="#000" stroke-width="1"/>
+    <line x1="18" y1="-4" x2="24" y2="0" stroke="#000" stroke-width="1"/>
+
+    <!-- Spark/efficiency indicator -->
+    <path d="M 32 -15 L 35 -10 L 40 -12 L 36 -8 L 38 -3 L 33 -5 L 30 0 L 32 -5 Z" fill="#3B82F6" stroke="#000" stroke-width="1"/>
+  </g>
+</svg>
