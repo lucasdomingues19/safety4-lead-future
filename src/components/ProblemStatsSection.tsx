@@ -6,11 +6,11 @@ import IconGovernance from "../assets/icon-governance.svg";
 import { CountingNumber } from "./CountingNumber";
 
 const stats = [
-  { icon: IconAICapability, value: 75, suffix: "%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
-  { icon: IconTimeWasted, value: 70, suffix: "%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
-  { icon: IconAbandoned, value: 42, suffix: "%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
-  { icon: IconSafetyImprovements, value: 25, suffix: "%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
-  { icon: IconGovernance, value: 31, suffix: "%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
+  { icon: IconAICapability, value: 75, suffix: "%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { icon: IconTimeWasted, value: 70, suffix: "%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { icon: IconAbandoned, value: 42, suffix: "%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { icon: IconSafetyImprovements, value: 25, suffix: "%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { icon: IconGovernance, value: 31, suffix: "%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
 ];
 
 export const ProblemStatsSection = () => {

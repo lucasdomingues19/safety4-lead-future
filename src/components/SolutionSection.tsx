@@ -61,10 +61,10 @@ export const SolutionSection = () => {
 
 const BenefitCard = ({ icon: Icon, title, description }: { icon: typeof Brain; title: string; description: string }) => (
   <div className="relative group">
-    <div className="absolute inset-0 bg-gradient-to-br from-slate-900/20 to-slate-900/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-    <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-black/30 group-hover:border-black/60 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
-      <div className="w-12 h-12 md:w-14 md:h-14 bg-slate-100 rounded-lg flex items-center justify-center mb-4 md:mb-5">
-        <Icon className="w-6 h-6 md:w-7 md:h-7 text-slate-900" strokeWidth={1.5} />
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+    <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+      <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-4 md:mb-5 group-hover:bg-primary/20 transition-colors">
+        <Icon className="w-6 h-6 md:w-7 md:h-7 text-primary" strokeWidth={1.5} />
       </div>
       <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
         {title}
