@@ -1,43 +1,34 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <!-- Background -->
-  <rect x="50" y="40" width="100" height="100" rx="8" fill="#E0E7FF" opacity="0.6"/>
+  <!-- Clock with documents - Blue and Black duotone -->
 
   <!-- Clock circle -->
-  <circle cx="100" cy="75" r="40" fill="url(#grad2)"/>
+  <circle cx="100" cy="75" r="38" fill="#3B82F6" stroke="#000" stroke-width="2"/>
 
-  <!-- Clock face inner -->
-  <circle cx="100" cy="75" r="32" fill="#3B82F6" opacity="0.8"/>
+  <!-- Clock face ring -->
+  <circle cx="100" cy="75" r="32" fill="none" stroke="#000" stroke-width="1.5"/>
 
   <!-- Hour markers -->
-  <line x1="100" y1="47" x2="100" y2="52" stroke="#E0E7FF" stroke-width="2"/>
-  <line x1="128" y1="75" x2="123" y2="75" stroke="#E0E7FF" stroke-width="2"/>
+  <line x1="100" y1="47" x2="100" y2="51" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+  <line x1="128" y1="75" x2="124" y2="75" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+  <line x1="100" y1="103" x2="100" y2="99" stroke="#000" stroke-width="1.5"/>
+  <line x1="72" y1="75" x2="76" y2="75" stroke="#000" stroke-width="1.5"/>
 
   <!-- Clock hands -->
-  <line x1="100" y1="75" x2="100" y2="55" stroke="#E0E7FF" stroke-width="3" stroke-linecap="round"/>
-  <line x1="100" y1="75" x2="115" y2="75" stroke="#E0E7FF" stroke-width="2" stroke-linecap="round"/>
+  <line x1="100" y1="75" x2="100" y2="55" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+  <line x1="100" y1="75" x2="115" y2="75" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
 
   <!-- Center dot -->
-  <circle cx="100" cy="75" r="3" fill="#E0E7FF"/>
+  <circle cx="100" cy="75" r="3.5" fill="#000"/>
 
-  <!-- Papers/documents stacked -->
-  <g opacity="0.7">
-    <rect x="55" y="130" width="30" height="25" fill="#3B82F6" rx="2"/>
-    <line x1="60" y1="138" x2="80" y2="138" stroke="#E0E7FF" stroke-width="1.5"/>
-    <line x1="60" y1="145" x2="75" y2="145" stroke="#E0E7FF" stroke-width="1.5"/>
-  </g>
+  <!-- Document 1 -->
+  <rect x="52" y="128" width="28" height="32" fill="#3B82F6" stroke="#000" stroke-width="1.5" rx="2"/>
+  <line x1="58" y1="138" x2="76" y2="138" stroke="#000" stroke-width="1.5"/>
+  <line x1="58" y1="146" x2="72" y2="146" stroke="#000" stroke-width="1.5"/>
 
-  <!-- More papers -->
-  <g opacity="0.5">
-    <rect x="62" y="135" width="30" height="25" fill="#1E40AF" rx="2"/>
-  </g>
+  <!-- Document 2 (offset) -->
+  <rect x="60" y="136" width="28" height="32" fill="#3B82F6" stroke="#000" stroke-width="1.5" rx="2" opacity="0.7"/>
+  <line x1="66" y1="146" x2="80" y2="146" stroke="#000" stroke-width="1"/>
 
-  <!-- Accent circles -->
-  <circle cx="145" cy="130" r="5" fill="#3B82F6" opacity="0.6"/>
-  <circle cx="155" cy="145" r="4" fill="#E0E7FF" opacity="0.5"/>
+  <!-- Document 3 (offset more) -->
+  <rect x="68" y="144" width="28" height="32" fill="#3B82F6" stroke="#000" stroke-width="1.5" rx="2" opacity="0.5"/>
 </svg>
