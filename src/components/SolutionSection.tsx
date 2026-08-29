@@ -63,8 +63,8 @@ const BenefitCard = ({ icon, title, description }: { icon: string; title: string
   <div className="relative group">
     <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
     <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
-      <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-lg flex items-center justify-center mb-4 md:mb-5 group-hover:bg-primary/20 transition-colors">
-        <img src={icon} alt={title} className="w-10 h-10 md:w-12 md:h-12" />
+      <div className="w-24 h-24 md:w-28 md:h-28 bg-primary/10 rounded-xl flex items-center justify-center mb-6 md:mb-8 group-hover:bg-primary/20 transition-colors">
+        <img src={icon} alt={title} className="w-14 h-14 md:w-16 md:h-16" />
       </div>
       <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
         {title}
