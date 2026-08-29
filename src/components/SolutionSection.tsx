@@ -60,14 +60,14 @@ export const SolutionSection = () => {
 };
 
 const BenefitCard = ({ icon: Icon, title, description }: { icon: typeof Brain; title: string; description: string }) => (
-  <div className="bg-primary rounded-xl md:rounded-2xl p-6 md:p-8 text-white flex flex-col">
-    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/20 rounded-lg flex items-center justify-center mb-4 md:mb-5">
+  <div className="group bg-primary rounded-xl md:rounded-2xl p-6 md:p-8 text-white flex flex-col transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:-translate-y-2 cursor-pointer">
+    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/20 rounded-lg flex items-center justify-center mb-4 md:mb-5 group-hover:bg-white/30 transition-colors duration-300">
       <Icon className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={1.5} />
     </div>
-    <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
+    <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 group-hover:text-white transition-colors duration-300">
       {title}
     </h3>
-    <p className="text-sm md:text-base leading-relaxed text-white/90">
+    <p className="text-sm md:text-base leading-relaxed text-white/90 group-hover:text-white transition-colors duration-300">
       {description}
     </p>
   </div>
