@@ -4,33 +4,33 @@ export const SolutionSection = () => {
   const benefits = [
     {
       icon: Brain,
-      title: "Learn AI, IoT, & SafetyTech",
-      description: "Master cutting-edge safety technologies through practical, hands-on training designed for safety professionals.",
+      title: "Build AI Literacy Across Your Team",
+      description: "Equip your EHS function with practical AI and SafetyTech knowledge tailored to your industry and workflow.",
     },
     {
       icon: Users,
-      title: "Global safety leader community",
-      description: "Join an exclusive network of forward-thinking safety professionals worldwide.",
+      title: "Enable Cross-Functional Collaboration",
+      description: "Give your EHS leaders the language and confidence to partner with IT, Operations, and executive teams on digital initiatives.",
     },
     {
       icon: Award,
-      title: "IOSH & CPD recognized certification",
-      description: "Earn globally recognized credentials that demonstrate your expertise in digital safety leadership.",
+      title: "IOSH-Approved, Recognized Capability",
+      description: "Build verifiable organizational capability through IOSH-approved, CPD-recognized training your teams can reference.",
     },
     {
       icon: PlayCircle,
-      title: "Masterclass sessions with experts",
-      description: "Learn from industry leaders through exclusive masterclass sessions covering advanced Safety 4.0 strategies.",
+      title: "Learn from SafetyTech Leaders",
+      description: "Access expert-led sessions and case studies showing how other organizations have successfully transformed their EHS functions.",
     },
     {
       icon: Rocket,
-      title: "Future-proof your career in hours",
-      description: "Transform your safety career with skills that make you indispensable in the digital age.",
+      title: "Accelerate Digital Transformation",
+      description: "Move from defensive compliance to strategic AI governance—measurable progress in weeks, not years.",
     },
     {
       icon: UserCheck,
-      title: "1:1 personalized mentoring",
-      description: "Receive personalized coaching and mentorship to accelerate your digital safety transformation journey.",
+      title: "Flexible Delivery for Your Organization",
+      description: "Executive briefings, team workshops, or in-depth programs—tailored to your timeline and organizational structure.",
     },
   ];
 
@@ -38,12 +38,12 @@ export const SolutionSection = () => {
     <section className="py-10 md:py-14 relative overflow-hidden bg-white">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 md:mb-20 animate-fade-in">
-          <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-8 tracking-tight leading-[1.05] md:whitespace-nowrap">
-            The Solution: <span className="text-primary">You need new skills</span>
+          <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-8 tracking-tight leading-[1.05]">
+            Transform Your EHS Function: <span className="text-primary">Build Team Capability for AI</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
-            We've created the world's first comprehensive digital safety leadership program
-            that transforms traditional safety professionals into future-ready leaders.
+            A structured program that takes your EHS team from reactive to AI-enabled—building organizational capability
+            for governance, evaluation, and responsible adoption of emerging safety technologies.
           </p>
         </div>
 
