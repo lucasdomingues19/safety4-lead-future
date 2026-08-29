@@ -1,22 +1,30 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Safety Performance & Productivity -->
-  <g transform="translate(100, 90)">
-    <!-- Shield (safety) -->
-    <path d="M -5 -30 L 15 -18 L 15 -5 Q 0 10 0 10 Q -15 -5 -15 -18 Z" fill="#3B82F6" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="safetyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(100, 100)">
+    <!-- Shield (Safety) -->
+    <path d="M -8 -35 L 18 -20 L 18 -2 Q 0 18 0 18 Q -18 -2 -18 -20 Z" fill="url(#safetyGrad)" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
 
     <!-- Checkmark inside shield -->
-    <path d="M -6 0 L -2 4 L 6 -5" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M -6 4 L -2 8 L 8 -3" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <!-- Upward arrow (productivity increase) -->
-    <g transform="translate(28, -10)">
-      <path d="M 0 15 L 0 -5 M -4 0 L 0 -5 L 4 0" fill="none" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
+    <!-- Productivity Bar Chart (right side) -->
+    <g transform="translate(32, 2)">
+      <!-- Chart bars showing growth -->
+      <rect x="-12" y="8" width="6" height="12" fill="url(#safetyGrad)" stroke="#000" stroke-width="1.5" rx="1"/>
+      <rect x="-4" y="0" width="6" height="20" fill="url(#safetyGrad)" stroke="#000" stroke-width="1.5" rx="1"/>
+      <rect x="4" y="-8" width="6" height="28" fill="url(#safetyGrad)" stroke="#000" stroke-width="1.5" rx="1"/>
 
-    <!-- Percentage symbol for improvement -->
-    <g transform="translate(-25, -15)" opacity="0.8">
-      <circle cx="0" cy="0" r="2" fill="#000"/>
-      <line x1="-4" y1="4" x2="4" y2="-4" stroke="#000" stroke-width="1.5"/>
-      <circle cx="0" cy="8" r="2" fill="#000"/>
+      <!-- Trend line -->
+      <path d="M -9 8 L -1 0 L 7 -8" stroke="#000" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Up arrow accent -->
+      <path d="M 18 -10 L 18 5 M 14 0 L 18 -5 L 22 0" fill="none" stroke="url(#safetyGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </g>
 </svg>

@@ -1,22 +1,34 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <!-- Scale AI Implementation - Network/Growth -->
-  <g transform="translate(100, 90)">
-    <!-- Central node -->
-    <circle cx="0" cy="0" r="8" fill="#3B82F6" stroke="#000" stroke-width="2"/>
+  <defs>
+    <linearGradient id="scaleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
 
-    <!-- Connected nodes forming network -->
-    <circle cx="-22" cy="-15" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
-    <circle cx="22" cy="-15" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
-    <circle cx="-20" cy="20" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
-    <circle cx="20" cy="20" r="6" fill="#3B82F6" stroke="#000" stroke-width="1.5"/>
+  <g transform="translate(100, 100)">
+    <!-- Central Hub Node (Largest) -->
+    <circle cx="0" cy="0" r="11" fill="url(#scaleGrad)" stroke="#000" stroke-width="2.5"/>
 
-    <!-- Connection lines -->
-    <line x1="-15" y1="-10" x2="-7" y2="-5" stroke="#000" stroke-width="1.5"/>
-    <line x1="15" y1="-10" x2="7" y2="-5" stroke="#000" stroke-width="1.5"/>
-    <line x1="-15" y1="15" x2="-5" y2="5" stroke="#000" stroke-width="1.5"/>
-    <line x1="15" y1="15" x2="5" y2="5" stroke="#000" stroke-width="1.5"/>
+    <!-- Network Nodes (4 corners) -->
+    <circle cx="-28" cy="-24" r="8" fill="url(#scaleGrad)" stroke="#000" stroke-width="2"/>
+    <circle cx="28" cy="-24" r="8" fill="url(#scaleGrad)" stroke="#000" stroke-width="2"/>
+    <circle cx="-28" cy="26" r="8" fill="url(#scaleGrad)" stroke="#000" stroke-width="2"/>
+    <circle cx="28" cy="26" r="8" fill="url(#scaleGrad)" stroke="#000" stroke-width="2"/>
 
-    <!-- Growth arrow upward -->
-    <path d="M 32 -15 L 32 5 M 28 -5 L 32 0 L 36 -5" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Connection Lines (Network connections) -->
+    <line x1="-18" y1="-16" x2="-6" y2="-6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="18" y1="-16" x2="6" y2="-6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="-18" y1="16" x2="-6" y2="6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="18" y1="16" x2="6" y2="6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- Diagonal connections for network effect -->
+    <line x1="-20" y1="-20" x2="20" y2="20" stroke="#000" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+    <line x1="20" y1="-20" x2="-20" y2="20" stroke="#000" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/>
+
+    <!-- Growth Arrow (upward) -->
+    <g transform="translate(42, -18)">
+      <path d="M 0 18 L 0 -6 M -5 2 L 0 -6 L 5 2" fill="none" stroke="url(#scaleGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
   </g>
 </svg>
