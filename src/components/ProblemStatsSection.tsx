@@ -1,10 +1,12 @@
 import { AlertCircle, TrendingDown, TrendingUp, Clock } from "lucide-react";
 
 const stats = [
-  { icon: AlertCircle, value: "25%", label: "Zero AI Capability", desc: "of EHS teams have no AI or digital readiness", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: TrendingDown, value: "61%", label: "Beginner Level", desc: "of EHS functions rate maturity as early-stage", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: TrendingUp, value: "49%", label: "Active Investment", desc: "of organizations plan SafetyTech investment in 12 months", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: Clock, value: "77%", label: "Hiring Pressure", desc: "of organizations seek AI-aware EHS leadership", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: AlertCircle, value: "75%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: TrendingDown, value: "70%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: TrendingUp, value: "42%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: Clock, value: "25%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: AlertCircle, value: "31%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: TrendingUp, value: "2.5-6x", label: "ROI Gap", desc: "Mature digital safety orgs achieve 2.5-6x better ROI—competitors ahead", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
 ];
 
 export const ProblemStatsSection = () => {
@@ -21,7 +23,7 @@ export const ProblemStatsSection = () => {
           </h2>
 
           <h3 className="text-lg md:text-2xl font-semibold text-slate-900 mb-6">
-            Your Organization is Exploring AI, But Your EHS Team Isn't Ready
+            Most EHS Functions Aren't Ready for AI & SafetyTech
           </h3>
 
           {/* Stats cards */}
@@ -43,9 +45,8 @@ export const ProblemStatsSection = () => {
           </div>
 
           <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed text-left">
-            <span className="font-bold text-slate-900">The hard truth:</span> your EHS function can't govern or evaluate AI and SafetyTech investments without building team capability first.
-            Traditional compliance-focused training won't prepare your team for AI governance, data ethics, or digital transformation leadership.
-            Meanwhile, competitors are already building this capability—and your organization is falling behind.
+            <span className="font-bold text-slate-900">The hard truth:</span> Most EHS functions aren't ready to implement, evaluate and govern AI and SafetyTech investments without building team capability first.
+            Generic AI training won't prepare your team for the risks and opportunities of the digital age—or help you comply with emerging regulations including the EU AI Act Article 4 on AI Literacy.
           </p>
 
           <p className="text-base md:text-lg text-slate-600 mb-10 leading-relaxed text-left">

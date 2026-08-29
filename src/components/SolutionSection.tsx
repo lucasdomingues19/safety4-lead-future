@@ -4,33 +4,43 @@ export const SolutionSection = () => {
   const benefits = [
     {
       icon: Brain,
-      title: "Build AI Literacy Across Your Team",
-      description: "Equip your EHS function with practical AI and SafetyTech knowledge tailored to your industry and workflow.",
+      title: "Measure & Maximize AI ROI",
+      description: "Turn tool investments into measurable safety and productivity gains—move from cost centers to strategic assets.",
     },
     {
       icon: Users,
-      title: "Enable Cross-Functional Collaboration",
-      description: "Give your EHS leaders the language and confidence to partner with IT, Operations, and executive teams on digital initiatives.",
+      title: "Build Organizational AI Governance",
+      description: "Establish frameworks to scale AI safely across your EHS function without legal, compliance, or adoption risk.",
     },
     {
       icon: Award,
-      title: "IOSH-Approved, Recognized Capability",
-      description: "Build verifiable organizational capability through IOSH-approved, CPD-recognized training your teams can reference.",
+      title: "Transform Manual Processes to Strategy",
+      description: "Free your team from admin work to focus on prevention, incident reduction, and digital leadership.",
     },
     {
       icon: PlayCircle,
-      title: "Learn from SafetyTech Leaders",
-      description: "Access expert-led sessions and case studies showing how other organizations have successfully transformed their EHS functions.",
+      title: "Unlock Data-Driven Safety Insights",
+      description: "Leverage existing data to predict incidents, reduce costs, and improve measurable safety performance.",
     },
     {
       icon: Rocket,
-      title: "Accelerate Digital Transformation",
-      description: "Move from defensive compliance to strategic AI governance—measurable progress in weeks, not years.",
+      title: "Benchmark & Compete",
+      description: "Assess your digital maturity against competitors and build a roadmap to competitive advantage in your industry.",
     },
     {
       icon: UserCheck,
-      title: "Flexible Delivery for Your Organization",
-      description: "Executive briefings, team workshops, or in-depth programs—tailored to your timeline and organizational structure.",
+      title: "Scale Responsible AI Implementation",
+      description: "Deploy AI across your organization with confidence—with governance, best practices, and proven methodology.",
+    },
+    {
+      icon: Brain,
+      title: "Ensure EU AI Act Article 4 Compliance",
+      description: "Build organizational AI literacy and governance frameworks that meet EU AI Act requirements for transparency and human oversight.",
+    },
+    {
+      icon: Rocket,
+      title: "Improve Safety Performance & Productivity",
+      description: "Deploy AI-ready capabilities that reduce incidents, prevent hazards, and boost team productivity—delivering measurable outcomes.",
     },
   ];
 
@@ -39,11 +49,11 @@ export const SolutionSection = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 md:mb-20 animate-fade-in">
           <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-8 tracking-tight leading-[1.05]">
-            Transform Your EHS Function: <span className="text-primary">Build Team Capability for AI</span>
+            Transform Your EHS Function: <span className="text-primary">Build the Capability to Govern AI</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
-            A structured program that takes your EHS team from reactive to AI-enabled—building organizational capability
-            for governance, evaluation, and responsible adoption of emerging safety technologies.
+            A structured program that equips your EHS function to implement, evaluate, and govern AI and SafetyTech responsibly—
+            building measurable safety improvements, productivity gains, and regulatory compliance.
           </p>
         </div>
 

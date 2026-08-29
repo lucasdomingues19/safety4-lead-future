@@ -84,7 +84,7 @@ const Index = () => {
                 </span>
                 <h2 className="text-white mb-6">SafetyTech Academy</h2>
                 <p className="text-white/80 text-lg leading-relaxed mb-10">
-                  Our mission is to enable organizations to govern and harness AI responsibly in their EHS functions. See how we're transforming safety teams into AI-ready, strategic partners for digital transformation.
+                  Our mission is to Lead Safety Forward and enable organizations to govern and harness AI responsibly in their EHS functions. See how we're transforming safety teams into AI-ready, strategic partners for digital transformation.
                 </p>
                 <button
                   onClick={() => {
