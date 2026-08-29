@@ -58,6 +58,13 @@ export const ProblemStatsSection = () => {
             </p>
           </div>
 
+          {/* The Opportunity Section */}
+          <div className="text-center w-full mb-10">
+            <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
+              THE OPPORTUNITY
+            </p>
+          </div>
+
           {/* Mission block */}
           <div className="text-left space-y-6">
             <h3 className="text-xl md:text-2xl font-bold text-primary">
