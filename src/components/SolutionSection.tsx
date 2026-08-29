@@ -40,7 +40,7 @@ export const SolutionSection = () => {
   ];
 
   return (
-    <section className="py-10 md:py-14 relative overflow-hidden bg-white">
+    <section className="pt-0 md:pt-0 pb-10 md:pb-14 relative overflow-hidden bg-white">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-8 md:mb-10 animate-fade-in">
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
