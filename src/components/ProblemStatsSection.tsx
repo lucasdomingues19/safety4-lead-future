@@ -6,11 +6,11 @@ import IconGovernance from "../assets/icon-governance.svg";
 import { CountingNumber } from "./CountingNumber";
 
 const stats = [
-  { icon: IconAICapability, value: 75, suffix: "%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: IconTimeWasted, value: 70, suffix: "%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: IconAbandoned, value: 42, suffix: "%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: IconSafetyImprovements, value: 25, suffix: "%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: IconGovernance, value: 31, suffix: "%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: IconAICapability, value: 75, suffix: "%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
+  { icon: IconTimeWasted, value: 70, suffix: "%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
+  { icon: IconAbandoned, value: 42, suffix: "%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
+  { icon: IconSafetyImprovements, value: 25, suffix: "%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
+  { icon: IconGovernance, value: 31, suffix: "%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-slate-900", border: "border-black/30 hover:border-black/60", glow: "from-slate-900/20 to-slate-900/10" },
 ];
 
 export const ProblemStatsSection = () => {
@@ -35,7 +35,7 @@ export const ProblemStatsSection = () => {
             {stats.map((s) => (
               <div key={s.label} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.glow} rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all`} />
-                <div className={`relative text-center space-y-2 md:space-y-4 bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border ${s.border} transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer`}>
+                <div className={`relative text-center space-y-2 md:space-y-4 bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border-2 ${s.border} transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer`}>
                   <img src={s.icon} alt={s.label} className="w-12 h-12 md:w-14 md:h-14 mx-auto" />
                   <div className={`text-2xl md:text-3xl font-bold ${s.color} tabular-nums`}>
                     <CountingNumber target={s.value} suffix={s.suffix} duration={2000} />
