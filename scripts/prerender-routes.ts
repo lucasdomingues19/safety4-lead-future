@@ -103,6 +103,13 @@ const staticRoutes: RouteSeo[] = [
       "Take the free Safety 4.0 Scorecard & Digital Maturity Pulse. Assess your personal readiness and your organisation's digital maturity across key categories. Get a personalised PDF report.",
   },
   {
+    path: "/assess-readiness",
+    title:
+      "Free EHS AI Readiness Assessment | Digital Maturity Scorecard",
+    description:
+      "Assess your EHS team's readiness for AI and digital transformation. Evaluate organizational maturity across awareness, technology, governance, change management and leadership. Get a detailed PDF report.",
+  },
+  {
     path: "/blog",
     title: "Safety 4.0 Blog — AI, EHS & SafetyTech Insights",
     description:
