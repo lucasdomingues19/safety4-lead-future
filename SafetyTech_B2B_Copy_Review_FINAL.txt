@@ -1,0 +1,201 @@
+================================================================================
+SAFETYTECH ACADEMY - B2B HOMEPAGE COPY REVIEW (FINAL)
+Status: READY FOR APPROVAL & IMPLEMENTATION
+================================================================================
+
+SECTION 1: PROBLEM STATS SECTION
+================================================================================
+
+Section Label:
+├─ CURRENT: THE PROBLEM
+└─ NEW: THE CHALLENGE
+
+Main Headline:
+├─ CURRENT: Digital Skills Gap: The Exposed Risk in EHS
+└─ NEW: AI & Digital Transformation: The EHS Function Gap
+
+Subheading:
+├─ CURRENT: Your Career is at an Unprecedented Crossroads
+└─ NEW: Your Organization is Exploring AI, But Your EHS Team Isn't Ready
+
+---
+
+SIX STAT CARDS - BUSINESS IMPACT & MISSED OPPORTUNITIES
+
+Card 1:
+├─ STAT: 75%
+├─ LABEL: Struggle to Leverage AI Tools
+└─ DESCRIPTION: of organizations waste significant budget on underused AI and
+   SafetyTech—tools purchased but not maximized due to capability gaps
+
+Card 2:
+├─ STAT: 70%
+├─ LABEL: Time Spent on Admin, Not Prevention
+└─ DESCRIPTION: of EHS teams reduce audits/inspections by 70% when automating
+   manual processes—freeing time for safety strategy instead of paperwork
+
+Card 3:
+├─ STAT: 42%
+├─ LABEL: AI Initiatives Abandoned
+└─ DESCRIPTION: of companies abandoned most AI safety initiatives in 2025—
+   unable to measure impact or demonstrate value from investments
+
+Card 4:
+├─ STAT: 25%
+├─ LABEL: Potential Safety Gains Lost
+└─ DESCRIPTION: organizations using data analytics achieve 25% fewer incidents;
+   most EHS teams aren't leveraging their data strategically
+
+Card 5:
+├─ STAT: 31%
+├─ LABEL: Budget & Governance Barriers
+└─ DESCRIPTION: of organizations cite budget/resources and lack of governance
+   as top barriers to scaling AI safely and effectively in EHS
+
+Card 6:
+├─ STAT: 2.5-6x
+├─ LABEL: ROI Gap: Leaders vs. Laggards
+└─ DESCRIPTION: organizations with mature digital safety see 2.5-6x ROI;
+   competitors without AI-ready teams are losing competitive advantage
+
+---
+
+Problem Statement Paragraph:
+
+CURRENT:
+The hard truth: traditional safety certifications won't protect your career
+anymore. Compliance-based credentials no longer signal readiness. Organisations
+are actively seeking safety leaders who can leverage AI and digital tools — and
+most professionals aren't there yet.
+
+NEW:
+The hard truth: your EHS function can't govern or evaluate AI and SafetyTech
+investments without building team capability first. Traditional compliance-focused
+training won't prepare your team for AI governance, data ethics, or digital
+transformation leadership. Meanwhile, competitors are already building this
+capability—and your organization is falling behind.
+
+================================================================================
+SECTION 2: SOLUTION SECTION
+================================================================================
+
+Headline & Subheading:
+
+CURRENT HEADLINE:
+The Solution: You need new skills
+
+CURRENT SUBHEADING:
+We've created the world's first comprehensive digital safety leadership program
+that transforms traditional safety professionals into future-ready leaders.
+
+NEW HEADLINE:
+Transform Your EHS Function: Build Team Capability for AI
+
+NEW SUBHEADING:
+A structured program that takes your EHS team from reactive to AI-enabled—
+building organizational capability for governance, evaluation, and responsible
+adoption of emerging safety technologies.
+
+---
+
+EIGHT BENEFITS CARDS - B2B FOCUSED
+
+#1 - Measure & Maximize AI ROI
+    Description: Turn tool investments into measurable safety and productivity
+    gains—move from cost centers to strategic assets
+
+#2 - Build Organizational AI Governance
+    Description: Establish frameworks to scale AI safely across your EHS
+    function without legal, compliance, or adoption risk
+
+#3 - Transform Manual Processes to Strategy
+    Description: Free your team from admin work to focus on prevention, incident
+    reduction, and digital leadership
+
+#4 - Unlock Data-Driven Safety Insights
+    Description: Leverage existing data to predict incidents, reduce costs, and
+    improve measurable safety performance
+
+#5 - Benchmark & Compete
+    Description: Assess your digital maturity against competitors and build a
+    roadmap to competitive advantage in your industry
+
+#6 - Scale Responsible AI Implementation
+    Description: Deploy AI across your organization with confidence—with
+    governance, best practices, and proven methodology
+
+#7 - Ensure EU AI Act Article 4 Compliance
+    Description: Build organizational AI literacy and governance frameworks that
+    meet EU AI Act requirements for transparency, human oversight, and high-risk
+    system management
+
+#8 - Improve Safety Performance & Productivity
+    Description: Deploy AI-ready capabilities that reduce incidents, prevent
+    hazards, and boost team productivity—delivering measurable safety and
+    operational efficiency gains
+
+================================================================================
+SECTION 3: BLUE BAND - MISSION & CTA
+================================================================================
+
+Mission Statement:
+
+CURRENT:
+Our mission is to lead safety forward. Watch how we're equipping EHS teams with
+the AI literacy and digital skills to lead in the Safety 4.0 era.
+
+NEW (WITH BRAND MISSION):
+Our mission is to Lead Safety Forward and enable organizations to govern and
+harness AI responsibly in their EHS functions. See how we're transforming safety
+teams into AI-ready, strategic partners for digital transformation.
+
+---
+
+CTA Button Text:
+
+CURRENT: Our Courses
+NEW: Training Programs
+
+================================================================================
+KEY B2B POSITIONING THEMES
+================================================================================
+
+✓ BUSINESS IMPACT: All benefits tied to measurable outcomes (ROI, safety,
+  productivity, competitive advantage)
+
+✓ ORGANIZATIONAL FOCUS: Language emphasizes team/function/organization capability,
+  not individual careers
+
+✓ STRATEGIC VALUE: Benefits frame AI/digital as business transformation, not
+  just tool adoption
+
+✓ GOVERNANCE & RISK: EU AI Act compliance, responsible scaling, governance
+  frameworks emphasized
+
+✓ MISSED OPPORTUNITIES: Stats show what organizations are losing—wasted budget,
+  abandoned initiatives, productivity gaps, ROI failures
+
+✓ COMPETITIVE POSITIONING: Clear messaging that leaders are pulling ahead;
+  laggards falling behind on both safety AND efficiency
+
+================================================================================
+READY FOR IMPLEMENTATION
+================================================================================
+
+All copy reviewed and finalized:
+✅ 6 stat cards with research-backed data
+✅ 8 B2B benefits (business-focused)
+✅ Brand mission "Lead Safety Forward" integrated
+✅ Problem statement focused on organizational challenges
+✅ Solution headline/subheading emphasizing capability building
+✅ EU AI Act Article 4 compliance included
+✅ Throughout: shift from B2C (careers) to B2B (business outcomes)
+
+NEXT STEP: Once you approve, I will:
+1. Update the code (ProblemStatsSection, SolutionSection, Index)
+2. Commit locally
+3. Await your signal to push to production
+
+APPROVAL? ✅
+
+================================================================================

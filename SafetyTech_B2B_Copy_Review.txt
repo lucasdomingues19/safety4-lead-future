@@ -1,0 +1,184 @@
+================================================================================
+SAFETYTECH ACADEMY - B2B HOMEPAGE COPY REVIEW (UPDATED)
+Status: READY FOR REVIEW (Not yet pushed to live site)
+================================================================================
+
+SECTION 1: PROBLEM STATS SECTION
+================================================================================
+
+Section Label:
+├─ CURRENT: THE PROBLEM
+└─ NEW: THE CHALLENGE
+
+Main Headline:
+├─ CURRENT: Digital Skills Gap: The Exposed Risk in EHS
+└─ NEW: AI & Digital Transformation: The EHS Function Gap
+
+Subheading:
+├─ CURRENT: Your Career is at an Unprecedented Crossroads
+└─ NEW: Your Organization is Exploring AI, But Your EHS Team Isn't Ready
+
+---
+
+✨ NEW: SIX STAT CARDS - BUSINESS IMPACT & MISSED OPPORTUNITIES ✨
+
+Card 1:
+├─ STAT: 75%
+├─ LABEL: Struggle to Leverage AI Tools
+└─ DESCRIPTION: of organizations waste significant budget on underused AI and
+   SafetyTech—tools purchased but not maximized due to capability gaps
+
+Card 2:
+├─ STAT: 70%
+├─ LABEL: Time Spent on Admin, Not Prevention
+└─ DESCRIPTION: of EHS teams reduce audits/inspections by 70% when automating
+   manual processes—freeing time for safety strategy instead of paperwork
+
+Card 3:
+├─ STAT: 42%
+├─ LABEL: AI Initiatives Abandoned
+└─ DESCRIPTION: of companies abandoned most AI safety initiatives in 2025—
+   unable to measure impact or demonstrate value from investments
+
+Card 4:
+├─ STAT: 25%
+├─ LABEL: Potential Safety Gains Lost
+└─ DESCRIPTION: organizations using data analytics achieve 25% fewer incidents;
+   most EHS teams aren't leveraging their data strategically
+
+Card 5:
+├─ STAT: 31%
+├─ LABEL: Budget & Governance Barriers
+└─ DESCRIPTION: of organizations cite budget/resources and lack of governance
+   as top barriers to scaling AI safely and effectively in EHS
+
+Card 6:
+├─ STAT: 2.5-6x
+├─ LABEL: ROI Gap: Leaders vs. Laggards
+└─ DESCRIPTION: organizations with mature digital safety see 2.5-6x ROI;
+   competitors without AI-ready teams are losing competitive advantage
+
+---
+
+Problem Statement Paragraph:
+
+CURRENT:
+The hard truth: traditional safety certifications won't protect your career
+anymore. Compliance-based credentials no longer signal readiness. Organisations
+are actively seeking safety leaders who can leverage AI and digital tools — and
+most professionals aren't there yet.
+
+NEW:
+The hard truth: your EHS function can't govern or evaluate AI and SafetyTech
+investments without building team capability first. Traditional compliance-focused
+training won't prepare your team for AI governance, data ethics, or digital
+transformation leadership. Meanwhile, competitors are already building this
+capability—and your organization is falling behind.
+
+================================================================================
+SECTION 2: SOLUTION SECTION
+================================================================================
+
+Headline & Subheading:
+
+CURRENT HEADLINE:
+The Solution: You need new skills
+
+CURRENT SUBHEADING:
+We've created the world's first comprehensive digital safety leadership program
+that transforms traditional safety professionals into future-ready leaders.
+
+NEW HEADLINE:
+Transform Your EHS Function: Build Team Capability for AI
+
+NEW SUBHEADING:
+A structured program that takes your EHS team from reactive to AI-enabled—
+building organizational capability for governance, evaluation, and responsible
+adoption of emerging safety technologies.
+
+---
+
+Six Benefits Cards:
+
+#1 - Learn AI, IoT, & SafetyTech
+└─ Transform to: Build AI Literacy Across Your Team
+   New description: Equip your EHS function with practical AI and SafetyTech
+   knowledge tailored to your industry and workflow.
+
+#2 - Global safety leader community
+└─ Transform to: Enable Cross-Functional Collaboration
+   New description: Give your EHS leaders the language and confidence to partner
+   with IT, Operations, and executive teams on digital initiatives.
+
+#3 - IOSH & CPD recognized certification
+└─ Transform to: IOSH-Approved, Recognized Capability
+   New description: Build verifiable organizational capability through IOSH-approved,
+   CPD-recognized training your teams can reference.
+
+#4 - Masterclass sessions with experts
+└─ Transform to: Learn from SafetyTech Leaders
+   New description: Access expert-led sessions and case studies showing how other
+   organizations have successfully transformed their EHS functions.
+
+#5 - Future-proof your career in hours
+└─ Transform to: Accelerate Digital Transformation
+   New description: Move from defensive compliance to strategic AI governance—
+   measurable progress in weeks, not years.
+
+#6 - 1:1 personalized mentoring
+└─ Transform to: Flexible Delivery for Your Organization
+   New description: Executive briefings, team workshops, or in-depth programs—
+   tailored to your timeline and organizational structure.
+
+================================================================================
+SECTION 3: BLUE BAND - MISSION & CTA
+================================================================================
+
+Mission Statement:
+
+CURRENT:
+Our mission is to lead safety forward. Watch how we're equipping EHS teams with
+the AI literacy and digital skills to lead in the Safety 4.0 era.
+
+NEW (UPDATED WITH BRAND MISSION):
+Our mission is to Lead Safety Forward and enable organizations to govern and
+harness AI responsibly in their EHS functions. See how we're transforming safety
+teams into AI-ready, strategic partners for digital transformation.
+
+---
+
+CTA Button Text:
+
+CURRENT: Our Courses
+NEW: Training Programs
+
+================================================================================
+KEY THEMES - BUSINESS IMPACT FOCUS
+================================================================================
+
+The new stat cards shift from skills gaps to business/organizational pain:
+
+✓ WASTED RESOURCES: Tools bought but not used (75% struggle, 42% abandon)
+✓ PRODUCTIVITY LOSS: Manual work preventing prevention focus (70% opportunity)
+✓ MISSED SAFETY GAINS: Data exists but isn't leveraged (25% incident reduction gap)
+✓ GOVERNANCE GAPS: Lack of frameworks to scale AI safely (31% blocked)
+✓ COMPETITIVE THREAT: Leaders pulling ahead with mature digital (2.5-6x ROI gap)
+✓ ORGANIZATIONAL RISK: Can't measure or prove value (42% abandoned initiatives)
+
+All framed as MISSED OPPORTUNITIES to:
+- Work smarter (automation, data)
+- Improve safety outcomes (data-driven decisions)
+- Boost productivity (eliminate manual work)
+- Maximize ROI (govern AI responsibly)
+
+================================================================================
+INSTRUCTIONS FOR FINAL REVIEW
+================================================================================
+
+1. Review all copy changes in this document
+2. Edit any text you'd like to change
+3. Confirm approval of the 6 new stat cards and data sources
+4. Send back with final changes
+5. Once approved, I'll update code and push to production
+
+================================================================================

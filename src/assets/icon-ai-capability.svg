@@ -1,0 +1,35 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="80" r="55" fill="#E0E7FF" opacity="0.6"/>
+
+  <!-- Brain icon with circuit pattern -->
+  <circle cx="100" cy="75" r="35" fill="url(#grad1)"/>
+
+  <!-- Left brain lobe -->
+  <path d="M 75 75 Q 65 55 75 40 Q 85 50 85 75" fill="#3B82F6" opacity="0.9"/>
+
+  <!-- Right brain lobe -->
+  <path d="M 125 75 Q 135 55 125 40 Q 115 50 115 75" fill="#1E40AF"/>
+
+  <!-- Circuit lines -->
+  <line x1="85" y1="60" x2="100" y2="60" stroke="#E0E7FF" stroke-width="2"/>
+  <line x1="100" y1="60" x2="115" y2="60" stroke="#E0E7FF" stroke-width="2"/>
+
+  <!-- Nodes -->
+  <circle cx="85" cy="60" r="3" fill="#E0E7FF"/>
+  <circle cx="100" cy="60" r="3" fill="#E0E7FF"/>
+  <circle cx="115" cy="60" r="3" fill="#E0E7FF"/>
+
+  <!-- Bottom section -->
+  <ellipse cx="100" cy="95" rx="25" ry="20" fill="#3B82F6" opacity="0.8"/>
+
+  <!-- Accent dots -->
+  <circle cx="70" cy="120" r="4" fill="#E0E7FF" opacity="0.7"/>
+  <circle cx="130" cy="125" r="5" fill="#3B82F6" opacity="0.6"/>
+</svg>
