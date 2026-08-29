@@ -44,15 +44,16 @@ export const ProblemStatsSection = () => {
             ))}
           </div>
 
-          <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed text-left">
-            <span className="font-bold text-slate-900">The hard truth:</span> Most EHS functions aren't ready to implement, evaluate and govern AI and SafetyTech investments without building team capability first.
-            Generic AI training won't prepare your team for the risks and opportunities of the digital age—or help you comply with emerging regulations including the EU AI Act Article 4 on AI Literacy.
-          </p>
+          {/* Blue Band */}
+          <div className="bg-primary text-white rounded-lg md:rounded-xl p-8 md:p-10 mb-10 md:mb-14">
+            <p className="text-base md:text-lg mb-5 leading-relaxed">
+              Most EHS functions aren't ready to implement, evaluate and govern AI and SafetyTech investments without building team capability first. Generic AI training won't prepare your team for the risks and opportunities of the digital age or help you comply with emerging regulations including the EU AI Act Article 4 on AI Literacy.
+            </p>
 
-          <p className="text-base md:text-lg text-slate-600 mb-10 leading-relaxed text-left">
-            While AI, safetytech and digital transformation reshape the safety industry at breakneck speed,
-            most safety professionals are being left behind — unprepared and unequipped to lead in the digital age.
-          </p>
+            <p className="text-base md:text-lg leading-relaxed">
+              While AI, safetytech and digital transformation reshape the safety industry at breakneck speed, most safety functions are being left behind, unprepared and unequipped to lead in the digital age.
+            </p>
+          </div>
 
           {/* Mission block */}
           <div className="text-left space-y-6">
