@@ -35,7 +35,7 @@ export const ProblemStatsSection = () => {
             {stats.map((s) => (
               <div key={s.label} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.glow} rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all`} />
-                <div className={`relative text-center space-y-2 md:space-y-4 bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border ${s.border} transition-all`}>
+                <div className={`relative text-center space-y-2 md:space-y-4 bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border ${s.border} transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer`}>
                   <img src={s.icon} alt={s.label} className="w-12 h-12 md:w-14 md:h-14 mx-auto" />
                   <div className={`text-2xl md:text-3xl font-bold ${s.color} tabular-nums`}>
                     <CountingNumber target={s.value} suffix={s.suffix} duration={2000} />
