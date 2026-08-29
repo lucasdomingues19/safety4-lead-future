@@ -59,37 +59,13 @@ export const ProblemStatsSection = () => {
           </div>
 
           {/* The Opportunity Section */}
-          <div className="text-center w-full mb-10">
+          <div className="text-center w-full mb-10 md:mb-14">
             <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
               THE OPPORTUNITY
             </p>
-          </div>
-
-          {/* Mission block */}
-          <div className="text-left space-y-6">
-            <h3 className="text-xl md:text-2xl font-bold text-primary">
-              The SafetyTech Academy exists to change that
-            </h3>
-
-            <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-              We equip safety professionals with the AI literacy, digital fluency, and strategic mindset
-              needed to lead — not just survive — in the evolving world of work. Our programme is built
-              at the intersection of deep EHS expertise and real-world technology, designed for
-              practitioners by practitioners.
-            </p>
-
-            <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-              We are proud to offer the world's first{" "}
-              <span className="font-bold text-slate-900">IOSH-approved</span> and{" "}
-              <span className="font-bold text-slate-900">CPD-accredited</span>{" "}
-              Safety 4.0 programme — a benchmark of credibility in a space crowded with hype.
-            </p>
-
-            <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-              Whether you're a seasoned EHS Leader willing to upskill yourself and your teams,
-              SafetyTech Academy gives you the tools, the language, and the confidence to shape
-              what comes next.
-            </p>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
+              Transform Your EHS Function: Build the Capability to Govern AI
+            </h2>
           </div>
 
         </div>
