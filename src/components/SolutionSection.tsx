@@ -1,5 +1,4 @@
 import IconROI from "../assets/icon-roi-maximize.svg";
-import IconGovernance from "../assets/icon-governance-org.svg";
 import IconWorkflow from "../assets/icon-workflow.svg";
 import IconDataInsights from "../assets/icon-data-insights.svg";
 import IconScaleAI from "../assets/icon-scale-ai.svg";
@@ -12,11 +11,6 @@ export const SolutionSection = () => {
       icon: IconROI,
       title: "Measure & Maximize AI ROI",
       description: "Turn tool investments into measurable safety and productivity gains—move from cost centers to strategic assets.",
-    },
-    {
-      icon: IconGovernance,
-      title: "Build Organizational AI Governance",
-      description: "Establish frameworks to scale AI safely across your EHS function without legal, compliance, or adoption risk.",
     },
     {
       icon: IconWorkflow,
