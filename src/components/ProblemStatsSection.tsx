@@ -3,7 +3,6 @@ import IconTimeWasted from "../assets/icon-time-wasted.svg";
 import IconAbandoned from "../assets/icon-abandoned.svg";
 import IconSafetyImprovements from "../assets/icon-safety-improvements.svg";
 import IconGovernance from "../assets/icon-governance.svg";
-import IconROIGap from "../assets/icon-roi-gap.svg";
 
 const stats = [
   { icon: IconAICapability, value: "75%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
@@ -11,7 +10,6 @@ const stats = [
   { icon: IconAbandoned, value: "42%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
   { icon: IconSafetyImprovements, value: "25%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
   { icon: IconGovernance, value: "31%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: IconROIGap, value: "2.5-6x", label: "ROI Gap", desc: "Mature digital safety orgs achieve 2.5-6x better ROI—competitors ahead", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
 ];
 
 export const ProblemStatsSection = () => {
@@ -32,7 +30,7 @@ export const ProblemStatsSection = () => {
           </h3>
 
           {/* Stats cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-10">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 mb-10">
             {stats.map((s) => (
               <div key={s.label} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.glow} rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all`} />
