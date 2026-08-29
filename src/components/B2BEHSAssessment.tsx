@@ -29,7 +29,6 @@ interface UserData {
   phoneCode: string;
   phone: string;
   organizationName: string;
-  ehs_team_size: string;
   emailConsent: boolean;
 }
 
@@ -77,7 +76,7 @@ const questions: Question[] = [
 ];
 
 const getRank = (percentage: number): { rank: number; label: string; color: string; description: string } => {
-  if (percentage >= 85) return { rank: 5, label: "AI-Ready Leader", color: "#22c55e", description: "Your EHS function is positioned as a leader in AI and digital transformation. You have the capability, governance, and leadership to drive innovation responsibly." };
+  if (percentage >= 85) return { rank: 5, label: "AI-Enabled Leader", color: "#22c55e", description: "Your EHS function is positioned as a leader in AI and digital transformation. You have the capability, governance, and leadership to drive innovation responsibly." };
   if (percentage >= 70) return { rank: 4, label: "Advanced Capability", color: "#3b82f6", description: "Your team has solid foundations for AI adoption with good technology readiness and governance. Focus on scaling and strategic investment." };
   if (percentage >= 55) return { rank: 3, label: "Developing Readiness", color: "#eab308", description: "Your organization is on the right path but needs to strengthen specific capabilities — particularly in governance, change management, or strategic alignment." };
   if (percentage >= 35) return { rank: 2, label: "Early Stage", color: "#f97316", description: "You have recognized the importance of Safety 4.0 but need foundational work across awareness, governance, and technology readiness." };
@@ -101,7 +100,6 @@ export const B2BEHSAssessment = () => {
     phoneCode: "+44",
     phone: "",
     organizationName: "",
-    ehs_team_size: "",
     emailConsent: false,
   });
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -130,7 +128,7 @@ export const B2BEHSAssessment = () => {
 
   const handleUserDataSubmit = async () => {
     if (!userData.firstName || !userData.lastName || !userData.email || !userData.phone || !userData.organizationName) {
-      toast.error("Please complete all fields");
+      toast.error("Please complete all required fields");
       return;
     }
     setIsSubmitting(true);
@@ -313,7 +311,7 @@ export const B2BEHSAssessment = () => {
 
               <div>
                 <Label htmlFor="email" className="block text-sm font-medium mb-2">
-                  Email Address *
+                  Work Email *
                 </Label>
                 <Input
                   id="email"
@@ -334,24 +332,6 @@ export const B2BEHSAssessment = () => {
                   onChange={(e) => setUserData({ ...userData, organizationName: e.target.value })}
                   placeholder="Your organization"
                 />
-              </div>
-
-              <div>
-                <Label htmlFor="ehs_team_size" className="block text-sm font-medium mb-2">
-                  EHS Team Size
-                </Label>
-                <select
-                  id="ehs_team_size"
-                  value={userData.ehs_team_size}
-                  onChange={(e) => setUserData({ ...userData, ehs_team_size: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md"
-                >
-                  <option value="">Select team size</option>
-                  <option value="1">1 person</option>
-                  <option value="2-5">2-5 people</option>
-                  <option value="6-10">6-10 people</option>
-                  <option value="10+">10+ people</option>
-                </select>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
