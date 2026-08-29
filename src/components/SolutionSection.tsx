@@ -20,7 +20,7 @@ export const SolutionSection = () => {
     },
     {
       icon: IconWorkflow,
-      title: "Transform Manual Processes to Strategy",
+      title: "Turn Manual Processes into Automation",
       description: "Free your team from admin work to focus on prevention, incident reduction, and digital leadership.",
     },
     {
