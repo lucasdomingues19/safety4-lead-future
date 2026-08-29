@@ -48,9 +48,6 @@ export const SolutionSection = () => {
     <section className="py-10 md:py-14 relative overflow-hidden bg-white">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto mb-16 md:mb-20 animate-fade-in">
-          <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-8 tracking-tight leading-[1.05]">
-            Transform Your EHS Function: <span className="text-primary">Build the Capability to Govern AI</span>
-          </h2>
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
             A structured program that equips your EHS function to implement, evaluate, and govern AI and SafetyTech responsibly—
             building measurable safety improvements, productivity gains, and regulatory compliance.
