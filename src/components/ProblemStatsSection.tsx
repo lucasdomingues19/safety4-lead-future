@@ -1,10 +1,10 @@
 import { AlertCircle, TrendingDown, TrendingUp, Clock } from "lucide-react";
 
 const stats = [
-  { icon: AlertCircle, value: "25%", label: "Zero AI Capability", desc: "of EHS teams have no AI or digital readiness", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: TrendingDown, value: "61%", label: "Beginner Level", desc: "of EHS functions rate maturity as early-stage", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: TrendingUp, value: "49%", label: "Active Investment", desc: "of organizations plan SafetyTech investment in 12 months", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
-  { icon: Clock, value: "77%", label: "Hiring Pressure", desc: "of organizations seek AI-aware EHS leadership", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: AlertCircle, value: "25%", label: "No AI Skills", desc: "of EHS practitioners have no AI skills", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: TrendingDown, value: "61%", label: "AI Beginners", desc: "of EHS pros self-identify as beginners", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: TrendingUp, value: "49%", label: "Investing in AI", desc: "Companies plan to invest in AI within 12 months", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
+  { icon: Clock, value: "77%", label: "AI Priority", desc: "of hiring managers prioritise AI skills", color: "text-primary", border: "border-primary/30 hover:border-primary/50", glow: "from-primary/20 to-primary/10" },
 ];
 
 export const ProblemStatsSection = () => {
@@ -14,14 +14,14 @@ export const ProblemStatsSection = () => {
         <div className="text-center w-full">
 
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-white bg-primary inline-block px-3 py-1.5 rounded-md mb-5">
-            THE CHALLENGE
+            THE PROBLEM
           </p>
           <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4 md:mb-6 tracking-tight leading-[1.05]">
-            <span className="text-primary">AI & Digital Transformation</span>: The EHS Function Gap
+            <span className="text-primary">Digital Skills Gap</span>: The Exposed Risk in EHS
           </h2>
 
           <h3 className="text-lg md:text-2xl font-semibold text-slate-900 mb-6">
-            Your Organization is Exploring AI, But Your EHS Team Isn't Ready
+            Your Career is at an Unprecedented Crossroads
           </h3>
 
           {/* Stats cards */}
@@ -43,9 +43,10 @@ export const ProblemStatsSection = () => {
           </div>
 
           <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed text-left">
-            <span className="font-bold text-slate-900">The hard truth:</span> your EHS function can't govern or evaluate AI and SafetyTech investments without building team capability first.
-            Traditional compliance-focused training won't prepare your team for AI governance, data ethics, or digital transformation leadership.
-            Meanwhile, competitors are already building this capability—and your organization is falling behind.
+            <span className="font-bold text-slate-900">The hard truth:</span> traditional safety certifications
+            won't protect your career anymore. Compliance-based credentials no longer signal readiness.
+            Organisations are actively seeking safety leaders who can leverage AI and digital tools
+            — and most professionals aren't there yet.
           </p>
 
           <p className="text-base md:text-lg text-slate-600 mb-10 leading-relaxed text-left">
