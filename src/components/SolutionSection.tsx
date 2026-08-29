@@ -1,44 +1,23 @@
-import IconROI from "../assets/icon-roi-maximize.svg";
-import IconWorkflow from "../assets/icon-workflow.svg";
-import IconDataInsights from "../assets/icon-data-insights.svg";
-import IconScaleAI from "../assets/icon-scale-ai.svg";
-import IconCompliance from "../assets/icon-compliance.svg";
-import IconSafetyProductivity from "../assets/icon-safety-productivity.svg";
+import { TrendingUp, Robot, Database, Network, ShieldCheck, Target } from "@phosphor-icons/react";
+
+const BenefitCard = ({ icon: Icon, title, description }: { icon: React.ComponentType<any>; title: string; description: string }) => (
+  <div className="relative group">
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+    <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+      <div className="w-24 h-24 md:w-28 md:h-28 bg-primary/10 rounded-xl flex items-center justify-center mb-6 md:mb-8 group-hover:bg-primary/20 transition-colors">
+        <Icon size={56} weight="duotone" />
+      </div>
+      <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
+        {title}
+      </h3>
+      <p className="text-sm md:text-base leading-relaxed text-slate-600">
+        {description}
+      </p>
+    </div>
+  </div>
+);
 
 export const SolutionSection = () => {
-  const benefits = [
-    {
-      icon: IconROI,
-      title: "Measure & Maximize AI ROI",
-      description: "Turn tool investments into measurable safety and productivity gains—move from cost centers to strategic assets.",
-    },
-    {
-      icon: IconWorkflow,
-      title: "Turn Manual Processes into Automation",
-      description: "Free your team from admin work to focus on prevention, incident reduction, and digital leadership.",
-    },
-    {
-      icon: IconDataInsights,
-      title: "Unlock Data-Driven Safety Insights",
-      description: "Leverage existing data to predict incidents, reduce costs, and improve measurable safety performance.",
-    },
-    {
-      icon: IconScaleAI,
-      title: "Scale Responsible AI Implementation",
-      description: "Deploy AI across your organization with confidence—with governance, best practices, and proven methodology.",
-    },
-    {
-      icon: IconCompliance,
-      title: "Ensure EU AI Act Article 4 Compliance",
-      description: "Build organizational AI literacy and governance frameworks that meet EU AI Act requirements for transparency and human oversight.",
-    },
-    {
-      icon: IconSafetyProductivity,
-      title: "Improve Safety Performance & Productivity",
-      description: "Deploy AI-ready capabilities that reduce incidents, prevent hazards, and boost team productivity—delivering measurable outcomes.",
-    },
-  ];
-
   return (
     <section className="pt-0 md:pt-0 pb-10 md:pb-14 relative overflow-hidden bg-white">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
@@ -50,28 +29,14 @@ export const SolutionSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {benefits.map((benefit) => (
-            <BenefitCard key={benefit.title} {...benefit} />
-          ))}
+          <BenefitCard icon={TrendingUp} title="Measure & Maximize AI ROI" description="Turn tool investments into measurable safety and productivity gains—move from cost centers to strategic assets." />
+          <BenefitCard icon={Robot} title="Turn Manual Processes into Automation" description="Free your team from admin work to focus on prevention, incident reduction, and digital leadership." />
+          <BenefitCard icon={Database} title="Unlock Data-Driven Safety Insights" description="Leverage existing data to predict incidents, reduce costs, and improve measurable safety performance." />
+          <BenefitCard icon={Network} title="Scale Responsible AI Implementation" description="Deploy AI across your organization with confidence—with governance, best practices, and proven methodology." />
+          <BenefitCard icon={ShieldCheck} title="Ensure EU AI Act Article 4 Compliance" description="Build organizational AI literacy and governance frameworks that meet EU AI Act requirements for transparency and human oversight." />
+          <BenefitCard icon={Target} title="Improve Safety Performance & Productivity" description="Deploy AI-ready capabilities that reduce incidents, prevent hazards, and boost team productivity—delivering measurable outcomes." />
         </div>
       </div>
     </section>
   );
 };
-
-const BenefitCard = ({ icon, title, description }: { icon: string; title: string; description: string }) => (
-  <div className="relative group">
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-    <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
-      <div className="w-24 h-24 md:w-28 md:h-28 bg-primary/10 rounded-xl flex items-center justify-center mb-6 md:mb-8 group-hover:bg-primary/20 transition-colors">
-        <img src={icon} alt={title} className="w-14 h-14 md:w-16 md:h-16" />
-      </div>
-      <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
-        {title}
-      </h3>
-      <p className="text-sm md:text-base leading-relaxed text-slate-600">
-        {description}
-      </p>
-    </div>
-  </div>
-);
