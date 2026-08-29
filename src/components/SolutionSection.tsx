@@ -23,11 +23,6 @@ export const SolutionSection = () => {
       description: "Leverage existing data to predict incidents, reduce costs, and improve measurable safety performance.",
     },
     {
-      icon: Rocket,
-      title: "Benchmark & Compete",
-      description: "Assess your digital maturity against competitors and build a roadmap to competitive advantage in your industry.",
-    },
-    {
       icon: UserCheck,
       title: "Scale Responsible AI Implementation",
       description: "Deploy AI across your organization with confidence—with governance, best practices, and proven methodology.",
