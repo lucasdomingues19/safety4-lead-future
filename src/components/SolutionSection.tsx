@@ -54,39 +54,26 @@ export const SolutionSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 md:divide-x md:divide-slate-200">
-          <div className="space-y-12 md:pr-14">
-            {benefits.slice(0, 3).map((benefit) => (
-              <BenefitRow key={benefit.title} {...benefit} />
-            ))}
-          </div>
-          <div className="space-y-12 mt-12 md:mt-0 md:pl-14">
-            {benefits.slice(3).map((benefit) => (
-              <BenefitRow key={benefit.title} {...benefit} />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {benefits.map((benefit) => (
+            <BenefitCard key={benefit.title} {...benefit} />
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-const BenefitRow = ({ icon: Icon, title, description }: { icon: typeof Brain; title: string; description: string }) => (
-  <div className="flex items-start gap-5">
-    <div className="relative w-16 h-16 shrink-0">
-      <div className="absolute inset-0 bg-slate-100 rounded-full blur-[2px]" />
-      <div className="relative w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center">
-        <Icon className="w-7 h-7 text-slate-900" strokeWidth={1.5} />
-      </div>
-      <div className="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 bg-primary rounded-full" />
+const BenefitCard = ({ icon: Icon, title, description }: { icon: typeof Brain; title: string; description: string }) => (
+  <div className="bg-primary rounded-xl md:rounded-2xl p-6 md:p-8 text-white flex flex-col">
+    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/20 rounded-lg flex items-center justify-center mb-4 md:mb-5">
+      <Icon className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={1.5} />
     </div>
-    <div>
-      <h3 className="text-xl font-bold text-slate-900 leading-tight tracking-tight mb-2">
-        {title}
-      </h3>
-      <p className="text-slate-600 text-sm leading-relaxed">
-        {description}
-      </p>
-    </div>
+    <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
+      {title}
+    </h3>
+    <p className="text-sm md:text-base leading-relaxed text-white/90">
+      {description}
+    </p>
   </div>
 );
