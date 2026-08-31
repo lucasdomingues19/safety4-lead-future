@@ -32,11 +32,11 @@ export const ProblemStatsSection = () => {
               <div key={s.label} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.glow} rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all`} />
                 <div className={`relative text-center space-y-2 md:space-y-4 bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border-2 ${s.border} transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer`}>
-                  <s.Icon size={28} className="text-slate-900 mx-auto" strokeWidth={1.5} />
+                  <s.Icon size={28} className="text-slate-900 mx-auto transition-colors group-hover:text-primary" strokeWidth={1.5} />
                   <div className={`text-2xl md:text-3xl font-bold ${s.color} tabular-nums`}>
                     <CountingNumber target={s.value} suffix={s.suffix} duration={2000} />
                   </div>
-                  <h3 className="text-sm md:text-base font-semibold text-slate-900">{s.label}</h3>
+                  <h3 className="text-sm md:text-base font-semibold text-slate-900 transition-colors group-hover:text-primary">{s.label}</h3>
                   <p className="text-slate-600 text-xs md:text-sm hidden md:block">{s.desc}</p>
                 </div>
               </div>

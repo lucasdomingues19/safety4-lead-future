@@ -26,9 +26,9 @@ export const SolutionSection = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
               <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
                 <div className="flex items-center justify-center mb-6 md:mb-8">
-                  <benefit.Icon size={32} className="text-slate-900" strokeWidth={1.5} />
+                  <benefit.Icon size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
                   {benefit.title}
                 </h3>
                 <p className="text-sm md:text-base leading-relaxed text-slate-600">
