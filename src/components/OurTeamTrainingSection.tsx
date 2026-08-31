@@ -12,49 +12,49 @@ export const OurTeamTrainingSection = () => {
 
   return (
     <>
-      {/* Section Label + Card */}
-      <section className="py-14 md:py-20 relative overflow-hidden bg-white">
+      {/* Section Label */}
+      <section className="py-6 md:py-8 relative overflow-hidden bg-white">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary inline-block px-3 py-1.5 rounded-md mb-8">
+          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary inline-block px-3 py-1.5 rounded-md">
             Our Team Training
           </p>
-
-          <Link
-            to={copilotCourse.href}
-            className="group relative flex flex-col bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 max-w-md"
-          >
-            <div className="relative h-40 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
-              <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
-              <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
-              <img
-                src={copilotCourse.iconWhite}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="relative w-24 h-24 object-contain"
-              />
-            </div>
-
-            <div className="p-6">
-              <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">
-                {copilotCourse.name}
-              </h3>
-              <p className="text-[#69697b] text-sm leading-relaxed mb-4">{copilotCourse.description}</p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-wide text-slate-500">{copilotCourse.level}</span>
-                <span className="text-base font-bold text-slate-900">{copilotCourse.price}</span>
-              </div>
-            </div>
-          </Link>
         </div>
       </section>
 
-      {/* Grey Band: Video (like blue band structure) */}
+      {/* Grey Band: Card (left) + Video (right) */}
       <section className="relative bg-[#FAFAFA] py-10 md:py-14">
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
-            {/* Empty left column for spacing */}
-            <div className="hidden lg:block lg:max-w-[520px] lg:shrink-0" />
+            {/* Left column — card */}
+            <div className="max-w-[520px] shrink-0">
+              <Link
+                to={copilotCourse.href}
+                className="group relative flex flex-col bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="relative h-40 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
+                  <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
+                  <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
+                  <img
+                    src={copilotCourse.iconWhite}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="relative w-24 h-24 object-contain"
+                  />
+                </div>
+
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">
+                    {copilotCourse.name}
+                  </h3>
+                  <p className="text-[#69697b] text-sm leading-relaxed mb-4">{copilotCourse.description}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs uppercase tracking-wide text-slate-500">{copilotCourse.level}</span>
+                    <span className="text-base font-bold text-slate-900">{copilotCourse.price}</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
 
             {/* Right column — video */}
             <div className="relative w-full lg:flex-1">
