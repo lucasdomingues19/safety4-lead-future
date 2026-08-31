@@ -113,6 +113,7 @@ export const OurTeamTrainingSection = () => {
                   <>
                     <video
                       src="/videos/featured-training-teaser.mp4"
+                      autoPlay
                       loop
                       muted
                       className="w-full h-full object-cover"
