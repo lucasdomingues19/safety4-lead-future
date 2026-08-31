@@ -14,7 +14,7 @@ export const OurTeamTrainingSection = () => {
   return (
     <>
       {/* Header section above grey band */}
-      <section className="py-10 md:py-14 relative overflow-hidden">
+      <section className="py-6 md:py-8 relative overflow-hidden">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div>
             <h2 className="mb-4">Our Team Training</h2>
