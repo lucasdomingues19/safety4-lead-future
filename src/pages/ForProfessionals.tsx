@@ -15,18 +15,18 @@ export default function ForProfessionals() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Hero Section with Image */}
-      <section className="bg-lime-400 py-10 md:py-14">
+      <section className="bg-white py-10 md:py-14">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
             {/* Left column — text */}
             <div className="max-w-[520px] shrink-0">
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-900/70 font-medium mb-4 block">
+              <span className="text-xs uppercase tracking-[0.2em] text-slate-600 font-medium mb-4 block">
                 Professional Development
               </span>
               <h1 className="text-slate-900 mb-6">
                 Advance Your Career
               </h1>
-              <p className="text-slate-800 text-lg leading-relaxed mb-10">
+              <p className="text-[#69697b] text-lg leading-relaxed mb-10">
                 Comprehensive courses designed for safety and sustainability professionals. Build practical skills and drive measurable results with expert-led training options that transform your career.
               </p>
               <Link
@@ -38,13 +38,13 @@ export default function ForProfessionals() {
               </Link>
             </div>
 
-            {/* Right column — image */}
+            {/* Right column — image with lime green background */}
             <div className="relative w-full lg:flex-1">
-              <div className="relative rounded-[30px] overflow-hidden shadow-2xl h-80 md:h-96">
+              <div className="relative bg-lime-400 rounded-[30px] overflow-hidden shadow-2xl h-80 md:h-96 flex items-center justify-center p-4">
                 <img
                   src={heroWorkerImage}
                   alt="Professional safety leader"
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover object-center rounded-[20px]"
                 />
               </div>
             </div>
