@@ -52,6 +52,36 @@ export default function ForProfessionals() {
         </div>
       </section>
 
+      {/* Content Section - Why Professional Development Matters */}
+      <section className="py-16 md:py-20 relative overflow-hidden bg-white">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-14 max-w-4xl">
+            <h2 className="mb-6">The EHS Professional's Challenge</h2>
+            <p className="text-lg text-[#69697b] leading-relaxed mb-6">
+              Today's EHS professionals face a rapidly evolving landscape. As organizations embrace digital transformation and AI-driven decision-making, the skills gap has widened. Safety leaders are expected to bridge the gap between traditional risk management and emerging technologies—yet many lack the training to do so effectively.
+            </p>
+            <p className="text-lg text-[#69697b] leading-relaxed">
+              The courses below are designed to close that gap. They equip you with practical, immediately applicable skills in AI governance, data analytics, and digital-first safety practices. Whether you're advancing into a leadership role, specializing in new methodologies, or staying competitive in a tech-driven market, professional development is no longer optional—it's essential to your career trajectory.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div>
+              <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Skills Gap</h3>
+              <p className="text-[#69697b]">Close the distance between traditional EHS competencies and the digital capabilities your organization needs today.</p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Professional Relevance</h3>
+              <p className="text-[#69697b]">Stay current with industry shifts. Master the tools and frameworks that modern safety teams actually use.</p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Career Progression</h3>
+              <p className="text-[#69697b]">Build credentials that position you for leadership roles—from EHS coordinator to Chief Safety Officer in a digital-first organization.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Courses Grid - using Pricing card design */}
       <section className="py-16 md:py-24 relative overflow-hidden bg-white">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
