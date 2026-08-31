@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CheckCircle2, Brain, TrendingUp, Rocket, Award, Users, Zap } from "lucide-react";
+import AudienceNav from "@/components/AudienceNav";
+import { Footer } from "@/components/Footer";
 import { courses } from "@/components/CourseIllustrations";
 import { ProfessionalCredentialsSection } from "@/components/ProfessionalCredentialsSection";
 import heroWorkerImage from "@/assets/hero-professionals-edited.jpg";
 import { setPageSEO } from "@/utils/seo";
+import { trackPageView } from "@/utils/analytics";
 
 export default function ForProfessionals() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    trackPageView(window.location.pathname);
     setPageSEO({
       title: "Professional Development Courses for EHS Leaders | SafetyTech Academy",
       description: "IOSH-approved professional development courses for EHS professionals. Master AI, Safety 4.0, and digital transformation. Advance your career with expert-led training.",
@@ -21,7 +25,9 @@ export default function ForProfessionals() {
   const b2cCourses = courses.filter(c => c.href !== "/copilot-for-ehs");
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <AudienceNav />
+      <div className="min-h-screen flex flex-col bg-white" style={{ paddingTop: "80px" }}>
       {/* Hero Section with Image */}
       <section className="bg-white py-10 md:py-14">
         <div className="container mx-auto px-4">
@@ -260,6 +266,8 @@ export default function ForProfessionals() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }
