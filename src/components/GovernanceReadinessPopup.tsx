@@ -11,9 +11,20 @@ export const GovernanceReadinessPopup = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (claimPopupSlot("governance_readiness")) setIsOpen(true);
-    }, 30000);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 8000);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        close();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   const close = () => {
     setIsOpen(false);
@@ -28,7 +39,12 @@ export const GovernanceReadinessPopup = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fade-in">
+    <div
+      className="fixed inset-0 z-50 flex items-start md:items-center justify-center p-4 overflow-y-auto bg-black/80 backdrop-blur-sm animate-fade-in"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) close();
+      }}
+    >
       <div className="relative w-full max-w-md my-4 sm:my-6 rounded-2xl border border-white/20 bg-background p-5 sm:p-6 shadow-2xl animate-scale-in">
         <button
           onClick={close}

@@ -106,8 +106,16 @@ const OldProposalRedirect = () => {
 
 // React Router params must be a whole path segment, so `/proposal_:token`
 // never matches. Match the single segment and parse the prefix ourselves.
+const RESERVED_SLUGS = ['for-professionals', 'about-us', 'courses', 'contact', 'guides', 'learn', 'admin', 'privacy', 'terms', 'anti-piracy', 'blog', 'blog-page', 'faq'];
+
 const ProposalSlugRoute = () => {
   const { slug } = useParams<{ slug: string }>();
+
+  // Exclude reserved slugs from being treated as proposal slugs
+  if (RESERVED_SLUGS.includes(slug || '')) {
+    return <NotFound />;
+  }
+
   if (slug?.startsWith("proposal_") && slug.length > "proposal_".length) {
     return <ProposalPage token={slug.slice("proposal_".length)} />;
   }
@@ -162,7 +170,6 @@ const App = () => (
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
             <Route path="/proposal_:token" element={<ProposalPage />} />
-            <Route path="/:slug" element={<ProposalSlugRoute />} />
             <Route path="/proposal/:token" element={<OldProposalRedirect />} />
 
 
@@ -171,6 +178,9 @@ const App = () => (
             <Route path="/learn/:courseSlug" element={<CourseView />} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<LessonView />} />
             <Route path="/admin/courses" element={<CourseManager />} />
+
+            {/* Catch-all route for proposal slugs - must be last before wildcard */}
+            <Route path="/:slug" element={<ProposalSlugRoute />} />
             <Route path="*" element={<NotFound />} />
 
           </Routes>
