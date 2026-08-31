@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { HeroSection } from "@/components/HeroSection";
+import { ProfessionalCredentialsSection } from "@/components/ProfessionalCredentialsSection";
 import { TrustedByBanner } from "@/components/TrustedByBanner";
 import { DeferredSection } from "@/components/DeferredSection";
 
@@ -68,6 +69,8 @@ const Index = () => {
         </Suspense>
 
         <HeroSection />
+
+        <ProfessionalCredentialsSection />
 
         <TrustedByBanner />
 
