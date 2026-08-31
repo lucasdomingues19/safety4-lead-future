@@ -17,7 +17,6 @@ const navLinks = [
     ],
   },
   { label: "About", href: "/about-us" },
-  { label: "Pricing", href: "/#pricing" },
   {
     label: "Resources",
     children: [
