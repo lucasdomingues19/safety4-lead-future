@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CheckCircle2 } from "lucide-react";
 import { courses } from "@/components/CourseIllustrations";
-import heroWorkerImage from "@/assets/hero-professionals.jpeg";
+import heroWorkerImage from "@/assets/hero-safety-leader.jpg";
 
 export default function ForProfessionals() {
   useEffect(() => {
