@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { HeroSection } from "@/components/HeroSection";
 import { ProfessionalCredentialsSection } from "@/components/ProfessionalCredentialsSection";
 import { TrustedByBanner } from "@/components/TrustedByBanner";
@@ -87,18 +88,12 @@ const Index = () => {
                 <p className="text-white/80 text-lg leading-relaxed mb-10">
                   Our mission is to Lead Safety Forward and enable organizations to govern and harness AI responsibly in their EHS functions. See how we're transforming safety teams into AI-ready, strategic partners for digital transformation.
                 </p>
-                <button
-                  onClick={() => {
-                    const el = document.getElementById("pricing");
-                    if (el) {
-                      el.scrollIntoView({ behavior: "smooth" });
-                      window.history.replaceState(null, "", "/#pricing");
-                    }
-                  }}
-                  className="inline-flex items-center gap-2 px-8 py-[22px] bg-white text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-white/90 transition-colors cursor-pointer"
+                <Link
+                  to="/courses"
+                  className="inline-flex items-center gap-2 px-8 py-[22px] bg-white text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-white/90 transition-colors"
                 >
                   Training Programs
-                </button>
+                </Link>
               </div>
 
               {/* Right column — video */}
