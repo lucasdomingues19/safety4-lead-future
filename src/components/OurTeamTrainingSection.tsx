@@ -15,12 +15,10 @@ export const OurTeamTrainingSection = () => {
       {/* Section Label + Card */}
       <section className="py-14 md:py-20 relative overflow-hidden bg-white">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          {/* Section Label */}
           <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary inline-block px-3 py-1.5 rounded-md mb-8">
             Our Team Training
           </p>
 
-          {/* Copilot Course Card */}
           <Link
             to={copilotCourse.href}
             className="group relative flex flex-col bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 max-w-md"
@@ -51,36 +49,44 @@ export const OurTeamTrainingSection = () => {
         </div>
       </section>
 
-      {/* Full-width grey band: Video */}
-      <section className="relative bg-[#FAFAFA] py-10 md:py-14 overflow-hidden">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div
-            className="relative aspect-video rounded-xl md:rounded-2xl overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
-            onClick={() => setVideoPlaying(!videoPlaying)}
-          >
-            {videoPlaying ? (
-              <video
-                src="/videos/featured-training-teaser.mp4"
-                controls
-                autoPlay
-                loop
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <>
-                <video
-                  src="/videos/featured-training-teaser.mp4"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110">
-                    <svg className="h-7 w-7 fill-current ml-1" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-              </>
-            )}
+      {/* Grey Band: Video (like blue band structure) */}
+      <section className="relative bg-[#FAFAFA] py-10 md:py-14">
+        <div className="relative z-10 container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
+            {/* Empty left column for spacing */}
+            <div className="hidden lg:block lg:max-w-[520px] lg:shrink-0" />
+
+            {/* Right column — video */}
+            <div className="relative w-full lg:flex-1">
+              <div
+                className="relative aspect-video rounded-[30px] overflow-hidden shadow-2xl cursor-pointer"
+                onClick={() => setVideoPlaying(!videoPlaying)}
+              >
+                {videoPlaying ? (
+                  <video
+                    src="/videos/featured-training-teaser.mp4"
+                    controls
+                    autoPlay
+                    loop
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <>
+                    <video
+                      src="/videos/featured-training-teaser.mp4"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-transform hover:scale-110">
+                        <svg className="h-7 w-7 fill-current ml-1" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
