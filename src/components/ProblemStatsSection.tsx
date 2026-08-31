@@ -70,7 +70,7 @@ export const ProblemStatsSection = () => {
 
             {/* Animated overlay */}
             <div className="question-anim absolute inset-0 flex items-center justify-center p-8">
-              <h3 className="text-4xl md:text-5xl font-bold text-center">
+              <h3 className="text-4xl md:text-5xl font-bold text-center text-white">
                 Is Your Team Ready?
               </h3>
             </div>
