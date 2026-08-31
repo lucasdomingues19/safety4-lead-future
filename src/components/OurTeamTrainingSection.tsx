@@ -42,7 +42,7 @@ export const OurTeamTrainingSection = () => {
                       alt=""
                       loading="lazy"
                       decoding="async"
-                      className="relative w-32 h-32 md:w-36 md:h-36 object-contain"
+                      className="relative w-40 h-40 md:w-48 md:h-48 object-contain"
                     />
                   </div>
                 </Link>

@@ -6,11 +6,11 @@ import badgeCopilot from "@/assets/badge-copilot.png";
 import iconAIFundamentals from "@/assets/icon-ai-fundamentals.png";
 import iconElearning from "@/assets/icon-elearning.png";
 import iconAccelerator from "@/assets/icon-accelerator.png";
-import iconCopilot from "@/assets/icon-copilot.png";
+import iconCopilot from "@/assets/icon-copilot-new.svg";
 import iconWhiteAIFundamentals from "@/assets/icon-white-ai-fundamentals.png";
 import iconWhiteElearning from "@/assets/icon-white-elearning.png";
 import iconWhiteAccelerator from "@/assets/icon-white-accelerator.png";
-import iconWhiteCopilot from "@/assets/icon-white-copilot.png";
+import iconWhiteCopilot from "@/assets/icon-copilot-new.svg";
 
 // Per-course illustrated header — a mini "product mockup" panel plus
 // floating icon chips, themed to what each course is actually about.
