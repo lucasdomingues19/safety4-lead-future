@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CheckCircle2 } from "lucide-react";
 import { courses } from "@/components/CourseIllustrations";
-import heroWorkerImage from "@/assets/hero-safety-leader.jpg";
+import heroWorkerImage from "@/assets/hero-professionals.jpeg";
 
 export default function ForProfessionals() {
   useEffect(() => {
@@ -23,8 +23,8 @@ export default function ForProfessionals() {
               <span className="text-xs uppercase tracking-[0.2em] text-slate-600 font-medium mb-4 block">
                 Professional Development
               </span>
-              <h1 className="text-slate-900 mb-6">
-                Advance Your Career
+              <h1 className="mb-6">
+                Advance Your <span className="text-primary">Career</span>
               </h1>
               <p className="text-[#69697b] text-lg leading-relaxed mb-10">
                 Comprehensive courses designed for safety and sustainability professionals. Build practical skills and drive measurable results with expert-led training options that transform your career.
