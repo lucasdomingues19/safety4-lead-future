@@ -4,10 +4,17 @@ import { ArrowRight, BarChart3, CheckCircle2, Brain, TrendingUp, Rocket, Award, 
 import { courses } from "@/components/CourseIllustrations";
 import { ProfessionalCredentialsSection } from "@/components/ProfessionalCredentialsSection";
 import heroWorkerImage from "@/assets/hero-professionals-edited.jpg";
+import { setPageSEO } from "@/utils/seo";
 
 export default function ForProfessionals() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    setPageSEO({
+      title: "Professional Development Courses for EHS Leaders | SafetyTech Academy",
+      description: "IOSH-approved professional development courses for EHS professionals. Master AI, Safety 4.0, and digital transformation. Advance your career with expert-led training.",
+      canonical: "https://safetytech.academy/for-professionals",
+      ogImage: "https://safetytech.academy/opengraph-image.png?v=3",
+    });
   }, []);
 
   // Get the 3 B2C courses (not Copilot)
