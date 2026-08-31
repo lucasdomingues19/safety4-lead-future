@@ -1,11 +1,18 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { courses } from "@/components/CourseIllustrations";
 
 export const OurTeamTrainingSection = () => {
   const [videoPlaying, setVideoPlaying] = useState(false);
 
+  // Get the Copilot course card
+  const copilotCourse = courses.find(c => c.href === "/copilot-for-ehs");
+
+  if (!copilotCourse) return null;
+
   return (
     <>
-      {/* Section: Copilot Course Card */}
+      {/* Section: Copilot Card */}
       <section className="py-14 md:py-20 relative overflow-hidden bg-white">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* Section Label */}
@@ -13,26 +20,38 @@ export const OurTeamTrainingSection = () => {
             Our Team Training
           </p>
 
-          {/* Copilot Course Card - Link to full course */}
-          <a href="/copilot-for-ehs" className="block group max-w-md">
-            <div className="relative overflow-hidden rounded-xl md:rounded-2xl border border-slate-200 hover:border-primary/50 transition-all hover:shadow-lg group-hover:scale-105 duration-300 bg-white">
-              <div className="p-6 md:p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-primary transition-colors">
-                  Microsoft Copilot for EHS and Sustainability
-                </h3>
-                <p className="text-slate-600 text-base mb-6">
-                  Master AI-powered productivity tools designed specifically for EHS professionals. Learn to leverage Copilot to streamline incident investigations and automate safety reporting.
-                </p>
-                <div className="inline-block px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg group-hover:bg-primary/90 transition-colors">
-                  Explore Course →
-                </div>
+          {/* Copilot Course Card - max 50% width */}
+          <Link
+            to={copilotCourse.href}
+            className="group relative flex flex-col bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 max-w-md"
+          >
+            <div className="relative h-40 bg-primary overflow-hidden group-hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center">
+              <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
+              <div className="absolute -bottom-10 -left-6 w-28 h-28 bg-white/10 rounded-full" />
+              <img
+                src={copilotCourse.iconWhite}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="relative w-24 h-24 object-contain"
+              />
+            </div>
+
+            <div className="p-6">
+              <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">
+                {copilotCourse.name}
+              </h3>
+              <p className="text-[#69697b] text-sm leading-relaxed mb-4">{copilotCourse.description}</p>
+              <div className="flex items-center justify-between">
+                <span className="text-xs uppercase tracking-wide text-slate-500">{copilotCourse.level}</span>
+                <span className="text-base font-bold text-slate-900">{copilotCourse.price}</span>
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 
-      {/* Full-width grey band: Video Teaser */}
+      {/* Full-width grey band: Video */}
       <section className="relative bg-[#FAFAFA] py-10 md:py-14 overflow-hidden">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <div
