@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CheckCircle2, Brain, TrendingUp, Rocket, Award, Users, Zap } from "lucide-react";
 import { courses } from "@/components/CourseIllustrations";
 import heroWorkerImage from "@/assets/hero-professionals-edited.jpg";
+import ioshCpdLogo from "@/assets/iosh-cpd-combined-transparent.png";
+import ioshBadge from "@/assets/iosh-approved-badge.png";
+import cpdLogo from "@/assets/cpd-approved-logo.png";
 
 export default function ForProfessionals() {
   useEffect(() => {
@@ -177,28 +180,24 @@ export default function ForProfessionals() {
       {/* IOSH & CPD Recognition Section */}
       <section className="py-12 md:py-16 relative overflow-hidden bg-slate-50">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
+          <div className="text-center mb-12">
             <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Professional Credentials You Can Count On</h3>
             <p className="text-[#69697b] text-lg">Our courses are IOSH-approved and provide valuable CPD (Continuing Professional Development) hours for your career advancement.</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20">
             <div className="text-center">
-              <div className="mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
-                  <Award className="w-6 h-6 text-primary" />
-                </div>
+              <div className="mb-4 flex justify-center">
+                <img src={ioshBadge} alt="IOSH Approved" className="h-32 md:h-40 object-contain" />
               </div>
               <h4 className="font-bold text-slate-900 mb-2">IOSH Approved</h4>
-              <p className="text-slate-600 text-sm">Institution of Occupational Safety and Health certification ensures industry-recognized quality and relevance.</p>
+              <p className="text-slate-600 text-sm max-w-xs">Institution of Occupational Safety and Health certification ensures industry-recognized quality and relevance.</p>
             </div>
             <div className="text-center">
-              <div className="mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
-                  <CheckCircle2 className="w-6 h-6 text-primary" />
-                </div>
+              <div className="mb-4 flex justify-center">
+                <img src={cpdLogo} alt="CPD Approved" className="h-32 md:h-40 object-contain" />
               </div>
               <h4 className="font-bold text-slate-900 mb-2">CPD Hours Included</h4>
-              <p className="text-slate-600 text-sm">Earn valuable CPD credits recognized by professional bodies to support your continuous learning journey.</p>
+              <p className="text-slate-600 text-sm max-w-xs">Earn valuable CPD credits recognized by professional bodies to support your continuous learning journey.</p>
             </div>
           </div>
         </div>
