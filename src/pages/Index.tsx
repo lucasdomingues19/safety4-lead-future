@@ -7,6 +7,7 @@ import { DeferredSection } from "@/components/DeferredSection";
 // homepage payload stays small. Content and behaviour are unchanged.
 const ProblemStatsSection = lazy(() => import("@/components/ProblemStatsSection").then(m => ({ default: m.ProblemStatsSection })));
 const SolutionSection = lazy(() => import("@/components/SolutionSection").then(m => ({ default: m.SolutionSection })));
+const OurTeamTrainingSection = lazy(() => import("@/components/OurTeamTrainingSection").then(m => ({ default: m.OurTeamTrainingSection })));
 const SocialProofSection = lazy(() => import("@/components/SocialProofSection").then(m => ({ default: m.SocialProofSection })));
 const PricingSection = lazy(() => import("@/components/PricingSection").then(m => ({ default: m.PricingSection })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
@@ -123,6 +124,11 @@ const Index = () => {
         {/* What a team rollout delivers */}
         <DeferredSection eager={eager}>
           <SolutionSection />
+        </DeferredSection>
+
+        {/* Our Team Training */}
+        <DeferredSection eager={eager}>
+          <OurTeamTrainingSection />
         </DeferredSection>
 
         {/* Pricing — teams first, individuals second.

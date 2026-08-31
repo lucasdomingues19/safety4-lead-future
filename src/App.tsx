@@ -33,6 +33,7 @@ const Offer = lazy(() => import("./pages/Offer"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const Courses = lazy(() => import("./pages/Courses"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
+const ForProfessionals = lazy(() => import("./pages/ForProfessionals"));
 
 const Cohort = lazy(() => import("./pages/Cohort"));
 const CaseStudies = lazy(() => import("./pages/CaseStudies"));
@@ -149,6 +150,7 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/for-professionals" element={<ForProfessionals />} />
             <Route path="/teacher/lucas-domingues" element={<Navigate to="/about-us" replace />} />
 
             <Route path="/accelerator" element={<Cohort />} />

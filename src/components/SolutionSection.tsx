@@ -1,12 +1,12 @@
-import { TrendingUp, Robot, Database, Network, ShieldCheck, Target } from "@phosphor-icons/react";
+import { TrendingUp, Zap, Database, Network, Shield, Target } from "lucide-react";
 
 export const SolutionSection = () => {
   const benefits = [
     { Icon: TrendingUp, title: "Measure & Maximize AI ROI", description: "Turn tool investments into measurable safety and productivity gains—move from cost centers to strategic assets." },
-    { Icon: Robot, title: "Turn Manual Processes into Automation", description: "Free your team from admin work to focus on prevention, incident reduction, and digital leadership." },
+    { Icon: Zap, title: "Turn Manual Processes into Automation", description: "Free your team from admin work to focus on prevention, incident reduction, and digital leadership." },
     { Icon: Database, title: "Unlock Data-Driven Safety Insights", description: "Leverage existing data to predict incidents, reduce costs, and improve measurable safety performance." },
     { Icon: Network, title: "Scale Responsible AI Implementation", description: "Deploy AI across your organization with confidence—with governance, best practices, and proven methodology." },
-    { Icon: ShieldCheck, title: "Ensure EU AI Act Article 4 Compliance", description: "Build organizational AI literacy and governance frameworks that meet EU AI Act requirements for transparency and human oversight." },
+    { Icon: Shield, title: "Ensure EU AI Act Article 4 Compliance", description: "Build organizational AI literacy and governance frameworks that meet EU AI Act requirements for transparency and human oversight." },
     { Icon: Target, title: "Improve Safety Performance & Productivity", description: "Deploy AI-ready capabilities that reduce incidents, prevent hazards, and boost team productivity—delivering measurable outcomes." },
   ];
 
@@ -26,7 +26,7 @@ export const SolutionSection = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
               <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
                 <div className="w-24 h-24 md:w-28 md:h-28 bg-primary/10 rounded-xl flex items-center justify-center mb-6 md:mb-8 group-hover:bg-primary/20 transition-colors">
-                  <benefit.Icon size={56} weight="duotone" />
+                  <benefit.Icon size={56} className="text-primary" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3">
                   {benefit.title}
