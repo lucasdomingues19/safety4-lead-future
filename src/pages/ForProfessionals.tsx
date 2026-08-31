@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BarChart3, CheckCircle2 } from "lucide-react";
+import { ArrowRight, BarChart3, CheckCircle2, Brain, TrendingUp, Rocket, Award, Users, Zap } from "lucide-react";
 import { courses } from "@/components/CourseIllustrations";
-import heroWorkerImage from "@/assets/hero-safety-leader.jpg";
+import heroWorkerImage from "@/assets/hero-professionals-edited.jpg";
 
 export default function ForProfessionals() {
   useEffect(() => {
@@ -40,11 +40,20 @@ export default function ForProfessionals() {
 
             {/* Right column — image with lime green background */}
             <div className="relative w-full lg:flex-1">
+              <style>{`
+                @keyframes float {
+                  0%, 100% { transform: translateY(0px); }
+                  50% { transform: translateY(-8px); }
+                }
+                .hero-image-float {
+                  animation: float 6s ease-in-out infinite;
+                }
+              `}</style>
               <div className="relative bg-lime-400 rounded-[30px] overflow-hidden shadow-2xl h-80 md:h-96 flex items-center justify-center p-4">
                 <img
                   src={heroWorkerImage}
                   alt="Professional safety leader"
-                  className="w-full h-full object-cover object-center rounded-[20px]"
+                  className="w-full h-full object-cover object-top rounded-[20px] hero-image-float"
                 />
               </div>
             </div>
@@ -65,18 +74,131 @@ export default function ForProfessionals() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div>
-              <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Skills Gap</h3>
-              <p className="text-[#69697b]">Close the distance between traditional EHS competencies and the digital capabilities your organization needs today.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {/* Skills Gap Card */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+              <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center mb-6 md:mb-8">
+                  <Brain size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
+                  Skills Gap
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600">
+                  Close the distance between traditional EHS competencies and the digital capabilities your organization needs today.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Professional Relevance</h3>
-              <p className="text-[#69697b]">Stay current with industry shifts. Master the tools and frameworks that modern safety teams actually use.</p>
+
+            {/* Professional Relevance Card */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+              <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center mb-6 md:mb-8">
+                  <TrendingUp size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
+                  Professional Relevance
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600">
+                  Stay current with industry shifts. Master the tools and frameworks that modern safety teams actually use.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">Career Progression</h3>
-              <p className="text-[#69697b]">Build credentials that position you for leadership roles—from EHS coordinator to Chief Safety Officer in a digital-first organization.</p>
+
+            {/* Career Progression Card */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+              <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center mb-6 md:mb-8">
+                  <Rocket size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
+                  Career Progression
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600">
+                  Build credentials that position you for leadership roles—from EHS coordinator to Chief Safety Officer in a digital-first organization.
+                </p>
+              </div>
+            </div>
+
+            {/* Industry Recognition Card */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+              <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center mb-6 md:mb-8">
+                  <Award size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
+                  Industry Recognition
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600">
+                  Earn IOSH-approved credentials and CPD hours that validate your expertise and advance your professional standing.
+                </p>
+              </div>
+            </div>
+
+            {/* Peer Community Card */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+              <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center mb-6 md:mb-8">
+                  <Users size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
+                  Peer Community
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600">
+                  Connect with other EHS leaders navigating digital transformation, share best practices, and build lasting professional networks.
+                </p>
+              </div>
+            </div>
+
+            {/* Hands-On Practice Card */}
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+              <div className="relative bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-slate-900 flex flex-col border-2 border-primary/40 group-hover:border-primary/70 transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer">
+                <div className="flex items-center justify-center mb-6 md:mb-8">
+                  <Zap size={32} className="text-slate-900 transition-colors group-hover:text-primary" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-lg md:text-xl font-bold leading-tight tracking-tight mb-3 transition-colors group-hover:text-primary">
+                  Hands-On Practice
+                </h3>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600">
+                  Apply learning immediately with real-world case studies, practical exercises, and scenarios from modern safety teams.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* IOSH & CPD Recognition Section */}
+      <section className="py-12 md:py-16 relative overflow-hidden bg-slate-50">
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Professional Credentials You Can Count On</h3>
+            <p className="text-[#69697b] text-lg">Our courses are IOSH-approved and provide valuable CPD (Continuing Professional Development) hours for your career advancement.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <div className="text-center">
+              <div className="mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
+                  <Award className="w-6 h-6 text-primary" />
+                </div>
+              </div>
+              <h4 className="font-bold text-slate-900 mb-2">IOSH Approved</h4>
+              <p className="text-slate-600 text-sm">Institution of Occupational Safety and Health certification ensures industry-recognized quality and relevance.</p>
+            </div>
+            <div className="text-center">
+              <div className="mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
+                  <CheckCircle2 className="w-6 h-6 text-primary" />
+                </div>
+              </div>
+              <h4 className="font-bold text-slate-900 mb-2">CPD Hours Included</h4>
+              <p className="text-slate-600 text-sm">Earn valuable CPD credits recognized by professional bodies to support your continuous learning journey.</p>
             </div>
           </div>
         </div>
@@ -85,6 +207,9 @@ export default function ForProfessionals() {
       {/* Courses Grid - using Pricing card design */}
       <section className="py-16 md:py-24 relative overflow-hidden bg-white">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12">
+            <h2>Our Featured Courses</h2>
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             {b2cCourses.map((course) => (
               <div
