@@ -1,16 +1,12 @@
-import IconAICapability from "../assets/icon-ai-capability.svg";
-import IconTimeWasted from "../assets/icon-time-wasted.svg";
-import IconAbandoned from "../assets/icon-abandoned.svg";
-import IconSafetyImprovements from "../assets/icon-safety-improvements.svg";
-import IconGovernance from "../assets/icon-governance.svg";
+import { Brain, Clock, AlertTriangle, TrendingUp, Shield } from "lucide-react";
 import { CountingNumber } from "./CountingNumber";
 
 const stats = [
-  { icon: IconAICapability, value: 75, suffix: "%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
-  { icon: IconTimeWasted, value: 70, suffix: "%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
-  { icon: IconAbandoned, value: 42, suffix: "%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
-  { icon: IconSafetyImprovements, value: 25, suffix: "%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
-  { icon: IconGovernance, value: 31, suffix: "%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { Icon: Brain, value: 75, suffix: "%", label: "Lack AI Capability", desc: "Most EHS teams have no AI or digital readiness", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { Icon: Clock, value: 70, suffix: "%", label: "Time Wasted on Admin", desc: "Most EHS teams spend 70% of their time on admin instead of prevention", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { Icon: AlertTriangle, value: 42, suffix: "%", label: "AI Initiatives Abandoned", desc: "Most organizations abandon AI initiatives in first year—can't measure ROI", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { Icon: TrendingUp, value: 25, suffix: "%", label: "Missed Safety Improvements", desc: "Organizations using data analytics prevent 25% more incidents", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
+  { Icon: Shield, value: 31, suffix: "%", label: "Lack Governance", desc: "Most organizations lack governance frameworks to scale AI safely", color: "text-slate-900", border: "border-primary/40 hover:border-primary/70", glow: "from-primary/20 to-primary/10" },
 ];
 
 export const ProblemStatsSection = () => {
@@ -36,7 +32,7 @@ export const ProblemStatsSection = () => {
               <div key={s.label} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-br ${s.glow} rounded-xl md:rounded-2xl blur-xl group-hover:blur-2xl transition-all`} />
                 <div className={`relative text-center space-y-2 md:space-y-4 bg-white rounded-xl md:rounded-2xl p-4 md:p-6 border-2 ${s.border} transition-all group-hover:scale-105 group-hover:shadow-2xl group-hover:-translate-y-2 cursor-pointer`}>
-                  <img src={s.icon} alt={s.label} className="w-12 h-12 md:w-14 md:h-14 mx-auto" />
+                  <s.Icon size={28} className="text-slate-900 mx-auto" strokeWidth={1.5} />
                   <div className={`text-2xl md:text-3xl font-bold ${s.color} tabular-nums`}>
                     <CountingNumber target={s.value} suffix={s.suffix} duration={2000} />
                   </div>
