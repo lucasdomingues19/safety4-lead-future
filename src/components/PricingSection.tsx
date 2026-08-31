@@ -10,7 +10,7 @@ export const PricingSection = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-16">
           <div>
-            <h2 className="mb-4">Our Featured Courses</h2>
+            <h2 className="mb-4">Our Team Training</h2>
             <p className="text-lg text-[#69697b] max-w-xl">
               Choose the right programme for your organization.
             </p>
@@ -23,9 +23,9 @@ export const PricingSection = () => {
           </Link>
         </div>
 
-        {/* Course Cards */}
+        {/* Course Cards - only Copilot */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-16">
-          {courses.map((course) => {
+          {courses.filter(c => c.href === "/copilot-for-ehs").map((course) => {
             return (
               <div
                 key={course.href}

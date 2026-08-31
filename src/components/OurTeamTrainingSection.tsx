@@ -13,15 +13,6 @@ export const OurTeamTrainingSection = () => {
 
   return (
     <>
-      {/* Section Label */}
-      <section className="py-6 md:py-8 relative overflow-hidden bg-white">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-primary inline-block px-3 py-1.5 rounded-md">
-            Our Team Training
-          </p>
-        </div>
-      </section>
-
       {/* Grey Band: Card (left) + Video (right) */}
       <section className="relative bg-[#FAFAFA] py-10 md:py-14">
         <div className="relative z-10 container mx-auto px-4">
