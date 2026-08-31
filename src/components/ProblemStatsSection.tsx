@@ -44,24 +44,22 @@ export const ProblemStatsSection = () => {
           </div>
 
           {/* Blue Band with Animation */}
-          <div className="bg-primary text-white rounded-lg md:rounded-xl p-8 md:p-10 mb-10 md:mb-14 overflow-hidden min-h-[200px] flex items-center justify-center">
+          <div className="bg-primary text-white rounded-lg md:rounded-xl p-8 md:p-10 mb-10 md:mb-14 overflow-hidden min-h-[200px] flex items-center justify-center relative">
             <style>{`
-              @keyframes textSwap {
-                0%, 45% { opacity: 1; }
-                50%, 95% { opacity: 0; }
-                100% { opacity: 1; }
+              @keyframes fadeInOut {
+                0%, 40% { opacity: 1; }
+                50%, 100% { opacity: 0; }
               }
-              @keyframes scaleIn {
-                0%, 45% { transform: scale(1); }
-                50%, 95% { transform: scale(1.1); }
-                100% { transform: scale(1); }
+              @keyframes fadeOutIn {
+                0%, 50% { opacity: 0; }
+                60%, 100% { opacity: 1; }
               }
-              .text-content { animation: textSwap 8s infinite; }
-              .question-overlay { animation: textSwap 8s infinite reverse; transform-origin: center; }
+              .text-content-anim { animation: fadeInOut 8s infinite; }
+              .question-anim { animation: fadeOutIn 8s infinite; }
             `}</style>
 
             {/* Original text */}
-            <div className="text-content absolute inset-0 flex flex-col items-center justify-center p-8 md:p-10">
+            <div className="text-content-anim absolute inset-0 flex flex-col items-center justify-center p-8 md:p-10">
               <p className="text-base md:text-lg mb-5 leading-relaxed">
                 Most EHS functions aren't ready to implement, evaluate and govern AI and SafetyTech investments without building team capability first. Generic AI training won't prepare your team for the risks and opportunities of the digital age or help you comply with emerging regulations including the EU AI Act Article 4 on AI Literacy.
               </p>
@@ -71,7 +69,7 @@ export const ProblemStatsSection = () => {
             </div>
 
             {/* Animated overlay */}
-            <div className="question-overlay absolute inset-0 flex items-center justify-center p-8">
+            <div className="question-anim absolute inset-0 flex items-center justify-center p-8">
               <h3 className="text-4xl md:text-5xl font-bold text-center">
                 Is Your Team Ready?
               </h3>
