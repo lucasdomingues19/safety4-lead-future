@@ -6,7 +6,7 @@ import { BrandLogo } from "./BrandLogo";
 const navLinks = [
   { label: "Home", href: "/" },
   {
-    label: "Courses",
+    label: "Learning",
     children: [
       { label: "All Courses", href: "/courses", category: "main" },
       { label: "FOR COMPANIES", category: "header", divider: true },
@@ -15,10 +15,15 @@ const navLinks = [
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "IOSH-approved Safety 4.0", href: "/elearning" },
       { label: "AI Fundamentals in EHS", href: "/ai-fundamentals" },
+    ],
+  },
+  {
+    label: "About",
+    children: [
+      { label: "About SafetyTech Academy", href: "/about-us" },
       { label: "Alumni Stories", href: "/case-studies" },
     ],
   },
-  { label: "About", href: "/about-us" },
   {
     label: "Resources",
     children: [
