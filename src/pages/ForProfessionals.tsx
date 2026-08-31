@@ -13,15 +13,15 @@ export default function ForProfessionals() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pt-24 pb-16 md:pt-32 md:pb-20">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
-              Professional Development Courses
+      {/* Header Section - matching Courses page style */}
+      <section className="bg-white">
+        <div className="container mx-auto px-4 pt-28 pb-16 md:pt-32 md:pb-20">
+          <div className="mb-14 max-w-2xl">
+            <h1 className="mb-4">
+              Professional Development <span className="text-primary">Courses</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto">
-              Advance your career with comprehensive courses designed for safety and sustainability professionals.
+            <p className="text-lg text-[#69697b]">
+              Advance your career with comprehensive courses designed for safety and sustainability professionals. Choose from expert-led training options that build practical skills and drive measurable results.
             </p>
           </div>
         </div>
