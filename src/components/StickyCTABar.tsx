@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, X } from "lucide-react";
 
@@ -22,10 +23,6 @@ export const StickyCTABar = () => {
   const handleDismiss = () => {
     setIsDismissed(true);
     setIsVisible(false);
-  };
-
-  const scrollToPricing = () => {
-    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
   };
 
   if (!isVisible) return null;
@@ -52,13 +49,13 @@ export const StickyCTABar = () => {
             </div>
 
             {/* CTA Button */}
-            <Button
-              onClick={scrollToPricing}
-              className="bg-lime-500 hover:bg-lime-600 text-black font-semibold px-6 py-2 text-sm group whitespace-nowrap"
+            <Link
+              to="/enrol"
+              className="inline-flex items-center gap-2 bg-lime-500 hover:bg-lime-600 text-black font-semibold px-6 py-2 text-sm group whitespace-nowrap rounded transition-colors"
             >
               Upskill My Team
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
 
             {/* Close button */}
             <button

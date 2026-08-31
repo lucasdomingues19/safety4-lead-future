@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { X, Play } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface VideoPreviewModalProps {
   isOpen: boolean;
@@ -10,13 +11,14 @@ interface VideoPreviewModalProps {
   videoUrl?: string;
 }
 
-export const VideoPreviewModal = ({ 
-  isOpen, 
-  onClose, 
-  videoTitle, 
+export const VideoPreviewModal = ({
+  isOpen,
+  onClose,
+  videoTitle,
   videoDescription,
-  videoUrl 
+  videoUrl
 }: VideoPreviewModalProps) => {
+  const navigate = useNavigate();
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -98,12 +100,12 @@ export const VideoPreviewModal = ({
             
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-lime-500 hover:bg-lime-600 text-white font-semibold"
                 onClick={() => {
                   onClose();
-                  document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                  navigate("/enrol");
                 }}
               >
                 Start Learning Now
