@@ -9,7 +9,6 @@ const ProblemStatsSection = lazy(() => import("@/components/ProblemStatsSection"
 const SolutionSection = lazy(() => import("@/components/SolutionSection").then(m => ({ default: m.SolutionSection })));
 const OurTeamTrainingSection = lazy(() => import("@/components/OurTeamTrainingSection").then(m => ({ default: m.OurTeamTrainingSection })));
 const SocialProofSection = lazy(() => import("@/components/SocialProofSection").then(m => ({ default: m.SocialProofSection })));
-const PricingSection = lazy(() => import("@/components/PricingSection").then(m => ({ default: m.PricingSection })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 const NewsletterPopup = lazy(() => import("@/components/NewsletterPopup").then(m => ({ default: m.NewsletterPopup })));
 
@@ -131,15 +130,6 @@ const Index = () => {
           <OurTeamTrainingSection />
         </DeferredSection>
 
-        {/* Pricing — teams first, individuals second.
-            id lives here (not inside PricingSection) so getElementById("pricing")
-            finds a target immediately, even before the deferred section below
-            has scrolled into view and mounted its lazy content. */}
-        <section id="pricing" aria-label="Pricing options">
-          <DeferredSection eager={eager} minHeight={800}>
-            <PricingSection />
-          </DeferredSection>
-        </section>
 
 
         {/* Proof from safety leaders */}
