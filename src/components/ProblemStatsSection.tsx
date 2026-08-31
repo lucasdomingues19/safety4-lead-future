@@ -47,15 +47,15 @@ export const ProblemStatsSection = () => {
           <div className="bg-primary text-white rounded-lg md:rounded-xl p-8 md:p-10 mb-10 md:mb-14 overflow-hidden min-h-[200px] flex items-center justify-center relative">
             <style>{`
               @keyframes fadeInOut {
-                0%, 40% { opacity: 1; }
-                50%, 100% { opacity: 0; }
+                0%, 60% { opacity: 1; }
+                70%, 100% { opacity: 0; }
               }
               @keyframes fadeOutIn {
-                0%, 50% { opacity: 0; }
-                60%, 100% { opacity: 1; }
+                0%, 65% { opacity: 0; }
+                75%, 100% { opacity: 1; }
               }
-              .text-content-anim { animation: fadeInOut 8s infinite; }
-              .question-anim { animation: fadeOutIn 8s infinite; }
+              .text-content-anim { animation: fadeInOut 10s infinite; }
+              .question-anim { animation: fadeOutIn 10s infinite; }
             `}</style>
 
             {/* Original text */}
