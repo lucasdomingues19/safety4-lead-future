@@ -13,6 +13,18 @@ export const OurTeamTrainingSection = () => {
 
   return (
     <>
+      {/* Header section above grey band */}
+      <section className="py-10 md:py-14 relative overflow-hidden">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+          <div>
+            <h2 className="mb-4">Our Team Training</h2>
+            <p className="text-lg text-[#69697b] max-w-xl">
+              Build Copilot capability and create a digitally-enabled EHS function
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Grey Band: Card (left) + Video (right) */}
       <section className="relative bg-[#FAFAFA] py-10 md:py-14">
         <div className="relative z-10 container mx-auto px-4">
