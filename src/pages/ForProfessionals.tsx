@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CheckCircle2 } from "lucide-react";
 import { courses } from "@/components/CourseIllustrations";
+import heroWorkerImage from "@/assets/hero-safety-leader.jpg";
 
 export default function ForProfessionals() {
   useEffect(() => {
@@ -13,16 +14,40 @@ export default function ForProfessionals() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header Section - matching Courses page style */}
-      <section className="bg-white">
-        <div className="container mx-auto px-4 pt-28 pb-16 md:pt-32 md:pb-20">
-          <div className="mb-14 max-w-2xl">
-            <h1 className="mb-4">
-              Professional Development <span className="text-primary">Courses</span>
-            </h1>
-            <p className="text-lg text-[#69697b]">
-              Advance your career with comprehensive courses designed for safety and sustainability professionals. Choose from expert-led training options that build practical skills and drive measurable results.
-            </p>
+      {/* Hero Section with Image */}
+      <section className="bg-lime-400 py-10 md:py-14">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
+            {/* Left column — text */}
+            <div className="max-w-[520px] shrink-0">
+              <span className="text-xs uppercase tracking-[0.2em] text-slate-900/70 font-medium mb-4 block">
+                Professional Development
+              </span>
+              <h1 className="text-slate-900 mb-6">
+                Advance Your Career
+              </h1>
+              <p className="text-slate-800 text-lg leading-relaxed mb-10">
+                Comprehensive courses designed for safety and sustainability professionals. Build practical skills and drive measurable results with expert-led training options that transform your career.
+              </p>
+              <Link
+                to="/courses"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+              >
+                View All Courses
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Right column — image */}
+            <div className="relative w-full lg:flex-1">
+              <div className="relative rounded-[30px] overflow-hidden shadow-2xl h-80 md:h-96">
+                <img
+                  src={heroWorkerImage}
+                  alt="Professional safety leader"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
