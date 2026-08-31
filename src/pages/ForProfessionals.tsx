@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight, BarChart3, CheckCircle2, Brain, TrendingUp, Rocket, Award, Users, Zap } from "lucide-react";
 import { courses } from "@/components/CourseIllustrations";
 import heroWorkerImage from "@/assets/hero-professionals-edited.jpg";
-import ioshCpdLogo from "@/assets/iosh-cpd-combined-transparent.png";
 import ioshBadge from "@/assets/iosh-approved-badge.png";
-import cpdLogo from "@/assets/cpd-approved-logo.png";
+import cpdBadge from "@/assets/cpd-certified-badge.png";
 
 export default function ForProfessionals() {
   useEffect(() => {
@@ -194,7 +193,7 @@ export default function ForProfessionals() {
             </div>
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <img src={cpdLogo} alt="CPD Approved" className="h-32 md:h-40 object-contain" />
+                <img src={cpdBadge} alt="CPD Certified" className="h-32 md:h-40 object-contain" />
               </div>
               <h4 className="font-bold text-slate-900 mb-2">CPD Hours Included</h4>
               <p className="text-slate-600 text-sm max-w-xs">Earn valuable CPD credits recognized by professional bodies to support your continuous learning journey.</p>
