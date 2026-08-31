@@ -8,8 +8,10 @@ const navLinks = [
   {
     label: "Courses",
     children: [
-      { label: "All Courses", href: "/courses" },
+      { label: "All Courses", href: "/courses", category: "main" },
+      { label: "FOR COMPANIES", category: "header", divider: true },
       { label: "Microsoft Copilot for EHS & Sustainability", href: "/copilot-for-ehs" },
+      { label: "FOR PROFESSIONALS", category: "header", divider: true },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "IOSH-approved Safety 4.0", href: "/elearning" },
       { label: "AI Fundamentals in EHS", href: "/ai-fundamentals" },
@@ -36,7 +38,7 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const isActive = "children" in item && item.children?.some((c) => location.pathname === c.href);
+  const isActive = "children" in item && item.children?.some((c) => c.href && location.pathname === c.href);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -61,16 +63,25 @@ const DesktopDropdown = ({ item }: { item: typeof navLinks[1] }) => {
       </button>
       {open && (
         <div className="absolute top-full left-0 mt-3 min-w-[16rem] w-max rounded-lg border border-slate-200 bg-white shadow-lg py-1">
-          {item.children.map((child) => (
-            <Link
-              key={child.href}
-              to={child.href}
-              onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm text-slate-700 hover:text-primary hover:bg-slate-50 transition-colors whitespace-nowrap"
-            >
-              {child.label}
-            </Link>
-          ))}
+          {item.children.map((child, idx) => {
+            if (child.category === "header") {
+              return (
+                <div key={idx} className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-primary ${child.divider ? "border-t border-slate-100 mt-1 pt-3" : ""}`}>
+                  {child.label}
+                </div>
+              );
+            }
+            return (
+              <Link
+                key={child.href || idx}
+                to={child.href || "#"}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2 text-sm text-slate-700 hover:text-primary hover:bg-slate-50 transition-colors whitespace-nowrap"
+              >
+                {child.label}
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
@@ -148,16 +159,25 @@ const AudienceNav = () => {
             "children" in link && link.children ? (
               <div key={link.label}>
                 <span className="block text-sm text-slate-600 py-2 font-medium">{link.label}</span>
-                {link.children.map((child) => (
-                  <Link
-                    key={child.href}
-                    to={child.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block text-sm text-slate-700 hover:text-primary transition-colors py-2 pl-4"
-                  >
-                    {child.label}
-                  </Link>
-                ))}
+                {link.children.map((child, idx) => {
+                  if (child.category === "header") {
+                    return (
+                      <div key={idx} className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-primary mt-2">
+                        {child.label}
+                      </div>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={child.href || idx}
+                      to={child.href || "#"}
+                      onClick={() => setMobileOpen(false)}
+                      className="block text-sm text-slate-700 hover:text-primary transition-colors py-2 pl-4"
+                    >
+                      {child.label}
+                    </Link>
+                  );
+                })}
               </div>
             ) : (
               <Link
