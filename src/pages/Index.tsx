@@ -70,8 +70,6 @@ const Index = () => {
 
         <HeroSection />
 
-        <ProfessionalCredentialsSection />
-
         <TrustedByBanner />
 
         {/* Introduction video — full-bleed brand band, matches the reference's testimonial section */}
@@ -133,7 +131,8 @@ const Index = () => {
           <OurTeamTrainingSection />
         </DeferredSection>
 
-
+        {/* Professional Credentials */}
+        <ProfessionalCredentialsSection />
 
         {/* Proof from safety leaders */}
         <section aria-label="What safety leaders are saying">
