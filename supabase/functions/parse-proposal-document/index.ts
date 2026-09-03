@@ -17,6 +17,11 @@ Deno.serve(async (req) => {
       throw new Error("No file data provided");
     }
 
+    const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!apiKey) {
+      throw new Error("ANTHROPIC_API_KEY not set");
+    }
+
     // Determine media type
     let mediaType = "application/pdf";
     if (fileName.endsWith(".docx")) {
@@ -25,59 +30,62 @@ Deno.serve(async (req) => {
       mediaType = "application/msword";
     }
 
-    // Call Claude API with document
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": Deno.env.get("ANTHROPIC_API_KEY")!,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-opus-5",
-        max_tokens: 4096,
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "document",
-                source: {
-                  type: "base64",
-                  media_type: mediaType,
-                  data: fileData,
-                },
+    console.log("Parsing document:", fileName, "media type:", mediaType);
+
+    // Call Claude API with document using pdf_base64 format
+    const requestBody = {
+      model: "claude-opus-5",
+      max_tokens: 4096,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "document",
+              source: {
+                type: "base64",
+                media_type: mediaType,
+                data: fileData,
               },
-              {
-                type: "text",
-                text: `Extract the following information from this proposal document and return it as valid JSON:
+            },
+            {
+              type: "text",
+              text: `You are a proposal extraction expert. Extract information from this proposal document.
+
+Return a JSON object with this exact structure:
 {
-  "organisation": "Company name",
-  "contact_name": "Contact person name or null",
-  "contact_email": "Contact email or null",
-  "intro_note": "Opening paragraph or introduction text",
+  "organisation": "string",
+  "contact_name": "string or null",
+  "contact_email": "string or null",
+  "intro_note": "string",
   "sections": [
     {
-      "title": "Section title",
-      "type": "text|table|list|pricing_table|roi_table",
-      "content": {
-        "body": "text content" (for text sections),
-        "headers": ["col1", "col2"] (for tables),
-        "rows": [["val1", "val2"]] (for tables),
-        "items": ["item1", "item2"] (for lists),
-        "tiers": [{"seats": "1-50", "price": 2000}] (for pricing),
-        "data": {"participants": 60, "timePerWeek": 1, "hourlyRate": 75} (for ROI)
-      }
+      "title": "string",
+      "type": "text",
+      "content": {"body": "string"}
     }
   ]
 }
 
-Extract all meaningful sections from the document. Be comprehensive. Return ONLY valid JSON, no markdown.`,
-              },
-            ],
-          },
-        ],
-      }),
+For sections: identify text blocks, tables, lists, pricing info, and ROI data.
+Set type to: text, table, list, pricing_table, or roi_table
+
+Return ONLY valid JSON, nothing else.`,
+            },
+          ],
+        },
+      ],
+    };
+
+    console.log("Calling Claude API...");
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
