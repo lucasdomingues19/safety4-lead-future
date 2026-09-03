@@ -14,12 +14,18 @@ Deno.serve(async (req) => {
     const { fileData, fileName } = body;
 
     if (!fileData) {
-      throw new Error("No file data provided");
+      return new Response(
+        JSON.stringify({ error: "No file data provided" }),
+        { headers: { "Content-Type": "application/json", ...corsHeaders }, status: 400 }
+      );
     }
 
     const apiKey = Deno.env.get("ANTHROPIC_API_KEY");
     if (!apiKey) {
-      throw new Error("ANTHROPIC_API_KEY not set");
+      return new Response(
+        JSON.stringify({ error: "API key not configured" }),
+        { headers: { "Content-Type": "application/json", ...corsHeaders }, status: 500 }
+      );
     }
 
     // Determine media type
@@ -30,93 +36,73 @@ Deno.serve(async (req) => {
       mediaType = "application/msword";
     }
 
-    console.log("Parsing document:", fileName, "media type:", mediaType);
-
-    // Call Claude API with document using pdf_base64 format
-    const requestBody = {
-      model: "claude-opus-5",
-      max_tokens: 4096,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "document",
-              source: {
-                type: "base64",
-                media_type: mediaType,
-                data: fileData,
-              },
-            },
-            {
-              type: "text",
-              text: `You are a proposal extraction expert. Extract information from this proposal document.
-
-Return a JSON object with this exact structure:
-{
-  "organisation": "string",
-  "contact_name": "string or null",
-  "contact_email": "string or null",
-  "intro_note": "string",
-  "sections": [
-    {
-      "title": "string",
-      "type": "text",
-      "content": {"body": "string"}
-    }
-  ]
-}
-
-For sections: identify text blocks, tables, lists, pricing info, and ROI data.
-Set type to: text, table, list, pricing_table, or roi_table
-
-Return ONLY valid JSON, nothing else.`,
-            },
-          ],
-        },
-      ],
-    };
-
-    console.log("Calling Claude API...");
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    // Call Claude API with document
+    const aiResponse = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-api-key": apiKey,
         "anthropic-version": "2023-06-01",
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({
+        model: "claude-opus-5",
+        max_tokens: 4096,
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "document",
+                source: {
+                  type: "base64",
+                  media_type: mediaType,
+                  data: fileData,
+                },
+              },
+              {
+                type: "text",
+                text: `Extract proposal information from this document and return ONLY valid JSON (no markdown, no code blocks):
+{
+  "organisation": "company name",
+  "contact_name": "contact name or null",
+  "contact_email": "email or null",
+  "intro_note": "introduction text",
+  "sections": [
+    {"title": "section title", "type": "text", "content": {"body": "text content"}},
+    {"title": "section title", "type": "table", "content": {"headers": ["col1"], "rows": [["val1"]]}}
+  ]
+}`,
+              },
+            ],
+          },
+        ],
+      }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Claude API error:", errorText);
-      throw new Error(`Claude API error: ${response.statusText} - ${errorText}`);
+    const aiData = await aiResponse.json();
+
+    if (!aiResponse.ok) {
+      console.error("Claude API error:", aiData);
+      return new Response(
+        JSON.stringify({ error: `Claude API error: ${aiData.error?.message || aiResponse.statusText}` }),
+        { headers: { "Content-Type": "application/json", ...corsHeaders }, status: 400 }
+      );
     }
 
-    const data = await response.json();
+    let responseText = aiData.content?.[0]?.text || "";
 
-    if (data.error) {
-      console.error("Claude returned error:", data.error);
-      throw new Error(`Claude error: ${JSON.stringify(data.error)}`);
+    if (!responseText) {
+      return new Response(
+        JSON.stringify({ error: "No response from Claude" }),
+        { headers: { "Content-Type": "application/json", ...corsHeaders }, status: 400 }
+      );
     }
 
-    const content = data.content?.[0]?.text;
+    // Clean markdown formatting if present
+    responseText = responseText.replace(/^```json\n?/, "").replace(/\n?```$/, "");
 
-    if (!content) {
-      console.error("No content in response:", JSON.stringify(data));
-      throw new Error("No content extracted from document. Response: " + JSON.stringify(data));
-    }
-
-    // Clean JSON if it has markdown formatting
-    let cleanJson = content.trim();
-    if (cleanJson.startsWith("```json")) {
-      cleanJson = cleanJson.replace(/^```json\n/, "").replace(/\n```$/, "");
-    } else if (cleanJson.startsWith("```")) {
-      cleanJson = cleanJson.replace(/^```\n/, "").replace(/\n```$/, "");
-    }
-
-    const parsed = JSON.parse(cleanJson);
+    // Parse JSON
+    const parsed = JSON.parse(responseText);
 
     return new Response(JSON.stringify(parsed), {
       headers: { "Content-Type": "application/json", ...corsHeaders },
@@ -124,14 +110,10 @@ Return ONLY valid JSON, nothing else.`,
     });
   } catch (error) {
     console.error("Error:", error);
+    const errorMsg = error instanceof Error ? error.message : "Unknown error";
     return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : "Unknown error",
-      }),
-      {
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-        status: 400,
-      }
+      JSON.stringify({ error: errorMsg }),
+      { headers: { "Content-Type": "application/json", ...corsHeaders }, status: 400 }
     );
   }
 });
