@@ -58,12 +58,8 @@ Deno.serve(async (req) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-opus-5", // Use Opus 5 for best quality
-        max_tokens: 3000, // Allow longer content (increased for text output)
-        thinking: {
-          type: "enabled",
-          budget_tokens: 5000  // Limit thinking to ensure we get text output
-        },
+        model: "claude-opus-5",
+        max_tokens: 3000,
         system: BLOG_GENERATION_PROMPT,
         messages: [
           {
