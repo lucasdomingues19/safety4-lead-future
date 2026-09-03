@@ -58,6 +58,57 @@ const sectionTemplates = {
   },
 };
 
+const proposalTemplates = {
+  expand_energy: {
+    organisation: "Expand Energy",
+    contact_name: "Jane Smith",
+    contact_email: "jane.smith@expandenergy.com",
+    contact_emails: ["jane.smith@expandenergy.com"],
+    intro_note:
+      "Thank you for the conversation regarding EHS training needs for your team. Below is our recommended AI & Safety Training programme, tailored to your specific requirements.",
+    valid_until: "30",
+    sections: [
+      {
+        id: crypto.randomUUID(),
+        title: "Overview",
+        type: "text",
+        content: {
+          body: "This comprehensive programme covers AI integration in EHS, safety culture development, and digital transformation for modern energy operations.",
+        },
+        order: 0,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Program Modules",
+        type: "list",
+        content: {
+          items: [
+            "AI Fundamentals for EHS Professionals",
+            "Digital Safety Management Systems",
+            "Risk Assessment with AI Tools",
+            "Safety Culture & Change Management",
+            "Practical Implementation Workshop",
+          ],
+        },
+        order: 1,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Pricing",
+        type: "pricing_table",
+        content: {
+          tiers: [
+            { seats: "Up to 50 participants", price: 3500 },
+            { seats: "51-100 participants", price: 3000 },
+            { seats: "100+ participants", price: 2500 },
+          ],
+        },
+        order: 2,
+      },
+    ],
+  },
+};
+
 export const BespokeProposalBuilder = () => {
   const [form, setForm] = useState<BespokeProposal>(emptyProposal());
   const [preview, setPreview] = useState(false);
@@ -258,20 +309,39 @@ export const BespokeProposalBuilder = () => {
           <CardTitle>Bespoke Proposal Builder</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Upload Section */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <label className="flex flex-col gap-2 cursor-pointer">
-              <span className="text-sm font-semibold text-blue-900">📄 Upload Proposal Document</span>
-              <span className="text-xs text-blue-700">Upload a Word or PDF proposal to auto-fill all sections</span>
-              <input
-                type="file"
-                accept=".docx,.doc,.pdf"
-                onChange={handleFileUpload}
-                disabled={uploading}
-                className="text-sm"
-              />
-            </label>
-            {uploading && <p className="text-xs text-blue-600 mt-2">Parsing document...</p>}
+          {/* Quick Start Options */}
+          <div className="grid md:grid-cols-2 gap-3">
+            {/* Upload Section */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <label className="flex flex-col gap-2 cursor-pointer">
+                <span className="text-sm font-semibold text-blue-900">📄 Upload Document</span>
+                <span className="text-xs text-blue-700">Word or PDF file</span>
+                <input
+                  type="file"
+                  accept=".docx,.doc,.pdf"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  className="text-sm"
+                />
+              </label>
+              {uploading && <p className="text-xs text-blue-600 mt-2">Parsing...</p>}
+            </div>
+
+            {/* Template Section */}
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <div className="flex flex-col gap-2">
+                <span className="text-sm font-semibold text-purple-900">🎯 Load Template</span>
+                <span className="text-xs text-purple-700">Start with a preset</span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setForm(proposalTemplates.expand_energy)}
+                  className="bg-white text-purple-700 border-purple-200 hover:bg-purple-50"
+                >
+                  Expand Energy Template
+                </Button>
+              </div>
+            </div>
           </div>
 
           {/* Header Info */}
