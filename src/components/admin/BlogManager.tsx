@@ -58,6 +58,7 @@ export const BlogManager = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());
   const [toDelete, setToDelete] = useState<BlogPostRow | null>(null);
@@ -193,6 +194,46 @@ export const BlogManager = () => {
     }
   };
 
+  const generateContent = async () => {
+    if (!form.title.trim()) {
+      toast.error("Enter a title first");
+      return;
+    }
+
+    setGenerating(true);
+    try {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const { data: { session } } = await supabase.auth.getSession();
+
+      const res = await fetch(`${supabaseUrl}/functions/v1/generate-blog-content`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.access_token || ""}`,
+        },
+        body: JSON.stringify({
+          title: form.title,
+          category: form.category,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        toast.error(err.error || "Generation failed");
+        return;
+      }
+
+      const data = await res.json();
+      setForm((f) => ({ ...f, content: data.content }));
+      toast.success("Content generated! Review and refine as needed.");
+    } catch (err) {
+      console.error("Generation error:", err);
+      toast.error("Could not generate content");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Editor */}
@@ -319,9 +360,25 @@ export const BlogManager = () => {
             <div className="space-y-1 md:col-span-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="bp-content">Content (Markdown)</Label>
-                <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(true)}>
-                  <Eye className="mr-2 h-3.5 w-3.5" /> Preview
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={generateContent}
+                    disabled={generating || !form.title.trim()}
+                  >
+                    {generating ? (
+                      <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      <FileText className="mr-2 h-3.5 w-3.5" />
+                    )}
+                    {generating ? "Generating..." : "Generate with AI"}
+                  </Button>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(true)}>
+                    <Eye className="mr-2 h-3.5 w-3.5" /> Preview
+                  </Button>
+                </div>
               </div>
               <Textarea
                 id="bp-content"
@@ -331,6 +388,11 @@ export const BlogManager = () => {
                 onChange={(e) => setForm({ ...form, content: e.target.value })}
                 placeholder="## Heading&#10;&#10;Body text in Markdown..."
               />
+              {generating && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                  ✨ AI is crafting a well-researched article based on your title...
+                </p>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <Switch id="bp-published" checked={form.published} onCheckedChange={(v) => setForm({ ...form, published: v })} />
