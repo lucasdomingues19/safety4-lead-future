@@ -36,3 +36,6 @@ verify_jwt = false
 
 [functions.proposal-public]
 verify_jwt = false
+
+[functions.generate-blog-content]
+verify_jwt = false

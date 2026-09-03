@@ -1,7 +1,3 @@
-import { createClient } from "npm:@supabase/supabase-js@2";
-
-// deno-json: { "verifyJwt": false }
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -84,17 +80,20 @@ Deno.serve(async (req) => {
               ? "API key invalid"
               : aiRes.status === 429
                 ? "Rate limited. Please try again in a moment."
-                : "AI service error",
+                : `AI service error: ${aiRes.status}`,
         }),
         { status: aiRes.status, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     const aiData = await aiRes.json();
+    console.log("Claude response:", JSON.stringify(aiData).slice(0, 200));
+
     const content = aiData.content?.[0]?.text ?? "";
 
     if (!content) {
-      return new Response(JSON.stringify({ error: "No content generated" }), {
+      console.error("No content in response:", aiData);
+      return new Response(JSON.stringify({ error: "No content generated", debug: aiData }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
