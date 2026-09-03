@@ -117,37 +117,56 @@ export const BespokeProposalBuilder = () => {
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      // Read file as base64
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const base64 = (e.target?.result as string).split(",")[1];
 
-      const response = await supabase.functions.invoke("parse-proposal-document", {
-        body: formData,
-      });
+          const { data, error } = await supabase.functions.invoke(
+            "parse-proposal-document",
+            {
+              body: {
+                fileData: base64,
+                fileName: file.name,
+              },
+            }
+          );
 
-      if (response.error) {
-        throw response.error;
-      }
+          if (error) {
+            throw error;
+          }
 
-      const parsed = response.data;
+          // Auto-fill the form with extracted data
+          setForm({
+            organisation: data.organisation || "",
+            contact_name: data.contact_name || "",
+            contact_email: data.contact_email || "",
+            contact_emails: data.contact_email ? [data.contact_email] : [],
+            intro_note: data.intro_note || "",
+            valid_until: "30",
+            sections: (data.sections || []).map((s: any, i: number) => ({
+              ...s,
+              id: crypto.randomUUID(),
+              order: i,
+            })),
+          });
 
-      // Auto-fill the form with extracted data
-      setForm({
-        organisation: parsed.organisation || "",
-        contact_name: parsed.contact_name || "",
-        contact_email: parsed.contact_email || "",
-        contact_emails: parsed.contact_email ? [parsed.contact_email] : [],
-        intro_note: parsed.intro_note || "",
-        valid_until: "30",
-        sections: parsed.sections || [],
-      });
-
-      toast.success(`Proposal loaded! ${parsed.sections?.length || 0} sections extracted`);
+          toast.success(`✅ Proposal loaded! ${data.sections?.length || 0} sections extracted`);
+        } catch (err) {
+          console.error(err);
+          toast.error("Failed to parse document. Please try again.");
+        } finally {
+          setUploading(false);
+          event.target.value = "";
+        }
+      };
+      reader.readAsDataURL(file);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to parse document. Please try again.");
-    } finally {
+      toast.error("Failed to read file. Please try again.");
       setUploading(false);
-      event.target.value = ""; // Reset file input
+      event.target.value = "";
     }
   };
 

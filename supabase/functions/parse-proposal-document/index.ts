@@ -1,5 +1,3 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -12,26 +10,22 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File;
+    const body = await req.json();
+    const { fileData, fileName } = body;
 
-    if (!file) {
-      throw new Error("No file provided");
+    if (!fileData) {
+      throw new Error("No file data provided");
     }
-
-    // Read file as base64
-    const buffer = await file.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
 
     // Determine media type
     let mediaType = "application/pdf";
-    if (file.name.endsWith(".docx")) {
+    if (fileName.endsWith(".docx")) {
       mediaType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-    } else if (file.name.endsWith(".doc")) {
+    } else if (fileName.endsWith(".doc")) {
       mediaType = "application/msword";
     }
 
-    // Call Claude API with vision capabilities
+    // Call Claude API with document
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
@@ -51,7 +45,7 @@ Deno.serve(async (req) => {
                 source: {
                   type: "base64",
                   media_type: mediaType,
-                  data: base64,
+                  data: fileData,
                 },
               },
               {
@@ -78,7 +72,7 @@ Deno.serve(async (req) => {
   ]
 }
 
-Return ONLY valid JSON, no markdown formatting or extra text.`,
+Extract all meaningful sections from the document. Be comprehensive. Return ONLY valid JSON, no markdown.`,
               },
             ],
           },
@@ -87,6 +81,8 @@ Return ONLY valid JSON, no markdown formatting or extra text.`,
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Claude API error:", errorText);
       throw new Error(`Claude API error: ${response.statusText}`);
     }
 
@@ -97,8 +93,15 @@ Return ONLY valid JSON, no markdown formatting or extra text.`,
       throw new Error("No content extracted from document");
     }
 
-    // Parse the JSON response
-    const parsed = JSON.parse(content);
+    // Clean JSON if it has markdown formatting
+    let cleanJson = content.trim();
+    if (cleanJson.startsWith("```json")) {
+      cleanJson = cleanJson.replace(/^```json\n/, "").replace(/\n```$/, "");
+    } else if (cleanJson.startsWith("```")) {
+      cleanJson = cleanJson.replace(/^```\n/, "").replace(/\n```$/, "");
+    }
+
+    const parsed = JSON.parse(cleanJson);
 
     return new Response(JSON.stringify(parsed), {
       headers: { "Content-Type": "application/json", ...corsHeaders },
