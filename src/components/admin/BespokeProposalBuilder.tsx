@@ -134,8 +134,15 @@ export const BespokeProposalBuilder = () => {
           );
 
           if (error) {
-            throw error;
+            console.error("Edge function error:", error);
+            throw new Error(error?.message || "Failed to parse document");
           }
+
+          if (!data) {
+            throw new Error("No response from parser");
+          }
+
+          console.log("Parsed data:", data);
 
           // Auto-fill the form with extracted data
           setForm({

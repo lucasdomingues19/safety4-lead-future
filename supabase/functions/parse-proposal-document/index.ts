@@ -83,14 +83,21 @@ Extract all meaningful sections from the document. Be comprehensive. Return ONLY
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Claude API error:", errorText);
-      throw new Error(`Claude API error: ${response.statusText}`);
+      throw new Error(`Claude API error: ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
+
+    if (data.error) {
+      console.error("Claude returned error:", data.error);
+      throw new Error(`Claude error: ${JSON.stringify(data.error)}`);
+    }
+
     const content = data.content?.[0]?.text;
 
     if (!content) {
-      throw new Error("No content extracted from document");
+      console.error("No content in response:", JSON.stringify(data));
+      throw new Error("No content extracted from document. Response: " + JSON.stringify(data));
     }
 
     // Clean JSON if it has markdown formatting
