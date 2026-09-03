@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "generate-blog-content": {
+      "verifyJwt": false
+    }
+  }
+}
