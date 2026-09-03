@@ -201,15 +201,19 @@ export const BlogManager = () => {
     }
 
     setGenerating(true);
+    console.log("Starting content generation for:", form.title);
+
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const { data: { session } } = await supabase.auth.getSession();
+      console.log("Supabase URL:", supabaseUrl);
 
-      const res = await fetch(`${supabaseUrl}/functions/v1/generate-blog-content`, {
+      const functionUrl = `${supabaseUrl}/functions/v1/generate-blog-content`;
+      console.log("Calling function:", functionUrl);
+
+      const res = await fetch(functionUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${session?.access_token || ""}`,
         },
         body: JSON.stringify({
           title: form.title,
@@ -217,18 +221,24 @@ export const BlogManager = () => {
         }),
       });
 
+      console.log("Response status:", res.status);
+      const data = await res.json();
+      console.log("Response data:", data);
+
       if (!res.ok) {
-        const err = await res.json();
-        toast.error(err.error || "Generation failed");
+        toast.error(data.error || `Error: ${res.status}`);
         return;
       }
 
-      const data = await res.json();
-      setForm((f) => ({ ...f, content: data.content }));
-      toast.success("Content generated! Review and refine as needed.");
+      if (data.content) {
+        setForm((f) => ({ ...f, content: data.content }));
+        toast.success("✨ Content generated! Review and refine as needed.");
+      } else {
+        toast.error("No content generated");
+      }
     } catch (err) {
       console.error("Generation error:", err);
-      toast.error("Could not generate content");
+      toast.error(`Error: ${err instanceof Error ? err.message : "Unknown error"}`);
     } finally {
       setGenerating(false);
     }
