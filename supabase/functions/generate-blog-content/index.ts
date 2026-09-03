@@ -59,7 +59,11 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         model: "claude-opus-5", // Use Opus 5 for best quality
-        max_tokens: 2500, // Allow longer content
+        max_tokens: 3000, // Allow longer content (increased for text output)
+        thinking: {
+          type: "enabled",
+          budget_tokens: 5000  // Limit thinking to ensure we get text output
+        },
         system: BLOG_GENERATION_PROMPT,
         messages: [
           {
@@ -87,16 +91,25 @@ Deno.serve(async (req) => {
     }
 
     const aiData = await aiRes.json();
-    console.log("Claude response:", JSON.stringify(aiData).slice(0, 200));
+    console.log("Claude response model:", aiData.model, "stop_reason:", aiData.stop_reason);
 
-    const content = aiData.content?.[0]?.text ?? "";
+    // Extract text content from response (handle both regular text and thinking blocks)
+    let content = "";
+    if (aiData.content && Array.isArray(aiData.content)) {
+      for (const block of aiData.content) {
+        if (block.type === "text" && block.text) {
+          content = block.text;
+          break;
+        }
+      }
+    }
 
     if (!content) {
-      console.error("No content in response:", aiData);
-      return new Response(JSON.stringify({ error: "No content generated", debug: aiData }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      console.error("No text content in response:", aiData);
+      return new Response(
+        JSON.stringify({ error: "Claude did not generate text output", debug: { stop_reason: aiData.stop_reason, content_types: aiData.content?.map((c: any) => c.type) } }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     return new Response(JSON.stringify({ content }), {
