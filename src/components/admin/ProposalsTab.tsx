@@ -23,8 +23,10 @@ import {
   Eye,
   Pencil,
   Send,
+  Zap,
 } from "lucide-react";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
+import BespokeProposalBuilder from "@/components/admin/BespokeProposalBuilder";
 import {
   asProposal,
   COURSE_CATALOGUE,
@@ -56,6 +58,7 @@ export const ProposalsTab = () => {
   const [sendFor, setSendFor] = useState<Proposal | null>(null);
   const [mail, setMail] = useState({ to: "", subject: "", body: "" });
   const [sending, setSending] = useState(false);
+  const [proposalType, setProposalType] = useState<"course" | "bespoke">("course");
 
   const load = async () => {
     const { data, error } = await supabase
@@ -247,14 +250,40 @@ https://safetytech.academy
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />{" "}
-            {editingId ? `Editing proposal — ${form.organisation || "untitled"}` : "New proposal"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5">
+      {/* Proposal Type Selector */}
+      <div className="flex gap-2 border-b">
+        <Button
+          variant={proposalType === "course" ? "default" : "ghost"}
+          onClick={() => setProposalType("course")}
+          className="rounded-b-none"
+        >
+          <FileText className="h-4 w-4 mr-2" />
+          Course-based Proposals
+        </Button>
+        <Button
+          variant={proposalType === "bespoke" ? "default" : "ghost"}
+          onClick={() => setProposalType("bespoke")}
+          className="rounded-b-none"
+        >
+          <Zap className="h-4 w-4 mr-2" />
+          Bespoke Proposals
+        </Button>
+      </div>
+
+      {/* Bespoke Proposal Builder */}
+      {proposalType === "bespoke" && <BespokeProposalBuilder />}
+
+      {/* Course-based Proposals */}
+      {proposalType === "course" && (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />{" "}
+                {editingId ? `Editing proposal — ${form.organisation || "untitled"}` : "New proposal"}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5">
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="p-org">Organisation *</Label>
@@ -396,184 +425,186 @@ https://safetytech.academy
               <p className="text-sm text-muted-foreground">Total (excl. VAT)</p>
               <p className="text-2xl font-bold">{formatMoney(totals.total)}</p>
             </div>
-          </div>
+            </div>
 
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => setPreview(draftProposal())}>
-              <Eye className="h-4 w-4 mr-2" /> Preview proposal
-            </Button>
-            <Button onClick={save} disabled={saving}>
-              {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-              {editingId ? "Save changes" : "Create proposal & link"}
-            </Button>
-            {editingId && (
-              <Button variant="ghost" onClick={cancelEdit}>
-                Cancel edit
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" onClick={() => setPreview(draftProposal())}>
+                <Eye className="h-4 w-4 mr-2" /> Preview proposal
               </Button>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+              <Button onClick={save} disabled={saving}>
+                {saving && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                {editingId ? "Save changes" : "Create proposal & link"}
+              </Button>
+              {editingId && (
+                <Button variant="ghost" onClick={cancelEdit}>
+                  Cancel edit
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Proposals</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {loading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : proposals.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No proposals yet.</p>
-          ) : (
-            <div className="space-y-3">
-              {proposals.map((p) => {
-                const t = proposalTotals(p.items, p.discount_pct);
-                return (
-                  <div
-                    key={p.id}
-                    className="border rounded-lg p-3 flex flex-wrap items-center justify-between gap-3"
-                  >
-                    <div>
-                      <p className="font-semibold">
-                        {p.organisation}{" "}
-                        <span className="text-xs font-normal text-muted-foreground">
-                          {p.contact_name ? `· ${p.contact_name}` : ""}
-                        </span>
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatMoney(t.total, p.currency)} · {p.items.length} course(s) ·{" "}
-                        {p.view_count} view(s) ·{" "}
-                        {(() => {
-                          const stage =
-                            p.status === "approved"
-                              ? { label: "Approved", cls: "bg-green-100 text-green-700 border-green-300" }
-                              : p.status === "declined"
-                                ? { label: "Declined", cls: "bg-destructive/10 text-destructive border-destructive/30" }
-                                : p.status === "draft"
-                                  ? { label: "Draft", cls: "bg-muted text-muted-foreground border-border" }
-                                  : (p.view_count ?? 0) > 0
-                                    ? { label: "Viewed", cls: "bg-amber-100 text-amber-700 border-amber-300" }
-                                    : { label: "Sent", cls: "bg-primary/10 text-primary border-primary/30" };
-                          return (
-                            <span
-                              className={`inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold ${stage.cls}`}
-                            >
-                              {stage.label}
-                            </span>
-                          );
-                        })()}
-                        {p.approver_name ? ` by ${p.approver_name}` : ""}
-
-                      </p>
-                      {p.approver_note && (
-                        <p className="text-xs italic text-muted-foreground mt-1">
-                          “{p.approver_note}”
+        <Card>
+          <CardHeader>
+            <CardTitle>Proposals</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : proposals.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No proposals yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {proposals.map((p) => {
+                  const t = proposalTotals(p.items, p.discount_pct);
+                  return (
+                    <div
+                      key={p.id}
+                      className="border rounded-lg p-3 flex flex-wrap items-center justify-between gap-3"
+                    >
+                      <div>
+                        <p className="font-semibold">
+                          {p.organisation}{" "}
+                          <span className="text-xs font-normal text-muted-foreground">
+                            {p.contact_name ? `· ${p.contact_name}` : ""}
+                          </span>
                         </p>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      <Button size="sm" variant="outline" onClick={() => setPreview(p)}>
-                        <Eye className="h-3 w-3 mr-1" /> Preview
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => startEdit(p)}>
-                        <Pencil className="h-3 w-3 mr-1" /> Edit
-                      </Button>
-                      <Button size="sm" onClick={() => openSend(p)}>
-                        <Send className="h-3 w-3 mr-1" /> Send via Gmail
-                      </Button>
-                      <Button size="sm" variant="outline" onClick={() => copy(p.token)}>
-                        <Copy className="h-3 w-3 mr-1" /> Copy link
-                      </Button>
-                      <Button size="sm" variant="ghost" asChild>
-                        <a href={linkFor(p.token)} target="_blank" rel="noreferrer">
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => remove(p.id)}>
-                        <Trash2 className="h-3 w-3 text-destructive" />
-                      </Button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                        <p className="text-xs text-muted-foreground">
+                          {formatMoney(t.total, p.currency)} · {p.items.length} course(s) ·{" "}
+                          {p.view_count} view(s) ·{" "}
+                          {(() => {
+                            const stage =
+                              p.status === "approved"
+                                ? { label: "Approved", cls: "bg-green-100 text-green-700 border-green-300" }
+                                : p.status === "declined"
+                                  ? { label: "Declined", cls: "bg-destructive/10 text-destructive border-destructive/30" }
+                                  : p.status === "draft"
+                                    ? { label: "Draft", cls: "bg-muted text-muted-foreground border-border" }
+                                    : (p.view_count ?? 0) > 0
+                                      ? { label: "Viewed", cls: "bg-amber-100 text-amber-700 border-amber-300" }
+                                      : { label: "Sent", cls: "bg-primary/10 text-primary border-primary/30" };
+                            return (
+                              <span
+                                className={`inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold ${stage.cls}`}
+                              >
+                                {stage.label}
+                              </span>
+                            );
+                          })()}
+                          {p.approver_name ? ` by ${p.approver_name}` : ""}
 
-      {/* Preview dialog */}
-      <Dialog open={!!preview} onOpenChange={(o) => !o && setPreview(null)}>
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto p-0">
-          <DialogHeader className="px-6 pt-6">
-            <DialogTitle>Proposal preview</DialogTitle>
-            <DialogDescription>
-              Exactly what the recipient sees. Three pages: about us, your proposal, terms.
-            </DialogDescription>
-          </DialogHeader>
-          {preview && (
-            <div className="border-t">
-              <ProposalDocument proposal={preview} preview />
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
+                        </p>
+                        {p.approver_note && (
+                          <p className="text-xs italic text-muted-foreground mt-1">
+                            "{p.approver_note}"
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Button size="sm" variant="outline" onClick={() => setPreview(p)}>
+                          <Eye className="h-3 w-3 mr-1" /> Preview
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => startEdit(p)}>
+                          <Pencil className="h-3 w-3 mr-1" /> Edit
+                        </Button>
+                        <Button size="sm" onClick={() => openSend(p)}>
+                          <Send className="h-3 w-3 mr-1" /> Send via Gmail
+                        </Button>
+                        <Button size="sm" variant="outline" onClick={() => copy(p.token)}>
+                          <Copy className="h-3 w-3 mr-1" /> Copy link
+                        </Button>
+                        <Button size="sm" variant="ghost" asChild>
+                          <a href={linkFor(p.token)} target="_blank" rel="noreferrer">
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => remove(p.id)}>
+                          <Trash2 className="h-3 w-3 text-destructive" />
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
-      {/* Send dialog */}
-      <Dialog open={!!sendFor} onOpenChange={(o) => !o && setSendFor(null)}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Send proposal from Gmail</DialogTitle>
-            <DialogDescription>
-              Sent from your connected Gmail account, with the private proposal link.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3">
-            <div>
-              <Label htmlFor="m-to">To</Label>
-              <Input
-                id="m-to"
-                type="email"
-                value={mail.to}
-                onChange={(e) => setMail({ ...mail, to: e.target.value })}
-                placeholder="jane@acme.com"
-              />
+        {/* Preview dialog */}
+        <Dialog open={!!preview} onOpenChange={(o) => !o && setPreview(null)}>
+          <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto p-0">
+            <DialogHeader className="px-6 pt-6">
+              <DialogTitle>Proposal preview</DialogTitle>
+              <DialogDescription>
+                Exactly what the recipient sees. Three pages: about us, your proposal, terms.
+              </DialogDescription>
+            </DialogHeader>
+            {preview && (
+              <div className="border-t">
+                <ProposalDocument proposal={preview} preview />
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+
+        {/* Send dialog */}
+        <Dialog open={!!sendFor} onOpenChange={(o) => !o && setSendFor(null)}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Send proposal from Gmail</DialogTitle>
+              <DialogDescription>
+                Sent from your connected Gmail account, with the private proposal link.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor="m-to">To</Label>
+                <Input
+                  id="m-to"
+                  type="email"
+                  value={mail.to}
+                  onChange={(e) => setMail({ ...mail, to: e.target.value })}
+                  placeholder="jane@acme.com"
+                />
+              </div>
+              <div>
+                <Label htmlFor="m-sub">Subject</Label>
+                <Input
+                  id="m-sub"
+                  value={mail.subject}
+                  onChange={(e) => setMail({ ...mail, subject: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="m-body">Message</Label>
+                <Textarea
+                  id="m-body"
+                  rows={14}
+                  value={mail.body}
+                  onChange={(e) => setMail({ ...mail, body: e.target.value })}
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={sendEmail} disabled={sending}>
+                  {sending ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : (
+                    <Send className="h-4 w-4 mr-2" />
+                  )}
+                  Send email
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => sendFor && setPreview(sendFor)}
+                >
+                  <Eye className="h-4 w-4 mr-2" /> Preview first
+                </Button>
+              </div>
             </div>
-            <div>
-              <Label htmlFor="m-sub">Subject</Label>
-              <Input
-                id="m-sub"
-                value={mail.subject}
-                onChange={(e) => setMail({ ...mail, subject: e.target.value })}
-              />
-            </div>
-            <div>
-              <Label htmlFor="m-body">Message</Label>
-              <Textarea
-                id="m-body"
-                rows={14}
-                value={mail.body}
-                onChange={(e) => setMail({ ...mail, body: e.target.value })}
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button onClick={sendEmail} disabled={sending}>
-                {sending ? (
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                ) : (
-                  <Send className="h-4 w-4 mr-2" />
-                )}
-                Send email
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => sendFor && setPreview(sendFor)}
-              >
-                <Eye className="h-4 w-4 mr-2" /> Preview first
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
+        </div>
+      )}
     </div>
   );
 };
