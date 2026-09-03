@@ -109,6 +109,47 @@ export const BespokeProposalBuilder = () => {
   };
 
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await supabase.functions.invoke("parse-proposal-document", {
+        body: formData,
+      });
+
+      if (response.error) {
+        throw response.error;
+      }
+
+      const parsed = response.data;
+
+      // Auto-fill the form with extracted data
+      setForm({
+        organisation: parsed.organisation || "",
+        contact_name: parsed.contact_name || "",
+        contact_email: parsed.contact_email || "",
+        contact_emails: parsed.contact_email ? [parsed.contact_email] : [],
+        intro_note: parsed.intro_note || "",
+        valid_until: "30",
+        sections: parsed.sections || [],
+      });
+
+      toast.success(`Proposal loaded! ${parsed.sections?.length || 0} sections extracted`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to parse document. Please try again.");
+    } finally {
+      setUploading(false);
+      event.target.value = ""; // Reset file input
+    }
+  };
 
   const handleSave = async () => {
     if (!form.organisation || form.contact_emails.length === 0) {
@@ -191,6 +232,22 @@ export const BespokeProposalBuilder = () => {
           <CardTitle>Bespoke Proposal Builder</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Upload Section */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <label className="flex flex-col gap-2 cursor-pointer">
+              <span className="text-sm font-semibold text-blue-900">📄 Upload Proposal Document</span>
+              <span className="text-xs text-blue-700">Upload a Word or PDF proposal to auto-fill all sections</span>
+              <input
+                type="file"
+                accept=".docx,.doc,.pdf"
+                onChange={handleFileUpload}
+                disabled={uploading}
+                className="text-sm"
+              />
+            </label>
+            {uploading && <p className="text-xs text-blue-600 mt-2">Parsing document...</p>}
+          </div>
+
           {/* Header Info */}
           <div className="space-y-4 border-b pb-6">
             <h3 className="font-semibold">Proposal Details</h3>

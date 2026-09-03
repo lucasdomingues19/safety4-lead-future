@@ -42,3 +42,6 @@ verify_jwt = false
 
 [functions.send-proposal-email]
 verify_jwt = true
+
+[functions.parse-proposal-document]
+verify_jwt = true
