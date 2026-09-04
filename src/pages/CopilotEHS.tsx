@@ -27,52 +27,52 @@ import {
 
 const modules = [
   {
-    title: "1. Foundations of AI for EHS",
-    body: "What Copilot is and is not, where it fits in safety work, and the Assurative AI standard that keeps a competent person accountable for every output. Sets the mindset for the whole program.",
+    title: "1. Welcome to the AI-Powered EHS Profession",
+    body: "Identify where AI and Microsoft Copilot can create value in EHS and Sustainability workflows and define personal improvement goals.",
   },
   {
-    title: "2. Prompting with GRACE",
-    body: "The GRACE framework (Ground, Role, Artefact, Constraints, Evidence) for writing reliable, source-grounded prompts. Participants practise on real EHS tasks and learn why weak prompts produce unsafe output.",
+    title: "2. AI Skills for Modern EHS Leaders",
+    body: "Apply AI literacy, critical thinking and verification practices to use AI responsibly in professional EHS contexts.",
   },
   {
-    title: "3. Copilot Chat for safety work + image and video generation",
-    body: "Using Copilot Chat to draft, summarise, and interrogate safety information. Grounding responses in work data, checking sources, and the data-handling rules for confidential and personal information. Learn prompt techniques to create custom images and videos on safety topics.",
+    title: "3. Copilot Fundamentals",
+    body: "Understand the Microsoft Copilot ecosystem and use grounding, security and personalisation principles effectively.",
   },
   {
-    title: "4. Working with your own EHS documents",
-    body: "Applying Copilot to participants' own material: summarising incident reports, drafting risk assessments and toolbox talks, and turning raw notes into structured records, always under human review.",
+    title: "4. Prompting for EHS Professionals",
+    body: "Create high-quality prompts that generate useful, accurate outputs for EHS and Sustainability activities.",
   },
   {
-    title: "5. Copilot in Word and Outlook",
-    body: "Drafting, editing, and reviewing safety documents in Word, and managing safety correspondence, actions, and follow-ups in Outlook. Practical time-saving on everyday reporting and communication.",
+    title: "5. EHS Productivity",
+    body: "Use Copilot to improve EHS productivity by managing emails, meetings, information retrieval and daily work more efficiently.",
   },
   {
-    title: "6. Copilot in Excel for incident data",
-    body: "Using Copilot in Excel to analyse incident and inspection data, surface trends, and build leading and lagging indicators. Reading results critically rather than taking them at face value.",
+    title: "6. EHS Documentation and Knowledge Work",
+    body: "Develop professional EHS documents, communications and knowledge resources using Microsoft Copilot.",
   },
   {
-    title: "7. Copilot in PowerPoint and Teams",
-    body: "Turning safety data and findings into clear presentations for leadership and shop floor, and using Copilot in Teams to capture actions and summarise safety meetings.",
+    title: "7. Risk Assessment, Audits & Compliance",
+    body: "Apply Copilot to strengthen risk management, audit preparation, inspections and assurance activities.",
   },
   {
-    title: "8. Built-in agents: Researcher and Analyst",
-    body: "Using Microsoft's built-in Researcher and Analyst agents for deeper safety research and data analysis, with the review discipline to trust the output appropriately.",
+    title: "8. Incident Management & Investigations",
+    body: "Use Copilot to support incident investigations, analyse information and develop effective corrective actions and reports.",
   },
   {
-    title: "9. Introduction to Cowork and Skills",
-    body: "Copilot Cowork and skills for longer multi-step tasks.",
+    title: "9. Analytics, Reporting & Decision Making",
+    body: "Analyse EHS and Sustainability data, identify trends and create meaningful reports using Copilot-powered insights.",
   },
   {
-    title: "10. Introduction to Copilot Studio",
-    body: "An introduction to Copilot Studio and Agent Builder: how a simple EHS agent is built, scoped, and bounded, with hard-stop rules so it never operates outside its competence.",
+    title: "10. Built-in Agents",
+    body: "Leverage Researcher, Analyst and Agents to enhance research, analysis and decision-making capabilities.",
   },
   {
-    title: "11. AI risk, compliance and governance",
-    body: "The governance and data rules that keep AI use compliant and safe.",
+    title: "11. Agents & Copilot Studio",
+    body: "Understand how Copilot Studio can be used to create custom AI agents for EHS and Sustainability processes.",
   },
   {
-    title: "12. Your 30-day plan",
-    body: "A personal 30-day plan so every participant leaves with a concrete path to applying what they learned.",
+    title: "12. Building an AI-Powered EHS Function",
+    body: "Develop a practical roadmap for leading and implementing an AI-enabled EHS and Sustainability function.",
   },
 ];
 
