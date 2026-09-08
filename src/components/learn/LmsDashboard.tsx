@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Play, BookOpen, ArrowRight } from "lucide-react";
+import { Play, BookOpen } from "lucide-react";
 import { toast } from "sonner";
 
 interface CourseProgress {
@@ -90,79 +90,77 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#0B0B2C" }}>
-        <div style={{ textAlign: "center", color: "#fff" }}>
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#EEF1F6" }}>
+        <div style={{ textAlign: "center", color: "#0B0B2C" }}>
           <div style={{ fontSize: "14px", marginBottom: "12px" }}>Loading your learning hub...</div>
-          <div style={{ width: "32px", height: "32px", border: "3px solid rgba(255,255,255,0.1)", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
+          <div style={{ width: "32px", height: "32px", border: "3px solid #E2E8F0", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0B0B2C", color: "#fff", padding: "48px 28px 72px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#EEF1F6", color: "#0B0B2C", padding: "40px 28px 72px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         {/* Header */}
-        <div style={{ marginBottom: "56px" }}>
-          <div style={{ display: "inline-block", background: "#3434FF", borderRadius: "8px", padding: "8px 14px", marginBottom: "20px", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
-            MY LEARNING
+        <div style={{ marginBottom: "48px" }}>
+          <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#8AB815", marginBottom: "12px" }}>
+            WELCOME BACK
           </div>
-          <h1 style={{ margin: "0 0 16px", fontSize: "48px", fontWeight: 700, lineHeight: 1.1 }}>
+          <h1 style={{ margin: "0 0 12px", fontSize: "42px", fontWeight: 700, lineHeight: 1.1, color: "#0B0B2C" }}>
             Welcome back
           </h1>
-          <p style={{ margin: 0, fontSize: "16px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+          <p style={{ margin: 0, fontSize: "17px", color: "#69697B", lineHeight: 1.7 }}>
             {courses.length === 0 ? "No courses enrolled yet" : `You're ${courses[0]?.progressPercent || 0}% through ${courses[0]?.title || "your courses"}.`}
           </p>
         </div>
 
         {/* Your Courses Section */}
         {courses.length > 0 && (
-          <div style={{ marginBottom: "56px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "28px", fontSize: "16px", fontWeight: 600 }}>
+          <div style={{ marginBottom: "48px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px", fontSize: "16px", fontWeight: 600, color: "#0B0B2C" }}>
               <BookOpen size={20} color="#3434FF" />
               <span>Your courses</span>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
               {courses.map((course) => (
                 <div
                   key={course.id}
                   onClick={() => setCurrentCourse(course)}
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "#fff",
+                    border: "1px solid #E2E8F0",
                     borderRadius: "16px",
-                    padding: "28px",
+                    padding: "24px",
                     cursor: "pointer",
-                    transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                    transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-                    e.currentTarget.style.borderColor = "rgba(52,52,255,0.4)";
                     e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 18px 40px rgba(11,11,44,0.12)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
                     e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
                   }}
                 >
-                  <h3 style={{ margin: "0 0 12px", fontSize: "20px", fontWeight: 700 }}>
+                  <h3 style={{ margin: "0 0 8px", fontSize: "18px", fontWeight: 700, color: "#0B0B2C" }}>
                     {course.title}
                   </h3>
-                  <p style={{ margin: "0 0 20px", fontSize: "14px", color: "rgba(255,255,255,0.6)" }}>
+                  <p style={{ margin: "0 0 16px", fontSize: "14px", color: "#69697B", lineHeight: 1.6 }}>
                     {course.totalModules} modules • {course.totalHours}+ CPD hours
                   </p>
 
                   {/* Progress */}
-                  <div style={{ marginBottom: "20px" }}>
+                  <div style={{ marginBottom: "16px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px", fontSize: "13px" }}>
-                      <span style={{ color: "rgba(255,255,255,0.6)" }}>
+                      <span style={{ color: "#69697B" }}>
                         {course.completedModules}/{course.totalModules} lessons
                       </span>
-                      <span style={{ fontWeight: 700 }}>{Math.min(course.progressPercent, 100)}%</span>
+                      <span style={{ fontWeight: 700, color: "#0B0B2C" }}>{Math.min(course.progressPercent, 100)}%</span>
                     </div>
-                    <div style={{ height: "6px", background: "rgba(255,255,255,0.1)", borderRadius: "999px", overflow: "hidden" }}>
+                    <div style={{ height: "6px", background: "#EEF1F6", borderRadius: "999px", overflow: "hidden" }}>
                       <div
                         style={{
                           height: "100%",
@@ -198,7 +196,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                     onMouseLeave={(e) => (e.currentTarget.style.background = "#3434FF")}
                   >
                     {course.status === "not_started" ? "Start course" : "Continue"}
-                    <ArrowRight size={16} />
+                    <Play size={16} />
                   </button>
                 </div>
               ))}
@@ -207,13 +205,13 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
         )}
 
         {/* Course Catalogue */}
-        <div style={{ marginTop: "56px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "28px", fontSize: "16px", fontWeight: 600 }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px", fontSize: "16px", fontWeight: 600, color: "#0B0B2C" }}>
             <BookOpen size={20} color="#3434FF" />
             <span>Course catalogue</span>
           </div>
-          <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "16px", padding: "40px", textAlign: "center" }}>
-            <p style={{ margin: 0, fontSize: "15px", color: "rgba(255,255,255,0.6)" }}>
+          <div style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: "16px", padding: "40px", textAlign: "center" }}>
+            <p style={{ margin: 0, fontSize: "15px", color: "#69697B" }}>
               You're enrolled in every available course. 🎉
             </p>
           </div>

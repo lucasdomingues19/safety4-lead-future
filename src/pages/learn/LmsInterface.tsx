@@ -148,10 +148,10 @@ export default function LmsInterface() {
 
   if (authLoading) {
     return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#0B0B2C" }}>
-        <div style={{ textAlign: "center", color: "#fff" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#EEF1F6" }}>
+        <div style={{ textAlign: "center", color: "#0B0B2C" }}>
           <div style={{ fontSize: "14px", marginBottom: "12px" }}>Loading LMS...</div>
-          <div style={{ width: "32px", height: "32px", border: "3px solid rgba(255,255,255,0.1)", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
+          <div style={{ width: "32px", height: "32px", border: "3px solid #E2E8F0", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
         </div>
       </div>
     );
@@ -159,7 +159,7 @@ export default function LmsInterface() {
 
   return (
     <LmsContext.Provider value={{ user: lmsUser, currentCourse, setCurrentCourse, isAdmin }}>
-      <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#fff", background: "#0B0B2C" }}>
+      <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#0B0B2C", background: "#EEF1F6" }}>
         {/* SIDEBAR */}
         <aside style={{
           width: railWidth,
@@ -410,10 +410,9 @@ export default function LmsInterface() {
             position: "sticky",
             top: 0,
             zIndex: 20,
-            background: "rgba(11,11,44,0.8)",
+            background: "rgba(238,241,246,0.86)",
             backdropFilter: "blur(10px)",
-            borderBottom: "1px solid rgba(255,255,255,0.1)",
-            color: "#fff",
+            borderBottom: "1px solid #E2E8F0",
           }}>
             <div style={{
               maxWidth: "1400px",
@@ -427,14 +426,14 @@ export default function LmsInterface() {
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <BookOpen size={20} color="#3434FF" />
-                <span style={{ fontSize: "15px", fontWeight: "700" }}>Learning Hub</span>
+                <span style={{ fontSize: "15px", fontWeight: "700", color: "#0B0B2C" }}>Learning Hub</span>
               </div>
 
               <div style={{ flex: 1 }}></div>
 
               {/* Right Section */}
               <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
+                <div style={{ fontSize: "14px", color: "#69697B" }}>
                   {lmsUser?.email}
                 </div>
                 <button
@@ -445,7 +444,7 @@ export default function LmsInterface() {
                   style={{
                     border: "0",
                     background: "transparent",
-                    color: "#fff",
+                    color: "#0B0B2C",
                     fontSize: "14px",
                     fontWeight: "600",
                     cursor: "pointer",
@@ -458,10 +457,12 @@ export default function LmsInterface() {
                     transition: "all 0.2s",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                    e.currentTarget.style.background = "#F1F4FF";
+                    e.currentTarget.style.color = "#3434FF";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "#0B0B2C";
                   }}
                 >
                   <LogOut size={16} />
