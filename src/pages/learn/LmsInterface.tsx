@@ -148,10 +148,10 @@ export default function LmsInterface() {
 
   if (authLoading) {
     return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#EEF1F6" }}>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: "14px", color: "#69697B", marginBottom: "12px" }}>Loading LMS...</div>
-          <div style={{ width: "32px", height: "32px", border: "3px solid #E2E8F0", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#0B0B2C" }}>
+        <div style={{ textAlign: "center", color: "#fff" }}>
+          <div style={{ fontSize: "14px", marginBottom: "12px" }}>Loading LMS...</div>
+          <div style={{ width: "32px", height: "32px", border: "3px solid rgba(255,255,255,0.1)", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
         </div>
       </div>
     );
@@ -159,7 +159,7 @@ export default function LmsInterface() {
 
   return (
     <LmsContext.Provider value={{ user: lmsUser, currentCourse, setCurrentCourse, isAdmin }}>
-      <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#0B0B2C", background: "#EEF1F6" }}>
+      <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#fff", background: "#0B0B2C" }}>
         {/* SIDEBAR */}
         <aside style={{
           width: railWidth,
@@ -410,9 +410,10 @@ export default function LmsInterface() {
             position: "sticky",
             top: 0,
             zIndex: 20,
-            background: "rgba(255,255,255,0.86)",
+            background: "rgba(11,11,44,0.8)",
             backdropFilter: "blur(10px)",
-            borderBottom: "1px solid #E2E8F0",
+            borderBottom: "1px solid rgba(255,255,255,0.1)",
+            color: "#fff",
           }}>
             <div style={{
               maxWidth: "1400px",
@@ -421,104 +422,51 @@ export default function LmsInterface() {
               height: "72px",
               display: "flex",
               alignItems: "center",
+              justifyContent: "space-between",
               gap: "28px",
             }}>
-              <div style={{ flex: "none", minWidth: 0 }}>
-                <div style={{ fontSize: "11px", fontWeight: "800", letterSpacing: "0.12em", color: "#8AB815" }}>
-                  CURRENT COURSE
-                </div>
-                <div style={{
-                  marginTop: "3px",
-                  fontSize: "15px",
-                  fontWeight: "700",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                  maxWidth: "260px",
-                }}>
-                  {currentCourse?.title || "No course selected"}
-                </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <BookOpen size={20} color="#3434FF" />
+                <span style={{ fontSize: "15px", fontWeight: "700" }}>Learning Hub</span>
               </div>
 
               <div style={{ flex: 1 }}></div>
 
-              {/* Search */}
-              <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                title="Search"
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  border: "1px solid #E2E8F0",
-                  borderRadius: "10px",
-                  background: "#fff",
-                  color: "#69697B",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#F1F4FF";
-                  e.currentTarget.style.color = "#3434FF";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#fff";
-                  e.currentTarget.style.color = "#69697B";
-                }}
-              >
-                <Search size={17} />
-              </button>
-
-              {/* Notifications */}
-              <button
-                onClick={() => setNotifsOpen(!notifsOpen)}
-                title="Notifications"
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  border: "1px solid #E2E8F0",
-                  borderRadius: "10px",
-                  background: "#fff",
-                  color: "#69697B",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  position: "relative",
-                  transition: "all 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#F1F4FF";
-                  e.currentTarget.style.color = "#3434FF";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#fff";
-                  e.currentTarget.style.color = "#69697B";
-                }}
-              >
-                <Bell size={17} />
-                {notifications.length > 0 && (
-                  <span style={{
-                    position: "absolute",
-                    top: "5px",
-                    right: "5px",
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: "#FF4D4D",
-                    border: "2px solid #fff",
-                  }}></span>
-                )}
-              </button>
-
-              {/* Progress */}
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: "none" }}>
-                <div style={{ width: "120px", height: "6px", borderRadius: "999px", background: "#EEF1F6", overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: "45%", background: "#3434FF", borderRadius: "999px" }}></div>
+              {/* Right Section */}
+              <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
+                  {lmsUser?.email}
                 </div>
-                <div style={{ fontSize: "13px", fontWeight: "700", color: "#69697B" }}>45%</div>
+                <button
+                  onClick={async () => {
+                    await supabase.auth.signOut();
+                    navigate("/learn/auth");
+                  }}
+                  style={{
+                    border: "0",
+                    background: "transparent",
+                    color: "#fff",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    borderRadius: "8px",
+                    transition: "all 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                  }}
+                >
+                  <LogOut size={16} />
+                  Sign out
+                </button>
               </div>
             </div>
           </div>
