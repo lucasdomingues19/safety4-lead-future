@@ -2,7 +2,7 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import fs from "fs";
-import { componentTagger } from "lovable-tagger";
+// import { componentTagger } from "lovable-tagger"; // Lovable dev tool, not needed for production build
 import { getPrerenderRoutes, applyRouteSeo } from "./scripts/prerender-routes";
 
 // Emits a static HTML file per route with unique title/description/canonical/
@@ -49,7 +49,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
-      mode === "development" && componentTagger(),
+      // mode === "development" && componentTagger(), // Lovable dev tool
       seoPrerenderPlugin(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_PUBLISHABLE_KEY),
     ].filter(Boolean),
     resolve: {
