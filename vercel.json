@@ -14,7 +14,7 @@
   ],
   "rewrites": [
     {
-      "source": "/:path(?!.*\\..*|_next)(.)*",
+      "source": "/((?!api|_next|assets|\.well-known).*)",
       "destination": "/index.html"
     }
   ],
