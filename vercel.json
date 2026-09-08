@@ -14,7 +14,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api|_next|assets|\.well-known).*)",
+      "source": "/((?!api|_next|assets|\\.well-known).*)",
       "destination": "/index.html"
     }
   ],
