@@ -1,52 +1,44 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuthUser } from "@/hooks/useAuthUser";
-import { ChevronRight, Download, Copy, MessageCircle, Bookmark, Play } from "lucide-react";
-import { toast } from "sonner";
+import { useState } from "react";
+import { Play, Copy, Download, Info, FileText } from "lucide-react";
 
-interface Module {
+interface TranscriptItem {
+  time: string;
+  n: number;
+  label: string;
+  text: string;
+}
+
+interface Resource {
+  name: string;
+  meta: string;
+  kind: string;
+  chipBg: string;
+  chipFg: string;
+}
+
+interface Comment {
   id: string;
-  title: string;
-  description?: string;
-  position: number;
+  author: string;
+  initials: string;
+  avBg: string;
+  level: string;
+  time: string;
+  text: string;
+  replies: number;
 }
 
-interface Lesson {
+interface Note {
   id: string;
-  title: string;
-  description?: string;
-  video_url?: string;
-  content?: string;
-  position: number;
-  duration_minutes?: number;
+  time: string;
+  text: string;
 }
 
-interface TabState {
-  overview: boolean;
-  transcript: boolean;
-  resources: boolean;
-  comments: boolean;
-  notes: boolean;
-}
-
-export function LmsModulePlayer({ course }: any) {
-  const { user } = useAuthUser();
-  const [modules, setModules] = useState<Module[]>([]);
-  const [currentModule, setCurrentModule] = useState<Module | null>(null);
-  const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
-  const [activeTab, setActiveTab] = useState<keyof TabState>("overview");
-  const [transcript, setTranscript] = useState<string>("");
-  const [notes, setNotes] = useState<string>("");
-  const [loading, setLoading] = useState(true);
-  const [slideProgress, setSlideProgress] = useState(46);
-
-  const tabs: (keyof TabState)[] = ["overview", "transcript", "resources", "comments", "notes"];
-
-  useEffect(() => {
-    if (course) {
-      loadModules();
-    }
-  }, [course]);
+export function LmsModulePlayer({ course, onBack }: any) {
+  const [activeTab, setActiveTab] = useState<"overview" | "transcript" | "resources" | "comments" | "notes">("overview");
+  const [commentCount, setCommentCount] = useState(12);
+  const [videoProgress, setVideoProgress] = useState(46);
+  const [currentSlide, setCurrentSlide] = useState(6);
+  const [totalSlides] = useState(13);
 
   const loadModules = async () => {
     if (!course) return;
