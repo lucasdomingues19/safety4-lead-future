@@ -5,11 +5,11 @@ export interface Course {
   title: string;
   slug: string;
   description: string | null;
-  cover_image_url: string | null;
-  price_cents: number;
-  currency: string;
-  cpd_hours: number | null;
+  instructor_id: string | null;
+  price: number | null;
+  stripe_product_id: string | null;
   published: boolean;
+  published_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -20,79 +20,106 @@ export interface Module {
   title: string;
   description: string | null;
   position: number;
-  drip_days: number;
+  drip_days?: number;
   created_at: string;
   updated_at: string;
-}
-
-export interface LessonResource {
-  label: string;
-  url: string;
 }
 
 export interface Lesson {
   id: string;
   module_id: string;
   title: string;
-  position: number;
+  description: string | null;
   video_url: string | null;
-  body: string | null;
-  resources: LessonResource[];
-  duration_minutes: number | null;
+  video_duration_seconds: number | null;
+  content: string | null;
+  position: number;
+  is_locked: boolean;
   created_at: string;
   updated_at: string;
+  duration_minutes?: number;
 }
 
 export interface Enrollment {
   id: string;
   user_id: string;
   course_id: string;
-  status: string;
+  stripe_subscription_id: string | null;
+  status: "active" | "cancelled" | "expired";
   enrolled_at: string;
+  expires_at: string | null;
+  created_at: string;
+}
+
+export interface LessonProgress {
+  id: string;
+  user_id: string;
+  lesson_id: string;
+  watch_duration_seconds: number;
+  is_completed: boolean;
   completed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Certificate {
+  id: string;
+  user_id: string;
+  course_id: string;
+  certificate_url: string | null;
+  issued_at: string;
+  created_at: string;
 }
 
 export interface Quiz {
   id: string;
-  module_id: string;
+  lesson_id: string;
   title: string;
-  pass_threshold: number;
+  description: string | null;
+  passing_score: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface QuizQuestion {
   id: string;
   quiz_id: string;
-  prompt: string;
-  options: string[];
-  correct_index: number;
+  question: string;
+  question_type: "multiple_choice" | "true_false" | "short_answer";
+  options: string[] | null;
+  correct_answer: string;
   position: number;
+  created_at: string;
+  updated_at: string;
 }
 
-/** Normalize raw lesson rows (resources comes back as Json) into typed Lessons. */
+/** Normalize raw lesson rows to add computed duration_minutes field. */
 export const asLessons = (rows: unknown[] | null | undefined): Lesson[] =>
   ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
     ...(r as unknown as Lesson),
-    resources: Array.isArray(r.resources) ? (r.resources as LessonResource[]) : [],
+    duration_minutes: (r as any).video_duration_seconds
+      ? Math.ceil((r as any).video_duration_seconds / 60)
+      : undefined,
   }));
 
-/** Normalize raw quiz question rows (options comes back as Json). */
+/** Normalize raw quiz question rows. */
 export const asQuizQuestions = (rows: unknown[] | null | undefined): QuizQuestion[] =>
   ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
     ...(r as unknown as QuizQuestion),
-    options: Array.isArray(r.options) ? (r.options as string[]) : [],
+    options: (r as any).options ? JSON.parse((r as any).options) : null,
   }));
 
-/** Format a price in minor units to a localized currency string. */
-export const formatPrice = (cents: number, currency = "GBP"): string => {
-  if (!cents) return "Free";
+/** Format a price to a localized currency string. */
+export const formatPrice = (price: number | null | undefined, currency = "GBP"): string => {
+  if (!price) return "Free";
   try {
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
       currency,
       minimumFractionDigits: 0,
-    }).format(cents / 100);
+    }).format(price);
   } catch {
-    return `£${(cents / 100).toFixed(0)}`;
+    return `£${price.toFixed(0)}`;
   }
 };
 
