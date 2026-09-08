@@ -10,11 +10,6 @@ import html2canvas from "html2canvas";
 
 const ACADEMY_URL = "https://www.safetytech.academy";
 
-const SITE_URL =
-  typeof window !== "undefined" && window.location.hostname.endsWith("lovable.app")
-    ? window.location.origin
-    : ACADEMY_URL;
-
 const CERTIFICATE_SKILLS = [
   "Artificial Intelligence",
   "Digital Transformation",
@@ -37,7 +32,7 @@ const VerifyCertificate = () => {
   const certRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
 
-  const verifyUrl = `${SITE_URL}/verify/${certificateNumber}`;
+  const verifyUrl = `${ACADEMY_URL}/verify/${certificateNumber}`;
 
   const trackInteraction = (event: "viewed" | "engaged" | "linkedin") => {
     if (!certificateNumber) return;

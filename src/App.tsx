@@ -48,9 +48,18 @@ const ProposalPage = lazy(() => import("./pages/Proposal"));
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
 const LearnDashboard = lazy(() => import("./pages/learn/LearnDashboard"));
+const LmsInterface = lazy(() => import("./pages/learn/LmsInterface"));
 const CourseView = lazy(() => import("./pages/learn/CourseView"));
 const LessonView = lazy(() => import("./pages/learn/LessonView"));
 const CourseManager = lazy(() => import("./pages/admin/CourseManager"));
+const Phase2Test = lazy(() => import("./pages/Phase2Test"));
+const Phase2Redesigned = lazy(() => import("./pages/Phase2Redesigned"));
+
+// Student platform
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const MyCourses = lazy(() => import("./pages/student/MyCourses"));
+const EnrollmentCheckout = lazy(() => import("./pages/student/EnrollmentCheckout"));
+const Support = lazy(() => import("./pages/Support"));
 
 
 
@@ -174,10 +183,18 @@ const App = () => (
 
 
             <Route path="/learn/auth" element={<LearnAuth />} />
-            <Route path="/learn" element={<LearnDashboard />} />
+            <Route path="/learn" element={<LmsInterface />} />
             <Route path="/learn/:courseSlug" element={<CourseView />} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<LessonView />} />
             <Route path="/admin/courses" element={<CourseManager />} />
+            <Route path="/phase2-test" element={<Phase2Test />} />
+            <Route path="/phase2" element={<Phase2Redesigned />} />
+
+            {/* Student Learning Platform */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/student/courses" element={<MyCourses />} />
+            <Route path="/student/checkout/:id" element={<EnrollmentCheckout />} />
+            <Route path="/support" element={<Support />} />
 
             {/* Catch-all route for proposal slugs - must be last before wildcard */}
             <Route path="/:slug" element={<ProposalSlugRoute />} />

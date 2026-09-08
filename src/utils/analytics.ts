@@ -3,8 +3,6 @@ const isDevEnvironment = () => {
   const hostname = window.location.hostname;
   return (
     hostname === 'localhost' ||
-    hostname.includes('lovableproject.com') ||
-    hostname.includes('lovable.app') === false && hostname.includes('lovable') ||
     hostname.includes('id-preview--')
   );
 };
