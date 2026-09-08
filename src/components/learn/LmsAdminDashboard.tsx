@@ -343,15 +343,178 @@ export function LmsAdminDashboard() {
           </div>
         )}
 
-        {/* Placeholder for other tabs */}
-        {["users", "access", "emails", "reports", "billing", "community"].includes(activeTab) && (
-          <div style={{ marginTop: "24px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "48px", textAlign: "center" }}>
-            <div style={{ fontSize: "18px", fontWeight: 700, color: "#0b0b2c" }}>
-              {adminTabs.find((t) => t.id === activeTab)?.label} Management
+        {/* Users Tab */}
+        {activeTab === "users" && (
+          <div style={{ marginTop: "24px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+            <div style={{ padding: "20px 24px", borderBottom: "1px solid #e2e8f0", fontSize: "16px", fontWeight: 700 }}>
+              Learner Directory
             </div>
-            <p style={{ marginTop: "8px", fontSize: "14px", color: "#94a3b8" }}>
-              Coming soon...
-            </p>
+            {[
+              { name: "Sarah Chen", email: "sarah@acme.com", status: "active", courses: 3, certified: 2 },
+              { name: "Marcus Johnson", email: "marcus@techcorp.com", status: "active", courses: 2, certified: 1 },
+              { name: "Emma Wilson", email: "emma@safetyplus.org", status: "inactive", courses: 1, certified: 1 },
+              { name: "James Miller", email: "james@industryco.com", status: "at-risk", courses: 2, certified: 0 }
+            ].map((user, idx) => (
+              <div key={idx} style={{ padding: "16px 24px", borderBottom: "1px solid #f1f4f8", display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "#3434ff", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: "12px" }}>
+                  {user.name.split(" ").map(n => n[0]).join("")}
+                </div>
+                <div style={{ flex: 1, minWidth: "200px" }}>
+                  <div style={{ fontSize: "14px", fontWeight: 700 }}>{user.name}</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>{user.email}</div>
+                </div>
+                <div style={{ fontSize: "12px", color: "#69697b" }}>{user.courses} courses</div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: user.status === "active" ? "#8ab815" : user.status === "inactive" ? "#94a3b8" : "#dc2626" }}>
+                  {user.status.toUpperCase()}
+                </div>
+                <button style={{ border: "1px solid #cbd5e1", borderRadius: "6px", background: "#fff", padding: "6px 12px", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}>
+                  View
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Access Tab */}
+        {activeTab === "access" && (
+          <div style={{ marginTop: "24px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+            <div style={{ padding: "20px 24px", borderBottom: "1px solid #e2e8f0", fontSize: "16px", fontWeight: 700 }}>
+              Product Access Control
+            </div>
+            {[
+              { product: "Copilot for EHS (eLearning)", access: "open", learners: 156 },
+              { product: "Copilot for EHS (Accelerator)", access: "limited", learners: 8 },
+              { product: "Safety 4.0 Fundamentals", access: "open", learners: 89 },
+              { product: "Governance & Compliance", access: "waitlist", learners: 34 }
+            ].map((item, idx) => (
+              <div key={idx} style={{ padding: "16px 24px", borderBottom: "1px solid #f1f4f8", display: "flex", alignItems: "center", gap: "16px", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 700 }}>{item.product}</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>{item.learners} learners</div>
+                </div>
+                <button style={{ border: "1px solid #cbd5e1", borderRadius: "6px", background: "#fff", padding: "8px 14px", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}>
+                  {item.access === "open" ? "Open" : item.access === "limited" ? "Limited" : "Waitlist"}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Emails Tab */}
+        {activeTab === "emails" && (
+          <div style={{ marginTop: "24px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+            <div style={{ padding: "20px 24px", borderBottom: "1px solid #e2e8f0", fontSize: "16px", fontWeight: 700, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span>Email Campaigns</span>
+              <button style={{ border: "1px solid #cbd5e1", borderRadius: "6px", background: "#fff", padding: "8px 14px", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}>+ New</button>
+            </div>
+            {[
+              { name: "Welcome to Copilot for EHS", sent: "3/8/26", opens: 82, clicks: 24 },
+              { name: "Week 2 Reminder", sent: "2/15/26", opens: 156, clicks: 48 },
+              { name: "Assessment Available", sent: "2/1/26", opens: 203, clicks: 89 }
+            ].map((email, idx) => (
+              <div key={idx} style={{ padding: "16px 24px", borderBottom: "1px solid #f1f4f8", display: "flex", alignItems: "center", gap: "16px", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 700 }}>{email.name}</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>{email.opens} opens • {email.clicks} clicks</div>
+                </div>
+                <div style={{ fontSize: "12px", color: "#94a3b8" }}>{email.sent}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Reports Tab */}
+        {activeTab === "reports" && (
+          <div style={{ marginTop: "24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "16px" }}>
+            {[
+              { title: "Engagement Report", desc: "Course completion rates by module", icon: "📊" },
+              { title: "Revenue Analytics", desc: "Subscription and course sales data", icon: "💰" },
+              { title: "Learner Progress", desc: "Individual and cohort progression tracking", icon: "📈" },
+              { title: "Certificate Audit", desc: "All issued certifications and validity", icon: "🏆" }
+            ].map((report, idx) => (
+              <div key={idx} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", cursor: "pointer", transition: "all 0.2s" }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 16px rgba(11,11,44,0.08)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
+                <div style={{ fontSize: "28px", marginBottom: "12px" }}>{report.icon}</div>
+                <div style={{ fontSize: "15px", fontWeight: 700 }}>{report.title}</div>
+                <div style={{ fontSize: "13px", color: "#94a3b8", marginTop: "6px" }}>{report.desc}</div>
+                <a href="#" style={{ display: "inline-block", marginTop: "12px", fontSize: "13px", fontWeight: 700, color: "#3434ff" }}>View →</a>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Billing Tab */}
+        {activeTab === "billing" && (
+          <div style={{ marginTop: "24px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+            <div style={{ padding: "20px 24px", borderBottom: "1px solid #e2e8f0", fontSize: "16px", fontWeight: 700 }}>
+              Subscription & Billing
+            </div>
+            <div style={{ padding: "24px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", marginBottom: "24px" }}>
+                <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "16px" }}>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", marginBottom: "8px" }}>MRR</div>
+                  <div style={{ fontSize: "24px", fontWeight: 800 }}>$4,280</div>
+                  <div style={{ fontSize: "12px", color: "#8ab815", marginTop: "4px" }}>↑ 12% vs last month</div>
+                </div>
+                <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "16px" }}>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", marginBottom: "8px" }}>Active Subscriptions</div>
+                  <div style={{ fontSize: "24px", fontWeight: 800 }}>87</div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>8 annual · 79 monthly</div>
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: 700, marginBottom: "12px" }}>Recent Transactions</div>
+                {[
+                  { user: "Sarah Chen", amount: "$497", date: "Today", status: "Paid" },
+                  { user: "Marcus Johnson", amount: "$99", date: "3/7/26", status: "Paid" },
+                  { user: "Team Cohort", amount: "$1,497", date: "3/1/26", status: "Paid" }
+                ].map((tx, idx) => (
+                  <div key={idx} style={{ padding: "12px 0", borderBottom: "1px solid #f1f4f8", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: "13px", fontWeight: 600 }}>{tx.user}</div>
+                      <div style={{ fontSize: "12px", color: "#94a3b8" }}>{tx.date}</div>
+                    </div>
+                    <div style={{ fontSize: "13px", fontWeight: 700 }}>{tx.amount}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Community Tab */}
+        {activeTab === "community" && (
+          <div style={{ marginTop: "24px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+            <div style={{ padding: "20px 24px", borderBottom: "1px solid #e2e8f0", fontSize: "16px", fontWeight: 700 }}>
+              Community Moderation
+            </div>
+            <div style={{ padding: "24px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "12px", marginBottom: "24px" }}>
+                {[
+                  { label: "Active Spaces", value: "4" },
+                  { label: "Total Posts", value: "342" },
+                  { label: "Flagged Posts", value: "3" },
+                  { label: "Weekly Engagement", value: "68%" }
+                ].map((stat, idx) => (
+                  <div key={idx} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "14px", textAlign: "center" }}>
+                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>{stat.label}</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, marginTop: "6px" }}>{stat.value}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize: "14px", fontWeight: 700, marginBottom: "12px" }}>Recent Activity</div>
+              {[
+                { space: "Safety 4.0", action: "New discussion posted", time: "2 hours ago" },
+                { space: "Copilot Tips", action: "32 members active", time: "Just now" },
+                { space: "Governance", action: "Weekly challenge starts", time: "Yesterday" }
+              ].map((activity, idx) => (
+                <div key={idx} style={{ padding: "12px 0", borderBottom: "1px solid #f1f4f8", fontSize: "13px" }}>
+                  <div style={{ fontWeight: 600 }}>{activity.space}</div>
+                  <div style={{ color: "#94a3b8", fontSize: "12px", marginTop: "2px" }}>{activity.action} • {activity.time}</div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
