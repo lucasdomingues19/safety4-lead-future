@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, Search, Bell, BookOpen, Award, BarChart3, CreditCard, MessageCircle } from "lucide-react";
+import { Menu, Home, Users, Settings, HelpCircle, LogOut, Search, Bell, BookOpen, Shield, BarChart3, CreditCard, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 
 // Screen components (to be built)
@@ -148,10 +148,10 @@ export default function LmsInterface() {
 
   if (authLoading) {
     return (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#EEF1F6" }}>
-        <div style={{ textAlign: "center", color: "#0B0B2C" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", background: "#eef1f6" }}>
+        <div style={{ textAlign: "center", color: "#0b0b2c" }}>
           <div style={{ fontSize: "14px", marginBottom: "12px" }}>Loading LMS...</div>
-          <div style={{ width: "32px", height: "32px", border: "3px solid #E2E8F0", borderTop: "3px solid #3434FF", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
+          <div style={{ width: "32px", height: "32px", border: "3px solid #e2e8f0", borderTop: "3px solid #3434ff", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
         </div>
       </div>
     );
@@ -159,12 +159,12 @@ export default function LmsInterface() {
 
   return (
     <LmsContext.Provider value={{ user: lmsUser, currentCourse, setCurrentCourse, isAdmin }}>
-      <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#0B0B2C", background: "#EEF1F6" }}>
+      <div style={{ minHeight: "100vh", display: "flex", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#0b0b2c", background: "#eef1f6" }}>
         {/* SIDEBAR */}
         <aside style={{
           width: railWidth,
           flex: "none",
-          background: "#0B0B2C",
+          background: "#0b0b2c",
           display: "flex",
           flexDirection: "column",
           position: "fixed",
@@ -209,7 +209,7 @@ export default function LmsInterface() {
               <Menu size={19} />
             </button>
             {railOpen && (
-              <img src="assets/brand-mark-white.png" alt="SafetyTech Academy" style={{ height: "26px", width: "auto", flex: "none" }} />
+              <img src="assets/brand-mark-white.png" alt="SafetyTech Academy" style={{ height: "26px", width: "auto", flex: "none", display: railOpen ? "block" : "none" }} />
             )}
           </div>
 
@@ -314,6 +314,13 @@ export default function LmsInterface() {
                   onClick={() => handleNavigation("admin:billing")}
                   open={railOpen}
                 />
+                <NavButton
+                  icon={<Users size={19} />}
+                  label="Community"
+                  active={screen === "admin" && adminTab === "community"}
+                  onClick={() => handleNavigation("admin:community")}
+                  open={railOpen}
+                />
               </>
             )}
 
@@ -333,7 +340,7 @@ export default function LmsInterface() {
                   height: "34px",
                   flex: "none",
                   borderRadius: "50%",
-                  background: "#3434FF",
+                  background: "#3434ff",
                   color: "#fff",
                   display: "flex",
                   alignItems: "center",
@@ -410,9 +417,9 @@ export default function LmsInterface() {
             position: "sticky",
             top: 0,
             zIndex: 20,
-            background: "rgba(238,241,246,0.86)",
+            background: "rgba(255,255,255,0.86)",
             backdropFilter: "blur(10px)",
-            borderBottom: "1px solid #E2E8F0",
+            borderBottom: "1px solid #e2e8f0",
           }}>
             <div style={{
               maxWidth: "1400px",
@@ -421,53 +428,33 @@ export default function LmsInterface() {
               height: "72px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
               gap: "28px",
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <BookOpen size={20} color="#3434FF" />
-                <span style={{ fontSize: "15px", fontWeight: "700", color: "#0B0B2C" }}>Learning Hub</span>
+              <div style={{ flex: "none", minWidth: 0 }}>
+                <div style={{ fontSize: "11px", fontWeight: "800", letterSpacing: "0.12em", color: "#8ab815" }}>CURRENT COURSE</div>
+                <div style={{ marginTop: "3px", fontSize: "15px", fontWeight: "700", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "260px" }}>Microsoft Copilot for EHS</div>
               </div>
-
-              <div style={{ flex: 1 }}></div>
-
-              {/* Right Section */}
-              <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                <div style={{ fontSize: "14px", color: "#69697B" }}>
-                  {lmsUser?.email}
-                </div>
-                <button
-                  onClick={async () => {
-                    await supabase.auth.signOut();
-                    navigate("/learn/auth");
-                  }}
-                  style={{
-                    border: "0",
-                    background: "transparent",
-                    color: "#0B0B2C",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                    fontFamily: "inherit",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    borderRadius: "8px",
-                    transition: "all 0.2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#F1F4FF";
-                    e.currentTarget.style.color = "#3434FF";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "#0B0B2C";
-                  }}
-                >
-                  <LogOut size={16} />
-                  Sign out
+              <div style={{ width: "1px", height: "34px", background: "#e2e8f0", flex: "none" }}></div>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px", flex: 1, minWidth: 0, overflowX: "auto" }}>
+                <button onClick={() => setScreen("course")} style={{ border: "0", background: screen === "course" ? "#f1f4ff" : "transparent", color: screen === "course" ? "#3434ff" : "#0b0b2c", fontFamily: "inherit", fontSize: "14px", fontWeight: "600", borderRadius: "8px", padding: "9px 14px", cursor: "pointer", whiteSpace: "nowrap", transition: "background 0.2s" }} onMouseEnter={(e) => !["course"].includes(screen) && (e.currentTarget.style.background = "#f1f4ff")} onMouseLeave={(e) => !["course"].includes(screen) && (e.currentTarget.style.background = "transparent")}>Curriculum</button>
+                <button onClick={() => setScreen("player")} style={{ border: "0", background: screen === "player" ? "#f1f4ff" : "transparent", color: screen === "player" ? "#3434ff" : "#0b0b2c", fontFamily: "inherit", fontSize: "14px", fontWeight: "600", borderRadius: "8px", padding: "9px 14px", cursor: "pointer", whiteSpace: "nowrap", transition: "background 0.2s" }} onMouseEnter={(e) => !["player"].includes(screen) && (e.currentTarget.style.background = "#f1f4ff")} onMouseLeave={(e) => !["player"].includes(screen) && (e.currentTarget.style.background = "transparent")}>Module player</button>
+              </div>
+              <div style={{ position: "relative", flex: "none" }}>
+                <button onClick={() => setSearchOpen(!searchOpen)} title="Search" style={{ width: "38px", height: "38px", border: "1px solid #e2e8f0", borderRadius: "10px", background: "#fff", color: "#69697b", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f4ff"; e.currentTarget.style.color = "#3434ff"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#69697b"; }}>
+                  <Search width={17} height={17} />
                 </button>
+              </div>
+              <div style={{ position: "relative", flex: "none" }}>
+                <button onClick={() => setNotifsOpen(!notifsOpen)} title="Notifications" style={{ width: "38px", height: "38px", border: "1px solid #e2e8f0", borderRadius: "10px", background: "#fff", color: "#69697b", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative", transition: "all 0.2s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f4ff"; e.currentTarget.style.color = "#3434ff"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#69697b"; }}>
+                  <Bell width={17} height={17} />
+                  <span style={{ position: "absolute", top: "5px", right: "5px", width: "8px", height: "8px", borderRadius: "50%", background: "#ff4d4d", border: "2px solid #fff" }}></span>
+                </button>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: "none" }}>
+                <div style={{ width: "120px", height: "6px", borderRadius: "999px", background: "#eef1f6", overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: "45%", background: "#3434ff", borderRadius: "999px" }}></div>
+                </div>
+                <div style={{ fontSize: "13px", fontWeight: "700", color: "#69697b" }}>45%</div>
               </div>
             </div>
           </div>
@@ -509,12 +496,10 @@ function NavButton({ icon, label, active, onClick, open }: any) {
         cursor: "pointer",
         textAlign: "left",
         whiteSpace: "nowrap",
-        transition: "all 0.2s",
+        transition: "background 0.2s",
       }}
       onMouseEnter={(e) => {
-        if (!active) {
-          e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-        }
+        e.currentTarget.style.background = "rgba(255,255,255,0.1)";
       }}
       onMouseLeave={(e) => {
         if (!active) {
