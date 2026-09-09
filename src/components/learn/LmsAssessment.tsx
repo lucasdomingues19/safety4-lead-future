@@ -1,7 +1,78 @@
 import { useState } from "react";
 import { Upload, CheckCircle2, Clock, AlertCircle } from "lucide-react";
+import { LmsQuizPlayer } from "./LmsQuizPlayer";
+
+const SAMPLE_QUIZ = {
+  title: "Capstone Assessment",
+  description: "Demonstrate your understanding of Copilot for EHS and Sustainability",
+  questions: [
+    {
+      id: "q1",
+      question: "What is the primary purpose of Microsoft Copilot in EHS?",
+      options: [
+        "To replace EHS professionals",
+        "To assist in safety analysis and compliance documentation",
+        "To automate all safety decisions",
+        "To conduct audits independently"
+      ],
+      correctAnswer: 1,
+      explanation: "Copilot assists professionals in analyzing safety data and creating compliance documentation while maintaining human oversight."
+    },
+    {
+      id: "q2",
+      question: "How should organizations govern the use of AI in EHS?",
+      options: [
+        "Let employees decide on their own",
+        "Establish clear policies, oversight, and human review processes",
+        "Restrict all AI usage",
+        "Implement without policies"
+      ],
+      correctAnswer: 1,
+      explanation: "Proper governance requires clear policies, oversight mechanisms, and human review to ensure responsible AI usage."
+    },
+    {
+      id: "q3",
+      question: "What is a key consideration when implementing Copilot for safety analysis?",
+      options: [
+        "Cost alone",
+        "Data privacy and accuracy of AI-generated insights",
+        "Avoiding employee training",
+        "Speed without validation"
+      ],
+      correctAnswer: 1,
+      explanation: "Data privacy, accuracy validation, and ensuring AI insights are reviewed by qualified professionals are critical."
+    },
+    {
+      id: "q4",
+      question: "How can Copilot help with workplace risk assessment?",
+      options: [
+        "It makes final risk decisions",
+        "It can analyze data and suggest risk factors for professional review",
+        "It replaces hazard analysis",
+        "It only creates reports"
+      ],
+      correctAnswer: 1,
+      explanation: "Copilot can assist by analyzing data and identifying potential risk factors that professionals then review and validate."
+    },
+    {
+      id: "q5",
+      question: "What should be the role of human professionals when using Copilot?",
+      options: [
+        "No involvement needed",
+        "Review, validate, and make final decisions on AI-generated insights",
+        "Only administrative tasks",
+        "Passive monitoring"
+      ],
+      correctAnswer: 1,
+      explanation: "Human professionals maintain critical roles in reviewing, validating, and making final decisions on all AI-generated safety insights."
+    }
+  ],
+  passingScore: 70,
+  timeLimit: 30
+};
 
 export function LmsAssessment({ onStartAssessment }: any) {
+  const [quizStarted, setQuizStarted] = useState(false);
   const [assessState, setAssessState] = useState("LOCKED");
   const [assessStateFg, setAssessStateFg] = useState("#cbd5e1");
   const [assessChipBg, setAssessChipBg] = useState("#eef1f6");
@@ -32,6 +103,23 @@ export function LmsAssessment({ onStartAssessment }: any) {
     setAssessBtnBorder("0");
     setAssessCursor("pointer");
   };
+
+  if (quizStarted) {
+    return (
+      <LmsQuizPlayer
+        title={SAMPLE_QUIZ.title}
+        description={SAMPLE_QUIZ.description}
+        questions={SAMPLE_QUIZ.questions}
+        passingScore={SAMPLE_QUIZ.passingScore}
+        onComplete={(result) => {
+          if (result.passed) {
+            setAttemptsUsed(attemptsUsed + 1);
+          }
+        }}
+        onBack={() => setQuizStarted(false)}
+      />
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#eef1f6", color: "#0b0b2c", fontFamily: "'Plus Jakarta Sans', sans-serif", padding: "40px 28px 72px" }}>
@@ -111,7 +199,7 @@ export function LmsAssessment({ onStartAssessment }: any) {
               <button
                 onClick={() => {
                   if (assessLocked === "false") {
-                    onStartAssessment?.();
+                    setQuizStarted(true);
                   } else {
                     handleUnlock();
                   }
