@@ -113,55 +113,29 @@ export function LmsModulePlayer({ course, onBack }: any) {
           {/* Video Player */}
           <div
             style={{
-              background: "#0B0B2C",
+              background: "#000",
               borderRadius: "20px",
               overflow: "hidden",
               boxShadow: "0 18px 40px rgba(11,11,44,0.18)",
             }}
           >
-            <div
+            <video
               style={{
-                position: "relative",
+                width: "100%",
                 aspectRatio: "16/9",
-                background: "radial-gradient(120% 120% at 78% 16%, #17176e 0%, #0a0a38 56%, #05051e 100%)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                backgroundColor: "#000",
+                display: "block",
               }}
+              controls
+              controlsList="nodownload"
             >
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  backgroundImage: "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)",
-                  backgroundSize: "36px 36px",
-                  opacity: 0.3,
-                }}
-              ></div>
-              <div style={{ position: "relative", textAlign: "center", padding: "32px" }}>
-                <div
-                  style={{
-                    width: "84px",
-                    height: "84px",
-                    margin: "0 auto",
-                    borderRadius: "50%",
-                    background: "rgba(255,255,255,0.14)",
-                    border: "1px solid rgba(255,255,255,0.28)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Play size={34} color="#fff" fill="#fff" />
-                </div>
-                <div style={{ marginTop: "22px", fontSize: "20px", fontWeight: 700, color: "#fff" }}>
-                  {currentModule.title}
-                </div>
-                <div style={{ marginTop: "8px", fontSize: "14px", color: "rgba(255,255,255,0.5)" }}>
-                  Video player embedded here
-                </div>
-              </div>
-            </div>
+              {currentLesson?.video_url ? (
+                <source src={currentLesson.video_url} type="video/mp4" />
+              ) : (
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+              )}
+              Your browser does not support the video tag.
+            </video>
 
             {/* Progress Bar */}
             <div style={{ padding: "16px 22px", display: "flex", alignItems: "center", gap: "16px", borderTop: "1px solid rgba(255,255,255,0.1)" }}>

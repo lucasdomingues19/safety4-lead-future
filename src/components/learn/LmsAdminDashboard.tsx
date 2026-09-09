@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Plus, ChevronRight } from "lucide-react";
+import { Plus, ChevronRight, Upload } from "lucide-react";
+import { VideoUploadModal } from "./VideoUploadModal";
 
 interface CourseOverview {
   title: string;
@@ -18,6 +19,8 @@ export function LmsAdminDashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "courses" | "users" | "access" | "emails" | "reports" | "billing" | "community">("overview");
   const [newCourseOpen, setNewCourseOpen] = useState(false);
   const [courseType, setCourseType] = useState<"evergreen" | "cohort" | null>(null);
+  const [videoUploadOpen, setVideoUploadOpen] = useState(false);
+  const [uploadedVideo, setUploadedVideo] = useState<{ url: string; name: string } | null>(null);
 
   const [totalLearners] = useState(247);
   const [totalCourses] = useState(3);
@@ -209,36 +212,68 @@ export function LmsAdminDashboard() {
         {/* Courses Tab */}
         {activeTab === "courses" && (
           <div style={{ marginTop: "24px" }}>
-            <button
-              onClick={() => setNewCourseOpen(true)}
-              style={{
-                border: "1px dashed #94a3b8",
-                background: "transparent",
-                color: "#69697b",
-                fontFamily: "inherit",
-                fontSize: "13px",
-                fontWeight: 700,
-                borderRadius: "10px",
-                padding: "11px 18px",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#3434ff";
-                e.currentTarget.style.color = "#3434ff";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#94a3b8";
-                e.currentTarget.style.color = "#69697b";
-              }}
-            >
-              <Plus size={15} />
-              New course
-            </button>
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <button
+                onClick={() => setNewCourseOpen(true)}
+                style={{
+                  border: "1px dashed #94a3b8",
+                  background: "transparent",
+                  color: "#69697b",
+                  fontFamily: "inherit",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  borderRadius: "10px",
+                  padding: "11px 18px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#3434ff";
+                  e.currentTarget.style.color = "#3434ff";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "#94a3b8";
+                  e.currentTarget.style.color = "#69697b";
+                }}
+              >
+                <Plus size={15} />
+                New course
+              </button>
+              <button
+                onClick={() => setVideoUploadOpen(true)}
+                style={{
+                  border: "1px dashed #8ab815",
+                  background: "transparent",
+                  color: "#8ab815",
+                  fontFamily: "inherit",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  borderRadius: "10px",
+                  padding: "11px 18px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#7a9d0e";
+                  e.currentTarget.style.color = "#7a9d0e";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "#8ab815";
+                  e.currentTarget.style.color = "#8ab815";
+                }}
+              >
+                <Upload size={15} />
+                Upload video
+              </button>
+            </div>
 
             {newCourseOpen && (
               <div style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(11,11,44,0.5)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
@@ -518,6 +553,28 @@ export function LmsAdminDashboard() {
           </div>
         )}
       </div>
+
+      {videoUploadOpen && (
+        <VideoUploadModal
+          onClose={() => setVideoUploadOpen(false)}
+          onUploadComplete={(url: string, name: string) => {
+            setUploadedVideo({ url, name });
+            setVideoUploadOpen(false);
+          }}
+        />
+      )}
+
+      {uploadedVideo && (
+        <div style={{ position: "fixed", bottom: "20px", right: "20px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "16px 20px", boxShadow: "0 8px 16px rgba(11,11,44,0.1)", maxWidth: "300px" }}>
+          <div style={{ fontSize: "14px", fontWeight: 700 }}>Video uploaded!</div>
+          <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px", wordBreak: "break-all" }}>
+            {uploadedVideo.name}
+          </div>
+          <div style={{ marginTop: "8px", fontSize: "11px", color: "#3434ff", cursor: "pointer", fontWeight: 600 }} onClick={() => setUploadedVideo(null)}>
+            Dismiss
+          </div>
+        </div>
+      )}
     </div>
   );
 }
