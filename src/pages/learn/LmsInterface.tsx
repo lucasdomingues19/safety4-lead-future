@@ -58,12 +58,7 @@ export default function LmsInterface() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Auth guard
-  useEffect(() => {
-    if (!authLoading && !authUser) {
-      navigate("/learn/auth");
-    }
-  }, [authLoading, authUser, navigate]);
+  // Auth guard - removed, now checked in render
 
   // Load LMS user data
   useEffect(() => {
@@ -155,6 +150,12 @@ export default function LmsInterface() {
         </div>
       </div>
     );
+  }
+
+  if (!authUser) {
+    console.log("Not authenticated, redirecting to login");
+    navigate("/learn/auth", { replace: true });
+    return null;
   }
 
   return (
