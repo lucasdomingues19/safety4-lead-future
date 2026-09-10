@@ -1,19 +1,196 @@
+import { useState } from "react";
+
 export function LmsAdminCourses() {
+  const [selectedCourse, setSelectedCourse] = useState("Microsoft Copilot for EHS");
+  const [settings, setSettings] = useState({
+    preventSkip: true,
+    autoAdvance: true,
+    watchPercentage: "90%",
+    unlockSequence: true,
+    resumeProgress: false,
+  });
+
+  const courses = [
+    "Microsoft Copilot for EHS",
+    "AI Fundamentals for Safety Leaders",
+    "Safety 4.0 Accelerator",
+  ];
+
+  const toggleSetting = (key: string) => {
+    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
-    <div style={{ marginTop: "24px" }}>
-      <button style={{ border: "1px dashed #94a3b8", background: "transparent", color: "#69697b", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, borderRadius: "10px", padding: "11px 18px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", transition: "all 0.2s" }}
-        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3434ff"; e.currentTarget.style.color = "#3434ff"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#94a3b8"; e.currentTarget.style.color = "#69697b"; }}>
-        ✚ New course
-      </button>
-      <div style={{ marginTop: "20px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "24px" }}>
-        <div style={{ fontSize: "14px", fontWeight: 700, marginBottom: "12px" }}>Published Courses</div>
-        {["Copilot for EHS", "Safety 4.0 Fundamentals", "Governance & Compliance"].map((name, idx) => (
-          <div key={idx} style={{ padding: "12px 0", borderBottom: "1px solid #f1f4f8", fontSize: "13px" }}>
-            <div style={{ fontWeight: 600 }}>{name}</div>
-            <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "2px" }}>Active learners</div>
-          </div>
+    <div style={{ marginTop: "28px", fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+      {/* Course Tabs */}
+      <div style={{ marginBottom: "28px", display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+        {courses.map(course => (
+          <button
+            key={course}
+            onClick={() => setSelectedCourse(course)}
+            style={{
+              border: selectedCourse === course ? "2px solid #3434ff" : "1px solid #e2e8f0",
+              background: selectedCourse === course ? "#3434ff" : "#ffffff",
+              color: selectedCourse === course ? "#ffffff" : "#0b0b2c",
+              fontFamily: "inherit",
+              fontSize: "13px",
+              fontWeight: 700,
+              borderRadius: "8px",
+              padding: "10px 14px",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => { if (selectedCourse !== course) { e.currentTarget.style.borderColor = "#3434ff"; } }}
+            onMouseLeave={(e) => { if (selectedCourse !== course) { e.currentTarget.style.borderColor = "#e2e8f0"; } }}
+          >
+            {course}
+          </button>
         ))}
+        <button
+          style={{
+            border: "2px dashed #e2e8f0",
+            background: "transparent",
+            color: "#0b0b2c",
+            fontFamily: "inherit",
+            fontSize: "13px",
+            fontWeight: 700,
+            borderRadius: "8px",
+            padding: "10px 14px",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3434ff"; e.currentTarget.style.color = "#3434ff"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.color = "#0b0b2c"; }}
+        >
+          + New course
+        </button>
+      </div>
+
+      {/* Course Badge */}
+      <div style={{ marginBottom: "28px", background: "#f4fbe4", border: "1px solid #d9f09a", borderRadius: "8px", padding: "12px 16px", display: "inline-flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ fontSize: "11px", fontWeight: 700, color: "#8ab815" }}>● Published · 34 learners</div>
+      </div>
+
+      {/* Settings */}
+      <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden", boxShadow: "0 2px 8px rgba(11,11,44,0.06)" }}>
+        <div style={{ padding: "28px", borderBottom: "1px solid #e2e8f0" }}>
+          <div style={{ fontSize: "16px", fontWeight: 700, color: "#0b0b2c" }}>Playback & progression</div>
+          <div style={{ fontSize: "13px", color: "#69697b", marginTop: "4px" }}>Controls how freely learners can move through a module.</div>
+        </div>
+
+        {/* Settings Rows */}
+        <div style={{ padding: "28px" }}>
+          {[
+            { key: "preventSkip", label: "Prevent skipping ahead", desc: "Forward navigation stays locked until the current slide has been watched. Back and replay remain open." },
+            { key: "autoAdvance", label: "Auto-advance slides", desc: "Modules play through without the learner clicking. Exercise slides always wait." },
+          ].map((setting, idx) => (
+            <div key={setting.key} style={{ paddingBottom: idx < 2 ? "24px" : 0, marginBottom: idx < 2 ? "24px" : 0, borderBottom: idx < 2 ? "1px solid #f1f4f8" : "none", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "20px" }}>
+              <div>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: "#0b0b2c" }}>{setting.label}</div>
+                <div style={{ fontSize: "13px", color: "#69697b", marginTop: "4px" }}>{setting.desc}</div>
+              </div>
+              <div
+                style={{
+                  width: "48px",
+                  height: "28px",
+                  borderRadius: "14px",
+                  background: settings[setting.key as keyof typeof settings] ? "#3434ff" : "#e2e8f0",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "2px",
+                  transition: "all 0.2s ease",
+                  flex: "none",
+                  marginTop: "2px",
+                }}
+                onClick={() => toggleSetting(setting.key)}
+              >
+                <div
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                    borderRadius: "50%",
+                    background: "#ffffff",
+                    transition: "all 0.2s ease",
+                    marginLeft: settings[setting.key as keyof typeof settings] ? "22px" : "2px",
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+
+          {/* Counts as watched at */}
+          <div style={{ paddingTop: "24px", marginTop: "24px", borderTop: "1px solid #f1f4f8" }}>
+            <div style={{ fontSize: "15px", fontWeight: 700, color: "#0b0b2c", marginBottom: "12px" }}>Counts as watched at</div>
+            <div style={{ fontSize: "13px", color: "#69697b", marginBottom: "12px" }}>Share of a slide's narration that must play before it is recorded.</div>
+            <div style={{ display: "flex", gap: "8px" }}>
+              {["80%", "90%", "100%"].map(percent => (
+                <button
+                  key={percent}
+                  onClick={() => setSettings(prev => ({ ...prev, watchPercentage: percent }))}
+                  style={{
+                    border: settings.watchPercentage === percent ? "none" : "1px solid #e2e8f0",
+                    background: settings.watchPercentage === percent ? "#3434ff" : "#ffffff",
+                    color: settings.watchPercentage === percent ? "#ffffff" : "#0b0b2c",
+                    fontFamily: "inherit",
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    borderRadius: "6px",
+                    padding: "8px 12px",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => { if (settings.watchPercentage !== percent) { e.currentTarget.style.borderColor = "#3434ff"; } }}
+                  onMouseLeave={(e) => { if (settings.watchPercentage !== percent) { e.currentTarget.style.borderColor = "#e2e8f0"; } }}
+                >
+                  {percent}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Other toggles */}
+          <div style={{ paddingTop: "24px", marginTop: "24px", borderTop: "1px solid #f1f4f8" }}>
+            {[
+              { key: "unlockSequence", label: "Unlock modules in sequence", desc: "A module stays locked until the previous one is complete." },
+              { key: "resumeProgress", label: "Resume where they left off", desc: "Learners land on the last slide they visited, not the beginning." },
+            ].map((setting, idx) => (
+              <div key={setting.key} style={{ paddingBottom: idx < 2 ? "24px" : 0, marginBottom: idx < 2 ? "24px" : 0, borderBottom: idx < 2 ? "1px solid #f1f4f8" : "none", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "20px" }}>
+                <div>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: "#0b0b2c" }}>{setting.label}</div>
+                  <div style={{ fontSize: "13px", color: "#69697b", marginTop: "4px" }}>{setting.desc}</div>
+                </div>
+                <div
+                  style={{
+                    width: "48px",
+                    height: "28px",
+                    borderRadius: "14px",
+                    background: settings[setting.key as keyof typeof settings] ? "#3434ff" : "#e2e8f0",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "2px",
+                    transition: "all 0.2s ease",
+                    flex: "none",
+                    marginTop: "2px",
+                  }}
+                  onClick={() => toggleSetting(setting.key)}
+                >
+                  <div
+                    style={{
+                      width: "24px",
+                      height: "24px",
+                      borderRadius: "50%",
+                      background: "#ffffff",
+                      transition: "all 0.2s ease",
+                      marginLeft: settings[setting.key as keyof typeof settings] ? "22px" : "2px",
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
