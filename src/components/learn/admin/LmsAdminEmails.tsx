@@ -6,7 +6,13 @@ export function LmsAdminEmails() {
     { id: 1, title: "Course purchased", description: "Sent the moment checkout completes, with login details and a link to start.", enabled: true, template: '"YOU\'RE IN — WELCOME TO "' },
     { id: 2, title: "Community subscription started", description: "Welcomes a new Community member and links to the discussion boards.", enabled: true, template: '"WELCOME TO THE COMMUNITY"' },
     { id: 3, title: "Offer or access granted", description: "Fires for both manual grants and purchase-triggered grants, listing what was unlocked.", enabled: true, template: '"YOU\'VE BEEN GRANTED ACCESS TO "' },
-    { id: 4, title: "Course idle too long", description: "Reminder for learners who haven't engaged in a while. Turn off if you prefer not to send.", enabled: true, template: undefined },
+    { id: 4, title: "Course idle too long", description: "A re-engagement nudge if a learner has made no progress for 14 days. Editable per course.", enabled: true, template: '"STILL WANT TO FINISH "' },
+    { id: 5, title: "Module completed", description: "A short congratulations with what unlocks next.", enabled: true, template: '"NICELY DONE — MODULE COMPLETE"' },
+    { id: 6, title: "Course completed & certificate issued", description: "Sends the certificate PDF and a request for a review.", enabled: true, template: '"YOUR CERTIFICATE IS READY"' },
+    { id: 7, title: "Access expiring soon", description: "Warns a learner 7 days before a time-limited grant expires.", enabled: true, template: '"YOUR ACCESS EXPIRES SOON"' },
+    { id: 8, title: "Assessment passed", description: "Confirms the result and, once Syngraph AI issues it, links to the certificate.", enabled: true, template: '"YOU PASSED — NICE WORK"' },
+    { id: 9, title: "Assessment failed", description: "Shows the score, what to review, and how to book a retake.", enabled: true, template: '"SO CLOSE — LET\'S TRY AGAIN"' },
+    { id: 10, title: "New community post", description: "Notifies the space's members when someone posts. Anyone @mentioned gets notified regardless of space settings.", enabled: true, template: '"NEW POST IN "' },
   ]);
 
   const toggleAutomation = (id: number) => {
@@ -116,6 +122,26 @@ export function LmsAdminEmails() {
             </div>
           </div>
         ))}
+        <div style={{ padding: "20px 28px", borderTop: "1px solid #f1f4f8" }}>
+          <button
+            style={{
+              border: "2px dashed #e2e8f0",
+              background: "transparent",
+              color: "#0b0b2c",
+              fontFamily: "inherit",
+              fontSize: "13px",
+              fontWeight: 700,
+              borderRadius: "8px",
+              padding: "12px 16px",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3434ff"; e.currentTarget.style.color = "#3434ff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.color = "#0b0b2c"; }}
+          >
+            + Create new template
+          </button>
+        </div>
       </div>
     </div>
   );
