@@ -38,34 +38,35 @@ interface LmsContextType {
 export const LmsContext = React.createContext<LmsContextType | null>(null);
 
 export default function LmsInterface() {
-  const { user: authUser, loading: authLoading } = useAuthUser();
-  const navigate = useNavigate();
+  try {
+    const { user: authUser, loading: authLoading } = useAuthUser();
+    const navigate = useNavigate();
 
-  // UI State
-  const [railOpen, setRailOpen] = useState(true);
-  const [railWidth, setRailWidth] = useState(railOpen ? 240 : 80);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [notifsOpen, setNotifsOpen] = useState(false);
+    // UI State
+    const [railOpen, setRailOpen] = useState(true);
+    const [railWidth, setRailWidth] = useState(railOpen ? 240 : 80);
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [notifsOpen, setNotifsOpen] = useState(false);
 
-  // Screen State
-  const [screen, setScreen] = useState<"dash" | "community" | "course" | "player" | "settings" | "support" | "admin">("dash");
-  const [adminTab, setAdminTab] = useState<"overview" | "courses" | "users" | "access" | "emails" | "reports" | "billing" | "community">("overview");
+    // Screen State
+    const [screen, setScreen] = useState<"dash" | "community" | "course" | "player" | "settings" | "support" | "admin">("dash");
+    const [adminTab, setAdminTab] = useState<"overview" | "courses" | "users" | "access" | "emails" | "reports" | "billing" | "community">("overview");
 
-  // Data
-  const [lmsUser, setLmsUser] = useState<LmsUser | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [currentCourse, setCurrentCourse] = useState<any>(null);
-  const [notifications, setNotifications] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+    // Data
+    const [lmsUser, setLmsUser] = useState<LmsUser | null>(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [currentCourse, setCurrentCourse] = useState<any>(null);
+    const [notifications, setNotifications] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
-  // Auth guard - removed, now checked in render
+    // Auth guard - removed, now checked in render
 
-  // Load LMS user data
-  useEffect(() => {
-    if (authUser) {
-      loadLmsUser();
-    }
-  }, [authUser]);
+    // Load LMS user data
+    useEffect(() => {
+      if (authUser) {
+        loadLmsUser();
+      }
+    }, [authUser]);
 
   const loadLmsUser = async () => {
     if (!authUser) return;
@@ -473,7 +474,27 @@ export default function LmsInterface() {
         }
       `}</style>
     </LmsContext.Provider>
-  );
+    );
+  } catch (error) {
+    console.error("LmsInterface Error:", error);
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#eef1f6", flexDirection: "column", gap: "20px", padding: "20px" }}>
+        <div style={{ textAlign: "center", color: "#0b0b2c", maxWidth: "600px" }}>
+          <h1 style={{ fontSize: "24px", fontWeight: "700", margin: "0 0 10px" }}>LMS Loading Error</h1>
+          <p style={{ fontSize: "14px", color: "#69697b", margin: 0 }}>The learning page encountered an error and couldn't load.</p>
+          <pre style={{ background: "#f1f4ff", padding: "15px", borderRadius: "8px", overflow: "auto", fontSize: "12px", color: "#3434ff", marginTop: "20px", textAlign: "left" }}>
+            {String(error)}
+          </pre>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ marginTop: "20px", padding: "12px 24px", background: "#3434ff", color: "#fff", border: "0", borderRadius: "8px", cursor: "pointer", fontFamily: "inherit", fontWeight: "700", fontSize: "14px" }}
+          >
+            Reload Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 // Nav Button Component
