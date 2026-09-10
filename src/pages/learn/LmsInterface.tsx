@@ -5,21 +5,21 @@ import { useAuthUser } from "@/hooks/useAuthUser";
 import { Menu, Home, Users, Settings, HelpCircle, LogOut, Search, Bell, BookOpen, Shield, BarChart3, CreditCard, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 
-// Screen components (to be built)
-import { LmsDashboard } from "@/components/learn/LmsDashboard";
-import { LmsCommunity } from "@/components/learn/LmsCommunity";
-import { LmsCourseView } from "@/components/learn/LmsCourseView";
-import { LmsModulePlayer } from "@/components/learn/LmsModulePlayer";
-import { LmsSettings } from "@/components/learn/LmsSettings";
-import { LmsSupport } from "@/components/learn/LmsSupport";
-import { LmsAdminOverview } from "@/components/learn/admin/LmsAdminOverview";
-import { LmsAdminCourses } from "@/components/learn/admin/LmsAdminCourses";
-import { LmsAdminUsers } from "@/components/learn/admin/LmsAdminUsers";
-import { LmsAdminAccess } from "@/components/learn/admin/LmsAdminAccess";
-import { LmsAdminEmails } from "@/components/learn/admin/LmsAdminEmails";
-import { LmsAdminReports } from "@/components/learn/admin/LmsAdminReports";
-import { LmsAdminBilling } from "@/components/learn/admin/LmsAdminBilling";
-import { LmsAdminCommunity } from "@/components/learn/admin/LmsAdminCommunity";
+// Screen components - lazy load to isolate errors
+const LmsDashboard = React.lazy(() => import("@/components/learn/LmsDashboard").then(m => ({ default: m.LmsDashboard })));
+const LmsCommunity = React.lazy(() => import("@/components/learn/LmsCommunity").then(m => ({ default: m.LmsCommunity })));
+const LmsCourseView = React.lazy(() => import("@/components/learn/LmsCourseView").then(m => ({ default: m.LmsCourseView })));
+const LmsModulePlayer = React.lazy(() => import("@/components/learn/LmsModulePlayer").then(m => ({ default: m.LmsModulePlayer })));
+const LmsSettings = React.lazy(() => import("@/components/learn/LmsSettings").then(m => ({ default: m.LmsSettings })));
+const LmsSupport = React.lazy(() => import("@/components/learn/LmsSupport").then(m => ({ default: m.LmsSupport })));
+const LmsAdminOverview = React.lazy(() => import("@/components/learn/admin/LmsAdminOverview").then(m => ({ default: m.LmsAdminOverview })));
+const LmsAdminCourses = React.lazy(() => import("@/components/learn/admin/LmsAdminCourses").then(m => ({ default: m.LmsAdminCourses })));
+const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdminUsers").then(m => ({ default: m.LmsAdminUsers })));
+const LmsAdminAccess = React.lazy(() => import("@/components/learn/admin/LmsAdminAccess").then(m => ({ default: m.LmsAdminAccess })));
+const LmsAdminEmails = React.lazy(() => import("@/components/learn/admin/LmsAdminEmails").then(m => ({ default: m.LmsAdminEmails })));
+const LmsAdminReports = React.lazy(() => import("@/components/learn/admin/LmsAdminReports").then(m => ({ default: m.LmsAdminReports })));
+const LmsAdminBilling = React.lazy(() => import("@/components/learn/admin/LmsAdminBilling").then(m => ({ default: m.LmsAdminBilling })));
+const LmsAdminCommunity = React.lazy(() => import("@/components/learn/admin/LmsAdminCommunity").then(m => ({ default: m.LmsAdminCommunity })));
 
 interface LmsUser {
   id: string;
@@ -123,23 +123,36 @@ export default function LmsInterface() {
 
   // Render screen
   const renderScreen = () => {
-    if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
-    if (screen === "community") return <LmsCommunity />;
-    if (screen === "course") return <LmsCourseView course={currentCourse} />;
-    if (screen === "player") return <LmsModulePlayer course={currentCourse} />;
-    if (screen === "settings") return <LmsSettings />;
-    if (screen === "support") return <LmsSupport />;
-    if (screen === "admin") {
-      if (adminTab === "overview") return <LmsAdminOverview />;
-      if (adminTab === "courses") return <LmsAdminCourses />;
-      if (adminTab === "users") return <LmsAdminUsers />;
-      if (adminTab === "access") return <LmsAdminAccess />;
-      if (adminTab === "emails") return <LmsAdminEmails />;
-      if (adminTab === "reports") return <LmsAdminReports />;
-      if (adminTab === "billing") return <LmsAdminBilling />;
-      if (adminTab === "community") return <LmsAdminCommunity />;
-    }
-    return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
+    const content = (() => {
+      if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
+      if (screen === "community") return <LmsCommunity />;
+      if (screen === "course") return <LmsCourseView course={currentCourse} />;
+      if (screen === "player") return <LmsModulePlayer course={currentCourse} />;
+      if (screen === "settings") return <LmsSettings />;
+      if (screen === "support") return <LmsSupport />;
+      if (screen === "admin") {
+        if (adminTab === "overview") return <LmsAdminOverview />;
+        if (adminTab === "courses") return <LmsAdminCourses />;
+        if (adminTab === "users") return <LmsAdminUsers />;
+        if (adminTab === "access") return <LmsAdminAccess />;
+        if (adminTab === "emails") return <LmsAdminEmails />;
+        if (adminTab === "reports") return <LmsAdminReports />;
+        if (adminTab === "billing") return <LmsAdminBilling />;
+        if (adminTab === "community") return <LmsAdminCommunity />;
+      }
+      return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
+    })();
+
+    return (
+      <React.Suspense fallback={<div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#eef1f6" }}>
+        <div style={{ textAlign: "center", color: "#0b0b2c" }}>
+          <div style={{ fontSize: "14px", marginBottom: "12px" }}>Loading...</div>
+          <div style={{ width: "32px", height: "32px", border: "3px solid #e2e8f0", borderTop: "3px solid #3434ff", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
+        </div>
+      </div>}>
+        {content}
+      </React.Suspense>
+    );
   };
 
   if (authLoading) {
