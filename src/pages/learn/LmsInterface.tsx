@@ -127,7 +127,7 @@ export default function LmsInterface() {
 
   // Render screen
   const renderScreen = () => {
-    if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} />;
+    if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
     if (screen === "community") return <LmsCommunity />;
     if (screen === "course") return <LmsCourseView course={currentCourse} />;
     if (screen === "player") return <LmsModulePlayer course={currentCourse} />;
@@ -143,7 +143,7 @@ export default function LmsInterface() {
       if (adminTab === "billing") return <LmsAdminBilling />;
       if (adminTab === "community") return <LmsAdminCommunity />;
     }
-    return <LmsDashboard currentCourse={currentCourse} />;
+    return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
   };
 
   if (authLoading) {
