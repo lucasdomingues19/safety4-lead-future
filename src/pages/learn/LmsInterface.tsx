@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, Search, Bell, BookOpen, Shield, BarChart3, CreditCard, MessageCircle } from "lucide-react";
+import { Menu, Home, Users, Settings, HelpCircle, LogOut, Search, Bell, BookOpen, Shield, BarChart3, CreditCard, MessageCircle, Award } from "lucide-react";
 import { toast } from "sonner";
 
 // Screen components - lazy load to isolate errors
