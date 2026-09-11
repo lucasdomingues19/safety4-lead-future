@@ -2,10 +2,15 @@ import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { sendEventRegistrationEmail } from "@/lib/email";
 
 interface Event {
   id: string;
   title: string;
+  description?: string;
+  date: string;
+  time: string;
+  location: string;
   zoom_link: string | null;
 }
 
@@ -62,9 +67,25 @@ export default function EventRegistrationModal({
 
       if (error) throw error;
 
+      // Send confirmation email
+      const emailSent = await sendEventRegistrationEmail({
+        name: formData.name,
+        email: formData.email,
+        eventTitle: event.title,
+        eventDate: event.date,
+        eventTime: event.time,
+        eventDescription: event.description || "Join us for this exciting event!",
+        zoomLink: event.zoom_link,
+        location: event.location,
+      });
+
       // Show success message
       setSubmitted(true);
-      toast.success("Registration successful! Check your email for the Zoom link.");
+      if (emailSent) {
+        toast.success("Registration confirmed! Check your email for the Zoom link.");
+      } else {
+        toast.success("Registration successful! (Email delivery delayed)");
+      }
 
       // Reset form after 3 seconds
       setTimeout(() => {
