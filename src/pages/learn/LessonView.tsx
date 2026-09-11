@@ -30,6 +30,7 @@ import {
   type Quiz,
   type QuizQuestion,
 } from "@/lib/lms";
+import { verifyEnrollmentAccess } from "@/lib/stripe";
 
 const LessonView = () => {
   const { courseSlug, lessonId } = useParams();
@@ -82,6 +83,15 @@ const LessonView = () => {
         navigate("/learn");
         return;
       }
+
+      // Verify enrollment access (checks subscription status for paid courses)
+      const hasAccess = await verifyEnrollmentAccess(user.id, courseData.id);
+      if (!hasAccess) {
+        toast.error("Your enrollment has expired or is not active");
+        navigate("/learn");
+        return;
+      }
+
       setEnrollment(enr as Enrollment);
 
       const { data: moduleRows } = await supabase
