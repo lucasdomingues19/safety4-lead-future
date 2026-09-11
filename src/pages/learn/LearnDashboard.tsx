@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Loader2, BookOpen, GraduationCap, ArrowRight } from "lucide-react";
 import { formatPrice, type Course } from "@/lib/lms";
+import { createCheckoutSession } from "@/lib/stripe";
 
 interface CourseWithProgress extends Course {
   progressPercent: number;
@@ -86,16 +87,37 @@ const LearnDashboard = () => {
     if (!user) return;
     setEnrollingId(course.id);
     try {
-      const { error } = await supabase.from("enrollments").insert({
-        user_id: user.id,
-        course_id: course.id,
-      });
-      if (error) throw error;
-      toast.success(`Enrolled in ${course.title}`);
-      navigate(`/learn/${course.slug}`);
+      // Check if course is free or paid
+      const isFree = !course.price_cents || course.price_cents <= 0;
+
+      if (isFree) {
+        // Free course: direct enrollment
+        const { error } = await supabase.from("enrollments").insert({
+          user_id: user.id,
+          course_id: course.id,
+          status: "active",
+          enrolled_at: new Date().toISOString(),
+        });
+        if (error) throw error;
+        toast.success(`Enrolled in ${course.title}`);
+        navigate(`/learn/${course.slug}`);
+      } else {
+        // Paid course: redirect to Stripe checkout
+        toast.info("Redirecting to payment...");
+        const { sessionId, url } = await createCheckoutSession({
+          courseId: course.id,
+          userId: user.id,
+          priceCents: course.price_cents,
+          courseTitle: course.title,
+          userEmail: user.email || "",
+        });
+
+        // Redirect to Stripe checkout
+        window.location.href = url;
+      }
     } catch (err) {
       console.error(err);
-      toast.error("Enrolment failed");
+      toast.error("Failed to process enrollment");
     } finally {
       setEnrollingId(null);
     }
