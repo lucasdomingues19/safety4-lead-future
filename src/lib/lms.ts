@@ -6,8 +6,11 @@ export interface Course {
   slug: string;
   description: string | null;
   instructor_id: string | null;
-  price: number | null;
+  price_cents: number | null;
+  currency: string;
   stripe_product_id: string | null;
+  cover_image_url: string | null;
+  cpd_hours: number | null;
   published: boolean;
   published_at: string | null;
   created_at: string;
@@ -73,7 +76,7 @@ export interface Certificate {
 
 export interface Quiz {
   id: string;
-  lesson_id: string;
+  module_id: string;
   title: string;
   description: string | null;
   passing_score: number;
@@ -93,6 +96,18 @@ export interface QuizQuestion {
   updated_at: string;
 }
 
+export interface QuizAttempt {
+  id: string;
+  user_id: string;
+  quiz_id: string;
+  score: number;
+  passed: boolean;
+  answers: Record<string, string>;
+  started_at: string;
+  submitted_at: string | null;
+  created_at: string;
+}
+
 /** Normalize raw lesson rows to add computed duration_minutes field. */
 export const asLessons = (rows: unknown[] | null | undefined): Lesson[] =>
   ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
@@ -109,17 +124,18 @@ export const asQuizQuestions = (rows: unknown[] | null | undefined): QuizQuestio
     options: (r as any).options ? JSON.parse((r as any).options) : null,
   }));
 
-/** Format a price to a localized currency string. */
-export const formatPrice = (price: number | null | undefined, currency = "GBP"): string => {
-  if (!price) return "Free";
+/** Format a price (in cents) to a localized currency string. */
+export const formatPrice = (priceCents: number | null | undefined, currency = "GBP"): string => {
+  if (!priceCents || priceCents <= 0) return "Free";
   try {
+    const priceInUnits = priceCents / 100;
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
       currency,
       minimumFractionDigits: 0,
-    }).format(price);
+    }).format(priceInUnits);
   } catch {
-    return `£${price.toFixed(0)}`;
+    return `£${(priceCents / 100).toFixed(0)}`;
   }
 };
 
