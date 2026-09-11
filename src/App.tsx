@@ -46,7 +46,7 @@ const GuidesHub = lazy(() => import("./pages/Guides"));
 const GuidePage = lazy(() => import("./pages/Guide"));
 const ProposalPage = lazy(() => import("./pages/Proposal"));
 const Events = lazy(() => import("./pages/Events"));
-const Brochure = lazy(() => import("./pages/Brochure"));
+const Brochure = lazy(() => import("./pages/BrochureInteractive"));
 
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
