@@ -77,7 +77,8 @@ export default function LmsInterface() {
         .eq("id", authUser.id)
         .single();
 
-      const { data: roles } = await supabase
+      // Check if user is admin (optional - regular users may not have a role entry)
+      const { data: roles, error: rolesError } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", authUser.id)
@@ -90,7 +91,8 @@ export default function LmsInterface() {
         avatar_url: profile?.avatar_url,
       });
 
-      setIsAdmin(roles?.role === "admin");
+      // Only set as admin if role exists and equals "admin"
+      setIsAdmin(roles?.role === "admin" && !rolesError);
     } catch (err) {
       console.error("Error loading LMS user:", err);
       toast.error("Could not load user profile");
