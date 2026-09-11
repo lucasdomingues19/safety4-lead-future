@@ -16,6 +16,7 @@ import {
   type Lesson,
   type Enrollment,
 } from "@/lib/lms";
+import { verifyEnrollmentAccess } from "@/lib/stripe";
 
 interface ModuleWithLessons extends Module {
   lessons: Lesson[];
@@ -69,6 +70,15 @@ const CourseView = () => {
         navigate("/learn");
         return;
       }
+
+      // Verify enrollment access (checks subscription status for paid courses)
+      const hasAccess = await verifyEnrollmentAccess(user.id, courseData.id);
+      if (!hasAccess) {
+        toast.error("Your enrollment has expired or is not active");
+        navigate("/learn");
+        return;
+      }
+
       setEnrollment(enr as Enrollment);
 
       const { data: moduleRows } = await supabase
