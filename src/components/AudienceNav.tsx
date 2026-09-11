@@ -27,6 +27,7 @@ const navLinks = [
   {
     label: "Resources",
     children: [
+      { label: "Events", href: "/events" },
       { label: "Guides", href: "/guides" },
       { label: "AI in EHS Governance Readiness", href: "/governance-readiness" },
       { label: "Digital Maturity Scorecard", href: "/scorecard" },
