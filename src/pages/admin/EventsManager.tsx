@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Plus, Edit2, Trash2, Eye, EyeOff } from "lucide-react";
+import { Loader2, Plus, Edit2, Trash2, Eye, EyeOff, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface Event {
@@ -37,6 +37,9 @@ export default function EventsManager() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
@@ -81,6 +84,56 @@ export default function EventsManager() {
     }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be less than 5MB");
+      return;
+    }
+
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const uploadImage = async (file: File): Promise<string | null> => {
+    try {
+      setUploading(true);
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `events/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("events")
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from("events")
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    } catch (err) {
+      toast.error("Failed to upload image");
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -90,10 +143,22 @@ export default function EventsManager() {
     }
 
     try {
+      let imageUrl = formData.image_url;
+
+      // Upload image if a new file was selected
+      if (imageFile) {
+        const uploadedUrl = await uploadImage(imageFile);
+        if (!uploadedUrl) {
+          toast.error("Failed to upload image. Event not saved.");
+          return;
+        }
+        imageUrl = uploadedUrl;
+      }
+
       const eventData = {
         title: formData.title,
         description: formData.description,
-        image_url: formData.image_url || null,
+        image_url: imageUrl || null,
         date: formData.date,
         time: formData.time,
         location: formData.location,
@@ -136,6 +201,8 @@ export default function EventsManager() {
       registered: event.registered.toString(),
       published: event.published,
     });
+    setImagePreview(event.image_url || "");
+    setImageFile(null);
     setEditingId(event.id);
     setShowForm(true);
   };
@@ -182,6 +249,8 @@ export default function EventsManager() {
       registered: "0",
       published: false,
     });
+    setImageFile(null);
+    setImagePreview("");
     setEditingId(null);
     setShowForm(false);
   };
@@ -268,14 +337,45 @@ export default function EventsManager() {
             className="w-full px-4 py-2 border border-slate-200 rounded-[8px] focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
-          <input
-            type="url"
-            name="image_url"
-            placeholder="Image URL"
-            value={formData.image_url}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border border-slate-200 rounded-[8px] focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          {/* Image Upload Section */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-[#0b0b2c]">
+              Event Image
+            </label>
+            {imagePreview && (
+              <div className="relative w-32 h-32 rounded-[8px] overflow-hidden border border-slate-200">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImagePreview("");
+                    setImageFile(null);
+                  }}
+                  className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded hover:bg-red-600"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )}
+            <div className="relative border-2 border-dashed border-slate-300 rounded-[8px] p-6 text-center hover:border-primary transition-colors">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                disabled={uploading}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+              />
+              <Upload className="w-8 h-8 mx-auto mb-2 text-slate-400" />
+              <p className="text-sm text-[#69697b]">
+                {uploading ? "Uploading..." : "Click to upload or drag and drop"}
+              </p>
+              <p className="text-xs text-[#94a3b8] mt-1">PNG, JPG up to 5MB</p>
+            </div>
+          </div>
 
           <input
             type="url"
