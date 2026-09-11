@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import Index from "./pages/Index";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
 const ChatWidget = lazy(() => import("./components/ChatWidget").then(m => ({ default: m.ChatWidget })));
 const GovernanceReadinessGate = lazy(() => import("./components/GovernanceReadinessGate"));
@@ -183,9 +184,9 @@ const App = () => (
 
 
             <Route path="/learn/auth" element={<LearnAuth />} />
-            <Route path="/learn" element={<LmsInterface />} />
-            <Route path="/learn/:courseSlug" element={<CourseView />} />
-            <Route path="/learn/:courseSlug/lesson/:lessonId" element={<LessonView />} />
+            <Route path="/learn" element={<ProtectedRoute><LmsInterface /></ProtectedRoute>} />
+            <Route path="/learn/:courseSlug" element={<ProtectedRoute><CourseView /></ProtectedRoute>} />
+            <Route path="/learn/:courseSlug/lesson/:lessonId" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />
             <Route path="/admin/courses" element={<CourseManager />} />
             <Route path="/phase2-test" element={<Phase2Test />} />
             <Route path="/phase2" element={<Phase2Redesigned />} />
