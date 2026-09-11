@@ -27,6 +27,7 @@ const navLinks = [
   {
     label: "Resources",
     children: [
+      { label: "Brochure", href: "/brochure" },
       { label: "Events", href: "/events" },
       { label: "Guides", href: "/guides" },
       { label: "AI in EHS Governance Readiness", href: "/governance-readiness" },
