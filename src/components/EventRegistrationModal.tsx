@@ -6,7 +6,7 @@ import { toast } from "sonner";
 interface Event {
   id: string;
   title: string;
-  zoomLink: string;
+  zoom_link: string | null;
 }
 
 interface EventRegistrationModalProps {

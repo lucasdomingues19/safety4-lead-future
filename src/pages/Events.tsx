@@ -5,64 +5,30 @@ import { Footer } from "@/components/Footer";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import EventRegistrationModal from "@/components/EventRegistrationModal";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Event {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image_url: string | null;
   date: string;
   time: string;
   location: string;
-  zoomLink: string;
+  zoom_link: string | null;
   capacity: number;
   registered: number;
+  published: boolean;
 }
 
 const Events = () => {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [showRegistration, setShowRegistration] = useState(false);
 
-  const events: Event[] = [
-    {
-      id: "1",
-      title: "AI & Safety Leadership Masterclass",
-      description: "Join us for an interactive masterclass on leveraging AI tools to transform your safety leadership approach. Learn practical strategies from industry experts.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop",
-      date: "October 15, 2024",
-      time: "2:00 pm - 3:30 pm UTC",
-      location: "Online via Zoom",
-      zoomLink: "https://zoom.us/j/meeting",
-      capacity: 500,
-      registered: 287,
-    },
-    {
-      id: "2",
-      title: "Safety 4.0 Implementation Workshop",
-      description: "A comprehensive workshop covering best practices for implementing Safety 4.0 principles in your organization. Includes case studies and live Q&A.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop",
-      date: "October 22, 2024",
-      time: "3:00 pm - 4:30 pm UTC",
-      location: "Online via Zoom",
-      zoomLink: "https://zoom.us/j/meeting",
-      capacity: 400,
-      registered: 156,
-    },
-    {
-      id: "3",
-      title: "Copilot for EHS Hands-On Demo",
-      description: "See Microsoft Copilot in action for EHS professionals. This interactive session covers real-world applications and time-saving automation techniques.",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=400&fit=crop",
-      date: "October 29, 2024",
-      time: "4:00 pm - 5:00 pm UTC",
-      location: "Online via Zoom",
-      zoomLink: "https://zoom.us/j/meeting",
-      capacity: 300,
-      registered: 198,
-    },
-  ];
-
   useEffect(() => {
+    fetchEvents();
     trackPageView(window.location.pathname);
     setPageSEO({
       title: "Upcoming Events — SafetyTech Academy",
@@ -70,6 +36,24 @@ const Events = () => {
       canonical: "https://safetytech.academy/events",
     });
   }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .eq("published", true)
+        .order("date", { ascending: true });
+
+      if (error) throw error;
+      setEvents(data || []);
+    } catch (err) {
+      console.error("Failed to load events:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -88,20 +72,33 @@ const Events = () => {
 
         {/* Events Grid */}
         <div className="space-y-8">
-          {events.map((event) => (
-            <div
-              key={event.id}
-              className="group bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
-            >
-              <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
-                {/* Event Image */}
-                <div className="relative h-64 md:h-full rounded-[12px] overflow-hidden bg-gray-200 group-hover:scale-[1.02] transition-transform duration-300 flex-shrink-0">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+          {loading ? (
+            <div className="text-center py-12 text-[#69697b]">Loading events...</div>
+          ) : events.length === 0 ? (
+            <div className="text-center py-12 text-[#69697b]">
+              No upcoming events. Check back soon!
+            </div>
+          ) : (
+            events.map((event) => (
+              <div
+                key={event.id}
+                className="group bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+              >
+                <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
+                  {/* Event Image */}
+                  <div className="relative h-64 md:h-full rounded-[12px] overflow-hidden bg-gray-200 group-hover:scale-[1.02] transition-transform duration-300 flex-shrink-0">
+                    {event.image_url ? (
+                      <img
+                        src={event.image_url}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[#69697b]">
+                        No image available
+                      </div>
+                    )}
+                  </div>
 
                 {/* Event Details */}
                 <div className="flex flex-col justify-between">
@@ -159,7 +156,8 @@ const Events = () => {
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* CTA Section */}

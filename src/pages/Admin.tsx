@@ -16,6 +16,7 @@ import { CompanyInsightsTab } from "@/components/admin/CompanyInsightsTab";
 import { CertificatesTab } from "@/components/admin/CertificatesTab";
 import { ProposalsTab } from "@/components/admin/ProposalsTab";
 import { BlogManager } from "@/components/admin/BlogManager";
+import EventsManager from "@/pages/admin/EventsManager";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { ZOOM_SCHEDULER_URL, openWhatsAppBusiness, getWhatsAppLeadMessage } from "@/lib/outreach";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
@@ -89,7 +90,7 @@ const Admin = () => {
   };
   const [stats, setStats] = useState<Stats | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals' | 'blog'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'leads' | 'hotleads' | 'company' | 'certificates' | 'proposals' | 'blog' | 'events'>('analytics');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [scorecardResults, setScorecardResults] = useState<Record<string, ScorecardResult>>({});
   const [dateRange, setDateRange] = useState<DateRange>('30days');
@@ -697,6 +698,14 @@ const Admin = () => {
             <Newspaper className="mr-2 h-4 w-4" />
             Blog
           </Button>
+          <Button
+            onClick={() => setActiveTab('events')}
+            variant={activeTab === 'events' ? 'default' : 'outline'}
+            className={activeTab === 'events' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800'}
+          >
+            <Calendar className="mr-2 h-4 w-4" />
+            Events
+          </Button>
         </div>
 
 
@@ -1012,6 +1021,8 @@ const Admin = () => {
         {activeTab === 'proposals' && <ProposalsTab />}
 
         {activeTab === 'blog' && <BlogManager />}
+
+        {activeTab === 'events' && <EventsManager />}
 
         {/* Leads Tab */}
         {activeTab === 'leads' && (
