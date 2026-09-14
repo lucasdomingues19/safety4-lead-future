@@ -240,12 +240,12 @@ const LessonView = () => {
       <main className="container mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[1fr_320px]">
         {/* Main content */}
         <div className="min-w-0">
-          <Link
-            to={`/learn/${courseSlug}`}
-            className="mb-4 inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" /> {course.title}
-          </Link>
+          <div className="mb-4 text-sm text-white/60">
+            <Link to={`/learn/${courseSlug}`} className="hover:text-white">My course</Link>
+            {currentModule && (
+              <> / <span className="text-white">{currentModule.title}</span></>
+            )}
+          </div>
 
           {embed ? (
             <div className="aspect-video w-full overflow-hidden rounded-xl border-2 border-primary bg-black">
@@ -307,49 +307,34 @@ const LessonView = () => {
         {/* Sidebar curriculum */}
         <aside className="lg:sticky lg:top-20 lg:self-start">
           <Card className="border-white/10 bg-card p-4">
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-white/60">
-              Course content
+            <h2 className="mb-4 text-sm font-semibold text-white">
+              In this module
             </h2>
-            <div className="space-y-4">
-              {modules.map((m) => {
-                const unlocked = isModuleUnlocked(m, enrollment?.enrolled_at);
-                const mLessons = lessons
-                  .filter((l) => l.module_id === m.id)
-                  .sort((a, b) => a.position - b.position);
-                return (
-                  <div key={m.id}>
-                    <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-white/40">
-                      {m.title}
-                    </p>
-                    <div className="space-y-0.5">
-                      {mLessons.map((l) => {
-                        const active = l.id === currentLesson.id;
-                        const done = completedIds.has(l.id);
-                        return (
-                          <button
-                            key={l.id}
-                            type="button"
-                            disabled={!unlocked}
-                            onClick={() => navigate(`/learn/${courseSlug}/lesson/${l.id}`)}
-                            className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors disabled:opacity-50 ${
-                              active ? "bg-primary/15 text-white" : "text-white/70 hover:bg-white/5"
-                            }`}
-                          >
-                            {!unlocked ? (
-                              <Lock className="h-4 w-4 shrink-0 text-white/40" />
-                            ) : done ? (
-                              <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                            ) : (
-                              <PlayCircle className="h-4 w-4 shrink-0 text-white/50" />
-                            )}
-                            <span className="truncate">{l.title}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="space-y-2">
+              {currentModule && lessons
+                .filter((l) => l.module_id === currentModule.id)
+                .sort((a, b) => a.position - b.position)
+                .map((l) => {
+                  const active = l.id === currentLesson.id;
+                  const done = completedIds.has(l.id);
+                  return (
+                    <button
+                      key={l.id}
+                      type="button"
+                      onClick={() => navigate(`/learn/${courseSlug}/lesson/${l.id}`)}
+                      className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
+                        active ? "bg-primary/15 text-white" : "text-white/70 hover:bg-white/5"
+                      }`}
+                    >
+                      {done ? (
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                      ) : (
+                        <PlayCircle className="h-4 w-4 shrink-0 text-white/50" />
+                      )}
+                      <span className="truncate">{l.title}</span>
+                    </button>
+                  );
+                })}
             </div>
           </Card>
         </aside>
