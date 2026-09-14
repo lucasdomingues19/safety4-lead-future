@@ -66,13 +66,25 @@ const BrochureInteractive = () => {
     }
   };
 
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = "/brochure.pdf";
-    link.download = "Safety4.0-Academy-Brochure.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async () => {
+    try {
+      const response = await fetch("/brochure.pdf");
+      if (!response.ok) throw new Error("Failed to fetch PDF");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Safety4.0-Academy-Brochure.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      toast.success("Download started!");
+    } catch (err) {
+      console.error("Download error:", err);
+      toast.error("Failed to download PDF");
+    }
   };
 
   return (
@@ -93,17 +105,17 @@ const BrochureInteractive = () => {
         {/* Main Content */}
         <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 28px", display: "grid", gridTemplateColumns: "1fr 380px", gap: "40px", alignItems: "start" }}>
           {/* PDF Viewer */}
-          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden", boxShadow: "0 10px 30px rgba(11,11,44,0.1)" }}>
-            <div style={{ background: "#fff", aspectRatio: "8.5/11", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", minHeight: "800px" }}>
+          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "visible", boxShadow: "0 10px 30px rgba(11,11,44,0.1)", display: "flex", flexDirection: "column" }}>
+            <div style={{ background: "#fff", width: "100%", minHeight: "800px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", flexShrink: 0 }}>
               <iframe
                 src={`/brochure.pdf#page=${currentPage}`}
-                style={{ width: "100%", height: "100%", border: "none" }}
+                style={{ width: "100%", height: "100%", minHeight: "800px", border: "none", display: "block" }}
                 title="Safety Academy Brochure"
               />
             </div>
 
             {/* Page Navigation */}
-            <div style={{ padding: "20px 28px", background: "#f8fafc", borderTop: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+            <div style={{ padding: "20px 28px", background: "#f8fafc", borderTop: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", zIndex: 10, position: "relative", flexShrink: 0 }}>
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
@@ -112,7 +124,7 @@ const BrochureInteractive = () => {
                 ← Previous
               </button>
 
-              <div style={{ fontSize: "14px", fontWeight: 600, color: "#0b0b2c" }}>
+              <div style={{ fontSize: "14px", fontWeight: 600, color: "#0b0b2c", whiteSpace: "nowrap" }}>
                 Page {currentPage} of {totalPages}
               </div>
 
