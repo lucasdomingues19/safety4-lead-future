@@ -249,6 +249,11 @@ function StatCard({
 function CourseCard({ courseProgress }: { courseProgress: CourseProgress }) {
   const { course, progress, modulesCompleted, totalModules, certificateEarned } = courseProgress;
 
+  const handleContinue = () => {
+    // Navigate to course view
+    window.location.href = `/learn/${course.slug}`;
+  };
+
   return (
     <div
       style={{
@@ -335,6 +340,7 @@ function CourseCard({ courseProgress }: { courseProgress: CourseProgress }) {
 
         {/* Action */}
         <button
+          onClick={handleContinue}
           style={{
             width: "100%",
             border: "1px solid #e2e8f0",
