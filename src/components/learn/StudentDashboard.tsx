@@ -76,15 +76,14 @@ export function StudentDashboard({ userId }: { userId: string }) {
         .select("id")
         .eq("module_id", modules[0].id)
         .order("position", { ascending: true })
-        .limit(1)
-        .single();
+        .limit(1);
 
-      if (!lessons) {
+      if (!lessons || lessons.length === 0) {
         toast.error("No lessons found");
         return;
       }
 
-      navigate(`/learn/${courseSlug}/lesson/${lessons.id}`);
+      navigate(`/learn/${courseSlug}/lesson/${lessons[0].id}`);
     } catch (err) {
       console.error("Error navigating to first lesson:", err);
       toast.error("Could not navigate to lesson");
