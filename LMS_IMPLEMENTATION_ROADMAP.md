@@ -1,8 +1,10 @@
 # SafetyTech Academy LMS Implementation Roadmap
 
-**Status**: Core foundation complete | Payment system ready | Admin features pending
+**Status**: Core foundation ✅ | Payment system ✅ | Admin interface ✅ | Quiz & certificates ⏳
 
-**Last Updated**: 2026-09-11
+**Last Updated**: 2026-09-14
+
+**Progress**: 70% complete (Core LMS ready for testing, Payment system live, Admin UI functional)
 
 ---
 
@@ -34,39 +36,60 @@
 - [x] Fixed Quiz interface (module_id instead of lesson_id)
 - [x] Added QuizAttempt interface for tracking
 
-### Payment System (Phase 2: JUST COMPLETED)
-- [x] Stripe checkout session creation
+### Payment System (Phase 2: COMPLETE ✅)
+- [x] Stripe checkout session creation (edge function)
 - [x] Stripe customer management (auto-create/retrieve)
 - [x] Stripe product & price management
-- [x] Webhook handler for Stripe events
-- [x] Webhook signature verification (security)
+- [x] Webhook handler for Stripe events (signature verified)
+- [x] Webhook signature verification (HMAC-SHA256)
 - [x] Enrollment creation on payment success
 - [x] Subscription lifecycle management (updated, deleted, cancelled)
 - [x] Enrollment verification utility
+- [x] Access control enforcement (CourseView & LessonView)
+- [x] Dashboard payment flow integration
+
+### Admin Interface (Phase 3a: COMPLETE ✅)
+- [x] Course manager component (full CRUD)
+- [x] Create courses (title, description, price, currency, CPD hours)
+- [x] Edit courses
+- [x] Delete courses
+- [x] Publish/unpublish courses
+- [x] Free and paid course support
+- [x] Cover image URLs
+- [x] Real-time database integration
+- [x] Admin role verification (user_roles table)
 
 ---
 
-## 🚧 IN PROGRESS (Phase 3: Integration)
+## 🚧 IN PROGRESS (Phase 3b: Admin Extensions)
 
-### Student Dashboard Enhancement
-- [ ] Update paid course enrollment flow
-- [ ] Add "Enroll" button that triggers Stripe checkout
-- [ ] Redirect to Stripe payment page
-- [ ] Handle checkout success/cancel
-- [ ] Display enrollment status after purchase
+### Admin User Management
+- [ ] User list with enrollment status
+- [ ] Bulk operations (enroll, unenroll)
+- [ ] Reset user password
+- [ ] Ban/suspend users
+- [ ] Export user data
 
-### Access Control
-- [ ] Add enrollment verification to CourseView
-- [ ] Add enrollment verification to LessonView
-- [ ] Block access to paid course content without active subscription
-- [ ] Show "Enroll to continue" message for locked content
+### Admin Billing Dashboard
+- [ ] Revenue tracking (total, MRR, ARR)
+- [ ] Payment history
+- [ ] Refund management
+- [ ] Subscription reports
+- [ ] Revenue by course
 
-### Admin Interface
-- [ ] Implement admin course manager component (stub)
-- [ ] Implement admin user management component (stub)
-- [ ] Implement admin analytics/reports component (stub)
-- [ ] Implement admin billing dashboard component (stub)
-- [ ] Add role-based access control verification
+### Admin Analytics
+- [ ] Enrollment trends (graph)
+- [ ] Completion rates (by course)
+- [ ] Student performance heatmap
+- [ ] Drop-off analysis (by module)
+- [ ] Engagement metrics
+
+### Content Management (Modules & Lessons)
+- [ ] Add modules to courses
+- [ ] Edit module settings (drip-content timing)
+- [ ] Add lessons to modules
+- [ ] Reorder modules/lessons (drag-drop)
+- [ ] Set video URLs (YouTube, Vimeo, Mux, Bunny)
 
 ---
 
