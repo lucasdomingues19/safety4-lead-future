@@ -52,16 +52,17 @@ const BrochureInteractive = () => {
 
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("leads").insert([
-        {
+      const { data, error } = await supabase.functions.invoke("capture-lead", {
+        body: {
           name: formData.name,
           email: formData.email,
+          phone: formData.phone || null,
           source: "brochure_download",
-          created_at: new Date().toISOString(),
         },
-      ]);
+      });
 
       if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || "Failed to save lead");
 
       setSubmitted(true);
       toast.success("Thank you! Your brochure is ready to download.");
