@@ -79,7 +79,8 @@ export interface Quiz {
   module_id: string;
   title: string;
   description: string | null;
-  passing_score: number;
+  pass_mark: number;
+  allow_retakes: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -87,10 +88,11 @@ export interface Quiz {
 export interface QuizQuestion {
   id: string;
   quiz_id: string;
-  question: string;
-  question_type: "multiple_choice" | "true_false" | "short_answer";
-  options: string[] | null;
-  correct_answer: string;
+  text: string;
+  type: "multiple_choice" | "true_false" | "short_answer" | "essay";
+  options?: string[] | null;
+  correct_answer?: string;
+  rubric?: string;
   position: number;
   created_at: string;
   updated_at: string;
