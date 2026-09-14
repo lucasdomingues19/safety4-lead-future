@@ -235,109 +235,165 @@ const LessonView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ background: "#f5f7fa" }}>
       <LearnHeader email={user?.email} />
-      <main className="container mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[1fr_320px]">
-        {/* Main content */}
-        <div className="min-w-0">
-          <div className="mb-4 text-sm text-white/60">
-            <Link to={`/learn/${courseSlug}`} className="hover:text-white">My course</Link>
-            {currentModule && (
-              <> / <span className="text-white">{currentModule.title}</span></>
-            )}
-          </div>
-
-          {embed ? (
-            <div className="aspect-video w-full overflow-hidden rounded-xl border-2 border-primary bg-black">
-              <iframe
-                src={embed}
-                title={currentLesson.title}
-                className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          ) : (
-            <div className="flex aspect-video w-full items-center justify-center rounded-xl border border-white/10 bg-card text-white/40">
-              <PlayCircle className="h-10 w-10" />
-            </div>
+      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 20px" }}>
+        {/* Breadcrumb */}
+        <div style={{ fontSize: "14px", color: "#69697b", marginBottom: "24px" }}>
+          <Link to={`/learn/${courseSlug}`} style={{ color: "#3434ff", textDecoration: "none" }}>My course</Link>
+          {currentModule && (
+            <> / <span style={{ color: "#0b0b2c" }}>{currentModule.title}</span></>
           )}
-
-          <h1 className="mt-6 text-2xl font-extrabold tracking-tight text-white">
-            {currentLesson.title}
-          </h1>
-
-          {currentLesson.body && (
-            <div className="prose prose-invert mt-4 max-w-none prose-headings:text-white prose-a:text-primary">
-              <ReactMarkdown>{currentLesson.body}</ReactMarkdown>
-            </div>
-          )}
-
-          {currentLesson.resources?.length > 0 && (
-            <div className="mt-6">
-              <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-white/60">
-                Resources
-              </h3>
-              <div className="space-y-2">
-                {currentLesson.resources.map((r, i) => (
-                  <a
-                    key={i}
-                    href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-card px-3 py-2 text-sm text-white hover:bg-white/5"
-                  >
-                    <FileDown className="h-4 w-4 text-primary" /> {r.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-6">
-            <Button onClick={markComplete} disabled={saving} size="lg">
-              {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isDone ? "Next" : isLastInModule ? "Complete module" : "Mark complete & continue"}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            {isDone && <span className="flex items-center gap-1.5 text-sm text-primary"><CheckCircle2 className="h-4 w-4" /> Completed</span>}
-          </div>
         </div>
 
-        {/* Sidebar curriculum */}
-        <aside className="lg:sticky lg:top-20 lg:self-start">
-          <Card className="border-white/10 bg-card p-4">
-            <h2 className="mb-4 text-sm font-semibold text-white">
-              In this module
-            </h2>
-            <div className="space-y-2">
-              {currentModule && lessons
-                .filter((l) => l.module_id === currentModule.id)
-                .sort((a, b) => a.position - b.position)
-                .map((l) => {
-                  const active = l.id === currentLesson.id;
-                  const done = completedIds.has(l.id);
-                  return (
-                    <button
-                      key={l.id}
-                      type="button"
-                      onClick={() => navigate(`/learn/${courseSlug}/lesson/${l.id}`)}
-                      className={`flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors ${
-                        active ? "bg-primary/15 text-white" : "text-white/70 hover:bg-white/5"
-                      }`}
-                    >
-                      {done ? (
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                      ) : (
-                        <PlayCircle className="h-4 w-4 shrink-0 text-white/50" />
-                      )}
-                      <span className="truncate">{l.title}</span>
-                    </button>
-                  );
-                })}
+        {/* Main grid layout */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: "32px" }}>
+          {/* Video player and content */}
+          <div>
+            {/* Video player */}
+            <div style={{
+              background: "#0b0b2c",
+              borderRadius: "24px",
+              overflow: "hidden",
+              marginBottom: "32px",
+              boxShadow: "0 10px 40px rgba(11,11,44,0.1)",
+              position: "relative"
+            }}>
+              {embed ? (
+                <div style={{ aspectRatio: "16/9", width: "100%" }}>
+                  <iframe
+                    src={embed}
+                    title={currentLesson.title}
+                    style={{ width: "100%", height: "100%", border: "none" }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <div style={{
+                  aspectRatio: "16/9",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#1a1a3e",
+                  color: "#69697b"
+                }}>
+                  <PlayCircle size={48} />
+                </div>
+              )}
+              {/* Slide progress */}
+              <div style={{
+                position: "absolute",
+                bottom: "16px",
+                right: "16px",
+                background: "rgba(0,0,0,0.6)",
+                color: "#fff",
+                padding: "8px 12px",
+                borderRadius: "8px",
+                fontSize: "12px",
+                fontWeight: "600"
+              }}>
+                Slide 6 / 13
+              </div>
             </div>
-          </Card>
-        </aside>
+
+            {/* Tabs */}
+            <div style={{ display: "flex", gap: "24px", borderBottom: "1px solid #e2e8f0", marginBottom: "32px" }}>
+              {["Overview", "Transcript", "Resources", "Comments", "My notes"].map((tab) => (
+                <button
+                  key={tab}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: tab === "Overview" ? "#3434ff" : "#69697b",
+                    fontSize: "14px",
+                    fontWeight: tab === "Overview" ? "600" : "500",
+                    paddingBottom: "12px",
+                    borderBottom: tab === "Overview" ? "2px solid #3434ff" : "none",
+                    cursor: "pointer"
+                  }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Content */}
+            <div>
+              <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#0b0b2c", marginBottom: "16px" }}>
+                {currentLesson.title}
+              </h2>
+              <p style={{ fontSize: "14px", color: "#69697b", lineHeight: "1.6", marginBottom: "24px" }}>
+                {currentLesson.description || "Explore how the EHS profession is changing, where AI creates real capacity, and what stays firmly the professional's responsibility."}
+              </p>
+
+              {/* Meta info */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", padding: "20px", background: "#f8fafc", borderRadius: "12px" }}>
+                <div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", fontWeight: "600", marginBottom: "4px" }}>Duration</div>
+                  <div style={{ fontSize: "16px", fontWeight: "700", color: "#0b0b2c" }}>35 minutes</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", fontWeight: "600", marginBottom: "4px" }}>Format</div>
+                  <div style={{ fontSize: "16px", fontWeight: "700", color: "#0b0b2c" }}>Narrated deck</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", textTransform: "uppercase", fontWeight: "600", marginBottom: "4px", color: "#8ab815" }}>Practical</div>
+                  <div style={{ fontSize: "16px", fontWeight: "700", color: "#0b0b2c" }}>2 exercises</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div>
+            {/* In this module */}
+            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "20px", marginBottom: "20px" }}>
+              <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#0b0b2c", marginBottom: "16px" }}>In this module</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {currentModule && lessons
+                  .filter((l) => l.module_id === currentModule.id)
+                  .sort((a, b) => a.position - b.position)
+                  .map((l) => {
+                    const done = completedIds.has(l.id);
+                    return (
+                      <button
+                        key={l.id}
+                        onClick={() => navigate(`/learn/${courseSlug}/lesson/${l.id}`)}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          color: "#0b0b2c",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                          textAlign: "left"
+                        }}
+                      >
+                        {done ? (
+                          <CheckCircle2 size={16} style={{ color: "#8ab815" }} />
+                        ) : (
+                          <div style={{ width: "16px", height: "16px", borderRadius: "50%", border: "2px solid #8ab815" }} />
+                        )}
+                        <span>{l.title}</span>
+                      </button>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* Hands-on next */}
+            <div style={{ background: "#f0fce4", border: "1px solid #d4e8b8", borderRadius: "12px", padding: "16px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                <div style={{ width: "24px", height: "24px", background: "#8ab815", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "14px" }}>⚡</div>
+                <h4 style={{ fontSize: "14px", fontWeight: "700", color: "#0b0b2c", margin: 0 }}>Hands-on next</h4>
+              </div>
+              <p style={{ fontSize: "12px", color: "#69697b", lineHeight: "1.5", margin: 0 }}>Open Copilot and run your first prompt before continuing to Module 02.</p>
+            </div>
+          </div>
+        </div>
       </main>
 
       {quiz && user && (
