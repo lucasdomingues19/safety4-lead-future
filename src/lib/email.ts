@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type EmailType = "enrollment" | "completion" | "certificate";
+export type EmailType = "enrollment" | "completion" | "certificate" | "event_registration";
 
 export interface EmailNotification {
   to: string;
@@ -66,6 +66,40 @@ export async function sendCertificateEmail(
       certificate_url: certificateUrl,
     },
   });
+}
+
+export async function sendEventRegistrationEmail(
+  email: string,
+  name: string,
+  eventTitle: string,
+  zoomLink?: string,
+): Promise<boolean> {
+  try {
+    const { data, error } = await supabase.functions.invoke(
+      "send-email-notification",
+      {
+        body: {
+          to: email,
+          type: "event_registration",
+          data: {
+            student_name: name,
+            course_title: eventTitle,
+            course_url: zoomLink,
+          },
+        },
+      },
+    );
+
+    if (error) {
+      console.error("Event registration email error:", error);
+      return false;
+    }
+
+    return data?.success || false;
+  } catch (error) {
+    console.error("Event registration email failed:", error);
+    return false;
+  }
 }
 
 async function sendEmailNotification(notification: EmailNotification): Promise<boolean> {
