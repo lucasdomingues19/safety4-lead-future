@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Download, Mail, User, Building2, Phone, Loader2, Check } from "lucide-react";
+import { Download, Mail, User, Building2, Phone, Check } from "lucide-react";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 
 const BrochureInteractive = () => {
+  // Mobile detection
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,12 +22,19 @@ const BrochureInteractive = () => {
   const totalPages = 69;
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener("resize", handleResize);
+
     trackPageView(window.location.pathname);
     setPageSEO({
       title: "SafetyTech Academy Brochure",
       description: "Premium brochure featuring industry-leading courses in AI and Safety 4.0.",
       canonical: "https://safetytech.academy/brochure",
     });
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,13 +112,21 @@ const BrochureInteractive = () => {
         </div>
 
         {/* Main Content */}
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 28px", display: "grid", gridTemplateColumns: "1fr 380px", gap: "40px", alignItems: "start" }}>
+        <div style={{
+          maxWidth: "1400px",
+          margin: "0 auto",
+          padding: isMobile ? "20px" : "40px 28px",
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 380px",
+          gap: isMobile ? "24px" : "40px",
+          alignItems: isMobile ? "stretch" : "start"
+        }}>
           {/* PDF Viewer */}
           <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "visible", boxShadow: "0 10px 30px rgba(11,11,44,0.1)", display: "flex", flexDirection: "column" }}>
-            <div style={{ background: "#fff", width: "100%", minHeight: "800px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", flexShrink: 0 }}>
+            <div style={{ background: "#fff", width: "100%", minHeight: isMobile ? "500px" : "800px", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", flexShrink: 0 }}>
               <iframe
                 src={`/brochure.pdf#page=${currentPage}`}
-                style={{ width: "100%", height: "100%", minHeight: "800px", border: "none", display: "block" }}
+                style={{ width: "100%", height: "100%", minHeight: isMobile ? "500px" : "800px", border: "none", display: "block" }}
                 title="Safety Academy Brochure"
               />
             </div>
@@ -139,7 +156,15 @@ const BrochureInteractive = () => {
           </div>
 
           {/* Lead Capture Form */}
-          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "32px 28px", position: "sticky", top: "40px", boxShadow: "0 10px 30px rgba(11,11,44,0.1)" }}>
+          <div style={{
+            background: "#fff",
+            border: "1px solid #e2e8f0",
+            borderRadius: "20px",
+            padding: isMobile ? "24px 20px" : "32px 28px",
+            position: isMobile ? "static" : "sticky",
+            top: isMobile ? "auto" : "40px",
+            boxShadow: "0 10px 30px rgba(11,11,44,0.1)"
+          }}>
             {!submitted ? (
               <>
                 <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.12em", color: "#8ab815", textTransform: "uppercase", marginBottom: "8px" }}>
