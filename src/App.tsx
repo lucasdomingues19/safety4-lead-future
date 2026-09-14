@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
@@ -209,6 +210,7 @@ const App = () => (
         </Suspense>
         <GlobalWidgets />
       </BrowserRouter>
+      <Analytics />
     </TooltipProvider>
   </QueryClientProvider>
 );
