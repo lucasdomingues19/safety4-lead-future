@@ -56,8 +56,6 @@ const BrochureInteractive = () => {
         {
           name: formData.name,
           email: formData.email,
-          company: formData.company,
-          phone: formData.phone,
           source: "brochure_download",
           created_at: new Date().toISOString(),
         },
@@ -68,7 +66,7 @@ const BrochureInteractive = () => {
       setSubmitted(true);
       toast.success("Thank you! Your brochure is ready to download.");
     } catch (err) {
-      console.error(err);
+      console.error("Error saving lead:", err);
       toast.error("Failed to save your details. Please try again.");
     } finally {
       setSubmitting(false);
