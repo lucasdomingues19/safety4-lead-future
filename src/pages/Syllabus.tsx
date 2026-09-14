@@ -70,7 +70,7 @@ const Syllabus = () => {
           { icon: PlayCircle, label: "Lessons", value: "60+" },
           { icon: GraduationCap, label: "Programme", value: "90 Days" },
         ]}
-        cta={{ label: "Start Learning — £497", href: "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV", external: true }}
+        cta={{ label: "Start Learning — £497", href: "/learn" }}
         secondaryCta={{ label: "Download Brochure", href: "https://learning.safetytech.academy/brochure", external: true }}
       />
 
