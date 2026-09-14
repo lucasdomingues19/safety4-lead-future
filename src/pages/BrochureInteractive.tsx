@@ -78,21 +78,38 @@ const BrochureInteractive = () => {
   const handleDownload = async () => {
     try {
       const response = await fetch("/brochure.pdf");
-      if (!response.ok) throw new Error("Failed to fetch PDF");
+      if (!response.ok) {
+        console.error("HTTP error:", response.status, response.statusText);
+        throw new Error(`HTTP ${response.status}: Failed to fetch PDF`);
+      }
 
       const blob = await response.blob();
+      console.log("PDF blob size:", blob.size, "type:", blob.type);
+
+      if (blob.size === 0) {
+        throw new Error("PDF file is empty");
+      }
+
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "Safety4.0-Academy-Brochure.pdf";
+      link.download = "SafetyTech-Academy-Brochure.pdf";
+      link.style.display = "none";
       document.body.appendChild(link);
+
+      // Trigger download
       link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+
+      // Cleanup
+      setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      }, 100);
+
       toast.success("Download started!");
     } catch (err) {
       console.error("Download error:", err);
-      toast.error("Failed to download PDF");
+      toast.error(`Download failed: ${err instanceof Error ? err.message : "Unknown error"}`);
     }
   };
 
@@ -134,21 +151,59 @@ const BrochureInteractive = () => {
             {/* Page Navigation */}
             <div style={{ padding: "20px 28px", background: "#f8fafc", borderTop: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px", zIndex: 10, position: "relative", flexShrink: 0 }}>
               <button
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                onClick={() => {
+                  const newPage = Math.max(1, currentPage - 1);
+                  setCurrentPage(newPage);
+                  console.log("Navigation: going to page", newPage);
+                }}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg disabled:opacity-50"
+                style={{
+                  padding: "10px 16px",
+                  background: currentPage === 1 ? "#e2e8f0" : "#fff",
+                  color: currentPage === 1 ? "#94a3b8" : "#0b0b2c",
+                  border: "1px solid #cbd5e1",
+                  borderRadius: "8px",
+                  cursor: currentPage === 1 ? "not-allowed" : "pointer",
+                  fontWeight: 600,
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  if (currentPage > 1) e.currentTarget.style.background = "#3434ff";
+                }}
+                onMouseLeave={(e) => {
+                  if (currentPage > 1) e.currentTarget.style.background = "#fff";
+                }}
               >
                 ← Previous
               </button>
 
-              <div style={{ fontSize: "14px", fontWeight: 600, color: "#0b0b2c", whiteSpace: "nowrap" }}>
+              <div style={{ fontSize: "15px", fontWeight: 700, color: "#0b0b2c", whiteSpace: "nowrap", minWidth: "120px", textAlign: "center" }}>
                 Page {currentPage} of {totalPages}
               </div>
 
               <button
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                onClick={() => {
+                  const newPage = Math.min(totalPages, currentPage + 1);
+                  setCurrentPage(newPage);
+                  console.log("Navigation: going to page", newPage);
+                }}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg disabled:opacity-50"
+                style={{
+                  padding: "10px 16px",
+                  background: currentPage === totalPages ? "#e2e8f0" : "#fff",
+                  color: currentPage === totalPages ? "#94a3b8" : "#0b0b2c",
+                  border: "1px solid #cbd5e1",
+                  borderRadius: "8px",
+                  cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+                  fontWeight: 600,
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  if (currentPage < totalPages) e.currentTarget.style.background = "#3434ff";
+                }}
+                onMouseLeave={(e) => {
+                  if (currentPage < totalPages) e.currentTarget.style.background = "#fff";
+                }}
               >
                 Next →
               </button>
