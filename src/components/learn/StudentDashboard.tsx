@@ -47,47 +47,8 @@ export function StudentDashboard({ userId }: { userId: string }) {
     }
   };
 
-  const navigateToFirstLesson = async (courseSlug: string) => {
-    try {
-      const { data: course } = await supabase
-        .from("courses")
-        .select("id")
-        .eq("slug", courseSlug)
-        .single();
-
-      if (!course) {
-        toast.error("Course not found");
-        return;
-      }
-
-      const { data: modules } = await supabase
-        .from("modules")
-        .select("id")
-        .eq("course_id", course.id)
-        .order("position", { ascending: true });
-
-      if (!modules || modules.length === 0) {
-        toast.error("No modules found");
-        return;
-      }
-
-      const { data: lessons } = await supabase
-        .from("lessons")
-        .select("id")
-        .eq("module_id", modules[0].id)
-        .order("position", { ascending: true })
-        .limit(1);
-
-      if (!lessons || lessons.length === 0) {
-        toast.error("No lessons found");
-        return;
-      }
-
-      navigate(`/learn/${courseSlug}/lesson/${lessons[0].id}`);
-    } catch (err) {
-      console.error("Error navigating to first lesson:", err);
-      toast.error("Could not navigate to lesson");
-    }
+  const navigateToCourse = (courseSlug: string) => {
+    navigate(`/learn/${courseSlug}`);
   };
 
   const filteredCourses = courses.filter((item) =>
@@ -233,7 +194,7 @@ export function StudentDashboard({ userId }: { userId: string }) {
           }}
         >
           {filteredCourses.map((item) => (
-            <CourseCard key={item.course.id} courseProgress={item} onNavigate={navigateToFirstLesson} />
+            <CourseCard key={item.course.id} courseProgress={item} onNavigate={navigateToCourse} />
           ))}
         </div>
       )}
@@ -292,7 +253,7 @@ function StatCard({
 }
 
 function CourseCard({ courseProgress, onNavigate }: { courseProgress: CourseProgress; onNavigate: (slug: string) => void }) {
-  const { course, progress, modulesCompleted, totalModules, certificateEarned } = courseProgress;
+  const { course } = courseProgress;
 
   const handleContinue = () => {
     onNavigate(course.slug);
