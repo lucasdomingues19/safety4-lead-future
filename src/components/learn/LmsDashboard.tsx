@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { Play, BookOpen, Zap } from "lucide-react";
@@ -18,6 +19,7 @@ interface CourseProgress {
 
 export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
   const { user } = useAuthUser();
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<CourseProgress[]>([]);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("User");
@@ -159,7 +161,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                 </div>
               </div>
               <button
-                onClick={() => setCurrentCourse(firstCourse)}
+                onClick={() => navigate(`/learn/${firstCourse.slug}`)}
                 style={{
                   flex: "none",
                   border: "0",
@@ -188,9 +190,9 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
         {/* Your Learning Section */}
         <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", marginBottom: "20px" }}>
           <h2 style={{ margin: 0, fontSize: "22px", fontWeight: "700" }}>Your learning</h2>
-          <a href="#" onClick={(e) => e.preventDefault()} style={{ fontSize: "15px", fontWeight: "600", color: "#3434ff", textDecoration: "none" }}>
+          <button onClick={() => navigate("/learn")} style={{ fontSize: "15px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
             View full curriculum
-          </a>
+          </button>
         </div>
 
         {/* Course Cards Grid */}
@@ -200,7 +202,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
             return (
               <div
                 key={course.id}
-                onClick={() => setCurrentCourse(course)}
+                onClick={() => navigate(`/learn/${course.slug}`)}
                 style={{
                   background: "#fff",
                   border: "1px solid #e2e8f0",
@@ -254,12 +256,13 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                 </div>
                 <div style={{ fontSize: "18px", fontWeight: "700" }}>Community</div>
               </div>
-              <a href="#" onClick={(e) => e.preventDefault()} style={{ fontSize: "14px", fontWeight: "600", color: "#3434ff", textDecoration: "none" }}>
+              <button onClick={() => toast.info("Community members coming soon!")} style={{ fontSize: "14px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
                 View all
-              </a>
+              </button>
             </div>
             <div style={{ padding: "20px 26px", background: "#f8fafc" }}>
               <button
+                onClick={() => toast.info("Community discussions coming soon!")}
                 style={{
                   width: "100%",
                   border: "1px solid #cbd5e1",
@@ -326,9 +329,9 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                 <div style={{ marginTop: "4px", fontSize: "13px", color: "#94a3b8" }}>0 of 6 earned</div>
               </div>
             </div>
-            <a href="#" onClick={(e) => e.preventDefault()} style={{ fontSize: "14px", fontWeight: "600", color: "#3434ff", textDecoration: "none", flex: "none" }}>
+            <button onClick={() => toast.info("Awards system details coming soon!")} style={{ fontSize: "14px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0, flex: "none" }}>
               How awards work
-            </a>
+            </button>
           </div>
           <div style={{ marginTop: "24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(148px, 1fr))", gap: "16px" }}>
             {["First Steps", "Speed Demon", "Perfect Score", "Consistency", "Knowledge Master", "Certification Elite"].map((name, i) => (
