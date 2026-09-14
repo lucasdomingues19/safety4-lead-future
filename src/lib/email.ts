@@ -1,79 +1,80 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export interface EventRegistrationEmailData {
-  name: string;
-  email: string;
-  eventTitle: string;
-  eventDate: string;
-  eventTime: string;
-  eventDescription: string;
-  zoomLink: string | null;
-  location: string;
+export type EmailType = "enrollment" | "completion" | "certificate";
+
+export interface EmailNotification {
+  to: string;
+  type: EmailType;
+  data: {
+    student_name?: string;
+    course_title?: string;
+    course_url?: string;
+    certificate_url?: string;
+    instructor_name?: string;
+    cpd_hours?: number;
+  };
 }
 
-// Generate ICS calendar file content
-export const generateICSFile = (
-  eventTitle: string,
-  eventDate: string,
-  eventTime: string,
-  zoomLink: string | null
-): string => {
-  // Parse date and time
-  const [day, month, year] = eventDate.match(/\d+/g) || ["01", "01", "2024"];
-  const [hour, minute] = eventTime.split(":").map((t) => t.trim());
+export async function sendEnrollmentEmail(
+  email: string,
+  studentName: string,
+  courseTitle: string,
+  courseUrl: string,
+  cpdHours?: number,
+): Promise<boolean> {
+  return sendEmailNotification({
+    to: email,
+    type: "enrollment",
+    data: {
+      student_name: studentName,
+      course_title: courseTitle,
+      course_url: courseUrl,
+      cpd_hours: cpdHours,
+    },
+  });
+}
 
-  // Create ICS format date (YYYYMMDDTHHMMSSZ)
-  const icsDate = `${year}${String(month).padStart(2, "0")}${String(day).padStart(2, "0")}T${String(hour).padStart(2, "0")}${String(minute).padStart(2, "0")}00Z`;
+export async function sendCompletionEmail(
+  email: string,
+  studentName: string,
+  courseTitle: string,
+  cpdHours?: number,
+): Promise<boolean> {
+  return sendEmailNotification({
+    to: email,
+    type: "completion",
+    data: {
+      student_name: studentName,
+      course_title: courseTitle,
+      cpd_hours: cpdHours,
+    },
+  });
+}
 
-  const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//SafetyTech Academy//Events//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-BEGIN:VEVENT
-UID:${Date.now()}@safetytech.academy
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z
-DTSTART:${icsDate}
-SUMMARY:${eventTitle}
-DESCRIPTION:${eventTitle}\\n\\nZoom Link: ${zoomLink || "N/A"}
-LOCATION:Online via Zoom
-STATUS:CONFIRMED
-SEQUENCE:0
-END:VEVENT
-END:VCALENDAR`;
+export async function sendCertificateEmail(
+  email: string,
+  studentName: string,
+  courseTitle: string,
+  certificateUrl?: string,
+): Promise<boolean> {
+  return sendEmailNotification({
+    to: email,
+    type: "certificate",
+    data: {
+      student_name: studentName,
+      course_title: courseTitle,
+      certificate_url: certificateUrl,
+    },
+  });
+}
 
-  return icsContent;
-};
-
-// Send event registration confirmation email
-export const sendEventRegistrationEmail = async (
-  data: EventRegistrationEmailData
-): Promise<boolean> => {
+async function sendEmailNotification(notification: EmailNotification): Promise<boolean> {
   try {
-    // Generate ICS file
-    const icsContent = generateICSFile(
-      data.eventTitle,
-      data.eventDate,
-      data.eventTime,
-      data.zoomLink
-    );
-
-    // Call edge function to send email
-    const { data: response, error } = await supabase.functions.invoke(
-      "send-event-registration-email",
+    const { data, error } = await supabase.functions.invoke(
+      "send-email-notification",
       {
-        body: {
-          to: data.email,
-          name: data.name,
-          eventTitle: data.eventTitle,
-          eventDate: data.eventDate,
-          eventTime: data.eventTime,
-          eventDescription: data.eventDescription,
-          zoomLink: data.zoomLink,
-          location: data.location,
-          icsFile: icsContent,
-        },
-      }
+        body: notification,
+      },
     );
 
     if (error) {
@@ -81,9 +82,54 @@ export const sendEventRegistrationEmail = async (
       return false;
     }
 
-    return true;
-  } catch (err) {
-    console.error("Failed to send email:", err);
+    return data?.success || false;
+  } catch (error) {
+    console.error("Email notification failed:", error);
     return false;
   }
-};
+}
+
+// Get email delivery history
+export async function getEmailHistory(email: string) {
+  const { data, error } = await supabase
+    .from("email_logs")
+    .select("*")
+    .eq("recipient", email)
+    .order("sent_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching email history:", error);
+    return [];
+  }
+
+  return data || [];
+}
+
+// Get email metrics
+export async function getEmailMetrics() {
+  const { data: sent, error: sentError } = await supabase
+    .from("email_logs")
+    .select("*")
+    .eq("status", "sent");
+
+  const { data: failed, error: failedError } = await supabase
+    .from("email_logs")
+    .select("*")
+    .eq("status", "failed");
+
+  if (sentError || failedError) {
+    console.error("Error fetching metrics:", sentError || failedError);
+    return { sent_count: 0, failed_count: 0, success_rate: 0 };
+  }
+
+  const totalSent = (sent || []).length;
+  const totalFailed = (failed || []).length;
+  const total = totalSent + totalFailed;
+  const successRate = total > 0 ? Math.round((totalSent / total) * 100) : 0;
+
+  return {
+    sent_count: totalSent,
+    failed_count: totalFailed,
+    success_rate: successRate,
+  };
+}
