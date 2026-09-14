@@ -101,6 +101,50 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
     }
   };
 
+  const navigateToFirstLesson = async (courseSlug: string) => {
+    try {
+      const { data: course } = await supabase
+        .from("courses")
+        .select("id")
+        .eq("slug", courseSlug)
+        .single();
+
+      if (!course) {
+        toast.error("Course not found");
+        return;
+      }
+
+      const { data: modules } = await supabase
+        .from("modules")
+        .select("id")
+        .eq("course_id", course.id)
+        .order("position", { ascending: true });
+
+      if (!modules || modules.length === 0) {
+        toast.error("No modules found");
+        return;
+      }
+
+      const { data: lessons } = await supabase
+        .from("lessons")
+        .select("id")
+        .eq("module_id", modules[0].id)
+        .order("position", { ascending: true })
+        .limit(1)
+        .single();
+
+      if (!lessons) {
+        toast.error("No lessons found");
+        return;
+      }
+
+      navigate(`/learn/${courseSlug}/lesson/${lessons.id}`);
+    } catch (err) {
+      console.error("Error navigating to first lesson:", err);
+      toast.error("Could not navigate to lesson");
+    }
+  };
+
   if (loading) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#eef1f6" }}>
@@ -161,7 +205,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                 </div>
               </div>
               <button
-                onClick={() => navigate(`/learn/${firstCourse.slug}/lesson/1`)}
+                onClick={() => navigateToFirstLesson(firstCourse.slug)}
                 style={{
                   flex: "none",
                   border: "0",
@@ -202,7 +246,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
             return (
               <div
                 key={course.id}
-                onClick={() => navigate(`/learn/${course.slug}/lesson/1`)}
+                onClick={() => navigateToFirstLesson(course.slug)}
                 style={{
                   background: "#fff",
                   border: "1px solid #e2e8f0",

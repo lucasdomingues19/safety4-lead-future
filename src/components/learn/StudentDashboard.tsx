@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { getUserEnrolledCourses } from "@/lib/enrollment";
 import { formatPrice, type Course } from "@/lib/lms";
@@ -14,6 +15,7 @@ interface CourseProgress {
 }
 
 export function StudentDashboard({ userId }: { userId: string }) {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<CourseProgress[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,6 +44,50 @@ export function StudentDashboard({ userId }: { userId: string }) {
       toast.error("Failed to load courses");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const navigateToFirstLesson = async (courseSlug: string) => {
+    try {
+      const { data: course } = await supabase
+        .from("courses")
+        .select("id")
+        .eq("slug", courseSlug)
+        .single();
+
+      if (!course) {
+        toast.error("Course not found");
+        return;
+      }
+
+      const { data: modules } = await supabase
+        .from("modules")
+        .select("id")
+        .eq("course_id", course.id)
+        .order("position", { ascending: true });
+
+      if (!modules || modules.length === 0) {
+        toast.error("No modules found");
+        return;
+      }
+
+      const { data: lessons } = await supabase
+        .from("lessons")
+        .select("id")
+        .eq("module_id", modules[0].id)
+        .order("position", { ascending: true })
+        .limit(1)
+        .single();
+
+      if (!lessons) {
+        toast.error("No lessons found");
+        return;
+      }
+
+      navigate(`/learn/${courseSlug}/lesson/${lessons.id}`);
+    } catch (err) {
+      console.error("Error navigating to first lesson:", err);
+      toast.error("Could not navigate to lesson");
     }
   };
 
@@ -188,7 +234,7 @@ export function StudentDashboard({ userId }: { userId: string }) {
           }}
         >
           {filteredCourses.map((item) => (
-            <CourseCard key={item.course.id} courseProgress={item} />
+            <CourseCard key={item.course.id} courseProgress={item} onNavigate={navigateToFirstLesson} />
           ))}
         </div>
       )}
@@ -246,11 +292,11 @@ function StatCard({
   );
 }
 
-function CourseCard({ courseProgress }: { courseProgress: CourseProgress }) {
+function CourseCard({ courseProgress, onNavigate }: { courseProgress: CourseProgress; onNavigate: (slug: string) => void }) {
   const { course, progress, modulesCompleted, totalModules, certificateEarned } = courseProgress;
 
   const handleContinue = () => {
-    window.location.href = `/learn/${course.slug}/lesson/1`;
+    onNavigate(course.slug);
   };
 
   return (
