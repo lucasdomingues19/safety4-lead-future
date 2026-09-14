@@ -1,5 +1,21 @@
-import { useState } from "react";
-import { ChevronRight, FileText, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronRight, FileText, Zap, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+interface DbModule {
+  id: string;
+  title: string;
+  position: number;
+}
+
+interface DbLesson {
+  id: string;
+  module_id: string;
+  title: string;
+  position: number;
+  video_duration_seconds?: number;
+}
 
 interface Module {
   id: string;
@@ -27,129 +43,75 @@ interface CourseMaterial {
 }
 
 export function LmsCourseView({ course, onModuleClick }: any) {
-  const [doneCount, setDoneCount] = useState(3);
-  const [progressPct, setProgressPct] = useState(25);
-  const [ringOffset, setRingOffset] = useState("207.35"); // (1 - 0.25) * 276.46
+  const [modules, setModules] = useState<Module[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [doneCount, setDoneCount] = useState(0);
+  const [progressPct, setProgressPct] = useState(0);
 
-  const [modules, setModules] = useState<Module[]>([
-    {
-      id: "1",
-      title: "Module 1: Safety 4.0 Fundamentals",
-      meta: "3 lessons • 45 min",
-      state: "COMPLETE",
-      stateFg: "#8ab815",
-      chipBg: "#8ab815",
-      chipFg: "#fff",
-      chipContent: "✓",
-      titleFg: "#0b0b2c",
-      hoverBg: "#f8fafc",
-      cursor: "pointer",
-      chevronShow: "inline",
-      hint: "Click to view module",
-      onClick: () => onModuleClick?.("1"),
-    },
-    {
-      id: "2",
-      title: "Module 2: AI for Workplace Safety",
-      meta: "4 lessons • 60 min",
-      state: "COMPLETE",
-      stateFg: "#8ab815",
-      chipBg: "#8ab815",
-      chipFg: "#fff",
-      chipContent: "✓",
-      titleFg: "#0b0b2c",
-      hoverBg: "#f8fafc",
-      cursor: "pointer",
-      chevronShow: "inline",
-      hint: "Click to view module",
-      onClick: () => onModuleClick?.("2"),
-    },
-    {
-      id: "3",
-      title: "Module 3: Copilot for EHS Professionals",
-      meta: "5 lessons • 75 min",
-      state: "IN PROGRESS",
-      stateFg: "#3434ff",
-      chipBg: "#f1f4ff",
-      chipFg: "#3434ff",
-      chipContent: "⏳",
-      titleFg: "#0b0b2c",
-      hoverBg: "#f8fafc",
-      cursor: "pointer",
-      chevronShow: "inline",
-      hint: "Click to continue",
-      onClick: () => onModuleClick?.("3"),
-    },
-    {
-      id: "4",
-      title: "Module 4: Governance & Compliance",
-      meta: "3 lessons • 50 min",
-      state: "LOCKED",
-      stateFg: "#cbd5e1",
-      chipBg: "#eef1f6",
-      chipFg: "#94a3b8",
-      chipContent: "4",
-      titleFg: "#94a3b8",
-      hoverBg: "transparent",
-      cursor: "not-allowed",
-      chevronShow: "none",
-      hint: "Complete previous modules first",
-      onClick: () => {},
-    },
-    {
-      id: "5",
-      title: "Module 5: Real-World Implementation",
-      meta: "6 lessons • 90 min",
-      state: "LOCKED",
-      stateFg: "#cbd5e1",
-      chipBg: "#eef1f6",
-      chipFg: "#94a3b8",
-      chipContent: "5",
-      titleFg: "#94a3b8",
-      hoverBg: "transparent",
-      cursor: "not-allowed",
-      chevronShow: "none",
-      hint: "Complete previous modules first",
-      onClick: () => {},
-    },
-    {
-      id: "6",
-      title: "Module 6: Capstone Project",
-      meta: "Self-paced • 2 weeks",
-      state: "LOCKED",
-      stateFg: "#cbd5e1",
-      chipBg: "#eef1f6",
-      chipFg: "#94a3b8",
-      chipContent: "6",
-      titleFg: "#94a3b8",
-      hoverBg: "transparent",
-      cursor: "not-allowed",
-      chevronShow: "none",
-      hint: "Complete all modules first",
-      onClick: () => {},
-    },
-  ]);
+  useEffect(() => {
+    loadCourseModules();
+  }, [course?.id]);
 
-  const [courseMaterials, setCourseMaterials] = useState<CourseMaterial[]>([
-    {
-      id: "1",
-      title: "Course workbook",
-      meta: "PDF · 61 pages",
-      icon: "📄",
-      href: "#",
-    },
-    {
-      id: "2",
-      title: "Prompt library",
-      meta: "Living document",
-      icon: "⚡",
-      href: "#",
-    },
-  ]);
+  const loadCourseModules = async () => {
+    if (!course?.id) return;
+
+    try {
+      // Fetch modules
+      const { data: dbModules, error: modulesError } = await supabase
+        .from("modules")
+        .select("*")
+        .eq("course_id", course.id)
+        .order("position");
+
+      if (modulesError) throw modulesError;
+
+      if (!dbModules || dbModules.length === 0) {
+        setModules([]);
+        setLoading(false);
+        return;
+      }
+
+      // Transform to display format
+      const transformedModules: Module[] = dbModules.map((m: DbModule, idx: number) => ({
+        id: m.id,
+        title: m.title,
+        meta: `${idx + 1} lessons • ${(idx + 1) * 15} min`, // TODO: Calculate from real lesson durations
+        state: idx < 1 ? "IN PROGRESS" : idx < 2 ? "COMPLETE" : "LOCKED",
+        stateFg: idx < 1 ? "#3434ff" : idx < 2 ? "#8ab815" : "#94a3b8",
+        chipBg: idx < 1 ? "#f1f4ff" : idx < 2 ? "#8ab815" : "#e2e8f0",
+        chipFg: idx < 1 ? "#3434ff" : idx < 2 ? "#fff" : "#69697b",
+        chipContent: idx < 1 ? "⏳" : idx < 2 ? "✓" : "🔒",
+        titleFg: "#0b0b2c",
+        hoverBg: "#f8fafc",
+        cursor: "pointer",
+        chevronShow: "inline",
+        hint: idx < 1 ? "Click to continue" : "Click to view module",
+        onClick: () => onModuleClick?.(m.id),
+      }));
+
+      setModules(transformedModules);
+      // TODO: Calculate real progress from completion status
+      setDoneCount(Math.floor(transformedModules.length * 0.5));
+      setProgressPct(Math.floor((Math.floor(transformedModules.length * 0.5) / transformedModules.length) * 100));
+    } catch (err) {
+      console.error("Error loading modules:", err);
+      toast.error("Failed to load course modules");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const goPlayer = () => {
     onModuleClick?.("3");
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
+        <Loader2 className="h-8 w-8 animate-spin text-[#3434ff]" />
+      </div>
+    );
+  }
 
   return (
     <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 28px 72px", background: "#eef1f6", minHeight: "100vh", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#0b0b2c" }}>
