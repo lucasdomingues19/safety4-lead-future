@@ -202,7 +202,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
             return (
               <div
                 key={course.id}
-                onClick={() => navigate(`/learn/${course.slug}`)}
+                onClick={() => navigate(`/learn/${course.slug}/lesson/1`)}
                 style={{
                   background: "#fff",
                   border: "1px solid #e2e8f0",

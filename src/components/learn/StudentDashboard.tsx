@@ -250,8 +250,7 @@ function CourseCard({ courseProgress }: { courseProgress: CourseProgress }) {
   const { course, progress, modulesCompleted, totalModules, certificateEarned } = courseProgress;
 
   const handleContinue = () => {
-    // Navigate to course view
-    window.location.href = `/learn/${course.slug}`;
+    window.location.href = `/learn/${course.slug}/lesson/1`;
   };
 
   return (
