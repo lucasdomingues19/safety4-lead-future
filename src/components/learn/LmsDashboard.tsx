@@ -161,7 +161,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                 </div>
               </div>
               <button
-                onClick={() => navigate(`/learn/${firstCourse.slug}`)}
+                onClick={() => navigate(`/learn/${firstCourse.slug}/lesson/1`)}
                 style={{
                   flex: "none",
                   border: "0",
