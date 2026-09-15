@@ -76,6 +76,19 @@ const LearnAuth = () => {
           toast.success("Account created! You're all set.");
           navigate("/learn");
         } else {
+          // In development, auto-confirm email and auto-sign in
+          if (import.meta.env.DEV) {
+            const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+            if (!signInError) {
+              // Track conversion event
+              if (window.oaiq) {
+                window.oaiq("measure", "registration_completed", { type: "customer_action" });
+              }
+              toast.success("Account created! Signed in automatically.");
+              navigate("/learn");
+              return;
+            }
+          }
           // Track conversion event
           if (window.oaiq) {
             window.oaiq("measure", "registration_completed", { type: "customer_action" });
