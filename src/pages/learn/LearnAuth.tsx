@@ -69,9 +69,17 @@ const LearnAuth = () => {
         });
         if (error) throw error;
         if (data.session) {
+          // Track conversion event
+          if (window.oaiq) {
+            window.oaiq("measure", "registration_completed", { type: "customer_action" });
+          }
           toast.success("Account created! You're all set.");
           navigate("/learn");
         } else {
+          // Track conversion event
+          if (window.oaiq) {
+            window.oaiq("measure", "registration_completed", { type: "customer_action" });
+          }
           toast.success("Account created! Check your email to confirm, then sign in.");
           setMode("signin");
         }

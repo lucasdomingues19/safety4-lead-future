@@ -67,6 +67,10 @@ const EnrollmentCheckout = () => {
       toast.success("Payment processing...");
 
       setTimeout(() => {
+        // Track conversion event
+        if (window.oaiq) {
+          window.oaiq("measure", "registration_completed", { type: "customer_action" });
+        }
         setStep("confirmation");
         setIsProcessing(false);
       }, 1500);
