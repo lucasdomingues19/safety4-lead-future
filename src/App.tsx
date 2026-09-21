@@ -54,6 +54,7 @@ const LearnDashboard = lazy(() => import("./pages/learn/LearnDashboard"));
 const LmsInterface = lazy(() => import("./pages/learn/LmsInterface"));
 const CourseView = lazy(() => import("./pages/learn/CourseView"));
 const LessonView = lazy(() => import("./pages/learn/LessonView"));
+const LessonViewTest = lazy(() => import("./pages/learn/LessonViewTest"));
 const CourseManager = lazy(() => import("./pages/admin/CourseManager"));
 const Phase2Test = lazy(() => import("./pages/Phase2Test"));
 const Phase2Redesigned = lazy(() => import("./pages/Phase2Redesigned"));
@@ -191,6 +192,7 @@ const App = () => (
             <Route path="/learn" element={<ProtectedRoute><LmsInterface /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug" element={<ProtectedRoute><CourseView /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />
+            <Route path="/learn-test" element={<LessonViewTest />} />
             <Route path="/admin/courses" element={<CourseManager />} />
             <Route path="/phase2-test" element={<Phase2Test />} />
             <Route path="/phase2" element={<Phase2Redesigned />} />
