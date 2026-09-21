@@ -87,12 +87,24 @@ const LessonView = () => {
 
   return (
     <div style={{ minHeight: "100vh", background: "#f5f7fa", color: "#0b0b2c", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      {/* Header */}
-      <div style={{ background: "white", borderBottom: "1px solid #e2e8f0", padding: "16px 24px" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: "#69697b" }}>
-          <span onClick={() => navigate("/learn")} style={{ cursor: "pointer", textDecoration: "underline" }}>My Learning</span>
+      {/* Hero Section */}
+      <div style={{ background: "linear-gradient(135deg, #0b0b2c 0%, #1a1a4d 100%)", color: "white", padding: "40px 24px" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "24px" }}>
+            <img src="/assets/brand-mark-blue.png" alt="SafetyTech" style={{ height: "40px", filter: "brightness(0) invert(1)" }} />
+            <span style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", opacity: 0.8, textTransform: "uppercase" }}>SafetyTech Academy</span>
+          </div>
+          <h1 style={{ margin: "0 0 8px 0", fontSize: "42px", fontWeight: 700, lineHeight: 1.2 }}>{course?.title}</h1>
+          <p style={{ margin: "0", fontSize: "16px", opacity: 0.9, maxWidth: "600px" }}>{course?.description}</p>
+        </div>
+      </div>
+
+      {/* Breadcrumb */}
+      <div style={{ background: "white", borderBottom: "1px solid #e2e8f0", padding: "12px 24px" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#69697b" }}>
+          <span onClick={() => navigate("/learn")} style={{ cursor: "pointer", color: "#3434ff", fontWeight: 500 }}>My Learning</span>
           <ChevronRight size={16} />
-          <span>{course?.title}</span>
+          <span>{currentModule?.title}</span>
           <ChevronRight size={16} />
           <span style={{ fontWeight: 600, color: "#0b0b2c" }}>{lesson.title}</span>
         </div>
