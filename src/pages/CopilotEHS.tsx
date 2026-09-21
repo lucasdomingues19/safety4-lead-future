@@ -27,52 +27,159 @@ import {
 
 const modules = [
   {
-    title: "1. Welcome to the AI-Powered EHS Profession",
-    body: "Identify where AI and Microsoft Copilot can create value in EHS and Sustainability workflows and define personal improvement goals.",
+    title: "1. AI Fundamentals for EHS Professionals",
+    topics: [
+      "What is AI and machine learning?",
+      "How does Copilot work?",
+      "Capabilities and limitations of current AI",
+      "Practical applications in EHS",
+      "Risk awareness and responsible use principles",
+    ],
+    practicalActivities: [
+      "Test Copilot in a real EHS scenario",
+      "Identify where AI adds value in your role",
+      "Explore the limitations through practical examples",
+    ],
   },
   {
-    title: "2. AI Skills for Modern EHS Leaders",
-    body: "Apply AI literacy, critical thinking and verification practices to use AI responsibly in professional EHS contexts.",
+    title: "2. Prompt Engineering for EHS",
+    topics: [
+      "The anatomy of effective prompts",
+      "The GRACE framework: Ground, Role, Artefact, Constraints, Evidence",
+      "Writing source-grounded prompts for safety-critical work",
+      "Structuring prompts for accuracy and compliance",
+      "Testing and iterating prompts",
+    ],
+    practicalActivities: [
+      "Write and test 5 safety-critical prompts",
+      "Apply the GRACE framework to an audit scenario",
+      "Compare weak vs. strong prompts for risk assessment",
+    ],
   },
   {
-    title: "3. Copilot Fundamentals",
-    body: "Understand the Microsoft Copilot ecosystem and use grounding, security and personalisation principles effectively.",
+    title: "3. Copilot in Apps for EHS Productivity (Part 1)",
+    topics: [
+      "Copilot in Word: drafting policies, procedures, and reports",
+      "Copilot in Excel: structuring data and spotting trends",
+      "Copilot in Outlook: managing incident communications",
+      "Copilot in Teams: facilitating safety conversations",
+      "Assurative AI: draft, review, underwrite",
+    ],
+    practicalActivities: [
+      "Draft an EHS policy using Copilot in Word",
+      "Create a safety dashboard in Excel with Copilot assistance",
+      "Compose an incident notification with Copilot in Outlook",
+    ],
   },
   {
-    title: "4. Prompting for EHS Professionals",
-    body: "Create high-quality prompts that generate useful, accurate outputs for EHS and Sustainability activities.",
+    title: "4. Copilot in Apps for EHS Productivity (Part 2)",
+    topics: [
+      "Copilot in PowerPoint: building safety presentations",
+      "Copilot in OneNote: organizing safety knowledge",
+      "Copilot in Loop: collaborative safety planning",
+      "Cross-app workflows for incident response",
+      "Building EHS playbooks with Copilot",
+    ],
+    practicalActivities: [
+      "Create a safety campaign presentation in PowerPoint",
+      "Build a searchable incident response knowledge base",
+      "Design a cross-app workflow for near-miss reporting",
+    ],
   },
   {
-    title: "5. EHS Productivity",
-    body: "Use Copilot to improve EHS productivity by managing emails, meetings, information retrieval and daily work more efficiently.",
+    title: "5. Notebook",
+    topics: [
+      "Microsoft Copilot for structured notes",
+      "Recording and summarizing safety meetings",
+      "Building searchable EHS knowledge repositories",
+      "Organizing compliance documentation",
+      "Integration with incident investigations",
+    ],
+    practicalActivities: [
+      "Transcribe and summarize a safety meeting",
+      "Organize a complex incident file with Copilot",
+      "Create a searchable policy and procedure archive",
+    ],
   },
   {
-    title: "6. EHS Documentation and Knowledge Work",
-    body: "Develop professional EHS documents, communications and knowledge resources using Microsoft Copilot.",
+    title: "6. Copilot Cowork",
+    topics: [
+      "Collaborative AI for team safety initiatives",
+      "Real-time safety meeting assistance",
+      "Group problem-solving with Copilot",
+      "Building consensus on risk controls",
+      "Documenting collaborative decisions",
+    ],
+    practicalActivities: [
+      "Run a safety meeting with Copilot Cowork live note-taking",
+      "Facilitate a risk assessment workshop with AI support",
+      "Create shared safety playbooks collaboratively",
+    ],
   },
   {
-    title: "7. Risk Assessment, Audits & Compliance",
-    body: "Apply Copilot to strengthen risk management, audit preparation, inspections and assurance activities.",
+    title: "7. Copilot Agents",
+    topics: [
+      "What are agents and why they matter for EHS?",
+      "Researcher Agent for regulatory compliance",
+      "Analyst Agent for data-driven safety decisions",
+      "Custom agents for your EHS processes",
+      "Integration with existing safety systems",
+      "Governance and oversight of agentic workflows",
+    ],
+    practicalActivities: [
+      "Use Researcher Agent to gather regulatory updates",
+      "Apply Analyst Agent to safety trend data",
+      "Design a custom agent for incident classification",
+    ],
   },
   {
-    title: "8. Incident Management & Investigations",
-    body: "Use Copilot to support incident investigations, analyse information and develop effective corrective actions and reports.",
+    title: "8. AI Risks, Ethics, Security and Governance",
+    topics: [
+      "AI hallucinations and how to prevent them in safety work",
+      "Ethical use of AI in risk assessment and audits",
+      "Data security and confidentiality with Copilot",
+      "Regulatory compliance: EU AI Act Article 4 obligations",
+      "Organizational AI governance for EHS",
+      "Audit trails and accountability frameworks",
+    ],
+    practicalActivities: [
+      "Conduct an AI risk assessment for your safety processes",
+      "Build AI governance checkpoints into your EHS workflows",
+      "Create an AI audit trail for compliance documentation",
+    ],
   },
   {
-    title: "9. Analytics, Reporting & Decision Making",
-    body: "Analyse EHS and Sustainability data, identify trends and create meaningful reports using Copilot-powered insights.",
+    title: "9. Stay Copilot Confident",
+    topics: [
+      "Recognizing and managing AI-induced overconfidence",
+      "Building healthy skepticism into safety workflows",
+      "Verification and validation protocols",
+      "Escalation triggers for high-risk decisions",
+      "Keeping the human in the loop",
+      "Continuous learning and skill adaptation",
+    ],
+    practicalActivities: [
+      "Design a verification checklist for AI-assisted decisions",
+      "Run a tabletop exercise with Copilot assistance",
+      "Establish escalation protocols for your team",
+    ],
   },
   {
-    title: "10. Built-in Agents",
-    body: "Leverage Researcher, Analyst and Agents to enhance research, analysis and decision-making capabilities.",
-  },
-  {
-    title: "11. Agents & Copilot Studio",
-    body: "Understand how Copilot Studio can be used to create custom AI agents for EHS and Sustainability processes.",
-  },
-  {
-    title: "12. Building an AI-Powered EHS Function",
-    body: "Develop a practical roadmap for leading and implementing an AI-enabled EHS and Sustainability function.",
+    title: "10. Capstone Project: Copilot-Powered EHS Investigation & Improvement Programme",
+    topics: [
+      "Integrating Copilot across a complete EHS workflow",
+      "Leading teams through AI-enabled transformation",
+      "Building a business case for AI in safety",
+      "Managing organizational change and adoption",
+      "Measuring ROI and impact of Copilot initiatives",
+      "Scaling AI across your EHS function",
+    ],
+    practicalActivities: [
+      "Design a Copilot-powered incident investigation process",
+      "Develop a 12-month AI implementation roadmap",
+      "Present your EHS AI strategy to leadership",
+      "Create implementation guides for your team",
+    ],
   },
 ];
 
@@ -109,7 +216,7 @@ const CopilotEHS = () => {
         features={[
           { icon: Users, label: "Live or Self-Paced" },
           { icon: ShieldCheck, label: "Article 4 Aligned" },
-          { icon: Calendar, label: "12 Modules" },
+          { icon: Calendar, label: "10 Modules" },
           { icon: Laptop, label: "365-Day Access" },
         ]}
         icon={iconCopilot}
@@ -205,7 +312,7 @@ const CopilotEHS = () => {
               <h3 className="text-lg font-bold text-slate-900 mb-2">Assurative AI</h3>
               <p className="text-sm text-[#69697b] leading-relaxed">
                 Copilot drafts and flags. A competent person reviews, corrects, and underwrites every output. This
-                principle runs through all twelve modules, so the AI makes your team faster without your people
+                principle runs through all ten modules, so the AI makes your team faster without your people
                 losing accountability for safety-critical work.
               </p>
             </div>
@@ -241,7 +348,7 @@ const CopilotEHS = () => {
               </p>
               <ul className="space-y-2.5">
                 {[
-                  "Twelve live modules, paced for hands-on practice",
+                  "Ten live modules, paced for hands-on practice",
                   "Fundamentals of AI in EHS eLearning as a foundation",
                   "Weekly live office hours for the duration",
                   "Private community space for delegates",
@@ -268,7 +375,7 @@ const CopilotEHS = () => {
               <ul className="space-y-2.5">
                 {[
                   "Fundamentals of AI in EHS eLearning",
-                  "Self-paced twelve-module library",
+                  "Self-paced ten-module library",
                   "Workbooks and a private community space",
                   "365-day access to all materials",
                 ].map((item) => (
@@ -288,10 +395,10 @@ const CopilotEHS = () => {
         </div>
       </section>
 
-      {/* The twelve modules */}
+      {/* The ten modules */}
       <section className="py-10 md:py-14 border-t border-slate-200 bg-slate-50">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="mb-2 text-center">The twelve modules</h2>
+          <h2 className="mb-2 text-center">The ten modules</h2>
           <p className="text-[#69697b] text-center mb-10">
             The program moves from foundations to applied automation — core capability first, then Copilot across
             the day-to-day safety workflow, then agents and automation with the governance to use them safely.
@@ -303,7 +410,32 @@ const CopilotEHS = () => {
                   {m.title}
                 </AccordionTrigger>
                 <AccordionContent className="text-[#69697b] leading-relaxed px-4">
-                  {m.body}
+                  {"body" in m ? (
+                    m.body
+                  ) : (
+                    <div className="space-y-4">
+                      {m.topics && (
+                        <div>
+                          <h4 className="font-semibold text-slate-900 mb-2">Topics</h4>
+                          <ul className="list-disc list-inside space-y-1">
+                            {m.topics.map((topic, idx) => (
+                              <li key={idx}>{topic}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {m.practicalActivities && (
+                        <div>
+                          <h4 className="font-semibold text-slate-900 mb-2">Practical Activities</h4>
+                          <ul className="list-disc list-inside space-y-1">
+                            {m.practicalActivities.map((activity, idx) => (
+                              <li key={idx}>{activity}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </AccordionContent>
               </AccordionItem>
             ))}
