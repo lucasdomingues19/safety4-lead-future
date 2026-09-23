@@ -183,8 +183,8 @@ const App = () => (
             <Route path="/governance-readiness" element={<GovernanceReadiness />} />
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
-            <Route path="/events" element={<Events />} />
             <Route path="/events/copilot-hse" element={<EventPage />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/brochure" element={<Brochure />} />
             <Route path="/proposal_:token" element={<ProposalPage />} />
             <Route path="/proposal/:token" element={<OldProposalRedirect />} />
