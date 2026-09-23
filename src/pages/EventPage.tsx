@@ -50,20 +50,11 @@ const EventPage = () => {
               <h1 className="mb-5 leading-[1.05] text-[#0b0b2c]">
                 <span className="text-primary">Copilot</span> in HSE
               </h1>
-              <p className="text-lg text-[#69697b] leading-relaxed mb-10 max-w-xl">
+              <p className="text-lg text-[#69697b] leading-relaxed max-w-xl">
                 A live, hands-on session on using Microsoft 365 Copilot for real EHS work — drafting
                 policies, structuring incident data and summarising safety meetings. Led by Lucas
                 Domingues, founder of SafetyTech Academy.
               </p>
-              <a
-                href={ZOOM_REGISTRATION_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-[22px] bg-primary text-white font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
-              >
-                Register now
-                <ArrowRight className="w-4 h-4" />
-              </a>
             </div>
 
             {/* Right — event card */}
