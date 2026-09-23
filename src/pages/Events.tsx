@@ -7,7 +7,7 @@ import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import EventRegistrationModal from "@/components/EventRegistrationModal";
 import { supabase } from "@/integrations/supabase/client";
-import copilotHseBanner from "@/assets/event-copilot-hse-banner.png";
+import copilotHseCard from "@/assets/event-copilot-hse-card.webp";
 
 interface Event {
   id: string;
@@ -82,7 +82,7 @@ const Events = () => {
             <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
               <div className="relative h-64 md:h-full rounded-[12px] overflow-hidden bg-gray-200 group-hover:scale-[1.02] transition-transform duration-300 flex-shrink-0">
                 <img
-                  src={copilotHseBanner}
+                  src={copilotHseCard}
                   alt="Copilot in HSE — Live Crash Course with Lucas Domingues"
                   className="w-full h-full object-cover"
                 />
