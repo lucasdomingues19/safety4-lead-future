@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
 import eventImage from "@/assets/event-copilot-hse-card.webp";
+import eventBanner from "@/assets/event-copilot-hse-banner.png";
 
 const ZOOM_REGISTRATION_URL = "https://us06web.zoom.us/meeting/register/qqHLqHeBSvmxb0yo_u1Z8w";
 
@@ -33,6 +34,14 @@ const EventPage = () => {
       {/* Hero */}
       <section className="pt-28 pb-16 md:pt-32 md:pb-20 bg-[#f7f8fc]">
         <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto mb-12 md:mb-16 rounded-[20px] overflow-hidden shadow-lg">
+            <img
+              src={eventBanner}
+              alt="Copilot in HSE — Live Crash Course with Lucas Domingues"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+
           <div className="grid lg:grid-cols-[1fr_420px] gap-12 lg:gap-16 max-w-6xl mx-auto items-start">
             {/* Left — title, description, CTA */}
             <div>
