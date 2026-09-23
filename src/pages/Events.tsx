@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
@@ -6,6 +7,7 @@ import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
 import EventRegistrationModal from "@/components/EventRegistrationModal";
 import { supabase } from "@/integrations/supabase/client";
+import copilotHseBanner from "@/assets/event-copilot-hse-banner.png";
 
 interface Event {
   id: string;
@@ -72,13 +74,61 @@ const Events = () => {
 
         {/* Events Grid */}
         <div className="space-y-8">
+          {/* Featured event — Copilot in HSE */}
+          <Link
+            to="/events/copilot-hse"
+            className="group block bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+          >
+            <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
+              <div className="relative h-64 md:h-full rounded-[12px] overflow-hidden bg-gray-200 group-hover:scale-[1.02] transition-transform duration-300 flex-shrink-0">
+                <img
+                  src={copilotHseBanner}
+                  alt="Copilot in HSE — Live Crash Course with Lucas Domingues"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="flex flex-col justify-between">
+                <div>
+                  <span className="inline-block bg-primary/10 text-primary text-xs font-bold uppercase tracking-[0.08em] px-3 py-1.5 rounded-full mb-4">
+                    Live Crash Course · Free
+                  </span>
+                  <h3 className="text-2xl font-bold text-[#0b0b2c] mb-3">
+                    Copilot in HSE
+                  </h3>
+                  <p className="text-[#69697b] mb-6 leading-relaxed">
+                    A live, hands-on session on using Microsoft 365 Copilot for real EHS work —
+                    drafting policies, structuring incident data and summarising safety meetings.
+                    Led by Lucas Domingues, founder of SafetyTech Academy.
+                  </p>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-3 text-[#0b0b2c]">
+                    <Calendar size={20} className="text-primary flex-shrink-0" />
+                    <span className="font-medium">Wednesday 30 September 2026</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#0b0b2c]">
+                    <Clock size={20} className="text-primary flex-shrink-0" />
+                    <span className="font-medium">3:00 PM UK time (BST)</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#0b0b2c]">
+                    <MapPin size={20} className="text-primary flex-shrink-0" />
+                    <span className="font-medium">Live online · Zoom</span>
+                  </div>
+                </div>
+
+                <span className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-[8px] group-hover:bg-[#2a2ad6] transition-colors duration-300 w-fit">
+                  View event & register
+                  <ArrowRight size={18} />
+                </span>
+              </div>
+            </div>
+          </Link>
+
           {loading ? (
             <div className="text-center py-12 text-[#69697b]">Loading events...</div>
-          ) : events.length === 0 ? (
-            <div className="text-center py-12 text-[#69697b]">
-              No upcoming events. Check back soon!
-            </div>
-          ) : (
+          ) : events.length === 0 ? null : (
             events.map((event) => (
               <div
                 key={event.id}
