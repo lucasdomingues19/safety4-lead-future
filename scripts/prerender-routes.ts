@@ -152,6 +152,12 @@ const staticRoutes: RouteSeo[] = [
     description:
       "SafetyTech Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
   },
+  {
+    path: "/events/copilot-hse",
+    title: "Copilot in HSE — Live Crash Course | SafetyTech Academy",
+    description:
+      "Join Lucas Domingues for a live hands-on crash course on Microsoft 365 Copilot for HSE. Wednesday 30 September 2026, 3:00 PM UK time on Zoom.",
+  },
 ];
 
 interface BlogPostSeoRow {
