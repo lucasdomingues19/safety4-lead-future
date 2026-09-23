@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight, Calendar, Clock, Monitor } from "lucide-react";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
@@ -117,6 +118,26 @@ const EventPage = () => {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Explore courses CTA */}
+      <section className="py-16 md:py-20 bg-primary">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-white mb-4">Want to go further than one session?</h2>
+            <p className="text-white/80 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+              Explore SafetyTech Academy's full library of IOSH-approved and CPD-certified courses
+              on AI, digital transformation and Safety 4.0.
+            </p>
+            <Link
+              to="/courses"
+              className="inline-flex items-center gap-2 px-8 py-[22px] bg-white text-primary font-medium text-base uppercase tracking-[0.08em] rounded hover:bg-white/90 transition-colors"
+            >
+              Discover our courses
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
