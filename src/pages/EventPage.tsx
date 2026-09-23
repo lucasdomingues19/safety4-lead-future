@@ -4,7 +4,6 @@ import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
-import eventImage from "@/assets/event-copilot-hse-card.webp";
 import eventBanner from "@/assets/event-copilot-hse-banner.png";
 
 const ZOOM_REGISTRATION_URL = "https://us06web.zoom.us/meeting/register/qqHLqHeBSvmxb0yo_u1Z8w";
@@ -70,11 +69,6 @@ const EventPage = () => {
             {/* Right — event card */}
             <div className="lg:sticky lg:top-28">
               <div className="rounded-[20px] border border-slate-200 shadow-lg overflow-hidden bg-white">
-                <img
-                  src={eventImage}
-                  alt="Copilot in HSE — Live Crash Course with Lucas Domingues"
-                  className="w-full aspect-square object-cover"
-                />
                 <div className="p-6">
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-3 text-sm text-[#0b0b2c]">
