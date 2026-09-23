@@ -22,11 +22,10 @@ export default function EventPage() {
             {/* Left Column */}
             <div>
               {/* Headline */}
-              <h1 style={{ fontSize: '88px', fontWeight: 800, lineHeight: 0.95, marginBottom: '36px', margin: 0 }}>
-                <span style={{ color: '#9EFF1F' }}>Copilot</span>
-                <br />
-                <span style={{ color: '#fff' }}>in HSE</span>
-              </h1>
+              <div style={{ marginBottom: '36px' }}>
+                <div style={{ fontSize: '88px', fontWeight: 800, lineHeight: 1, color: '#9EFF1F', margin: 0 }}>Copilot</div>
+                <div style={{ fontSize: '88px', fontWeight: 800, lineHeight: 1, color: '#fff', margin: 0 }}>in HSE</div>
+              </div>
 
               {/* Subtitle Badge */}
               <div style={{ background: '#fff', color: '#0B0B2C', padding: '14px 20px', borderRadius: '12px', display: 'inline-flex', alignItems: 'center', gap: '12px', marginBottom: '48px' }}>
