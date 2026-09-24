@@ -62,7 +62,7 @@ const Syllabus = () => {
         ]}
         icon={iconElearningHero}
         badgeSrc={badgeElearningHero}
-        price="£497"
+        price="£597"
         originalPrice="£697"
         meta={[
           { icon: BarChart3, label: "Level", value: "All Levels" },
@@ -70,7 +70,7 @@ const Syllabus = () => {
           { icon: PlayCircle, label: "Lessons", value: "60+" },
           { icon: GraduationCap, label: "Programme", value: "90 Days" },
         ]}
-        cta={{ label: "Start Learning — £497", href: "https://learning.safetytech.academy/offers/E2ZXsoXV/checkout", external: true }}
+        cta={{ label: "Start Learning — £597", href: "https://learning.safetytech.academy/offers/E2ZXsoXV/checkout", external: true }}
         secondaryCta={{ label: "Download Brochure", href: "https://learning.safetytech.academy/brochure", external: true }}
       />
 

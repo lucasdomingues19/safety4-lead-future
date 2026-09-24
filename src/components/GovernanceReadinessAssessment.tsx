@@ -410,7 +410,7 @@ export const GovernanceReadinessAssessment = ({ compact = false }: { compact?: b
                 <h4 className="font-extrabold text-lg text-slate-900 mb-2.5">Discover our learning options / Book a Call with Us</h4>
                 <p className="text-sm text-slate-600 mb-5">
                   Safety 4.0: Leading Safety in the Digital Age is approved training by IOSH and CPD-certified, and produces the certificated evidence the
-                  literacy obligation asks for. £497.
+                  literacy obligation asks for. £597.
                 </p>
                 <a href="/elearning" className="block text-center rounded-lg bg-primary px-5 py-4 font-extrabold text-white hover:bg-primary/90">
                   Discover our learning options

@@ -80,7 +80,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "offers": {
         "@type": "Offer",
         "category": "Founding Member Special",
-        "price": "497",
+        "price": "597",
         "priceCurrency": "GBP",
         "availability": "https://schema.org/InStock",
         "url": "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV",
@@ -187,7 +187,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "estimatedCost": {
         "@type": "MonetaryAmount",
         "currency": "GBP",
-        "value": "497"
+        "value": "597"
       },
       "totalTime": "PT12W",
       "step": [

@@ -457,7 +457,7 @@ export const guides: Guide[] = [
             [
               "IOSH-approved Safety 4.0 eLearning",
               "Self-paced, 10 modules, 8+ CPD hours, 90-day course access",
-              "£497",
+              "£597",
             ],
             [
               "Safety 4.0 Accelerator Cohort",

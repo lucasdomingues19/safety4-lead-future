@@ -44,7 +44,7 @@ export const COURSE_CATALOGUE: Omit<ProposalItem, "id" | "seats">[] = [
     name: "IOSH-approved Safety 4.0 — Leading Safety in the Digital Age",
     description:
       "Self-paced eLearning: 10 modules, 60+ video lessons, assessments, IOSH & CPD certification, 90-day completion window.",
-    unitPrice: 497,
+    unitPrice: 597,
     url: "/elearning",
   },
   {

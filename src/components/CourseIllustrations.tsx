@@ -164,7 +164,7 @@ export const courses: CourseMeta[] = [
     icon: iconElearning,
     iconWhite: iconWhiteElearning,
     level: "All Levels",
-    price: "£497",
+    price: "£597",
     originalPrice: "£697",
     period: "",
     popular: true,
