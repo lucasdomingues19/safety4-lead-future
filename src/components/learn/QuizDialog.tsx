@@ -53,7 +53,7 @@ export const QuizDialog = ({
         userId,
         questions,
         answers,
-        quiz.pass_mark,
+        quiz.pass_threshold,
       );
 
       setResult(gradingResult);
@@ -90,7 +90,7 @@ export const QuizDialog = ({
             <Award className="h-5 w-5 text-primary" /> {quiz.title}
           </DialogTitle>
           <DialogDescription>
-            Pass mark: {quiz.pass_mark}% • {questions.length} question
+            Pass mark: {quiz.pass_threshold}% • {questions.length} question
             {questions.length === 1 ? "" : "s"}
           </DialogDescription>
         </DialogHeader>

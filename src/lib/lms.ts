@@ -28,19 +28,23 @@ export interface Module {
   updated_at: string;
 }
 
+export interface LessonResource {
+  label: string;
+  url: string;
+}
+
 export interface Lesson {
   id: string;
   module_id: string;
   title: string;
-  description: string | null;
   video_url: string | null;
-  video_duration_seconds: number | null;
-  content: string | null;
+  body: string | null;
+  transcript: string | null;
+  resources: LessonResource[] | null;
   position: number;
-  is_locked: boolean;
+  duration_minutes: number | null;
   created_at: string;
   updated_at: string;
-  duration_minutes?: number;
 }
 
 export interface Enrollment {
@@ -78,9 +82,7 @@ export interface Quiz {
   id: string;
   module_id: string;
   title: string;
-  description: string | null;
-  pass_mark: number;
-  allow_retakes: boolean;
+  pass_threshold: number;
   created_at: string;
   updated_at: string;
 }
@@ -88,14 +90,11 @@ export interface Quiz {
 export interface QuizQuestion {
   id: string;
   quiz_id: string;
-  text: string;
-  type: "multiple_choice" | "true_false" | "short_answer" | "essay";
-  options?: string[] | null;
-  correct_answer?: string;
-  rubric?: string;
+  prompt: string;
+  options: string[];
+  correct_index: number;
   position: number;
   created_at: string;
-  updated_at: string;
 }
 
 export interface QuizAttempt {
@@ -112,19 +111,11 @@ export interface QuizAttempt {
 
 /** Normalize raw lesson rows to add computed duration_minutes field. */
 export const asLessons = (rows: unknown[] | null | undefined): Lesson[] =>
-  ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
-    ...(r as unknown as Lesson),
-    duration_minutes: (r as any).video_duration_seconds
-      ? Math.ceil((r as any).video_duration_seconds / 60)
-      : undefined,
-  }));
+  (rows ?? []) as unknown as Lesson[];
 
 /** Normalize raw quiz question rows. */
 export const asQuizQuestions = (rows: unknown[] | null | undefined): QuizQuestion[] =>
-  ((rows ?? []) as Record<string, unknown>[]).map((r) => ({
-    ...(r as unknown as QuizQuestion),
-    options: (r as any).options ? JSON.parse((r as any).options) : null,
-  }));
+  (rows ?? []) as unknown as QuizQuestion[];
 
 /** Format a price (in cents) to a localized currency string. */
 export const formatPrice = (priceCents: number | null | undefined, currency = "GBP"): string => {

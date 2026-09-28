@@ -5,6 +5,7 @@ import { useAuthUser } from "@/hooks/useAuthUser";
 import { ChevronRight, CheckCircle2, Play, BookOpen, MessageSquare, FileText, Lightbulb, Download, Award } from "lucide-react";
 import { toast } from "sonner";
 import { toEmbedUrl } from "@/lib/lms";
+import ReactMarkdown from "react-markdown";
 import { QuizDialog } from "@/components/learn/QuizDialog";
 import type { Quiz, QuizQuestion } from "@/lib/quiz";
 import { getQuizQuestions } from "@/lib/quiz";
@@ -203,7 +204,13 @@ const LessonView = () => {
           {/* Content */}
           <div style={{ background: "white", padding: "24px", borderRadius: "0 0 12px 12px", minHeight: "200px" }}>
             {activeTab === "overview" && (
-              <div dangerouslySetInnerHTML={{ __html: lesson.content || "<p>No overview added for this lesson yet.</p>" }} style={{ lineHeight: 1.6, color: "#0b0b2c" }} />
+              lesson.body ? (
+                <div style={{ lineHeight: 1.6, color: "#0b0b2c" }} className="prose prose-sm max-w-none">
+                  <ReactMarkdown>{lesson.body}</ReactMarkdown>
+                </div>
+              ) : (
+                <p style={{ color: "#69697b" }}>No overview added for this lesson yet.</p>
+              )
             )}
             {activeTab === "transcript" && (
               lesson.transcript ? (
@@ -215,10 +222,10 @@ const LessonView = () => {
             {activeTab === "resources" && (
               Array.isArray(lesson.resources) && lesson.resources.length > 0 ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  {lesson.resources.map((r: { name: string; url: string }, i: number) => (
+                  {lesson.resources.map((r: { label: string; url: string }, i: number) => (
                     <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", background: "#f5f7fa", borderRadius: "8px", color: "#0b0b2c", textDecoration: "none", fontSize: "14px", fontWeight: 500 }}>
                       <Download size={16} color="#3434ff" />
-                      {r.name}
+                      {r.label}
                     </a>
                   ))}
                 </div>
@@ -240,7 +247,7 @@ const LessonView = () => {
                   <div style={{ fontSize: "13px", opacity: 0.85 }}>
                     {certificateUrl
                       ? "Passed — your certificate has been emailed to you."
-                      : `You've completed this module. Pass mark: ${quiz.pass_mark}%`}
+                      : `You've completed this module. Pass mark: ${quiz.pass_threshold}%`}
                   </div>
                 </div>
               </div>

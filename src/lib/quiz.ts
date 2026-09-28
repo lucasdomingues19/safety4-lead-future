@@ -18,9 +18,7 @@ export interface Quiz {
   id: string;
   module_id: string;
   title: string;
-  description?: string;
-  pass_mark: number;
-  allow_retakes: boolean;
+  pass_threshold: number;
   created_at: string;
 }
 
@@ -37,7 +35,7 @@ export interface QuizAttempt {
 export interface GradingResult {
   score: number;
   passed: boolean;
-  pass_mark: number;
+  pass_threshold: number;
   details: Array<{
     question_id: string;
     score: number;
@@ -129,7 +127,7 @@ export async function submitQuizAttempt(
   // grading function, which looks up the authoritative questions itself.
   _questions: QuizQuestion[],
   answers: Record<string, string>,
-  passMark: number,
+  passThreshold: number,
 ): Promise<GradingResult> {
   const { data, error } = await supabase.functions.invoke(
     "grade-quiz-attempt",
@@ -138,7 +136,7 @@ export async function submitQuizAttempt(
         quiz_id: quizId,
         user_id: userId,
         answers,
-        pass_mark: passMark,
+        pass_threshold: passThreshold,
       },
     },
   );

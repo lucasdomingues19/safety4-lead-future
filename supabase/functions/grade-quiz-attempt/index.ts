@@ -23,7 +23,7 @@ interface GradingRequest {
   quiz_id: string;
   user_id: string;
   answers: StudentAnswers;
-  pass_mark: number;
+  pass_threshold: number;
 }
 
 interface QuestionScore {
@@ -94,7 +94,7 @@ serve(async (req) => {
     const totalScore = questionScores.reduce((sum, q) => sum + q.score, 0);
     const totalMax = questionScores.reduce((sum, q) => sum + q.max_score, 0);
     const finalScore = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
-    const passed = finalScore >= request.pass_mark;
+    const passed = finalScore >= request.pass_threshold;
 
     const { error: insertError } = await supabase.from("quiz_attempts").insert({
       user_id: request.user_id,
@@ -113,11 +113,11 @@ serve(async (req) => {
       JSON.stringify({
         score: finalScore,
         passed,
-        pass_mark: request.pass_mark,
+        pass_threshold: request.pass_threshold,
         details: questionScores,
         message: passed
           ? `Great job! You scored ${finalScore}% and passed! 🎉`
-          : `You scored ${finalScore}%. You need ${request.pass_mark}% to pass. Try again!`,
+          : `You scored ${finalScore}%. You need ${request.pass_threshold}% to pass. Try again!`,
       }),
       { headers: { "content-type": "application/json", ...corsHeaders }, status: 200 },
     );

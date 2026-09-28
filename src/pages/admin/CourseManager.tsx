@@ -14,7 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen, Sun, Moon } from "lucide-react";
+import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen, Sun, Moon, Wand2 } from "lucide-react";
 import { asLessons, asQuizQuestions, type Course, type Module, type Lesson, type Quiz, type QuizQuestion } from "@/lib/lms";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
 import { useAdminTheme } from "@/hooks/useAdminTheme";
@@ -444,6 +444,33 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
   const [resourcesText, setResourcesText] = useState(
     (lesson.resources ?? []).map((r) => `${r.label} | ${r.url}`).join("\n"),
   );
+  const [generatingTranscript, setGeneratingTranscript] = useState(false);
+
+  const generateTranscript = async () => {
+    if (!form.video_url) {
+      toast.error("Add a video URL first");
+      return;
+    }
+    setGeneratingTranscript(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-transcript", {
+        body: { videoUrl: form.video_url },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setForm((f) => ({ ...f, transcript: data.transcript }));
+      const { error: saveErr } = await supabase
+        .from("lessons")
+        .update({ transcript: data.transcript })
+        .eq("id", lesson.id);
+      if (saveErr) throw saveErr;
+      toast.success(`Transcript generated (${data.source === "youtube_captions" ? "YouTube captions" : "Whisper"})`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Transcript generation failed");
+    } finally {
+      setGeneratingTranscript(false);
+    }
+  };
 
   const save = async () => {
     const resources = resourcesText
@@ -458,6 +485,7 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
         position: form.position,
         video_url: form.video_url,
         body: form.body,
+        transcript: form.transcript,
         duration_minutes: form.duration_minutes,
         resources,
       })
@@ -520,6 +548,25 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
           rows={4}
           value={form.body ?? ""}
           onChange={(e) => setForm({ ...form, body: e.target.value })}
+        />
+      </div>
+      <div className="mt-3 space-y-1.5">
+        <div className="flex items-center justify-between">
+          <Label className="text-xs">Transcript</Label>
+          <Button size="sm" variant="outline" onClick={generateTranscript} disabled={generatingTranscript}>
+            {generatingTranscript ? (
+              <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Wand2 className="mr-2 h-3.5 w-3.5" />
+            )}
+            Generate with AI
+          </Button>
+        </div>
+        <Textarea
+          rows={4}
+          value={form.transcript ?? ""}
+          onChange={(e) => setForm({ ...form, transcript: e.target.value })}
+          placeholder="Auto-generated from YouTube captions, or paste your own"
         />
       </div>
       <div className="mt-3 space-y-1.5">
