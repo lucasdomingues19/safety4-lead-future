@@ -143,7 +143,7 @@ const CourseView = () => {
             <ArrowLeft className="h-4 w-4" /> Back to My Learning
           </Link>
 
-          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">{course.title}</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">{course.title}</h1>
           {course.description && <p className="mt-3 max-w-2xl text-white/70">{course.description}</p>}
 
           <div className="mt-8 max-w-md">

@@ -4,6 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { ChevronRight, CheckCircle2, Play, BookOpen, MessageSquare, FileText, Lightbulb } from "lucide-react";
 import { toast } from "sonner";
+import { toEmbedUrl } from "@/lib/lms";
+
+const isEmbeddableVideo = (url: string) => /youtube\.com|youtu\.be|vimeo\.com/.test(url);
 
 const LessonView = () => {
   const { courseSlug, lessonId } = useParams();
@@ -94,7 +97,7 @@ const LessonView = () => {
             <img src="/assets/brand-mark-blue.png" alt="SafetyTech" style={{ height: "40px", filter: "brightness(0) invert(1)" }} />
             <span style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", opacity: 0.8, textTransform: "uppercase" }}>SafetyTech Academy</span>
           </div>
-          <h1 style={{ margin: "0 0 8px 0", fontSize: "42px", fontWeight: 700, lineHeight: 1.2 }}>{course?.title}</h1>
+          <h1 style={{ margin: "0 0 8px 0", fontSize: "42px", fontWeight: 700, lineHeight: 1.2, color: "#fff" }}>{course?.title}</h1>
           <p style={{ margin: "0", fontSize: "16px", opacity: 0.9, maxWidth: "600px" }}>{course?.description}</p>
         </div>
       </div>
@@ -115,7 +118,16 @@ const LessonView = () => {
         {/* Video & Tabs */}
         <div>
           {/* Video Player */}
-          {lesson.video_url ? (
+          {lesson.video_url && isEmbeddableVideo(lesson.video_url) ? (
+            <iframe
+              key={lesson.id}
+              src={toEmbedUrl(lesson.video_url) ?? undefined}
+              title={lesson.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ width: "100%", border: "none", background: "#0b0b2c", borderRadius: "24px", aspectRatio: "16/9", marginBottom: "24px" }}
+            />
+          ) : lesson.video_url ? (
             <video
               key={lesson.id}
               src={lesson.video_url}
@@ -182,7 +194,7 @@ const LessonView = () => {
             <div style={{ background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)", borderRadius: "12px", padding: "16px", color: "white" }}>
               <div style={{ display: "flex", gap: "8px", marginBottom: "8px", alignItems: "center" }}>
                 <Lightbulb size={16} />
-                <h3 style={{ fontSize: "13px", fontWeight: 600, margin: 0 }}>Hands-on Next</h3>
+                <h3 style={{ fontSize: "13px", fontWeight: 600, margin: 0, color: "#fff" }}>Hands-on Next</h3>
               </div>
               <p style={{ fontSize: "12px", lineHeight: 1.5, margin: 0, opacity: 0.9 }}>Try what you learned in a practical exercise to reinforce your knowledge.</p>
             </div>
