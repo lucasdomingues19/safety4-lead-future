@@ -10,6 +10,7 @@ import { QuizDialog } from "@/components/learn/QuizDialog";
 import type { Quiz, QuizQuestion } from "@/lib/quiz";
 import { getQuizQuestions } from "@/lib/quiz";
 import brandMarkBlue from "@/assets/brand-mark-blue.png";
+import { verifyEnrollmentAccess } from "@/lib/stripe";
 
 const isEmbeddableVideo = (url: string) => /youtube\.com|youtu\.be|vimeo\.com/.test(url);
 
@@ -29,6 +30,9 @@ const LessonView = () => {
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [quizDialogOpen, setQuizDialogOpen] = useState(false);
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
+  const [comments, setComments] = useState<{ id: string; user_id: string; author_name: string; body: string; created_at: string }[]>([]);
+  const [newComment, setNewComment] = useState("");
+  const [postingComment, setPostingComment] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -40,11 +44,75 @@ const LessonView = () => {
     if (user && courseSlug && lessonId) loadLesson();
   }, [user, courseSlug, lessonId]);
 
+  useEffect(() => {
+    if (lessonId) loadComments();
+  }, [lessonId]);
+
+  const loadComments = async () => {
+    const { data } = await supabase
+      .from("lesson_comments")
+      .select("id, user_id, author_name, body, created_at")
+      .eq("lesson_id", lessonId)
+      .order("created_at", { ascending: true });
+    setComments(data ?? []);
+  };
+
+  const postComment = async () => {
+    if (!user || !lessonId || !newComment.trim()) return;
+    setPostingComment(true);
+    try {
+      const metaName = (user.user_metadata as { full_name?: string } | undefined)?.full_name;
+      const authorName = (metaName && metaName.trim()) || user.email?.split("@")[0] || "Learner";
+      const { error } = await supabase.from("lesson_comments").insert({
+        lesson_id: lessonId,
+        user_id: user.id,
+        author_name: authorName,
+        body: newComment.trim(),
+      });
+      if (error) throw error;
+      setNewComment("");
+      await loadComments();
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not post your comment. Please try again.");
+    } finally {
+      setPostingComment(false);
+    }
+  };
+
+  const deleteComment = async (commentId: string) => {
+    const { error } = await supabase.from("lesson_comments").delete().eq("id", commentId);
+    if (error) {
+      toast.error("Could not delete comment");
+      return;
+    }
+    setComments((prev) => prev.filter((c) => c.id !== commentId));
+  };
+
   const loadLesson = async () => {
     if (!user) return;
     try {
       const { data: c } = await supabase.from("courses").select("*").eq("slug", courseSlug).single();
       if (!c) { navigate("/learn"); return; }
+
+      const { data: enr } = await supabase
+        .from("enrollments")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("course_id", c.id)
+        .maybeSingle();
+      if (!enr) {
+        toast.error("Enrol in this course to view it");
+        navigate("/learn");
+        return;
+      }
+      const hasAccess = await verifyEnrollmentAccess(user.id, c.id);
+      if (!hasAccess) {
+        toast.error("Your enrollment has expired or is not active");
+        navigate("/learn");
+        return;
+      }
+
       setCourse(c);
 
       const { data: mods } = await supabase.from("modules").select("*").eq("course_id", c.id).order("position");
@@ -233,7 +301,51 @@ const LessonView = () => {
                 <p style={{ color: "#69697b" }}>No resources added for this lesson yet.</p>
               )
             )}
-            {activeTab === "comments" && <p style={{ color: "#69697b" }}>Comments coming soon...</p>}
+            {activeTab === "comments" && (
+              <div>
+                <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+                  <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Ask a question or share a thought about this lesson..."
+                    rows={2}
+                    style={{ flex: 1, padding: "10px 12px", borderRadius: "8px", border: "1px solid #e2e8f0", fontFamily: "inherit", fontSize: "13px", resize: "vertical", color: "#0b0b2c" }}
+                  />
+                  <button
+                    onClick={postComment}
+                    disabled={postingComment || !newComment.trim()}
+                    style={{ padding: "0 18px", background: "#3434ff", color: "white", border: "none", borderRadius: "8px", fontWeight: 600, fontSize: "13px", cursor: postingComment || !newComment.trim() ? "not-allowed" : "pointer", opacity: postingComment || !newComment.trim() ? 0.6 : 1 }}
+                  >
+                    Post
+                  </button>
+                </div>
+                {comments.length === 0 ? (
+                  <p style={{ color: "#69697b" }}>No comments yet. Be the first to ask a question.</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                    {comments.map((c) => (
+                      <div key={c.id} style={{ display: "flex", gap: "10px" }}>
+                        <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "#3434ff", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 700, flexShrink: 0 }}>
+                          {c.author_name.slice(0, 1).toUpperCase()}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <span style={{ fontSize: "13px", fontWeight: 700, color: "#0b0b2c" }}>{c.author_name}</span>
+                            <span style={{ fontSize: "11px", color: "#94a3b8" }}>{new Date(c.created_at).toLocaleDateString()}</span>
+                            {c.user_id === user?.id && (
+                              <button onClick={() => deleteComment(c.id)} style={{ marginLeft: "auto", background: "none", border: "none", color: "#94a3b8", fontSize: "11px", cursor: "pointer" }}>
+                                Delete
+                              </button>
+                            )}
+                          </div>
+                          <p style={{ margin: "4px 0 0", fontSize: "13px", color: "#0b0b2c", lineHeight: 1.5 }}>{c.body}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {activeTab === "notes" && <p style={{ color: "#69697b" }}>Your notes here...</p>}
           </div>
 
