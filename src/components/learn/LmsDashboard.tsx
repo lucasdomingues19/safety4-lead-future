@@ -15,6 +15,11 @@ interface CourseProgress {
   completedModules: number;
   totalHours: number;
   enrolledAt: string;
+  nextLessonId: string | null;
+  nextLessonTitle: string | null;
+  nextModuleTitle: string | null;
+  totalLessons: number;
+  completedLessons: number;
 }
 
 export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
@@ -52,6 +57,12 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
         return;
       }
 
+      const { data: progressRows } = await supabase
+        .from("lesson_progress")
+        .select("lesson_id")
+        .eq("user_id", user.id);
+      const completedIds = new Set((progressRows ?? []).map((p) => p.lesson_id));
+
       const courseProgressList: CourseProgress[] = [];
       for (const enrollment of enrollments) {
         const { data: course } = await supabase
@@ -64,28 +75,41 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
 
         const { data: modules } = await supabase
           .from("modules")
-          .select("id")
-          .eq("course_id", course.id);
+          .select("id, title")
+          .eq("course_id", course.id)
+          .order("position");
 
         const totalModules = modules?.length ?? 0;
+        const moduleIds = (modules ?? []).map((m) => m.id);
+        const moduleTitleById = new Map((modules ?? []).map((m) => [m.id, m.title]));
 
-        const { data: progress } = await supabase
-          .from("lesson_progress")
-          .select("lesson_id")
-          .eq("user_id", user.id);
+        const { data: lessons } = moduleIds.length
+          ? await supabase
+              .from("lessons")
+              .select("id, title, module_id")
+              .in("module_id", moduleIds)
+              .order("position")
+          : { data: [] as { id: string; title: string; module_id: string }[] };
 
-        const completedLessons = progress?.length ?? 0;
+        const totalLessons = lessons?.length ?? 0;
+        const completedLessons = (lessons ?? []).filter((l) => completedIds.has(l.id)).length;
+        const nextLesson = (lessons ?? []).find((l) => !completedIds.has(l.id)) ?? lessons?.[0] ?? null;
 
         courseProgressList.push({
           id: course.id,
           title: course.title,
           slug: course.slug,
-          status: completedLessons === 0 ? "not_started" : completedLessons > totalModules * 0.9 ? "completed" : "in_progress",
-          progressPercent: totalModules > 0 ? Math.round((completedLessons / (totalModules * 3)) * 100) : 0,
+          status: completedLessons === 0 ? "not_started" : completedLessons >= totalLessons && totalLessons > 0 ? "completed" : "in_progress",
+          progressPercent: totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0,
           totalModules,
           completedModules: Math.floor(completedLessons / 3),
           totalHours: course.description?.includes("8+") ? 8 : 12,
           enrolledAt: enrollment.enrolled_at || new Date().toISOString(),
+          nextLessonId: nextLesson?.id ?? null,
+          nextLessonTitle: nextLesson?.title ?? null,
+          nextModuleTitle: nextLesson ? moduleTitleById.get(nextLesson.module_id) ?? null : null,
+          totalLessons,
+          completedLessons,
         });
       }
 
@@ -103,6 +127,14 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
 
   const navigateToCourse = (courseSlug: string) => {
     navigate(`/learn/${courseSlug}`);
+  };
+
+  const resumeCourse = (course: CourseProgress) => {
+    if (course.nextLessonId) {
+      navigate(`/learn/${course.slug}/lesson/${course.nextLessonId}`);
+    } else {
+      navigate(`/learn/${course.slug}`);
+    }
   };
 
   if (loading) {
@@ -155,17 +187,21 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
               <div style={{ minWidth: 0, flex: "1 1 420px" }}>
                 <div style={{ fontSize: "13px", fontWeight: "800", letterSpacing: "0.12em", color: "#a6e21a" }}>CONTINUE WHERE YOU LEFT OFF</div>
                 <div style={{ marginTop: "14px", fontSize: "28px", lineHeight: "1.25", fontWeight: "700", color: "#fff", textWrap: "pretty" }}>
-                  Module 01 • Welcome to the AI-Powered EHS Profession
+                  {firstCourse.nextLessonTitle
+                    ? `${firstCourse.nextModuleTitle ? `${firstCourse.nextModuleTitle} • ` : ""}${firstCourse.nextLessonTitle}`
+                    : firstCourse.title}
                 </div>
                 <div style={{ marginTop: "10px", fontSize: "15px", color: "rgba(255,255,255,0.6)" }}>
-                  Slide 6 of 13 • about 20 minutes left
+                  {firstCourse.totalLessons > 0
+                    ? `${firstCourse.completedLessons} of ${firstCourse.totalLessons} lessons complete`
+                    : "No lessons yet"}
                 </div>
                 <div style={{ marginTop: "22px", height: "8px", borderRadius: "999px", background: "rgba(255,255,255,0.16)", overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: "46%", background: "#a6e21a", borderRadius: "999px" }}></div>
+                  <div style={{ height: "100%", width: `${firstCourse.progressPercent}%`, background: "#a6e21a", borderRadius: "999px" }}></div>
                 </div>
               </div>
               <button
-                onClick={() => navigateToCourse(firstCourse.slug)}
+                onClick={() => resumeCourse(firstCourse)}
                 style={{
                   flex: "none",
                   border: "0",
@@ -185,7 +221,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
                 onMouseEnter={(e) => (e.currentTarget.style.background = "#2a2ad6")}
                 onMouseLeave={(e) => (e.currentTarget.style.background = "#3434ff")}
               >
-                Resume module
+                {firstCourse.completedLessons === 0 ? "Start course" : "Resume course"}
               </button>
             </div>
           </div>
@@ -194,7 +230,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
         {/* Your Learning Section */}
         <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", marginBottom: "20px" }}>
           <h2 style={{ margin: 0, fontSize: "22px", fontWeight: "700" }}>Your learning</h2>
-          <button onClick={() => navigate("/learn")} style={{ fontSize: "15px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
+          <button onClick={() => firstCourse && navigateToCourse(firstCourse.slug)} style={{ fontSize: "15px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
             View full curriculum
           </button>
         </div>
@@ -206,7 +242,7 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
             return (
               <div
                 key={course.id}
-                onClick={() => navigateToCourse(course.slug)}
+                onClick={() => resumeCourse(course)}
                 style={{
                   background: "#fff",
                   border: "1px solid #e2e8f0",
