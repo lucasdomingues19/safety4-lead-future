@@ -60,7 +60,7 @@ export function LmsSupport() {
             <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.65, color: "#69697b" }}>
               Course content and applying Copilot to your own work. Replies within two working days.
             </p>
-            <a href="#" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#3434ff", textDecoration: "none" }}>
+            <a href="mailto:hello@safetyacademy.tech?subject=Question%20about%20my%20course" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#3434ff", textDecoration: "none" }}>
               Start a message →
             </a>
           </div>
@@ -91,7 +91,7 @@ export function LmsSupport() {
             <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.65, color: "#69697b" }}>
               Playback, downloads, progress not saving, or access problems.
             </p>
-            <a href="#" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#3434ff", textDecoration: "none" }}>
+            <a href="mailto:hello@safetyacademy.tech?subject=Technical%20issue" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#3434ff", textDecoration: "none" }}>
               Report an issue →
             </a>
           </div>
@@ -122,7 +122,7 @@ export function LmsSupport() {
             <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.65, color: "#4a5230" }}>
               CPD records, IOSH evidence, or replacement certificates.
             </p>
-            <a href="#" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#5e7f0f", textDecoration: "none" }}>
+            <a href="mailto:hello@safetyacademy.tech?subject=Accreditation%20query" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#5e7f0f", textDecoration: "none" }}>
               Contact the academy →
             </a>
           </div>
