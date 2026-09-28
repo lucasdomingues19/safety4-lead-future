@@ -124,7 +124,7 @@ const CourseView = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex min-h-screen items-center justify-center bg-[#f5f7fa]">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -133,55 +133,61 @@ const CourseView = () => {
   if (!course) return null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f5f7fa]">
       <LearnHeader email={user?.email} />
-      <main className="container mx-auto max-w-4xl px-4 py-10">
-        <Link to="/learn" className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white">
-          <ArrowLeft className="h-4 w-4" /> Back to My Learning
-        </Link>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">{course.title}</h1>
-        {course.description && <p className="mt-3 max-w-2xl text-white/70">{course.description}</p>}
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(135deg, #0b0b2c 0%, #1a1a4d 100%)" }} className="px-4 py-10 text-white md:py-12">
+        <div className="mx-auto max-w-4xl">
+          <Link to="/learn" className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white">
+            <ArrowLeft className="h-4 w-4" /> Back to My Learning
+          </Link>
 
-        <div className="mt-6 max-w-md">
-          <div className="mb-1 flex justify-between text-sm text-white/60">
-            <span>{completedCount} of {allLessons.length} lessons complete</span>
-            <span>{progressPercent}%</span>
+          <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">{course.title}</h1>
+          {course.description && <p className="mt-3 max-w-2xl text-white/70">{course.description}</p>}
+
+          <div className="mt-8 max-w-md">
+            <div className="mb-1.5 flex justify-between text-sm text-white/60">
+              <span>{completedCount} of {allLessons.length} lessons complete</span>
+              <span className="font-semibold text-white">{progressPercent}%</span>
+            </div>
+            <Progress value={progressPercent} className="h-2.5 bg-white/10" />
           </div>
-          <Progress value={progressPercent} className="h-2.5" />
+
+          {nextLesson && (
+            <Button
+              className="mt-6 h-12 px-6 text-base font-semibold"
+              onClick={() => navigate(`/learn/${course.slug}/lesson/${nextLesson.id}`)}
+            >
+              <PlayCircle className="mr-2 h-5 w-5" />
+              {completedCount === 0 ? "Start course" : "Continue learning"}
+            </Button>
+          )}
         </div>
+      </div>
 
-        {nextLesson && (
-          <Button
-            className="mt-6"
-            size="lg"
-            onClick={() => navigate(`/learn/${course.slug}/lesson/${nextLesson.id}`)}
-          >
-            <PlayCircle className="mr-2 h-5 w-5" />
-            {completedCount === 0 ? "Start course" : "Continue learning"}
-          </Button>
-        )}
-
-        <div className="mt-10 space-y-8">
+      {/* Curriculum */}
+      <main className="mx-auto max-w-4xl px-4 py-10">
+        <div className="space-y-8">
           {modules.length === 0 && (
-            <p className="text-white/60">This course has no content yet.</p>
+            <p className="text-[#69697b]">This course has no content yet.</p>
           )}
           {modules.map((module, idx) => (
             <section key={module.id}>
               <div className="mb-3 flex items-center gap-2">
-                <h2 className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-[#0b0b2c]">
                   {idx + 1}. {module.title}
                 </h2>
                 {!module.unlocked && (
-                  <span className="inline-flex items-center gap-1 rounded-md bg-white/10 px-2 py-0.5 text-xs text-white/60">
+                  <span className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-[#69697b]">
                     <Lock className="h-3 w-3" /> Unlocks in {module.drip_days}d
                   </span>
                 )}
               </div>
-              {module.description && <p className="mb-3 text-sm text-white/60">{module.description}</p>}
-              <Card className="divide-y divide-white/10 border-white/10 bg-card">
+              {module.description && <p className="mb-3 text-sm text-[#69697b]">{module.description}</p>}
+              <Card className="divide-y divide-slate-100 overflow-hidden rounded-[16px] border-slate-200 bg-white shadow-sm">
                 {module.lessons.length === 0 && (
-                  <div className="px-4 py-3 text-sm text-white/50">No lessons yet</div>
+                  <div className="px-4 py-3 text-sm text-[#94a3b8]">No lessons yet</div>
                 )}
                 {module.lessons.map((lesson) => {
                   const done = completedIds.has(lesson.id);
@@ -192,18 +198,18 @@ const CourseView = () => {
                       type="button"
                       disabled={locked}
                       onClick={() => navigate(`/learn/${course.slug}/lesson/${lesson.id}`)}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {locked ? (
-                        <Lock className="h-5 w-5 shrink-0 text-white/40" />
+                        <Lock className="h-5 w-5 shrink-0 text-[#94a3b8]" />
                       ) : done ? (
                         <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
                       ) : (
-                        <PlayCircle className="h-5 w-5 shrink-0 text-white/60" />
+                        <PlayCircle className="h-5 w-5 shrink-0 text-[#69697b]" />
                       )}
-                      <span className="flex-1 text-sm text-white">{lesson.title}</span>
+                      <span className="flex-1 text-sm font-medium text-[#0b0b2c]">{lesson.title}</span>
                       {lesson.duration_minutes ? (
-                        <span className="flex items-center gap-1 text-xs text-white/40">
+                        <span className="flex items-center gap-1 text-xs text-[#94a3b8]">
                           <Clock className="h-3 w-3" /> {lesson.duration_minutes}m
                         </span>
                       ) : null}

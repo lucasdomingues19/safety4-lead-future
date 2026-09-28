@@ -35,11 +35,11 @@ const LessonView = () => {
       if (!c) { navigate("/learn"); return; }
       setCourse(c);
 
-      const { data: mods } = await supabase.from("modules").select("*").eq("course_id", c.id).order("order_num");
+      const { data: mods } = await supabase.from("modules").select("*").eq("course_id", c.id).order("position");
       setModules(mods || []);
 
       const modIds = (mods || []).map((m: any) => m.id);
-      const { data: les } = modIds.length ? await supabase.from("lessons").select("*").in("module_id", modIds).order("order_num") : { data: [] };
+      const { data: les } = modIds.length ? await supabase.from("lessons").select("*").in("module_id", modIds).order("position") : { data: [] };
       setLessons(les || []);
 
       const { data: l } = await supabase.from("lessons").select("*").eq("id", lessonId).single();
@@ -115,9 +115,19 @@ const LessonView = () => {
         {/* Video & Tabs */}
         <div>
           {/* Video Player */}
-          <div style={{ background: "#0b0b2c", borderRadius: "24px", aspectRatio: "16/9", marginBottom: "24px", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "48px" }}>
-            <Play size={64} />
-          </div>
+          {lesson.video_url ? (
+            <video
+              key={lesson.id}
+              src={lesson.video_url}
+              controls
+              style={{ width: "100%", background: "#0b0b2c", borderRadius: "24px", aspectRatio: "16/9", marginBottom: "24px" }}
+            />
+          ) : (
+            <div style={{ background: "#0b0b2c", borderRadius: "24px", aspectRatio: "16/9", marginBottom: "24px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.5)", gap: "12px" }}>
+              <Play size={64} />
+              <span style={{ fontSize: "14px" }}>No video uploaded for this lesson yet</span>
+            </div>
+          )}
 
           {/* Progress */}
           <div style={{ background: "white", padding: "16px 20px", borderRadius: "12px", marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
