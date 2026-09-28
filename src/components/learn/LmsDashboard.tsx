@@ -37,14 +37,10 @@ export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
     if (!user) return;
     setLoading(true);
     try {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", user.id)
-        .single();
-
-      if (profile?.full_name) {
-        setUserName(profile.full_name.split(" ")[0]);
+      const metaName = (user.user_metadata as { full_name?: string } | undefined)?.full_name;
+      const displayName = metaName || user.email?.split("@")[0];
+      if (displayName) {
+        setUserName(displayName.split(" ")[0]);
       }
 
       const { data: enrollments } = await supabase

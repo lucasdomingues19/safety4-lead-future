@@ -137,7 +137,7 @@ const CourseView = () => {
       <LearnHeader email={user?.email} />
 
       {/* Hero */}
-      <div style={{ background: "linear-gradient(135deg, #0b0b2c 0%, #1a1a4d 100%)" }} className="px-4 py-10 text-white md:py-12">
+      <div style={{ background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)" }} className="px-4 py-10 text-white md:py-12">
         <div className="mx-auto max-w-4xl">
           <Link to="/learn" className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to My Learning

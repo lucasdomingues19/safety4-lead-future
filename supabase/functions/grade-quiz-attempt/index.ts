@@ -1,24 +1,27 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-interface QuizQuestion {
+// Grades a multiple-choice quiz attempt. Correct answers are always looked
+// up server-side from quiz_questions by quiz_id — never trusted from the
+// request body — so a tampered client request can't force a pass.
+
+interface DbQuestion {
   id: string;
-  text: string;
-  type: "multiple_choice" | "true_false" | "short_answer" | "essay";
-  options?: string[];
-  correct_answer?: string;
-  rubric?: string;
+  quiz_id: string;
+  prompt: string;
+  options: string[];
+  correct_index: number;
   position: number;
 }
 
 interface StudentAnswers {
+  // question id -> the option TEXT the student selected
   [questionId: string]: string;
 }
 
 interface GradingRequest {
   quiz_id: string;
   user_id: string;
-  questions: QuizQuestion[];
   answers: StudentAnswers;
   pass_mark: number;
 }
@@ -31,166 +34,76 @@ interface QuestionScore {
   correct: boolean;
 }
 
-// Initialize Supabase client with service role
 const supabaseUrl = Deno.env.get("SUPABASE_URL") || "";
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-const anthropicApiKey = Deno.env.get("ANTHROPIC_API_KEY") || "";
-
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-async function gradeQuestion(
-  question: QuizQuestion,
-  studentAnswer: string,
-): Promise<QuestionScore> {
-  const maxScore = 100;
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
 
-  // Multiple choice questions - check if answer matches
-  if (question.type === "multiple_choice") {
-    const correct = studentAnswer === question.correct_answer;
-    return {
-      question_id: question.id,
-      score: correct ? maxScore : 0,
-      max_score: maxScore,
-      feedback: correct
-        ? "Correct!"
-        : `The correct answer is: ${question.correct_answer}`,
-      correct,
-    };
-  }
-
-  // True/False questions
-  if (question.type === "true_false") {
-    const correct = studentAnswer.toLowerCase() === question.correct_answer?.toLowerCase();
-    return {
-      question_id: question.id,
-      score: correct ? maxScore : 0,
-      max_score: maxScore,
-      feedback: correct
-        ? "Correct!"
-        : `The correct answer is: ${question.correct_answer}`,
-      correct,
-    };
-  }
-
-  // Short answer and essay - use Claude for grading
-  if (question.type === "short_answer" || question.type === "essay") {
-    try {
-      const gradingPrompt = `You are an expert educational assessor. Grade the following student answer to a quiz question.
-
-Question: ${question.text}
-${question.rubric ? `Rubric: ${question.rubric}` : ""}
-Expected Answer: ${question.correct_answer || "Open-ended answer"}
-
-Student's Answer: "${studentAnswer}"
-
-Provide:
-1. Score (0-100)
-2. Brief feedback (1-2 sentences)
-
-Format your response as JSON:
-{
-  "score": <number>,
-  "feedback": "<feedback string>"
-}`;
-
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          "x-api-key": anthropicApiKey,
-          "anthropic-version": "2023-06-01",
-        },
-        body: JSON.stringify({
-          model: "claude-3-5-sonnet-20241022",
-          max_tokens: 200,
-          messages: [
-            {
-              role: "user",
-              content: gradingPrompt,
-            },
-          ],
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Claude API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      const responseText =
-        data.content?.[0]?.type === "text" ? data.content[0].text : "";
-
-      // Parse JSON response from Claude
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      const gradingResult = jsonMatch ? JSON.parse(jsonMatch[0]) : { score: 0, feedback: "Could not grade answer" };
-
-      return {
-        question_id: question.id,
-        score: Math.min(Math.max(gradingResult.score || 0, 0), maxScore),
-        max_score: maxScore,
-        feedback: gradingResult.feedback || "Response received",
-        correct: (gradingResult.score || 0) >= 70,
-      };
-    } catch (error) {
-      console.error("Error grading with Claude:", error);
-      return {
-        question_id: question.id,
-        score: 0,
-        max_score: maxScore,
-        feedback: "Could not grade this answer. Please try again.",
-        correct: false,
-      };
-    }
-  }
-
+function gradeQuestion(question: DbQuestion, studentAnswer: string): QuestionScore {
+  const correctOption = question.options?.[question.correct_index];
+  const correct = studentAnswer === correctOption;
   return {
     question_id: question.id,
-    score: 0,
-    max_score: maxScore,
-    feedback: "Unknown question type",
-    correct: false,
+    score: correct ? 100 : 0,
+    max_score: 100,
+    feedback: correct ? "Correct!" : `The correct answer is: ${correctOption ?? "n/a"}`,
+    correct,
   };
 }
 
-async function calculateFinalScore(
-  questionScores: QuestionScore[],
-): Promise<number> {
-  if (questionScores.length === 0) return 0;
-  const totalScore = questionScores.reduce((sum, q) => sum + q.score, 0);
-  const totalMax = questionScores.reduce((sum, q) => sum + q.max_score, 0);
-  return totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
-}
-
 serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
   if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+    return new Response("Method not allowed", { status: 405, headers: corsHeaders });
   }
 
   try {
     const request: GradingRequest = await req.json();
 
-    // Grade all questions
-    const questionScores = await Promise.all(
-      request.questions.map((question) =>
-        gradeQuestion(question, request.answers[question.id] || ""),
-      ),
+    if (!request.quiz_id || !request.user_id) {
+      return new Response(
+        JSON.stringify({ error: "quiz_id and user_id are required" }),
+        { status: 400, headers: { "content-type": "application/json", ...corsHeaders } },
+      );
+    }
+
+    // Authoritative question set — fetched server-side, never trusted from client.
+    const { data: questions, error: questionsError } = await supabase
+      .from("quiz_questions")
+      .select("id, quiz_id, prompt, options, correct_index, position")
+      .eq("quiz_id", request.quiz_id)
+      .order("position");
+
+    if (questionsError || !questions || questions.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "Quiz has no questions" }),
+        { status: 404, headers: { "content-type": "application/json", ...corsHeaders } },
+      );
+    }
+
+    const questionScores = questions.map((q: DbQuestion) =>
+      gradeQuestion(q, request.answers[q.id] ?? ""),
     );
 
-    // Calculate final score
-    const finalScore = await calculateFinalScore(questionScores);
+    const totalScore = questionScores.reduce((sum, q) => sum + q.score, 0);
+    const totalMax = questionScores.reduce((sum, q) => sum + q.max_score, 0);
+    const finalScore = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
     const passed = finalScore >= request.pass_mark;
 
-    // Store attempt in database
-    const { error: insertError } = await supabase
-      .from("quiz_attempts")
-      .insert({
-        user_id: request.user_id,
-        quiz_id: request.quiz_id,
-        score: finalScore,
-        passed,
-        answers: request.answers,
-        submitted_at: new Date().toISOString(),
-      });
+    const { error: insertError } = await supabase.from("quiz_attempts").insert({
+      user_id: request.user_id,
+      quiz_id: request.quiz_id,
+      score: finalScore,
+      passed,
+      answers: request.answers,
+      attempted_at: new Date().toISOString(),
+    });
 
     if (insertError) {
       throw insertError;
@@ -206,22 +119,13 @@ serve(async (req) => {
           ? `Great job! You scored ${finalScore}% and passed! 🎉`
           : `You scored ${finalScore}%. You need ${request.pass_mark}% to pass. Try again!`,
       }),
-      {
-        headers: { "content-type": "application/json" },
-        status: 200,
-      },
+      { headers: { "content-type": "application/json", ...corsHeaders }, status: 200 },
     );
   } catch (error) {
     console.error("Grading error:", error);
     return new Response(
-      JSON.stringify({
-        error: "Failed to grade quiz",
-        details: String(error),
-      }),
-      {
-        headers: { "content-type": "application/json" },
-        status: 500,
-      },
+      JSON.stringify({ error: "Failed to grade quiz", details: String(error) }),
+      { headers: { "content-type": "application/json", ...corsHeaders }, status: 500 },
     );
   }
 });

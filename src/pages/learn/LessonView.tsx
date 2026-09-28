@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { ChevronRight, CheckCircle2, Play, BookOpen, MessageSquare, FileText, Lightbulb } from "lucide-react";
+import { ChevronRight, CheckCircle2, Play, BookOpen, MessageSquare, FileText, Lightbulb, Download, Award } from "lucide-react";
 import { toast } from "sonner";
 import { toEmbedUrl } from "@/lib/lms";
+import { QuizDialog } from "@/components/learn/QuizDialog";
+import type { Quiz, QuizQuestion } from "@/lib/quiz";
+import { getQuizQuestions } from "@/lib/quiz";
+import brandMarkBlue from "@/assets/brand-mark-blue.png";
 
 const isEmbeddableVideo = (url: string) => /youtube\.com|youtu\.be|vimeo\.com/.test(url);
 
@@ -20,6 +24,10 @@ const LessonView = () => {
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [activeTab, setActiveTab] = useState("overview");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [quiz, setQuiz] = useState<Quiz | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+  const [quizDialogOpen, setQuizDialogOpen] = useState(false);
+  const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -50,6 +58,21 @@ const LessonView = () => {
 
       const { data: prog } = await supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id);
       setCompleted(new Set((prog || []).map((p: any) => p.lesson_id)));
+
+      if (l?.module_id) {
+        const { data: quizData } = await supabase
+          .from("quizzes")
+          .select("*")
+          .eq("module_id", l.module_id)
+          .maybeSingle();
+        if (quizData) {
+          setQuiz(quizData as Quiz);
+          setQuizQuestions(await getQuizQuestions(quizData.id));
+        } else {
+          setQuiz(null);
+          setQuizQuestions([]);
+        }
+      }
     } catch (err) {
       console.error(err);
       toast.error("Could not load lesson");
@@ -62,12 +85,31 @@ const LessonView = () => {
     if (!lesson || !user) return;
     try {
       if (!completed.has(lesson.id)) {
-        await supabase.from("lesson_progress").insert({ user_id: user.id, lesson_id: lesson.id });
+        const { error } = await supabase.from("lesson_progress").insert({ user_id: user.id, lesson_id: lesson.id });
+        if (error) throw error;
         setCompleted(new Set([...completed, lesson.id]));
         toast.success("Lesson marked complete!");
       }
     } catch (err) {
       console.error(err);
+      toast.error("Could not save your progress. Please try again.");
+    }
+  };
+
+  const handleQuizPassed = async () => {
+    if (!quiz) return;
+    try {
+      const { data, error } = await supabase.functions.invoke("issue-self-certificate", {
+        body: { quiz_id: quiz.id },
+      });
+      if (error) throw error;
+      setQuizDialogOpen(false);
+      setCertificateUrl(data.verify_url);
+      toast.success("Quiz passed! Your certificate has been emailed to you.");
+    } catch (err) {
+      console.error("Error issuing certificate:", err);
+      setQuizDialogOpen(false);
+      toast.error("Quiz passed, but we couldn't issue your certificate. Contact support.");
     }
   };
 
@@ -91,10 +133,10 @@ const LessonView = () => {
   return (
     <div style={{ minHeight: "100vh", background: "#f5f7fa", color: "#0b0b2c", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Hero Section */}
-      <div style={{ background: "linear-gradient(135deg, #0b0b2c 0%, #1a1a4d 100%)", color: "white", padding: "40px 24px" }}>
+      <div style={{ background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)", color: "white", padding: "40px 24px" }}>
         <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "24px" }}>
-            <img src="/assets/brand-mark-blue.png" alt="SafetyTech" style={{ height: "40px", filter: "brightness(0) invert(1)" }} />
+            <img src={brandMarkBlue} alt="SafetyTech" style={{ height: "40px", filter: "brightness(0) invert(1)" }} />
             <span style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", opacity: 0.8, textTransform: "uppercase" }}>SafetyTech Academy</span>
           </div>
           <h1 style={{ margin: "0 0 8px 0", fontSize: "42px", fontWeight: 700, lineHeight: 1.2, color: "#fff" }}>{course?.title}</h1>
@@ -160,12 +202,70 @@ const LessonView = () => {
 
           {/* Content */}
           <div style={{ background: "white", padding: "24px", borderRadius: "0 0 12px 12px", minHeight: "200px" }}>
-            {activeTab === "overview" && <div dangerouslySetInnerHTML={{ __html: lesson.content || "<p>No content yet</p>" }} style={{ lineHeight: 1.6, color: "#0b0b2c" }} />}
-            {activeTab === "transcript" && <p style={{ color: "#69697b" }}>Transcript coming soon...</p>}
-            {activeTab === "resources" && <p style={{ color: "#69697b" }}>Resources coming soon...</p>}
+            {activeTab === "overview" && (
+              <div dangerouslySetInnerHTML={{ __html: lesson.content || "<p>No overview added for this lesson yet.</p>" }} style={{ lineHeight: 1.6, color: "#0b0b2c" }} />
+            )}
+            {activeTab === "transcript" && (
+              lesson.transcript ? (
+                <p style={{ lineHeight: 1.7, color: "#0b0b2c", whiteSpace: "pre-wrap" }}>{lesson.transcript}</p>
+              ) : (
+                <p style={{ color: "#69697b" }}>No transcript added for this lesson yet.</p>
+              )
+            )}
+            {activeTab === "resources" && (
+              Array.isArray(lesson.resources) && lesson.resources.length > 0 ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {lesson.resources.map((r: { name: string; url: string }, i: number) => (
+                    <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", background: "#f5f7fa", borderRadius: "8px", color: "#0b0b2c", textDecoration: "none", fontSize: "14px", fontWeight: 500 }}>
+                      <Download size={16} color="#3434ff" />
+                      {r.name}
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p style={{ color: "#69697b" }}>No resources added for this lesson yet.</p>
+              )
+            )}
             {activeTab === "comments" && <p style={{ color: "#69697b" }}>Comments coming soon...</p>}
             {activeTab === "notes" && <p style={{ color: "#69697b" }}>Your notes here...</p>}
           </div>
+
+          {/* Module Quiz */}
+          {quiz && moduleLessons.every((l: any) => completed.has(l.id)) && (
+            <div style={{ marginTop: "24px", background: certificateUrl ? "#f4fbe4" : "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)", borderRadius: "16px", padding: "24px", color: certificateUrl ? "#0b0b2c" : "white", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                <Award size={28} color={certificateUrl ? "#4a5230" : "white"} />
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: "15px" }}>{quiz.title}</div>
+                  <div style={{ fontSize: "13px", opacity: 0.85 }}>
+                    {certificateUrl
+                      ? "Passed — your certificate has been emailed to you."
+                      : `You've completed this module. Pass mark: ${quiz.pass_mark}%`}
+                  </div>
+                </div>
+              </div>
+              {certificateUrl ? (
+                <a href={certificateUrl} target="_blank" rel="noopener noreferrer" style={{ padding: "10px 18px", background: "#3434ff", color: "white", borderRadius: "8px", fontWeight: 600, fontSize: "13px", textDecoration: "none" }}>
+                  View Certificate
+                </a>
+              ) : (
+                <button onClick={() => setQuizDialogOpen(true)} style={{ padding: "10px 18px", background: "white", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>
+                  Take Module Quiz
+                </button>
+              )}
+            </div>
+          )}
+
+          {quiz && quizQuestions.length > 0 && user && (
+            <QuizDialog
+              open={quizDialogOpen}
+              onOpenChange={setQuizDialogOpen}
+              quiz={quiz}
+              questions={quizQuestions}
+              userId={user.id}
+              onPassed={handleQuizPassed}
+            />
+          )}
 
           {/* Navigation */}
           <div style={{ display: "flex", gap: "12px", marginTop: "24px", justifyContent: "space-between" }}>

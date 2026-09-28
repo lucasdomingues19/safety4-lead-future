@@ -3,12 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 export interface QuizQuestion {
   id: string;
   quiz_id: string;
-  text: string;
-  type: "multiple_choice" | "true_false" | "short_answer" | "essay";
-  options?: string[];
-  correct_answer?: string;
-  rubric?: string;
+  prompt: string;
+  options: string[];
+  correct_index: number;
   position: number;
+  // Computed aliases so QuizDialog's existing multiple-choice rendering
+  // (written against a richer type model) works unchanged against the
+  // live simple prompt/options/correct_index schema.
+  text: string;
+  type: "multiple_choice";
 }
 
 export interface Quiz {
@@ -28,8 +31,7 @@ export interface QuizAttempt {
   score: number;
   passed: boolean;
   answers: Record<string, string>;
-  submitted_at: string;
-  created_at: string;
+  attempted_at: string;
 }
 
 export interface GradingResult {
@@ -64,7 +66,7 @@ export async function getQuiz(quizId: string): Promise<Quiz | null> {
 export async function getQuizQuestions(quizId: string): Promise<QuizQuestion[]> {
   const { data, error } = await supabase
     .from("quiz_questions")
-    .select("*")
+    .select("id, quiz_id, prompt, options, correct_index, position")
     .eq("quiz_id", quizId)
     .order("position");
 
@@ -73,7 +75,11 @@ export async function getQuizQuestions(quizId: string): Promise<QuizQuestion[]> 
     return [];
   }
 
-  return (data || []) as QuizQuestion[];
+  return (data || []).map((row: any) => ({
+    ...row,
+    text: row.prompt,
+    type: "multiple_choice" as const,
+  }));
 }
 
 export async function getUserQuizAttempts(
@@ -85,7 +91,7 @@ export async function getUserQuizAttempts(
     .select("*")
     .eq("user_id", userId)
     .eq("quiz_id", quizId)
-    .order("submitted_at", { ascending: false });
+    .order("attempted_at", { ascending: false });
 
   if (error) {
     console.error("Error fetching quiz attempts:", error);
@@ -104,7 +110,7 @@ export async function getLatestQuizAttempt(
     .select("*")
     .eq("user_id", userId)
     .eq("quiz_id", quizId)
-    .order("submitted_at", { ascending: false })
+    .order("attempted_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
@@ -119,7 +125,9 @@ export async function getLatestQuizAttempt(
 export async function submitQuizAttempt(
   quizId: string,
   userId: string,
-  questions: QuizQuestion[],
+  // Kept for backward compatibility with existing callers; ignored by the
+  // grading function, which looks up the authoritative questions itself.
+  _questions: QuizQuestion[],
   answers: Record<string, string>,
   passMark: number,
 ): Promise<GradingResult> {
@@ -129,7 +137,6 @@ export async function submitQuizAttempt(
       body: {
         quiz_id: quizId,
         user_id: userId,
-        questions,
         answers,
         pass_mark: passMark,
       },
