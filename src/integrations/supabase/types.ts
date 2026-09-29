@@ -623,10 +623,16 @@ export type Database = {
       lessons: {
         Row: {
           body: string | null
+          captions_path: string | null
           content: string | null
           created_at: string
           duration_minutes: number | null
           id: string
+          media_kind: string | null
+          media_mime: string | null
+          media_name: string | null
+          media_path: string | null
+          media_size: number | null
           module_id: string
           position: number
           resources: Json
@@ -637,10 +643,16 @@ export type Database = {
         }
         Insert: {
           body?: string | null
+          captions_path?: string | null
           content?: string | null
           created_at?: string
           duration_minutes?: number | null
           id?: string
+          media_kind?: string | null
+          media_mime?: string | null
+          media_name?: string | null
+          media_path?: string | null
+          media_size?: number | null
           module_id: string
           position?: number
           resources?: Json
@@ -651,10 +663,16 @@ export type Database = {
         }
         Update: {
           body?: string | null
+          captions_path?: string | null
           content?: string | null
           created_at?: string
           duration_minutes?: number | null
           id?: string
+          media_kind?: string | null
+          media_mime?: string | null
+          media_name?: string | null
+          media_path?: string | null
+          media_size?: number | null
           module_id?: string
           position?: number
           resources?: Json

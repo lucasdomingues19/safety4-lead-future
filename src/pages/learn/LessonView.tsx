@@ -3,15 +3,15 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { ChevronRight, CheckCircle2, Play, Download, Award, Lock, Loader2 } from "lucide-react";
+import { ChevronRight, CheckCircle2, Play, Download, Award, Lock, Loader2, ExternalLink, Presentation, FileText, Link2 } from "lucide-react";
 import { toast } from "sonner";
-import { toEmbedUrl, isModuleUnlocked, type Lesson, type LessonResource, type Module, type Course } from "@/lib/lms";
+import { toEmbedUrl, isIframeEmbed, isModuleUnlocked, type Lesson, type Module, type Course } from "@/lib/lms";
+import { getSignedLessonMedia, isPdf, isOfficeDoc, type SignedLessonMedia } from "@/lib/lessonMedia";
 import { getQuizQuestions, type Quiz, type QuizQuestion } from "@/lib/quiz";
 import { QuizDialog } from "@/components/learn/QuizDialog";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
 import brandMarkBlue from "@/assets/brand-mark-blue.png";
 
-const isEmbeddableVideo = (url: string) => /youtube\.com|youtu\.be|vimeo\.com/.test(url);
 const TABS = ["overview", "transcript", "resources", "comments"] as const;
 type Tab = (typeof TABS)[number];
 
@@ -37,6 +37,9 @@ const LessonView = () => {
   const [quizPassed, setQuizPassed] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
+
+  const [signed, setSigned] = useState<SignedLessonMedia | null>(null);
+  const [mediaError, setMediaError] = useState(false);
 
   const [comments, setComments] = useState<LessonComment[]>([]);
   const [newComment, setNewComment] = useState("");
@@ -129,6 +132,20 @@ const LessonView = () => {
 
   useEffect(() => { setLoading(true); setActiveTab("overview"); load(); }, [load]);
 
+  // Uploaded files are private: fetch short-lived signed URLs for this lesson.
+  const needsSigning = !!lesson && (!!lesson.media_path || (lesson.resources ?? []).some((r) => r.path));
+  const loadSignedMedia = useCallback(async () => {
+    if (!lesson || !needsSigning) { setSigned(null); return; }
+    setMediaError(false);
+    try {
+      setSigned(await getSignedLessonMedia(lesson.id));
+    } catch (err) {
+      console.error("lesson media", err);
+      setMediaError(true);
+    }
+  }, [lesson, needsSigning]);
+  useEffect(() => { setSigned(null); loadSignedMedia(); }, [loadSignedMedia]);
+
   const loadComments = useCallback(async () => {
     if (!lessonId) return;
     const { data } = await supabase.from("lesson_comments").select("id, user_id, author_name, body, created_at").eq("lesson_id", lessonId).order("created_at");
@@ -219,7 +236,15 @@ const LessonView = () => {
   const moduleLessons = orderedLessons.filter((l) => l.module_id === lesson.module_id);
   const lessonNum = moduleLessons.findIndex((l) => l.id === lesson.id) + 1;
   const moduleFullyDone = moduleLessons.every((l) => completed.has(l.id));
-  const resources: LessonResource[] = Array.isArray(lesson.resources) ? lesson.resources : [];
+  const resources: { label: string; url: string; is_file: boolean }[] = signed
+    ? signed.resources
+    : (Array.isArray(lesson.resources) ? lesson.resources : []).filter((r) => r.url).map((r) => ({ label: r.label, url: r.url!, is_file: false }));
+  const frame: React.CSSProperties = { width: "100%", border: "none", background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px", display: "block" };
+  const mediaUrl = signed?.media_url ?? null;
+  const fileViewerSrc = mediaUrl && lesson.media_kind !== "video"
+    ? (isPdf(lesson.media_mime) || isPdf(lesson.media_name) ? `${mediaUrl}#view=FitH`
+      : isOfficeDoc(lesson.media_name) ? `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(mediaUrl)}` : null)
+    : null;
   const courseProgress = orderedLessons.length ? Math.round((orderedLessons.filter((l) => completed.has(l.id)).length / orderedLessons.length) * 100) : 0;
 
   return (
@@ -254,13 +279,53 @@ const LessonView = () => {
 
       <div style={{ maxWidth: "1400px", margin: "0 auto", padding: isMobile ? "16px" : "32px 24px", display: isMobile ? "block" : "grid", gridTemplateColumns: "1fr 320px", gap: "32px" }}>
         <div>
-          {/* Video */}
-          {lesson.video_url && isEmbeddableVideo(lesson.video_url) ? (
-            <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ width: "100%", border: "none", background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px" }} />
+          {/* Main content: uploaded file first, then embed link, else placeholder */}
+          {lesson.media_path ? (
+            !mediaUrl ? (
+              <div style={{ ...frame, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "rgba(255,255,255,0.6)" }}>
+                {mediaError ? (
+                  <>
+                    <span style={{ fontSize: "14px" }}>This lesson's content couldn't be loaded.</span>
+                    <button onClick={loadSignedMedia} style={{ padding: "8px 16px", background: "#3434ff", color: "white", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Try again</button>
+                  </>
+                ) : <Loader2 size={30} className="animate-spin" />}
+              </div>
+            ) : lesson.media_kind === "video" ? (
+              <video
+                key={mediaUrl}
+                src={mediaUrl}
+                controls
+                controlsList="nodownload"
+                playsInline
+                crossOrigin={signed?.captions_url ? "anonymous" : undefined}
+                onError={() => setMediaError(true)}
+                onContextMenu={(e) => e.preventDefault()}
+                style={{ ...frame, objectFit: "contain" }}
+              >
+                {signed?.captions_url && <track kind="captions" src={signed.captions_url} srcLang="en" label="English" default={captions} />}
+              </video>
+            ) : (
+              <div style={{ marginBottom: "20px" }}>
+                {fileViewerSrc ? (
+                  <iframe key={fileViewerSrc} src={fileViewerSrc} title={lesson.title} allowFullScreen style={{ ...frame, marginBottom: "10px", background: "#fff", border: "1px solid #e2e8f0", aspectRatio: lesson.media_kind === "slides" ? "16/10" : "4/5", maxHeight: lesson.media_kind === "slides" ? undefined : "85vh" }} />
+                ) : (
+                  <div style={{ ...frame, marginBottom: "10px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "rgba(255,255,255,0.75)" }}>
+                    <FileText size={44} />
+                    <span style={{ fontSize: "14px" }}>{lesson.media_name}</span>
+                  </div>
+                )}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", fontSize: "13px", color: "#69697b" }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>{lesson.media_kind === "slides" ? <Presentation size={15} /> : <FileText size={15} />}{lesson.media_name}</span>
+                  <a href={mediaUrl} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "6px", color: "#3434ff", fontWeight: 700, textDecoration: "none" }}>Open full screen <ExternalLink size={14} /></a>
+                </div>
+              </div>
+            )
+          ) : lesson.video_url && isIframeEmbed(lesson.video_url) ? (
+            <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen style={frame} />
           ) : lesson.video_url ? (
-            <video key={lesson.id} src={lesson.video_url} controls style={{ width: "100%", background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px" }} />
+            <video key={lesson.id} src={lesson.video_url} controls playsInline style={frame} />
           ) : (
-            <div style={{ background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.5)", gap: "12px" }}>
+            <div style={{ ...frame, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.5)", gap: "12px" }}>
               <Play size={56} />
               <span style={{ fontSize: "14px" }}>No video for this lesson — read the overview below</span>
             </div>
@@ -300,7 +365,7 @@ const LessonView = () => {
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {resources.map((r, i) => (
                   <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px 14px", background: "#f5f7fa", borderRadius: "8px", color: "#0b0b2c", textDecoration: "none", fontSize: "14px", fontWeight: 500 }}>
-                    <Download size={16} color="#3434ff" /> {r.label}
+                    {r.is_file ? <Download size={16} color="#3434ff" /> : <Link2 size={16} color="#3434ff" />} {r.label}
                   </a>
                 ))}
               </div>
@@ -381,7 +446,7 @@ const LessonView = () => {
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {moduleLessons.map((l) => (
                   <div key={l.id} onClick={() => navigate(`/learn/${courseSlug}/lesson/${l.id}`)} style={{ padding: "10px 12px", borderRadius: "6px", background: l.id === lesson.id ? "#f1f4ff" : completed.has(l.id) ? "#f4fbe4" : "#f5f7fa", border: l.id === lesson.id ? "1px solid #3434ff" : "1px solid transparent", cursor: "pointer", display: "flex", gap: "8px", alignItems: "center", fontSize: "13px", color: "#0b0b2c" }}>
-                    {completed.has(l.id) ? <CheckCircle2 size={15} color="#4a5230" /> : <Play size={15} color="#69697b" />}
+                    {completed.has(l.id) ? <CheckCircle2 size={15} color="#4a5230" /> : l.media_kind === "slides" ? <Presentation size={15} color="#69697b" /> : l.media_kind === "document" ? <FileText size={15} color="#69697b" /> : <Play size={15} color="#69697b" />}
                     <span>{l.title}</span>
                   </div>
                 ))}

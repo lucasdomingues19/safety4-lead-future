@@ -28,10 +28,15 @@ export interface Module {
   updated_at: string;
 }
 
+/** A lesson resource is either an external link (url) or an uploaded file (path). */
 export interface LessonResource {
   label: string;
-  url: string;
+  url?: string;
+  path?: string;
+  name?: string;
 }
+
+export type LessonMediaKind = "video" | "slides" | "document";
 
 export interface Lesson {
   id: string;
@@ -41,6 +46,12 @@ export interface Lesson {
   body: string | null;
   transcript: string | null;
   resources: LessonResource[] | null;
+  media_kind: LessonMediaKind | null;
+  media_path: string | null;
+  media_name: string | null;
+  media_mime: string | null;
+  media_size: number | null;
+  captions_path: string | null;
   position: number;
   duration_minutes: number | null;
   created_at: string;
@@ -92,9 +103,14 @@ export const formatPrice = (priceCents: number | null | undefined, currency = "G
   }
 };
 
+/** Links that must be shown in an iframe (players, slide decks, docs) rather than a <video> tag. */
+export const isIframeEmbed = (url: string) =>
+  /youtube\.com|youtu\.be|vimeo\.com|docs\.google\.com|drive\.google\.com|canva\.com|onedrive\.live\.com|sharepoint\.com|loom\.com|\.pdf(\?|#|$)/i.test(url);
+
 /**
- * Convert any common video URL into an embeddable iframe src.
- * Supports YouTube, Vimeo, and direct iframe/embed URLs (Mux, Bunny, etc.).
+ * Convert any common video / slide URL into an embeddable iframe src.
+ * Supports YouTube, Vimeo, Loom, Google Slides/Docs/Drive, Canva, and direct
+ * iframe/embed URLs (Mux, Bunny, etc.).
  */
 export const toEmbedUrl = (raw: string | null | undefined, opts: { captions?: boolean } = {}): string | null => {
   if (!raw) return null;
@@ -109,6 +125,22 @@ export const toEmbedUrl = (raw: string | null | undefined, opts: { captions?: bo
   if (vimeo) {
     return `https://player.vimeo.com/video/${vimeo[1]}${opts.captions ? "?texttrack=en" : ""}`;
   }
+
+  const gdoc = url.match(/docs\.google\.com\/(presentation|document|spreadsheets)\/d\/([\w-]+)/);
+  if (gdoc) {
+    return gdoc[1] === "presentation"
+      ? `https://docs.google.com/presentation/d/${gdoc[2]}/embed?start=false&loop=false`
+      : `https://docs.google.com/${gdoc[1]}/d/${gdoc[2]}/preview`;
+  }
+
+  const gdrive = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+  if (gdrive) return `https://drive.google.com/file/d/${gdrive[1]}/preview`;
+
+  const canva = url.match(/canva\.com\/design\/([\w-]+)\/([\w-]+)/);
+  if (canva) return `https://www.canva.com/design/${canva[1]}/${canva[2]}/view?embed`;
+
+  const loom = url.match(/loom\.com\/share\/([\w-]+)/);
+  if (loom) return `https://www.loom.com/embed/${loom[1]}`;
 
   return url;
 };

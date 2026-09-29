@@ -14,8 +14,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { toast } from "sonner";
-import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen, Sun, Moon, Wand2 } from "lucide-react";
-import { asLessons, asQuizQuestions, type Course, type Module, type Lesson, type Quiz, type QuizQuestion } from "@/lib/lms";
+import { Loader2, Plus, Trash2, Save, ArrowLeft, BookOpen, Sun, Moon, Wand2, Film, Presentation, FileText, Captions, Paperclip, Upload, Link as LinkIcon } from "lucide-react";
+import { asLessons, asQuizQuestions, type Course, type Module, type Lesson, type LessonMediaKind, type LessonResource, type Quiz, type QuizQuestion } from "@/lib/lms";
+import { uploadLessonFile, deleteLessonFile, getMediaStorageStatus, formatBytes } from "@/lib/lessonMedia";
+import type { Json } from "@/integrations/supabase/types";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
 import { useAdminTheme } from "@/hooks/useAdminTheme";
 
@@ -446,12 +448,141 @@ const ModuleEditor = ({ module, onChange }: { module: Module; onChange: () => vo
 };
 
 // ---------- Lesson editor ----------
+let storageStatusPromise: ReturnType<typeof getMediaStorageStatus> | null = null;
+const useStorageStatus = () => {
+  const [s3Configured, setS3Configured] = useState<boolean | null>(null);
+  useEffect(() => {
+    storageStatusPromise ??= getMediaStorageStatus();
+    storageStatusPromise.then((s) => setS3Configured(s.s3_configured)).catch(() => setS3Configured(false));
+  }, []);
+  return s3Configured;
+};
+
+const MAIN_ACCEPT = {
+  video: "video/mp4,video/webm,video/quicktime,.mp4,.m4v,.webm,.mov",
+  slides: ".pdf,.ppt,.pptx,application/pdf",
+  document: ".pdf,.doc,.docx,.xls,.xlsx,application/pdf",
+};
+
+const UploadProgress = ({ label, percent }: { label: string; percent: number }) => (
+  <div className="mt-2 space-y-1">
+    <div className="flex justify-between text-xs text-slate-500"><span>{label}</span><span>{percent}%</span></div>
+    <div className="h-1.5 overflow-hidden rounded bg-slate-200 dark:bg-slate-700">
+      <div className="h-full bg-[#3434ff] transition-all" style={{ width: `${percent}%` }} />
+    </div>
+  </div>
+);
+
 const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => void }) => {
   const [form, setForm] = useState(lesson);
-  const [resourcesText, setResourcesText] = useState(
-    (lesson.resources ?? []).map((r) => `${r.label} | ${r.url}`).join("\n"),
-  );
+  const [resources, setResources] = useState<LessonResource[]>(lesson.resources ?? []);
   const [generatingTranscript, setGeneratingTranscript] = useState(false);
+  const [uploading, setUploading] = useState<{ label: string; percent: number } | null>(null);
+  const s3Configured = useStorageStatus();
+
+  /** Persist media columns straight away so an upload is never lost to a forgotten Save. */
+  type MediaPatch = Partial<Pick<Lesson, "media_kind" | "media_path" | "media_name" | "media_mime" | "media_size" | "captions_path">>;
+  const patchLesson = async (patch: MediaPatch) => {
+    const { error } = await supabase.from("lessons").update(patch).eq("id", lesson.id);
+    if (error) throw error;
+    setForm((f) => ({ ...f, ...patch }));
+  };
+
+  const pickFile = (accept: string, handler: (file: File) => void) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = accept;
+    input.onchange = () => { const f = input.files?.[0]; if (f) handler(f); };
+    input.click();
+  };
+
+  const uploadMain = (kind: LessonMediaKind) =>
+    pickFile(MAIN_ACCEPT[kind], async (file) => {
+      setUploading({ label: `Uploading ${file.name}`, percent: 0 });
+      try {
+        const res = await uploadLessonFile(lesson.id, file, "media", (percent) => setUploading({ label: `Uploading ${file.name}`, percent }));
+        const oldPaths = [form.media_path, kind !== "video" ? form.captions_path : null].filter(Boolean) as string[];
+        await patchLesson({
+          media_kind: kind, media_path: res.path, media_name: res.name, media_mime: res.mime, media_size: res.size,
+          ...(kind !== "video" ? { captions_path: null } : {}),
+        });
+        await Promise.all(oldPaths.map((p) => deleteLessonFile(p).catch(() => undefined)));
+        toast.success(`${kind === "video" ? "Video" : kind === "slides" ? "Slides" : "Document"} uploaded`);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Upload failed");
+      } finally {
+        setUploading(null);
+      }
+    });
+
+  const removeMain = async () => {
+    if (!form.media_path || !confirm(`Remove ${form.media_name ?? "this file"} from the lesson?`)) return;
+    const old = [form.media_path, form.captions_path].filter(Boolean) as string[];
+    try {
+      await patchLesson({ media_kind: null, media_path: null, media_name: null, media_mime: null, media_size: null, captions_path: null });
+      await Promise.all(old.map((p) => deleteLessonFile(p).catch(() => undefined)));
+      toast.success("File removed");
+    } catch {
+      toast.error("Could not remove the file");
+    }
+  };
+
+  const uploadCaptions = () =>
+    pickFile(".vtt,.srt,text/vtt", async (file) => {
+      setUploading({ label: `Uploading ${file.name}`, percent: 0 });
+      try {
+        const res = await uploadLessonFile(lesson.id, file, "captions", (percent) => setUploading({ label: `Uploading ${file.name}`, percent }));
+        const old = form.captions_path;
+        await patchLesson({ captions_path: res.path });
+        if (old) await deleteLessonFile(old).catch(() => undefined);
+        toast.success("Captions uploaded");
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Upload failed");
+      } finally {
+        setUploading(null);
+      }
+    });
+
+  const removeCaptions = async () => {
+    if (!form.captions_path) return;
+    const old = form.captions_path;
+    try {
+      await patchLesson({ captions_path: null });
+      await deleteLessonFile(old).catch(() => undefined);
+    } catch {
+      toast.error("Could not remove captions");
+    }
+  };
+
+  const saveResources = async (next: LessonResource[]) => {
+    const { error } = await supabase.from("lessons").update({ resources: next as unknown as Json }).eq("id", lesson.id);
+    if (error) throw error;
+    setResources(next);
+  };
+
+  const uploadResource = () =>
+    pickFile("*/*", async (file) => {
+      setUploading({ label: `Uploading ${file.name}`, percent: 0 });
+      try {
+        const res = await uploadLessonFile(lesson.id, file, "resource", (percent) => setUploading({ label: `Uploading ${file.name}`, percent }));
+        await saveResources([...resources, { label: file.name.replace(/\.[^.]+$/, ""), path: res.path, name: res.name }]);
+        toast.success("Resource added");
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Upload failed");
+      } finally {
+        setUploading(null);
+      }
+    });
+
+  const removeResource = async (i: number) => {
+    const r = resources[i];
+    try {
+      await saveResources(resources.filter((_, j) => j !== i));
+      if (r.path) await deleteLessonFile(r.path).catch(() => undefined);
+    } catch {
+      toast.error("Could not remove resource");
+    }
+  };
 
   const generateTranscript = async () => {
     if (!form.video_url) {
@@ -480,21 +611,21 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
   };
 
   const save = async () => {
-    const resources = resourcesText
-      .split("\n")
-      .map((line) => line.split("|").map((s) => s.trim()))
-      .filter((parts) => parts[0] && parts[1])
-      .map(([label, url]) => ({ label, url }));
+    const cleaned = resources
+      .map((r) => ({ ...r, label: r.label.trim(), url: r.url?.trim() }))
+      .filter((r) => r.label && (r.path || r.url))
+      .map((r) => (r.path ? { label: r.label, path: r.path, name: r.name } : { label: r.label, url: r.url }));
     const { error } = await supabase
       .from("lessons")
       .update({
         title: form.title,
         position: form.position,
-        video_url: form.video_url,
+        video_url: form.video_url?.trim() || null,
         body: form.body,
         transcript: form.transcript,
         duration_minutes: form.duration_minutes,
-        resources,
+        media_kind: form.media_kind,
+        resources: cleaned as unknown as Json,
       })
       .eq("id", lesson.id);
     if (error) {
@@ -507,13 +638,17 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
 
   const remove = async () => {
     if (!confirm("Delete this lesson?")) return;
+    const files = [form.media_path, form.captions_path, ...resources.map((r) => r.path)].filter(Boolean) as string[];
     const { error } = await supabase.from("lessons").delete().eq("id", lesson.id);
     if (error) {
       toast.error("Delete failed");
       return;
     }
+    await Promise.all(files.map((p) => deleteLessonFile(p).catch(() => undefined)));
     onChange();
   };
+
+  const busy = !!uploading;
 
   return (
     <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-3">
@@ -541,14 +676,60 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
           />
         </div>
       </div>
-      <div className="mt-3 space-y-1.5">
-        <Label className="text-xs">Video URL (YouTube, Vimeo, Mux, Bunny...)</Label>
-        <Input
-          value={form.video_url ?? ""}
-          onChange={(e) => setForm({ ...form, video_url: e.target.value })}
-          placeholder="https://youtu.be/..."
-        />
+
+      {/* Main content */}
+      <div className="mt-3 space-y-2 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
+        <Label className="text-xs">Lesson content</Label>
+        {form.media_path ? (
+          <div className="flex flex-wrap items-center gap-3 rounded-md bg-slate-50 dark:bg-slate-800 p-2.5">
+            {form.media_kind === "video" ? <Film className="h-5 w-5 text-[#3434ff]" /> : form.media_kind === "slides" ? <Presentation className="h-5 w-5 text-[#3434ff]" /> : <FileText className="h-5 w-5 text-[#3434ff]" />}
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-sm font-medium text-slate-900 dark:text-slate-50">{form.media_name}</div>
+              <div className="text-xs text-slate-500">{formatBytes(form.media_size)} · {form.media_path.startsWith("s3:") ? "AWS S3" : "Supabase Storage"}</div>
+            </div>
+            {form.media_kind !== "video" && (
+              <select
+                value={form.media_kind ?? "slides"}
+                onChange={(e) => setForm({ ...form, media_kind: e.target.value as LessonMediaKind })}
+                className="h-8 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-2 text-xs"
+                title="How learners see this file (saved with the lesson)"
+              >
+                <option value="slides">Show as slides</option>
+                <option value="document">Show as document</option>
+              </select>
+            )}
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => uploadMain(form.media_kind ?? "video")}>Replace</Button>
+            <Button size="sm" variant="ghost" className="text-destructive" disabled={busy} onClick={removeMain}>Remove</Button>
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => uploadMain("video")}><Film className="mr-2 h-4 w-4" /> Upload video</Button>
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => uploadMain("slides")}><Presentation className="mr-2 h-4 w-4" /> Upload slides (PDF / PPTX)</Button>
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => uploadMain("document")}><FileText className="mr-2 h-4 w-4" /> Upload document</Button>
+          </div>
+        )}
+        {s3Configured === false && !form.media_path && (
+          <p className="text-xs text-amber-600">Video storage (AWS S3) isn't connected yet — uploads are limited to 50 MB until it is. Slides and documents work normally.</p>
+        )}
+        {form.media_kind === "video" && form.media_path && (
+          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
+            <Captions className="h-4 w-4" />
+            {form.captions_path ? <span>Captions attached</span> : <span>No captions file</span>}
+            <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" disabled={busy} onClick={uploadCaptions}>{form.captions_path ? "Replace" : "Upload .vtt / .srt"}</Button>
+            {form.captions_path && <Button size="sm" variant="ghost" className="h-7 px-2 text-xs text-destructive" disabled={busy} onClick={removeCaptions}>Remove</Button>}
+          </div>
+        )}
+        {uploading && <UploadProgress label={uploading.label} percent={uploading.percent} />}
+        <div className="space-y-1.5 pt-1">
+          <Label className="text-xs text-slate-500">{form.media_path ? "Embed link (not shown while a file is uploaded)" : "…or embed a link: YouTube, Vimeo, Loom, Google Slides, Canva"}</Label>
+          <Input
+            value={form.video_url ?? ""}
+            onChange={(e) => setForm({ ...form, video_url: e.target.value })}
+            placeholder="https://youtu.be/... or https://docs.google.com/presentation/d/..."
+          />
+        </div>
       </div>
+
       <div className="mt-3 space-y-1.5">
         <Label className="text-xs">Lesson body (Markdown)</Label>
         <Textarea
@@ -560,34 +741,58 @@ const LessonEditor = ({ lesson, onChange }: { lesson: Lesson; onChange: () => vo
       <div className="mt-3 space-y-1.5">
         <div className="flex items-center justify-between">
           <Label className="text-xs">Transcript</Label>
-          <Button size="sm" variant="outline" onClick={generateTranscript} disabled={generatingTranscript}>
+          <Button size="sm" variant="outline" onClick={generateTranscript} disabled={generatingTranscript || !form.video_url}>
             {generatingTranscript ? (
               <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
             ) : (
               <Wand2 className="mr-2 h-3.5 w-3.5" />
             )}
-            Generate with AI
+            Generate from YouTube
           </Button>
         </div>
         <Textarea
           rows={4}
           value={form.transcript ?? ""}
           onChange={(e) => setForm({ ...form, transcript: e.target.value })}
-          placeholder="Auto-generated from YouTube captions, or paste your own"
+          placeholder="Paste the transcript for this lesson"
         />
       </div>
+
+      {/* Resources */}
       <div className="mt-3 space-y-1.5">
-        <Label className="text-xs">Resources (one per line: Label | https://url)</Label>
-        <Textarea
-          rows={2}
-          value={resourcesText}
-          onChange={(e) => setResourcesText(e.target.value)}
-          placeholder="Workbook PDF | https://..."
-        />
+        <Label className="text-xs">Resources</Label>
+        <div className="space-y-2">
+          {resources.map((r, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <Input
+                className="h-8 text-sm md:max-w-[240px]"
+                value={r.label}
+                placeholder="Label"
+                onChange={(e) => setResources(resources.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)))}
+              />
+              {r.path ? (
+                <div className="flex h-8 min-w-0 flex-1 items-center gap-1.5 truncate text-xs text-slate-500"><Paperclip className="h-3.5 w-3.5 shrink-0" />{r.name}</div>
+              ) : (
+                <Input
+                  className="h-8 flex-1 text-sm"
+                  value={r.url ?? ""}
+                  placeholder="https://..."
+                  onChange={(e) => setResources(resources.map((x, j) => (j === i ? { ...x, url: e.target.value } : x)))}
+                />
+              )}
+              <Button size="sm" variant="ghost" className="h-8 px-2 text-destructive" disabled={busy} onClick={() => removeResource(i)}><Trash2 className="h-3.5 w-3.5" /></Button>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" disabled={busy} onClick={uploadResource}><Upload className="mr-2 h-3.5 w-3.5" /> Upload file</Button>
+          <Button size="sm" variant="outline" disabled={busy} onClick={() => setResources([...resources, { label: "", url: "" }])}><LinkIcon className="mr-2 h-3.5 w-3.5" /> Add link</Button>
+        </div>
       </div>
+
       <div className="mt-3 flex gap-2">
-        <Button size="sm" onClick={save}><Save className="mr-2 h-4 w-4" /> Save</Button>
-        <Button size="sm" variant="ghost" className="text-destructive" onClick={remove}>
+        <Button size="sm" onClick={save} disabled={busy}><Save className="mr-2 h-4 w-4" /> Save</Button>
+        <Button size="sm" variant="ghost" className="text-destructive" onClick={remove} disabled={busy}>
           <Trash2 className="mr-2 h-4 w-4" /> Delete
         </Button>
       </div>
