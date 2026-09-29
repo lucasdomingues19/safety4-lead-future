@@ -34,7 +34,7 @@ export function LmsCommunity() {
 
   const displayName = () => {
     const meta = (user?.user_metadata as { full_name?: string } | undefined)?.full_name;
-    return ctx?.user?.full_name || meta || user?.email?.split("@")[0] || "Learner";
+    return (ctx?.user?.full_name && !ctx.user.full_name.includes("@") ? ctx.user.full_name : "") || meta?.trim() || "Learner";
   };
 
   const load = useCallback(async () => {

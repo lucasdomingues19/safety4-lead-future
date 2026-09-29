@@ -21,9 +21,7 @@ interface StudentAnswers {
 
 interface GradingRequest {
   quiz_id: string;
-  user_id: string;
   answers: StudentAnswers;
-  pass_threshold: number;
 }
 
 interface QuestionScore {
@@ -50,7 +48,7 @@ function gradeQuestion(question: DbQuestion, studentAnswer: string): QuestionSco
     question_id: question.id,
     score: correct ? 100 : 0,
     max_score: 100,
-    feedback: correct ? "Correct!" : `The correct answer is: ${correctOption ?? "n/a"}`,
+    feedback: correct ? "Correct!" : "Incorrect",
     correct,
   };
 }
@@ -64,14 +62,39 @@ serve(async (req) => {
   }
 
   try {
-    const request: GradingRequest = await req.json();
-
-    if (!request.quiz_id || !request.user_id) {
-      return new Response(
-        JSON.stringify({ error: "quiz_id and user_id are required" }),
-        { status: 400, headers: { "content-type": "application/json", ...corsHeaders } },
-      );
+    // Who is submitting comes from the JWT, never the body.
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { "content-type": "application/json", ...corsHeaders } });
     }
+    const { data: userData } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
+    const userId = userData?.user?.id;
+    if (!userId) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { "content-type": "application/json", ...corsHeaders } });
+    }
+
+    const request: GradingRequest = await req.json();
+    if (!request.quiz_id || typeof request.answers !== "object" || request.answers === null) {
+      return new Response(JSON.stringify({ error: "quiz_id and answers are required" }), { status: 400, headers: { "content-type": "application/json", ...corsHeaders } });
+    }
+
+    // Pass mark and course come from the database, never the body.
+    const { data: quiz } = await supabase.from("quizzes").select("id, module_id, pass_threshold").eq("id", request.quiz_id).maybeSingle();
+    if (!quiz) {
+      return new Response(JSON.stringify({ error: "Quiz not found" }), { status: 404, headers: { "content-type": "application/json", ...corsHeaders } });
+    }
+    const { data: mod } = await supabase.from("modules").select("course_id").eq("id", quiz.module_id).maybeSingle();
+    const { data: enrolment } = await supabase
+      .from("enrollments")
+      .select("status, expires_at")
+      .eq("user_id", userId)
+      .eq("course_id", mod?.course_id ?? "")
+      .maybeSingle();
+    const active = enrolment && enrolment.status === "active" && (!enrolment.expires_at || new Date(enrolment.expires_at) > new Date());
+    if (!active) {
+      return new Response(JSON.stringify({ error: "Not enrolled in this course" }), { status: 403, headers: { "content-type": "application/json", ...corsHeaders } });
+    }
+    const passThreshold = quiz.pass_threshold ?? 70;
 
     // Authoritative question set — fetched server-side, never trusted from client.
     const { data: questions, error: questionsError } = await supabase
@@ -94,10 +117,10 @@ serve(async (req) => {
     const totalScore = questionScores.reduce((sum, q) => sum + q.score, 0);
     const totalMax = questionScores.reduce((sum, q) => sum + q.max_score, 0);
     const finalScore = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
-    const passed = finalScore >= request.pass_threshold;
+    const passed = finalScore >= passThreshold;
 
     const { error: insertError } = await supabase.from("quiz_attempts").insert({
-      user_id: request.user_id,
+      user_id: userId,
       quiz_id: request.quiz_id,
       score: finalScore,
       passed,
@@ -113,11 +136,11 @@ serve(async (req) => {
       JSON.stringify({
         score: finalScore,
         passed,
-        pass_threshold: request.pass_threshold,
+        pass_threshold: passThreshold,
         details: questionScores,
         message: passed
           ? `Great job! You scored ${finalScore}% and passed! 🎉`
-          : `You scored ${finalScore}%. You need ${request.pass_threshold}% to pass. Try again!`,
+          : `You scored ${finalScore}%. You need ${passThreshold}% to pass. Try again!`,
       }),
       { headers: { "content-type": "application/json", ...corsHeaders }, status: 200 },
     );

@@ -81,7 +81,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
         supabase.from("courses").select("id, title, slug, description, price_cents, currency, cpd_hours").eq("published", true),
         supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id),
         supabase.from("quiz_attempts").select("score, passed").eq("user_id", user.id),
-        supabase.from("certificates").select("id"),
+        supabase.from("certificates").select("id").eq("recipient_email", (user.email ?? "").toLowerCase()),
         supabase.from("community_posts").select("id", { count: "exact", head: true }).eq("user_id", user.id),
         supabase.rpc("get_leaderboard", { _limit: 5 }),
         supabase.from("community_posts").select("id, author_name, body, created_at").order("created_at", { ascending: false }).limit(3),

@@ -96,24 +96,20 @@ export const formatPrice = (priceCents: number | null | undefined, currency = "G
  * Convert any common video URL into an embeddable iframe src.
  * Supports YouTube, Vimeo, and direct iframe/embed URLs (Mux, Bunny, etc.).
  */
-export const toEmbedUrl = (raw: string | null | undefined): string | null => {
+export const toEmbedUrl = (raw: string | null | undefined, opts: { captions?: boolean } = {}): string | null => {
   if (!raw) return null;
   const url = raw.trim();
 
-  // YouTube
-  const yt =
-    url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/);
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/);
   if (yt) {
-    return `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1`;
+    return `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1${opts.captions ? "&cc_load_policy=1&cc_lang_pref=en" : ""}`;
   }
 
-  // Vimeo
   const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
   if (vimeo) {
-    return `https://player.vimeo.com/video/${vimeo[1]}`;
+    return `https://player.vimeo.com/video/${vimeo[1]}${opts.captions ? "?texttrack=en" : ""}`;
   }
 
-  // Assume it is already an embeddable URL (Mux, Bunny, custom iframe src)
   return url;
 };
 

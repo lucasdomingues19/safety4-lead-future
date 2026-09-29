@@ -13,7 +13,7 @@ SET search_path = public
 AS $$
   SELECT
     p.id,
-    coalesce(nullif(p.full_name, ''), split_part(p.email, '@', 1)),
+    coalesce(nullif(trim(p.full_name), ''), 'Anonymous learner'),
     (coalesce(lp.c, 0) * 10 + coalesce(qa.c, 0) * 50 + coalesce(cp.c, 0) * 5)::bigint,
     coalesce(lp.c, 0)::bigint,
     (p.id = auth.uid())

@@ -30,6 +30,7 @@ const LessonView = () => {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [saving, setSaving] = useState(false);
+  const [captions, setCaptions] = useState(false);
 
   const [quiz, setQuiz] = useState<Quiz | null>(null);
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
@@ -56,9 +57,15 @@ const LessonView = () => {
   }, [modules, lessons]);
 
   const loadCertificate = useCallback(async (courseTitle: string) => {
-    const { data } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseTitle).maybeSingle();
+    const { data } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseTitle).eq("recipient_email", (user?.email ?? "").toLowerCase()).maybeSingle();
     setCertificateUrl(data ? `${window.location.origin}/verify/${data.certificate_number}` : null);
-  }, []);
+  }, [user?.email]);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase.from("profiles").select("captions_default").eq("id", user.id).maybeSingle()
+      .then(({ data }) => setCaptions(!!data?.captions_default));
+  }, [user]);
 
   const load = useCallback(async () => {
     if (!user || !courseSlug || !lessonId) return;
@@ -131,7 +138,7 @@ const LessonView = () => {
 
   const displayName = () => {
     const meta = (user?.user_metadata as { full_name?: string } | undefined)?.full_name;
-    return (meta && meta.trim()) || user?.email?.split("@")[0] || "Learner";
+    return (meta && meta.trim()) || "Learner";
   };
 
   const postComment = async () => {
@@ -249,7 +256,7 @@ const LessonView = () => {
         <div>
           {/* Video */}
           {lesson.video_url && isEmbeddableVideo(lesson.video_url) ? (
-            <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ width: "100%", border: "none", background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px" }} />
+            <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ width: "100%", border: "none", background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px" }} />
           ) : lesson.video_url ? (
             <video key={lesson.id} src={lesson.video_url} controls style={{ width: "100%", background: "#0b0b2c", borderRadius: "20px", aspectRatio: "16/9", marginBottom: "20px" }} />
           ) : (

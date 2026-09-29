@@ -39,7 +39,7 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
     }
     setSubmitting(true);
     try {
-      const grading = await submitQuizAttempt(quiz.id, userId, questions, answers, quiz.pass_threshold);
+      const grading = await submitQuizAttempt(quiz.id, answers);
       setResult(grading);
       if (grading.passed) {
         setIssuing(true);

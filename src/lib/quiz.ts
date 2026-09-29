@@ -115,42 +115,13 @@ export async function getLatestQuizAttempt(
   return data as QuizAttempt | null;
 }
 
-export async function submitQuizAttempt(
-  quizId: string,
-  userId: string,
-  // Kept for backward compatibility with existing callers; ignored by the
-  // grading function, which looks up the authoritative questions itself.
-  _questions: QuizQuestion[],
-  answers: Record<string, string>,
-  passThreshold: number,
-): Promise<GradingResult> {
-  const { data, error } = await supabase.functions.invoke(
-    "grade-quiz-attempt",
-    {
-      body: {
-        quiz_id: quizId,
-        user_id: userId,
-        answers,
-        pass_threshold: passThreshold,
-      },
-    },
-  );
-
-  if (error) {
-    throw new Error(`Quiz grading failed: ${error.message}`);
+/** Grade an attempt server-side. The caller, pass mark and answer key are all resolved on the server. */
+export async function submitQuizAttempt(quizId: string, answers: Record<string, string>): Promise<GradingResult> {
+  const { data, error } = await supabase.functions.invoke("grade-quiz-attempt", {
+    body: { quiz_id: quizId, answers },
+  });
+  if (error || data?.error) {
+    throw new Error(data?.error ?? `Quiz grading failed: ${error?.message}`);
   }
-
   return data as GradingResult;
-}
-
-export async function canRetakeQuiz(
-  userId: string,
-  quizId: string,
-  allowRetakes: boolean,
-): Promise<boolean> {
-  if (!allowRetakes) {
-    const attempts = await getUserQuizAttempts(userId, quizId);
-    return attempts.length === 0;
-  }
-  return true;
 }

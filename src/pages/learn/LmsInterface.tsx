@@ -84,11 +84,11 @@ export default function LmsInterface() {
       setLmsUser({
         id: authUser.id,
         email: authUser.email || "",
-        full_name: profile?.full_name || metaName || authUser.email?.split("@")[0],
+        full_name: profile?.full_name || metaName || undefined,
       });
 
       const [{ data: certs }, { data: cpdCourses }] = await Promise.all([
-        supabase.from("certificates").select("course_name"),
+        supabase.from("certificates").select("course_name").eq("recipient_email", (authUser.email ?? "").toLowerCase()),
         supabase.from("courses").select("title, cpd_hours"),
       ]);
       const cpdByTitle = new Map((cpdCourses ?? []).map((c) => [c.title, Number(c.cpd_hours ?? 0)]));
@@ -383,7 +383,7 @@ export default function LmsInterface() {
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     }}>
-                      {lmsUser?.full_name || "User"}
+                      {lmsUser?.full_name || authUser.email?.split("@")[0] || "You"}
                     </div>
                     <div style={{
                       marginTop: "2px",

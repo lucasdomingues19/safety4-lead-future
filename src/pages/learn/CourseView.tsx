@@ -117,7 +117,7 @@ const CourseView = () => {
         setQuizByModule(new Map((quizRows ?? []).map((q) => [q.module_id, { title: q.title, passed: passed.has(q.id) }])));
       }
 
-      const { data: cert } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseData.title).maybeSingle();
+      const { data: cert } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseData.title).eq("recipient_email", (user.email ?? "").toLowerCase()).maybeSingle();
       setCertificateUrl(cert ? `/verify/${cert.certificate_number}` : null);
     } catch (err) {
       console.error(err);
