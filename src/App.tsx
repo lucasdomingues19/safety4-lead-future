@@ -96,10 +96,11 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Floating widgets/popups — hidden on private proposal pages
+// Floating widgets/popups — hidden on private proposal pages and inside the
+// LMS (learner pages, checkout and the course builder), where they cover the player.
 const GlobalWidgets = () => {
   const { pathname } = useLocation();
-  if (pathname.startsWith("/proposal")) return null;
+  if (/^\/(proposal|learn|student|admin\/courses)/.test(pathname)) return null;
   return (
     <Suspense fallback={null}>
       <WhatsAppButton />
