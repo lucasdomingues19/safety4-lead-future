@@ -247,19 +247,26 @@ const CourseEditor = ({
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-1.5">
-              <Label>Price (in pence, 0 = free)</Label>
+              <Label>Price (0 = free)</Label>
               <Input
                 type="number"
-                value={form.price_cents}
-                onChange={(e) => setForm({ ...form, price_cents: Number(e.target.value) })}
+                min={0}
+                step="0.01"
+                value={form.price_cents ? form.price_cents / 100 : 0}
+                onChange={(e) => setForm({ ...form, price_cents: Math.max(0, Math.round(Number(e.target.value || 0) * 100)) })}
               />
             </div>
             <div className="space-y-1.5">
               <Label>Currency</Label>
-              <Input
-                value={form.currency}
+              <select
+                value={(form.currency || "GBP").toUpperCase()}
                 onChange={(e) => setForm({ ...form, currency: e.target.value })}
-              />
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                <option value="GBP">GBP (£)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+              </select>
             </div>
             <div className="space-y-1.5">
               <Label>CPD hours</Label>

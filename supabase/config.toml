@@ -48,3 +48,6 @@ verify_jwt = true
 
 [functions.parse-proposal-document]
 verify_jwt = true
+
+[functions.handle-stripe-webhook]
+verify_jwt = false

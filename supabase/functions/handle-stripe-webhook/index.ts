@@ -1,228 +1,93 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
-const STRIPE_WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+// Stripe webhook (backup to confirm-course-checkout).
+// Point the Stripe endpoint at .../functions/v1/handle-stripe-webhook and
+// subscribe to: checkout.session.completed, checkout.session.async_payment_succeeded,
+// charge.refunded. Requires verify_jwt = false (Stripe sends no Supabase JWT).
 
-const crypto = await import("https://deno.land/std@0.133.0/crypto/mod.ts");
+const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
+const TOLERANCE_SECONDS = 300;
 
-async function verifyStripeWebhook(
-  body: string,
-  signature: string
-): Promise<boolean> {
-  if (!STRIPE_WEBHOOK_SECRET) {
-    throw new Error("STRIPE_WEBHOOK_SECRET not configured");
-  }
-
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(STRIPE_WEBHOOK_SECRET),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
+async function verifySignature(payload: string, header: string): Promise<boolean> {
+  if (!WEBHOOK_SECRET) throw new Error("STRIPE_WEBHOOK_SECRET not configured");
+  const parts = Object.fromEntries(
+    header.split(",").map((p) => {
+      const i = p.indexOf("=");
+      return [p.slice(0, i).trim(), p.slice(i + 1).trim()];
+    }),
   );
+  const timestamp = parts["t"];
+  const signatures = header.split(",").filter((p) => p.trim().startsWith("v1=")).map((p) => p.trim().slice(3));
+  if (!timestamp || signatures.length === 0) return false;
+  if (Math.abs(Date.now() / 1000 - Number(timestamp)) > TOLERANCE_SECONDS) return false;
 
-  // Extract timestamp and signature from header
-  const parts = signature.split(",");
-  let timestamp = "";
-  let receivedSignature = "";
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const mac = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${timestamp}.${payload}`)));
+  const expected = Array.from(mac).map((b) => b.toString(16).padStart(2, "0")).join("");
 
-  for (const part of parts) {
-    const [key, value] = part.trim().split("=");
-    if (key === "t") timestamp = value;
-    if (key === "v1") receivedSignature = value;
-  }
-
-  // Create signed content
-  const signedContent = `${timestamp}.${body}`;
-  const computedSignature = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    encoder.encode(signedContent)
-  );
-
-  // Convert to hex string
-  const computedHex = Array.from(new Uint8Array(computedSignature))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-
-  return computedHex === receivedSignature;
-}
-
-async function handleCheckoutSessionCompleted(
-  event: any,
-  supabase: any
-): Promise<void> {
-  const session = event.data.object;
-  const courseId = session.subscription_data?.metadata?.course_id;
-  const userId = session.subscription_data?.metadata?.user_id;
-  const subscriptionId = session.subscription;
-
-  if (!courseId || !userId || !subscriptionId) {
-    console.warn("Missing metadata in checkout session:", {
-      courseId,
-      userId,
-      subscriptionId,
-    });
-    return;
-  }
-
-  // Create enrollment record
-  const { error } = await supabase
-    .from("enrollments")
-    .upsert(
-      {
-        user_id: userId,
-        course_id: courseId,
-        stripe_subscription_id: subscriptionId,
-        status: "active",
-        enrolled_at: new Date().toISOString(),
-        expires_at: null, // Will be set by subscription.updated event
-      },
-      { onConflict: "user_id,course_id" }
-    );
-
-  if (error) {
-    console.error("Failed to create enrollment:", error);
-    throw error;
-  }
-
-  console.log(`Enrollment created for user ${userId} in course ${courseId}`);
-}
-
-async function handleSubscriptionUpdated(
-  event: any,
-  supabase: any
-): Promise<void> {
-  const subscription = event.data.object;
-  const courseId = subscription.metadata?.course_id;
-  const userId = subscription.metadata?.user_id;
-
-  if (!courseId || !userId) {
-    console.warn("Missing metadata in subscription:", { courseId, userId });
-    return;
-  }
-
-  // Determine status
-  let status = "active";
-  if (subscription.status === "canceled") {
-    status = "cancelled";
-  } else if (subscription.status === "past_due") {
-    status = "past_due";
-  }
-
-  // Get current period end (subscription expiration)
-  const expiresAt = subscription.current_period_end
-    ? new Date(subscription.current_period_end * 1000).toISOString()
-    : null;
-
-  // Update enrollment
-  const { error } = await supabase
-    .from("enrollments")
-    .update({
-      status,
-      expires_at: expiresAt,
-    })
-    .eq("stripe_subscription_id", subscription.id);
-
-  if (error) {
-    console.error("Failed to update enrollment:", error);
-    throw error;
-  }
-
-  console.log(
-    `Enrollment updated: ${userId} in course ${courseId}, status: ${status}`
-  );
-}
-
-async function handleSubscriptionDeleted(
-  event: any,
-  supabase: any
-): Promise<void> {
-  const subscription = event.data.object;
-
-  // Mark enrollment as cancelled
-  const { error } = await supabase
-    .from("enrollments")
-    .update({
-      status: "cancelled",
-    })
-    .eq("stripe_subscription_id", subscription.id);
-
-  if (error) {
-    console.error("Failed to cancel enrollment:", error);
-    throw error;
-  }
-
-  console.log(`Enrollment cancelled for subscription ${subscription.id}`);
+  // constant-time compare
+  return signatures.some((sig) => {
+    if (sig.length !== expected.length) return false;
+    let diff = 0;
+    for (let i = 0; i < sig.length; i++) diff |= sig.charCodeAt(i) ^ expected.charCodeAt(i);
+    return diff === 0;
+  });
 }
 
 serve(async (req) => {
-  // CORS
-  if (req.method === "OPTIONS") {
-    return new Response("ok", {
-      headers: { "Access-Control-Allow-Origin": "*" },
-    });
+  if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
+  const signature = req.headers.get("stripe-signature");
+  if (!signature) return new Response("Missing signature", { status: 400 });
+
+  const payload = await req.text();
+  try {
+    if (!(await verifySignature(payload, signature))) return new Response("Invalid signature", { status: 400 });
+  } catch (e) {
+    console.error(e);
+    return new Response("Webhook not configured", { status: 500 });
   }
 
+  const event = JSON.parse(payload);
+  const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+
   try {
-    if (req.method !== "POST") {
-      return new Response("Method not allowed", { status: 405 });
-    }
-
-    const signature = req.headers.get("stripe-signature");
-    const body = await req.text();
-
-    if (!signature) {
-      return new Response("Missing signature", { status: 401 });
-    }
-
-    // Verify webhook signature
-    const isValid = await verifyStripeWebhook(body, signature);
-    if (!isValid) {
-      return new Response("Invalid signature", { status: 401 });
-    }
-
-    // Parse event
-    const event = JSON.parse(body);
-
-    // Initialize Supabase client with service role
-    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
-
-    // Handle event types
     switch (event.type) {
       case "checkout.session.completed":
-        await handleCheckoutSessionCompleted(event, supabase);
+      case "checkout.session.async_payment_succeeded": {
+        const session = event.data.object;
+        const { course_id, user_id } = session.metadata ?? {};
+        if (!course_id || !user_id) {
+          console.log("Ignoring checkout session without course metadata", session.id);
+          break;
+        }
+        if (session.payment_status !== "paid") {
+          console.log("Checkout session not paid yet", session.id);
+          break;
+        }
+        const { error } = await db.from("enrollments").upsert(
+          { user_id, course_id, status: "active", stripe_subscription_id: session.payment_intent ?? session.id, expires_at: null },
+          { onConflict: "user_id,course_id" },
+        );
+        if (error) throw error;
+        console.log("Enrolled via webhook", { user_id, course_id });
         break;
-
-      case "customer.subscription.updated":
-        await handleSubscriptionUpdated(event, supabase);
-        break;
-
-      case "customer.subscription.deleted":
-        await handleSubscriptionDeleted(event, supabase);
-        break;
-
-      default:
-        console.log(`Unhandled event type: ${event.type}`);
-    }
-
-    return new Response(JSON.stringify({ received: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error) {
-    console.error("Webhook error:", error);
-    return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : "Unknown error",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
       }
-    );
+      case "charge.refunded": {
+        const charge = event.data.object;
+        if (charge.refunded && charge.payment_intent) {
+          const { error } = await db.from("enrollments").update({ status: "cancelled" }).eq("stripe_subscription_id", charge.payment_intent);
+          if (error) throw error;
+          console.log("Access revoked after full refund", charge.payment_intent);
+        }
+        break;
+      }
+      default:
+        console.log("Unhandled event", event.type);
+    }
+    return new Response(JSON.stringify({ received: true }), { headers: { "Content-Type": "application/json" } });
+  } catch (e) {
+    console.error("Webhook handler error:", e);
+    return new Response("Handler error", { status: 500 });
   }
 });

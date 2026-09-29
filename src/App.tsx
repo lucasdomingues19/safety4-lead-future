@@ -51,6 +51,7 @@ const Brochure = lazy(() => import("./pages/BrochureInteractive"));
 
 // Learning platform (LMS)
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
+const ResetPassword = lazy(() => import("./pages/learn/ResetPassword"));
 const LmsInterface = lazy(() => import("./pages/learn/LmsInterface"));
 const CourseView = lazy(() => import("./pages/learn/CourseView"));
 const LessonView = lazy(() => import("./pages/learn/LessonView"));
@@ -58,7 +59,6 @@ const CourseManager = lazy(() => import("./pages/admin/CourseManager"));
 
 // Student platform
 const Dashboard = lazy(() => import("./pages/Dashboard"));
-const MyCourses = lazy(() => import("./pages/student/MyCourses"));
 const EnrollmentCheckout = lazy(() => import("./pages/student/EnrollmentCheckout"));
 const Support = lazy(() => import("./pages/Support"));
 
@@ -187,6 +187,7 @@ const App = () => (
 
 
             <Route path="/learn/auth" element={<LearnAuth />} />
+            <Route path="/learn/reset-password" element={<ResetPassword />} />
             <Route path="/learn" element={<ProtectedRoute><LmsInterface /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug" element={<ProtectedRoute><CourseView /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />
@@ -194,8 +195,8 @@ const App = () => (
 
             {/* Student Learning Platform */}
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/student/courses" element={<MyCourses />} />
-            <Route path="/student/checkout/:id" element={<EnrollmentCheckout />} />
+            <Route path="/student/courses" element={<Navigate to="/learn" replace />} />
+            <Route path="/student/checkout/:id" element={<ProtectedRoute><EnrollmentCheckout /></ProtectedRoute>} />
             <Route path="/support" element={<Support />} />
 
             {/* Catch-all route for proposal slugs - must be last before wildcard */}

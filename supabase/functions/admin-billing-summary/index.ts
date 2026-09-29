@@ -39,6 +39,23 @@ serve(async (req) => {
       description: (c.description as string) ?? null,
     }));
 
+    const whRes = await fetch("https://api.stripe.com/v1/webhook_endpoints?limit=20", { headers: { Authorization: `Bearer ${key}` } });
+    const whBody = whRes.ok ? await whRes.json() : { data: [] };
+    const expectedUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/handle-stripe-webhook`;
+    const webhooks = (whBody.data as Array<Record<string, unknown>>).map((w) => ({
+      url: String(w.url),
+      status: String(w.status),
+      events: (w.enabled_events as string[]) ?? [],
+    }));
+    const webhook = webhooks.find((w) => w.url === expectedUrl);
+    const needed = ["checkout.session.completed", "charge.refunded"];
+    const webhookHealth = {
+      expectedUrl,
+      configured: !!webhook && webhook.status === "enabled",
+      missingEvents: webhook ? needed.filter((e) => !webhook.events.includes(e) && !webhook.events.includes("*")) : needed,
+      others: webhooks.filter((w) => w.url !== expectedUrl).map((w) => w.url),
+    };
+
     const paid = charges.filter((c) => c.status === "succeeded");
     const monthAgo = Date.now() - 30 * 86400000;
     const last30 = paid.filter((c) => new Date(c.created).getTime() >= monthAgo);
@@ -49,6 +66,7 @@ serve(async (req) => {
       charges,
       totals: { last30Days: sum(last30), allShown: sum(paid), paymentsLast30Days: last30.length },
       currency: paid[0]?.currency ?? "GBP",
+      webhookHealth,
     });
   } catch (e) {
     console.error(e);

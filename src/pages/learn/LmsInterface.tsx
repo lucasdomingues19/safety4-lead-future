@@ -37,7 +37,6 @@ interface LmsContextType {
 export const LmsContext = React.createContext<LmsContextType | null>(null);
 
 export default function LmsInterface() {
-  try {
     const { user: authUser, loading: authLoading } = useAuthUser();
     const navigate = useNavigate();
 
@@ -154,7 +153,7 @@ export default function LmsInterface() {
           <div style={{ width: "32px", height: "32px", border: "3px solid #e2e8f0", borderTop: "3px solid #3434ff", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
         </div>
       </div>}>
-        {content}
+        <ScreenErrorBoundary key={screen + adminTab}>{content}</ScreenErrorBoundary>
       </React.Suspense>
     );
   };
@@ -491,22 +490,24 @@ export default function LmsInterface() {
       `}</style>
     </LmsContext.Provider>
     );
-  } catch (error) {
-    console.error("LmsInterface Error:", error);
+}
+
+class ScreenErrorBoundary extends React.Component<{ children: React.ReactNode }, { error: Error | null }> {
+  state = { error: null as Error | null };
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+  componentDidCatch(error: Error) {
+    console.error("LMS screen error:", error);
+  }
+  render() {
+    if (!this.state.error) return this.props.children;
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#eef1f6", flexDirection: "column", gap: "20px", padding: "20px" }}>
-        <div style={{ textAlign: "center", color: "#0b0b2c", maxWidth: "600px" }}>
-          <h1 style={{ fontSize: "24px", fontWeight: "700", margin: "0 0 10px" }}>LMS Loading Error</h1>
-          <p style={{ fontSize: "14px", color: "#69697b", margin: 0 }}>The learning page encountered an error and couldn't load.</p>
-          <pre style={{ background: "#f1f4ff", padding: "15px", borderRadius: "8px", overflow: "auto", fontSize: "12px", color: "#3434ff", marginTop: "20px", textAlign: "left" }}>
-            {String(error)}
-          </pre>
-          <button
-            onClick={() => window.location.reload()}
-            style={{ marginTop: "20px", padding: "12px 24px", background: "#3434ff", color: "#fff", border: "0", borderRadius: "8px", cursor: "pointer", fontFamily: "inherit", fontWeight: "700", fontSize: "14px" }}
-          >
-            Reload Page
-          </button>
+      <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+        <div style={{ textAlign: "center", maxWidth: 480 }}>
+          <h2 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px", color: "#0b0b2c" }}>Something went wrong on this page</h2>
+          <p style={{ fontSize: 14, color: "#69697b", margin: 0 }}>Try reloading. If it keeps happening, email hello@safetyacademy.tech.</p>
+          <button onClick={() => window.location.reload()} style={{ marginTop: 18, padding: "11px 22px", background: "#3434ff", color: "#fff", border: 0, borderRadius: 8, cursor: "pointer", fontWeight: 700, fontFamily: "inherit" }}>Reload</button>
         </div>
       </div>
     );

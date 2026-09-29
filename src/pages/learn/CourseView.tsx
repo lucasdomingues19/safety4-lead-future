@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Loader2, CheckCircle2, Lock, PlayCircle, ArrowLeft, Clock } from "lucide-react";
+import { Loader2, CheckCircle2, Lock, PlayCircle, ArrowLeft, Clock, Award } from "lucide-react";
 import {
   isModuleUnlocked,
   asLessons,
@@ -32,6 +32,8 @@ const CourseView = () => {
   const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
   const [modules, setModules] = useState<ModuleWithLessons[]>([]);
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+  const [quizByModule, setQuizByModule] = useState<Map<string, { title: string; passed: boolean }>>(new Map());
+  const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/learn/auth");
@@ -104,6 +106,19 @@ const CourseView = () => {
         lessons: asLessons(lessonRows).filter((l) => l.module_id === m.id),
       }));
       setModules(grouped);
+
+      if (moduleIds.length) {
+        const { data: quizRows } = await supabase.from("quizzes").select("id, title, module_id").in("module_id", moduleIds);
+        const quizIds = (quizRows ?? []).map((q) => q.id);
+        const { data: passRows } = quizIds.length
+          ? await supabase.from("quiz_attempts").select("quiz_id").eq("user_id", user.id).eq("passed", true).in("quiz_id", quizIds)
+          : { data: [] as { quiz_id: string }[] };
+        const passed = new Set((passRows ?? []).map((p) => p.quiz_id));
+        setQuizByModule(new Map((quizRows ?? []).map((q) => [q.module_id, { title: q.title, passed: passed.has(q.id) }])));
+      }
+
+      const { data: cert } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseData.title).maybeSingle();
+      setCertificateUrl(cert ? `/verify/${cert.certificate_number}` : null);
     } catch (err) {
       console.error(err);
       toast.error("Could not load the course");
@@ -118,9 +133,8 @@ const CourseView = () => {
     ? Math.round((completedCount / allLessons.length) * 100)
     : 0;
 
-  const nextLesson =
-    modules.find((m) => m.unlocked)?.lessons.find((l) => !completedIds.has(l.id)) ??
-    allLessons.find((l) => !completedIds.has(l.id));
+  const unlockedLessons = modules.filter((m) => m.unlocked).flatMap((m) => m.lessons);
+  const nextLesson = unlockedLessons.find((l) => !completedIds.has(l.id)) ?? unlockedLessons[0];
 
   if (authLoading || loading) {
     return (
@@ -154,6 +168,11 @@ const CourseView = () => {
             <Progress value={progressPercent} className="h-2.5 bg-white/10" />
           </div>
 
+          {certificateUrl && (
+            <a href={certificateUrl} target="_blank" rel="noopener noreferrer" className="mt-6 mr-3 inline-flex h-12 items-center gap-2 rounded-md bg-[#a6e21a] px-6 text-base font-semibold text-[#0b0b2c]">
+              <Award className="h-5 w-5" /> View certificate
+            </a>
+          )}
           {nextLesson && (
             <Button
               className="mt-6 h-12 px-6 text-base font-semibold"
@@ -216,6 +235,15 @@ const CourseView = () => {
                     </button>
                   );
                 })}
+                {quizByModule.get(module.id) && (
+                  <div className="flex items-center gap-3 bg-[#f8fafc] px-4 py-3.5">
+                    <Award className={`h-5 w-5 shrink-0 ${quizByModule.get(module.id)!.passed ? "text-[#8ab815]" : "text-[#94a3b8]"}`} />
+                    <span className="flex-1 text-sm font-medium text-[#0b0b2c]">{quizByModule.get(module.id)!.title}</span>
+                    <span className="text-xs font-semibold text-[#69697b]">
+                      {quizByModule.get(module.id)!.passed ? "Passed" : module.lessons.every((l) => completedIds.has(l.id)) ? "Ready — open the last lesson" : "Unlocks after all lessons"}
+                    </span>
+                  </div>
+                )}
               </Card>
             </section>
           ))}

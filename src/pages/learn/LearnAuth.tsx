@@ -41,6 +41,23 @@ const LearnAuth = () => {
     }
   };
 
+  const handleForgot = async () => {
+    if (!email) {
+      toast.error("Enter your email address first, then click 'Forgot password?'");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/learn/reset-password`,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("If an account exists for that email, a reset link is on its way.");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -325,6 +342,13 @@ const LearnAuth = () => {
                 e.currentTarget.style.boxShadow = "none";
               }}
             />
+            {mode === "signin" && (
+              <div style={{ marginTop: "8px", textAlign: "right" }}>
+                <button type="button" onClick={handleForgot} disabled={loading} style={{ background: "none", border: 0, padding: 0, color: "#3434FF", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
+                  Forgot password?
+                </button>
+              </div>
+            )}
           </div>
 
           <button

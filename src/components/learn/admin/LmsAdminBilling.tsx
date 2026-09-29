@@ -3,7 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Kpi, PanelHeader, Spinner, adminFont, panel, ghostBtn } from "./adminUi";
 
 interface Charge { id: string; amount: number; refunded: number; currency: string; status: string; created: string; email: string | null; description: string | null }
-interface Summary { live: boolean; charges: Charge[]; totals: { last30Days: number; allShown: number; paymentsLast30Days: number }; currency: string }
+interface WebhookHealth { expectedUrl: string; configured: boolean; missingEvents: string[]; others: string[] }
+interface Summary { live: boolean; charges: Charge[]; totals: { last30Days: number; allShown: number; paymentsLast30Days: number }; currency: string; webhookHealth: WebhookHealth }
 
 const money = (n: number, currency: string) => new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(n);
 
@@ -40,6 +41,17 @@ export function LmsAdminBilling() {
               {data.live ? "Stripe: live mode" : "Stripe: TEST mode — payments below are not real money"}
             </span>
           </div>
+          {(!data.webhookHealth.configured || data.webhookHealth.missingEvents.length > 0) && (
+            <div style={{ ...panel, padding: 20, marginBottom: 20, background: "#fff7e6", borderColor: "#ffd9a0" }}>
+              <div style={{ fontWeight: 700, color: "#a05a00" }}>Stripe webhook needs attention (backup payment confirmation)</div>
+              <div style={{ marginTop: 6, fontSize: 13, color: "#69697b", lineHeight: 1.6 }}>
+                Payments are confirmed automatically when learners return from Stripe, but if they close the tab first the webhook grants access.
+                In Stripe → Developers → Webhooks, add an endpoint for <code style={{ background: "#fff", padding: "1px 5px", borderRadius: 4 }}>{data.webhookHealth.expectedUrl}</code> with events
+                {" "}<strong>checkout.session.completed</strong> and <strong>charge.refunded</strong>, then save its signing secret as STRIPE_WEBHOOK_SECRET in Supabase.
+                {data.webhookHealth.others.length > 0 && <> Existing endpoints point elsewhere: {data.webhookHealth.others.join(", ")}.</>}
+              </div>
+            </div>
+          )}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 28 }}>
             <Kpi label="Revenue (30 days)" value={money(data.totals.last30Days, data.currency)} sub="Net of refunds" tone="good" />
             <Kpi label="Payments (30 days)" value={data.totals.paymentsLast30Days} sub="Successful charges" />
