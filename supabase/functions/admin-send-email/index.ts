@@ -71,7 +71,7 @@ serve(async (req) => {
       const chunk = emails.slice(i, i + 100);
       const res = await resend.batch.send(
         chunk.map((to) => ({
-          from: "SafetyTech Academy <noreply@safetyacademy.tech>",
+          from: "SafetyTech Academy <hello@safetytech.academy>",
           reply_to: "hello@safetyacademy.tech",
           to: [to],
           subject: cleanSubject,

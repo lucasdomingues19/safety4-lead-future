@@ -108,7 +108,7 @@ serve(async (req) => {
     for (const job of jobs) {
       const { subject, html } = build(d.email_action_type, job.link, job.token);
       const res = await resend.emails.send({
-        from: "SafetyTech Academy <noreply@safetyacademy.tech>",
+        from: "SafetyTech Academy <hello@safetytech.academy>",
         reply_to: "hello@safetyacademy.tech",
         to: [job.to],
         subject,
