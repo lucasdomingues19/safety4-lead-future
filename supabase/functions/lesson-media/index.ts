@@ -130,24 +130,23 @@ serve(async (req: Request) => {
       if (!lessonId) return json({ error: "Missing lesson_id" }, 400);
       const { data: lesson } = await db
         .from("lessons")
-        .select("id, module_id, media_path, media_name, captions_path, resources, modules!inner(course_id, drip_days)")
+        .select("id, media_path, media_name, captions_path, resources")
         .eq("id", lessonId)
         .maybeSingle();
       if (!lesson) return json({ error: "Lesson not found" }, 404);
-      const mod = lesson.modules as unknown as { course_id: string; drip_days: number | null };
 
       if (!isAdmin) {
-        const { data: enr } = await db
-          .from("enrollments")
-          .select("status, expires_at, enrolled_at")
-          .eq("user_id", user.id)
-          .eq("course_id", mod.course_id)
-          .maybeSingle();
-        const active = enr && enr.status === "active" && (!enr.expires_at || new Date(enr.expires_at) > new Date());
-        if (!active) return json({ error: "No active enrolment" }, 403);
-        if (mod.drip_days && mod.drip_days > 0) {
-          const unlock = new Date(enr!.enrolled_at).getTime() + mod.drip_days * 86400000;
-          if (Date.now() < unlock) return json({ error: "Module not unlocked yet" }, 403);
+        // Same rules as completion: active enrolment, drip release, and every
+        // earlier required lesson complete.
+        const { data: lock, error: lockErr } = await db.rpc("lesson_lock_reason", { _user: user.id, _lesson: lessonId });
+        if (lockErr) return json({ error: "Could not check access" }, 500);
+        if (lock) {
+          const msg: Record<string, string> = {
+            not_enrolled: "No active enrolment",
+            drip: "Module not unlocked yet",
+            previous_incomplete: "Finish the previous lessons first",
+          };
+          return json({ error: msg[lock as string] ?? "Lesson locked", reason: lock }, 403);
         }
       }
 

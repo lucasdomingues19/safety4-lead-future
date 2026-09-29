@@ -102,24 +102,26 @@ serve(async (req: Request) => {
     const active = enrolment && enrolment.status === "active" && (!enrolment.expires_at || new Date(enrolment.expires_at) > new Date());
     if (!active) return json({ error: "Not enrolled in this course" }, 403);
 
-    // Course completion = every lesson done AND every module quiz passed.
+    // Course completion = every required lesson done AND every module quiz passed.
+    // Lessons the admin marked optional (enforce_progress = false) don't count.
     const { data: modules } = await db.from("modules").select("id").eq("course_id", courseId);
     const moduleIds = (modules ?? []).map((m) => m.id);
-    const { data: lessons } = moduleIds.length ? await db.from("lessons").select("id").in("module_id", moduleIds) : { data: [] as { id: string }[] };
+    const { data: lessons } = moduleIds.length ? await db.from("lessons").select("id, enforce_progress").in("module_id", moduleIds) : { data: [] as { id: string; enforce_progress: boolean }[] };
     const { data: quizzes } = moduleIds.length ? await db.from("quizzes").select("id").in("module_id", moduleIds) : { data: [] as { id: string }[] };
 
     const lessonIds = (lessons ?? []).map((l) => l.id);
+    const requiredIds = (lessons ?? []).filter((l) => l.enforce_progress !== false).map((l) => l.id);
     const quizIds = (quizzes ?? []).map((q) => q.id);
     if (lessonIds.length === 0) return json({ status: "incomplete", missing: { lessons: 0, quizzes: 0 }, reason: "Course has no lessons" });
 
-    const { data: done } = await db.from("lesson_progress").select("lesson_id").eq("user_id", user.id).in("lesson_id", lessonIds);
+    const { data: done } = await db.from("lesson_progress").select("lesson_id").eq("user_id", user.id).eq("is_completed", true).in("lesson_id", lessonIds);
     const doneSet = new Set((done ?? []).map((d) => d.lesson_id));
     const { data: passes } = quizIds.length
       ? await db.from("quiz_attempts").select("quiz_id").eq("user_id", user.id).eq("passed", true).in("quiz_id", quizIds)
       : { data: [] as { quiz_id: string }[] };
     const passedSet = new Set((passes ?? []).map((p) => p.quiz_id));
 
-    const missingLessons = lessonIds.filter((id) => !doneSet.has(id)).length;
+    const missingLessons = requiredIds.filter((id) => !doneSet.has(id)).length;
     const missingQuizzes = quizIds.filter((id) => !passedSet.has(id)).length;
     if (missingLessons > 0 || missingQuizzes > 0) {
       return json({ status: "incomplete", missing: { lessons: missingLessons, quizzes: missingQuizzes } });

@@ -17,6 +17,7 @@ import {
   type Enrollment,
 } from "@/lib/lms";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
+import { courseOrder, lockedLessonIds } from "@/lib/progress";
 
 interface ModuleWithLessons extends Module {
   lessons: Lesson[];
@@ -34,6 +35,7 @@ const CourseView = () => {
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
   const [quizByModule, setQuizByModule] = useState<Map<string, { title: string; passed: boolean }>>(new Map());
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
+  const [preview, setPreview] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/learn/auth");
@@ -67,21 +69,20 @@ const CourseView = () => {
         .eq("course_id", courseData.id)
         .maybeSingle();
 
-      if (!enr) {
-        toast.error("Enrol in this course to view it");
-        navigate("/learn");
-        return;
-      }
-
-      // Verify enrollment access (checks subscription status for paid courses)
-      const hasAccess = await verifyEnrollmentAccess(user.id, courseData.id);
+      // Admins can preview any course without enrolling.
+      const hasAccess = !!enr && (await verifyEnrollmentAccess(user.id, courseData.id));
+      let isPreview = false;
       if (!hasAccess) {
-        toast.error("Your enrollment has expired or is not active");
-        navigate("/learn");
-        return;
+        const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+        if (!role) {
+          toast.error(enr ? "Your enrollment has expired or is not active" : "Enrol in this course to view it");
+          navigate("/learn");
+          return;
+        }
+        isPreview = true;
       }
-
-      setEnrollment(enr as Enrollment);
+      setPreview(isPreview);
+      setEnrollment((enr ?? null) as Enrollment | null);
 
       const { data: moduleRows } = await supabase
         .from("modules")
@@ -97,12 +98,13 @@ const CourseView = () => {
       const { data: progressRows } = await supabase
         .from("lesson_progress")
         .select("lesson_id")
-        .eq("user_id", user.id);
+        .eq("user_id", user.id)
+        .eq("is_completed", true);
       setCompletedIds(new Set((progressRows ?? []).map((p) => p.lesson_id)));
 
       const grouped: ModuleWithLessons[] = (moduleRows ?? []).map((m) => ({
         ...(m as Module),
-        unlocked: isModuleUnlocked(m as Module, enr.enrolled_at),
+        unlocked: isPreview || isModuleUnlocked(m as Module, enr?.enrolled_at),
         lessons: asLessons(lessonRows).filter((l) => l.module_id === m.id),
       }));
       setModules(grouped);
@@ -133,8 +135,12 @@ const CourseView = () => {
     ? Math.round((completedCount / allLessons.length) * 100)
     : 0;
 
-  const unlockedLessons = modules.filter((m) => m.unlocked).flatMap((m) => m.lessons);
-  const nextLesson = unlockedLessons.find((l) => !completedIds.has(l.id)) ?? unlockedLessons[0];
+  // Lessons unlock in order (per-lesson "must complete" rule, enforced server-side).
+  const ordered = courseOrder(modules, allLessons);
+  const sequenceLocked = preview ? new Set<string>() : lockedLessonIds(ordered, completedIds);
+  const moduleUnlocked = new Map(modules.map((m) => [m.id, m.unlocked]));
+  const openLessons = ordered.filter((l) => moduleUnlocked.get(l.module_id) && !sequenceLocked.has(l.id));
+  const nextLesson = openLessons.find((l) => !completedIds.has(l.id)) ?? openLessons[0];
 
   if (authLoading || loading) {
     return (
@@ -157,6 +163,9 @@ const CourseView = () => {
             <ArrowLeft className="h-4 w-4" /> Back to My Learning
           </Link>
 
+          {preview && (
+            <div className="mb-4 inline-block rounded-md bg-white/15 px-3 py-1 text-xs font-semibold text-white">Admin preview — not enrolled, progress isn't recorded</div>
+          )}
           <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">{course.title}</h1>
           {course.description && <p className="mt-3 max-w-2xl text-white/70">{course.description}</p>}
 
@@ -210,7 +219,7 @@ const CourseView = () => {
                 )}
                 {module.lessons.map((lesson) => {
                   const done = completedIds.has(lesson.id);
-                  const locked = !module.unlocked;
+                  const locked = !module.unlocked || sequenceLocked.has(lesson.id);
                   return (
                     <button
                       key={lesson.id}
@@ -240,7 +249,7 @@ const CourseView = () => {
                     <Award className={`h-5 w-5 shrink-0 ${quizByModule.get(module.id)!.passed ? "text-[#8ab815]" : "text-[#94a3b8]"}`} />
                     <span className="flex-1 text-sm font-medium text-[#0b0b2c]">{quizByModule.get(module.id)!.title}</span>
                     <span className="text-xs font-semibold text-[#69697b]">
-                      {quizByModule.get(module.id)!.passed ? "Passed" : module.lessons.every((l) => completedIds.has(l.id)) ? "Ready — open the last lesson" : "Unlocks after all lessons"}
+                      {quizByModule.get(module.id)!.passed ? "Passed" : module.lessons.every((l) => l.enforce_progress === false || completedIds.has(l.id)) ? "Ready — open the last lesson" : "Unlocks after all lessons"}
                     </span>
                   </div>
                 )}

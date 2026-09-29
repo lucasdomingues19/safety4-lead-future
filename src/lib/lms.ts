@@ -52,6 +52,8 @@ export interface Lesson {
   media_mime: string | null;
   media_size: number | null;
   captions_path: string | null;
+  video_duration_seconds?: number | null;
+  enforce_progress?: boolean;
   position: number;
   duration_minutes: number | null;
   created_at: string;

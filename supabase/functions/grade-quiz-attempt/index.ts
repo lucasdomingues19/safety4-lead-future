@@ -94,6 +94,16 @@ serve(async (req) => {
     if (!active) {
       return new Response(JSON.stringify({ error: "Not enrolled in this course" }), { status: 403, headers: { "content-type": "application/json", ...corsHeaders } });
     }
+    // The quiz unlocks only once every required lesson in its module is complete.
+    const { data: modLessons } = await supabase.from("lessons").select("id").eq("module_id", quiz.module_id).neq("enforce_progress", false);
+    const requiredIds = (modLessons ?? []).map((l) => l.id);
+    if (requiredIds.length) {
+      const { data: doneRows } = await supabase.from("lesson_progress").select("lesson_id").eq("user_id", userId).eq("is_completed", true).in("lesson_id", requiredIds);
+      if ((doneRows ?? []).length < requiredIds.length) {
+        return new Response(JSON.stringify({ error: "Complete every lesson in this module before taking the quiz" }), { status: 403, headers: { "content-type": "application/json", ...corsHeaders } });
+      }
+    }
+
     const passThreshold = quiz.pass_threshold ?? 70;
 
     // Authoritative question set — fetched server-side, never trusted from client.

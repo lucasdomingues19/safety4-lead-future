@@ -620,6 +620,38 @@ export type Database = {
           },
         ]
       }
+      lesson_watch: {
+        Row: {
+          duration_seconds: number | null
+          last_heartbeat_at: string
+          lesson_id: string
+          user_id: string
+          watched_seconds: number
+        }
+        Insert: {
+          duration_seconds?: number | null
+          last_heartbeat_at?: string
+          lesson_id: string
+          user_id: string
+          watched_seconds?: number
+        }
+        Update: {
+          duration_seconds?: number | null
+          last_heartbeat_at?: string
+          lesson_id?: string
+          user_id?: string
+          watched_seconds?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_watch_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lessons: {
         Row: {
           body: string | null
@@ -627,6 +659,7 @@ export type Database = {
           content: string | null
           created_at: string
           duration_minutes: number | null
+          enforce_progress: boolean
           id: string
           media_kind: string | null
           media_mime: string | null
@@ -639,6 +672,7 @@ export type Database = {
           title: string
           transcript: string | null
           updated_at: string
+          video_duration_seconds: number | null
           video_url: string | null
         }
         Insert: {
@@ -647,6 +681,7 @@ export type Database = {
           content?: string | null
           created_at?: string
           duration_minutes?: number | null
+          enforce_progress?: boolean
           id?: string
           media_kind?: string | null
           media_mime?: string | null
@@ -659,6 +694,7 @@ export type Database = {
           title: string
           transcript?: string | null
           updated_at?: string
+          video_duration_seconds?: number | null
           video_url?: string | null
         }
         Update: {
@@ -667,6 +703,7 @@ export type Database = {
           content?: string | null
           created_at?: string
           duration_minutes?: number | null
+          enforce_progress?: boolean
           id?: string
           media_kind?: string | null
           media_mime?: string | null
@@ -679,6 +716,7 @@ export type Database = {
           title?: string
           transcript?: string | null
           updated_at?: string
+          video_duration_seconds?: number | null
           video_url?: string | null
         }
         Relationships: [
@@ -1133,6 +1171,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      complete_lesson: { Args: { _lesson_id: string }; Returns: Json }
       course_of_lesson: { Args: { _lesson_id: string }; Returns: string }
       course_of_module: { Args: { _module_id: string }; Returns: string }
       course_of_quiz: { Args: { _quiz_id: string }; Returns: string }
@@ -1156,6 +1195,14 @@ export type Database = {
       is_enrolled: {
         Args: { _course_id: string; _user_id: string }
         Returns: boolean
+      }
+      lesson_lock_reason: {
+        Args: { _lesson: string; _user: string }
+        Returns: string
+      }
+      record_lesson_watch: {
+        Args: { _duration: number; _lesson_id: string; _watched: number }
+        Returns: number
       }
       verify_certificate: {
         Args: { _certificate_number: string }

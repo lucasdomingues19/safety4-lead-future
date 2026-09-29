@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,8 @@ import { getSignedLessonMedia, isPdf, isOfficeDoc, type SignedLessonMedia } from
 import { getQuizQuestions, type Quiz, type QuizQuestion } from "@/lib/quiz";
 import { QuizDialog } from "@/components/learn/QuizDialog";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
+import { courseOrder, lockedLessonIds, isVideoLesson, minWatchPercent, recordWatch, completeLesson, lockMessage } from "@/lib/progress";
+import { TrackedVideo, TrackedYouTube, TrackedVimeo, youTubeId, isVimeo, isDirectVideoUrl, type WatchSample } from "@/components/learn/TrackedPlayer";
 import brandMarkBlue from "@/assets/brand-mark-blue.png";
 
 const TABS = ["overview", "transcript", "resources", "comments"] as const;
@@ -38,6 +40,14 @@ const LessonView = () => {
   const [quizOpen, setQuizOpen] = useState(false);
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
 
+  // Admins without an enrolment can open any lesson in preview mode (nothing is recorded).
+  const [preview, setPreview] = useState(false);
+  // Watch tracking: server-confirmed seconds + what the player has measured since.
+  const [watched, setWatched] = useState(0);
+  const [playerDuration, setPlayerDuration] = useState(0);
+  // Seconds measured for the lesson in `lessonId`; `sent`/`at` = last heartbeat.
+  const tracker = useRef({ lessonId: "", value: 0, sent: 0, at: 0, duration: 0 });
+
   const [signed, setSigned] = useState<SignedLessonMedia | null>(null);
   const [mediaError, setMediaError] = useState(false);
 
@@ -53,11 +63,9 @@ const LessonView = () => {
 
   const lesson = useMemo(() => lessons.find((l) => l.id === lessonId) ?? null, [lessons, lessonId]);
 
-  // Course-ordered lesson list (module order, then lesson position).
-  const orderedLessons = useMemo(() => {
-    const order = new Map(modules.map((m, i) => [m.id, i]));
-    return [...lessons].sort((a, b) => (order.get(a.module_id) ?? 0) - (order.get(b.module_id) ?? 0) || a.position - b.position);
-  }, [modules, lessons]);
+  // Course-ordered lesson list (module order, then lesson position) — same order the server enforces.
+  const orderedLessons = useMemo(() => courseOrder(modules, lessons), [modules, lessons]);
+  const locked = useMemo(() => (preview ? new Set<string>() : lockedLessonIds(orderedLessons, completed)), [preview, orderedLessons, completed]);
 
   const loadCertificate = useCallback(async (courseTitle: string) => {
     const { data } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseTitle).eq("recipient_email", (user?.email ?? "").toLowerCase()).maybeSingle();
@@ -77,11 +85,17 @@ const LessonView = () => {
       if (!c) { toast.error("Course not found"); navigate("/learn"); return; }
 
       const { data: enr } = await supabase.from("enrollments").select("enrolled_at").eq("user_id", user.id).eq("course_id", c.id).maybeSingle();
+      let isPreview = false;
       if (!enr || !(await verifyEnrollmentAccess(user.id, c.id))) {
-        toast.error("You don't have active access to this course");
-        navigate("/learn");
-        return;
+        const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+        if (!role) {
+          toast.error("You don't have active access to this course");
+          navigate("/learn");
+          return;
+        }
+        isPreview = true;
       }
+      setPreview(isPreview);
 
       const { data: mods } = await supabase.from("modules").select("*").eq("course_id", c.id).order("position");
       const moduleList = (mods ?? []) as Module[];
@@ -93,7 +107,7 @@ const LessonView = () => {
       if (!current) { toast.error("Lesson not found"); navigate(`/learn/${courseSlug}`); return; }
 
       const currentModule = moduleList.find((m) => m.id === current.module_id);
-      if (currentModule && !isModuleUnlocked(currentModule, enr.enrolled_at)) {
+      if (!isPreview && currentModule && !isModuleUnlocked(currentModule, enr!.enrolled_at)) {
         toast.error(`This module unlocks ${currentModule.drip_days} days after you enrolled`);
         navigate(`/learn/${courseSlug}`);
         return;
@@ -101,13 +115,38 @@ const LessonView = () => {
 
       const lessonIds = lessonList.map((l) => l.id);
       const { data: prog } = lessonIds.length
-        ? await supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id).in("lesson_id", lessonIds)
+        ? await supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id).eq("is_completed", true).in("lesson_id", lessonIds)
         : { data: [] };
+      const done = new Set((prog ?? []).map((p) => p.lesson_id));
+
+      // Lessons unlock in order: bounce to the lesson that is blocking this one.
+      if (!isPreview) {
+        const ordered = courseOrder(moduleList, lessonList);
+        if (lockedLessonIds(ordered, done).has(current.id)) {
+          const blocker = ordered.find((l) => l.enforce_progress !== false && !done.has(l.id));
+          toast.error(blocker ? `Finish "${blocker.title}" first` : "Finish the previous lessons first");
+          navigate(blocker ? `/learn/${courseSlug}/lesson/${blocker.id}` : `/learn/${courseSlug}`, { replace: true });
+          return;
+        }
+      }
+
+      const { data: watchRow } = isPreview
+        ? { data: null }
+        : await supabase.from("lesson_watch").select("watched_seconds, duration_seconds").eq("user_id", user.id).eq("lesson_id", current.id).maybeSingle();
+      const serverWatched = Number(watchRow?.watched_seconds ?? 0);
+      // Send any unsent time for the lesson we're leaving before switching trackers.
+      const prev = tracker.current;
+      if (prev.lessonId && prev.lessonId !== current.id && prev.value > prev.sent + 0.5) {
+        recordWatch(prev.lessonId, prev.value, prev.duration);
+      }
+      tracker.current = { lessonId: current.id, value: serverWatched, sent: serverWatched, at: Date.now(), duration: Number(watchRow?.duration_seconds ?? 0) };
+      setWatched(serverWatched);
+      setPlayerDuration(Number(watchRow?.duration_seconds ?? 0));
 
       setCourse(c as unknown as Course);
       setModules(moduleList);
       setLessons(lessonList);
-      setCompleted(new Set((prog ?? []).map((p) => p.lesson_id)));
+      setCompleted(done);
 
       const { data: quizRow } = await supabase.from("quizzes").select("*").eq("module_id", current.module_id).maybeSingle();
       if (quizRow) {
@@ -190,20 +229,70 @@ const LessonView = () => {
   const nextLesson = currentIdx >= 0 ? orderedLessons[currentIdx + 1] : undefined;
   const isDone = !!lesson && completed.has(lesson.id);
 
+  // ---------- Watch tracking ----------
+  const tracking = !!lesson && !preview && !isDone;
+  const flushWatch = useCallback(async (force = false) => {
+    const t = tracker.current;
+    if (preview || !t.lessonId || t.value <= t.sent + 0.5) return;
+    if (!force && Date.now() - t.at < 10000) return;
+    const { lessonId: id, value } = t;
+    t.sent = value;
+    t.at = Date.now();
+    const confirmed = await recordWatch(id, value, t.duration);
+    if (confirmed !== null && tracker.current.lessonId === id) setWatched(confirmed);
+  }, [preview]);
+
+  const onWatchSample = useCallback((sample: WatchSample) => {
+    const t = tracker.current;
+    if (sample.duration > 0 && Math.abs(sample.duration - t.duration) > 1) {
+      t.duration = sample.duration;
+      setPlayerDuration(sample.duration);
+    }
+    if (!tracking) return;
+    if (sample.delta > 0) {
+      t.value += sample.delta;
+      setWatched((w) => Math.max(w, t.value));
+    }
+    flushWatch(!sample.playing);
+  }, [tracking, flushWatch]);
+
+  // Send what's left when the learner leaves the page.
+  useEffect(() => {
+    const onHide = () => { if (document.visibilityState === "hidden") flushWatch(true); };
+    document.addEventListener("visibilitychange", onHide);
+    return () => { document.removeEventListener("visibilitychange", onHide); flushWatch(true); };
+  }, [flushWatch]);
+
+  const pct = minWatchPercent(course);
+  const requiresWatch = !!lesson && !preview && lesson.enforce_progress !== false && isVideoLesson(lesson) && pct > 0;
+  const neededSeconds = lesson ? (Number(lesson.video_duration_seconds) || playerDuration || (lesson.duration_minutes ?? 0) * 60) : 0;
+  const watchedPct = neededSeconds > 0 ? Math.min(100, Math.floor((watched / neededSeconds) * 100)) : 0;
+  const canComplete = isDone || !requiresWatch || (neededSeconds > 0 && watchedPct >= pct);
+
   const markCompleteAndContinue = async () => {
     if (!lesson || !user) return;
+    if (preview) {
+      if (nextLesson) navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`);
+      return;
+    }
     setSaving(true);
     try {
       if (!isDone) {
-        const { error } = await supabase.from("lesson_progress").upsert(
-          { user_id: user.id, lesson_id: lesson.id, is_completed: true },
-          { onConflict: "user_id,lesson_id" },
-        );
-        if (error) throw error;
+        await flushWatch(true);
+        const result = await completeLesson(lesson.id);
+        if (!result.ok) {
+          if (result.reason === "watch") {
+            setWatched(Number(result.watched));
+            toast.error(`Watch at least ${pct}% of the video to complete this lesson`);
+          } else {
+            toast.error(lockMessage(result.reason ?? ""));
+          }
+          return;
+        }
         setCompleted((prev) => new Set(prev).add(lesson.id));
       }
 
-      const allDone = orderedLessons.every((l) => l.id === lesson.id || completed.has(l.id));
+      const allDone = orderedLessons.every((l) => l.id === lesson.id || l.enforce_progress === false || completed.has(l.id));
       if (nextLesson) {
         toast.success("Lesson complete");
         navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`);
@@ -235,7 +324,7 @@ const LessonView = () => {
   const currentModule = modules.find((m) => m.id === lesson.module_id);
   const moduleLessons = orderedLessons.filter((l) => l.module_id === lesson.module_id);
   const lessonNum = moduleLessons.findIndex((l) => l.id === lesson.id) + 1;
-  const moduleFullyDone = moduleLessons.every((l) => completed.has(l.id));
+  const moduleFullyDone = moduleLessons.every((l) => l.enforce_progress === false || completed.has(l.id));
   const resources: { label: string; url: string; is_file: boolean }[] = signed
     ? signed.resources
     : (Array.isArray(lesson.resources) ? lesson.resources : []).filter((r) => r.url).map((r) => ({ label: r.label, url: r.url!, is_file: false }));
@@ -291,19 +380,16 @@ const LessonView = () => {
                 ) : <Loader2 size={30} className="animate-spin" />}
               </div>
             ) : lesson.media_kind === "video" ? (
-              <video
+              <TrackedVideo
                 key={mediaUrl}
                 src={mediaUrl}
-                controls
-                controlsList="nodownload"
-                playsInline
-                crossOrigin={signed?.captions_url ? "anonymous" : undefined}
+                captionsUrl={signed?.captions_url}
+                captionsOn={captions}
+                lockSeekAhead={requiresWatch && !isDone}
+                resumeFrom={0}
+                onSample={onWatchSample}
                 onError={() => setMediaError(true)}
-                onContextMenu={(e) => e.preventDefault()}
-                style={{ ...frame, objectFit: "contain" }}
-              >
-                {signed?.captions_url && <track kind="captions" src={signed.captions_url} srcLang="en" label="English" default={captions} />}
-              </video>
+              />
             ) : (
               <div style={{ marginBottom: "20px" }}>
                 {fileViewerSrc ? (
@@ -320,8 +406,14 @@ const LessonView = () => {
                 </div>
               </div>
             )
+          ) : lesson.video_url && youTubeId(lesson.video_url) ? (
+            <TrackedYouTube key={lesson.id} videoId={youTubeId(lesson.video_url)!} captionsOn={captions} onSample={onWatchSample} />
+          ) : lesson.video_url && isVimeo(lesson.video_url) ? (
+            <TrackedVimeo key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? lesson.video_url} onSample={onWatchSample} />
           ) : lesson.video_url && isIframeEmbed(lesson.video_url) ? (
             <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen style={frame} />
+          ) : lesson.video_url && isDirectVideoUrl(lesson.video_url) ? (
+            <TrackedVideo key={lesson.id} src={lesson.video_url} captionsOn={captions} lockSeekAhead={requiresWatch && !isDone} resumeFrom={0} onSample={onWatchSample} />
           ) : lesson.video_url ? (
             <video key={lesson.id} src={lesson.video_url} controls playsInline style={frame} />
           ) : (
@@ -331,15 +423,36 @@ const LessonView = () => {
             </div>
           )}
 
+          {preview && (
+            <div style={{ background: "#fff7e6", border: "1px solid #f5d9a8", color: "#7a4b00", padding: "10px 16px", borderRadius: "10px", marginBottom: "16px", fontSize: "13px", fontWeight: 600 }}>
+              Admin preview — you're not enrolled, so progress isn't recorded and all lessons are unlocked.
+            </div>
+          )}
+
           {/* Complete bar */}
           <div style={{ background: "white", padding: "16px 20px", borderRadius: "12px", marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "14px", color: "#69697b" }}>Lesson {lessonNum} of {moduleLessons.length} · {currentModule?.title}</span>
+            <div style={{ flex: 1, minWidth: "200px" }}>
+              <div style={{ fontSize: "14px", color: "#69697b" }}>Lesson {lessonNum} of {moduleLessons.length} · {currentModule?.title}</div>
+              {requiresWatch && !isDone && (
+                <div style={{ marginTop: "8px", maxWidth: "320px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "#69697b", marginBottom: "4px" }}>
+                    <span>{canComplete ? "Video watched — you can complete this lesson" : `Watch ${pct}% of the video to complete`}</span>
+                    <span style={{ fontWeight: 700, color: canComplete ? "#16a34a" : "#0b0b2c" }}>{watchedPct}%</span>
+                  </div>
+                  <div style={{ height: "5px", background: "#e2e8f0", borderRadius: "999px", overflow: "hidden" }}>
+                    <div style={{ width: `${watchedPct}%`, height: "100%", background: canComplete ? "#16a34a" : "#3434ff", transition: "width 0.4s" }} />
+                  </div>
+                </div>
+              )}
+            </div>
             <button
               onClick={markCompleteAndContinue}
-              disabled={saving}
-              style={{ padding: "10px 20px", background: isDone ? "#16a34a" : "#3434ff", color: "white", border: "none", borderRadius: "8px", cursor: saving ? "wait" : "pointer", fontSize: "13px", fontWeight: 700, opacity: saving ? 0.7 : 1 }}
+              disabled={saving || !canComplete}
+              title={!canComplete ? `Watch ${pct}% of the video first` : undefined}
+              style={{ padding: "10px 20px", background: isDone ? "#16a34a" : "#3434ff", color: "white", border: "none", borderRadius: "8px", cursor: saving ? "wait" : !canComplete ? "not-allowed" : "pointer", fontSize: "13px", fontWeight: 700, opacity: saving || !canComplete ? 0.5 : 1, display: "flex", alignItems: "center", gap: "6px" }}
             >
-              {saving ? "Saving..." : isDone ? (nextLesson ? "✓ Completed — next lesson" : "✓ Completed") : nextLesson ? "Mark complete & continue" : "Mark complete & finish"}
+              {!canComplete && <Lock size={14} />}
+              {preview ? (nextLesson ? "Next lesson (preview)" : "End of course") : saving ? "Saving..." : isDone ? (nextLesson ? "✓ Completed — next lesson" : "✓ Completed") : nextLesson ? "Mark complete & continue" : "Mark complete & finish"}
             </button>
           </div>
 
@@ -433,7 +546,11 @@ const LessonView = () => {
           <div style={{ display: "flex", gap: "12px", marginTop: "24px", justifyContent: "space-between" }}>
             <button onClick={() => navigate(`/learn/${courseSlug}`)} style={{ padding: "12px 20px", background: "white", border: "1px solid #e2e8f0", borderRadius: "8px", cursor: "pointer", color: "#0b0b2c", fontWeight: 600, fontFamily: "inherit" }}>Course curriculum</button>
             {nextLesson && (
-              <button onClick={() => navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`)} style={{ padding: "12px 20px", background: "#3434ff", border: "none", borderRadius: "8px", cursor: "pointer", color: "white", fontWeight: 700, fontFamily: "inherit" }}>Next lesson →</button>
+              locked.has(nextLesson.id) ? (
+                <button disabled title="Complete this lesson to unlock the next one" style={{ padding: "12px 20px", background: "#e2e8f0", border: "none", borderRadius: "8px", cursor: "not-allowed", color: "#69697b", fontWeight: 700, fontFamily: "inherit", display: "flex", alignItems: "center", gap: "6px" }}><Lock size={14} /> Next lesson</button>
+              ) : (
+                <button onClick={() => navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`)} style={{ padding: "12px 20px", background: "#3434ff", border: "none", borderRadius: "8px", cursor: "pointer", color: "white", fontWeight: 700, fontFamily: "inherit" }}>Next lesson →</button>
+              )
             )}
           </div>
         </div>
@@ -445,8 +562,8 @@ const LessonView = () => {
               <h3 style={{ fontSize: "12px", fontWeight: 700, marginBottom: "12px", textTransform: "uppercase", color: "#69697b", letterSpacing: "0.06em" }}>{currentModule?.title}</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {moduleLessons.map((l) => (
-                  <div key={l.id} onClick={() => navigate(`/learn/${courseSlug}/lesson/${l.id}`)} style={{ padding: "10px 12px", borderRadius: "6px", background: l.id === lesson.id ? "#f1f4ff" : completed.has(l.id) ? "#f4fbe4" : "#f5f7fa", border: l.id === lesson.id ? "1px solid #3434ff" : "1px solid transparent", cursor: "pointer", display: "flex", gap: "8px", alignItems: "center", fontSize: "13px", color: "#0b0b2c" }}>
-                    {completed.has(l.id) ? <CheckCircle2 size={15} color="#4a5230" /> : l.media_kind === "slides" ? <Presentation size={15} color="#69697b" /> : l.media_kind === "document" ? <FileText size={15} color="#69697b" /> : <Play size={15} color="#69697b" />}
+                  <div key={l.id} onClick={() => (locked.has(l.id) ? toast.error("Finish the previous lessons first") : navigate(`/learn/${courseSlug}/lesson/${l.id}`))} style={{ padding: "10px 12px", borderRadius: "6px", background: l.id === lesson.id ? "#f1f4ff" : completed.has(l.id) ? "#f4fbe4" : "#f5f7fa", border: l.id === lesson.id ? "1px solid #3434ff" : "1px solid transparent", cursor: locked.has(l.id) ? "not-allowed" : "pointer", opacity: locked.has(l.id) ? 0.55 : 1, display: "flex", gap: "8px", alignItems: "center", fontSize: "13px", color: "#0b0b2c" }}>
+                    {locked.has(l.id) ? <Lock size={15} color="#94a3b8" /> : completed.has(l.id) ? <CheckCircle2 size={15} color="#4a5230" /> : l.media_kind === "slides" ? <Presentation size={15} color="#69697b" /> : l.media_kind === "document" ? <FileText size={15} color="#69697b" /> : <Play size={15} color="#69697b" />}
                     <span>{l.title}</span>
                   </div>
                 ))}
