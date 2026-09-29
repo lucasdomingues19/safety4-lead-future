@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type EmailType = "enrollment" | "completion" | "certificate" | "event_registration";
+export type EmailType = "enrollment" | "completion" | "certificate";
 
 export interface EmailNotification {
   to: string;
@@ -68,34 +68,27 @@ export async function sendCertificateEmail(
   });
 }
 
-export async function sendEventRegistrationEmail(
-  email: string,
-  name: string,
-  eventTitle: string,
-  zoomLink?: string,
-): Promise<boolean> {
-  try {
-    const { data, error } = await supabase.functions.invoke(
-      "send-email-notification",
-      {
-        body: {
-          to: email,
-          type: "event_registration",
-          data: {
-            student_name: name,
-            course_title: eventTitle,
-            course_url: zoomLink,
-          },
-        },
-      },
-    );
+export interface EventRegistrationEmail {
+  name: string;
+  email: string;
+  eventTitle: string;
+  eventDate: string;
+  eventTime: string;
+  eventDescription: string;
+  zoomLink: string | null;
+  location: string;
+}
 
+export async function sendEventRegistrationEmail(details: EventRegistrationEmail): Promise<boolean> {
+  try {
+    const { data, error } = await supabase.functions.invoke("send-event-registration-email", {
+      body: { ...details, to: details.email },
+    });
     if (error) {
       console.error("Event registration email error:", error);
       return false;
     }
-
-    return data?.success || false;
+    return !!data?.success || !!data?.id;
   } catch (error) {
     console.error("Event registration email failed:", error);
     return false;
@@ -121,49 +114,4 @@ async function sendEmailNotification(notification: EmailNotification): Promise<b
     console.error("Email notification failed:", error);
     return false;
   }
-}
-
-// Get email delivery history
-export async function getEmailHistory(email: string) {
-  const { data, error } = await supabase
-    .from("email_logs")
-    .select("*")
-    .eq("recipient", email)
-    .order("sent_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching email history:", error);
-    return [];
-  }
-
-  return data || [];
-}
-
-// Get email metrics
-export async function getEmailMetrics() {
-  const { data: sent, error: sentError } = await supabase
-    .from("email_logs")
-    .select("*")
-    .eq("status", "sent");
-
-  const { data: failed, error: failedError } = await supabase
-    .from("email_logs")
-    .select("*")
-    .eq("status", "failed");
-
-  if (sentError || failedError) {
-    console.error("Error fetching metrics:", sentError || failedError);
-    return { sent_count: 0, failed_count: 0, success_rate: 0 };
-  }
-
-  const totalSent = (sent || []).length;
-  const totalFailed = (failed || []).length;
-  const total = totalSent + totalFailed;
-  const successRate = total > 0 ? Math.round((totalSent / total) * 100) : 0;
-
-  return {
-    sent_count: totalSent,
-    failed_count: totalFailed,
-    success_rate: successRate,
-  };
 }

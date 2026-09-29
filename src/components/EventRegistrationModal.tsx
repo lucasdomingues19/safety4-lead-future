@@ -52,18 +52,19 @@ export default function EventRegistrationModal({
 
     try {
       // Save lead to database
-      const { error } = await supabase.from("leads").insert([
-        {
+      const { data: leadRes, error } = await supabase.functions.invoke("capture-lead", {
+        body: {
           name: formData.name,
           email: formData.email,
           company: formData.company,
           phone: formData.phone,
+          source: "event_registration",
+          inquiry_type: "event",
           event_id: event.id,
           event_title: event.title,
-          source: "event_registration",
-          created_at: new Date().toISOString(),
         },
-      ]);
+      });
+      if (!error && leadRes?.error) throw new Error(leadRes.error);
 
       if (error) throw error;
 
@@ -74,7 +75,7 @@ export default function EventRegistrationModal({
         eventTitle: event.title,
         eventDate: event.date,
         eventTime: event.time,
-        eventDescription: event.description || "Join us for this exciting event!",
+        eventDescription: event.description || "Join us for this event.",
         zoomLink: event.zoom_link,
         location: event.location,
       });

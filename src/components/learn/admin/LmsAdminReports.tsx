@@ -1,147 +1,116 @@
 import { useState } from "react";
-import { FileText } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Download, Loader2 } from "lucide-react";
+import { PanelHeader, adminFont, downloadCsv, panel, primaryBtn } from "./adminUi";
+
+type Row = Record<string, string | number | null | undefined>;
+const stamp = () => new Date().toISOString().slice(0, 10);
+
+async function learnerProgress(): Promise<Row[]> {
+  const [profiles, courses, enrollments, modules, lessons, progress] = await Promise.all([
+    supabase.from("profiles").select("id, email, full_name, organisation"),
+    supabase.from("courses").select("id, title"),
+    supabase.from("enrollments").select("user_id, course_id, status, enrolled_at, completed_at"),
+    supabase.from("modules").select("id, course_id"),
+    supabase.from("lessons").select("id, module_id"),
+    supabase.from("lesson_progress").select("user_id, lesson_id"),
+  ]);
+  const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
+  const cById = new Map((courses.data ?? []).map((c) => [c.id, c.title]));
+  const courseOfModule = new Map((modules.data ?? []).map((m) => [m.id, m.course_id]));
+  const lessonsByCourse = new Map<string, string[]>();
+  for (const l of lessons.data ?? []) {
+    const cid = courseOfModule.get(l.module_id);
+    if (cid) lessonsByCourse.set(cid, [...(lessonsByCourse.get(cid) ?? []), l.id]);
+  }
+  const done = new Map<string, Set<string>>();
+  for (const p of progress.data ?? []) done.set(p.user_id, (done.get(p.user_id) ?? new Set()).add(p.lesson_id));
+  return (enrollments.data ?? []).map((e) => {
+    const p = pById.get(e.user_id);
+    const ls = lessonsByCourse.get(e.course_id) ?? [];
+    const n = ls.filter((id) => done.get(e.user_id)?.has(id)).length;
+    return {
+      Learner: p?.full_name ?? "", Email: p?.email ?? "", Organisation: p?.organisation ?? "", Course: cById.get(e.course_id) ?? "",
+      Status: e.status, "Lessons completed": n, "Total lessons": ls.length, "Progress %": ls.length ? Math.round((n / ls.length) * 100) : 0,
+      Enrolled: e.enrolled_at?.slice(0, 10), Completed: e.completed_at?.slice(0, 10) ?? "",
+    };
+  });
+}
+
+async function enrolments(): Promise<Row[]> {
+  const [profiles, courses, enr] = await Promise.all([
+    supabase.from("profiles").select("id, email, full_name"),
+    supabase.from("courses").select("id, title"),
+    supabase.from("enrollments").select("user_id, course_id, status, enrolled_at, expires_at, stripe_subscription_id"),
+  ]);
+  const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
+  const cById = new Map((courses.data ?? []).map((c) => [c.id, c.title]));
+  return (enr.data ?? []).map((e) => ({
+    Learner: pById.get(e.user_id)?.full_name ?? "", Email: pById.get(e.user_id)?.email ?? "", Course: cById.get(e.course_id) ?? "",
+    Status: e.status, Enrolled: e.enrolled_at?.slice(0, 10), Expires: e.expires_at?.slice(0, 10) ?? "Never", "Paid via Stripe": e.stripe_subscription_id ? "Yes" : "No",
+  }));
+}
+
+async function quizResults(): Promise<Row[]> {
+  const [profiles, quizzes, attempts] = await Promise.all([
+    supabase.from("profiles").select("id, email, full_name"),
+    supabase.from("quizzes").select("id, title, pass_threshold"),
+    supabase.from("quiz_attempts").select("user_id, quiz_id, score, passed, attempted_at").order("attempted_at", { ascending: false }),
+  ]);
+  const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
+  const qById = new Map((quizzes.data ?? []).map((q) => [q.id, q]));
+  return (attempts.data ?? []).map((a) => ({
+    Learner: pById.get(a.user_id)?.full_name ?? "", Email: pById.get(a.user_id)?.email ?? "", Quiz: qById.get(a.quiz_id)?.title ?? "",
+    "Score %": a.score, "Pass mark %": qById.get(a.quiz_id)?.pass_threshold ?? "", Result: a.passed ? "Passed" : "Failed", Date: a.attempted_at?.slice(0, 16).replace("T", " "),
+  }));
+}
+
+async function certificateAudit(): Promise<Row[]> {
+  const { data } = await supabase.from("certificates").select("certificate_number, recipient_name, recipient_email, course_name, completion_date, cpd_hours, status, issued_at").order("issued_at", { ascending: false });
+  return (data ?? []).map((c) => ({
+    Number: c.certificate_number, Name: c.recipient_name, Email: c.recipient_email, Course: c.course_name, "Completion date": c.completion_date,
+    "CPD hours": c.cpd_hours, Status: c.status, Issued: c.issued_at?.slice(0, 10),
+  }));
+}
+
+const REPORTS = [
+  { key: "progress", title: "Learner progress", desc: "Every enrolment with lessons completed and percentage done.", run: learnerProgress },
+  { key: "enrol", title: "Enrolments & access", desc: "Who has access to what, when it started and when it expires.", run: enrolments },
+  { key: "quiz", title: "Quiz results", desc: "Every quiz attempt with score, pass mark and outcome.", run: quizResults },
+  { key: "certs", title: "Certificate audit", desc: "All issued certificates with numbers, CPD hours and status.", run: certificateAudit },
+];
 
 export function LmsAdminReports() {
-  const [selectedCourse, setSelectedCourse] = useState("All courses");
-  const [selectedMetrics, setSelectedMetrics] = useState({
-    progress: true,
-    completion: true,
-    scores: true,
-    time: false,
-    revenue: false,
-  });
+  const [busy, setBusy] = useState<string | null>(null);
 
-  const recentReports = [
-    { name: "All courses — full progress export", date: "1 Sep 2026" },
-    { name: "Microsoft Copilot for EHS — completion report", date: "28 Aug 2026" },
-  ];
-
-  const toggleMetric = (key: string) => {
-    setSelectedMetrics(prev => ({ ...prev, [key]: !prev[key] }));
+  const download = async (r: (typeof REPORTS)[number]) => {
+    setBusy(r.key);
+    try {
+      const rows = await r.run();
+      if (rows.length === 0) { toast.info("Nothing to export yet — this report has no rows."); return; }
+      downloadCsv(`safetytech-${r.key}-${stamp()}.csv`, rows);
+      toast.success(`${rows.length} rows exported`);
+    } catch (e) {
+      console.error(e);
+      toast.error("Could not build this report");
+    } finally {
+      setBusy(null);
+    }
   };
 
   return (
-    <div style={{ marginTop: "28px", fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
-      {/* Build a Report */}
-      <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "28px", marginBottom: "28px", boxShadow: "0 2px 8px rgba(11,11,44,0.06)" }}>
-        <div style={{ fontSize: "16px", fontWeight: 700, color: "#0b0b2c", marginBottom: "20px" }}>Build a report</div>
-
-        {/* Course Selection */}
-        <div style={{ marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "#69697b", marginBottom: "12px" }}>Course</div>
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            {["All courses", "Microsoft Copilot for EHS", "AI Fundamentals for Safety Leaders", "Safety 4.0 Accelerator"].map(course => (
-              <button
-                key={course}
-                onClick={() => setSelectedCourse(course)}
-                style={{
-                  border: selectedCourse === course ? "2px solid #3434ff" : "1px solid #e2e8f0",
-                  background: "#ffffff",
-                  color: selectedCourse === course ? "#3434ff" : "#0b0b2c",
-                  fontFamily: "inherit",
-                  fontSize: "13px",
-                  fontWeight: 700,
-                  borderRadius: "8px",
-                  padding: "10px 14px",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => { if (selectedCourse !== course) { e.currentTarget.style.borderColor = "#3434ff"; } }}
-                onMouseLeave={(e) => { if (selectedCourse !== course) { e.currentTarget.style.borderColor = "#e2e8f0"; } }}
-              >
-                {course}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Metrics Selection */}
-        <div style={{ marginBottom: "24px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "#69697b", marginBottom: "12px" }}>Include</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {[
-              { key: "progress", label: "Learner progress %" },
-              { key: "completion", label: "Completion & certificate dates" },
-              { key: "scores", label: "Assessment scores" },
-              { key: "time", label: "Time-on-module / watch time" },
-              { key: "revenue", label: "Revenue & refunds" },
-            ].map(metric => (
-              <label key={metric.key} style={{ display: "flex", alignItems: "center", gap: "10px", cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={selectedMetrics[metric.key as keyof typeof selectedMetrics]}
-                  onChange={() => toggleMetric(metric.key)}
-                  style={{ width: "16px", height: "16px", cursor: "pointer" }}
-                />
-                <span style={{ fontSize: "13px", color: "#0b0b2c", fontWeight: 500 }}>{metric.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Generate Button */}
-        <button
-          style={{
-            width: "100%",
-            border: "none",
-            background: "#3434ff",
-            color: "#ffffff",
-            fontFamily: "inherit",
-            fontSize: "12px",
-            fontWeight: 700,
-            borderRadius: "8px",
-            padding: "12px 16px",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "#2a2ad6"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "#3434ff"; e.currentTarget.style.transform = "translateY(0)"; }}
-        >
-          GENERATE PDF
-        </button>
-        <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "12px" }}>Builds a PDF you can save or print.</div>
-      </div>
-
-      {/* Recent Reports */}
-      <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden", boxShadow: "0 2px 8px rgba(11,11,44,0.06)" }}>
-        <div style={{ padding: "28px", borderBottom: "1px solid #e2e8f0" }}>
-          <div style={{ fontSize: "16px", fontWeight: 700, color: "#0b0b2c" }}>Recent reports</div>
-        </div>
-        {recentReports.map((report, idx) => (
-          <div
-            key={idx}
-            style={{
-              padding: "20px 28px",
-              borderBottom: idx < recentReports.length - 1 ? "1px solid #f1f4f8" : "none",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "16px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
-              <FileText size={18} color="#3434ff" style={{ flex: "none" }} />
-              <div>
-                <div style={{ fontSize: "14px", fontWeight: 700, color: "#0b0b2c" }}>{report.name}</div>
-                <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "2px" }}>{report.date}</div>
-              </div>
+    <div style={{ marginTop: 28, fontFamily: adminFont }}>
+      <div style={panel}>
+        <PanelHeader title="Reports" sub="Live data, exported as CSV for Excel or Google Sheets." />
+        {REPORTS.map((r, i) => (
+          <div key={r.key} style={{ padding: "22px 28px", borderBottom: i < REPORTS.length - 1 ? "1px solid #f1f4f8" : "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ fontSize: 15, fontWeight: 700 }}>{r.title}</div>
+              <div style={{ fontSize: 13, color: "#69697b", marginTop: 4 }}>{r.desc}</div>
             </div>
-            <button
-              style={{
-                border: "none",
-                background: "transparent",
-                color: "#3434ff",
-                fontFamily: "inherit",
-                fontSize: "12px",
-                fontWeight: 700,
-                cursor: "pointer",
-                flex: "none",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "#2a2ad6"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "#3434ff"; }}
-            >
-              Download
+            <button onClick={() => download(r)} disabled={busy !== null} style={{ ...primaryBtn, display: "flex", alignItems: "center", gap: 8, opacity: busy && busy !== r.key ? 0.5 : 1 }}>
+              {busy === r.key ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />} Download CSV
             </button>
           </div>
         ))}

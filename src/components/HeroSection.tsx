@@ -116,7 +116,7 @@ export const HeroSection = () => {
                   width={960}
                   height={960}
                   decoding="async"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>

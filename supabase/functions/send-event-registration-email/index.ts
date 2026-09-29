@@ -11,7 +11,7 @@ interface RequestBody {
   eventDescription: string;
   zoomLink: string | null;
   location: string;
-  icsFile: string;
+  icsFile?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -134,12 +134,7 @@ const handler = async (req: Request): Promise<Response> => {
         to: body.to,
         subject: `Confirmed: ${body.eventTitle} Registration`,
         html: emailHtml,
-        attachments: [
-          {
-            filename: "event.ics",
-            content: icsContent,
-          },
-        ],
+        ...(icsContent ? { attachments: [{ filename: "event.ics", content: icsContent }] } : {}),
       }),
     });
 

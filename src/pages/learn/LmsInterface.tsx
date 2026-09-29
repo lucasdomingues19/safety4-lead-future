@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, Search, Bell, BookOpen, Shield, BarChart3, CreditCard, MessageCircle, Award } from "lucide-react";
+import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle } from "lucide-react";
+import brandMarkWhite from "@/assets/brand-mark-white.png";
 import { toast } from "sonner";
 
 // Screen components - lazy load to isolate errors
 const LmsDashboard = React.lazy(() => import("@/components/learn/LmsDashboard").then(m => ({ default: m.LmsDashboard })));
 const LmsCommunity = React.lazy(() => import("@/components/learn/LmsCommunity").then(m => ({ default: m.LmsCommunity })));
-const LmsCourseView = React.lazy(() => import("@/components/learn/LmsCourseView").then(m => ({ default: m.LmsCourseView })));
-const LmsModulePlayer = React.lazy(() => import("@/components/learn/LmsModulePlayer").then(m => ({ default: m.LmsModulePlayer })));
 const LmsSettings = React.lazy(() => import("@/components/learn/LmsSettings").then(m => ({ default: m.LmsSettings })));
 const LmsSupport = React.lazy(() => import("@/components/learn/LmsSupport").then(m => ({ default: m.LmsSupport })));
 const LmsAdminOverview = React.lazy(() => import("@/components/learn/admin/LmsAdminOverview").then(m => ({ default: m.LmsAdminOverview })));
@@ -43,21 +42,19 @@ export default function LmsInterface() {
     const navigate = useNavigate();
 
     // UI State
-    const [railOpen, setRailOpen] = useState(true);
-    const [railWidth, setRailWidth] = useState(railOpen ? 240 : 80);
-    const [searchOpen, setSearchOpen] = useState(false);
-    const [notifsOpen, setNotifsOpen] = useState(false);
+    const initialOpen = typeof window === "undefined" ? true : window.innerWidth >= 900;
+    const [railOpen, setRailOpen] = useState(initialOpen);
+    const [railWidth, setRailWidth] = useState(initialOpen ? 240 : 80);
+    const [cpdHours, setCpdHours] = useState(0);
 
     // Screen State
-    const [screen, setScreen] = useState<"dash" | "community" | "course" | "player" | "settings" | "support" | "admin">("dash");
+    const [screen, setScreen] = useState<"dash" | "community" | "settings" | "support" | "admin">("dash");
     const [adminTab, setAdminTab] = useState<"overview" | "courses" | "users" | "access" | "emails" | "reports" | "billing" | "community">("overview");
 
     // Data
     const [lmsUser, setLmsUser] = useState<LmsUser | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [currentCourse, setCurrentCourse] = useState<any>(null);
-    const [notifications, setNotifications] = useState<any[]>([]);
-    const [searchQuery, setSearchQuery] = useState("");
 
     // Auth guard - removed, now checked in render
 
@@ -73,23 +70,30 @@ export default function LmsInterface() {
     try {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("*")
+        .select("full_name")
         .eq("id", authUser.id)
-        .single();
+        .maybeSingle();
 
-      // Check if user is admin (optional - regular users may not have a role entry)
       const { data: roles, error: rolesError } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", authUser.id)
-        .single();
+        .eq("role", "admin")
+        .maybeSingle();
 
+      const metaName = (authUser.user_metadata as { full_name?: string } | undefined)?.full_name;
       setLmsUser({
         id: authUser.id,
         email: authUser.email || "",
-        full_name: profile?.full_name || authUser.email?.split("@")[0],
-        avatar_url: profile?.avatar_url,
+        full_name: profile?.full_name || metaName || authUser.email?.split("@")[0],
       });
+
+      const [{ data: certs }, { data: cpdCourses }] = await Promise.all([
+        supabase.from("certificates").select("course_name"),
+        supabase.from("courses").select("title, cpd_hours"),
+      ]);
+      const cpdByTitle = new Map((cpdCourses ?? []).map((c) => [c.title, Number(c.cpd_hours ?? 0)]));
+      setCpdHours(Math.round((certs ?? []).reduce((sum, c) => sum + (cpdByTitle.get(c.course_name) ?? 0), 0) * 10) / 10);
 
       // Only set as admin if role exists and equals "admin"
       setIsAdmin(roles?.role === "admin" && !rolesError);
@@ -126,13 +130,11 @@ export default function LmsInterface() {
   // Render screen
   const renderScreen = () => {
     const content = (() => {
-      if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
+      if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} onNavigate={handleNavigation} />;
       if (screen === "community") return <LmsCommunity />;
-      if (screen === "course") return <LmsCourseView course={currentCourse} />;
-      if (screen === "player") return <LmsModulePlayer course={currentCourse} />;
       if (screen === "settings") return <LmsSettings />;
       if (screen === "support") return <LmsSupport />;
-      if (screen === "admin") {
+      if (screen === "admin" && isAdmin) {
         if (adminTab === "overview") return <LmsAdminOverview />;
         if (adminTab === "courses") return <LmsAdminCourses />;
         if (adminTab === "users") return <LmsAdminUsers />;
@@ -142,7 +144,7 @@ export default function LmsInterface() {
         if (adminTab === "billing") return <LmsAdminBilling />;
         if (adminTab === "community") return <LmsAdminCommunity />;
       }
-      return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} />;
+      return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} onNavigate={handleNavigation} />;
     })();
 
     return (
@@ -169,9 +171,7 @@ export default function LmsInterface() {
   }
 
   if (!authUser) {
-    console.log("Not authenticated, redirecting to login");
-    navigate("/learn/auth", { replace: true });
-    return null;
+    return <Navigate to="/learn/auth" replace />;
   }
 
   return (
@@ -226,7 +226,7 @@ export default function LmsInterface() {
               <Menu size={19} />
             </button>
             {railOpen && (
-              <img src="assets/brand-mark-white.png" alt="SafetyTech Academy" style={{ height: "26px", width: "auto", flex: "none", display: railOpen ? "block" : "none" }} />
+              <img src={brandMarkWhite} alt="SafetyTech Academy" style={{ height: "26px", width: "auto", flex: "none", display: railOpen ? "block" : "none" }} />
             )}
           </div>
 
@@ -290,6 +290,13 @@ export default function LmsInterface() {
                   </div>
                 )}
                 <NavButton
+                  icon={<LayoutDashboard size={19} />}
+                  label="Overview"
+                  active={screen === "admin" && adminTab === "overview"}
+                  onClick={() => handleNavigation("admin:overview")}
+                  open={railOpen}
+                />
+                <NavButton
                   icon={<BookOpen size={19} />}
                   label="Courses"
                   active={screen === "admin" && adminTab === "courses"}
@@ -311,7 +318,7 @@ export default function LmsInterface() {
                   open={railOpen}
                 />
                 <NavButton
-                  icon={<MessageCircle size={19} />}
+                  icon={<Mail size={19} />}
                   label="Emails"
                   active={screen === "admin" && adminTab === "emails"}
                   onClick={() => handleNavigation("admin:emails")}
@@ -332,8 +339,8 @@ export default function LmsInterface() {
                   open={railOpen}
                 />
                 <NavButton
-                  icon={<Users size={19} />}
-                  label="Community"
+                  icon={<MessagesSquare size={19} />}
+                  label="Moderation"
                   active={screen === "admin" && adminTab === "community"}
                   onClick={() => handleNavigation("admin:community")}
                   open={railOpen}
@@ -384,7 +391,7 @@ export default function LmsInterface() {
                       fontSize: "12px",
                       color: "rgba(255,255,255,0.5)",
                     }}>
-                      0 CPD hours
+                      {cpdHours} CPD hour{cpdHours === 1 ? "" : "s"}
                     </div>
                   </div>
                 )}
@@ -447,32 +454,26 @@ export default function LmsInterface() {
               alignItems: "center",
               gap: "28px",
             }}>
-              <div style={{ flex: "none", minWidth: 0 }}>
-                <div style={{ fontSize: "11px", fontWeight: "800", letterSpacing: "0.12em", color: "#8ab815" }}>CURRENT COURSE</div>
-                <div style={{ marginTop: "3px", fontSize: "15px", fontWeight: "700", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "260px" }}>Microsoft Copilot for EHS</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: "11px", fontWeight: "800", letterSpacing: "0.12em", color: "#8ab815" }}>{currentCourse ? "CURRENT COURSE" : "WELCOME"}</div>
+                <div style={{ marginTop: "3px", fontSize: "15px", fontWeight: "700", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{currentCourse?.title ?? "Pick a course to get started"}</div>
               </div>
-              <div style={{ width: "1px", height: "34px", background: "#e2e8f0", flex: "none" }}></div>
-              <div style={{ display: "flex", alignItems: "center", gap: "4px", flex: 1, minWidth: 0, overflowX: "auto" }}>
-                <button onClick={() => setScreen("course")} style={{ border: "0", background: screen === "course" ? "#f1f4ff" : "transparent", color: screen === "course" ? "#3434ff" : "#0b0b2c", fontFamily: "inherit", fontSize: "14px", fontWeight: "600", borderRadius: "8px", padding: "9px 14px", cursor: "pointer", whiteSpace: "nowrap", transition: "background 0.2s" }} onMouseEnter={(e) => !["course"].includes(screen) && (e.currentTarget.style.background = "#f1f4ff")} onMouseLeave={(e) => !["course"].includes(screen) && (e.currentTarget.style.background = "transparent")}>Curriculum</button>
-                <button onClick={() => setScreen("player")} style={{ border: "0", background: screen === "player" ? "#f1f4ff" : "transparent", color: screen === "player" ? "#3434ff" : "#0b0b2c", fontFamily: "inherit", fontSize: "14px", fontWeight: "600", borderRadius: "8px", padding: "9px 14px", cursor: "pointer", whiteSpace: "nowrap", transition: "background 0.2s" }} onMouseEnter={(e) => !["player"].includes(screen) && (e.currentTarget.style.background = "#f1f4ff")} onMouseLeave={(e) => !["player"].includes(screen) && (e.currentTarget.style.background = "transparent")}>Module player</button>
-              </div>
-              <div style={{ position: "relative", flex: "none" }}>
-                <button onClick={() => setSearchOpen(!searchOpen)} title="Search" style={{ width: "38px", height: "38px", border: "1px solid #e2e8f0", borderRadius: "10px", background: "#fff", color: "#69697b", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f4ff"; e.currentTarget.style.color = "#3434ff"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#69697b"; }}>
-                  <Search width={17} height={17} />
-                </button>
-              </div>
-              <div style={{ position: "relative", flex: "none" }}>
-                <button onClick={() => setNotifsOpen(!notifsOpen)} title="Notifications" style={{ width: "38px", height: "38px", border: "1px solid #e2e8f0", borderRadius: "10px", background: "#fff", color: "#69697b", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative", transition: "all 0.2s" }} onMouseEnter={(e) => { e.currentTarget.style.background = "#f1f4ff"; e.currentTarget.style.color = "#3434ff"; }} onMouseLeave={(e) => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#69697b"; }}>
-                  <Bell width={17} height={17} />
-                  <span style={{ position: "absolute", top: "5px", right: "5px", width: "8px", height: "8px", borderRadius: "50%", background: "#ff4d4d", border: "2px solid #fff" }}></span>
-                </button>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: "none" }}>
-                <div style={{ width: "120px", height: "6px", borderRadius: "999px", background: "#eef1f6", overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: "45%", background: "#3434ff", borderRadius: "999px" }}></div>
-                </div>
-                <div style={{ fontSize: "13px", fontWeight: "700", color: "#69697b" }}>45%</div>
-              </div>
+              {currentCourse && (
+                <>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: "none" }}>
+                    <div style={{ width: "120px", height: "6px", borderRadius: "999px", background: "#eef1f6", overflow: "hidden" }}>
+                      <div style={{ height: "100%", width: `${currentCourse.progressPercent ?? 0}%`, background: "#3434ff", borderRadius: "999px" }}></div>
+                    </div>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: "#69697b" }}>{currentCourse.progressPercent ?? 0}%</div>
+                  </div>
+                  <button
+                    onClick={() => navigate(currentCourse.nextLessonId ? `/learn/${currentCourse.slug}/lesson/${currentCourse.nextLessonId}` : `/learn/${currentCourse.slug}`)}
+                    style={{ flex: "none", display: "flex", alignItems: "center", gap: "8px", border: 0, borderRadius: "10px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, padding: "10px 16px", cursor: "pointer" }}
+                  >
+                    <PlayCircle size={16} /> {currentCourse.completedLessons > 0 ? "Continue" : "Start"}
+                  </button>
+                </>
+              )}
             </div>
           </div>
 

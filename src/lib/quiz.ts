@@ -5,13 +5,9 @@ export interface QuizQuestion {
   quiz_id: string;
   prompt: string;
   options: string[];
-  correct_index: number;
+  /** Only present for admins (learners cannot read the answer key). */
+  correct_index?: number;
   position: number;
-  // Computed aliases so QuizDialog's existing multiple-choice rendering
-  // (written against a richer type model) works unchanged against the
-  // live simple prompt/options/correct_index schema.
-  text: string;
-  type: "multiple_choice";
 }
 
 export interface Quiz {
@@ -64,7 +60,7 @@ export async function getQuiz(quizId: string): Promise<Quiz | null> {
 export async function getQuizQuestions(quizId: string): Promise<QuizQuestion[]> {
   const { data, error } = await supabase
     .from("quiz_questions")
-    .select("id, quiz_id, prompt, options, correct_index, position")
+    .select("id, quiz_id, prompt, options, position")
     .eq("quiz_id", quizId)
     .order("position");
 
@@ -73,11 +69,10 @@ export async function getQuizQuestions(quizId: string): Promise<QuizQuestion[]> 
     return [];
   }
 
-  return (data || []).map((row: any) => ({
+  return (data || []).map((row) => ({
     ...row,
-    text: row.prompt,
-    type: "multiple_choice" as const,
-  }));
+    options: Array.isArray(row.options) ? (row.options as string[]) : [],
+  })) as QuizQuestion[];
 }
 
 export async function getUserQuizAttempts(

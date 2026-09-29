@@ -115,8 +115,9 @@ export function LmsAdminCourses() {
         .insert([
           {
             ...formData,
-            slug: formData.title.toLowerCase().replace(/\s+/g, "-"),
-            playback_settings: defaultSettings,
+            slug: `${formData.title.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "course"}-${Date.now().toString(36)}`,
+            currency: formData.currency.toUpperCase(),
+            playback_settings: defaultSettings as unknown as Record<string, boolean | string>,
             published: false,
           },
         ])
@@ -240,7 +241,7 @@ export function LmsAdminCourses() {
     try {
       const { error } = await supabase
         .from("courses")
-        .update({ playback_settings: settings })
+        .update({ playback_settings: settings as unknown as Record<string, boolean | string> })
         .eq("id", selectedCourse.id);
 
       if (error) throw error;
@@ -269,6 +270,14 @@ export function LmsAdminCourses() {
 
   return (
     <div style={{ marginTop: "28px", marginBottom: "200px", fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+      <div style={{ marginBottom: "20px", padding: "16px 20px", background: "#f1f4ff", border: "1px solid #d5dcff", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+        <div style={{ fontSize: "13px", color: "#0b0b2c" }}>
+          <strong>Build the content:</strong> add modules, lessons (video, transcript, resources) and quizzes in the course editor.
+        </div>
+        <a href="/admin/courses" style={{ background: "#3434ff", color: "#fff", borderRadius: "8px", padding: "10px 18px", fontSize: "13px", fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}>
+          Open course editor →
+        </a>
+      </div>
       {/* Course Tabs */}
       <div style={{ marginBottom: "28px", display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
         {courses.map((course) => (

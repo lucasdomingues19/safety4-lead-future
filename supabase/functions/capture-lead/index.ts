@@ -20,6 +20,9 @@ interface LeadData {
   role?: string;
   inquiry_type?: string;
   job_title?: string;
+  company?: string;
+  event_id?: string;
+  event_title?: string;
   _hp?: string; // Honeypot field
 }
 
@@ -104,8 +107,8 @@ const validateLeadData = (data: any): { valid: boolean; errors: string[] } => {
   // Required: source
   if (!data.source || typeof data.source !== 'string') {
     errors.push('source is required and must be a string');
-  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment', 'cohort-application', 'accelerator-enrol', 'ebook_download', 'newsletter_popup', 'brochure_download', 'governance_readiness'].includes(data.source)) {
-    errors.push('source must be one of: "assessment", "contact_form", "cohort-pre-enrollment", "cohort-application", "accelerator-enrol", "ebook_download", "newsletter_popup", "brochure_download", or "governance_readiness"');
+  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment', 'cohort-application', 'accelerator-enrol', 'ebook_download', 'newsletter_popup', 'brochure_download', 'governance_readiness', 'event_registration'].includes(data.source)) {
+    errors.push('source must be one of: "assessment", "contact_form", "cohort-pre-enrollment", "cohort-application", "accelerator-enrol", "ebook_download", "newsletter_popup", "brochure_download", "governance_readiness", or "event_registration"');
   }
 
   return { valid: errors.length === 0, errors };
@@ -201,6 +204,9 @@ serve(async (req) => {
       role: data.role?.trim() || null,
       inquiry_type: data.inquiry_type?.trim() || null,
       job_title: data.job_title?.trim() || null,
+      company: typeof data.company === 'string' ? data.company.trim().slice(0, 200) || null : null,
+      event_id: typeof data.event_id === 'string' && /^[0-9a-f-]{36}$/i.test(data.event_id) ? data.event_id : null,
+      event_title: typeof data.event_title === 'string' ? data.event_title.trim().slice(0, 200) || null : null,
     };
 
     const { error } = await supabase.from('leads').insert(sanitizedData);

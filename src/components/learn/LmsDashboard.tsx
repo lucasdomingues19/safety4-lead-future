@@ -1,404 +1,413 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Play, BookOpen, Zap } from "lucide-react";
+import { BookOpen, Zap, Trophy, Award, MessageSquare, Loader2, Lock } from "lucide-react";
 import { toast } from "sonner";
 
-interface CourseProgress {
+export interface CourseProgress {
   id: string;
   title: string;
   slug: string;
+  description: string | null;
+  cpdHours: number | null;
   status: "in_progress" | "completed" | "not_started";
   progressPercent: number;
   totalModules: number;
-  completedModules: number;
-  totalHours: number;
-  enrolledAt: string;
+  totalLessons: number;
+  completedLessons: number;
   nextLessonId: string | null;
   nextLessonTitle: string | null;
   nextModuleTitle: string | null;
-  totalLessons: number;
-  completedLessons: number;
 }
 
-export function LmsDashboard({ currentCourse, setCurrentCourse }: any) {
+interface CatalogCourse {
+  id: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  price_cents: number | null;
+  currency: string;
+  cpd_hours: number | null;
+}
+
+interface LeaderRow {
+  user_id: string;
+  display_name: string;
+  points: number;
+  lessons: number;
+  is_me: boolean;
+}
+
+interface PostPreview {
+  id: string;
+  author_name: string;
+  body: string;
+  created_at: string;
+}
+
+const card: React.CSSProperties = { background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px" };
+const linkBtn: React.CSSProperties = { fontSize: "14px", fontWeight: 600, color: "#3434ff", background: "transparent", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" };
+
+const statusBadges = {
+  in_progress: { bg: "#f1f4ff", text: "In progress", fg: "#3434ff" },
+  not_started: { bg: "#f8fafc", text: "Not started", fg: "#69697b" },
+  completed: { bg: "#f4fbe4", text: "Completed", fg: "#4a5230" },
+} as const;
+
+const formatPrice = (cents: number | null, currency: string) =>
+  !cents ? "Free" : new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(cents / 100);
+
+export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?: unknown; setCurrentCourse: (c: CourseProgress | null) => void; onNavigate?: (screen: string) => void }) {
   const { user } = useAuthUser();
   const navigate = useNavigate();
-  const [courses, setCourses] = useState<CourseProgress[]>([]);
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState("User");
+  const [userName, setUserName] = useState("there");
+  const [courses, setCourses] = useState<CourseProgress[]>([]);
+  const [catalog, setCatalog] = useState<CatalogCourse[]>([]);
+  const [enrollingId, setEnrollingId] = useState<string | null>(null);
+  const [leaders, setLeaders] = useState<LeaderRow[]>([]);
+  const [posts, setPosts] = useState<PostPreview[]>([]);
+  const [awardsEarned, setAwardsEarned] = useState<Record<string, boolean>>({});
 
-  useEffect(() => {
-    if (user) loadDashboard();
-  }, [user]);
-
-  const loadDashboard = async () => {
+  const load = useCallback(async () => {
     if (!user) return;
-    setLoading(true);
     try {
-      const metaName = (user.user_metadata as { full_name?: string } | undefined)?.full_name;
-      const displayName = metaName || user.email?.split("@")[0];
-      if (displayName) {
-        setUserName(displayName.split(" ")[0]);
-      }
+      const meta = (user.user_metadata as { full_name?: string } | undefined)?.full_name;
+      setUserName((meta || user.email?.split("@")[0] || "there").split(" ")[0]);
 
-      const { data: enrollments } = await supabase
-        .from("enrollments")
-        .select("*")
-        .eq("user_id", user.id);
+      const [enrRes, courseRes, progRes, attemptRes, certRes, myPostsRes, lbRes, postsRes] = await Promise.all([
+        supabase.from("enrollments").select("course_id, status, expires_at").eq("user_id", user.id),
+        supabase.from("courses").select("id, title, slug, description, price_cents, currency, cpd_hours").eq("published", true),
+        supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id),
+        supabase.from("quiz_attempts").select("score, passed").eq("user_id", user.id),
+        supabase.from("certificates").select("id"),
+        supabase.from("community_posts").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+        supabase.rpc("get_leaderboard", { _limit: 5 }),
+        supabase.from("community_posts").select("id, author_name, body, created_at").order("created_at", { ascending: false }).limit(3),
+      ]);
 
-      if (!enrollments) {
-        setLoading(false);
-        return;
-      }
+      const now = Date.now();
+      const activeIds = new Set(
+        (enrRes.data ?? [])
+          .filter((e) => e.status === "active" && (!e.expires_at || new Date(e.expires_at).getTime() > now))
+          .map((e) => e.course_id),
+      );
+      const allCourses = (courseRes.data ?? []) as CatalogCourse[];
+      const enrolledCourses = allCourses.filter((c) => activeIds.has(c.id));
+      setCatalog(allCourses.filter((c) => !activeIds.has(c.id)));
 
-      const { data: progressRows } = await supabase
-        .from("lesson_progress")
-        .select("lesson_id")
-        .eq("user_id", user.id);
-      const completedIds = new Set((progressRows ?? []).map((p) => p.lesson_id));
+      const completedIds = new Set((progRes.data ?? []).map((p) => p.lesson_id));
 
-      const courseProgressList: CourseProgress[] = [];
-      for (const enrollment of enrollments) {
-        const { data: course } = await supabase
-          .from("courses")
-          .select("*")
-          .eq("id", enrollment.course_id)
-          .single();
-
-        if (!course) continue;
-
-        const { data: modules } = await supabase
-          .from("modules")
-          .select("id, title")
-          .eq("course_id", course.id)
-          .order("position");
-
-        const totalModules = modules?.length ?? 0;
+      const list: CourseProgress[] = [];
+      for (const c of enrolledCourses) {
+        const { data: modules } = await supabase.from("modules").select("id, title").eq("course_id", c.id).order("position");
         const moduleIds = (modules ?? []).map((m) => m.id);
-        const moduleTitleById = new Map((modules ?? []).map((m) => [m.id, m.title]));
-
+        const titleByModule = new Map((modules ?? []).map((m) => [m.id, m.title]));
         const { data: lessons } = moduleIds.length
-          ? await supabase
-              .from("lessons")
-              .select("id, title, module_id")
-              .in("module_id", moduleIds)
-              .order("position")
-          : { data: [] as { id: string; title: string; module_id: string }[] };
+          ? await supabase.from("lessons").select("id, title, module_id, position").in("module_id", moduleIds)
+          : { data: [] as { id: string; title: string; module_id: string; position: number }[] };
 
-        const totalLessons = lessons?.length ?? 0;
-        const completedLessons = (lessons ?? []).filter((l) => completedIds.has(l.id)).length;
-        const nextLesson = (lessons ?? []).find((l) => !completedIds.has(l.id)) ?? lessons?.[0] ?? null;
+        // order lessons by module order then lesson position
+        const moduleOrder = new Map(moduleIds.map((id, i) => [id, i]));
+        const ordered = [...(lessons ?? [])].sort(
+          (a, b) => (moduleOrder.get(a.module_id) ?? 0) - (moduleOrder.get(b.module_id) ?? 0) || a.position - b.position,
+        );
+        const done = ordered.filter((l) => completedIds.has(l.id)).length;
+        const next = ordered.find((l) => !completedIds.has(l.id)) ?? ordered[0] ?? null;
 
-        courseProgressList.push({
-          id: course.id,
-          title: course.title,
-          slug: course.slug,
-          status: completedLessons === 0 ? "not_started" : completedLessons >= totalLessons && totalLessons > 0 ? "completed" : "in_progress",
-          progressPercent: totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0,
-          totalModules,
-          completedModules: Math.floor(completedLessons / 3),
-          totalHours: course.description?.includes("8+") ? 8 : 12,
-          enrolledAt: enrollment.enrolled_at || new Date().toISOString(),
-          nextLessonId: nextLesson?.id ?? null,
-          nextLessonTitle: nextLesson?.title ?? null,
-          nextModuleTitle: nextLesson ? moduleTitleById.get(nextLesson.module_id) ?? null : null,
-          totalLessons,
-          completedLessons,
+        list.push({
+          id: c.id,
+          title: c.title,
+          slug: c.slug,
+          description: c.description,
+          cpdHours: c.cpd_hours,
+          status: done === 0 ? "not_started" : done >= ordered.length && ordered.length > 0 ? "completed" : "in_progress",
+          progressPercent: ordered.length ? Math.round((done / ordered.length) * 100) : 0,
+          totalModules: modules?.length ?? 0,
+          totalLessons: ordered.length,
+          completedLessons: done,
+          nextLessonId: next?.id ?? null,
+          nextLessonTitle: next?.title ?? null,
+          nextModuleTitle: next ? titleByModule.get(next.module_id) ?? null : null,
         });
       }
+      setCourses(list);
+      setCurrentCourse(list[0] ?? null);
 
-      setCourses(courseProgressList);
-      if (courseProgressList.length > 0 && !currentCourse) {
-        setCurrentCourse(courseProgressList[0]);
-      }
+      setLeaders((lbRes.data ?? []) as LeaderRow[]);
+      setPosts((postsRes.data ?? []) as PostPreview[]);
+
+      const attempts = attemptRes.data ?? [];
+      setAwardsEarned({
+        "First Steps": completedIds.size >= 1,
+        "Halfway There": list.some((c) => c.progressPercent >= 50),
+        "Quiz Passed": attempts.some((a) => a.passed),
+        "Perfect Score": attempts.some((a) => a.score === 100),
+        "Community Voice": (myPostsRes.count ?? 0) >= 1,
+        Certified: (certRes.data ?? []).length >= 1,
+      });
     } catch (err) {
       console.error("Error loading dashboard:", err);
-      toast.error("Could not load dashboard");
+      toast.error("Could not load your dashboard");
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, setCurrentCourse]);
 
-  const navigateToCourse = (courseSlug: string) => {
-    navigate(`/learn/${courseSlug}`);
-  };
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const resumeCourse = (course: CourseProgress) => {
-    if (course.nextLessonId) {
-      navigate(`/learn/${course.slug}/lesson/${course.nextLessonId}`);
-    } else {
-      navigate(`/learn/${course.slug}`);
-    }
+    navigate(course.nextLessonId ? `/learn/${course.slug}/lesson/${course.nextLessonId}` : `/learn/${course.slug}`);
   };
+
+  const enrol = async (course: CatalogCourse) => {
+    if (!user) return;
+    if (course.price_cents && course.price_cents > 0) {
+      navigate(`/student/checkout/${course.id}`);
+      return;
+    }
+    setEnrollingId(course.id);
+    const { error } = await supabase
+      .from("enrollments")
+      .upsert({ user_id: user.id, course_id: course.id, status: "active" }, { onConflict: "user_id,course_id" });
+    setEnrollingId(null);
+    if (error) {
+      console.error(error);
+      toast.error("Could not enrol you in this course");
+      return;
+    }
+    toast.success(`You're enrolled in ${course.title}`);
+    await load();
+  };
+
+  const awards = useMemo(
+    () => [
+      { name: "First Steps", hint: "Complete a lesson" },
+      { name: "Halfway There", hint: "Reach 50% of a course" },
+      { name: "Quiz Passed", hint: "Pass a module quiz" },
+      { name: "Perfect Score", hint: "Score 100% on a quiz" },
+      { name: "Community Voice", hint: "Post in the community" },
+      { name: "Certified", hint: "Earn a certificate" },
+    ],
+    [],
+  );
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#eef1f6" }}>
-        <div style={{ textAlign: "center", color: "#0b0b2c" }}>
-          <div style={{ fontSize: "14px", marginBottom: "12px" }}>Loading your learning hub...</div>
-          <div style={{ width: "32px", height: "32px", border: "3px solid #e2e8f0", borderTop: "3px solid #3434ff", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
-        </div>
+      <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Loader2 size={30} className="animate-spin" color="#3434ff" />
       </div>
     );
   }
 
-  const firstCourse = courses[0];
-  const statusBadges: Record<string, { bg: string; text: string; fg: string }> = {
-    in_progress: { bg: "#f1f4ff", text: "In progress", fg: "#3434ff" },
-    not_started: { bg: "#f8fafc", text: "Not started", fg: "#69697b" },
-    completed: { bg: "#f4fbe4", text: "Completed", fg: "#4a5230" },
-  };
+  const first = courses[0];
+  const earnedCount = awards.filter((a) => awardsEarned[a.name]).length;
 
   return (
     <div style={{ minHeight: "100vh", background: "#eef1f6", color: "#0b0b2c", padding: "40px 28px 72px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ marginBottom: "32px" }}>
-          <div style={{ fontSize: "13px", fontWeight: "800", letterSpacing: "0.12em", color: "#8ab815", marginBottom: "12px" }}>
-            WELCOME BACK
-          </div>
-          <h1 style={{ margin: "12px 0 0", fontSize: "38px", lineHeight: "1.1", fontWeight: "700", letterSpacing: "-0.01em" }}>
-            Hey {userName}
-          </h1>
-          <p style={{ margin: "12px 0 0", fontSize: "17px", lineHeight: "1.7", color: "#69697b" }}>
-            {firstCourse ? `You are ${firstCourse.progressPercent}% through ${firstCourse.title}.` : "No courses enrolled yet"}
-          </p>
-        </div>
+        <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#8ab815" }}>WELCOME BACK</div>
+        <h1 style={{ margin: "12px 0 0", fontSize: "38px", lineHeight: 1.1, fontWeight: 700, letterSpacing: "-0.01em", color: "#0b0b2c" }}>Hey {userName}</h1>
+        <p style={{ margin: "12px 0 0", fontSize: "17px", lineHeight: 1.7, color: "#69697b" }}>
+          {first
+            ? `You are ${first.progressPercent}% through ${first.title}.`
+            : catalog.length
+              ? "You're not enrolled in a course yet — pick one below to get started."
+              : "No courses are available yet. Check back soon."}
+        </p>
 
-        {/* Hero Section - Continue Where You Left Off */}
-        {firstCourse && (
-          <div style={{
-            marginTop: "32px",
-            background: "radial-gradient(120% 160% at 88% 12%, #17176e 0%, #0a0a38 58%, #05051e 100%)",
-            borderRadius: "20px",
-            padding: "36px",
-            position: "relative",
-            overflow: "hidden",
-            boxShadow: "0 18px 40px rgba(11,11,44,0.16)",
-          }}>
-            <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "40px 40px", opacity: "0.3" }}></div>
+        {/* Continue hero */}
+        {first && (
+          <div style={{ marginTop: "32px", background: "radial-gradient(120% 160% at 88% 12%, #17176e 0%, #0a0a38 58%, #05051e 100%)", borderRadius: "20px", padding: "36px", position: "relative", overflow: "hidden", boxShadow: "0 18px 40px rgba(11,11,44,0.16)" }}>
+            <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "40px 40px", opacity: 0.3 }} />
             <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: "32px", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ minWidth: 0, flex: "1 1 420px" }}>
-                <div style={{ fontSize: "13px", fontWeight: "800", letterSpacing: "0.12em", color: "#a6e21a" }}>CONTINUE WHERE YOU LEFT OFF</div>
-                <div style={{ marginTop: "14px", fontSize: "28px", lineHeight: "1.25", fontWeight: "700", color: "#fff", textWrap: "pretty" }}>
-                  {firstCourse.nextLessonTitle
-                    ? `${firstCourse.nextModuleTitle ? `${firstCourse.nextModuleTitle} • ` : ""}${firstCourse.nextLessonTitle}`
-                    : firstCourse.title}
+                <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#a6e21a" }}>
+                  {first.completedLessons === 0 ? "START YOUR COURSE" : first.status === "completed" ? "COURSE COMPLETE" : "CONTINUE WHERE YOU LEFT OFF"}
+                </div>
+                <div style={{ marginTop: "14px", fontSize: "28px", lineHeight: 1.25, fontWeight: 700, color: "#fff" }}>
+                  {first.nextLessonTitle ? `${first.nextModuleTitle ? `${first.nextModuleTitle} • ` : ""}${first.nextLessonTitle}` : first.title}
                 </div>
                 <div style={{ marginTop: "10px", fontSize: "15px", color: "rgba(255,255,255,0.6)" }}>
-                  {firstCourse.totalLessons > 0
-                    ? `${firstCourse.completedLessons} of ${firstCourse.totalLessons} lessons complete`
-                    : "No lessons yet"}
+                  {first.totalLessons > 0 ? `${first.completedLessons} of ${first.totalLessons} lessons complete` : "No lessons published yet"}
                 </div>
                 <div style={{ marginTop: "22px", height: "8px", borderRadius: "999px", background: "rgba(255,255,255,0.16)", overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${firstCourse.progressPercent}%`, background: "#a6e21a", borderRadius: "999px" }}></div>
+                  <div style={{ height: "100%", width: `${first.progressPercent}%`, background: "#a6e21a", borderRadius: "999px" }} />
                 </div>
               </div>
               <button
-                onClick={() => resumeCourse(firstCourse)}
-                style={{
-                  flex: "none",
-                  border: "0",
-                  borderRadius: "999px",
-                  background: "#3434ff",
-                  color: "#fff",
-                  fontFamily: "inherit",
-                  fontSize: "14px",
-                  fontWeight: "700",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  padding: "16px 34px",
-                  cursor: "pointer",
-                  boxShadow: "0 0 40px rgba(52,52,255,0.4)",
-                  transition: "background 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "#2a2ad6")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "#3434ff")}
+                onClick={() => resumeCourse(first)}
+                style={{ flex: "none", border: 0, borderRadius: "999px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "14px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "16px 34px", cursor: "pointer", boxShadow: "0 0 40px rgba(52,52,255,0.4)" }}
               >
-                {firstCourse.completedLessons === 0 ? "Start course" : "Resume course"}
+                {first.completedLessons === 0 ? "Start course" : first.status === "completed" ? "Review course" : "Resume course"}
               </button>
             </div>
           </div>
         )}
 
-        {/* Your Learning Section */}
-        <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", marginBottom: "20px" }}>
-          <h2 style={{ margin: 0, fontSize: "22px", fontWeight: "700" }}>Your learning</h2>
-          <button onClick={() => firstCourse && navigateToCourse(firstCourse.slug)} style={{ fontSize: "15px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
-            View full curriculum
-          </button>
-        </div>
-
-        {/* Course Cards Grid */}
-        <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-          {courses.map((course) => {
-            const badge = statusBadges[course.status];
-            return (
-              <div
-                key={course.id}
-                onClick={() => resumeCourse(course)}
-                style={{
-                  background: "#fff",
-                  border: "1px solid #e2e8f0",
-                  borderRadius: "20px",
-                  padding: "26px",
-                  cursor: "pointer",
-                  transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.boxShadow = "0 18px 40px rgba(11,11,44,0.12)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-                  <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <BookOpen size={23} color="#3434ff" />
+        {/* Your learning */}
+        {courses.length > 0 && (
+          <>
+            <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "20px" }}>
+              <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 700 }}>Your learning</h2>
+            </div>
+            <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+              {courses.map((course) => {
+                const badge = statusBadges[course.status];
+                return (
+                  <div key={course.id} style={{ ...card, padding: "26px" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
+                      <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <BookOpen size={23} color="#3434ff" />
+                      </div>
+                      <span style={{ background: badge.bg, borderRadius: "999px", padding: "6px 14px", fontSize: "12px", fontWeight: 700, color: badge.fg }}>{badge.text}</span>
+                    </div>
+                    <div style={{ marginTop: "20px", fontSize: "19px", lineHeight: 1.3, fontWeight: 700 }}>{course.title}</div>
+                    <div style={{ marginTop: "8px", fontSize: "14px", color: "#69697b" }}>
+                      {course.totalModules} module{course.totalModules === 1 ? "" : "s"} • {course.totalLessons} lesson{course.totalLessons === 1 ? "" : "s"}
+                      {course.cpdHours ? ` • ${course.cpdHours} CPD hrs` : ""}
+                    </div>
+                    <div style={{ marginTop: "20px", height: "6px", borderRadius: "999px", background: "#eef1f6", overflow: "hidden" }}>
+                      <div style={{ height: "100%", width: `${course.progressPercent}%`, background: "#3434ff", borderRadius: "999px" }} />
+                    </div>
+                    <div style={{ marginTop: "10px", fontSize: "13px", fontWeight: 600, color: "#69697b" }}>{course.progressPercent}% complete</div>
+                    <div style={{ marginTop: "18px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                      <button onClick={() => resumeCourse(course)} style={{ border: 0, borderRadius: "8px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, padding: "10px 18px", cursor: "pointer" }}>
+                        {course.completedLessons === 0 ? "Start" : "Continue"}
+                      </button>
+                      <button onClick={() => navigate(`/learn/${course.slug}`)} style={{ border: "1px solid #e2e8f0", borderRadius: "8px", background: "#fff", color: "#0b0b2c", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, padding: "10px 18px", cursor: "pointer" }}>
+                        Curriculum
+                      </button>
+                    </div>
                   </div>
-                  <span style={{ background: badge.bg, border: `1px solid ${badge.bg}`, borderRadius: "999px", padding: "6px 14px", fontSize: "12px", fontWeight: "700", color: badge.fg }}>
-                    {badge.text}
-                  </span>
-                </div>
-                <div style={{ marginTop: "20px", fontSize: "19px", lineHeight: "1.3", fontWeight: "700" }}>
-                  {course.title}
-                </div>
-                <div style={{ marginTop: "8px", fontSize: "14px", lineHeight: "1.6", color: "#69697b" }}>
-                  {course.totalModules} modules • {course.totalHours}+ CPD hours
-                </div>
-                <div style={{ marginTop: "20px", height: "6px", borderRadius: "999px", background: "#eef1f6", overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${Math.min(course.progressPercent, 100)}%`, background: "#3434ff", borderRadius: "999px" }}></div>
-                </div>
-                <div style={{ marginTop: "10px", fontSize: "13px", fontWeight: "600", color: "#69697b" }}>
-                  {Math.min(course.progressPercent, 100)}% complete
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          </>
+        )}
 
-        {/* Community and Leaderboard Section */}
+        {/* Catalog */}
+        {catalog.length > 0 && (
+          <>
+            <h2 style={{ margin: "44px 0 0", fontSize: "22px", fontWeight: 700 }}>Available courses</h2>
+            <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+              {catalog.map((c) => (
+                <div key={c.id} style={{ ...card, padding: "26px", display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(166,226,26,0.24)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <BookOpen size={23} color="#5e7f0f" />
+                    </div>
+                    <span style={{ fontSize: "14px", fontWeight: 800, color: "#0b0b2c" }}>{formatPrice(c.price_cents, c.currency)}</span>
+                  </div>
+                  <div style={{ marginTop: "20px", fontSize: "19px", fontWeight: 700 }}>{c.title}</div>
+                  {c.description && <div style={{ marginTop: "8px", fontSize: "14px", lineHeight: 1.6, color: "#69697b", flex: 1 }}>{c.description}</div>}
+                  <button
+                    onClick={() => enrol(c)}
+                    disabled={enrollingId === c.id}
+                    style={{ marginTop: "18px", border: 0, borderRadius: "8px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "13px 18px", cursor: enrollingId === c.id ? "wait" : "pointer", opacity: enrollingId === c.id ? 0.7 : 1 }}
+                  >
+                    {enrollingId === c.id ? "Enrolling..." : c.price_cents ? "Buy course" : "Enrol for free"}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Community + leaderboard */}
         <div style={{ marginTop: "44px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px", alignItems: "start" }}>
-          {/* Community Card */}
-          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+          <div style={{ ...card, overflow: "hidden" }}>
             <div style={{ padding: "22px 26px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-                  <BookOpen size={20} color="#3434ff" />
+                <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <MessageSquare size={20} color="#3434ff" />
                 </div>
-                <div style={{ fontSize: "18px", fontWeight: "700" }}>Community</div>
+                <div style={{ fontSize: "18px", fontWeight: 700 }}>Community</div>
               </div>
-              <button onClick={() => toast.info("Community members coming soon!")} style={{ fontSize: "14px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
-                View all
-              </button>
+              <button onClick={() => onNavigate?.("community")} style={linkBtn}>View all</button>
             </div>
+            {posts.length === 0 ? (
+              <div style={{ padding: "22px 26px", fontSize: "14px", color: "#69697b" }}>No discussions yet — be the first to post.</div>
+            ) : (
+              posts.map((p) => (
+                <div key={p.id} style={{ padding: "16px 26px", borderBottom: "1px solid #f1f4f8" }}>
+                  <div style={{ fontSize: "13px", fontWeight: 700 }}>{p.author_name} <span style={{ fontWeight: 400, color: "#94a3b8" }}>· {new Date(p.created_at).toLocaleDateString()}</span></div>
+                  <div style={{ marginTop: "4px", fontSize: "14px", color: "#69697b", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{p.body}</div>
+                </div>
+              ))
+            )}
             <div style={{ padding: "20px 26px", background: "#f8fafc" }}>
               <button
-                onClick={() => toast.info("Community discussions coming soon!")}
-                style={{
-                  width: "100%",
-                  border: "1px solid #cbd5e1",
-                  borderRadius: "8px",
-                  background: "#fff",
-                  color: "#0b0b2c",
-                  fontFamily: "inherit",
-                  fontSize: "13px",
-                  fontWeight: "700",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  padding: "13px 20px",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "#f1f4ff")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "#fff")}
+                onClick={() => onNavigate?.("community")}
+                style={{ width: "100%", border: "1px solid #cbd5e1", borderRadius: "8px", background: "#fff", color: "#0b0b2c", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "13px 20px", cursor: "pointer" }}
               >
                 Start a discussion
               </button>
             </div>
           </div>
 
-          {/* Leaderboard Card */}
-          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
-            <div style={{ padding: "22px 26px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-                  <Zap size={20} color="#3434ff" />
+          <div style={{ ...card, overflow: "hidden" }}>
+            <div style={{ padding: "22px 26px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: "14px" }}>
+              <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Trophy size={20} color="#3434ff" />
+              </div>
+              <div style={{ fontSize: "18px", fontWeight: 700 }}>Leaderboard</div>
+            </div>
+            {leaders.length === 0 ? (
+              <div style={{ padding: "22px 26px", fontSize: "14px", color: "#69697b" }}>Complete a lesson to get on the board.</div>
+            ) : (
+              leaders.map((l, i) => (
+                <div key={l.user_id} style={{ padding: "14px 26px", borderBottom: "1px solid #f1f4f8", display: "flex", alignItems: "center", gap: "14px", background: l.is_me ? "#f1f4ff" : "transparent" }}>
+                  <div style={{ width: 26, fontSize: "15px", fontWeight: 800, color: "#94a3b8" }}>{i + 1}</div>
+                  <div style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 700 }}>
+                    {l.display_name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0, fontSize: "15px", fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {l.display_name}{l.is_me ? " (you)" : ""}
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "15px", fontWeight: 800 }}>{l.points}</div>
+                    <div style={{ fontSize: "12px", color: "#94a3b8" }}>points</div>
+                  </div>
                 </div>
-                <div style={{ fontSize: "18px", fontWeight: "700" }}>Leaderboard</div>
-              </div>
-              <div style={{ fontSize: "13px", color: "#94a3b8", flex: "none" }}>This month</div>
-            </div>
-            <div style={{ padding: "16px 26px", borderBottom: "1px solid #f1f4f8", display: "flex", alignItems: "center", gap: "14px" }}>
-              <div style={{ width: "30px", flex: "none", fontSize: "15px", fontWeight: "800", color: "#94a3b8" }}>1</div>
-              <div style={{ width: "34px", height: "34px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: "700", flex: "none" }}>
-                JL
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: "15px", fontWeight: "700", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Jane Learner</div>
-                <div style={{ marginTop: "3px", fontSize: "12px", color: "#94a3b8" }}>SafetyTech</div>
-              </div>
-              <div style={{ flex: "none", textAlign: "right" }}>
-                <div style={{ fontSize: "15px", fontWeight: "800" }}>12</div>
-                <div style={{ fontSize: "12px", color: "#94a3b8" }}>CPD hrs</div>
-              </div>
-            </div>
-            <div style={{ padding: "18px 26px", background: "#f8fafc", fontSize: "13px", lineHeight: "1.6", color: "#69697b" }}>
-              Ranked on CPD hours recorded from watch time. Opt out in Settings.
+              ))
+            )}
+            <div style={{ padding: "18px 26px", background: "#f8fafc", fontSize: "13px", lineHeight: 1.6, color: "#69697b" }}>
+              10 pts per lesson, 50 per quiz passed, 5 per community post. Opt out in Settings.
             </div>
           </div>
         </div>
 
-        {/* Awards Section */}
-        <div style={{ marginTop: "20px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "26px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-              <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "rgba(166,226,26,0.24)", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-                <Zap size={20} color="#5e7f0f" />
-              </div>
-              <div>
-                <div style={{ fontSize: "18px", fontWeight: "700" }}>My awards</div>
-                <div style={{ marginTop: "4px", fontSize: "13px", color: "#94a3b8" }}>0 of 6 earned</div>
-              </div>
+        {/* Awards */}
+        <div style={{ ...card, marginTop: "20px", padding: "26px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(166,226,26,0.24)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Award size={20} color="#5e7f0f" />
             </div>
-            <button onClick={() => toast.info("Awards system details coming soon!")} style={{ fontSize: "14px", fontWeight: "600", color: "#3434ff", textDecoration: "none", background: "transparent", border: "none", cursor: "pointer", padding: 0, flex: "none" }}>
-              How awards work
-            </button>
+            <div>
+              <div style={{ fontSize: "18px", fontWeight: 700 }}>My awards</div>
+              <div style={{ marginTop: 4, fontSize: "13px", color: "#94a3b8" }}>{earnedCount} of {awards.length} earned</div>
+            </div>
           </div>
           <div style={{ marginTop: "24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(148px, 1fr))", gap: "16px" }}>
-            {["First Steps", "Speed Demon", "Perfect Score", "Consistency", "Knowledge Master", "Certification Elite"].map((name, i) => (
-              <div
-                key={i}
-                style={{
-                  border: "1px solid #e2e8f0",
-                  background: "#f8fafc",
-                  borderRadius: "16px",
-                  padding: "20px 16px",
-                  textAlign: "center",
-                }}
-              >
-                <div style={{ width: "52px", height: "52px", margin: "0 auto", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", opacity: "0.4" }}>
-                  <Zap size={24} color="#3434ff" />
+            {awards.map((a) => {
+              const earned = awardsEarned[a.name];
+              return (
+                <div key={a.name} style={{ border: `1px solid ${earned ? "#d9f09a" : "#e2e8f0"}`, background: earned ? "#f4fbe4" : "#f8fafc", borderRadius: "16px", padding: "20px 16px", textAlign: "center" }}>
+                  <div style={{ width: 52, height: 52, margin: "0 auto", borderRadius: "50%", background: earned ? "#a6e21a" : "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", opacity: earned ? 1 : 0.5 }}>
+                    {earned ? <Zap size={24} color="#0b0b2c" /> : <Lock size={22} color="#3434ff" />}
+                  </div>
+                  <div style={{ marginTop: 14, fontSize: "14px", fontWeight: 700, color: earned ? "#0b0b2c" : "#69697b" }}>{a.name}</div>
+                  <div style={{ marginTop: 6, fontSize: "12px", color: "#94a3b8" }}>{earned ? "Earned" : a.hint}</div>
                 </div>
-                <div style={{ marginTop: "14px", fontSize: "14px", lineHeight: "1.3", fontWeight: "700", color: "#69697b" }}>
-                  {name}
-                </div>
-                <div style={{ marginTop: "6px", fontSize: "12px", lineHeight: "1.4", color: "#94a3b8" }}>Locked</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </div>
   );
 }

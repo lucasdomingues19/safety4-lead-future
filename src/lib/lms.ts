@@ -1,18 +1,18 @@
 // Shared types and helpers for the learning platform (LMS).
+export type { Quiz, QuizQuestion, QuizAttempt } from "./quiz";
+import type { QuizQuestion } from "./quiz";
 
 export interface Course {
   id: string;
   title: string;
   slug: string;
   description: string | null;
-  instructor_id: string | null;
   price_cents: number | null;
   currency: string;
-  stripe_product_id: string | null;
   cover_image_url: string | null;
   cpd_hours: number | null;
   published: boolean;
-  published_at: string | null;
+  playback_settings?: unknown;
   created_at: string;
   updated_at: string;
 }
@@ -67,46 +67,6 @@ export interface LessonProgress {
   completed_at: string | null;
   created_at: string;
   updated_at: string;
-}
-
-export interface Certificate {
-  id: string;
-  user_id: string;
-  course_id: string;
-  certificate_url: string | null;
-  issued_at: string;
-  created_at: string;
-}
-
-export interface Quiz {
-  id: string;
-  module_id: string;
-  title: string;
-  pass_threshold: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface QuizQuestion {
-  id: string;
-  quiz_id: string;
-  prompt: string;
-  options: string[];
-  correct_index: number;
-  position: number;
-  created_at: string;
-}
-
-export interface QuizAttempt {
-  id: string;
-  user_id: string;
-  quiz_id: string;
-  score: number;
-  passed: boolean;
-  answers: Record<string, string>;
-  started_at: string;
-  submitted_at: string | null;
-  created_at: string;
 }
 
 /** Normalize raw lesson rows to add computed duration_minutes field. */

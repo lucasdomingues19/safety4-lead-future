@@ -146,7 +146,7 @@ const Admin = () => {
       if (error) throw error;
 
       if (data) {
-        setLeads(data);
+        setLeads(data as typeof leads);
       }
     } catch (error) {
       console.error("Error fetching leads:", error);

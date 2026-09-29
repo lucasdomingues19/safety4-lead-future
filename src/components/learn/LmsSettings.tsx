@@ -14,13 +14,14 @@ export function LmsSettings() {
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [captionsDefault, setCaptionsDefault] = useState(true);
   const [emailReminders, setEmailReminders] = useState(false);
+  const [hideFromLeaderboard, setHideFromLeaderboard] = useState(false);
 
   useEffect(() => {
     if (!user) return;
     (async () => {
       const { data } = await supabase
         .from("profiles")
-        .select("full_name, job_title, organisation, auto_advance, captions_default, email_reminders")
+        .select("full_name, job_title, organisation, auto_advance, captions_default, email_reminders, hide_from_leaderboard")
         .eq("id", user.id)
         .maybeSingle();
       if (data) {
@@ -30,6 +31,7 @@ export function LmsSettings() {
         setAutoAdvance(data.auto_advance);
         setCaptionsDefault(data.captions_default);
         setEmailReminders(data.email_reminders);
+        setHideFromLeaderboard(data.hide_from_leaderboard);
       }
       setLoading(false);
     })();
@@ -48,6 +50,7 @@ export function LmsSettings() {
           auto_advance: autoAdvance,
           captions_default: captionsDefault,
           email_reminders: emailReminders,
+          hide_from_leaderboard: hideFromLeaderboard,
         })
         .eq("id", user.id);
       if (error) throw error;
@@ -101,6 +104,14 @@ export function LmsSettings() {
           <div style={{ padding: "22px 28px", display: "flex", alignItems: "center", gap: "20px" }}>
             <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: "15px", fontWeight: 600 }}>Email reminders</div><div style={{ marginTop: "4px", fontSize: "13px", color: "#94a3b8" }}>A weekly nudge while the course is in progress</div></div>
             <button onClick={() => setEmailReminders(!emailReminders)} style={{ width: "46px", height: "26px", borderRadius: "999px", background: emailReminders ? "#3434ff" : "#e2e8f0", border: "0", flex: "none", position: "relative", cursor: "pointer" }}><div style={{ position: "absolute", top: "3px", right: emailReminders ? "3px" : "auto", left: emailReminders ? "auto" : "3px", width: "20px", height: "20px", borderRadius: "50%", background: "#fff", transition: "all 0.2s" }}></div></button>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "20px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
+          <div style={{ padding: "24px 28px", borderBottom: "1px solid #e2e8f0", fontSize: "18px", fontWeight: 700 }}>Privacy</div>
+          <div style={{ padding: "22px 28px", display: "flex", alignItems: "center", gap: "20px" }}>
+            <div style={{ flex: 1, minWidth: 0 }}><div style={{ fontSize: "15px", fontWeight: 600 }}>Hide me from the leaderboard</div><div style={{ marginTop: "4px", fontSize: "13px", color: "#94a3b8" }}>Your name won't appear in the public rankings</div></div>
+            <button onClick={() => setHideFromLeaderboard(!hideFromLeaderboard)} style={{ width: "46px", height: "26px", borderRadius: "999px", background: hideFromLeaderboard ? "#3434ff" : "#e2e8f0", border: "0", flex: "none", position: "relative", cursor: "pointer" }}><div style={{ position: "absolute", top: "3px", right: hideFromLeaderboard ? "3px" : "auto", left: hideFromLeaderboard ? "auto" : "3px", width: "20px", height: "20px", borderRadius: "50%", background: "#fff", transition: "all 0.2s" }}></div></button>
           </div>
         </div>
 

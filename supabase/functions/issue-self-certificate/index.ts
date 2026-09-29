@@ -22,10 +22,6 @@ const SITE_URL = "https://www.safetytech.academy";
 const BRAND_NAVY = "#11113a";
 const BRAND_LIME = "#c1ff72";
 
-interface SelfIssueRequest {
-  quiz_id: string;
-}
-
 const buildEmailHtml = (cert: {
   certificate_number: string;
   recipient_name: string;
@@ -46,7 +42,7 @@ const buildEmailHtml = (cert: {
         </td></tr>
         <tr><td style="padding:34px 40px 8px;color:#1e293b;font-size:15px;line-height:1.7;">
           <p style="margin:0 0 16px;">Hi ${firstName},</p>
-          <p style="margin:0 0 16px;">Congratulations on passing your module quiz! We are pleased to share your SafetyTech Academy certificate. Please click the link below to access your credentials.</p>
+          <p style="margin:0 0 16px;">Congratulations on completing your course! We are pleased to share your SafetyTech Academy certificate. Please click the link below to access your credentials.</p>
           <p style="margin:0 0 16px;">Don't forget to share your achievement on LinkedIn and tag the SafetyTech Academy page.</p>
           <p style="margin:0 0 4px;">Proud of you.</p>
           <p style="margin:0;">Regards,</p>
@@ -68,157 +64,118 @@ serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
+  const json = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...corsHeaders } });
 
   try {
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
+    if (!authHeader) return json({ error: "Unauthorized" }, 401);
+
+    const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const { data: userData, error: userError } = await db.auth.getUser(authHeader.replace("Bearer ", ""));
+    if (userError || !userData?.user) return json({ error: "Unauthorized" }, 401);
+    const user = userData.user;
+
+    const body = (await req.json()) as { course_id?: string; quiz_id?: string };
+
+    // Resolve the course (accepts either a course_id or a quiz_id from that course).
+    let courseId = String(body.course_id || "").trim();
+    if (!courseId && body.quiz_id) {
+      const { data: q } = await db.from("quizzes").select("module_id").eq("id", body.quiz_id).maybeSingle();
+      if (q) {
+        const { data: m } = await db.from("modules").select("course_id").eq("id", q.module_id).maybeSingle();
+        courseId = m?.course_id ?? "";
+      }
     }
+    if (!courseId) return json({ error: "course_id is required" }, 400);
 
-    const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
+    const { data: course } = await db.from("courses").select("id, title, cpd_hours").eq("id", courseId).maybeSingle();
+    if (!course) return json({ error: "Course not found" }, 404);
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: userData, error: userError } = await supabaseAdmin.auth.getUser(token);
-    if (userError || !userData?.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-
-    const body: SelfIssueRequest = await req.json();
-    const quizId = String(body.quiz_id || "").trim();
-    if (!quizId) {
-      return new Response(JSON.stringify({ error: "quiz_id is required" }), {
-        status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-
-    // Verify a real passing attempt exists for THIS user and THIS quiz.
-    const { data: attempt } = await supabaseAdmin
-      .from("quiz_attempts")
-      .select("id, passed")
-      .eq("user_id", userData.user.id)
-      .eq("quiz_id", quizId)
-      .eq("passed", true)
-      .order("attempted_at", { ascending: false })
-      .limit(1)
+    // Must hold a current, active enrolment.
+    const { data: enrolment } = await db
+      .from("enrollments")
+      .select("id, status, expires_at")
+      .eq("user_id", user.id)
+      .eq("course_id", courseId)
       .maybeSingle();
+    const active = enrolment && enrolment.status === "active" && (!enrolment.expires_at || new Date(enrolment.expires_at) > new Date());
+    if (!active) return json({ error: "Not enrolled in this course" }, 403);
 
-    if (!attempt) {
-      return new Response(JSON.stringify({ error: "No passing quiz attempt found for this user" }), {
-        status: 403, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
+    // Course completion = every lesson done AND every module quiz passed.
+    const { data: modules } = await db.from("modules").select("id").eq("course_id", courseId);
+    const moduleIds = (modules ?? []).map((m) => m.id);
+    const { data: lessons } = moduleIds.length ? await db.from("lessons").select("id").in("module_id", moduleIds) : { data: [] as { id: string }[] };
+    const { data: quizzes } = moduleIds.length ? await db.from("quizzes").select("id").in("module_id", moduleIds) : { data: [] as { id: string }[] };
+
+    const lessonIds = (lessons ?? []).map((l) => l.id);
+    const quizIds = (quizzes ?? []).map((q) => q.id);
+    if (lessonIds.length === 0) return json({ status: "incomplete", missing: { lessons: 0, quizzes: 0 }, reason: "Course has no lessons" });
+
+    const { data: done } = await db.from("lesson_progress").select("lesson_id").eq("user_id", user.id).in("lesson_id", lessonIds);
+    const doneSet = new Set((done ?? []).map((d) => d.lesson_id));
+    const { data: passes } = quizIds.length
+      ? await db.from("quiz_attempts").select("quiz_id").eq("user_id", user.id).eq("passed", true).in("quiz_id", quizIds)
+      : { data: [] as { quiz_id: string }[] };
+    const passedSet = new Set((passes ?? []).map((p) => p.quiz_id));
+
+    const missingLessons = lessonIds.filter((id) => !doneSet.has(id)).length;
+    const missingQuizzes = quizIds.filter((id) => !passedSet.has(id)).length;
+    if (missingLessons > 0 || missingQuizzes > 0) {
+      return json({ status: "incomplete", missing: { lessons: missingLessons, quizzes: missingQuizzes } });
     }
 
-    // Resolve the course server-side from the quiz — never trust a
-    // client-supplied course name for a credential document.
-    const { data: quiz } = await supabaseAdmin
-      .from("quizzes")
-      .select("id, module_id")
-      .eq("id", quizId)
-      .maybeSingle();
-    if (!quiz) {
-      return new Response(JSON.stringify({ error: "Quiz not found" }), {
-        status: 404, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
+    const recipientEmail = (user.email || "").trim().toLowerCase();
+    if (!recipientEmail) return json({ error: "No email on file for this user" }, 400);
+    const { data: profile } = await db.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
+    const metaName = (user.user_metadata as { full_name?: string } | undefined)?.full_name;
+    const recipientName = (profile?.full_name || metaName || "").trim() || recipientEmail.split("@")[0];
 
-    const { data: module_ } = await supabaseAdmin
-      .from("modules")
-      .select("id, course_id")
-      .eq("id", quiz.module_id)
-      .maybeSingle();
-    if (!module_) {
-      return new Response(JSON.stringify({ error: "Module not found" }), {
-        status: 404, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
+    await db.from("enrollments").update({ completed_at: new Date().toISOString() }).eq("id", enrolment!.id).is("completed_at", null);
 
-    const { data: course } = await supabaseAdmin
-      .from("courses")
-      .select("id, title, cpd_hours")
-      .eq("id", module_.course_id)
-      .maybeSingle();
-    if (!course) {
-      return new Response(JSON.stringify({ error: "Course not found" }), {
-        status: 404, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-
-    const recipientEmail = (userData.user.email || "").trim().toLowerCase();
-    if (!recipientEmail) {
-      return new Response(JSON.stringify({ error: "No email on file for this user" }), {
-        status: 400, headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
-    }
-    const metaName = (userData.user.user_metadata as { full_name?: string } | undefined)?.full_name;
-    const recipientName = (metaName && metaName.trim()) || recipientEmail.split("@")[0];
-
-    // Idempotent: if this learner already has a certificate for this course, return it.
-    const { data: existing } = await supabaseAdmin
+    // Idempotent: one certificate per learner per course.
+    const { data: existing } = await db
       .from("certificates")
       .select("*")
       .eq("recipient_email", recipientEmail)
       .eq("course_name", course.title)
       .maybeSingle();
+    if (existing) {
+      return json({ status: "existing", certificate_number: existing.certificate_number, verify_url: `${SITE_URL}/verify/${existing.certificate_number}` });
+    }
 
-    let cert = existing;
-    let justCreated = false;
-
-    if (!cert) {
-      const { data: inserted, error: insertErr } = await supabaseAdmin
-        .from("certificates")
-        .insert({
-          recipient_name: recipientName,
-          recipient_email: recipientEmail,
-          course_name: course.title,
-          completion_date: new Date().toISOString().slice(0, 10),
-          cpd_hours: course.cpd_hours ?? null,
-          issued_by: userData.user.id,
-        })
-        .select("*")
-        .single();
-
-      if (insertErr || !inserted) {
-        console.error("Insert error:", insertErr);
-        return new Response(JSON.stringify({ error: "Failed to create certificate" }), {
-          status: 500, headers: { "Content-Type": "application/json", ...corsHeaders },
-        });
-      }
-      cert = inserted;
-      justCreated = true;
+    const { data: cert, error: insertErr } = await db
+      .from("certificates")
+      .insert({
+        recipient_name: recipientName,
+        recipient_email: recipientEmail,
+        course_name: course.title,
+        completion_date: new Date().toISOString().slice(0, 10),
+        cpd_hours: course.cpd_hours ?? null,
+        issued_by: user.id,
+      })
+      .select("*")
+      .single();
+    if (insertErr || !cert) {
+      console.error("Insert error:", insertErr);
+      return json({ error: "Failed to create certificate" }, 500);
     }
 
     const verifyUrl = `${SITE_URL}/verify/${cert.certificate_number}`;
-
-    if (justCreated) {
-      const html = buildEmailHtml(cert, verifyUrl);
-      const emailResponse = await resend.emails.send({
-        from: "SafetyTech Academy <noreply@safetyacademy.tech>",
-        reply_to: "hello@safetyacademy.tech",
-        to: [cert.recipient_email],
-        subject: "Your SafetyTech Academy Certificate",
-        html,
-      });
-      if (emailResponse.error) {
-        console.error("Certificate email rejected:", cert.certificate_number, emailResponse.error);
-        // Certificate exists even if the email failed — don't fail the request.
-      }
+    const emailResponse = await resend.emails.send({
+      from: "SafetyTech Academy <noreply@safetyacademy.tech>",
+      reply_to: "hello@safetyacademy.tech",
+      to: [cert.recipient_email],
+      subject: "Your SafetyTech Academy Certificate",
+      html: buildEmailHtml(cert, verifyUrl),
+    });
+    if (emailResponse.error) {
+      console.error("Certificate email rejected:", cert.certificate_number, emailResponse.error);
     }
 
-    return new Response(
-      JSON.stringify({ certificate_number: cert.certificate_number, verify_url: verifyUrl }),
-      { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } },
-    );
+    return json({ status: "issued", certificate_number: cert.certificate_number, verify_url: verifyUrl, emailed: !emailResponse.error });
   } catch (error) {
     console.error("issue-self-certificate error:", error);
-    return new Response(JSON.stringify({ error: "Unexpected error issuing certificate" }), {
-      status: 500, headers: { "Content-Type": "application/json", ...corsHeaders },
-    });
+    return json({ error: "Unexpected error issuing certificate" }, 500);
   }
 });

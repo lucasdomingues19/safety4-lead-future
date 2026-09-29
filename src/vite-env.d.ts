@@ -5,3 +5,7 @@ declare global {
     oaiq?: (action: string, event: string, data: Record<string, any>) => void;
   }
 }
+
+interface Window {
+  oaiq?: (...args: unknown[]) => void;
+}

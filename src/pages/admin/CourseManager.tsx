@@ -610,11 +610,7 @@ const QuizEditor = ({ moduleId }: { moduleId: string }) => {
       setQuiz(q as Quiz);
       setTitle(q.title);
       setThreshold(q.pass_threshold);
-      const { data: qs } = await supabase
-        .from("quiz_questions")
-        .select("*")
-        .eq("quiz_id", q.id)
-        .order("position");
+      const { data: qs } = await supabase.rpc("admin_get_quiz_questions", { _quiz_id: q.id });
       setQuestions(asQuizQuestions(qs));
     } else {
       setQuiz(null);
@@ -733,7 +729,7 @@ const QuizEditor = ({ moduleId }: { moduleId: string }) => {
 const QuestionEditor = ({ question, onChange }: { question: QuizQuestion; onChange: () => void }) => {
   const [prompt, setPrompt] = useState(question.prompt);
   const [optionsText, setOptionsText] = useState((question.options ?? []).join("\n"));
-  const [correct, setCorrect] = useState(question.correct_index);
+  const [correct, setCorrect] = useState(question.correct_index ?? 0);
 
   const save = async () => {
     const options = optionsText.split("\n").map((s) => s.trim()).filter(Boolean);

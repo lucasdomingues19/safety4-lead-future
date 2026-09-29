@@ -230,6 +230,91 @@ export type Database = {
           },
         ]
       }
+      community_comments: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_likes: {
+        Row: {
+          created_at: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_posts: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           cover_image_url: string | null
@@ -238,6 +323,7 @@ export type Database = {
           currency: string
           description: string | null
           id: string
+          playback_settings: Json | null
           price_cents: number
           published: boolean
           slug: string
@@ -251,6 +337,7 @@ export type Database = {
           currency?: string
           description?: string | null
           id?: string
+          playback_settings?: Json | null
           price_cents?: number
           published?: boolean
           slug: string
@@ -264,11 +351,45 @@ export type Database = {
           currency?: string
           description?: string | null
           id?: string
+          playback_settings?: Json | null
           price_cents?: number
           published?: boolean
           slug?: string
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      email_campaigns: {
+        Row: {
+          audience: string
+          body: string
+          failed_count: number
+          id: string
+          recipient_count: number
+          sent_at: string
+          sent_by: string | null
+          subject: string
+        }
+        Insert: {
+          audience: string
+          body: string
+          failed_count?: number
+          id?: string
+          recipient_count?: number
+          sent_at?: string
+          sent_by?: string | null
+          subject: string
+        }
+        Update: {
+          audience?: string
+          body?: string
+          failed_count?: number
+          id?: string
+          recipient_count?: number
+          sent_at?: string
+          sent_by?: string | null
+          subject?: string
         }
         Relationships: []
       }
@@ -278,8 +399,10 @@ export type Database = {
           course_id: string
           created_at: string
           enrolled_at: string
+          expires_at: string | null
           id: string
           status: string
+          stripe_subscription_id: string | null
           updated_at: string
           user_id: string
         }
@@ -288,8 +411,10 @@ export type Database = {
           course_id: string
           created_at?: string
           enrolled_at?: string
+          expires_at?: string | null
           id?: string
           status?: string
+          stripe_subscription_id?: string | null
           updated_at?: string
           user_id: string
         }
@@ -298,8 +423,10 @@ export type Database = {
           course_id?: string
           created_at?: string
           enrolled_at?: string
+          expires_at?: string | null
           id?: string
           status?: string
+          stripe_subscription_id?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -313,10 +440,61 @@ export type Database = {
           },
         ]
       }
+      events: {
+        Row: {
+          capacity: number
+          created_at: string
+          date: string
+          description: string
+          id: string
+          image_url: string | null
+          location: string
+          published: boolean
+          registered: number
+          time: string
+          title: string
+          updated_at: string
+          zoom_link: string | null
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          date: string
+          description: string
+          id?: string
+          image_url?: string | null
+          location: string
+          published?: boolean
+          registered?: number
+          time: string
+          title: string
+          updated_at?: string
+          zoom_link?: string | null
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          date?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          location?: string
+          published?: boolean
+          registered?: number
+          time?: string
+          title?: string
+          updated_at?: string
+          zoom_link?: string | null
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
+          company: string | null
           created_at: string
           email: string
+          event_id: string | null
+          event_title: string | null
           id: string
           inquiry_type: string | null
           job_title: string | null
@@ -329,8 +507,11 @@ export type Database = {
           status: string
         }
         Insert: {
+          company?: string | null
           created_at?: string
           email: string
+          event_id?: string | null
+          event_title?: string | null
           id?: string
           inquiry_type?: string | null
           job_title?: string | null
@@ -343,8 +524,11 @@ export type Database = {
           status?: string
         }
         Update: {
+          company?: string | null
           created_at?: string
           email?: string
+          event_id?: string | null
+          event_title?: string | null
           id?: string
           inquiry_type?: string | null
           job_title?: string | null
@@ -356,26 +540,75 @@ export type Database = {
           source?: string
           status?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leads_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      lesson_progress: {
+      lesson_comments: {
         Row: {
-          completed_at: string
+          author_name: string
+          body: string
+          created_at: string
           id: string
           lesson_id: string
           user_id: string
         }
         Insert: {
-          completed_at?: string
+          author_name: string
+          body: string
+          created_at?: string
           id?: string
           lesson_id: string
           user_id: string
         }
         Update: {
-          completed_at?: string
+          author_name?: string
+          body?: string
+          created_at?: string
           id?: string
           lesson_id?: string
           user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_comments_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_progress: {
+        Row: {
+          completed_at: string
+          id: string
+          is_completed: boolean | null
+          lesson_id: string
+          user_id: string
+          watch_duration_seconds: number | null
+        }
+        Insert: {
+          completed_at?: string
+          id?: string
+          is_completed?: boolean | null
+          lesson_id: string
+          user_id: string
+          watch_duration_seconds?: number | null
+        }
+        Update: {
+          completed_at?: string
+          id?: string
+          is_completed?: boolean | null
+          lesson_id?: string
+          user_id?: string
+          watch_duration_seconds?: number | null
         }
         Relationships: [
           {
@@ -390,6 +623,7 @@ export type Database = {
       lessons: {
         Row: {
           body: string | null
+          content: string | null
           created_at: string
           duration_minutes: number | null
           id: string
@@ -397,11 +631,13 @@ export type Database = {
           position: number
           resources: Json
           title: string
+          transcript: string | null
           updated_at: string
           video_url: string | null
         }
         Insert: {
           body?: string | null
+          content?: string | null
           created_at?: string
           duration_minutes?: number | null
           id?: string
@@ -409,11 +645,13 @@ export type Database = {
           position?: number
           resources?: Json
           title: string
+          transcript?: string | null
           updated_at?: string
           video_url?: string | null
         }
         Update: {
           body?: string | null
+          content?: string | null
           created_at?: string
           duration_minutes?: number | null
           id?: string
@@ -421,6 +659,7 @@ export type Database = {
           position?: number
           resources?: Json
           title?: string
+          transcript?: string | null
           updated_at?: string
           video_url?: string | null
         }
@@ -552,19 +791,40 @@ export type Database = {
       }
       profiles: {
         Row: {
+          auto_advance: boolean
+          captions_default: boolean
           created_at: string | null
           email: string | null
+          email_reminders: boolean
+          full_name: string | null
+          hide_from_leaderboard: boolean
           id: string
+          job_title: string | null
+          organisation: string | null
         }
         Insert: {
+          auto_advance?: boolean
+          captions_default?: boolean
           created_at?: string | null
           email?: string | null
+          email_reminders?: boolean
+          full_name?: string | null
+          hide_from_leaderboard?: boolean
           id: string
+          job_title?: string | null
+          organisation?: string | null
         }
         Update: {
+          auto_advance?: boolean
+          captions_default?: boolean
           created_at?: string | null
           email?: string | null
+          email_reminders?: boolean
+          full_name?: string | null
+          hide_from_leaderboard?: boolean
           id?: string
+          job_title?: string | null
+          organisation?: string | null
         }
         Relationships: []
       }
@@ -633,6 +893,7 @@ export type Database = {
       }
       quiz_attempts: {
         Row: {
+          answers: Json | null
           attempted_at: string
           id: string
           passed: boolean
@@ -641,6 +902,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          answers?: Json | null
           attempted_at?: string
           id?: string
           passed?: boolean
@@ -649,6 +911,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          answers?: Json | null
           attempted_at?: string
           id?: string
           passed?: boolean
@@ -834,9 +1097,37 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_get_quiz_questions: {
+        Args: { _quiz_id: string }
+        Returns: {
+          correct_index: number
+          created_at: string
+          id: string
+          options: Json
+          position: number
+          prompt: string
+          quiz_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "quiz_questions"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       course_of_lesson: { Args: { _lesson_id: string }; Returns: string }
       course_of_module: { Args: { _module_id: string }; Returns: string }
       course_of_quiz: { Args: { _quiz_id: string }; Returns: string }
+      get_leaderboard: {
+        Args: { _limit?: number }
+        Returns: {
+          display_name: string
+          is_me: boolean
+          lessons: number
+          points: number
+          user_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
