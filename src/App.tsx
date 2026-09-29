@@ -192,6 +192,7 @@ const App = () => (
             <Route path="/learn/:courseSlug" element={<ProtectedRoute><CourseView /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />
             <Route path="/admin/courses" element={<CourseManager />} />
+            <Route path="/admin/courses/:courseId" element={<CourseManager />} />
 
             {/* Student Learning Platform */}
             <Route path="/dashboard" element={<Dashboard />} />
