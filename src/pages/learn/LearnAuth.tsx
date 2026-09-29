@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Loader2, ArrowRight } from "lucide-react";
+import { Loader2, MailCheck } from "lucide-react";
+import brandMarkBlue from "@/assets/brand-mark-blue.png";
 
 const LearnAuth = () => {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -10,6 +11,8 @@ const LearnAuth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  // Set after sign-up (or an unconfirmed sign-in): shows the "check your inbox" screen.
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +40,22 @@ const LearnAuth = () => {
       return;
     }
     toast.success("If an account exists for that email, a reset link is on its way.");
+  };
+
+  const resendConfirmation = async () => {
+    if (!pendingEmail) return;
+    setLoading(true);
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: pendingEmail,
+      options: { emailRedirectTo: `${window.location.origin}/learn` },
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Confirmation email sent again");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,12 +110,18 @@ const LearnAuth = () => {
           if (window.oaiq) {
             window.oaiq("measure", "registration_completed", { type: "customer_action" });
           }
-          toast.success("Account created! Check your email to confirm, then sign in.");
-          setMode("signin");
+          setPendingEmail(email);
+          setPassword("");
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if (error) {
+          if (/not confirmed/i.test(error.message)) {
+            setPendingEmail(email);
+            return;
+          }
+          throw error;
+        }
         navigate("/learn");
       }
     } catch (err) {
@@ -139,7 +164,7 @@ const LearnAuth = () => {
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
           <img
-            src="assets/brand-mark-blue.png"
+            src={brandMarkBlue}
             alt="SafetyTech Academy"
             style={{ height: "48px", width: "auto", marginBottom: "20px", marginLeft: "auto", marginRight: "auto" }}
           />
@@ -150,7 +175,7 @@ const LearnAuth = () => {
             margin: "0 0 12px",
             letterSpacing: "-0.01em",
           }}>
-            {mode === "signin" ? "Welcome back" : "Create your account"}
+            {pendingEmail ? "Check your inbox" : mode === "signin" ? "Welcome back" : "Create your account"}
           </h1>
           <p style={{
             fontSize: "15px",
@@ -158,14 +183,42 @@ const LearnAuth = () => {
             margin: 0,
             lineHeight: 1.6,
           }}>
-            {mode === "signin"
-              ? "Sign in to access your learning dashboard"
-              : "Join the SafetyTech Academy community"}
+            {pendingEmail
+              ? "Confirm your email address to activate your account"
+              : mode === "signin"
+                ? "Sign in to access your learning dashboard"
+                : "Join the SafetyTech Academy community"}
           </p>
         </div>
 
         <div style={{ height: "8px" }}></div>
 
+        {pendingEmail ? (
+          <div style={{ textAlign: "center" }}>
+            <div style={{ width: "56px", height: "56px", borderRadius: "50%", background: "#F1F4FF", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 18px" }}>
+              <MailCheck size={26} color="#3434FF" />
+            </div>
+            <p style={{ fontSize: "14px", color: "#69697B", lineHeight: 1.7, margin: "0 0 24px" }}>
+              We sent a confirmation link to <strong style={{ color: "#0B0B2C", wordBreak: "break-all" }}>{pendingEmail}</strong>. Click it to activate your account — you'll be signed in and taken to your dashboard. Check your spam folder if it isn't there in a minute.
+            </p>
+            <button
+              type="button"
+              onClick={resendConfirmation}
+              disabled={loading}
+              style={{ width: "100%", padding: "13px 16px", background: "#fff", color: "#3434FF", border: "1px solid #3434FF", borderRadius: "10px", fontSize: "14px", fontWeight: 700, cursor: loading ? "not-allowed" : "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+            >
+              {loading && <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />}
+              Resend confirmation email
+            </button>
+            <button
+              type="button"
+              onClick={() => { setPendingEmail(null); setMode("signin"); }}
+              style={{ marginTop: "16px", background: "none", border: "none", color: "#69697B", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}
+            >
+              Back to sign in
+            </button>
+          </div>
+        ) : (<>
         {/* Form */}
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {mode === "signup" && (
@@ -353,6 +406,7 @@ const LearnAuth = () => {
             {mode === "signin" ? "Create an account" : "Sign in"}
           </button>
         </p>
+        </>)}
       </div>
 
       <style>{`

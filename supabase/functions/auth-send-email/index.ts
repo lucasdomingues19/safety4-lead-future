@@ -76,7 +76,7 @@ function build(type: string, link: string, token: string) {
     case "invite":
       return { subject: "You've been invited to SafetyTech Academy", html: layout("You're invited", "You've been invited to join SafetyTech Academy. Accept the invitation to set up your account.", "Accept invitation", link, "If you weren't expecting this, ignore this email.") };
     case "email_change":
-      return { subject: "Confirm your new email address", html: layout("Confirm your new email", "Confirm this address to finish changing the email on your account.", "Confirm new email", link, "If you didn't request this change, contact hello@safetyacademy.tech.") };
+      return { subject: "Confirm your new email address", html: layout("Confirm your new email", "Confirm this address to finish changing the email on your account.", "Confirm new email", link, "If you didn't request this change, contact hello@safetytech.academy.") };
     case "reauthentication":
       return { subject: "Your SafetyTech Academy verification code", html: layout("Verification code", "Enter this code to confirm it's you:", null, null, "If you didn't request this, ignore this email.", token) };
     default:
@@ -109,7 +109,7 @@ serve(async (req) => {
       const { subject, html } = build(d.email_action_type, job.link, job.token);
       const res = await resend.emails.send({
         from: "SafetyTech Academy <hello@safetytech.academy>",
-        reply_to: "hello@safetyacademy.tech",
+        reply_to: "hello@safetytech.academy",
         to: [job.to],
         subject,
         html,
