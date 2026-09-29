@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Loader2, CheckCircle2, Lock, PlayCircle, ArrowLeft, Clock, Award } from "lucide-react";
+import { Loader2, CheckCircle2, Lock, PlayCircle, ArrowLeft, Clock, Award, ClipboardCheck } from "lucide-react";
 import {
   isModuleUnlocked,
   asLessons,
@@ -18,6 +18,7 @@ import {
 } from "@/lib/lms";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
 import { courseOrder, lockedLessonIds } from "@/lib/progress";
+import { getFinalAssessmentStatus, type FinalAssessmentStatus } from "@/lib/finalAssessment";
 
 interface ModuleWithLessons extends Module {
   lessons: Lesson[];
@@ -36,6 +37,7 @@ const CourseView = () => {
   const [quizByModule, setQuizByModule] = useState<Map<string, { title: string; passed: boolean }>>(new Map());
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
+  const [finalStatus, setFinalStatus] = useState<FinalAssessmentStatus | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/learn/auth");
@@ -82,6 +84,9 @@ const CourseView = () => {
         isPreview = true;
       }
       setPreview(isPreview);
+      if ((courseData as Course).final_assessment_ref) {
+        getFinalAssessmentStatus(courseData.id).then(setFinalStatus).catch(() => setFinalStatus(null));
+      }
       setEnrollment((enr ?? null) as Enrollment | null);
 
       const { data: moduleRows } = await supabase
@@ -119,8 +124,8 @@ const CourseView = () => {
         setQuizByModule(new Map((quizRows ?? []).map((q) => [q.module_id, { title: q.title, passed: passed.has(q.id) }])));
       }
 
-      const { data: cert } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseData.title).eq("recipient_email", (user.email ?? "").toLowerCase()).maybeSingle();
-      setCertificateUrl(cert ? `/verify/${cert.certificate_number}` : null);
+      const { data: cert } = await supabase.from("certificates").select("certificate_number, external_url").eq("course_name", courseData.title).eq("recipient_email", (user.email ?? "").toLowerCase()).order("issued_at", { ascending: false }).limit(1).maybeSingle();
+      setCertificateUrl(cert ? cert.external_url ?? `/verify/${cert.certificate_number}` : null);
     } catch (err) {
       console.error(err);
       toast.error("Could not load the course");
@@ -256,6 +261,27 @@ const CourseView = () => {
               </Card>
             </section>
           ))}
+          {finalStatus?.configured && (
+            <section>
+              <h2 className="mb-3 text-lg font-bold text-[#0b0b2c]">Final assessment</h2>
+              <Card className="flex flex-wrap items-center gap-4 rounded-[16px] border-slate-200 bg-white p-5 shadow-sm">
+                {finalStatus.passed ? <Award className="h-7 w-7 shrink-0 text-[#8ab815]" /> : finalStatus.eligible ? <ClipboardCheck className="h-7 w-7 shrink-0 text-primary" /> : <Lock className="h-6 w-6 shrink-0 text-[#94a3b8]" />}
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-bold text-[#0b0b2c]">
+                    {finalStatus.passed ? `Passed · ${Math.round(Number(finalStatus.passed.score ?? 0))}%` : finalStatus.eligible ? "Unlocked — earn your verified certificate" : "Unlocks when you finish every lesson and module quiz"}
+                  </div>
+                  <div className="text-xs text-[#69697b]">Graded and certified securely by Syngraph AI</div>
+                </div>
+                {finalStatus.passed?.credential_url ? (
+                  <a href={finalStatus.passed.credential_url} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-md bg-[#a6e21a] px-4 text-sm font-semibold text-[#0b0b2c]"><Award className="h-4 w-4" /> View certificate</a>
+                ) : finalStatus.eligible ? (
+                  <Button onClick={() => navigate(`/learn/${course.slug}/final-assessment`)} className="h-10 px-4 font-semibold">
+                    {finalStatus.latest?.status === "failed" ? "Try again" : "Start final assessment"}
+                  </Button>
+                ) : null}
+              </Card>
+            </section>
+          )}
         </div>
       </main>
     </div>

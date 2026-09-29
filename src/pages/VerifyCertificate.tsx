@@ -59,6 +59,12 @@ const VerifyCertificate = () => {
         setStatus("notfound");
         return;
       }
+      // Credentials issued through Syngraph are verified (signature and all) on syngraph.ai.
+      const externalUrl = (row as { external_url?: string | null }).external_url;
+      if (externalUrl) {
+        window.location.replace(externalUrl);
+        return;
+      }
       setCert(row as CertificateData);
       setStatus((row as CertificateData).status === "revoked" ? "revoked" : "valid");
       trackInteraction("viewed");

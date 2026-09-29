@@ -68,8 +68,8 @@ const LessonView = () => {
   const locked = useMemo(() => (preview ? new Set<string>() : lockedLessonIds(orderedLessons, completed)), [preview, orderedLessons, completed]);
 
   const loadCertificate = useCallback(async (courseTitle: string) => {
-    const { data } = await supabase.from("certificates").select("certificate_number").eq("course_name", courseTitle).eq("recipient_email", (user?.email ?? "").toLowerCase()).maybeSingle();
-    setCertificateUrl(data ? `${window.location.origin}/verify/${data.certificate_number}` : null);
+    const { data } = await supabase.from("certificates").select("certificate_number, external_url").eq("course_name", courseTitle).eq("recipient_email", (user?.email ?? "").toLowerCase()).order("issued_at", { ascending: false }).limit(1).maybeSingle();
+    setCertificateUrl(data ? data.external_url ?? `${window.location.origin}/verify/${data.certificate_number}` : null);
   }, [user?.email]);
 
   useEffect(() => {
@@ -218,6 +218,7 @@ const LessonView = () => {
     if (!course) return null;
     const { data, error } = await supabase.functions.invoke("issue-self-certificate", { body: { course_id: course.id } });
     if (error || !data || data.error) { console.error("certificate error", error ?? data?.error); return null; }
+    if (data.status === "final_assessment_required") return null;
     if (data.status === "issued" || data.status === "existing") {
       setCertificateUrl(data.verify_url);
       return data.verify_url as string;
@@ -296,6 +297,9 @@ const LessonView = () => {
       if (nextLesson) {
         toast.success("Lesson complete");
         navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`);
+      } else if (allDone && course?.final_assessment_ref) {
+        toast.success("All lessons complete — your final assessment is next");
+        navigate(`/learn/${courseSlug}/final-assessment`);
       } else if (allDone) {
         const url = await tryIssueCertificate();
         toast.success(url ? "Course complete — your certificate is ready!" : "Course complete!");
@@ -526,6 +530,16 @@ const LessonView = () => {
               {moduleFullyDone && !quizPassed && (
                 <button onClick={() => setQuizOpen(true)} style={{ padding: "10px 20px", background: "white", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Take quiz</button>
               )}
+            </div>
+          )}
+
+          {course.final_assessment_ref && !certificateUrl && orderedLessons.every((l) => l.enforce_progress === false || completed.has(l.id)) && (
+            <div style={{ marginTop: "16px", background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)", borderRadius: "16px", padding: "20px", color: "white", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <Award size={26} />
+                <div><div style={{ fontWeight: 700 }}>Final assessment</div><div style={{ fontSize: 13, opacity: 0.85 }}>Pass it to earn your verified certificate.</div></div>
+              </div>
+              <button onClick={() => navigate(`/learn/${courseSlug}/final-assessment`)} style={{ padding: "10px 18px", background: "white", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Go to final assessment</button>
             </div>
           )}
 

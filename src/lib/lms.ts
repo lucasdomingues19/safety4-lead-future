@@ -13,6 +13,8 @@ export interface Course {
   cpd_hours: number | null;
   published: boolean;
   playback_settings?: unknown;
+  /** Syngraph assessment code (ASS-…) for the course final assessment. */
+  final_assessment_ref?: string | null;
   created_at: string;
   updated_at: string;
 }

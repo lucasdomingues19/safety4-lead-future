@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AlertTriangle, ExternalLink, ImagePlus, Loader2, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { Course } from "@/lib/lms";
 import { minWatchPercent } from "@/lib/progress";
+import { listSyngraphAssessments, suggestAssessment, SYNGRAPH_ORIGIN, type SyngraphAssessment } from "@/lib/finalAssessment";
 import { FieldLabel, Section, inputClass } from "./ui";
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -13,6 +14,18 @@ export const SettingsPanel = ({ course, onChange, onDeleted }: { course: Course;
   const paid = (course.price_cents ?? 0) > 0;
   const watchPct = minWatchPercent(course);
   const playback = (course.playback_settings as Record<string, unknown> | null) ?? {};
+
+  // Syngraph assessments available to link as this course's final assessment.
+  const [assessments, setAssessments] = useState<SyngraphAssessment[] | null>(null);
+  const [assessmentsError, setAssessmentsError] = useState<string | null>(null);
+  useEffect(() => {
+    listSyngraphAssessments()
+      .then((r) => setAssessments(r.assessments))
+      .catch((e) => setAssessmentsError(e instanceof Error ? e.message : "Couldn't reach Syngraph"));
+  }, []);
+  const linkedRef = course.final_assessment_ref ?? null;
+  const linked = assessments?.find((a) => a.id === linkedRef || a.code === linkedRef) ?? null;
+  const suggestion = !linkedRef && assessments ? suggestAssessment(course.title, assessments) : null;
 
   const uploadCover = async (file: File) => {
     if (!/^image\/(png|jpeg|webp)$/.test(file.type)) { toast.error("Use a PNG, JPG or WebP image"); return; }
@@ -112,6 +125,50 @@ export const SettingsPanel = ({ course, onChange, onDeleted }: { course: Course;
           <FieldLabel hint="shown on the certificate">CPD hours</FieldLabel>
           <input type="number" min={0} step="0.5" value={course.cpd_hours ?? ""} onChange={(e) => onChange({ cpd_hours: e.target.value ? Number(e.target.value) : null })} className={inputClass} />
         </div>
+      </Section>
+
+      <Section
+        title="Final assessment & certificate"
+        description="Learners take it after finishing every lesson and module quiz. Passing issues a verified certificate through Syngraph AI (instead of the LMS certificate)."
+      >
+        {assessmentsError ? (
+          <p className="flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-[13px] text-amber-800"><AlertTriangle className="h-4 w-4" /> {assessmentsError}</p>
+        ) : !assessments ? (
+          <div className="flex items-center gap-2 text-[13px] text-[#69697b]"><Loader2 className="h-4 w-4 animate-spin" /> Loading your Syngraph assessments…</div>
+        ) : (
+          <div className="space-y-3">
+            {suggestion && (
+              <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[#c7cdf9] bg-[#f5f7ff] p-3.5">
+                <Sparkles className="h-5 w-5 text-[#8ab815]" />
+                <span className="min-w-0 flex-1 text-[13px]">Suggested match: <strong className="text-[#0b0b2c]">{suggestion.title}</strong></span>
+                <button onClick={() => onChange({ final_assessment_ref: suggestion.id })} className="rounded-lg bg-[#3434ff] px-3.5 py-2 text-[13px] font-bold text-white hover:bg-[#2a2ad6]">Link it</button>
+              </div>
+            )}
+            <select
+              value={linked?.id ?? (linkedRef ? "__missing" : "")}
+              onChange={(e) => onChange({ final_assessment_ref: e.target.value || null })}
+              className={inputClass}
+              aria-label="Final assessment"
+            >
+              <option value="">No final assessment — the LMS issues its own certificate</option>
+              {linkedRef && !linked && <option value="__missing" disabled>Linked assessment no longer exists in Syngraph</option>}
+              {assessments.map((a) => (
+                <option key={a.id} value={a.id} disabled={!a.published}>
+                  {a.title} · {a.questionCount} questions · pass {a.passingScore}%{a.published ? "" : " (draft — publish it in Syngraph first)"}
+                </option>
+              ))}
+            </select>
+            {linkedRef && !linked && (
+              <p className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-[13px] text-red-700"><AlertTriangle className="h-4 w-4" /> The linked assessment can't be found in Syngraph. Choose another one.</p>
+            )}
+            {linked && (
+              <div className="flex flex-wrap items-center gap-3 text-[13px] text-[#69697b]">
+                <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-[#16a34a]" /> Linked — learners get the Syngraph certificate when they pass</span>
+                <a href={`${SYNGRAPH_ORIGIN}/assessments/${linked.id}/edit`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-[#3434ff] hover:underline">Edit in Syngraph <ExternalLink className="h-3.5 w-3.5" /></a>
+              </div>
+            )}
+          </div>
+        )}
       </Section>
 
       <Section title="Course link">

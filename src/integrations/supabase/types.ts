@@ -105,6 +105,7 @@ export type Database = {
           created_at: string
           credential_level: string | null
           engaged_at: string | null
+          external_url: string | null
           id: string
           issued_at: string
           issued_by: string | null
@@ -124,6 +125,7 @@ export type Database = {
           created_at?: string
           credential_level?: string | null
           engaged_at?: string | null
+          external_url?: string | null
           id?: string
           issued_at?: string
           issued_by?: string | null
@@ -143,6 +145,7 @@ export type Database = {
           created_at?: string
           credential_level?: string | null
           engaged_at?: string | null
+          external_url?: string | null
           id?: string
           issued_at?: string
           issued_by?: string | null
@@ -322,6 +325,7 @@ export type Database = {
           created_at: string
           currency: string
           description: string | null
+          final_assessment_ref: string | null
           id: string
           playback_settings: Json | null
           price_cents: number
@@ -336,6 +340,7 @@ export type Database = {
           created_at?: string
           currency?: string
           description?: string | null
+          final_assessment_ref?: string | null
           id?: string
           playback_settings?: Json | null
           price_cents?: number
@@ -350,6 +355,7 @@ export type Database = {
           created_at?: string
           currency?: string
           description?: string | null
+          final_assessment_ref?: string | null
           id?: string
           playback_settings?: Json | null
           price_cents?: number
@@ -487,6 +493,59 @@ export type Database = {
           zoom_link?: string | null
         }
         Relationships: []
+      }
+      final_assessment_attempts: {
+        Row: {
+          assessment_ref: string
+          completed_at: string | null
+          course_id: string
+          created_at: string
+          credential_public_id: string | null
+          credential_url: string | null
+          id: string
+          score: number | null
+          status: string
+          syngraph_attempt_id: string | null
+          syngraph_launch_id: string | null
+          user_id: string
+        }
+        Insert: {
+          assessment_ref: string
+          completed_at?: string | null
+          course_id: string
+          created_at?: string
+          credential_public_id?: string | null
+          credential_url?: string | null
+          id?: string
+          score?: number | null
+          status?: string
+          syngraph_attempt_id?: string | null
+          syngraph_launch_id?: string | null
+          user_id: string
+        }
+        Update: {
+          assessment_ref?: string
+          completed_at?: string | null
+          course_id?: string
+          created_at?: string
+          credential_public_id?: string | null
+          credential_url?: string | null
+          id?: string
+          score?: number | null
+          status?: string
+          syngraph_attempt_id?: string | null
+          syngraph_launch_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "final_assessment_attempts_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       leads: {
         Row: {
@@ -1212,6 +1271,7 @@ export type Database = {
           course_name: string
           cpd_hours: number
           credential_level: string
+          external_url: string
           issued_at: string
           recipient_name: string
           revoked_at: string

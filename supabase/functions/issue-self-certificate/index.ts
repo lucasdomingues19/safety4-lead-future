@@ -89,8 +89,11 @@ serve(async (req: Request) => {
     }
     if (!courseId) return json({ error: "course_id is required" }, 400);
 
-    const { data: course } = await db.from("courses").select("id, title, cpd_hours").eq("id", courseId).maybeSingle();
+    const { data: course } = await db.from("courses").select("id, title, cpd_hours, final_assessment_ref").eq("id", courseId).maybeSingle();
     if (!course) return json({ error: "Course not found" }, 404);
+    // Courses with a Syngraph final assessment get the Syngraph credential
+    // instead (issued when the learner passes it — see final-assessment).
+    if (course.final_assessment_ref) return json({ status: "final_assessment_required" });
 
     // Must hold a current, active enrolment.
     const { data: enrolment } = await db

@@ -55,6 +55,7 @@ const ResetPassword = lazy(() => import("./pages/learn/ResetPassword"));
 const LmsInterface = lazy(() => import("./pages/learn/LmsInterface"));
 const CourseView = lazy(() => import("./pages/learn/CourseView"));
 const LessonView = lazy(() => import("./pages/learn/LessonView"));
+const FinalAssessmentView = lazy(() => import("./pages/learn/FinalAssessmentView"));
 const CourseManager = lazy(() => import("./pages/admin/CourseManager"));
 
 // Student platform
@@ -192,6 +193,7 @@ const App = () => (
             <Route path="/learn" element={<ProtectedRoute><LmsInterface /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug" element={<ProtectedRoute><CourseView /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />
+            <Route path="/learn/:courseSlug/final-assessment" element={<ProtectedRoute><FinalAssessmentView /></ProtectedRoute>} />
             <Route path="/admin/courses" element={<CourseManager />} />
             <Route path="/admin/courses/:courseId" element={<CourseManager />} />
 
