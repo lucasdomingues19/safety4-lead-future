@@ -169,7 +169,7 @@ serve(async (req: Request) => {
     const verifyUrl = `${SITE_URL}/verify/${cert.certificate_number}`;
     const emailResponse = await resend.emails.send({
       from: "SafetyTech Academy <hello@safetytech.academy>",
-      reply_to: "hello@safetyacademy.tech",
+      reply_to: "hello@safetytech.academy",
       to: [cert.recipient_email],
       subject: "Your SafetyTech Academy Certificate",
       html: buildEmailHtml(cert, verifyUrl),

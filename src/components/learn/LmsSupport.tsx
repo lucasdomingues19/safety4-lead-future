@@ -1,142 +1,66 @@
 import { useState } from "react";
-import { MessageCircle, HelpCircle, Shield } from "lucide-react";
+import { ChevronDown, HelpCircle, MessageCircle, Shield } from "lucide-react";
 
-interface FAQ {
-  question: string;
-  answer: string;
-}
+const SUPPORT_EMAIL = "hello@safetytech.academy";
+const mailto = (subject: string) => `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}`;
+
+const CHANNELS = [
+  { icon: MessageCircle, title: "Ask about your course", text: "Questions on course content or applying it to your own work.", subject: "Question about my course", cta: "Email us" },
+  { icon: HelpCircle, title: "Technical help", text: "Video not playing, progress not saving, sign-in or access problems.", subject: "Technical issue", cta: "Report an issue" },
+  { icon: Shield, title: "Certificates & CPD", text: "CPD records, IOSH evidence, name corrections or a replacement certificate.", subject: "Certificate or CPD query", cta: "Contact the academy", highlight: true },
+];
+
+// Answers describe how the platform actually works — keep them in step with it.
+const FAQS = [
+  { q: "Why can't I open the next lesson?", a: "Most lessons must be completed in order. Finish the current lesson — for videos that means watching most of it (skipping ahead doesn't count) — then press “Mark complete & continue”. Optional lessons never block you." },
+  { q: "My video progress isn't going up", a: "Progress only counts while the video is actually playing, so keep the lesson tab open while you watch. If it still seems stuck, refresh the page — the time you've already watched is saved." },
+  { q: "How do I get my certificate?", a: "Complete every required lesson and pass each module quiz. Some courses also end with a final assessment; passing it issues a verified digital certificate you can share on LinkedIn. You'll get an email with the link, and it's always available from the course page." },
+  { q: "How long do I have access to a course?", a: "Check Settings → My courses & access: it shows every course on your account and the date your access ends, if there is one." },
+  { q: "Where are my receipts?", a: "Settings → Purchase history lists your payments with a link to each Stripe receipt." },
+  { q: "How do points, levels and badges work?", a: "You earn points for completing lessons, passing quizzes and courses, and helping in the community. Open “How points work” on your dashboard for the full list. You can hide yourself from the leaderboard in Settings." },
+  { q: "What's the difference between the two communities?", a: "SafetyTech Academy is free for every learner. SafetyTech Global Network is our paid members' community — email us to ask about membership." },
+  { q: "How do I change my password or photo?", a: "Go to Settings. You can upload a profile photo, update your name (it's printed on certificates) and change your password there." },
+];
 
 export function LmsSupport() {
-  const [faqs] = useState<FAQ[]>([
-    {
-      question: "Do I need a Microsoft 365 Copilot licence?",
-      answer: "A licence lets you follow the hands-on exercises in your own tenant. Without one you can still complete the course using the recorded demonstrations."
-    },
-    {
-      question: "How long do I have access?",
-      answer: "Twelve months from enrolment, including any content updates released in that period."
-    },
-    {
-      question: "How are my CPD hours recorded?",
-      answer: "Hours accrue as you complete modules and appear on your certificate once the assessment is passed."
-    }
-  ]);
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#eef1f6", color: "#0b0b2c", fontFamily: "'Plus Jakarta Sans', sans-serif", padding: "40px 28px 72px" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#8ab815", marginBottom: "12px" }}>SUPPORT</div>
-        <h1 style={{ margin: "12px 0 0", fontSize: "38px", lineHeight: 1.1, fontWeight: 700, letterSpacing: "-0.01em" }}>How can we help?</h1>
-        <p style={{ margin: "12px 0 0", maxWidth: "680px", fontSize: "17px", lineHeight: 1.7, color: "#69697b" }}>
-          Course questions, technical problems and Copilot licensing queries all go through the same place.
+    <div className="min-h-screen bg-[#eef1f6] px-4 pb-20 pt-10 font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c] md:px-7">
+      <div className="mx-auto max-w-[1100px]">
+        <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">SUPPORT</p>
+        <h1 className="mt-3 text-[38px] font-bold leading-tight">How can we help?</h1>
+        <p className="mt-3 max-w-[680px] text-[17px] leading-relaxed text-[#69697b]">
+          Check the common questions below, or email us at{" "}
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-[#3434ff] hover:underline">{SUPPORT_EMAIL}</a>.
         </p>
 
-        {/* Support Cards */}
-        <div style={{ marginTop: "32px", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "20px" }}>
-          {/* Ask Instructor */}
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: "20px",
-              padding: "26px",
-              transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-4px)";
-              e.currentTarget.style.boxShadow = "0 18px 40px rgba(11,11,44,0.12)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <MessageCircle size={23} color="#3434ff" />
-            </div>
-            <div style={{ marginTop: "20px", fontSize: "19px", fontWeight: 700 }}>Ask the instructor</div>
-            <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.65, color: "#69697b" }}>
-              Course content and applying Copilot to your own work. Replies within two working days.
-            </p>
-            <a href="mailto:hello@safetyacademy.tech?subject=Question%20about%20my%20course" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#3434ff", textDecoration: "none" }}>
-              Start a message →
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {CHANNELS.map(({ icon: Icon, title, text, subject, cta, highlight }) => (
+            <a
+              key={title}
+              href={mailto(subject)}
+              className={`group block rounded-[20px] border p-6 transition hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(11,11,44,0.12)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#3434ff]/20 ${highlight ? "border-[#d9f09a] bg-[#f4fbe4]" : "border-[#e2e8f0] bg-white"}`}
+            >
+              <span className={`flex h-12 w-12 items-center justify-center rounded-full ${highlight ? "bg-[#a6e21a]" : "bg-[#3434ff]/10"}`}>
+                <Icon size={23} className={highlight ? "text-[#0b0b2c]" : "text-[#3434ff]"} />
+              </span>
+              <span className="mt-5 block text-[19px] font-bold">{title}</span>
+              <span className={`mt-2 block text-sm leading-relaxed ${highlight ? "text-[#4a5230]" : "text-[#69697b]"}`}>{text}</span>
+              <span className={`mt-4 inline-block text-sm font-bold ${highlight ? "text-[#5e7f0f]" : "text-[#3434ff]"}`}>{cta} <span className="inline-block transition group-hover:translate-x-1">→</span></span>
             </a>
-          </div>
-
-          {/* Technical Help */}
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #e2e8f0",
-              borderRadius: "20px",
-              padding: "26px",
-              transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-4px)";
-              e.currentTarget.style.boxShadow = "0 18px 40px rgba(11,11,44,0.12)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <HelpCircle size={23} color="#3434ff" />
-            </div>
-            <div style={{ marginTop: "20px", fontSize: "19px", fontWeight: 700 }}>Technical help</div>
-            <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.65, color: "#69697b" }}>
-              Playback, downloads, progress not saving, or access problems.
-            </p>
-            <a href="mailto:hello@safetyacademy.tech?subject=Technical%20issue" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#3434ff", textDecoration: "none" }}>
-              Report an issue →
-            </a>
-          </div>
-
-          {/* Accreditation */}
-          <div
-            style={{
-              background: "#f4fbe4",
-              border: "1px solid #d9f09a",
-              borderRadius: "20px",
-              padding: "26px",
-              transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-4px)";
-              e.currentTarget.style.boxShadow = "0 18px 40px rgba(11,11,44,0.12)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#a6e21a", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Shield size={23} color="#0b0b2c" />
-            </div>
-            <div style={{ marginTop: "20px", fontSize: "19px", fontWeight: 700 }}>Accreditation queries</div>
-            <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.65, color: "#4a5230" }}>
-              CPD records, IOSH evidence, or replacement certificates.
-            </p>
-            <a href="mailto:hello@safetyacademy.tech?subject=Accreditation%20query" style={{ display: "inline-block", marginTop: "16px", fontSize: "14px", fontWeight: 700, color: "#5e7f0f", textDecoration: "none" }}>
-              Contact the academy →
-            </a>
-          </div>
+          ))}
         </div>
 
-        {/* FAQ Section */}
-        <h2 style={{ margin: "44px 0 0", fontSize: "22px", fontWeight: 700 }}>Common questions</h2>
-        <div style={{ marginTop: "20px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden" }}>
-          {faqs.map((faq, idx) => (
-            <div key={idx} style={{ padding: "22px 26px", borderBottom: idx < faqs.length - 1 ? "1px solid #f1f4f8" : "none" }}>
-              <div style={{ fontSize: "16px", fontWeight: 700 }}>{faq.question}</div>
-              <p style={{ margin: "10px 0 0", fontSize: "14px", lineHeight: 1.7, color: "#69697b" }}>
-                {faq.answer}
-              </p>
+        <h2 className="mt-11 text-[22px] font-bold">Common questions</h2>
+        <div className="mt-5 overflow-hidden rounded-[20px] border border-[#e2e8f0] bg-white">
+          {FAQS.map((f, i) => (
+            <div key={f.q} className="border-b border-[#f1f4f8] last:border-0">
+              <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full items-center gap-4 px-6 py-5 text-left hover:bg-[#fafbff]">
+                <span className="flex-1 text-base font-bold">{f.q}</span>
+                <ChevronDown size={18} className={`shrink-0 text-[#94a3b8] transition ${open === i ? "rotate-180" : ""}`} />
+              </button>
+              {open === i && <p className="-mt-1 px-6 pb-5 text-sm leading-relaxed text-[#69697b]">{f.a}</p>}
             </div>
           ))}
         </div>

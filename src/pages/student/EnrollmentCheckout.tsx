@@ -123,7 +123,7 @@ const EnrollmentCheckout = () => {
 
         {confirmError && (
           <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-            {confirmError} If you were charged and don't see the course, email hello@safetyacademy.tech.
+            {confirmError} If you were charged and don't see the course, email hello@safetytech.academy.
           </div>
         )}
 

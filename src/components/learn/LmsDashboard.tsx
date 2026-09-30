@@ -13,6 +13,7 @@ export interface CourseProgress {
   slug: string;
   description: string | null;
   cpdHours: number | null;
+  coverUrl: string | null;
   status: "in_progress" | "completed" | "not_started";
   progressPercent: number;
   totalModules: number;
@@ -31,6 +32,7 @@ interface CatalogCourse {
   price_cents: number | null;
   currency: string;
   cpd_hours: number | null;
+  cover_image_url: string | null;
 }
 
 interface LeaderRow {
@@ -84,7 +86,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
 
       const [enrRes, courseRes, progRes, attemptRes, certRes, myPostsRes, lbRes, postsRes] = await Promise.all([
         supabase.from("enrollments").select("course_id, status, expires_at").eq("user_id", user.id),
-        supabase.from("courses").select("id, title, slug, description, price_cents, currency, cpd_hours").eq("published", true),
+        supabase.from("courses").select("id, title, slug, description, price_cents, currency, cpd_hours, cover_image_url").eq("published", true),
         supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id),
         supabase.from("quiz_attempts").select("score, passed").eq("user_id", user.id),
         supabase.from("certificates").select("id").eq("recipient_email", (user.email ?? "").toLowerCase()),
@@ -128,6 +130,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
           slug: c.slug,
           description: c.description,
           cpdHours: c.cpd_hours,
+          coverUrl: c.cover_image_url ?? null,
           status: done === 0 ? "not_started" : done >= ordered.length && ordered.length > 0 ? "completed" : "in_progress",
           progressPercent: ordered.length ? Math.round((done / ordered.length) * 100) : 0,
           totalModules: modules?.length ?? 0,
@@ -247,11 +250,12 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
               {courses.map((course) => {
                 const badge = statusBadges[course.status];
                 return (
-                  <div key={course.id} style={{ ...card, padding: "26px" }}>
+                  <div key={course.id} style={{ ...card, padding: "26px", overflow: "hidden" }}>
+                    {course.coverUrl && <img src={course.coverUrl} alt="" style={{ display: "block", width: "calc(100% + 52px)", margin: "-26px -26px 20px", aspectRatio: "16/9", objectFit: "cover" }} />}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-                      <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      {!course.coverUrl && <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <BookOpen size={23} color="#3434ff" />
-                      </div>
+                      </div>}
                       <span style={{ background: badge.bg, borderRadius: "999px", padding: "6px 14px", fontSize: "12px", fontWeight: 700, color: badge.fg }}>{badge.text}</span>
                     </div>
                     <div style={{ marginTop: "20px", fontSize: "19px", lineHeight: 1.3, fontWeight: 700 }}>{course.title}</div>
@@ -284,11 +288,12 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
             <h2 style={{ margin: "44px 0 0", fontSize: "22px", fontWeight: 700 }}>Available courses</h2>
             <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
               {catalog.map((c) => (
-                <div key={c.id} style={{ ...card, padding: "26px", display: "flex", flexDirection: "column" }}>
+                <div key={c.id} style={{ ...card, padding: "26px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                  {c.cover_image_url && <img src={c.cover_image_url} alt="" style={{ display: "block", width: "calc(100% + 52px)", margin: "-26px -26px 20px", aspectRatio: "16/9", objectFit: "cover" }} />}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(166,226,26,0.24)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {c.cover_image_url ? <span /> : <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(166,226,26,0.24)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <BookOpen size={23} color="#5e7f0f" />
-                    </div>
+                    </div>}
                     <span style={{ fontSize: "14px", fontWeight: 800, color: "#0b0b2c" }}>{formatPrice(c.price_cents, c.currency)}</span>
                   </div>
                   <div style={{ marginTop: "20px", fontSize: "19px", fontWeight: 700 }}>{c.title}</div>

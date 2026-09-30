@@ -28,7 +28,7 @@ export function LmsAdminEmails() {
 
   const send = async (testOnly: boolean) => {
     if (subject.trim().length < 3 || body.trim().length < 5) { toast.error("Add a subject and a message first"); return; }
-    if (!testOnly && !confirm(`Send this to ${audience === "all" ? "ALL learners" : "everyone enrolled in this course"}? This can't be undone.`)) return;
+    if (!testOnly && !confirm(`Send this to ${audience === "all" ? "ALL learners" : audience === "global-network" ? "all Global Network members" : "everyone enrolled in this course"}? This can't be undone.`)) return;
     setBusy(testOnly ? "test" : "send");
     const { data, error } = await supabase.functions.invoke("admin-send-email", { body: { subject, body, audience, testOnly } });
     setBusy(null);
@@ -42,12 +42,13 @@ export function LmsAdminEmails() {
   return (
     <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gap: 24 }}>
       <div style={panel}>
-        <PanelHeader title="Send an announcement" sub="Delivered from noreply@safetyacademy.tech with a link back to the learning hub." />
+        <PanelHeader title="Send an announcement" sub="Sent from hello@safetytech.academy (replies come to that inbox) with a link back to the learning hub." />
         <div style={{ padding: 28, display: "grid", gap: 16 }}>
           <div>
             <div style={{ fontSize: 12, fontWeight: 700, color: "#69697b", marginBottom: 8 }}>Audience</div>
             <select value={audience} onChange={(e) => setAudience(e.target.value)} style={input}>
               <option value="all">All learners</option>
+              <option value="global-network">SafetyTech Global Network members</option>
               {courses.map((c) => <option key={c.id} value={c.id}>Enrolled in: {c.title}</option>)}
             </select>
           </div>

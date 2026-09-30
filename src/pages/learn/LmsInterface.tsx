@@ -12,7 +12,6 @@ const LmsCommunity = React.lazy(() => import("@/components/learn/LmsCommunity").
 const LmsSettings = React.lazy(() => import("@/components/learn/LmsSettings").then(m => ({ default: m.LmsSettings })));
 const LmsSupport = React.lazy(() => import("@/components/learn/LmsSupport").then(m => ({ default: m.LmsSupport })));
 const LmsAdminOverview = React.lazy(() => import("@/components/learn/admin/LmsAdminOverview").then(m => ({ default: m.LmsAdminOverview })));
-const LmsAdminCourses = React.lazy(() => import("@/components/learn/admin/LmsAdminCourses").then(m => ({ default: m.LmsAdminCourses })));
 const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdminUsers").then(m => ({ default: m.LmsAdminUsers })));
 const LmsAdminAccess = React.lazy(() => import("@/components/learn/admin/LmsAdminAccess").then(m => ({ default: m.LmsAdminAccess })));
 const LmsAdminEmails = React.lazy(() => import("@/components/learn/admin/LmsAdminEmails").then(m => ({ default: m.LmsAdminEmails })));
@@ -140,7 +139,6 @@ export default function LmsInterface() {
       if (screen === "support") return <LmsSupport />;
       if (screen === "admin" && isAdmin) {
         if (adminTab === "overview") return <LmsAdminOverview />;
-        if (adminTab === "courses") return <LmsAdminCourses />;
         if (adminTab === "users") return <LmsAdminUsers />;
         if (adminTab === "access") return <LmsAdminAccess />;
         if (adminTab === "emails") return <LmsAdminEmails />;
@@ -303,8 +301,8 @@ export default function LmsInterface() {
                 <NavButton
                   icon={<BookOpen size={19} />}
                   label="Courses"
-                  active={screen === "admin" && adminTab === "courses"}
-                  onClick={() => handleNavigation("admin:courses")}
+                  active={false}
+                  onClick={() => navigate("/admin/courses")}
                   open={railOpen}
                 />
                 <NavButton
@@ -511,7 +509,7 @@ class ScreenErrorBoundary extends React.Component<{ children: React.ReactNode },
       <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
         <div style={{ textAlign: "center", maxWidth: 480 }}>
           <h2 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px", color: "#0b0b2c" }}>Something went wrong on this page</h2>
-          <p style={{ fontSize: 14, color: "#69697b", margin: 0 }}>Try reloading. If it keeps happening, email hello@safetyacademy.tech.</p>
+          <p style={{ fontSize: 14, color: "#69697b", margin: 0 }}>Try reloading. If it keeps happening, email hello@safetytech.academy.</p>
           <button onClick={() => window.location.reload()} style={{ marginTop: 18, padding: "11px 22px", background: "#3434ff", color: "#fff", border: 0, borderRadius: 8, cursor: "pointer", fontWeight: 700, fontFamily: "inherit" }}>Reload</button>
         </div>
       </div>

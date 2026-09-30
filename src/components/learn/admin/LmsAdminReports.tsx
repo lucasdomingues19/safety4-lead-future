@@ -31,7 +31,7 @@ async function learnerProgress(): Promise<Row[]> {
     const ls = lessonsByCourse.get(e.course_id) ?? [];
     const n = ls.filter((id) => done.get(e.user_id)?.has(id)).length;
     return {
-      Learner: p?.full_name ?? "", Email: p?.email ?? "", Organisation: p?.organisation ?? "", Course: cById.get(e.course_id) ?? "",
+      Learner: p?.full_name ?? "", Email: p?.email ?? "", "Company name": p?.organisation ?? "", Course: cById.get(e.course_id) ?? "",
       Status: e.status, "Lessons completed": n, "Total lessons": ls.length, "Progress %": ls.length ? Math.round((n / ls.length) * 100) : 0,
       Enrolled: e.enrolled_at?.slice(0, 10), Completed: e.completed_at?.slice(0, 10) ?? "",
     };
@@ -74,11 +74,41 @@ async function certificateAudit(): Promise<Row[]> {
   }));
 }
 
+async function finalAssessments(): Promise<Row[]> {
+  const [profiles, courses, attempts] = await Promise.all([
+    supabase.from("profiles").select("id, email, full_name"),
+    supabase.from("courses").select("id, title"),
+    supabase.from("final_assessment_attempts").select("user_id, course_id, status, score, credential_url, created_at, completed_at").order("created_at", { ascending: false }),
+  ]);
+  const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
+  const cById = new Map((courses.data ?? []).map((c) => [c.id, c.title]));
+  return (attempts.data ?? []).map((a) => ({
+    Learner: pById.get(a.user_id)?.full_name ?? "", Email: pById.get(a.user_id)?.email ?? "", Course: cById.get(a.course_id) ?? "",
+    Result: a.status === "launched" ? "Started, not finished" : a.status === "passed" ? "Passed" : "Failed",
+    "Score %": a.score ?? "", Started: a.created_at?.slice(0, 16).replace("T", " "), Completed: a.completed_at?.slice(0, 16).replace("T", " ") ?? "",
+    Certificate: a.credential_url ?? "",
+  }));
+}
+
+async function purchases(): Promise<Row[]> {
+  const [profiles, buys] = await Promise.all([
+    supabase.from("profiles").select("id, email, full_name"),
+    supabase.from("course_purchases").select("user_id, course_title, amount_cents, currency, status, purchased_at, stripe_payment_intent").order("purchased_at", { ascending: false }),
+  ]);
+  const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
+  return (buys.data ?? []).map((b) => ({
+    Date: b.purchased_at?.slice(0, 10), Learner: pById.get(b.user_id)?.full_name ?? "", Email: pById.get(b.user_id)?.email ?? "",
+    Course: b.course_title, Amount: (b.amount_cents / 100).toFixed(2), Currency: b.currency, Status: b.status, "Stripe payment": b.stripe_payment_intent ?? "",
+  }));
+}
+
 const REPORTS = [
   { key: "progress", title: "Learner progress", desc: "Every enrolment with lessons completed and percentage done.", run: learnerProgress },
   { key: "enrol", title: "Enrolments & access", desc: "Who has access to what, when it started and when it expires.", run: enrolments },
   { key: "quiz", title: "Quiz results", desc: "Every quiz attempt with score, pass mark and outcome.", run: quizResults },
   { key: "certs", title: "Certificate audit", desc: "All issued certificates with numbers, CPD hours and status.", run: certificateAudit },
+  { key: "final", title: "Final assessments", desc: "Every Syngraph final assessment attempt with result, score and certificate link.", run: finalAssessments },
+  { key: "purchases", title: "Purchases", desc: "Every course payment with amount, status and Stripe reference.", run: purchases },
 ];
 
 export function LmsAdminReports() {

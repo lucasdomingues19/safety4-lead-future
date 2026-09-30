@@ -41,6 +41,14 @@ serve(async (req) => {
     } else if (!audience || audience === "all") {
       const { data } = await db.from("profiles").select("email");
       emails = (data ?? []).map((p) => p.email);
+    } else if (audience === "global-network") {
+      audienceLabel = "SafetyTech Global Network members";
+      const { data: members } = await db.from("community_memberships").select("user_id, expires_at").eq("space", "global-network").eq("status", "active");
+      const ids = (members ?? []).filter((m) => !m.expires_at || new Date(m.expires_at) > new Date()).map((m) => m.user_id);
+      if (ids.length) {
+        const { data } = await db.from("profiles").select("email").in("id", ids);
+        emails = (data ?? []).map((p) => p.email);
+      }
     } else {
       const { data: course } = await db.from("courses").select("title").eq("id", audience).maybeSingle();
       if (!course) return json({ error: "Course not found" }, 404);
@@ -72,7 +80,7 @@ serve(async (req) => {
       const res = await resend.batch.send(
         chunk.map((to) => ({
           from: "SafetyTech Academy <hello@safetytech.academy>",
-          reply_to: "hello@safetyacademy.tech",
+          reply_to: "hello@safetytech.academy",
           to: [to],
           subject: cleanSubject,
           html,
