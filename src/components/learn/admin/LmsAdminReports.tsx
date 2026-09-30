@@ -93,12 +93,13 @@ async function finalAssessments(): Promise<Row[]> {
 async function purchases(): Promise<Row[]> {
   const [profiles, buys] = await Promise.all([
     supabase.from("profiles").select("id, email, full_name"),
-    supabase.from("course_purchases").select("user_id, course_title, amount_cents, currency, status, purchased_at, stripe_payment_intent").order("purchased_at", { ascending: false }),
+    supabase.from("course_purchases").select("user_id, course_title, amount_cents, currency, status, purchased_at, stripe_payment_intent, customer_name, customer_business, customer_country, customer_vat_id, tax_cents").order("purchased_at", { ascending: false }),
   ]);
   const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
   return (buys.data ?? []).map((b) => ({
     Date: b.purchased_at?.slice(0, 10), Learner: pById.get(b.user_id)?.full_name ?? "", Email: pById.get(b.user_id)?.email ?? "",
-    Course: b.course_title, Amount: (b.amount_cents / 100).toFixed(2), Currency: b.currency, Status: b.status, "Stripe payment": b.stripe_payment_intent ?? "",
+    Course: b.course_title, "Billing name": b.customer_name ?? "", Business: b.customer_business ?? "", Country: b.customer_country ?? "", "VAT number": b.customer_vat_id ?? "",
+    Total: (b.amount_cents / 100).toFixed(2), "of which tax": (b.tax_cents / 100).toFixed(2), Currency: b.currency, Status: b.status, "Stripe payment": b.stripe_payment_intent ?? "",
   }));
 }
 

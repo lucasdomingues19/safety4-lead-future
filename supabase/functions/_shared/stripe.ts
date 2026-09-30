@@ -11,12 +11,14 @@ export async function stripeRequest<T = Record<string, unknown>>(
   method: "GET" | "POST",
   path: string,
   params?: Record<string, string>,
+  opts?: { version?: string },
 ): Promise<T> {
   const url = method === "GET" && params ? `${STRIPE_API}${path}?${new URLSearchParams(params)}` : `${STRIPE_API}${path}`;
   const res = await fetch(url, {
     method,
     headers: {
       Authorization: `Bearer ${stripeKey()}`,
+      ...(opts?.version ? { "Stripe-Version": opts.version } : {}),
       ...(method === "POST" ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
     },
     body: method === "POST" && params ? new URLSearchParams(params) : undefined,

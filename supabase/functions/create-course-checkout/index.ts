@@ -40,7 +40,11 @@ serve(async (req) => {
       return json({ alreadyEnrolled: true, slug: course.slug });
     }
 
-    const session = await stripeRequest<{ id: string; url: string }>("POST", "/checkout/sessions", {
+    // Sales tax: off until Stripe Tax is set up. STRIPE_TAX_MODE = "inclusive" (prices already
+    // include VAT) or "exclusive" (VAT is added on top) switches on automatic calculation.
+    const taxMode = ["inclusive", "exclusive"].includes(Deno.env.get("STRIPE_TAX_MODE") ?? "") ? Deno.env.get("STRIPE_TAX_MODE")! : null;
+
+    const base: Record<string, string> = {
       mode: "payment",
       customer_email: user.email,
       client_reference_id: user.id,
@@ -56,7 +60,39 @@ serve(async (req) => {
       "payment_intent_data[description]": `Course: ${course.title}`,
       success_url: `${SITE_URL}/student/checkout/${course.id}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/student/checkout/${course.id}?cancelled=1`,
-    });
+    };
+
+    // What Kajabi-style checkouts collect: full name (or a business name), billing
+    // address, phone, VAT number for businesses, promo codes and a proper invoice.
+    const rich: Record<string, string> = {
+      ...base,
+      customer_creation: "always",
+      billing_address_collection: "required",
+      "phone_number_collection[enabled]": "true",
+      "name_collection[individual][enabled]": "true",
+      "name_collection[business][enabled]": "true",
+      "name_collection[business][optional]": "true",
+      "tax_id_collection[enabled]": "true",
+      allow_promotion_codes: "true",
+      "invoice_creation[enabled]": "true",
+      "invoice_creation[invoice_data][description]": `Online course: ${course.title}`,
+      "custom_text[submit][message]": "You get instant access to your course as soon as the payment goes through.",
+      ...(taxMode ? { "automatic_tax[enabled]": "true", "line_items[0][price_data][tax_behavior]": taxMode } : {}),
+    };
+
+    // Stripe's account API version predates some of these fields, so pin a current one.
+    let session: { id: string; url: string };
+    try {
+      session = await stripeRequest<{ id: string; url: string }>("POST", "/checkout/sessions", rich, { version: "2025-11-17.clover" });
+    } catch (richErr) {
+      // Never lose a sale over a nice-to-have field (e.g. a key permission): fall back to a plainer
+      // checkout — but never one that skips tax when tax is switched on.
+      console.error("rich checkout failed, falling back:", (richErr as Error).message);
+      const plain: Record<string, string> = taxMode
+        ? { ...base, billing_address_collection: "required", "automatic_tax[enabled]": "true", "line_items[0][price_data][tax_behavior]": taxMode }
+        : base;
+      session = await stripeRequest<{ id: string; url: string }>("POST", "/checkout/sessions", plain);
+    }
 
     return json({ url: session.url });
   } catch (e) {

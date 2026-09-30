@@ -443,12 +443,17 @@ export type Database = {
           course_id: string | null
           course_title: string
           currency: string
+          customer_business: string | null
+          customer_country: string | null
+          customer_name: string | null
+          customer_vat_id: string | null
           id: string
           purchased_at: string
           receipt_url: string | null
           status: string
           stripe_payment_intent: string | null
           stripe_session_id: string
+          tax_cents: number
           user_id: string
         }
         Insert: {
@@ -456,12 +461,17 @@ export type Database = {
           course_id?: string | null
           course_title: string
           currency: string
+          customer_business?: string | null
+          customer_country?: string | null
+          customer_name?: string | null
+          customer_vat_id?: string | null
           id?: string
           purchased_at?: string
           receipt_url?: string | null
           status?: string
           stripe_payment_intent?: string | null
           stripe_session_id: string
+          tax_cents?: number
           user_id: string
         }
         Update: {
@@ -469,12 +479,17 @@ export type Database = {
           course_id?: string | null
           course_title?: string
           currency?: string
+          customer_business?: string | null
+          customer_country?: string | null
+          customer_name?: string | null
+          customer_vat_id?: string | null
           id?: string
           purchased_at?: string
           receipt_url?: string | null
           status?: string
           stripe_payment_intent?: string | null
           stripe_session_id?: string
+          tax_cents?: number
           user_id?: string
         }
         Relationships: [
