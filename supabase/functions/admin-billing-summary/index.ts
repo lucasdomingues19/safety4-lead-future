@@ -62,7 +62,7 @@ serve(async (req) => {
     const sum = (rows: typeof paid) => rows.reduce((t, c) => t + c.amount - c.refunded, 0);
 
     return json({
-      live: String(key).startsWith("sk_live"),
+      live: /^(sk|rk)_live_/.test(String(key)),
       charges,
       totals: { last30Days: sum(last30), allShown: sum(paid), paymentsLast30Days: last30.length },
       currency: paid[0]?.currency ?? "GBP",
