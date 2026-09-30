@@ -18,7 +18,7 @@ import {
 } from "@/lib/lms";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
 import { courseOrder, lockedLessonIds } from "@/lib/progress";
-import { getFinalAssessmentStatus, type FinalAssessmentStatus } from "@/lib/finalAssessment";
+import { getFinalAssessmentStatus, attemptsLeftLabel, type FinalAssessmentStatus } from "@/lib/finalAssessment";
 
 interface ModuleWithLessons extends Module {
   lessons: Lesson[];
@@ -268,13 +268,13 @@ const CourseView = () => {
                 {finalStatus.passed ? <Award className="h-7 w-7 shrink-0 text-[#8ab815]" /> : finalStatus.eligible ? <ClipboardCheck className="h-7 w-7 shrink-0 text-primary" /> : <Lock className="h-6 w-6 shrink-0 text-[#94a3b8]" />}
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-bold text-[#0b0b2c]">
-                    {finalStatus.passed ? `Passed · ${Math.round(Number(finalStatus.passed.score ?? 0))}%` : finalStatus.eligible ? "Unlocked — earn your verified certificate" : "Unlocks when you finish every lesson and module quiz"}
+                    {finalStatus.passed ? `Passed · ${Math.round(Number(finalStatus.passed.score ?? 0))}%` : finalStatus.can_attempt === false ? "No attempts left — contact hello@safetytech.academy" : finalStatus.eligible ? "Unlocked — earn your verified certificate" : "Unlocks when you finish every lesson and module quiz"}
                   </div>
-                  <div className="text-xs text-[#69697b]">Graded and certified securely by Syngraph AI</div>
+                  <div className="text-xs text-[#69697b]">Graded and certified securely by Syngraph AI{!finalStatus.passed && finalStatus.can_attempt !== false && attemptsLeftLabel(finalStatus) ? ` · ${attemptsLeftLabel(finalStatus)}` : ""}</div>
                 </div>
                 {finalStatus.passed?.credential_url ? (
                   <a href={finalStatus.passed.credential_url} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-md bg-[#a6e21a] px-4 text-sm font-semibold text-[#0b0b2c]"><Award className="h-4 w-4" /> View certificate</a>
-                ) : finalStatus.eligible ? (
+                ) : finalStatus.eligible && finalStatus.can_attempt !== false ? (
                   <Button onClick={() => navigate(`/learn/${course.slug}/final-assessment`)} className="h-10 px-4 font-semibold">
                     {finalStatus.latest?.status === "failed" ? "Try again" : "Start final assessment"}
                   </Button>

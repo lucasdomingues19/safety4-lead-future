@@ -82,10 +82,55 @@ export async function finalAssessmentEligibility(db: any, userId: string, course
   return { eligible: missingLessons === 0 && missingQuizzes === 0, missingLessons, missingQuizzes };
 }
 
+const esc = (t: string) => String(t ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]!));
+
+/** Branded "you passed" email with the Syngraph certificate link. Never throws. */
+async function sendCongratulationsEmail(p: { to: string; name: string; course: string; score: number | null; verifyUrl: string; cpdHours: number | null }) {
+  const key = Deno.env.get("RESEND_API_KEY");
+  if (!key || !p.to) return;
+  const first = esc(p.name.split(" ")[0] || p.name);
+  const linkedIn = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(p.course)}&organizationName=${encodeURIComponent("SafetyTech Academy")}&certUrl=${encodeURIComponent(p.verifyUrl)}`;
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:28px 0;"><tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:14px;overflow:hidden;">
+<tr><td style="background:#202058;padding:30px 36px;text-align:center;"><p style="margin:0;color:#9eff1f;font-size:12px;letter-spacing:3px;text-transform:uppercase;">SafetyTech Academy</p></td></tr>
+<tr><td style="padding:34px 40px 8px;color:#1e293b;font-size:15px;line-height:1.7;">
+<h1 style="margin:0 0 16px;font-size:24px;color:#0b0b2c;">Congratulations, ${first}!</h1>
+<p style="margin:0 0 14px;">You've passed the final assessment for <strong>${esc(p.course)}</strong>${p.score !== null ? ` with a score of <strong>${Math.round(p.score)}%</strong>` : ""}.</p>
+<p style="margin:0 0 14px;">Your certificate has been issued as a verified digital credential. It's signed and tamper-proof, so anyone — an employer, a client or IOSH — can check it's genuine${p.cpdHours ? `. It records <strong>${p.cpdHours} CPD hours</strong>` : ""}.</p>
+<p style="margin:0;">Share it on LinkedIn and tag SafetyTech Academy — we'd love to celebrate with you.</p>
+</td></tr>
+<tr><td style="padding:24px 40px 8px;text-align:center;">
+<a href="${esc(p.verifyUrl)}" style="display:inline-block;background:#3434ff;color:#ffffff;padding:14px 30px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">View my certificate</a>
+</td></tr>
+<tr><td style="padding:8px 40px 30px;text-align:center;"><a href="${esc(linkedIn)}" style="color:#3434ff;font-size:14px;font-weight:700;text-decoration:none;">Add to LinkedIn →</a></td></tr>
+<tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;"><p style="margin:0;color:#94a3b8;font-size:11px;">SafetyTech Academy · IOSH approved training provider · Certificate verified by Syngraph AI</p></td></tr>
+</table></td></tr></table></body></html>`;
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: "SafetyTech Academy <hello@safetytech.academy>",
+        reply_to: "hello@safetytech.academy",
+        to: [p.to],
+        subject: `You passed! Your ${p.course} certificate is ready`,
+        html,
+      }),
+    });
+    if (!res.ok) console.error("congratulations email failed", res.status, await res.text());
+  } catch (e) {
+    console.error("congratulations email error", (e as Error).message);
+  }
+}
+
 /**
- * Record a Syngraph result against our attempt row (idempotent). On a pass:
- * mark the enrolment complete and mirror the credential into `certificates`
- * so dashboards, CPD totals and reports pick it up.
+ * Record a Syngraph result against our attempt row. Only the call that moves
+ * the row out of "launched" has side effects, so the callback and a browser
+ * sync arriving together can't double-send the email. On a pass: mark the
+ * enrolment complete, mirror the credential into `certificates` (dashboards,
+ * CPD totals, reports) and send the congratulations email.
  */
 export async function applyAttemptResult(db: any, row: any, attempt: SyngraphAttempt) {
   if (!attempt.completed || attempt.launchId !== row.syngraph_launch_id) return row;
@@ -98,7 +143,11 @@ export async function applyAttemptResult(db: any, row: any, attempt: SyngraphAtt
     credential_public_id: attempt.credential?.publicId ?? null,
     credential_url: attempt.credential?.verifyUrl ?? null,
   };
-  const { data: updated } = await db.from("final_assessment_attempts").update(patch).eq("id", row.id).select("*").single();
+  const { data: updated } = await db.from("final_assessment_attempts").update(patch).eq("id", row.id).eq("status", "launched").select("*").maybeSingle();
+  if (!updated) {
+    const { data: current } = await db.from("final_assessment_attempts").select("*").eq("id", row.id).maybeSingle();
+    return current ?? row;
+  }
 
   if (passed) {
     await db.from("enrollments").update({ completed_at: patch.completed_at }).eq("user_id", row.user_id).eq("course_id", row.course_id).is("completed_at", null);
@@ -121,7 +170,16 @@ export async function applyAttemptResult(db: any, row: any, attempt: SyngraphAtt
         issued_at: attempt.credential.issuedAt ?? patch.completed_at,
         external_url: attempt.credential.verifyUrl,
       }, { onConflict: "certificate_number", ignoreDuplicates: true });
+
+      await sendCongratulationsEmail({
+        to: email,
+        name,
+        course: course?.title ?? attempt.assessmentTitle,
+        score: attempt.score,
+        verifyUrl: attempt.credential.verifyUrl,
+        cpdHours: course?.cpd_hours ?? null,
+      });
     }
   }
-  return updated ?? { ...row, ...patch };
+  return updated;
 }

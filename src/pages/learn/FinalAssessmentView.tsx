@@ -9,6 +9,7 @@ import {
   getFinalAssessmentStatus,
   launchFinalAssessment,
   syncFinalAttempt,
+  attemptsLeftLabel,
   type FinalAssessmentStatus,
   type FinalAttempt,
 } from "@/lib/finalAssessment";
@@ -157,14 +158,16 @@ const FinalAssessmentView = () => {
         <p style={{ margin: "0 auto", color: "#69697b", maxWidth: "520px", lineHeight: 1.6 }}>
           {passed
             ? "Your verified certificate has been issued. It's signed, tamper-proof and can be checked by anyone — add it to your LinkedIn profile."
-            : "Review the course material and try again whenever you're ready."}
+            : status.can_attempt === false
+              ? "You've used all your attempts for this assessment. Contact hello@safetytech.academy and we'll help you with next steps."
+              : `Review the course material and try again whenever you're ready.${attemptsLeftLabel(status) ? ` You have ${attemptsLeftLabel(status)}.` : ""}`}
         </p>
         {result.score !== null && <div style={{ marginTop: "18px", fontSize: "40px", fontWeight: 800, color: passed ? "#16a34a" : "#0b0b2c" }}>{Math.round(Number(result.score))}%</div>}
         <div style={{ marginTop: "26px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
           {passed && result.credential_url && (
             <a href={result.credential_url} target="_blank" rel="noopener noreferrer" style={primaryBtn}><Award size={18} /> View my certificate <ExternalLink size={14} /></a>
           )}
-          {!passed && <button onClick={start} disabled={starting} style={{ ...primaryBtn, opacity: starting ? 0.7 : 1 }}>{starting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Try again</button>}
+          {!passed && status.can_attempt !== false && <button onClick={start} disabled={starting} style={{ ...primaryBtn, opacity: starting ? 0.7 : 1 }}>{starting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Try again</button>}
           <Link to={`/learn/${courseSlug}`} style={{ ...primaryBtn, background: "white", color: "#0b0b2c", border: "1px solid #e2e8f0" }}>Back to course</Link>
         </div>
       </div>,
@@ -172,24 +175,32 @@ const FinalAssessmentView = () => {
   }
 
   // Overview
-  const locked = !status.eligible;
+  const outOfAttempts = status.can_attempt === false && !status.passed;
+  const locked = !status.eligible || outOfAttempts;
   const last = status.latest && status.latest.status === "failed" ? status.latest : null;
   return shell(
     <div style={card}>
       <div style={{ width: "72px", height: "72px", borderRadius: "50%", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", background: locked ? "#f1f5f9" : "#f1f4ff" }}>
         {locked ? <Lock size={30} color="#94a3b8" /> : <ClipboardCheck size={32} color="#3434ff" />}
       </div>
-      <h2 style={{ margin: "20px 0 8px", fontSize: "26px" }}>{locked ? "Final assessment locked" : "Ready for your final assessment?"}</h2>
+      <h2 style={{ margin: "20px 0 8px", fontSize: "26px" }}>{outOfAttempts ? "No attempts left" : locked ? "Final assessment locked" : "Ready for your final assessment?"}</h2>
       <p style={{ margin: "0 auto", color: "#69697b", maxWidth: "540px", lineHeight: 1.6 }}>
-        {locked
+        {outOfAttempts
+          ? "You've used all your attempts for this assessment. Contact hello@safetytech.academy and we'll help you with next steps."
+          : locked
           ? `Finish ${[status.missing_lessons ? `${status.missing_lessons} more ${status.missing_lessons === 1 ? "lesson" : "lessons"}` : "", status.missing_quizzes ? `${status.missing_quizzes} module ${status.missing_quizzes === 1 ? "quiz" : "quizzes"}` : ""].filter(Boolean).join(" and ")} to unlock it.`
           : "Pass it to earn your verified SafetyTech Academy certificate. Set aside uninterrupted time — once you start, complete it in one sitting."}
       </p>
       {status.preview && <p style={{ margin: "14px auto 0", fontSize: "13px", color: "#7a4b00", background: "#fff7e6", border: "1px solid #f5d9a8", borderRadius: "10px", padding: "8px 12px", display: "inline-block" }}>Admin preview — you're not enrolled, but you can open the assessment.</p>}
-      {last && <p style={{ margin: "14px 0 0", fontSize: "14px", color: "#69697b" }}>Your last attempt: <strong style={{ color: "#0b0b2c" }}>{Math.round(Number(last.score ?? 0))}%</strong></p>}
+      {(last || (!locked && attemptsLeftLabel(status))) && (
+        <p style={{ margin: "14px 0 0", fontSize: "14px", color: "#69697b" }}>
+          {last && <>Your last attempt: <strong style={{ color: "#0b0b2c" }}>{Math.round(Number(last.score ?? 0))}%</strong>{attemptsLeftLabel(status) ? " · " : ""}</>}
+          {!outOfAttempts && attemptsLeftLabel(status)}
+        </p>
+      )}
       <div style={{ marginTop: "26px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
         {locked ? (
-          <Link to={`/learn/${courseSlug}`} style={primaryBtn}>Continue the course</Link>
+          <Link to={`/learn/${courseSlug}`} style={primaryBtn}>{outOfAttempts ? "Back to course" : "Continue the course"}</Link>
         ) : (
           <button onClick={start} disabled={starting} style={{ ...primaryBtn, opacity: starting ? 0.7 : 1 }}>
             {starting ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={18} />} {last ? "Try again" : "Start final assessment"}

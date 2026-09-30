@@ -21,7 +21,19 @@ export interface FinalAssessmentStatus {
   latest?: FinalAttempt | null;
   passed?: FinalAttempt | null;
   attempts?: number;
+  /** Retake rules from Syngraph (null max = unlimited). */
+  attempts_used?: number | null;
+  max_attempts?: number | null;
+  can_attempt?: boolean;
+  block_reason?: "already_passed" | "no_attempts_left" | "retry_not_allowed" | null;
 }
+
+/** "2 attempts left" / "1 attempt left" / null when unlimited. */
+export const attemptsLeftLabel = (s: FinalAssessmentStatus | null | undefined) => {
+  if (!s?.max_attempts || s.attempts_used == null) return null;
+  const left = Math.max(0, s.max_attempts - s.attempts_used);
+  return `${left} ${left === 1 ? "attempt" : "attempts"} left`;
+};
 
 const invoke = async <T,>(body: Record<string, unknown>): Promise<T> => {
   const { data, error } = await supabase.functions.invoke("final-assessment", { body });

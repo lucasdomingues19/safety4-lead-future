@@ -80,7 +80,20 @@ serve(async (req: Request) => {
     const passedRow = latest?.status === "passed" ? latest : (rows ?? []).find((r: any) => r.status === "passed") ?? null;
 
     if (body.action === "status") {
+      // Retake rules live in Syngraph; ask it whether another attempt is allowed.
+      let allowance: { allowed: boolean; attemptsUsed: number; maxAttempts: number | null; reason: string | null } | null = null;
+      if (!passedRow && user.email) {
+        try {
+          allowance = await callSyngraph("api-create-launch", { assessmentId: course.final_assessment_ref, learner: { email: user.email }, dryRun: true });
+        } catch (e) {
+          console.warn("allowance check failed", (e as Error).message);
+        }
+      }
       return json({
+        attempts_used: allowance?.attemptsUsed ?? null,
+        max_attempts: allowance?.maxAttempts ?? null,
+        can_attempt: allowance ? allowance.allowed : true,
+        block_reason: allowance?.reason ?? null,
         configured: true,
         preview: !enrolled && isAdmin,
         eligible: eligibility.eligible || isAdmin,
@@ -121,7 +134,10 @@ serve(async (req: Request) => {
       } catch (e) {
         await db.from("final_assessment_attempts").delete().eq("id", row.id);
         console.error("launch failed", (e as Error).message);
-        return json({ error: isAdmin ? `Syngraph: ${(e as Error).message}` : "The assessment couldn't be opened. Please try again shortly." }, 502);
+        const msg = (e as Error).message;
+        // Retake limits come back from Syngraph as plain-language messages.
+        if (/attempts have been used|only be taken once|already passed/i.test(msg)) return json({ error: msg }, 409);
+        return json({ error: isAdmin ? `Syngraph: ${msg}` : "The assessment couldn't be opened. Please try again shortly." }, 502);
       }
     }
 
