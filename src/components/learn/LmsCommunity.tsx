@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { Film, Globe2, GraduationCap, ImagePlus, Loader2, Lock, MessageCircle, MoreHorizontal, Pin, PinOff, Send, SmilePlus, Trash2, X } from "lucide-react";
+import { CalendarDays, Film, Globe2, GraduationCap, ImagePlus, Loader2, Lock, MessageCircle, MoreHorizontal, Pin, PinOff, Send, SmilePlus, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { LmsContext } from "@/pages/learn/LmsInterface";
@@ -8,6 +8,8 @@ import { toEmbedUrl } from "@/lib/lms";
 import { EmojiPicker, insertAtCaret } from "./EmojiPicker";
 import { LevelChip, NetworkChip } from "./Gamification";
 import { CommunitySidebar } from "./CommunitySidebar";
+import { EventDialog, EventEditor, EventsPanel, LiveBanner, UpcomingEventsCard, useCommunityEvents } from "./CommunityEvents";
+import type { CommunityEvent } from "@/lib/events";
 import { getMemberBadges, type MemberBadge } from "@/lib/gamification";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -126,11 +128,19 @@ export function LmsCommunity() {
   const switchSpace = (id: SpaceId) => {
     setSpace(id);
     setFilter("all");
+    setView("feed");
     setOpenThread(null);
     try { localStorage.setItem(SPACE_KEY, id); } catch { /* private mode */ }
   };
   const spaceInfo = SPACES.find((x) => x.id === space)!;
   const locked = space === "global-network" && networkAccess === false;
+
+  // Live events (Zoom sessions): list, RSVP, watch page and the admin editor.
+  const [view, setView] = useState<"feed" | "events">("feed");
+  const ev = useCommunityEvents(space, user?.id);
+  const [openEventId, setOpenEventId] = useState<string | null>(null);
+  const [editingEvent, setEditingEvent] = useState<{ event: CommunityEvent | null } | null>(null);
+  const openEvent = ev.events?.find((x) => x.id === openEventId) ?? null;
 
   // composer
   const [draft, setDraft] = useState("");
@@ -330,10 +340,14 @@ export function LmsCommunity() {
           </nav>
           {!locked && (
             <>
-              <p className="mt-7 text-xs font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Topics</p>
+              <button onClick={() => setView(view === "events" ? "feed" : "events")} className={`mt-5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] font-bold transition ${view === "events" ? "bg-[#0b0b2c] text-white" : "bg-white text-[#0b0b2c] hover:bg-[#f7f8ff]"}`}>
+                <CalendarDays size={18} className={view === "events" ? "text-[#9eff1f]" : "text-[#3434ff]"} /> Events
+                {ev.live.length > 0 ? <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#e11d48] px-2 py-0.5 text-[10px] font-extrabold uppercase text-white"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live</span> : ev.upcoming.length > 0 ? <span className={`ml-auto rounded-full px-2 py-0.5 text-[11px] font-bold ${view === "events" ? "bg-white/20" : "bg-[#f1f4ff] text-[#3434ff]"}`}>{ev.upcoming.length}</span> : null}
+              </button>
+              <p className="mt-6 text-xs font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Topics</p>
               <nav className="mt-2 space-y-0.5" aria-label="Topics">
                 {[{ id: "all" as const, label: "All posts", emoji: "✨" }, ...TOPICS].map((t) => (
-                  <button key={t.id} onClick={() => setFilter(t.id)} className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13.5px] font-semibold transition ${filter === t.id ? "bg-white text-[#0b0b2c] shadow-sm" : "text-[#69697b] hover:bg-white/60 hover:text-[#0b0b2c]"}`}>
+                  <button key={t.id} onClick={() => { setFilter(t.id); setView("feed"); }} className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13.5px] font-semibold transition ${view === "feed" && filter === t.id ? "bg-white text-[#0b0b2c] shadow-sm" : "text-[#69697b] hover:bg-white/60 hover:text-[#0b0b2c]"}`}>
                     <span aria-hidden>{t.emoji}</span> {t.label}
                     <span className="ml-auto text-[11px] text-[#94a3b8]">{t.id === "all" ? posts.length : posts.filter((p) => p.topic === t.id).length || ""}</span>
                   </button>
@@ -371,6 +385,16 @@ export function LmsCommunity() {
           })}
         </div>
 
+        {!locked && (
+          <div className="mt-3 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5 lg:hidden">
+            {(["feed", "events"] as const).map((v) => (
+              <button key={v} onClick={() => setView(v)} className={`rounded-xl px-3 py-2 text-[13.5px] font-bold capitalize transition ${view === v ? "bg-[#0b0b2c] text-white" : "text-[#69697b]"}`}>
+                {v === "events" ? `Events${ev.live.length ? " · Live" : ev.upcoming.length ? ` (${ev.upcoming.length})` : ""}` : "Feed"}
+              </button>
+            ))}
+          </div>
+        )}
+
         <h1 className="mt-6 text-[34px] font-bold leading-tight md:text-[38px] lg:mt-0">{spaceInfo.title}</h1>
         <p className="mt-3 text-base leading-relaxed text-[#69697b]">{spaceInfo.intro}</p>
 
@@ -388,6 +412,13 @@ export function LmsCommunity() {
               Ask about membership
             </a>
           </div>
+        ) : (<>
+        <div className="mt-6"><LiveBanner events={ev.live} onOpen={(e) => setOpenEventId(e.id)} /></div>
+        {view === "events" ? (
+          <EventsPanel
+            upcoming={ev.upcoming} past={ev.past} live={ev.live} going={ev.going} mine={ev.mine} isAdmin={isAdmin}
+            onOpen={(e) => setOpenEventId(e.id)} onAdd={() => setEditingEvent({ event: null })} onToggleRsvp={ev.toggleRsvp}
+          />
         ) : (<>
 
         {/* Composer */}
@@ -599,16 +630,44 @@ export function LmsCommunity() {
         )}
 
         </>)}
+        </>)}
 
         <CommunityGuidelines open={guidelinesOpen} onToggle={() => setGuidelinesOpen((o) => !o)} />
         </main>
 
         {/* Right column: highlights + top contributors */}
         <aside className="lg:col-span-2 xl:sticky xl:top-6 xl:col-span-1 xl:self-start">
+          {!locked && (
+            <div className="mb-4">
+              <UpcomingEventsCard
+                upcoming={ev.upcoming} going={ev.going} mine={ev.mine} isAdmin={isAdmin}
+                onOpen={(e) => setOpenEventId(e.id)} onAdd={() => setEditingEvent({ event: null })} onSeeAll={() => setView("events")}
+              />
+            </div>
+          )}
           <CommunitySidebar space={space} isAdmin={isAdmin} />
         </aside>
       </div>
 
+      {openEvent && (
+        <EventDialog
+          event={openEvent} now={ev.now} going={ev.going[openEvent.id] ?? 0} isGoing={ev.mine.has(openEvent.id)} isAdmin={isAdmin}
+          onClose={() => setOpenEventId(null)} onToggleRsvp={() => ev.toggleRsvp(openEvent)}
+          onEdit={() => setEditingEvent({ event: openEvent })} onChanged={ev.reload}
+          onDiscuss={() => {
+            setOpenEventId(null); setView("feed"); setFilter("all");
+            setDraft(`💬 ${openEvent.title}\n\n`);
+            requestAnimationFrame(() => { draftRef.current?.focus(); draftRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); });
+          }}
+        />
+      )}
+      {editingEvent && (
+        <EventEditor
+          initial={editingEvent.event} space={space} authorName={displayName()}
+          onClose={() => setEditingEvent(null)}
+          onSaved={() => { setEditingEvent(null); ev.reload(); if (editingEvent.event === null) load(); }}
+        />
+      )}
       {lightbox && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4" onClick={() => setLightbox(null)} role="dialog" aria-label="Photo">
           <img src={lightbox} alt="" className="max-h-full max-w-full rounded-lg object-contain" />

@@ -268,6 +268,80 @@ export type Database = {
           },
         ]
       }
+      community_event_rsvps: {
+        Row: {
+          created_at: string
+          event_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_event_rsvps_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "community_events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_events: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          ends_at: string
+          id: string
+          image_url: string | null
+          join_url: string | null
+          live_now: boolean
+          replay_url: string | null
+          space: string
+          starts_at: string
+          stream_url: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at: string
+          id?: string
+          image_url?: string | null
+          join_url?: string | null
+          live_now?: boolean
+          replay_url?: string | null
+          space?: string
+          starts_at: string
+          stream_url?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          ends_at?: string
+          id?: string
+          image_url?: string | null
+          join_url?: string | null
+          live_now?: boolean
+          replay_url?: string | null
+          space?: string
+          starts_at?: string
+          stream_url?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       community_highlights: {
         Row: {
           body: string | null
@@ -1460,6 +1534,13 @@ export type Database = {
       course_of_lesson: { Args: { _lesson_id: string }; Returns: string }
       course_of_module: { Args: { _module_id: string }; Returns: string }
       course_of_quiz: { Args: { _quiz_id: string }; Returns: string }
+      event_rsvp_counts: {
+        Args: { _ids: string[] }
+        Returns: {
+          event_id: string
+          going: number
+        }[]
+      }
       get_leaderboard: {
         Args: { _limit?: number }
         Returns: {
