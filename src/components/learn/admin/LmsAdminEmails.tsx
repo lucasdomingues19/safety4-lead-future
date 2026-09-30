@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { invokeFunction } from "@/lib/invoke";
 import { PanelHeader, Spinner, adminFont, ghostBtn, input, panel, primaryBtn } from "./adminUi";
 
 interface Campaign { id: string; subject: string; audience: string; recipient_count: number; failed_count: number; sent_at: string }
@@ -30,9 +31,15 @@ export function LmsAdminEmails() {
     if (subject.trim().length < 3 || body.trim().length < 5) { toast.error("Add a subject and a message first"); return; }
     if (!testOnly && !confirm(`Send this to ${audience === "all" ? "ALL learners" : audience === "global-network" ? "all Global Network members" : "everyone enrolled in this course"}? This can't be undone.`)) return;
     setBusy(testOnly ? "test" : "send");
-    const { data, error } = await supabase.functions.invoke("admin-send-email", { body: { subject, body, audience, testOnly } });
+    let data: { sent: number; failed: number };
+    try {
+      data = await invokeFunction("admin-send-email", { subject, body, audience, testOnly });
+    } catch (e) {
+      setBusy(null);
+      toast.error(e instanceof Error ? e.message : "Could not send");
+      return;
+    }
     setBusy(null);
-    if (error || data?.error) { toast.error(data?.error ?? "Could not send"); return; }
     toast.success(testOnly ? "Test email sent to you" : `Sent to ${data.sent} learner${data.sent === 1 ? "" : "s"}${data.failed ? ` (${data.failed} failed)` : ""}`);
     if (!testOnly) { setSubject(""); setBody(""); load(); }
   };

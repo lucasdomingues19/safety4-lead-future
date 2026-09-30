@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { invokeFunction } from "@/lib/invoke";
 import { Kpi, PanelHeader, Spinner, adminFont, panel, ghostBtn } from "./adminUi";
 
 interface Charge { id: string; amount: number; refunded: number; currency: string; status: string; created: string; email: string | null; description: string | null }
@@ -16,9 +16,11 @@ export function LmsAdminBilling() {
   const load = async () => {
     setLoading(true);
     setError(null);
-    const { data: res, error: err } = await supabase.functions.invoke("admin-billing-summary");
-    if (err || res?.error) setError(res?.error ?? err?.message ?? "Could not load billing data");
-    else setData(res as Summary);
+    try {
+      setData(await invokeFunction<Summary>("admin-billing-summary"));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not load billing data");
+    }
     setLoading(false);
   };
   useEffect(() => { load(); }, []);

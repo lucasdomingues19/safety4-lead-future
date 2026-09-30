@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { toast } from "sonner";
 import { ImportPeopleDialog, type Product } from "./ImportPeopleDialog";
+import { invokeFunction } from "@/lib/invoke";
 
 // People: everyone on the platform with a tick per product (each course +
 // the paid Global Network community). Ticking grants lifetime access,
@@ -135,9 +136,15 @@ export function LmsAdminUsers() {
     if (ids.length > 100) { toast.error("Select up to 100 people at a time — your email plan sends 100 a day"); return; }
     if (!confirm(`Email ${ids.length} ${ids.length === 1 ? "person" : "people"} a link to set their password?`)) return;
     setBulkBusy(true);
-    const { data, error } = await supabase.functions.invoke("admin-people", { body: { action: "welcome", user_ids: ids } });
+    let data: { results: unknown[] };
+    try {
+      data = await invokeFunction("admin-people", { action: "welcome", user_ids: ids });
+    } catch (e) {
+      setBulkBusy(false);
+      toast.error(e instanceof Error ? e.message : "Could not send");
+      return;
+    }
     setBulkBusy(false);
-    if (error || data?.error) { toast.error(data?.error ?? "Could not send"); return; }
     const res = data.results as { ok: boolean; email: string; error?: string }[];
     const bad = res.filter((r) => !r.ok);
     if (bad.length) toast.error(`${res.length - bad.length} sent, ${bad.length} failed: ${bad[0].error}`); else toast.success(`Welcome email sent to ${res.length}`);
@@ -301,12 +308,19 @@ function AddPersonDialog({ products, onClose, onDone }: { products: Product[]; o
   const save = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const { data, error } = await supabase.functions.invoke("admin-people", {
-      body: { action: "import", welcome, rows: [{ email, first_name: first, last_name: last, company, products: [...grant] }] },
-    });
+    let r: { status: string; welcomed?: boolean; error?: string } | undefined;
+    try {
+      const data = await invokeFunction<{ results: { status: string; welcomed?: boolean; error?: string }[] }>("admin-people", {
+        action: "import", welcome, rows: [{ email, first_name: first, last_name: last, company, products: [...grant] }],
+      });
+      r = data.results?.[0];
+    } catch (err) {
+      setSaving(false);
+      toast.error(err instanceof Error ? err.message : "Could not add this person");
+      return;
+    }
     setSaving(false);
-    const r = data?.results?.[0];
-    if (error || data?.error || !r || r.status === "error") { toast.error(r?.error ?? data?.error ?? "Could not add this person"); return; }
+    if (!r || r.status === "error") { toast.error(r?.error ?? "Could not add this person"); return; }
     toast.success(`${r.status === "created" ? "Added" : "Updated"} ${email}${r.welcomed ? " — welcome email sent" : ""}${r.error ? ` (${r.error})` : ""}`);
     onDone();
     onClose();
