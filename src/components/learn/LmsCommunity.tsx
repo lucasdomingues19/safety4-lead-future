@@ -144,6 +144,11 @@ export function LmsCommunity() {
   const commentRef = useRef<HTMLInputElement>(null);
   const [reactingOn, setReactingOn] = useState<string | null>(null);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [guidelinesOpen, setGuidelinesOpen] = useState(false);
+  const openGuidelines = () => {
+    setGuidelinesOpen(true);
+    requestAnimationFrame(() => document.getElementById("community-guidelines")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
 
   const displayName = () => {
     const meta = (user?.user_metadata as { full_name?: string } | undefined)?.full_name;
@@ -396,10 +401,11 @@ export function LmsCommunity() {
                     <input type="checkbox" checked={pinOnPost} onChange={(e) => setPinOnPost(e.target.checked)} className="accent-[#3434ff]" /> Pin as announcement
                   </label>
                 )}
+                <button onClick={openGuidelines} className="ml-auto hidden text-[12px] font-semibold text-[#94a3b8] hover:text-[#3434ff] md:inline">Community guidelines</button>
                 <button
                   onClick={createPost}
                   disabled={posting || !canPost}
-                  className="ml-auto inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#2a2ad6] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="ml-auto inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-5 py-2.5 md:ml-3 text-sm font-bold text-white transition hover:bg-[#2a2ad6] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {posting && <Loader2 size={15} className="animate-spin" />} Post
                 </button>
@@ -554,14 +560,7 @@ export function LmsCommunity() {
 
         </>)}
 
-        <div className="mt-7 rounded-[20px] border border-[#d9f09a] bg-[#f4fbe4] p-5">
-          <div className="text-[15px] font-bold">Community guidelines</div>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[#4a5230]">
-            <li>Be respectful — we're all here to make workplaces safer.</li>
-            <li>Don't share confidential incident details, personal data or identifiable photos of people without consent.</li>
-            <li>Keep it relevant to EHS, AI and the courses.</li>
-          </ul>
-        </div>
+        <CommunityGuidelines open={guidelinesOpen} onToggle={() => setGuidelinesOpen((o) => !o)} />
       </div>
 
       {lightbox && (
@@ -571,5 +570,50 @@ export function LmsCommunity() {
         </div>
       )}
     </div>
+  );
+}
+
+// ---------- guidelines ----------
+const GUIDELINES = [
+  { emoji: "🤝", title: "Respect people", text: "Debate ideas, not people. No harassment, discrimination, personal attacks or pile-ons. Assume good intent — we're all here to make workplaces safer." },
+  { emoji: "🔒", title: "Protect confidentiality", text: "Anonymise before you share. No confidential incident or investigation details, employer or client names in incidents, personal data, or photos of identifiable people or injuries without consent." },
+  { emoji: "⚠️", title: "Discussion, not a safety sign-off", text: "Posts here are for learning, not professional advice for a specific site or case. For live hazards or emergencies, follow your organisation's procedures and local regulations — and never promote unsafe shortcuts." },
+  { emoji: "🤖", title: "Use AI responsibly", text: "Check facts and regulations before relying on AI output, say when a post is mostly AI-written, and never paste confidential or personal data into public AI tools." },
+  { emoji: "📚", title: "Share generously, credit sources", text: "Link or name your sources, respect copyright, and don't pass off others' work as your own. Templates and lessons learned are gold — share them." },
+  { emoji: "🎯", title: "Stay on topic", text: "Keep it to EHS, sustainability, AI and the courses, and pick the right topic tag. Questions are always welcome — there are no silly ones." },
+  { emoji: "🚫", title: "No spam or hard selling", text: "No unsolicited promotion, recruitment or affiliate links, and no mass private messaging. Recommend a product only when it genuinely answers someone's question — and say if you're connected to it." },
+] as const;
+
+function CommunityGuidelines({ open, onToggle }: { open: boolean; onToggle: () => void }) {
+  return (
+    <section id="community-guidelines" className="mt-8 scroll-mt-6 overflow-hidden rounded-[20px] border border-[#e2e8f0] bg-white">
+      <button onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-3 px-5 py-4 text-left hover:bg-[#fafbff]">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f4fbe4] text-xl">🦺</span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-bold">Community guidelines</span>
+          <span className="block text-[13px] text-[#69697b]">How we keep this a safe, useful space for EHS professionals</span>
+        </span>
+        <span className={`text-[#94a3b8] transition ${open ? "rotate-180" : ""}`} aria-hidden>▾</span>
+      </button>
+      {open && (
+        <div className="border-t border-[#f1f4f8] px-5 pb-5 pt-4">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {GUIDELINES.map((g) => (
+              <div key={g.title} className="flex gap-3 rounded-2xl bg-[#f7f8fc] p-4">
+                <span className="text-2xl leading-none" aria-hidden>{g.emoji}</span>
+                <span>
+                  <span className="block text-sm font-bold text-[#0b0b2c]">{g.title}</span>
+                  <span className="mt-1 block text-[13px] leading-relaxed text-[#69697b]">{g.text}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 rounded-2xl border border-[#d9f09a] bg-[#f4fbe4] p-4 text-[13px] leading-relaxed text-[#4a5230]">
+            <strong className="text-[#0b0b2c]">Moderation.</strong> Admins may remove posts or replies that break these guidelines. Repeated or serious breaches can mean losing community access. Seen something that shouldn't be here? Email{" "}
+            <a href="mailto:hello@safetytech.academy?subject=Community%20report" className="font-semibold text-[#3434ff] underline-offset-2 hover:underline">hello@safetytech.academy</a> and we'll look at it quickly.
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
