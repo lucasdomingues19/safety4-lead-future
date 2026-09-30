@@ -55,7 +55,7 @@ export const getMyGamification = async (): Promise<MyGamification | null> => {
   return data as unknown as MyGamification;
 };
 
-export interface MemberBadge { user_id: string; level: number; level_name: string; network_member: boolean }
+export interface MemberBadge { user_id: string; level: number; level_name: string; network_member: boolean; avatar_url: string | null }
 export const getMemberBadges = async (ids: string[]): Promise<Record<string, MemberBadge>> => {
   const unique = [...new Set(ids)].slice(0, 200);
   if (!unique.length) return {};

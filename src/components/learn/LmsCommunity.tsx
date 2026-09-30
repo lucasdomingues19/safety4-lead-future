@@ -56,11 +56,14 @@ const AVATAR_COLOURS = ["#3434ff", "#2c23d2", "#0f766e", "#b45309", "#be185d", "
 const avatarColour = (name: string) => AVATAR_COLOURS[[...name].reduce((a, c) => a + c.charCodeAt(0), 0) % AVATAR_COLOURS.length];
 const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]!.toUpperCase()).join("") || "?";
 
-const Avatar = ({ name, size = 40 }: { name: string; size?: number }) => (
-  <div className="flex shrink-0 items-center justify-center rounded-full font-bold text-white" style={{ width: size, height: size, background: avatarColour(name), fontSize: size * 0.36 }}>
-    {initials(name)}
-  </div>
-);
+const Avatar = ({ name, size = 40, src }: { name: string; size?: number; src?: string | null }) =>
+  src ? (
+    <img src={src} alt="" className="shrink-0 rounded-full object-cover" style={{ width: size, height: size }} />
+  ) : (
+    <div className="flex shrink-0 items-center justify-center rounded-full font-bold text-white" style={{ width: size, height: size, background: avatarColour(name), fontSize: size * 0.36 }}>
+      {initials(name)}
+    </div>
+  );
 
 const URL_RE = /(https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"])/g;
 const Linkified = ({ text }: { text: string }) => (
@@ -353,7 +356,7 @@ export function LmsCommunity() {
         {/* Composer */}
         <div className="mt-7 rounded-[20px] border border-[#e2e8f0] bg-white p-4 md:p-5">
           <div className="flex gap-3">
-            <Avatar name={displayName()} />
+            <Avatar name={displayName()} src={ctx?.user?.avatar_url} />
             <div className="min-w-0 flex-1">
               <textarea
                 ref={draftRef}
@@ -451,7 +454,7 @@ export function LmsCommunity() {
               <article key={p.id} className={`mt-4 rounded-[20px] border bg-white p-4 md:p-5 ${p.pinned ? "border-[#c7cdf9] shadow-[0_0_0_3px_rgba(52,52,255,0.06)]" : "border-[#e2e8f0]"}`}>
                 {p.pinned && <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-[#f1f4ff] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[#3434ff]"><Pin size={12} /> Announcement</div>}
                 <header className="flex items-center gap-3">
-                  <Avatar name={p.author_name} />
+                  <Avatar name={p.author_name} src={memberBadges[p.user_id]?.avatar_url} />
                   <div className="min-w-0 flex-1">
                     <div className="flex min-w-0 flex-wrap items-center gap-1.5">
                       <span className="truncate text-[15px] font-bold">{p.author_name}</span>
@@ -521,7 +524,7 @@ export function LmsCommunity() {
                   <div className="mt-3 space-y-3 border-t border-[#f1f4f8] pt-4">
                     {thread.map((c) => (
                       <div key={c.id} className="flex gap-2.5">
-                        <Avatar name={c.author_name} size={30} />
+                        <Avatar name={c.author_name} size={30} src={memberBadges[c.user_id]?.avatar_url} />
                         <div className="min-w-0 flex-1 rounded-2xl bg-[#f5f7fa] px-3.5 py-2.5">
                           <div className="flex items-center gap-2 text-[13px]">
                             <span className="font-bold">{c.author_name}</span>
@@ -536,7 +539,7 @@ export function LmsCommunity() {
                       </div>
                     ))}
                     <div className="flex items-center gap-2">
-                      <Avatar name={displayName()} size={30} />
+                      <Avatar name={displayName()} size={30} src={ctx?.user?.avatar_url} />
                       <div className="flex flex-1 items-center rounded-full border border-[#e2e8f0] bg-white pl-3.5 pr-1 focus-within:border-[#3434ff]">
                         <input
                           ref={commentRef}

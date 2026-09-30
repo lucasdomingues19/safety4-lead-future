@@ -62,6 +62,10 @@ export default function LmsInterface() {
       if (authUser) {
         loadLmsUser();
       }
+      // Settings saves (name, photo) refresh the sidebar straight away.
+      const onProfileUpdated = () => { if (authUser) loadLmsUser(); };
+      window.addEventListener("lms-profile-updated", onProfileUpdated);
+      return () => window.removeEventListener("lms-profile-updated", onProfileUpdated);
     }, [authUser]);
 
   const loadLmsUser = async () => {
@@ -69,7 +73,7 @@ export default function LmsInterface() {
     try {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("full_name")
+        .select("full_name, avatar_url")
         .eq("id", authUser.id)
         .maybeSingle();
 
@@ -85,6 +89,7 @@ export default function LmsInterface() {
         id: authUser.id,
         email: authUser.email || "",
         full_name: profile?.full_name || metaName || undefined,
+        avatar_url: profile?.avatar_url || undefined,
       });
 
       const [{ data: certs }, { data: cpdCourses }] = await Promise.all([
@@ -371,7 +376,7 @@ export default function LmsInterface() {
                   fontSize: "13px",
                   fontWeight: "700",
                 }}>
-                  {getInitials(lmsUser?.full_name)}
+                  {lmsUser?.avatar_url ? <img src={lmsUser.avatar_url} alt="" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} /> : getInitials(lmsUser?.full_name)}
                 </div>
                 {railOpen && (
                   <div style={{ minWidth: 0 }}>

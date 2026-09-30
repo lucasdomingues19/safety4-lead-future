@@ -389,6 +389,56 @@ export type Database = {
           },
         ]
       }
+      course_purchases: {
+        Row: {
+          amount_cents: number
+          course_id: string | null
+          course_title: string
+          currency: string
+          id: string
+          purchased_at: string
+          receipt_url: string | null
+          status: string
+          stripe_payment_intent: string | null
+          stripe_session_id: string
+          user_id: string
+        }
+        Insert: {
+          amount_cents: number
+          course_id?: string | null
+          course_title: string
+          currency: string
+          id?: string
+          purchased_at?: string
+          receipt_url?: string | null
+          status?: string
+          stripe_payment_intent?: string | null
+          stripe_session_id: string
+          user_id: string
+        }
+        Update: {
+          amount_cents?: number
+          course_id?: string | null
+          course_title?: string
+          currency?: string
+          id?: string
+          purchased_at?: string
+          receipt_url?: string | null
+          status?: string
+          stripe_payment_intent?: string | null
+          stripe_session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_purchases_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           cover_image_url: string | null
@@ -993,6 +1043,7 @@ export type Database = {
       profiles: {
         Row: {
           auto_advance: boolean
+          avatar_url: string | null
           captions_default: boolean
           created_at: string | null
           email: string | null
@@ -1005,6 +1056,7 @@ export type Database = {
         }
         Insert: {
           auto_advance?: boolean
+          avatar_url?: string | null
           captions_default?: boolean
           created_at?: string | null
           email?: string | null
@@ -1017,6 +1069,7 @@ export type Database = {
         }
         Update: {
           auto_advance?: boolean
+          avatar_url?: string | null
           captions_default?: boolean
           created_at?: string | null
           email?: string | null
@@ -1334,6 +1387,7 @@ export type Database = {
       get_member_badges: {
         Args: { _ids: string[] }
         Returns: {
+          avatar_url: string
           level: number
           level_name: string
           network_member: boolean

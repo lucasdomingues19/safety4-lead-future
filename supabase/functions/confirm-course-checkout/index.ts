@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { stripeRequest } from "../_shared/stripe.ts";
+import { recordCoursePurchase } from "../_shared/purchases.ts";
 
 // Called by the checkout page when Stripe redirects back. Verifies the
 // session with Stripe directly (paid, and bought by this user) and grants the
@@ -40,6 +41,7 @@ serve(async (req) => {
       { onConflict: "user_id,course_id" },
     );
     if (error) throw error;
+    await recordCoursePurchase(db, session.id, u.user.id, courseId);
 
     return json({ status: "enrolled", slug: course.slug });
   } catch (e) {

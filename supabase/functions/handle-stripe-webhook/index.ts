@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { recordCoursePurchase } from "../_shared/purchases.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 // Stripe webhook (backup to confirm-course-checkout).
@@ -70,6 +71,7 @@ serve(async (req) => {
           { onConflict: "user_id,course_id" },
         );
         if (error) throw error;
+        await recordCoursePurchase(db, session.id, user_id, course_id);
         console.log("Enrolled via webhook", { user_id, course_id });
         break;
       }
@@ -78,6 +80,7 @@ serve(async (req) => {
         if (charge.refunded && charge.payment_intent) {
           const { error } = await db.from("enrollments").update({ status: "cancelled" }).eq("stripe_subscription_id", charge.payment_intent);
           if (error) throw error;
+          await db.from("course_purchases").update({ status: "refunded" }).eq("stripe_payment_intent", charge.payment_intent);
           console.log("Access revoked after full refund", charge.payment_intent);
         }
         break;
