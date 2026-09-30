@@ -268,6 +268,54 @@ export type Database = {
           },
         ]
       }
+      community_highlights: {
+        Row: {
+          body: string | null
+          created_at: string
+          created_by: string | null
+          cta_label: string | null
+          cta_url: string | null
+          ends_at: string | null
+          id: string
+          image_url: string | null
+          kind: string
+          position: number
+          space: string
+          starts_at: string | null
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          kind?: string
+          position?: number
+          space?: string
+          starts_at?: string | null
+          title: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          kind?: string
+          position?: number
+          space?: string
+          starts_at?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       community_likes: {
         Row: {
           created_at: string

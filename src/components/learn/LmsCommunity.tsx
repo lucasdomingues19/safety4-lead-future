@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { toEmbedUrl } from "@/lib/lms";
 import { EmojiPicker, insertAtCaret } from "./EmojiPicker";
 import { LevelChip, NetworkChip } from "./Gamification";
+import { CommunitySidebar } from "./CommunitySidebar";
 import { getMemberBadges, type MemberBadge } from "@/lib/gamification";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
@@ -307,11 +308,47 @@ export function LmsCommunity() {
 
   return (
     <div className="min-h-screen bg-[#eef1f6] px-4 pb-20 pt-10 font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c] md:px-7">
-      <div className="mx-auto max-w-[760px]">
-        <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">COMMUNITY</p>
+      <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_320px]">
+        {/* Left rail (desktop): communities + topics */}
+        <aside className="hidden lg:sticky lg:top-6 lg:block lg:self-start">
+          <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">COMMUNITY</p>
+          <nav className="mt-4 space-y-1.5" aria-label="Communities">
+            {SPACES.map((sp) => {
+              const active = space === sp.id;
+              const isLocked = sp.id === "global-network" && networkAccess === false;
+              const Icon = sp.icon;
+              return (
+                <button key={sp.id} onClick={() => switchSpace(sp.id)} className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition ${active ? (sp.id === "global-network" ? "bg-[#202058] text-white" : "bg-[#3434ff] text-white") : "bg-white text-[#0b0b2c] hover:bg-[#f7f8ff]"}`}>
+                  <Icon size={19} className={active && sp.id === "global-network" ? "text-[#9eff1f]" : ""} />
+                  <span className="min-w-0">
+                    <span className="block truncate text-[13px] font-bold">{sp.name}</span>
+                    <span className={`flex items-center gap-1 text-[11px] font-semibold ${active ? "text-white/70" : "text-[#94a3b8]"}`}>{isLocked && <Lock size={10} />} {sp.tier}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+          {!locked && (
+            <>
+              <p className="mt-7 text-xs font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Topics</p>
+              <nav className="mt-2 space-y-0.5" aria-label="Topics">
+                {[{ id: "all" as const, label: "All posts", emoji: "✨" }, ...TOPICS].map((t) => (
+                  <button key={t.id} onClick={() => setFilter(t.id)} className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[13.5px] font-semibold transition ${filter === t.id ? "bg-white text-[#0b0b2c] shadow-sm" : "text-[#69697b] hover:bg-white/60 hover:text-[#0b0b2c]"}`}>
+                    <span aria-hidden>{t.emoji}</span> {t.label}
+                    <span className="ml-auto text-[11px] text-[#94a3b8]">{t.id === "all" ? posts.length : posts.filter((p) => p.topic === t.id).length || ""}</span>
+                  </button>
+                ))}
+              </nav>
+            </>
+          )}
+          <button onClick={openGuidelines} className="mt-6 px-3 text-[12.5px] font-semibold text-[#94a3b8] hover:text-[#3434ff]">Community guidelines</button>
+        </aside>
 
-        {/* Space switcher */}
-        <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5">
+        <main className="min-w-0">
+        <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815] lg:hidden">COMMUNITY</p>
+
+        {/* Space switcher (mobile/tablet) */}
+        <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5 lg:hidden">
           {SPACES.map((sp) => {
             const active = space === sp.id;
             const isLocked = sp.id === "global-network" && networkAccess === false;
@@ -334,7 +371,7 @@ export function LmsCommunity() {
           })}
         </div>
 
-        <h1 className="mt-6 text-[34px] font-bold leading-tight md:text-[38px]">{spaceInfo.title}</h1>
+        <h1 className="mt-6 text-[34px] font-bold leading-tight md:text-[38px] lg:mt-0">{spaceInfo.title}</h1>
         <p className="mt-3 text-base leading-relaxed text-[#69697b]">{spaceInfo.intro}</p>
 
         {locked ? (
@@ -417,8 +454,8 @@ export function LmsCommunity() {
           </div>
         </div>
 
-        {/* Topic filter */}
-        <div className="mt-6 flex gap-2 overflow-x-auto pb-1">
+        {/* Topic filter (mobile/tablet) */}
+        <div className="mt-6 flex gap-2 overflow-x-auto pb-1 lg:hidden">
           {[{ id: "all" as const, label: "All", emoji: "✨" }, ...TOPICS].map((t) => (
             <button
               key={t.id}
@@ -564,6 +601,12 @@ export function LmsCommunity() {
         </>)}
 
         <CommunityGuidelines open={guidelinesOpen} onToggle={() => setGuidelinesOpen((o) => !o)} />
+        </main>
+
+        {/* Right column: highlights + top contributors */}
+        <aside className="lg:col-span-2 xl:sticky xl:top-6 xl:col-span-1 xl:self-start">
+          <CommunitySidebar space={space} isAdmin={isAdmin} />
+        </aside>
       </div>
 
       {lightbox && (
