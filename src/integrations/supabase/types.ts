@@ -300,6 +300,9 @@ export type Database = {
           body: string
           created_at: string
           id: string
+          media: Json
+          pinned: boolean
+          topic: string
           user_id: string
         }
         Insert: {
@@ -307,6 +310,9 @@ export type Database = {
           body: string
           created_at?: string
           id?: string
+          media?: Json
+          pinned?: boolean
+          topic?: string
           user_id: string
         }
         Update: {
@@ -314,9 +320,41 @@ export type Database = {
           body?: string
           created_at?: string
           id?: string
+          media?: Json
+          pinned?: boolean
+          topic?: string
           user_id?: string
         }
         Relationships: []
+      }
+      community_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_reactions_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       courses: {
         Row: {
