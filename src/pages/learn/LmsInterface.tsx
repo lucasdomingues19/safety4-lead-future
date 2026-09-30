@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle } from "lucide-react";
+import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle, Sparkles } from "lucide-react";
+import { markTourDone, tourSeenLocally } from "@/lib/tour";
+const OnboardingTour = React.lazy(() => import("@/components/learn/tour/OnboardingTour").then(m => ({ default: m.OnboardingTour })));
 import brandMarkWhite from "@/assets/brand-mark-white.png";
 import { toast } from "sonner";
 
@@ -52,6 +54,9 @@ export default function LmsInterface() {
     // Data
     const [lmsUser, setLmsUser] = useState<LmsUser | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    // First-run guided tour: offered once, replayable from Support and the sidebar.
+    const [tourInvite, setTourInvite] = useState(false);
+    const [tourOpen, setTourOpen] = useState(false);
     const [currentCourse, setCurrentCourse] = useState<any>(null);
 
     // Auth guard - removed, now checked in render
@@ -72,7 +77,7 @@ export default function LmsInterface() {
     try {
       const { data: profile } = await supabase
         .from("profiles")
-        .select("full_name, avatar_url")
+        .select("full_name, avatar_url, tour_completed_at")
         .eq("id", authUser.id)
         .maybeSingle();
 
@@ -90,6 +95,7 @@ export default function LmsInterface() {
         full_name: profile?.full_name || metaName || undefined,
         avatar_url: profile?.avatar_url || undefined,
       });
+      if (profile && !profile.tour_completed_at && !tourSeenLocally()) setTourInvite(true);
 
       const [{ data: certs }, { data: cpdCourses }] = await Promise.all([
         supabase.from("certificates").select("course_name").eq("recipient_email", (authUser.email ?? "").toLowerCase()),
@@ -136,7 +142,7 @@ export default function LmsInterface() {
       if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} onNavigate={handleNavigation} />;
       if (screen === "community") return <LmsCommunity />;
       if (screen === "settings") return <LmsSettings />;
-      if (screen === "support") return <LmsSupport />;
+      if (screen === "support") return <LmsSupport onStartTour={() => setTourOpen(true)} />;
       if (screen === "admin" && isAdmin) {
         const ADMIN_PAGES: Record<string, { title: string; sub: string; el: React.ReactNode }> = {
           overview: { title: "Overview", sub: "How your academy is doing at a glance.", el: <LmsAdminOverview /> },
@@ -277,6 +283,13 @@ export default function LmsInterface() {
               label="Settings"
               active={screen === "settings"}
               onClick={() => handleNavigation("settings")}
+              open={railOpen}
+            />
+            <NavButton
+              icon={<Sparkles size={19} />}
+              label="Take the tour"
+              active={false}
+              onClick={() => setTourOpen(true)}
               open={railOpen}
             />
             <NavButton
@@ -498,6 +511,34 @@ export default function LmsInterface() {
           <div style={{ minHeight: "calc(100vh - 72px)" }}>
             {renderScreen()}
           </div>
+
+          {tourInvite && !tourOpen && lmsUser && (
+            <div style={{ position: "fixed", inset: 0, zIndex: 70, background: "rgba(11,11,44,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+              <div style={{ width: "100%", maxWidth: 440, background: "linear-gradient(160deg,#11114a,#0b0b2c)", color: "#fff", borderRadius: 24, padding: "32px 30px", textAlign: "center", boxShadow: "0 30px 80px rgba(0,0,0,.5)" }}>
+                <div style={{ width: 64, height: 64, margin: "0 auto", borderRadius: "50%", background: "linear-gradient(135deg,#9eff1f,#3434ff)", display: "flex", alignItems: "center", justifyContent: "center" }}><Sparkles size={30} color="#0b0b2c" /></div>
+                <h2 style={{ margin: "18px 0 8px", fontSize: 26, fontWeight: 800 }}>Welcome, {(lmsUser.full_name || "").split(" ")[0] || "there"}!</h2>
+                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "rgba(255,255,255,.72)" }}>Take a quick 2-minute tour with your guide and see where everything is. Sound on for the best experience.</p>
+                <button onClick={() => { setTourInvite(false); setTourOpen(true); }} style={{ marginTop: 22, width: "100%", border: 0, borderRadius: 12, background: "#9eff1f", color: "#0b0b2c", fontWeight: 800, fontSize: 15, padding: "14px 18px", cursor: "pointer", fontFamily: "inherit" }}>Start the tour</button>
+                <button onClick={() => { setTourInvite(false); markTourDone(lmsUser.id); }} style={{ marginTop: 10, border: 0, background: "none", color: "rgba(255,255,255,.6)", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>Skip — I'll explore myself</button>
+              </div>
+            </div>
+          )}
+          {tourOpen && lmsUser && (
+            <React.Suspense fallback={null}>
+              <OnboardingTour
+                name={(lmsUser.full_name || "").split(" ")[0] || "there"}
+                course={currentCourse?.title ?? null}
+                isAdmin={isAdmin}
+                onClose={() => { setTourOpen(false); markTourDone(lmsUser.id); }}
+                onFinish={() => {
+                  setTourOpen(false);
+                  markTourDone(lmsUser.id);
+                  if (currentCourse?.nextLessonId && currentCourse?.slug) navigate(`/learn/${currentCourse.slug}/lesson/${currentCourse.nextLessonId}`);
+                  else handleNavigation("dash");
+                }}
+              />
+            </React.Suspense>
+          )}
         </div>
       </div>
 

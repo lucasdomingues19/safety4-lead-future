@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, HelpCircle, MessageCircle, Shield } from "lucide-react";
+import { ChevronDown, HelpCircle, MessageCircle, Shield, Sparkles } from "lucide-react";
 
 const SUPPORT_EMAIL = "hello@safetytech.academy";
 const mailto = (subject: string) => `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}`;
@@ -22,7 +22,7 @@ const FAQS = [
   { q: "How do I change my password or photo?", a: "Go to Settings. You can upload a profile photo, update your name (it's printed on certificates) and change your password there." },
 ];
 
-export function LmsSupport() {
+export function LmsSupport({ onStartTour }: { onStartTour?: () => void } = {}) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -34,6 +34,14 @@ export function LmsSupport() {
           Check the common questions below, or email us at{" "}
           <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-[#3434ff] hover:underline">{SUPPORT_EMAIL}</a>.
         </p>
+
+        {onStartTour && (
+          <button onClick={onStartTour} className="mt-6 flex w-full items-center gap-4 rounded-[20px] bg-gradient-to-r from-[#11114a] to-[#0b0b2c] p-5 text-left text-white transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#3434ff]/30">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#9eff1f] to-[#3434ff]"><Sparkles size={22} className="text-[#0b0b2c]" /></span>
+            <span className="min-w-0 flex-1"><span className="block text-[17px] font-bold">Take the 2-minute guided tour</span><span className="block text-sm text-white/70">A short animated walkthrough of your dashboard, courses, community and settings.</span></span>
+            <span className="hidden rounded-lg bg-[#9eff1f] px-4 py-2 text-sm font-extrabold text-[#0b0b2c] sm:inline">Start</span>
+          </button>
+        )}
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {CHANNELS.map(({ icon: Icon, title, text, subject, cta, highlight }) => (

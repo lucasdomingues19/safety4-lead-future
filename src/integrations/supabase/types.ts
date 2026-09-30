@@ -1211,6 +1211,7 @@ export type Database = {
           id: string
           job_title: string | null
           organisation: string | null
+          tour_completed_at: string | null
           welcomed_at: string | null
         }
         Insert: {
@@ -1225,6 +1226,7 @@ export type Database = {
           id: string
           job_title?: string | null
           organisation?: string | null
+          tour_completed_at?: string | null
           welcomed_at?: string | null
         }
         Update: {
@@ -1239,6 +1241,7 @@ export type Database = {
           id?: string
           job_title?: string | null
           organisation?: string | null
+          tour_completed_at?: string | null
           welcomed_at?: string | null
         }
         Relationships: []
