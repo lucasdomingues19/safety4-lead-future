@@ -1053,6 +1053,7 @@ export type Database = {
           id: string
           job_title: string | null
           organisation: string | null
+          welcomed_at: string | null
         }
         Insert: {
           auto_advance?: boolean
@@ -1066,6 +1067,7 @@ export type Database = {
           id: string
           job_title?: string | null
           organisation?: string | null
+          welcomed_at?: string | null
         }
         Update: {
           auto_advance?: boolean
@@ -1079,6 +1081,7 @@ export type Database = {
           id?: string
           job_title?: string | null
           organisation?: string | null
+          welcomed_at?: string | null
         }
         Relationships: []
       }
