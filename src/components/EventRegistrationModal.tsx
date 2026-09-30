@@ -69,16 +69,7 @@ export default function EventRegistrationModal({
       if (error) throw error;
 
       // Send confirmation email
-      const emailSent = await sendEventRegistrationEmail({
-        name: formData.name,
-        email: formData.email,
-        eventTitle: event.title,
-        eventDate: event.date,
-        eventTime: event.time,
-        eventDescription: event.description || "Join us for this event.",
-        zoomLink: event.zoom_link,
-        location: event.location,
-      });
+      const emailSent = await sendEventRegistrationEmail({ eventId: event.id, email: formData.email });
 
       // Show success message
       setSubmitted(true);

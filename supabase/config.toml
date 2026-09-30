@@ -24,8 +24,6 @@ verify_jwt = false
 [functions.track-certificate-interaction]
 verify_jwt = false
 
-[functions.complete-course]
-verify_jwt = false
 
 [functions.chat-assistant]
 verify_jwt = false

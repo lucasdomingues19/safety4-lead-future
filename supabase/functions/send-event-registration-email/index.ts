@@ -1,179 +1,82 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
+
+// Event registration confirmation. Public (the registration form is public),
+// so it trusts nothing from the caller except which event and which email:
+// it only sends when that email registered for that event (via capture-lead)
+// in the last 30 minutes, only once per registration, and builds every word
+// and link of the email from the events table. Previously the caller chose
+// the recipient, title, text and "Zoom link", making it an open relay.
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
+const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...cors } });
+const esc = (t: unknown) => String(t ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]!));
+const safeUrl = (u: unknown) => { try { const x = new URL(String(u)); return x.protocol === "https:" ? x.toString() : null; } catch { return null; } };
 
-interface RequestBody {
-  to: string;
-  name: string;
-  eventTitle: string;
-  eventDate: string;
-  eventTime: string;
-  eventDescription: string;
-  zoomLink: string | null;
-  location: string;
-  icsFile?: string;
-}
-
-const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: { "Access-Control-Allow-Origin": "*" } });
-  }
-
+serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
-    const body: RequestBody = await req.json();
+    const { event_id, email } = await req.json() as { event_id?: string; email?: string };
+    const addr = String(email ?? "").trim().toLowerCase();
+    if (!event_id || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(addr)) return json({ success: false, error: "Invalid request" }, 400);
 
-    const emailHtml = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%); color: white; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
-    .header h1 { margin: 0; font-size: 28px; }
-    .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
-    .event-details { background: white; padding: 20px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #3434ff; }
-    .detail-row { display: flex; margin: 12px 0; }
-    .detail-label { font-weight: 600; width: 100px; color: #0b0b2c; }
-    .detail-value { color: #69697b; flex: 1; }
-    .zoom-link { background: #e8f0ff; padding: 15px; border-radius: 6px; margin: 20px 0; text-align: center; }
-    .zoom-link a { color: #3434ff; text-decoration: none; font-weight: 600; font-size: 16px; }
-    .cta-button { display: inline-block; background: #3434ff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
-    .footer { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 20px; }
-    .description { color: #69697b; line-height: 1.8; margin: 20px 0; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>✓ Registration Confirmed!</h1>
-      <p style="margin: 10px 0 0 0; opacity: 0.9;">You're all set for ${body.eventTitle}</p>
-    </div>
+    const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const since = new Date(Date.now() - 30 * 60_000).toISOString();
+    const { data: lead } = await db.from("leads")
+      .select("id, name, confirmation_sent_at")
+      .eq("event_id", event_id).ilike("email", addr).gte("created_at", since)
+      .order("created_at", { ascending: false }).limit(1).maybeSingle();
+    if (!lead) return json({ success: false, error: "No recent registration found" }, 404);
+    if (lead.confirmation_sent_at) return json({ success: true, already: true });
 
-    <div class="content">
-      <p>Hi ${body.name},</p>
+    const { data: ev } = await db.from("events").select("title, date, time, description, zoom_link, location").eq("id", event_id).maybeSingle();
+    if (!ev) return json({ success: false, error: "Event not found" }, 404);
 
-      <p>Thank you for registering for our event! We're excited to have you join us.</p>
+    // Claim the send first so parallel calls can't double-send.
+    const { data: claimed } = await db.from("leads").update({ confirmation_sent_at: new Date().toISOString() }).eq("id", lead.id).is("confirmation_sent_at", null).select("id").maybeSingle();
+    if (!claimed) return json({ success: true, already: true });
 
-      <div class="event-details">
-        <h3 style="margin-top: 0; color: #0b0b2c;">Event Details</h3>
+    const zoom = safeUrl(ev.zoom_link);
+    const first = esc(String(lead.name ?? "").split(" ")[0] || "there");
+    const html = `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:28px 0;"><tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:14px;overflow:hidden;">
+<tr><td style="background:#3434ff;padding:30px 36px;text-align:center;color:#fff;"><h1 style="margin:0;font-size:24px;">You're registered!</h1><p style="margin:8px 0 0;opacity:.9;">${esc(ev.title)}</p></td></tr>
+<tr><td style="padding:30px 36px;color:#1e293b;font-size:15px;line-height:1.7;">
+<p style="margin:0 0 14px;">Hi ${first},</p>
+<p style="margin:0 0 18px;">Thanks for registering — we're looking forward to seeing you.</p>
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f8fc;border-left:4px solid #3434ff;border-radius:6px;"><tr><td style="padding:18px 20px;font-size:14px;line-height:1.9;">
+<strong>${esc(ev.title)}</strong><br>
+Date: ${esc(ev.date)}<br>
+Time: ${esc(ev.time)} (UTC)<br>
+${ev.location ? `Where: ${esc(ev.location)}<br>` : ""}
+</td></tr></table>
+${ev.description ? `<p style="margin:18px 0 0;color:#475569;">${esc(ev.description)}</p>` : ""}
+${zoom ? `<p style="margin:22px 0 0;text-align:center;"><a href="${esc(zoom)}" style="display:inline-block;background:#3434ff;color:#fff;padding:13px 28px;border-radius:8px;font-weight:700;text-decoration:none;">Join on Zoom</a></p>` : ""}
+<p style="margin:26px 0 0;">See you there,<br><strong>SafetyTech Academy</strong></p>
+</td></tr>
+<tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;color:#94a3b8;font-size:11px;">You received this because you registered for an event at safetytech.academy. Questions? Reply to this email.</td></tr>
+</table></td></tr></table></body></html>`;
 
-        <div class="detail-row">
-          <div class="detail-label">Event:</div>
-          <div class="detail-value"><strong>${body.eventTitle}</strong></div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">Date:</div>
-          <div class="detail-value">${body.eventDate}</div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">Time:</div>
-          <div class="detail-value">${body.eventTime} UTC</div>
-        </div>
-
-        <div class="detail-row">
-          <div class="detail-label">Location:</div>
-          <div class="detail-value">${body.location}</div>
-        </div>
-
-        <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;">
-
-        <p class="description"><strong>Event Description:</strong><br>${body.eventDescription}</p>
-      </div>
-
-      ${
-        body.zoomLink
-          ? `
-        <div class="zoom-link">
-          <p style="margin: 0 0 10px 0; color: #0b0b2c; font-weight: 600;">Join via Zoom</p>
-          <a href="${body.zoomLink}" target="_blank">Click here to join the meeting</a>
-        </div>
-      `
-          : ""
-      }
-
-      <p style="text-align: center;">
-        <a href="https://safetytech.academy/events" class="cta-button">View Event Details</a>
-      </p>
-
-      <div style="background: #f0f4ff; padding: 15px; border-radius: 6px; margin: 20px 0;">
-        <p style="margin: 0; color: #3434ff; font-size: 14px;"><strong>📅 Add to Calendar</strong></p>
-        <p style="margin: 5px 0 0 0; color: #69697b; font-size: 14px;">A calendar file is attached to this email. Download and open it to add this event to your calendar.</p>
-      </div>
-
-      <p style="color: #69697b; font-size: 14px;">If you have any questions about the event, feel free to reach out to us.</p>
-
-      <p style="margin: 30px 0 10px 0;">Best regards,<br><strong>SafetyTech Academy Team</strong></p>
-
-      <div class="footer">
-        <p>© 2024 SafetyTech Academy. All rights reserved.</p>
-        <p>You received this email because you registered for an event on safetytech.academy</p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
-    `;
-
-    // Create ICS attachment
-    const icsContent = body.icsFile;
-
-    // Send email via Resend
-    const response = await fetch("https://api.resend.com/emails", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-      },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
       body: JSON.stringify({
-        from: "SafetyTech Academy <hello@safetyacademy.tech>",
-        to: body.to,
-        subject: `Confirmed: ${body.eventTitle} Registration`,
-        html: emailHtml,
-        ...(icsContent ? { attachments: [{ filename: "event.ics", content: icsContent }] } : {}),
+        from: "SafetyTech Academy <hello@safetytech.academy>",
+        reply_to: "hello@safetytech.academy",
+        to: [addr],
+        subject: `Confirmed: ${ev.title}`,
+        html,
       }),
     });
-
-    if (!response.ok) {
-      throw new Error(`Email send failed: ${response.statusText}`);
+    if (!res.ok) {
+      await db.from("leads").update({ confirmation_sent_at: null }).eq("id", lead.id);
+      throw new Error(`Email send failed (${res.status})`);
     }
-
-    const result = await response.json();
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        messageId: result.id,
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    );
-  } catch (error: any) {
-    console.error("Error sending email:", error);
-
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message,
-      }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    );
+    return json({ success: true, id: (await res.json()).id });
+  } catch (error) {
+    console.error("send-event-registration-email:", error);
+    return json({ success: false, error: "Could not send the confirmation" }, 500);
   }
-};
-
-serve(handler);
+});

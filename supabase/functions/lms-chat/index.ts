@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { requireUser, allow, AuthError } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -24,6 +25,15 @@ interface ChatRequest {
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
+  }
+
+  try {
+    const user = await requireUser(req);
+    if (!allow(`lms-chat:${user.id}`, 20, 60_000)) {
+      return new Response(JSON.stringify({ error: "You're sending messages too quickly — try again in a minute." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+  } catch (e) {
+    return new Response(JSON.stringify({ error: (e as Error).message }), { status: e instanceof AuthError ? e.status : 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 
   try {
@@ -68,7 +78,7 @@ Be helpful, professional, and encouraging. Keep responses concise but informativ
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-sonnet-5-5",
         max_tokens: 1024,
         system: systemPrompt,
         messages,

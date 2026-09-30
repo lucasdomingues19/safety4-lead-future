@@ -64,8 +64,8 @@ const LearnAuth = () => {
       toast.error("Please fill in all fields");
       return;
     }
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+    if (mode === "signup" && password.length < 8) {
+      toast.error("Password must be at least 8 characters");
       return;
     }
     if (mode === "signup" && !fullName.trim()) {

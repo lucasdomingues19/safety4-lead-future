@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
+import { requireAdmin, AuthError } from "../_shared/auth.ts";
 
 interface ProposalSection {
   id: string;
@@ -28,6 +29,13 @@ const corsHeaders = {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
+  }
+
+  try {
+    await requireAdmin(req);
+  } catch (e) {
+    const status = e instanceof AuthError ? e.status : 401;
+    return new Response(JSON.stringify({ error: (e as Error).message }), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 
   try {

@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { allow, clientIp } from "../_shared/auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -57,6 +58,10 @@ Keep replies short (2-4 short paragraphs max). Use bullet points for lists. Alwa
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  if (!allow(`chat-assistant:${clientIp(req)}`, 15, 60_000)) {
+    return new Response(JSON.stringify({ error: "Too many messages — please wait a minute." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
 
   try {
     const { session_id, message, page_url } = await req.json();

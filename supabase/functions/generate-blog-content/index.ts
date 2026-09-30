@@ -1,3 +1,4 @@
+import { requireAdmin, AuthError } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -38,6 +39,13 @@ Generate a well-researched, engaging blog post article (800-1500 words). Use Mar
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  try {
+    await requireAdmin(req);
+  } catch (e) {
+    const status = e instanceof AuthError ? e.status : 401;
+    return new Response(JSON.stringify({ error: (e as Error).message }), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+  }
 
   try {
     const { title, category = "AI in EHS" } = await req.json();
