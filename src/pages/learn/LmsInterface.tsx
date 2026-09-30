@@ -138,13 +138,28 @@ export default function LmsInterface() {
       if (screen === "settings") return <LmsSettings />;
       if (screen === "support") return <LmsSupport />;
       if (screen === "admin" && isAdmin) {
-        if (adminTab === "overview") return <LmsAdminOverview />;
-        if (adminTab === "users") return <LmsAdminUsers />;
-        if (adminTab === "access") return <LmsAdminAccess />;
-        if (adminTab === "emails") return <LmsAdminEmails />;
-        if (adminTab === "reports") return <LmsAdminReports />;
-        if (adminTab === "billing") return <LmsAdminBilling />;
-        if (adminTab === "community") return <LmsAdminCommunity />;
+        const ADMIN_PAGES: Record<string, { title: string; sub: string; el: React.ReactNode }> = {
+          overview: { title: "Overview", sub: "How your academy is doing at a glance.", el: <LmsAdminOverview /> },
+          users: { title: "People", sub: "Everyone on the platform and what they can access.", el: <LmsAdminUsers /> },
+          access: { title: "Access", sub: "Who has each course, and until when.", el: <LmsAdminAccess /> },
+          emails: { title: "Emails", sub: "Send announcements to your learners.", el: <LmsAdminEmails /> },
+          reports: { title: "Reports", sub: "Export live data to Excel or Google Sheets.", el: <LmsAdminReports /> },
+          billing: { title: "Billing", sub: "Payments and Stripe connection status.", el: <LmsAdminBilling /> },
+          community: { title: "Moderation", sub: "Review and remove community content.", el: <LmsAdminCommunity /> },
+        };
+        const page = ADMIN_PAGES[adminTab];
+        if (page) {
+          return (
+            <div style={{ minHeight: "100vh", background: "#eef1f6", padding: "40px 28px 72px", fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#0b0b2c" }}>
+              <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+                <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#8ab815" }}>ADMIN</div>
+                <h1 style={{ margin: "10px 0 0", fontSize: "34px", lineHeight: 1.1, fontWeight: 700 }}>{page.title}</h1>
+                <p style={{ margin: "8px 0 0", fontSize: "15px", color: "#69697b" }}>{page.sub}</p>
+                {page.el}
+              </div>
+            </div>
+          );
+        }
       }
       return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} onNavigate={handleNavigation} />;
     })();

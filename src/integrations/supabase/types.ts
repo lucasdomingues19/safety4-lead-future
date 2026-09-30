@@ -671,6 +671,7 @@ export type Database = {
       leads: {
         Row: {
           company: string | null
+          confirmation_sent_at: string | null
           created_at: string
           email: string
           event_id: string | null
@@ -688,6 +689,7 @@ export type Database = {
         }
         Insert: {
           company?: string | null
+          confirmation_sent_at?: string | null
           created_at?: string
           email: string
           event_id?: string | null
@@ -705,6 +707,7 @@ export type Database = {
         }
         Update: {
           company?: string | null
+          confirmation_sent_at?: string | null
           created_at?: string
           email?: string
           event_id?: string | null
@@ -1037,6 +1040,24 @@ export type Database = {
           viewport_height?: number | null
           viewport_width?: number | null
           visited_at?: string | null
+        }
+        Relationships: []
+      }
+      people_tags: {
+        Row: {
+          created_at: string
+          tag: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          tag: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          tag?: string
+          user_id?: string
         }
         Relationships: []
       }

@@ -11,6 +11,7 @@ export function LmsAdminEmails() {
   const [loading, setLoading] = useState(true);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [courses, setCourses] = useState<CourseOpt[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [audience, setAudience] = useState("all");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
@@ -21,6 +22,8 @@ export function LmsAdminEmails() {
       supabase.from("email_campaigns").select("id, subject, audience, recipient_count, failed_count, sent_at").order("sent_at", { ascending: false }).limit(25),
       supabase.from("courses").select("id, title").order("title"),
     ]);
+    const { data: tagRows } = await supabase.from("people_tags").select("tag");
+    setTags([...new Set((tagRows ?? []).map((t) => t.tag))].sort());
     setCampaigns((c.data ?? []) as Campaign[]);
     setCourses((k.data ?? []) as CourseOpt[]);
     setLoading(false);
@@ -29,7 +32,7 @@ export function LmsAdminEmails() {
 
   const send = async (testOnly: boolean) => {
     if (subject.trim().length < 3 || body.trim().length < 5) { toast.error("Add a subject and a message first"); return; }
-    if (!testOnly && !confirm(`Send this to ${audience === "all" ? "ALL learners" : audience === "global-network" ? "all Global Network members" : "everyone enrolled in this course"}? This can't be undone.`)) return;
+    if (!testOnly && !confirm(`Send this to ${audience === "all" ? "ALL learners" : audience === "global-network" ? "all Global Network members" : audience.startsWith("tag:") ? `everyone tagged “${audience.slice(4)}”` : "everyone enrolled in this course"}? This can't be undone.`)) return;
     setBusy(testOnly ? "test" : "send");
     let data: { sent: number; failed: number };
     try {
@@ -57,6 +60,7 @@ export function LmsAdminEmails() {
               <option value="all">All learners</option>
               <option value="global-network">SafetyTech Global Network members</option>
               {courses.map((c) => <option key={c.id} value={c.id}>Enrolled in: {c.title}</option>)}
+              {tags.map((t) => <option key={t} value={`tag:${t}`}>Tagged: {t}</option>)}
             </select>
           </div>
           <div>

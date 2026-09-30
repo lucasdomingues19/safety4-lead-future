@@ -41,6 +41,15 @@ serve(async (req) => {
     } else if (!audience || audience === "all") {
       const { data } = await db.from("profiles").select("email");
       emails = (data ?? []).map((p) => p.email);
+    } else if (typeof audience === "string" && audience.startsWith("tag:")) {
+      const tag = audience.slice(4);
+      audienceLabel = `Tagged: ${tag}`;
+      const { data: tagged } = await db.from("people_tags").select("user_id").eq("tag", tag);
+      const ids = (tagged ?? []).map((t) => t.user_id);
+      if (ids.length) {
+        const { data } = await db.from("profiles").select("email").in("id", ids);
+        emails = (data ?? []).map((p) => p.email);
+      }
     } else if (audience === "global-network") {
       audienceLabel = "SafetyTech Global Network members";
       const { data: members } = await db.from("community_memberships").select("user_id, expires_at").eq("space", "global-network").eq("status", "active");

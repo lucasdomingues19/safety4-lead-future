@@ -16,7 +16,7 @@ const corsHeaders = {
 const SITE = "https://www.safetytech.academy";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-interface ImportRow { email: string; first_name?: string; last_name?: string; company?: string; products?: string[] }
+interface ImportRow { email: string; first_name?: string; last_name?: string; company?: string; products?: string[]; tags?: string[] }
 
 const esc = (t: string) => String(t ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]!));
 
@@ -142,6 +142,9 @@ serve(async (req: Request) => {
               else if (existing.status !== "active") await db.from("enrollments").update({ status: "active", expires_at: null }).eq("user_id", profile.id).eq("course_id", courseId);
             }
           }
+
+          const tags = [...new Set((row.tags ?? []).map((t) => String(t).trim().slice(0, 40)).filter(Boolean))];
+          if (tags.length) await db.from("people_tags").upsert(tags.map((tag) => ({ user_id: profile!.id, tag })), { onConflict: "user_id,tag", ignoreDuplicates: true });
 
           let welcomed = false;
           if (body.welcome) {

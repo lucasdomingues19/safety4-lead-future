@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, FileUp, Loader2, Mail, MoreHorizontal, Search, ShieldCheck, ShieldOff, UserPlus, X } from "lucide-react";
+import { Check, FileUp, Loader2, Mail, MoreHorizontal, Plus, Search, ShieldCheck, ShieldOff, Tag, UserPlus, X } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
@@ -20,7 +20,45 @@ interface Person {
   isAdmin: boolean;
   welcomedAt: string | null;
   lastSignIn: string | null;
+  tags: string[];
   access: Record<string, { active: boolean; expires: string | null }>;
+}
+
+const cleanTag = (t: string) => t.trim().replace(/\s+/g, " ").slice(0, 40);
+
+/** Tag chips for one person, with inline add (suggests existing tags) and remove. */
+function TagEditor({ tags, allTags, onAdd, onRemove }: { tags: string[]; allTags: string[]; onAdd: (t: string) => void; onRemove: (t: string) => void }) {
+  const [adding, setAdding] = useState(false);
+  const [value, setValue] = useState("");
+  const listId = useMemo(() => `tags-${Math.random().toString(36).slice(2)}`, []);
+  const submit = () => { const t = cleanTag(value); if (t && !tags.includes(t)) onAdd(t); setValue(""); setAdding(false); };
+  return (
+    <div className="mt-1.5 flex flex-wrap items-center gap-1">
+      {tags.map((t) => (
+        <span key={t} className="group inline-flex items-center gap-1 rounded-full bg-[#eef1ff] px-2 py-0.5 text-[11px] font-semibold text-[#3434ff]">
+          {t}
+          <button onClick={() => onRemove(t)} className="text-[#3434ff]/50 hover:text-red-600" aria-label={`Remove tag ${t}`}><X size={11} /></button>
+        </span>
+      ))}
+      {adding ? (
+        <>
+          <input
+            autoFocus
+            list={listId}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } if (e.key === "Escape") { setAdding(false); setValue(""); } }}
+            onBlur={submit}
+            placeholder="Tag name"
+            className="h-6 w-28 rounded-full border border-[#c7cdf9] px-2 text-[11px] outline-none"
+          />
+          <datalist id={listId}>{allTags.filter((t) => !tags.includes(t)).map((t) => <option key={t} value={t} />)}</datalist>
+        </>
+      ) : (
+        <button onClick={() => setAdding(true)} className="inline-flex items-center gap-0.5 rounded-full border border-dashed border-[#cbd5e1] px-2 py-0.5 text-[11px] font-semibold text-[#94a3b8] hover:border-[#3434ff] hover:text-[#3434ff]"><Plus size={10} /> Tag</button>
+      )}
+    </div>
+  );
 }
 
 const PAGE = 50;
@@ -34,6 +72,8 @@ export function LmsAdminUsers() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "no-access" | "not-invited" | "never-signed-in" | "admins">("all");
+  const [tagFilter, setTagFilter] = useState("");
+  const [bulkTag, setBulkTag] = useState("");
   const [page, setPage] = useState(0);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [busyCell, setBusyCell] = useState<string | null>(null);
@@ -43,14 +83,17 @@ export function LmsAdminUsers() {
   const [showAdd, setShowAdd] = useState(false);
 
   const load = useCallback(async () => {
-    const [profilesRes, rolesRes, coursesRes, enrRes, memRes, authRes] = await Promise.all([
+    const [profilesRes, rolesRes, coursesRes, enrRes, memRes, authRes, tagsRes] = await Promise.all([
       supabase.from("profiles").select("id, email, full_name, organisation, welcomed_at"),
       supabase.from("user_roles").select("user_id, role").eq("role", "admin"),
       supabase.from("courses").select("id, title, published").order("title"),
       supabase.from("enrollments").select("user_id, course_id, status, expires_at"),
       supabase.from("community_memberships").select("user_id, status, expires_at").eq("space", "global-network"),
       supabase.functions.invoke("admin-people", { body: { action: "list" } }),
+      supabase.from("people_tags").select("user_id, tag"),
     ]);
+    const tagsByUser = new Map<string, string[]>();
+    (tagsRes.data ?? []).forEach((t) => tagsByUser.set(t.user_id, [...(tagsByUser.get(t.user_id) ?? []), t.tag].sort()));
     const prods: Product[] = [
       ...(coursesRes.data ?? []).map((c) => ({ key: `course:${c.id}`, title: c.published ? c.title : `${c.title} (draft)` })),
       { key: "network", title: "Global Network" },
@@ -70,25 +113,52 @@ export function LmsAdminUsers() {
       isAdmin: admins.has(p.id),
       welcomedAt: p.welcomed_at,
       lastSignIn: signIns.get(p.id) ?? null,
+      tags: tagsByUser.get(p.id) ?? [],
       access: access.get(p.id) ?? {},
     })).sort((a, b) => a.name.localeCompare(b.name)));
     setLoading(false);
   }, []);
   useEffect(() => { load(); }, [load]);
 
+  const tagCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    people.forEach((p) => p.tags.forEach((t) => m.set(t, (m.get(t) ?? 0) + 1)));
+    return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  }, [people]);
+  const allTags = tagCounts.map(([t]) => t);
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return people.filter((p) => {
-      if (q && !`${p.name} ${p.email} ${p.company ?? ""}`.toLowerCase().includes(q)) return false;
+      if (tagFilter && !p.tags.includes(tagFilter)) return false;
+      if (q && !`${p.name} ${p.email} ${p.company ?? ""} ${p.tags.join(" ")}`.toLowerCase().includes(q)) return false;
       if (filter === "admins") return p.isAdmin;
       if (filter === "no-access") return !Object.values(p.access).some(live);
       if (filter === "not-invited") return !p.welcomedAt && !p.lastSignIn;
       if (filter === "never-signed-in") return !p.lastSignIn;
       return true;
     });
-  }, [people, search, filter]);
+  }, [people, search, filter, tagFilter]);
   const pageRows = filtered.slice(page * PAGE, page * PAGE + PAGE);
-  useEffect(() => { setPage(0); }, [search, filter]);
+  useEffect(() => { setPage(0); }, [search, filter, tagFilter]);
+
+  // ---------- tags ----------
+  const addTag = async (ids: string[], raw: string) => {
+    const tag = cleanTag(raw);
+    if (!tag || !ids.length) return;
+    const { error } = await supabase.from("people_tags").upsert(ids.map((user_id) => ({ user_id, tag })), { onConflict: "user_id,tag", ignoreDuplicates: true });
+    if (error) { toast.error("Could not add the tag"); return; }
+    setPeople((prev) => prev.map((p) => (ids.includes(p.id) && !p.tags.includes(tag) ? { ...p, tags: [...p.tags, tag].sort() } : p)));
+    if (ids.length > 1) toast.success(`Tagged ${ids.length} people “${tag}”`);
+  };
+  const removeTag = async (ids: string[], raw: string) => {
+    const tag = cleanTag(raw);
+    if (!tag || !ids.length) return;
+    const { error } = await supabase.from("people_tags").delete().eq("tag", tag).in("user_id", ids);
+    if (error) { toast.error("Could not remove the tag"); return; }
+    setPeople((prev) => prev.map((p) => (ids.includes(p.id) ? { ...p, tags: p.tags.filter((t) => t !== tag) } : p)));
+    if (ids.length > 1) toast.success(`Removed “${tag}” from ${ids.length} people`);
+  };
 
   // ---------- access changes (admin RLS) ----------
   const setAccess = async (personId: string, key: string, grant: boolean) => {
@@ -184,6 +254,10 @@ export function LmsAdminUsers() {
           <option value="never-signed-in">Never signed in</option>
           <option value="admins">Admins</option>
         </select>
+        <select value={tagFilter} onChange={(e) => setTagFilter(e.target.value)} className="rounded-lg border border-[#e2e8f0] bg-white px-3 py-2.5 text-sm font-semibold" aria-label="Filter by tag">
+          <option value="">All tags</option>
+          {tagCounts.map(([t, n]) => <option key={t} value={t}>{t} ({n})</option>)}
+        </select>
         <div className="ml-auto flex gap-2">
           <button onClick={() => setShowAdd(true)} className="inline-flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-white px-4 py-2.5 text-sm font-bold hover:border-[#c7cdf9]"><UserPlus size={16} /> Add person</button>
           <button onClick={() => setShowImport(true)} className="inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-4 py-2.5 text-sm font-bold text-white hover:bg-[#2a2ad6]"><FileUp size={16} /> Import CSV</button>
@@ -200,6 +274,12 @@ export function LmsAdminUsers() {
           <button disabled={!bulkProduct || bulkBusy} onClick={() => bulk(true)} className="rounded-lg bg-[#9eff1f] px-3.5 py-2 text-sm font-bold text-[#0b0b2c] disabled:opacity-40">Give access</button>
           <button disabled={!bulkProduct || bulkBusy} onClick={() => bulk(false)} className="rounded-lg bg-white/10 px-3.5 py-2 text-sm font-bold disabled:opacity-40">Remove access</button>
           <button disabled={bulkBusy} onClick={() => sendWelcome([...selected])} className="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-3.5 py-2 text-sm font-bold disabled:opacity-40"><Mail size={15} /> Send welcome email</button>
+          <span className="mx-1 h-6 w-px bg-white/20" />
+          <Tag size={15} className="text-white/60" />
+          <input list="bulk-tags" value={bulkTag} onChange={(e) => setBulkTag(e.target.value)} placeholder="Tag…" className="w-32 rounded-lg border-0 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-white/50 outline-none" />
+          <datalist id="bulk-tags">{allTags.map((t) => <option key={t} value={t} />)}</datalist>
+          <button disabled={!bulkTag.trim()} onClick={() => { addTag([...selected], bulkTag); setBulkTag(""); }} className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold disabled:opacity-40">Add tag</button>
+          <button disabled={!bulkTag.trim()} onClick={() => { removeTag([...selected], bulkTag); setBulkTag(""); }} className="rounded-lg bg-white/10 px-3 py-2 text-sm font-bold disabled:opacity-40">Remove tag</button>
           {bulkBusy && <Loader2 size={16} className="animate-spin" />}
           <button onClick={() => setSelected(new Set())} className="ml-auto rounded-full p-1.5 hover:bg-white/10" aria-label="Clear selection"><X size={16} /></button>
         </div>
@@ -226,6 +306,7 @@ export function LmsAdminUsers() {
                   <td className="px-3 py-3">
                     <div className="font-bold">{p.name}{p.isAdmin && <span className="ml-2 rounded bg-[#0b0b2c] px-1.5 py-0.5 text-[10px] font-bold uppercase text-white">Admin</span>}</div>
                     <div className="text-xs text-[#94a3b8]">{p.email}{p.company ? ` · ${p.company}` : ""}</div>
+                    <TagEditor tags={p.tags} allTags={allTags} onAdd={(t) => addTag([p.id], t)} onRemove={(t) => removeTag([p.id], t)} />
                   </td>
                   <td className={`whitespace-nowrap px-3 py-3 text-xs font-semibold ${st.c}`}>
                     {st.t}
@@ -289,7 +370,7 @@ export function LmsAdminUsers() {
       )}
       <p className="mt-3 text-[12px] text-[#94a3b8]">Ticking gives lifetime access; for a fixed period use Admin → Access. Removing access keeps the person's progress, so ticking again restores it.</p>
 
-      {showImport && <ImportPeopleDialog products={products} existingEmails={new Set(people.map((p) => p.email.toLowerCase()))} onClose={() => setShowImport(false)} onDone={load} />}
+      {showImport && <ImportPeopleDialog products={products} existingTags={allTags} existingEmails={new Set(people.map((p) => p.email.toLowerCase()))} onClose={() => setShowImport(false)} onDone={load} />}
       {showAdd && <AddPersonDialog products={products} onClose={() => setShowAdd(false)} onDone={load} />}
     </div>
   );

@@ -28,12 +28,14 @@ const bestProduct = (name: string, products: Product[]) => {
   return best && best.score >= 0.5 ? best.key : "";
 };
 
-export function ImportPeopleDialog({ products, existingEmails, onClose, onDone }: { products: Product[]; existingEmails: Set<string>; onClose: () => void; onDone: () => void }) {
+export function ImportPeopleDialog({ products, existingEmails, existingTags = [], onClose, onDone }: { products: Product[]; existingEmails: Set<string>; existingTags?: string[]; onClose: () => void; onDone: () => void }) {
   const [step, setStep] = useState<Step>("upload");
   const [fileName, setFileName] = useState("");
   const [headers, setHeaders] = useState<string[]>([]);
   const [rows, setRows] = useState<Record<string, string>[]>([]);
-  const [col, setCol] = useState({ email: "", first: "", last: "", full: "", company: "", products: "" });
+  const [col, setCol] = useState({ email: "", first: "", last: "", full: "", company: "", products: "", tags: "" });
+  // Tag everyone in this import (defaults to a dated "Kajabi import" tag so the batch is easy to find).
+  const [batchTag, setBatchTag] = useState(`Kajabi import ${new Date().toISOString().slice(0, 10)}`);
   const [productMap, setProductMap] = useState<Record<string, string>>({});
   const [grantAll, setGrantAll] = useState<Set<string>>(new Set());
   const [welcome, setWelcome] = useState(false);
@@ -58,6 +60,7 @@ export function ImportPeopleDialog({ products, existingEmails, onClose, onDone }
         full: pick(h, /^name$/i, /full ?name/i),
         company: pick(h, /company/i, /organi[sz]ation/i, /employer/i),
         products: pick(h, /products?/i, /offers?/i, /courses?/i),
+        tags: pick(h, /^tags?$/i, /labels?/i, /segments?/i),
       });
       setStep("map");
     } catch {
@@ -92,8 +95,12 @@ export function ImportPeopleDialog({ products, existingEmails, onClose, onDone }
     const fromExport = col.products
       ? (r[col.products] ?? "").split(/\s*[;|]\s*|\s*,\s*(?=[A-Z0-9])/).map((s) => productMap[s.trim()]).filter(Boolean)
       : [];
-    return { email, first_name: first, last_name: last, company: col.company ? r[col.company] : "", products: [...new Set([...fromExport, ...grantAll])], valid: EMAIL_RE.test(email) };
-  }), [rows, col, productMap, grantAll]);
+    const tags = [
+      ...(col.tags ? (r[col.tags] ?? "").split(/\s*[,;|]\s*/).map((t) => t.trim()).filter(Boolean) : []),
+      ...(batchTag.trim() ? [batchTag.trim()] : []),
+    ].map((t) => t.slice(0, 40));
+    return { email, first_name: first, last_name: last, company: col.company ? r[col.company] : "", products: [...new Set([...fromExport, ...grantAll])], tags: [...new Set(tags)], valid: EMAIL_RE.test(email) };
+  }), [rows, col, productMap, grantAll, batchTag]);
 
   const valid = prepared.filter((p) => p.valid);
   const invalid = prepared.length - valid.length;
@@ -154,7 +161,7 @@ export function ImportPeopleDialog({ products, existingEmails, onClose, onDone }
               <p className="text-sm text-[#69697b]"><strong className="text-[#0b0b2c]">{fileName}</strong> · {rows.length} rows. Check which columns hold what — we've guessed.</p>
               <div className="grid gap-4 sm:grid-cols-2">
                 {([
-                  ["email", "Email (required)"], ["full", "Full name"], ["first", "First name"], ["last", "Last name"], ["company", "Company name"], ["products", "Products / offers they own"],
+                  ["email", "Email (required)"], ["full", "Full name"], ["first", "First name"], ["last", "Last name"], ["company", "Company name"], ["products", "Products / offers they own"], ["tags", "Tags"],
                 ] as const).map(([k, label]) => (
                   <label key={k} className="block">
                     <span className="mb-1.5 block text-[13px] font-semibold">{label}</span>
@@ -208,6 +215,13 @@ export function ImportPeopleDialog({ products, existingEmails, onClose, onDone }
                   })}
                 </div>
               </div>
+
+              <label className="block">
+                <span className="text-sm font-bold">Tag everyone in this import</span>
+                <span className="mt-0.5 block text-[13px] text-[#69697b]">Makes this batch easy to find later.{col.tags ? " Tags from the file are added too." : ""}</span>
+                <input list="import-existing-tags" value={batchTag} onChange={(e) => setBatchTag(e.target.value)} placeholder="e.g. Kajabi import" className="mt-2 w-full max-w-sm rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm" />
+                <datalist id="import-existing-tags">{existingTags.map((t) => <option key={t} value={t} />)}</datalist>
+              </label>
 
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {[
