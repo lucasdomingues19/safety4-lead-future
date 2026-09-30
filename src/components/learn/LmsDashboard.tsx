@@ -2,7 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { BookOpen, Zap, Trophy, Award, MessageSquare, Loader2, Lock } from "lucide-react";
+import { BookOpen, Trophy, MessageSquare, Loader2 } from "lucide-react";
+import { getMyGamification, type MyGamification } from "@/lib/gamification";
+import { LevelChip, ProgressCard } from "@/components/learn/Gamification";
 import { toast } from "sonner";
 
 export interface CourseProgress {
@@ -36,6 +38,7 @@ interface LeaderRow {
   display_name: string;
   points: number;
   lessons: number;
+  level_name: string;
   is_me: boolean;
 }
 
@@ -68,7 +71,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
   const [enrollingId, setEnrollingId] = useState<string | null>(null);
   const [leaders, setLeaders] = useState<LeaderRow[]>([]);
   const [posts, setPosts] = useState<PostPreview[]>([]);
-  const [awardsEarned, setAwardsEarned] = useState<Record<string, boolean>>({});
+  const [gamification, setGamification] = useState<MyGamification | null>(null);
 
   const load = useCallback(async () => {
     if (!user) return;
@@ -141,15 +144,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
       setLeaders((lbRes.data ?? []) as LeaderRow[]);
       setPosts((postsRes.data ?? []) as PostPreview[]);
 
-      const attempts = attemptRes.data ?? [];
-      setAwardsEarned({
-        "First Steps": completedIds.size >= 1,
-        "Halfway There": list.some((c) => c.progressPercent >= 50),
-        "Quiz Passed": attempts.some((a) => a.passed),
-        "Perfect Score": attempts.some((a) => a.score === 100),
-        "Community Voice": (myPostsRes.count ?? 0) >= 1,
-        Certified: (certRes.data ?? []).length >= 1,
-      });
+      setGamification(await getMyGamification());
     } catch (err) {
       console.error("Error loading dashboard:", err);
       toast.error("Could not load your dashboard");
@@ -186,18 +181,6 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
     await load();
   };
 
-  const awards = useMemo(
-    () => [
-      { name: "First Steps", hint: "Complete a lesson" },
-      { name: "Halfway There", hint: "Reach 50% of a course" },
-      { name: "Quiz Passed", hint: "Pass a module quiz" },
-      { name: "Perfect Score", hint: "Score 100% on a quiz" },
-      { name: "Community Voice", hint: "Post in the community" },
-      { name: "Certified", hint: "Earn a certificate" },
-    ],
-    [],
-  );
-
   if (loading) {
     return (
       <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -207,7 +190,6 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
   }
 
   const first = courses[0];
-  const earnedCount = awards.filter((a) => awardsEarned[a.name]).length;
 
   return (
     <div style={{ minHeight: "100vh", background: "#eef1f6", color: "#0b0b2c", padding: "40px 28px 72px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -249,6 +231,10 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
               </button>
             </div>
           </div>
+        )}
+
+        {gamification && (
+          <div style={{ marginTop: "28px" }}><ProgressCard g={gamification} /></div>
         )}
 
         {/* Your learning */}
@@ -370,6 +356,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
                   </div>
                   <div style={{ flex: 1, minWidth: 0, fontSize: "15px", fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {l.display_name}{l.is_me ? " (you)" : ""}
+                    <div style={{ marginTop: 3 }}><LevelChip name={l.level_name} /></div>
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <div style={{ fontSize: "15px", fontWeight: 800 }}>{l.points}</div>
@@ -379,37 +366,11 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
               ))
             )}
             <div style={{ padding: "18px 26px", background: "#f8fafc", fontSize: "13px", lineHeight: 1.6, color: "#69697b" }}>
-              10 pts per lesson, 50 per quiz passed, 5 per community post. Opt out in Settings.
+              Earn points for lessons, quizzes, courses and helping in the community. You can hide yourself from the board in Settings.
             </div>
           </div>
         </div>
 
-        {/* Awards */}
-        <div style={{ ...card, marginTop: "20px", padding: "26px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(166,226,26,0.24)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Award size={20} color="#5e7f0f" />
-            </div>
-            <div>
-              <div style={{ fontSize: "18px", fontWeight: 700 }}>My awards</div>
-              <div style={{ marginTop: 4, fontSize: "13px", color: "#94a3b8" }}>{earnedCount} of {awards.length} earned</div>
-            </div>
-          </div>
-          <div style={{ marginTop: "24px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(148px, 1fr))", gap: "16px" }}>
-            {awards.map((a) => {
-              const earned = awardsEarned[a.name];
-              return (
-                <div key={a.name} style={{ border: `1px solid ${earned ? "#d9f09a" : "#e2e8f0"}`, background: earned ? "#f4fbe4" : "#f8fafc", borderRadius: "16px", padding: "20px 16px", textAlign: "center" }}>
-                  <div style={{ width: 52, height: 52, margin: "0 auto", borderRadius: "50%", background: earned ? "#a6e21a" : "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", opacity: earned ? 1 : 0.5 }}>
-                    {earned ? <Zap size={24} color="#0b0b2c" /> : <Lock size={22} color="#3434ff" />}
-                  </div>
-                  <div style={{ marginTop: 14, fontSize: "14px", fontWeight: 700, color: earned ? "#0b0b2c" : "#69697b" }}>{a.name}</div>
-                  <div style={{ marginTop: 6, fontSize: "12px", color: "#94a3b8" }}>{earned ? "Earned" : a.hint}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </div>
   );

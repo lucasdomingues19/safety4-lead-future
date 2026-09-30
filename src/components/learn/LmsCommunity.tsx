@@ -6,6 +6,8 @@ import { LmsContext } from "@/pages/learn/LmsInterface";
 import { toast } from "sonner";
 import { toEmbedUrl } from "@/lib/lms";
 import { EmojiPicker, insertAtCaret } from "./EmojiPicker";
+import { LevelChip, NetworkChip } from "./Gamification";
+import { getMemberBadges, type MemberBadge } from "@/lib/gamification";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -107,6 +109,7 @@ export function LmsCommunity() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [mediaUrls, setMediaUrls] = useState<Record<string, string>>({});
+  const [memberBadges, setMemberBadges] = useState<Record<string, MemberBadge>>({});
   const [filter, setFilter] = useState<TopicId | "all">("all");
   const [space, setSpace] = useState<SpaceId>(() => {
     try { return localStorage.getItem(SPACE_KEY) === "global-network" ? "global-network" : "academy"; } catch { return "academy"; }
@@ -166,6 +169,7 @@ export function LmsCommunity() {
       ]);
       setComments((c.data ?? []) as Comment[]);
       setReactions((r.data ?? []) as Reaction[]);
+      getMemberBadges([...ps.map((p) => p.user_id), ...((c.data ?? []) as Comment[]).map((x) => x.user_id)]).then(setMemberBadges);
       setMediaUrls(Object.fromEntries((signed.data ?? []).filter((s) => s.path && s.signedUrl).map((s) => [s.path!, s.signedUrl])));
     } else {
       setComments([]);
@@ -443,7 +447,11 @@ export function LmsCommunity() {
                 <header className="flex items-center gap-3">
                   <Avatar name={p.author_name} />
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-[15px] font-bold">{p.author_name}</div>
+                    <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+                      <span className="truncate text-[15px] font-bold">{p.author_name}</span>
+                      {memberBadges[p.user_id] && <LevelChip name={memberBadges[p.user_id].level_name} />}
+                      {memberBadges[p.user_id]?.network_member && space === "academy" && <NetworkChip />}
+                    </div>
                     <div className="text-xs text-[#94a3b8]">{timeAgo(p.created_at)} · {topicInfo.emoji} {topicInfo.label}</div>
                   </div>
                   {(p.user_id === user?.id || isAdmin) && (
@@ -511,6 +519,7 @@ export function LmsCommunity() {
                         <div className="min-w-0 flex-1 rounded-2xl bg-[#f5f7fa] px-3.5 py-2.5">
                           <div className="flex items-center gap-2 text-[13px]">
                             <span className="font-bold">{c.author_name}</span>
+                            {memberBadges[c.user_id] && <LevelChip name={memberBadges[c.user_id].level_name} compact />}
                             <span className="text-[#94a3b8]">{timeAgo(c.created_at)}</span>
                             {(c.user_id === user?.id || isAdmin) && (
                               <button onClick={() => removeComment(c.id)} className="ml-auto text-[#94a3b8] hover:text-red-600" aria-label="Delete reply"><Trash2 size={13} /></button>

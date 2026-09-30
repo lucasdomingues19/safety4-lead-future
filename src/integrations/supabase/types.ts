@@ -680,6 +680,21 @@ export type Database = {
           },
         ]
       }
+      learning_activity_days: {
+        Row: {
+          day: string
+          user_id: string
+        }
+        Insert: {
+          day: string
+          user_id: string
+        }
+        Update: {
+          day?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_comments: {
         Row: {
           author_name: string
@@ -1311,10 +1326,21 @@ export type Database = {
           display_name: string
           is_me: boolean
           lessons: number
+          level_name: string
           points: number
           user_id: string
         }[]
       }
+      get_member_badges: {
+        Args: { _ids: string[] }
+        Returns: {
+          level: number
+          level_name: string
+          network_member: boolean
+          user_id: string
+        }[]
+      }
+      get_my_gamification: { Args: never; Returns: Json }
       has_community_access: {
         Args: { _space: string; _user: string }
         Returns: boolean
@@ -1334,9 +1360,32 @@ export type Database = {
         Args: { _lesson: string; _user: string }
         Returns: string
       }
+      level_for: {
+        Args: { _points: number }
+        Returns: {
+          floor_points: number
+          level: number
+          name: string
+          next_points: number
+        }[]
+      }
       record_lesson_watch: {
         Args: { _duration: number; _lesson_id: string; _watched: number }
         Returns: number
+      }
+      user_points: {
+        Args: { _user: string }
+        Returns: {
+          courses_completed: number
+          finals_passed: number
+          lessons: number
+          perfect_quizzes: number
+          points: number
+          posts_counted: number
+          quizzes: number
+          reactions_received: number
+          replies_counted: number
+        }[]
       }
       verify_certificate: {
         Args: { _certificate_number: string }

@@ -295,7 +295,7 @@ const LessonView = () => {
 
       const allDone = orderedLessons.every((l) => l.id === lesson.id || l.enforce_progress === false || completed.has(l.id));
       if (nextLesson) {
-        toast.success("Lesson complete");
+        toast.success(isDone ? "Next lesson" : "Lesson complete · +10 points");
         navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`);
       } else if (allDone && course?.final_assessment_ref) {
         toast.success("All lessons complete — your final assessment is next");
