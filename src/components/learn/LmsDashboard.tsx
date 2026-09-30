@@ -73,8 +73,11 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
   const load = useCallback(async () => {
     if (!user) return;
     try {
+      // Profile name first (what Settings edits), then sign-up metadata; never the email address.
+      const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
       const meta = (user.user_metadata as { full_name?: string } | undefined)?.full_name;
-      setUserName((meta || user.email?.split("@")[0] || "there").split(" ")[0]);
+      const name = [profile?.full_name, meta].find((n) => n && n.trim() && !n.includes("@"));
+      setUserName(name ? name.trim().split(/\s+/)[0] : "there");
 
       const [enrRes, courseRes, progRes, attemptRes, certRes, myPostsRes, lbRes, postsRes] = await Promise.all([
         supabase.from("enrollments").select("course_id, status, expires_at").eq("user_id", user.id),
