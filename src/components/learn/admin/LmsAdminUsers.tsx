@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, Globe2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuthUser } from "@/hooks/useAuthUser";
+import { toast } from "sonner";
 
 interface UserRow {
   id: string;
@@ -9,10 +11,14 @@ interface UserRow {
   role: "admin" | "learner";
   enrollmentCount: number;
   hasActiveEnrollment: boolean;
+  /** Paid SafetyTech Global Network membership (everyone has the free Academy community). */
+  globalNetwork: boolean;
 }
 
 export function LmsAdminUsers() {
-  const [filter, setFilter] = useState<"All" | "Active" | "Admins">("All");
+  const { user: me } = useAuthUser();
+  const [filter, setFilter] = useState<"All" | "Active" | "Global Network" | "Admins">("All");
+  const [savingId, setSavingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<UserRow[]>([]);
@@ -24,11 +30,13 @@ export function LmsAdminUsers() {
   const load = async () => {
     setLoading(true);
     try {
-      const [profilesRes, enrollmentsRes, rolesRes] = await Promise.all([
+      const [profilesRes, enrollmentsRes, rolesRes, membersRes] = await Promise.all([
         supabase.from("profiles").select("id, email, full_name"),
         supabase.from("enrollments").select("user_id, status"),
         supabase.from("user_roles").select("user_id, role"),
+        supabase.from("community_memberships").select("user_id, status, expires_at").eq("space", "global-network"),
       ]);
+      const networkIds = new Set((membersRes.data ?? []).filter((m) => m.status === "active" && (!m.expires_at || new Date(m.expires_at) > new Date())).map((m) => m.user_id));
 
       const profiles = profilesRes.data ?? [];
       const enrollments = enrollmentsRes.data ?? [];
@@ -44,6 +52,7 @@ export function LmsAdminUsers() {
           role: adminIds.has(p.id) ? "admin" : "learner",
           enrollmentCount: userEnrollments.length,
           hasActiveEnrollment: userEnrollments.some((e) => e.status === "active"),
+          globalNetwork: networkIds.has(p.id),
         };
       });
       setUsers(rows);
@@ -54,6 +63,17 @@ export function LmsAdminUsers() {
     }
   };
 
+  const toggleNetwork = async (u: UserRow) => {
+    setSavingId(u.id);
+    const { error } = u.globalNetwork
+      ? await supabase.from("community_memberships").update({ status: "cancelled" }).eq("user_id", u.id).eq("space", "global-network")
+      : await supabase.from("community_memberships").upsert({ user_id: u.id, space: "global-network", status: "active", source: "admin", expires_at: null, granted_by: me?.id ?? null });
+    setSavingId(null);
+    if (error) { toast.error("Could not update membership"); return; }
+    setUsers((prev) => prev.map((x) => (x.id === u.id ? { ...x, globalNetwork: !u.globalNetwork } : x)));
+    toast.success(u.globalNetwork ? `${u.full_name || u.email} removed from the Global Network` : `${u.full_name || u.email} added to the Global Network`);
+  };
+
   const getAvatarColor = (initial: string) => {
     const colors = ["#3434ff", "#8ab815", "#5555ff", "#b8d430", "#2a2ad6", "#7aa80e"];
     const charCode = initial.charCodeAt(0);
@@ -61,7 +81,7 @@ export function LmsAdminUsers() {
   };
 
   const filteredUsers = users.filter((u) => {
-    const matchesFilter = filter === "All" || (filter === "Active" && u.hasActiveEnrollment) || (filter === "Admins" && u.role === "admin");
+    const matchesFilter = filter === "All" || (filter === "Active" && u.hasActiveEnrollment) || (filter === "Global Network" && u.globalNetwork) || (filter === "Admins" && u.role === "admin");
     const name = u.full_name ?? "";
     const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) || u.email.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -90,7 +110,7 @@ export function LmsAdminUsers() {
           />
         </div>
         <div style={{ display: "flex", gap: "8px" }}>
-          {(["All", "Active", "Admins"] as const).map((f) => (
+          {(["All", "Active", "Global Network", "Admins"] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -115,10 +135,11 @@ export function LmsAdminUsers() {
 
       {/* Users Table */}
       <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", overflow: "hidden", boxShadow: "0 2px 8px rgba(11,11,44,0.06)" }}>
-        <div style={{ padding: "20px 28px", borderBottom: "1px solid #e2e8f0", display: "grid", gridTemplateColumns: "1fr 100px 120px 100px", gap: "16px", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", color: "#69697b", letterSpacing: "0.05em" }}>
+        <div style={{ padding: "20px 28px", borderBottom: "1px solid #e2e8f0", display: "grid", gridTemplateColumns: "1fr 90px 110px 190px 110px", gap: "16px", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", color: "#69697b", letterSpacing: "0.05em" }}>
           <div>USER</div>
           <div>ROLE</div>
           <div>ENROLLED IN</div>
+          <div>COMMUNITY</div>
           <div>STATUS</div>
         </div>
         {filteredUsers.length === 0 && (
@@ -134,7 +155,7 @@ export function LmsAdminUsers() {
                 padding: "20px 28px",
                 borderBottom: idx < filteredUsers.length - 1 ? "1px solid #f1f4f8" : "none",
                 display: "grid",
-                gridTemplateColumns: "1fr 100px 120px 100px",
+                gridTemplateColumns: "1fr 90px 110px 190px 110px",
                 gap: "16px",
                 alignItems: "center",
               }}
@@ -164,6 +185,14 @@ export function LmsAdminUsers() {
               </div>
               <div style={{ fontSize: "13px", color: "#0b0b2c", textTransform: "capitalize" }}>{user.role}</div>
               <div style={{ fontSize: "13px", color: "#0b0b2c" }}>{user.enrollmentCount} course{user.enrollmentCount !== 1 ? "s" : ""}</div>
+              <button
+                onClick={() => toggleNetwork(user)}
+                disabled={savingId === user.id}
+                title={user.globalNetwork ? "Remove from SafetyTech Global Network" : "Add to SafetyTech Global Network (paid tier)"}
+                style={{ display: "inline-flex", alignItems: "center", gap: "6px", justifySelf: "start", border: user.globalNetwork ? "none" : "1px dashed #cbd5e1", background: user.globalNetwork ? "#202058" : "#fff", color: user.globalNetwork ? "#9eff1f" : "#69697b", borderRadius: "999px", padding: "6px 12px", fontSize: "12px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit", opacity: savingId === user.id ? 0.6 : 1 }}
+              >
+                <Globe2 size={13} /> {user.globalNetwork ? "Global Network" : "Academy · add Network"}
+              </button>
               <div style={{ fontSize: "11px", fontWeight: 700, color: user.hasActiveEnrollment ? "#4a5230" : "#69697b", background: user.hasActiveEnrollment ? "#f4fbe4" : "#f8fafc", padding: "6px 10px", borderRadius: "4px", display: "inline-block", textAlign: "center" }}>
                 {user.hasActiveEnrollment ? "ACTIVE" : "NO ENROLMENT"}
               </div>

@@ -294,6 +294,36 @@ export type Database = {
           },
         ]
       }
+      community_memberships: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          granted_by: string | null
+          source: string
+          space: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          granted_by?: string | null
+          source?: string
+          space: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          granted_by?: string | null
+          source?: string
+          space?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       community_posts: {
         Row: {
           author_name: string
@@ -302,6 +332,7 @@ export type Database = {
           id: string
           media: Json
           pinned: boolean
+          space: string
           topic: string
           user_id: string
         }
@@ -312,6 +343,7 @@ export type Database = {
           id?: string
           media?: Json
           pinned?: boolean
+          space?: string
           topic?: string
           user_id: string
         }
@@ -322,6 +354,7 @@ export type Database = {
           id?: string
           media?: Json
           pinned?: boolean
+          space?: string
           topic?: string
           user_id?: string
         }
@@ -1281,6 +1314,10 @@ export type Database = {
           points: number
           user_id: string
         }[]
+      }
+      has_community_access: {
+        Args: { _space: string; _user: string }
+        Returns: boolean
       }
       has_role: {
         Args: {

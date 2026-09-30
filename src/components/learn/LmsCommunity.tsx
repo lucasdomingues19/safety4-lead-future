@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { Film, ImagePlus, Loader2, MessageCircle, MoreHorizontal, Pin, PinOff, Send, SmilePlus, Trash2, X } from "lucide-react";
+import { Film, Globe2, GraduationCap, ImagePlus, Loader2, Lock, MessageCircle, MoreHorizontal, Pin, PinOff, Send, SmilePlus, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { LmsContext } from "@/pages/learn/LmsInterface";
@@ -20,6 +20,15 @@ const TOPICS = [
 ] as const;
 type TopicId = (typeof TOPICS)[number]["id"];
 const REACTIONS = ["👍", "❤️", "🎉", "💡", "😂", "🙌"] as const;
+
+// Two spaces: the free Academy community and the paid Global Network.
+// Access is enforced by RLS (has_community_access); this only drives the UI.
+const SPACES = [
+  { id: "academy", name: "SafetyTech Academy", tier: "Free", icon: GraduationCap, title: "Learn together", intro: "Ask questions, share wins and show how you're applying AI in your EHS work." },
+  { id: "global-network", name: "SafetyTech Global Network", tier: "Members", icon: Globe2, title: "SafetyTech Global Network", intro: "The members-only community of SafetyTech Academy." },
+] as const;
+type SpaceId = (typeof SPACES)[number]["id"];
+const SPACE_KEY = "lms-community-space";
 
 interface MediaItem { type: "image" | "video"; path: string }
 interface Post { id: string; user_id: string; author_name: string; body: string; created_at: string; media: MediaItem[]; topic: TopicId; pinned: boolean }
@@ -99,6 +108,22 @@ export function LmsCommunity() {
   const [reactions, setReactions] = useState<Reaction[]>([]);
   const [mediaUrls, setMediaUrls] = useState<Record<string, string>>({});
   const [filter, setFilter] = useState<TopicId | "all">("all");
+  const [space, setSpace] = useState<SpaceId>(() => {
+    try { return localStorage.getItem(SPACE_KEY) === "global-network" ? "global-network" : "academy"; } catch { return "academy"; }
+  });
+  const [networkAccess, setNetworkAccess] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!user) return;
+    supabase.rpc("has_community_access", { _user: user.id, _space: "global-network" }).then(({ data }) => setNetworkAccess(!!data));
+  }, [user]);
+  const switchSpace = (id: SpaceId) => {
+    setSpace(id);
+    setFilter("all");
+    setOpenThread(null);
+    try { localStorage.setItem(SPACE_KEY, id); } catch { /* private mode */ }
+  };
+  const spaceInfo = SPACES.find((x) => x.id === space)!;
+  const locked = space === "global-network" && networkAccess === false;
 
   // composer
   const [draft, setDraft] = useState("");
@@ -126,6 +151,7 @@ export function LmsCommunity() {
     const { data: postRows } = await supabase
       .from("community_posts")
       .select("id, user_id, author_name, body, created_at, media, topic, pinned")
+      .eq("space", space)
       .order("created_at", { ascending: false })
       .limit(60);
     const ps = (postRows ?? []) as unknown as Post[];
@@ -146,9 +172,9 @@ export function LmsCommunity() {
       setReactions([]);
     }
     setLoading(false);
-  }, []);
+  }, [space]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => { setLoading(true); load(); }, [load]);
 
   // Live updates: new posts/replies (or deletions) from anyone refresh the feed.
   useEffect(() => {
@@ -200,6 +226,7 @@ export function LmsCommunity() {
         body: draft.trim(),
         media: media as never,
         topic,
+        space,
         pinned: isAdmin && pinOnPost,
       });
       if (error) throw error;
@@ -270,8 +297,49 @@ export function LmsCommunity() {
     <div className="min-h-screen bg-[#eef1f6] px-4 pb-20 pt-10 font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c] md:px-7">
       <div className="mx-auto max-w-[760px]">
         <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">COMMUNITY</p>
-        <h1 className="mt-3 text-[34px] font-bold leading-tight md:text-[38px]">Learn together</h1>
-        <p className="mt-3 text-base leading-relaxed text-[#69697b]">Ask questions, share wins and show how you're applying AI in your EHS work.</p>
+
+        {/* Space switcher */}
+        <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5">
+          {SPACES.map((sp) => {
+            const active = space === sp.id;
+            const isLocked = sp.id === "global-network" && networkAccess === false;
+            const Icon = sp.icon;
+            return (
+              <button
+                key={sp.id}
+                onClick={() => switchSpace(sp.id)}
+                className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition ${active ? (sp.id === "global-network" ? "bg-[#202058] text-white" : "bg-[#3434ff] text-white") : "text-[#0b0b2c] hover:bg-[#f5f7fa]"}`}
+              >
+                <Icon size={20} className={active && sp.id === "global-network" ? "text-[#9eff1f]" : ""} />
+                <span className="min-w-0">
+                  <span className="block truncate text-[13.5px] font-bold">{sp.name}</span>
+                  <span className={`flex items-center gap-1 text-[11px] font-semibold ${active ? "text-white/70" : "text-[#94a3b8]"}`}>
+                    {isLocked && <Lock size={10} />} {sp.tier}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <h1 className="mt-6 text-[34px] font-bold leading-tight md:text-[38px]">{spaceInfo.title}</h1>
+        <p className="mt-3 text-base leading-relaxed text-[#69697b]">{spaceInfo.intro}</p>
+
+        {locked ? (
+          <div className="mt-7 overflow-hidden rounded-[20px] bg-[#202058] p-8 text-center text-white md:p-10">
+            <Globe2 className="mx-auto h-10 w-10 text-[#9eff1f]" />
+            <h2 className="mt-4 text-2xl font-bold">Members only</h2>
+            <p className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed text-[#cfcfdb]">
+              SafetyTech Global Network is our paid membership community. Get in touch and we'll set up your membership.
+            </p>
+            <a
+              href="mailto:hello@safetytech.academy?subject=SafetyTech%20Global%20Network%20membership"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#9eff1f] px-6 py-3 text-sm font-bold text-[#0b0b2c] transition hover:brightness-95"
+            >
+              Ask about membership
+            </a>
+          </div>
+        ) : (<>
 
         {/* Composer */}
         <div className="mt-7 rounded-[20px] border border-[#e2e8f0] bg-white p-4 md:p-5">
@@ -474,6 +542,8 @@ export function LmsCommunity() {
             );
           })
         )}
+
+        </>)}
 
         <div className="mt-7 rounded-[20px] border border-[#d9f09a] bg-[#f4fbe4] p-5">
           <div className="text-[15px] font-bold">Community guidelines</div>
