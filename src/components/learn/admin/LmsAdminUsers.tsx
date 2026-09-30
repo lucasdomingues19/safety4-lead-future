@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Check, FileUp, Loader2, Mail, Search, UserPlus, X } from "lucide-react";
+import { Check, FileUp, Loader2, Mail, MoreHorizontal, Search, ShieldCheck, ShieldOff, UserPlus, X } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { toast } from "sonner";
@@ -143,6 +144,19 @@ export function LmsAdminUsers() {
     load();
   };
 
+  const setAdmin = async (p: Person, makeAdmin: boolean) => {
+    const ok = makeAdmin
+      ? confirm(`Make ${p.name} an admin?\n\nAdmins can see every learner, change anyone's access, edit and publish courses, send announcements and see payments. Only give this to people you trust.`)
+      : confirm(`Remove admin rights from ${p.name}? They keep their own courses and community access.`);
+    if (!ok) return;
+    const { error } = makeAdmin
+      ? await supabase.from("user_roles").insert({ user_id: p.id, role: "admin" })
+      : await supabase.from("user_roles").delete().eq("user_id", p.id).eq("role", "admin");
+    if (error) { toast.error(error.message.includes("owner") || error.message.includes("last admin") ? error.message : "Could not change admin rights"); return; }
+    setPeople((prev) => prev.map((x) => (x.id === p.id ? { ...x, isAdmin: makeAdmin } : x)));
+    toast.success(makeAdmin ? `${p.name} is now an admin` : `${p.name} is no longer an admin`);
+  };
+
   if (loading) return <div className="mt-16 flex justify-center"><Loader2 size={28} className="animate-spin text-[#3434ff]" /></div>;
 
   const allOnPage = pageRows.length > 0 && pageRows.every((p) => selected.has(p.id));
@@ -192,10 +206,11 @@ export function LmsAdminUsers() {
               <th className="px-3 py-3">Person</th>
               <th className="px-3 py-3">Status</th>
               {products.map((p) => <th key={p.key} className="max-w-[120px] px-2 py-3 text-center normal-case tracking-normal" title={p.title}><span className="line-clamp-2 text-[11.5px] font-bold">{p.title}</span></th>)}
+              <th className="w-12 px-2 py-3"><span className="sr-only">Actions</span></th>
             </tr>
           </thead>
           <tbody>
-            {pageRows.length === 0 && <tr><td colSpan={3 + products.length} className="px-6 py-10 text-center text-[#94a3b8]">Nobody matches.</td></tr>}
+            {pageRows.length === 0 && <tr><td colSpan={4 + products.length} className="px-6 py-10 text-center text-[#94a3b8]">Nobody matches.</td></tr>}
             {pageRows.map((p) => {
               const st = status(p);
               return (
@@ -231,6 +246,24 @@ export function LmsAdminUsers() {
                       </td>
                     );
                   })}
+                  <td className="px-2 py-3 text-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button className="rounded-lg p-1.5 text-[#94a3b8] hover:bg-[#f1f4ff] hover:text-[#0b0b2c]" aria-label={`More actions for ${p.name}`}><MoreHorizontal size={18} /></button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56 bg-white font-['Plus_Jakarta_Sans',sans-serif]">
+                        {p.isAdmin ? (
+                          <DropdownMenuItem onSelect={() => setAdmin(p, false)} disabled={p.id === me?.id}>
+                            <ShieldOff className="mr-2 h-4 w-4" /> {p.id === me?.id ? "You're an admin" : "Remove admin rights"}
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem onSelect={() => setAdmin(p, true)}><ShieldCheck className="mr-2 h-4 w-4 text-[#3434ff]" /> Make admin</DropdownMenuItem>
+                        )}
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onSelect={() => sendWelcome([p.id])}><Mail className="mr-2 h-4 w-4" /> {p.lastSignIn ? "Send password reset link" : p.welcomedAt ? "Resend welcome email" : "Send welcome email"}</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </td>
                 </tr>
               );
             })}
