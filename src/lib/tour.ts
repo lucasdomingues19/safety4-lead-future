@@ -35,7 +35,7 @@ export const STEPS: TourStep[] = [
   { id: "leaderboard", title: "Leaderboard", screen: "dash", targets: ["leaderboard"], zoom: 1.1,
     narration: "This is where you see how you rank against other learners. Prefer to keep it private? You can hide yourself in settings." },
   { id: "community", title: "Community", screen: "community", targets: ["spaces"],
-    narration: "Welcome to the community. SafetyTech Academy is open to every learner, and the Global Network is our members-only space." },
+    narration: "Welcome to our learning community. SafetyTech Academy is open to every learner, and the Global Network is our members-only space." },
   { id: "post", title: "Join the conversation", screen: "community", targets: ["composer"], zoom: 1.1,
     narration: "Ask a question, share a win or a photo, and react to other people's posts. It's the best place to learn from your peers." },
   { id: "events", title: "Webinars & podcasts", screen: "community", targets: ["events-card", "events"], zoom: 1.1,

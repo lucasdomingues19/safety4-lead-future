@@ -169,7 +169,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
 
   // The clock: follows Mia's video or voice clip when there is one, else reading pace.
   useEffect(() => {
-    if (!playing || finished) return;
+    if (!playing || finished || media === null) return;
     const t0 = performance.now() - elapsed;
     let raf = 0;
     const tick = () => {
@@ -186,7 +186,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playing, i, durationMs, finished]);
+  }, [playing, i, durationMs, finished, media]);
 
   // Load and play the step's clip.
   useEffect(() => {
@@ -273,10 +273,12 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
         <div className={`flex gap-4 p-5 ${centre ? "flex-col items-center text-center" : "items-start"}`}>
           <div className="relative shrink-0">
             <div
-              className={`mia-anim overflow-hidden rounded-full bg-gradient-to-br from-[#9eff1f] via-[#3434ff] to-[#202058] ${centre ? "h-28 w-28" : "h-16 w-16"}`}
+              className={`mia-anim overflow-hidden rounded-full bg-gradient-to-br from-[#9eff1f] via-[#3434ff] to-[#202058] ${centre ? (m.video ? "h-36 w-36" : "h-28 w-28") : m.video ? "h-20 w-20" : "h-16 w-16"}`}
               style={{ animation: speaking ? "mia-ring 1.4s ease-out infinite" : undefined, transition: "width .4s, height .4s" }}
             >
-              {m.video ? (
+              {media === null ? (
+                <div className="flex h-full w-full items-center justify-center"><Loader2 className="animate-spin text-white/80" size={centre ? 30 : 20} /></div>
+              ) : m.video ? (
                 <video ref={videoRef} playsInline className="h-full w-full object-cover" onLoadedMetadata={(e) => { const d = e.currentTarget.duration; if (Number.isFinite(d)) setMediaMs((x) => ({ ...x, [step.id]: d * 1000 })); }} />
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
