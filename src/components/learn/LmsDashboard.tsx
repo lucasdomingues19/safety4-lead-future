@@ -6,6 +6,8 @@ import { BookOpen, Trophy, MessageSquare, Loader2 } from "lucide-react";
 import { getMyGamification, type MyGamification } from "@/lib/gamification";
 import { LevelChip, ProgressCard } from "@/components/learn/Gamification";
 import { toast } from "sonner";
+import { useTourActive } from "@/lib/tour";
+import { ExampleCertificate, ExampleLesson, ExampleTag } from "@/components/learn/tour/TourExamples";
 
 export interface CourseProgress {
   id: string;
@@ -67,6 +69,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
   const { user } = useAuthUser();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const touring = useTourActive();
   const [userName, setUserName] = useState("there");
   const [courses, setCourses] = useState<CourseProgress[]>([]);
   const [catalog, setCatalog] = useState<CatalogCourse[]>([]);
@@ -192,7 +195,16 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
     );
   }
 
-  const first = courses[0];
+  // While Mia's tour plays, anything she describes that this learner doesn't
+  // have yet is shown as a labelled example.
+  const realFirst = courses[0];
+  const exampleCourse: CourseProgress | null = touring && !realFirst ? {
+    id: "example", title: catalog[0]?.title ?? "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age", slug: "", description: null,
+    cpdHours: catalog[0]?.cpd_hours ?? null, coverUrl: catalog[0]?.cover_image_url ?? null, status: "in_progress", progressPercent: 35,
+    totalModules: 4, totalLessons: 12, completedLessons: 4, nextLessonId: null, nextLessonTitle: "Why AI matters in EHS", nextModuleTitle: "Module 2",
+  } : null;
+  const first = realFirst ?? exampleCourse;
+  const learning = courses.length ? courses : exampleCourse ? [exampleCourse] : [];
 
   return (
     <div style={{ minHeight: "100vh", background: "#eef1f6", color: "#0b0b2c", padding: "40px 28px 72px", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -200,8 +212,8 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
         <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#8ab815" }}>WELCOME BACK</div>
         <h1 style={{ margin: "12px 0 0", fontSize: "38px", lineHeight: 1.1, fontWeight: 700, letterSpacing: "-0.01em", color: "#0b0b2c" }}>Hey {userName}</h1>
         <p style={{ margin: "12px 0 0", fontSize: "17px", lineHeight: 1.7, color: "#69697b" }}>
-          {first
-            ? `You are ${first.progressPercent}% through ${first.title}.`
+          {realFirst
+            ? `You are ${realFirst.progressPercent}% through ${realFirst.title}.`
             : catalog.length
               ? "You're not enrolled in a course yet — pick one below to get started."
               : "No courses are available yet. Check back soon."}
@@ -213,7 +225,8 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
             <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "40px 40px", opacity: 0.3 }} />
             <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: "32px", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ minWidth: 0, flex: "1 1 420px" }}>
-                <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#a6e21a" }}>
+                <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#a6e21a", display: "flex", alignItems: "center", gap: 10 }}>
+                  {!realFirst && <ExampleTag dark />}
                   {first.completedLessons === 0 ? "START YOUR COURSE" : first.status === "completed" ? "COURSE COMPLETE" : "CONTINUE WHERE YOU LEFT OFF"}
                 </div>
                 <div style={{ marginTop: "14px", fontSize: "28px", lineHeight: 1.25, fontWeight: 700, color: "#fff" }}>
@@ -227,7 +240,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
                 </div>
               </div>
               <button
-                onClick={() => resumeCourse(first)}
+                onClick={() => realFirst && resumeCourse(realFirst)}
                 style={{ flex: "none", border: 0, borderRadius: "999px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "14px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "16px 34px", cursor: "pointer", boxShadow: "0 0 40px rgba(52,52,255,0.4)" }}
               >
                 {first.completedLessons === 0 ? "Start course" : first.status === "completed" ? "Review course" : "Resume course"}
@@ -236,18 +249,25 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
           </div>
         )}
 
+        {touring && first && (
+          <div style={{ marginTop: "28px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 420px), 1fr))", gap: "20px" }}>
+            <ExampleLesson course={first.title} />
+            <ExampleCertificate name={userName} course={first.title} />
+          </div>
+        )}
+
         {gamification && (
           <div data-tour="progress" style={{ marginTop: "28px" }}><ProgressCard g={gamification} /></div>
         )}
 
         {/* Your learning */}
-        {courses.length > 0 && (
+        {learning.length > 0 && (
           <>
             <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "20px" }}>
               <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 700 }}>Your learning</h2>
             </div>
             <div data-tour="my-courses" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-              {courses.map((course) => {
+              {learning.map((course) => {
                 const badge = statusBadges[course.status];
                 return (
                   <div key={course.id} style={{ ...card, padding: "26px", overflow: "hidden" }}>
@@ -256,7 +276,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
                       {!course.coverUrl && <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <BookOpen size={23} color="#3434ff" />
                       </div>}
-                      <span style={{ background: badge.bg, borderRadius: "999px", padding: "6px 14px", fontSize: "12px", fontWeight: 700, color: badge.fg }}>{badge.text}</span>
+                      <span style={{ display: "flex", gap: 6, alignItems: "center" }}>{course.id === "example" && <ExampleTag />}<span style={{ background: badge.bg, borderRadius: "999px", padding: "6px 14px", fontSize: "12px", fontWeight: 700, color: badge.fg }}>{badge.text}</span></span>
                     </div>
                     <div style={{ marginTop: "20px", fontSize: "19px", lineHeight: 1.3, fontWeight: 700 }}>{course.title}</div>
                     <div style={{ marginTop: "8px", fontSize: "14px", color: "#69697b" }}>

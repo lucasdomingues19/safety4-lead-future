@@ -362,7 +362,7 @@ export function LmsCommunity() {
         <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815] lg:hidden">COMMUNITY</p>
 
         {/* Space switcher (mobile/tablet) */}
-        <div className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5 lg:hidden">
+        <div data-tour="spaces" className="mt-4 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5 lg:hidden">
           {SPACES.map((sp) => {
             const active = space === sp.id;
             const isLocked = sp.id === "global-network" && networkAccess === false;
@@ -386,7 +386,7 @@ export function LmsCommunity() {
         </div>
 
         {!locked && (
-          <div className="mt-3 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5 lg:hidden">
+          <div data-tour="events" className="mt-3 grid grid-cols-2 gap-2 rounded-2xl bg-white p-1.5 lg:hidden">
             {(["feed", "events"] as const).map((v) => (
               <button key={v} onClick={() => setView(v)} className={`rounded-xl px-3 py-2 text-[13.5px] font-bold capitalize transition ${view === v ? "bg-[#0b0b2c] text-white" : "text-[#69697b]"}`}>
                 {v === "events" ? `Events${ev.live.length ? " · Live" : ev.upcoming.length ? ` (${ev.upcoming.length})` : ""}` : "Feed"}

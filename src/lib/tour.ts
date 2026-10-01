@@ -1,6 +1,7 @@
 // First-run onboarding tour, guided by Mia over the real LMS screens.
 // The narration here is the single source of truth: captions are cut from it,
 // the voiceover clips are generated from it, and Mia's HeyGen video follows it.
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export type TourScreen = "dash" | "community" | "settings" | "support";
@@ -25,9 +26,9 @@ export const STEPS: TourStep[] = [
     narration: "This menu takes you everywhere: your dashboard, the community, your settings and support. It's always here on the left." },
   { id: "continue", title: "Your next lesson", screen: "dash", targets: ["continue", "catalog"], zoom: 1.12,
     narration: "Your next lesson always waits for you at the top of your dashboard. One click, and you pick up exactly where you left off." },
-  { id: "lessons", title: "Learning", screen: "dash", targets: ["my-courses", "catalog"], zoom: 1.08,
+  { id: "lessons", title: "Learning", screen: "dash", targets: ["tour-lesson", "my-courses", "catalog"], zoom: 1.12,
     narration: "Inside each course, lessons unlock in order. Watch the video or read the slides, then mark the lesson complete. We track what you actually watch, so skipping ahead won't count, and your progress is always saved." },
-  { id: "certificate", title: "Quizzes & certificates", screen: "dash", targets: ["my-courses", "catalog"], zoom: 1.08,
+  { id: "certificate", title: "Quizzes & certificates", screen: "dash", targets: ["tour-certificate", "my-courses", "catalog"], zoom: 1.12,
     narration: "Short quizzes check your understanding along the way. Some courses end with a final assessment, and when you pass, you receive a verified digital certificate you can share on LinkedIn." },
   { id: "points", title: "Points & levels", screen: "dash", targets: ["progress"], zoom: 1.12,
     narration: "Every lesson, quiz and helpful post earns you points. Level up, keep your daily streak going, and collect badges as you learn." },
@@ -110,4 +111,22 @@ export async function markTourDone(userId: string, outcome: { completed: boolean
     tour_status: outcome.completed ? "completed" : "skipped",
     tour_last_step: outcome.step,
   }).eq("id", userId);
+}
+
+// ---------- tour mode for the screens underneath ----------
+// Screens show labelled examples of anything Mia talks about that the
+// learner doesn't have yet (no course yet, no certificate yet...).
+const TOUR_EVENT = "mia-tour";
+export const setTourActive = (on: boolean) => {
+  document.documentElement.classList.toggle("mia-touring", on);
+  window.dispatchEvent(new CustomEvent(TOUR_EVENT, { detail: on }));
+};
+export function useTourActive() {
+  const [on, setOn] = useState(() => typeof document !== "undefined" && document.documentElement.classList.contains("mia-touring"));
+  useEffect(() => {
+    const h = (e: Event) => setOn(!!(e as CustomEvent<boolean>).detail);
+    window.addEventListener(TOUR_EVENT, h);
+    return () => window.removeEventListener(TOUR_EVENT, h);
+  }, []);
+  return on;
 }

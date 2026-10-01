@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Captions, CaptionsOff, ChevronLeft, ChevronRight, Loader2, Mic, Pause, Play, RotateCcw, Volume2, VolumeX, X } from "lucide-react";
 import { toast } from "sonner";
 import {
-  STEPS, findMedia, generateVoiceover, sentences, silentDurationMs, voiceoverConfigured, type StepMedia, type TourScreen,
+  STEPS, findMedia, generateVoiceover, sentences, setTourActive, silentDurationMs, voiceoverConfigured, type StepMedia, type TourScreen,
 } from "@/lib/tour";
 
 // Mia's guided tour over the real LMS: each step switches to its screen,
@@ -79,8 +79,8 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
   // screen, so it can be recorded or shown on a call. Hand the page back
   // exactly as it was afterwards.
   useEffect(() => {
-    document.documentElement.classList.add("mia-touring");
-    return () => { resetZoom(true); document.documentElement.classList.remove("mia-touring"); };
+    setTourActive(true);
+    return () => { resetZoom(true); setTourActive(false); };
   }, []);
 
   // 1) Show the step's screen, 2) find its anchor, 3) let the page settle,
@@ -125,7 +125,8 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
     };
 
     const find = () => {
-      const el = step.targets.map((t) => document.querySelector(`[data-tour="${t}"]`)).find(visible) ?? null;
+      // First anchor (in priority order) that is actually on screen — phone and desktop layouts may both carry it.
+      const el = step.targets.map((t) => [...document.querySelectorAll(`[data-tour="${t}"]`)].find(visible)).find(Boolean) ?? null;
       if (!el && step.targets.length && Date.now() - started < 4000) { later(find, 150); return; }
       if (!el) { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
       el.scrollIntoView({ block: "center", behavior: "smooth" });
