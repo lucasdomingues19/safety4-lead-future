@@ -63,10 +63,12 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
   const loadMedia = useCallback(async () => setMedia(await findMedia()), []);
   useEffect(() => { loadMedia(); }, [loadMedia]);
 
-  // Hand the page back exactly as it was.
+  // Personal details (marked data-private) stay blurred while the tour is on
+  // screen, so it can be recorded or shown on a call. Hand the page back
+  // exactly as it was afterwards.
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    return () => { resetZoom(true); document.body.style.overflow = prev; };
+    document.documentElement.classList.add("mia-touring");
+    return () => { resetZoom(true); document.documentElement.classList.remove("mia-touring"); };
   }, []);
 
   // 1) Show the step's screen, 2) find its anchor, 3) let the page settle,
@@ -237,6 +239,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
         @keyframes mia-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
         @keyframes mia-bar{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
         @media (prefers-reduced-motion:reduce){.mia-anim{animation:none!important;transition:none!important}}
+        .mia-touring [data-private]{filter:blur(7px);user-select:none}
       `}</style>
 
       {/* Dim layer when nothing is spotlit; otherwise the spotlight's own shadow dims the page. */}

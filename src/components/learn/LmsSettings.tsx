@@ -214,7 +214,7 @@ export function LmsSettings() {
             <label className="block"><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Full name</span><input value={learnerName} onChange={(e) => setLearnerName(e.target.value)} className={inputCls} /></label>
             <label className="block"><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Job title</span><input value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className={inputCls} /></label>
             <label className="block"><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Company name</span><input value={organisation} onChange={(e) => setOrganisation(e.target.value)} placeholder="Where you work" autoComplete="organization" className={inputCls} /></label>
-            <div><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Email</span><div className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3.5 py-3 text-[15px] text-[#69697b]">{user?.email}</div></div>
+            <div><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Email</span><div data-private className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3.5 py-3 text-[15px] text-[#69697b]">{user?.email}</div></div>
           </div>
         </Card>
 

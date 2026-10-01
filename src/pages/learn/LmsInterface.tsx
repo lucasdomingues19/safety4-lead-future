@@ -415,7 +415,7 @@ export default function LmsInterface() {
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
                     }}>
-                      {lmsUser?.full_name || authUser.email?.split("@")[0] || "You"}
+                      <span data-private={lmsUser?.full_name ? undefined : ""}>{lmsUser?.full_name || authUser.email?.split("@")[0] || "You"}</span>
                     </div>
                     <div style={{
                       marginTop: "2px",
