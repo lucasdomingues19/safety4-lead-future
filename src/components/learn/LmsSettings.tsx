@@ -14,8 +14,8 @@ interface PurchaseRow { id: string; course_title: string; amount_cents: number; 
 const inputCls = "w-full rounded-lg border border-[#e2e8f0] bg-white px-3.5 py-3 text-[15px] text-[#0b0b2c] outline-none transition focus:border-[#3434ff] focus:ring-4 focus:ring-[#3434ff]/10";
 const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
-const Card = ({ title, description, children }: { title: string; description?: string; children: ReactNode }) => (
-  <section className="mt-5 rounded-[20px] border border-[#e2e8f0] bg-white p-6 md:p-7">
+const Card = ({ title, description, children, tour }: { title: string; description?: string; children: ReactNode; tour?: string }) => (
+  <section data-tour={tour} className="mt-5 rounded-[20px] border border-[#e2e8f0] bg-white p-6 md:p-7">
     <h2 className="text-lg font-bold">{title}</h2>
     {description && <p className="mt-1 text-[13px] text-[#69697b]">{description}</p>}
     <div className="mt-5">{children}</div>
@@ -192,7 +192,7 @@ export function LmsSettings() {
         <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">ACCOUNT</p>
         <h1 className="mt-3 text-[38px] font-bold leading-tight">Settings</h1>
 
-        <Card title="Profile" description="Your name is printed on your certificates.">
+        <Card tour="profile" title="Profile" description="Your name is printed on your certificates.">
           <div className="flex flex-wrap items-center gap-5">
             <button onClick={() => photoInput.current?.click()} disabled={uploadingPhoto} className="group relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-[#e2e8f0] bg-[#3434ff] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#3434ff]/25" aria-label="Change profile photo">
               {avatarUrl ? <img src={avatarUrl} alt="" className="h-full w-full object-cover" /> : <span className="flex h-full w-full items-center justify-center text-2xl font-bold text-white">{initials}</span>}

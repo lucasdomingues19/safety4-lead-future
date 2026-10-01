@@ -322,7 +322,7 @@ export function LmsCommunity() {
         {/* Left rail (desktop): communities + topics */}
         <aside className="hidden lg:sticky lg:top-6 lg:block lg:self-start">
           <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">COMMUNITY</p>
-          <nav className="mt-4 space-y-1.5" aria-label="Communities">
+          <nav data-tour="spaces" className="mt-4 space-y-1.5" aria-label="Communities">
             {SPACES.map((sp) => {
               const active = space === sp.id;
               const isLocked = sp.id === "global-network" && networkAccess === false;
@@ -340,7 +340,7 @@ export function LmsCommunity() {
           </nav>
           {!locked && (
             <>
-              <button onClick={() => setView(view === "events" ? "feed" : "events")} className={`mt-5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] font-bold transition ${view === "events" ? "bg-[#0b0b2c] text-white" : "bg-white text-[#0b0b2c] hover:bg-[#f7f8ff]"}`}>
+              <button data-tour="events" onClick={() => setView(view === "events" ? "feed" : "events")} className={`mt-5 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-[13.5px] font-bold transition ${view === "events" ? "bg-[#0b0b2c] text-white" : "bg-white text-[#0b0b2c] hover:bg-[#f7f8ff]"}`}>
                 <CalendarDays size={18} className={view === "events" ? "text-[#9eff1f]" : "text-[#3434ff]"} /> Events
                 {ev.live.length > 0 ? <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-[#e11d48] px-2 py-0.5 text-[10px] font-extrabold uppercase text-white"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live</span> : ev.upcoming.length > 0 ? <span className={`ml-auto rounded-full px-2 py-0.5 text-[11px] font-bold ${view === "events" ? "bg-white/20" : "bg-[#f1f4ff] text-[#3434ff]"}`}>{ev.upcoming.length}</span> : null}
               </button>
@@ -422,7 +422,7 @@ export function LmsCommunity() {
         ) : (<>
 
         {/* Composer */}
-        <div className="mt-7 rounded-[20px] border border-[#e2e8f0] bg-white p-4 md:p-5">
+        <div data-tour="composer" className="mt-7 rounded-[20px] border border-[#e2e8f0] bg-white p-4 md:p-5">
           <div className="flex gap-3">
             <Avatar name={displayName()} src={ctx?.user?.avatar_url} />
             <div className="min-w-0 flex-1">
@@ -638,7 +638,7 @@ export function LmsCommunity() {
         {/* Right column: highlights + top contributors */}
         <aside className="lg:col-span-2 xl:sticky xl:top-6 xl:col-span-1 xl:self-start">
           {!locked && (
-            <div className="mb-4">
+            <div data-tour="events-card" className="mb-4">
               <UpcomingEventsCard
                 upcoming={ev.upcoming} going={ev.going} mine={ev.mine} isAdmin={isAdmin}
                 onOpen={(e) => setOpenEventId(e.id)} onAdd={() => setEditingEvent({ event: null })} onSeeAll={() => setView("events")}

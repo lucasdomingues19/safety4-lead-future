@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle, Sparkles } from "lucide-react";
 import { markTourDone, tourSeenLocally } from "@/lib/tour";
-const OnboardingTour = React.lazy(() => import("@/components/learn/tour/OnboardingTour").then(m => ({ default: m.OnboardingTour })));
+const MiaTour = React.lazy(() => import("@/components/learn/tour/MiaTour").then(m => ({ default: m.MiaTour })));
 import brandMarkWhite from "@/assets/brand-mark-white.png";
 import { toast } from "sonner";
 
@@ -254,7 +254,7 @@ export default function LmsInterface() {
           </div>
 
           {/* Navigation */}
-          <nav style={{
+          <nav data-tour="nav" style={{
             flex: 1,
             minHeight: 0,
             overflowY: "auto",
@@ -295,6 +295,7 @@ export default function LmsInterface() {
             <NavButton
               icon={<HelpCircle size={19} />}
               label="Support"
+              tour="nav-support"
               active={screen === "support"}
               onClick={() => handleNavigation("support")}
               open={railOpen}
@@ -508,27 +509,29 @@ export default function LmsInterface() {
           </div>
 
           {/* SCREEN CONTENT */}
-          <div style={{ minHeight: "calc(100vh - 72px)" }}>
+          <div data-tour-stage style={{ minHeight: "calc(100vh - 72px)" }}>
             {renderScreen()}
           </div>
 
           {tourInvite && !tourOpen && lmsUser && (
             <div style={{ position: "fixed", inset: 0, zIndex: 70, background: "rgba(11,11,44,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
               <div style={{ width: "100%", maxWidth: 440, background: "linear-gradient(160deg,#11114a,#0b0b2c)", color: "#fff", borderRadius: 24, padding: "32px 30px", textAlign: "center", boxShadow: "0 30px 80px rgba(0,0,0,.5)" }}>
-                <div style={{ width: 64, height: 64, margin: "0 auto", borderRadius: "50%", background: "linear-gradient(135deg,#9eff1f,#3434ff)", display: "flex", alignItems: "center", justifyContent: "center" }}><Sparkles size={30} color="#0b0b2c" /></div>
+                <div style={{ width: 64, height: 64, margin: "0 auto", borderRadius: "50%", background: "linear-gradient(135deg,#9eff1f,#3434ff)", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 30, fontWeight: 800, color: "#fff" }}>M</span></div>
                 <h2 style={{ margin: "18px 0 8px", fontSize: 26, fontWeight: 800 }}>Welcome, {(lmsUser.full_name || "").split(" ")[0] || "there"}!</h2>
-                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "rgba(255,255,255,.72)" }}>Take a quick 2-minute tour with your guide and see where everything is. Sound on for the best experience.</p>
-                <button onClick={() => { setTourInvite(false); setTourOpen(true); }} style={{ marginTop: 22, width: "100%", border: 0, borderRadius: 12, background: "#9eff1f", color: "#0b0b2c", fontWeight: 800, fontSize: 15, padding: "14px 18px", cursor: "pointer", fontFamily: "inherit" }}>Start the tour</button>
+                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "rgba(255,255,255,.72)" }}>I'm Mia, your guide. Let me show you around the academy — it takes about two minutes. Sound on for the best experience.</p>
+                <button onClick={() => { setTourInvite(false); setTourOpen(true); }} style={{ marginTop: 22, width: "100%", border: 0, borderRadius: 12, background: "#9eff1f", color: "#0b0b2c", fontWeight: 800, fontSize: 15, padding: "14px 18px", cursor: "pointer", fontFamily: "inherit" }}>Show me around</button>
                 <button onClick={() => { setTourInvite(false); markTourDone(lmsUser.id); }} style={{ marginTop: 10, border: 0, background: "none", color: "rgba(255,255,255,.6)", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>Skip — I'll explore myself</button>
               </div>
             </div>
           )}
           {tourOpen && lmsUser && (
             <React.Suspense fallback={null}>
-              <OnboardingTour
-                name={(lmsUser.full_name || "").split(" ")[0] || "there"}
-                course={currentCourse?.title ?? null}
+              <MiaTour
+                name={lmsUser.full_name || ""}
                 isAdmin={isAdmin}
+                screen={screen}
+                onNavigate={(sc) => handleNavigation(sc)}
+                ctaLabel={currentCourse?.nextLessonId ? "Start learning" : "Explore courses"}
                 onClose={() => { setTourOpen(false); markTourDone(lmsUser.id); }}
                 onFinish={() => {
                   setTourOpen(false);
@@ -574,9 +577,10 @@ class ScreenErrorBoundary extends React.Component<{ children: React.ReactNode },
 }
 
 // Nav Button Component
-function NavButton({ icon, label, active, onClick, open }: any) {
+function NavButton({ icon, label, active, onClick, open, tour }: any) {
   return (
     <button
+      data-tour={tour}
       onClick={onClick}
       title={label}
       style={{

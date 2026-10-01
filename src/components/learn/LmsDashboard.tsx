@@ -209,7 +209,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
 
         {/* Continue hero */}
         {first && (
-          <div style={{ marginTop: "32px", background: "radial-gradient(120% 160% at 88% 12%, #17176e 0%, #0a0a38 58%, #05051e 100%)", borderRadius: "20px", padding: "36px", position: "relative", overflow: "hidden", boxShadow: "0 18px 40px rgba(11,11,44,0.16)" }}>
+          <div data-tour="continue" style={{ marginTop: "32px", background: "radial-gradient(120% 160% at 88% 12%, #17176e 0%, #0a0a38 58%, #05051e 100%)", borderRadius: "20px", padding: "36px", position: "relative", overflow: "hidden", boxShadow: "0 18px 40px rgba(11,11,44,0.16)" }}>
             <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px)", backgroundSize: "40px 40px", opacity: 0.3 }} />
             <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: "32px", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ minWidth: 0, flex: "1 1 420px" }}>
@@ -237,7 +237,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
         )}
 
         {gamification && (
-          <div style={{ marginTop: "28px" }}><ProgressCard g={gamification} /></div>
+          <div data-tour="progress" style={{ marginTop: "28px" }}><ProgressCard g={gamification} /></div>
         )}
 
         {/* Your learning */}
@@ -246,7 +246,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
             <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "20px" }}>
               <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 700 }}>Your learning</h2>
             </div>
-            <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+            <div data-tour="my-courses" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
               {courses.map((course) => {
                 const badge = statusBadges[course.status];
                 return (
@@ -286,7 +286,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
         {catalog.length > 0 && (
           <>
             <h2 style={{ margin: "44px 0 0", fontSize: "22px", fontWeight: 700 }}>Available courses</h2>
-            <div style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+            <div data-tour="catalog" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
               {catalog.map((c) => (
                 <div key={c.id} style={{ ...card, padding: "26px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
                   {c.cover_image_url && <img src={c.cover_image_url} alt="" style={{ display: "block", width: "calc(100% + 52px)", margin: "-26px -26px 20px", aspectRatio: "16/9", objectFit: "cover" }} />}
@@ -343,7 +343,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
             </div>
           </div>
 
-          <div style={{ ...card, overflow: "hidden" }}>
+          <div data-tour="leaderboard" style={{ ...card, overflow: "hidden" }}>
             <div style={{ padding: "22px 26px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", gap: "14px" }}>
               <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(52,52,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Trophy size={20} color="#3434ff" />

@@ -1,59 +1,86 @@
-// First-run onboarding tour: the script, timing and voiceover lookups.
-// The narration here is the single source of truth: captions are cut from it
-// and the AI voiceover clips are generated from it (see tour-voiceover).
+// First-run onboarding tour, guided by Mia over the real LMS screens.
+// The narration here is the single source of truth: captions are cut from it,
+// the voiceover clips are generated from it, and Mia's HeyGen video follows it.
 import { supabase } from "@/integrations/supabase/client";
 
-export type SceneId = "welcome" | "dashboard" | "learning" | "assess" | "points" | "community" | "events" | "settings" | "go";
+export type TourScreen = "dash" | "community" | "settings" | "support";
 
-export interface Scene {
-  id: SceneId;
+export interface TourStep {
+  id: string;
   title: string;
-  /** Spoken aloud and shown as captions, sentence by sentence. */
+  /** LMS screen to show while this step plays. */
+  screen: TourScreen;
+  /** `data-tour` anchors to spotlight, first one found wins; none = Mia centre stage. */
+  targets: string[];
+  /** Zoom the page around the spotlight (1 = none). */
+  zoom?: number;
+  /** Spoken by Mia and shown as captions, sentence by sentence. */
   narration: string;
-  /** Minimum on-screen time (ms) so the animation can finish. */
-  minMs: number;
 }
 
-export const SCENES: Scene[] = [
-  { id: "welcome", title: "Welcome", minMs: 9000, narration: "Welcome to SafetyTech Academy. I'm your guide, and in the next couple of minutes I'll show you where everything lives, so you can start learning with confidence." },
-  { id: "dashboard", title: "Your dashboard", minMs: 14000, narration: "This is your dashboard. Your next lesson is always front and centre, with one click to pick up exactly where you left off. Below it you'll find your courses, your progress, your level and your learning streak." },
-  { id: "learning", title: "Learning", minMs: 16000, narration: "Inside a course, lessons unlock in order. Watch the video, or read the slides, then mark the lesson complete to move on. For videos we track what you actually watch, so skipping ahead won't count. Your progress is always saved." },
-  { id: "assess", title: "Quizzes & certificates", minMs: 18000, narration: "After each module there's a short quiz. Pass them all, then take the final assessment. When you pass, you receive a verified digital certificate, signed and tamper-proof, that employers and clients can check. You can add it to LinkedIn in one click." },
-  { id: "points", title: "Points & badges", minMs: 14000, narration: "Every lesson, quiz and contribution earns points. Climb from Observer to Leader, keep your daily streak alive, collect badges, and see how you rank on the leaderboard. It's optional, and you can hide yourself in settings at any time." },
-  { id: "community", title: "Community", minMs: 16000, narration: "The community is where you learn together. SafetyTech Academy is open to every learner, and the Global Network is our members-only space. Ask questions, share photos and wins, react with emoji, and follow the topics you care about." },
-  { id: "events", title: "Live events", minMs: 12000, narration: "Watch for live sessions with Lucas. RSVP with one click, add them to your calendar, and join on Zoom, or watch right here in the community. Missed one? The replay will be waiting." },
-  { id: "settings", title: "Settings & support", minMs: 12000, narration: "In settings you can add a profile photo, update the name that appears on your certificates, change your password, and find your receipts and course access dates. If you ever need help, the support page has answers and a direct line to the team." },
-  { id: "go", title: "Let's go", minMs: 8000, narration: "That's everything you need. Your first lesson is ready whenever you are. Let's get started." },
+export const STEPS: TourStep[] = [
+  { id: "hello", title: "Meet Mia", screen: "dash", targets: [],
+    narration: "Hi, I'm Mia, your guide here at SafetyTech Academy. Let me show you around. It only takes a couple of minutes." },
+  { id: "menu", title: "Getting around", screen: "dash", targets: ["nav"],
+    narration: "This menu takes you everywhere: your dashboard, the community, your settings and support. It's always here on the left." },
+  { id: "continue", title: "Your next lesson", screen: "dash", targets: ["continue", "catalog"], zoom: 1.12,
+    narration: "Your next lesson always waits for you at the top of your dashboard. One click, and you pick up exactly where you left off." },
+  { id: "lessons", title: "Learning", screen: "dash", targets: ["my-courses", "catalog"], zoom: 1.08,
+    narration: "Inside each course, lessons unlock in order. Watch the video or read the slides, then mark the lesson complete. We track what you actually watch, so skipping ahead won't count, and your progress is always saved." },
+  { id: "certificate", title: "Quizzes & certificates", screen: "dash", targets: ["my-courses", "catalog"], zoom: 1.08,
+    narration: "Short quizzes check your understanding along the way. Some courses end with a final assessment, and when you pass, you receive a verified digital certificate you can share on LinkedIn." },
+  { id: "points", title: "Points & levels", screen: "dash", targets: ["progress"], zoom: 1.12,
+    narration: "Every lesson, quiz and helpful post earns you points. Level up, keep your daily streak going, and collect badges as you learn." },
+  { id: "leaderboard", title: "Leaderboard", screen: "dash", targets: ["leaderboard"], zoom: 1.1,
+    narration: "This is where you see how you rank against other learners. Prefer to keep it private? You can hide yourself in settings." },
+  { id: "community", title: "Community", screen: "community", targets: ["spaces"],
+    narration: "Welcome to the community. SafetyTech Academy is open to every learner, and the Global Network is our members-only space." },
+  { id: "post", title: "Join the conversation", screen: "community", targets: ["composer"], zoom: 1.1,
+    narration: "Ask a question, share a win or a photo, and react to other people's posts. It's the best place to learn from your peers." },
+  { id: "events", title: "Webinars & podcasts", screen: "community", targets: ["events-card", "events"], zoom: 1.1,
+    narration: "This is where you can watch our live webinars, roundtables and podcast episodes. RSVP in one click, add them to your calendar, and join on Zoom or watch right here in the community. Replays are added afterwards." },
+  { id: "settings", title: "Your settings", screen: "settings", targets: ["profile"], zoom: 1.08,
+    narration: "In settings you can add your photo and check the name that's printed on your certificates. Your receipts and course access dates are here too." },
+  { id: "support", title: "Help", screen: "support", targets: ["nav-support"],
+    narration: "Need a hand? The support page has quick answers and a direct line to our team, and you can replay this tour from there anytime." },
+  { id: "go", title: "Let's go", screen: "dash", targets: ["continue", "catalog"],
+    narration: "That's it, you're all set. Let's start learning." },
 ];
 
 export const sentences = (text: string) => text.match(/[^.!?]+[.!?]+(\s|$)/g)?.map((s) => s.trim()) ?? [text];
 
-/** Reading-pace fallback when a scene has no voiceover clip. */
-export const silentDurationMs = (s: Scene) => Math.max(s.minMs, Math.round((s.narration.split(/\s+/).length / 2.5) * 1000) + 1500);
+/** Reading-pace fallback when a step has no voice clip. */
+export const silentDurationMs = (s: TourStep) => Math.max(6000, Math.round((s.narration.split(/\s+/).length / 2.6) * 1000) + 1200);
 
-// ---------- voiceover clips ----------
+// ---------- voice / video clips ----------
 export const hashText = async (text: string) => {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
   return Array.from(new Uint8Array(buf)).slice(0, 5).map((b) => b.toString(16).padStart(2, "0")).join("");
 };
 
-export const audioUrl = (id: string, hash: string) => supabase.storage.from("tour-audio").getPublicUrl(`${id}-${hash}.mp3`).data.publicUrl;
+const publicUrl = (path: string) => supabase.storage.from("tour-audio").getPublicUrl(path).data.publicUrl;
 
-/** Which scenes have a generated voiceover clip right now. */
-export async function findVoiceover(): Promise<Record<string, string>> {
-  const found: Record<string, string> = {};
-  await Promise.all(SCENES.map(async (s) => {
-    const url = audioUrl(s.id, await hashText(s.narration));
+export interface StepMedia { audio?: string; video?: string }
+
+/** Which steps have Mia's video (HeyGen) and/or a voice clip (ElevenLabs). Missing = captions only. */
+export async function findMedia(): Promise<Record<string, StepMedia>> {
+  const found: Record<string, StepMedia> = {};
+  const exists = async (url: string, kind: string) => {
     try {
       const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-      if (res.ok && (res.headers.get("content-type") ?? "").includes("audio")) found[s.id] = url;
-    } catch { /* offline or blocked: captions only */ }
+      return res.ok && (res.headers.get("content-type") ?? "").includes(kind);
+    } catch { return false; }
+  };
+  await Promise.all(STEPS.map(async (s) => {
+    const h = await hashText(s.narration);
+    const [video, audio] = await Promise.all([exists(publicUrl(`mia/${s.id}-${h}.mp4`), "video"), exists(publicUrl(`${s.id}-${h}.mp3`), "audio")]);
+    found[s.id] = { ...(video ? { video: publicUrl(`mia/${s.id}-${h}.mp4`) } : {}), ...(audio ? { audio: publicUrl(`${s.id}-${h}.mp3`) } : {}) };
   }));
   return found;
 }
 
 export async function generateVoiceover(force = false) {
-  const items = await Promise.all(SCENES.map(async (s) => ({ id: s.id, hash: await hashText(s.narration), text: s.narration })));
+  const items = await Promise.all(STEPS.map(async (s) => ({ id: s.id, hash: await hashText(s.narration), text: s.narration })));
   const { data, error } = await supabase.functions.invoke("tour-voiceover", { body: { action: "generate", items, force } });
   if (data?.error) throw new Error(data.error);
   if (error) {
