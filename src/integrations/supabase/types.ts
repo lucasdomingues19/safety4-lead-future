@@ -1212,6 +1212,8 @@ export type Database = {
           job_title: string | null
           organisation: string | null
           tour_completed_at: string | null
+          tour_last_step: number | null
+          tour_status: string | null
           welcomed_at: string | null
         }
         Insert: {
@@ -1227,6 +1229,8 @@ export type Database = {
           job_title?: string | null
           organisation?: string | null
           tour_completed_at?: string | null
+          tour_last_step?: number | null
+          tour_status?: string | null
           welcomed_at?: string | null
         }
         Update: {
@@ -1242,6 +1246,8 @@ export type Database = {
           job_title?: string | null
           organisation?: string | null
           tour_completed_at?: string | null
+          tour_last_step?: number | null
+          tour_status?: string | null
           welcomed_at?: string | null
         }
         Relationships: []
@@ -1515,6 +1521,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_first_lessons: {
+        Args: never
+        Returns: {
+          first_lesson_at: string
+          lessons_done: number
+          user_id: string
+        }[]
+      }
       admin_get_quiz_questions: {
         Args: { _quiz_id: string }
         Returns: {

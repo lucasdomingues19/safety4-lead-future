@@ -22,7 +22,32 @@ interface Person {
   lastSignIn: string | null;
   tags: string[];
   access: Record<string, { active: boolean; expires: string | null }>;
+  hasName: boolean;
+  tourStatus: "completed" | "skipped" | null;
+  tourStep: number | null;
+  lessonsDone: number;
 }
+
+// Onboarding = the five things a new learner should have done. "Fully
+// onboarded" means all five; the first missing one is what to nudge them on.
+const TOUR_STEPS = 13;
+const ONBOARDING = [
+  { key: "invited", label: "Invited", done: (p: Person) => !!(p.welcomedAt || p.lastSignIn) },
+  { key: "signed-in", label: "Signed in", done: (p: Person) => !!p.lastSignIn },
+  { key: "tour", label: "Watched Mia's tour", done: (p: Person) => p.tourStatus === "completed" },
+  { key: "profile", label: "Profile name set", done: (p: Person) => p.hasName },
+  { key: "lesson", label: "First lesson done", done: (p: Person) => p.lessonsDone > 0 },
+] as const;
+type OnboardingKey = (typeof ONBOARDING)[number]["key"];
+const onboarded = (p: Person) => ONBOARDING.every((s) => s.done(p));
+const onboardingNote = (p: Person) => {
+  if (onboarded(p)) return { t: `Onboarded · ${p.lessonsDone} lesson${p.lessonsDone === 1 ? "" : "s"} done`, c: "text-[#3f6212]" };
+  if (!p.lastSignIn) return { t: p.welcomedAt ? "Invited, not signed in" : "Not invited yet", c: "text-[#94a3b8]" };
+  if (p.tourStatus === "skipped") return { t: p.tourStep ? `Skipped tour at ${p.tourStep}/${TOUR_STEPS}` : "Skipped the tour", c: "text-[#b45309]" };
+  if (!p.tourStatus) return { t: "Hasn't seen the tour", c: "text-[#b45309]" };
+  if (!p.hasName) return { t: "No name on profile", c: "text-[#b45309]" };
+  return { t: "No lesson completed yet", c: "text-[#b45309]" };
+};
 
 const cleanTag = (t: string) => t.trim().replace(/\s+/g, " ").slice(0, 40);
 
@@ -71,7 +96,7 @@ export function LmsAdminUsers() {
   const [people, setPeople] = useState<Person[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<"all" | "no-access" | "not-invited" | "never-signed-in" | "admins">("all");
+  const [filter, setFilter] = useState<"all" | "no-access" | "not-invited" | "never-signed-in" | "admins" | "onboarded" | "not-onboarded" | `missing:${OnboardingKey}`>("all");
   const [tagFilter, setTagFilter] = useState("");
   const [bulkTag, setBulkTag] = useState("");
   const [page, setPage] = useState(0);
@@ -83,15 +108,17 @@ export function LmsAdminUsers() {
   const [showAdd, setShowAdd] = useState(false);
 
   const load = useCallback(async () => {
-    const [profilesRes, rolesRes, coursesRes, enrRes, memRes, authRes, tagsRes] = await Promise.all([
-      supabase.from("profiles").select("id, email, full_name, organisation, welcomed_at"),
+    const [profilesRes, rolesRes, coursesRes, enrRes, memRes, authRes, tagsRes, lessonsRes] = await Promise.all([
+      supabase.from("profiles").select("id, email, full_name, organisation, welcomed_at, tour_status, tour_last_step"),
       supabase.from("user_roles").select("user_id, role").eq("role", "admin"),
       supabase.from("courses").select("id, title, published").order("title"),
       supabase.from("enrollments").select("user_id, course_id, status, expires_at"),
       supabase.from("community_memberships").select("user_id, status, expires_at").eq("space", "global-network"),
       supabase.functions.invoke("admin-people", { body: { action: "list" } }),
       supabase.from("people_tags").select("user_id, tag"),
+      supabase.rpc("admin_first_lessons"),
     ]);
+    const lessons = new Map(((lessonsRes.data ?? []) as { user_id: string; lessons_done: number }[]).map((r) => [r.user_id, r.lessons_done]));
     const tagsByUser = new Map<string, string[]>();
     (tagsRes.data ?? []).forEach((t) => tagsByUser.set(t.user_id, [...(tagsByUser.get(t.user_id) ?? []), t.tag].sort()));
     const prods: Product[] = [
@@ -115,6 +142,10 @@ export function LmsAdminUsers() {
       lastSignIn: signIns.get(p.id) ?? null,
       tags: tagsByUser.get(p.id) ?? [],
       access: access.get(p.id) ?? {},
+      hasName: !!p.full_name?.trim(),
+      tourStatus: (p.tour_status as Person["tourStatus"]) ?? null,
+      tourStep: p.tour_last_step,
+      lessonsDone: lessons.get(p.id) ?? 0,
     })).sort((a, b) => a.name.localeCompare(b.name)));
     setLoading(false);
   }, []);
@@ -136,6 +167,9 @@ export function LmsAdminUsers() {
       if (filter === "no-access") return !Object.values(p.access).some(live);
       if (filter === "not-invited") return !p.welcomedAt && !p.lastSignIn;
       if (filter === "never-signed-in") return !p.lastSignIn;
+      if (filter === "onboarded") return onboarded(p);
+      if (filter === "not-onboarded") return !onboarded(p);
+      if (filter.startsWith("missing:")) return !ONBOARDING.find((o) => `missing:${o.key}` === filter)!.done(p);
       return true;
     });
   }, [people, search, filter, tagFilter]);
@@ -253,6 +287,11 @@ export function LmsAdminUsers() {
           <option value="not-invited">Not invited yet</option>
           <option value="never-signed-in">Never signed in</option>
           <option value="admins">Admins</option>
+          <optgroup label="Onboarding">
+            <option value="onboarded">Fully onboarded</option>
+            <option value="not-onboarded">Not fully onboarded</option>
+            {ONBOARDING.map((o) => <option key={o.key} value={`missing:${o.key}`}>Missing: {o.label.toLowerCase()}</option>)}
+          </optgroup>
         </select>
         <select value={tagFilter} onChange={(e) => setTagFilter(e.target.value)} className="rounded-lg border border-[#e2e8f0] bg-white px-3 py-2.5 text-sm font-semibold" aria-label="Filter by tag">
           <option value="">All tags</option>
@@ -263,6 +302,37 @@ export function LmsAdminUsers() {
           <button onClick={() => setShowImport(true)} className="inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-4 py-2.5 text-sm font-bold text-white hover:bg-[#2a2ad6]"><FileUp size={16} /> Import CSV</button>
         </div>
       </div>
+
+      {people.length > 0 && (() => {
+        const learners = people.filter((p) => !p.isAdmin);
+        const n = learners.length || 1;
+        const full = learners.filter(onboarded).length;
+        return (
+          <div className="mt-4 rounded-[20px] border border-[#e2e8f0] bg-white p-4">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <button onClick={() => setFilter(filter === "onboarded" ? "all" : "onboarded")} className={`rounded-xl px-3 py-2 text-left transition ${filter === "onboarded" ? "bg-[#ecffd1]" : "hover:bg-[#f7f8ff]"}`}>
+                <div className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Fully onboarded</div>
+                <div className="text-2xl font-extrabold tabular-nums">{full}<span className="text-base font-bold text-[#94a3b8]"> / {learners.length}</span> <span className="text-sm font-bold text-[#3f6212]">{Math.round((full / n) * 100)}%</span></div>
+              </button>
+              <div className="hidden h-10 w-px bg-[#e2e8f0] sm:block" />
+              <div className="flex flex-1 flex-wrap gap-2">
+                {ONBOARDING.map((o) => {
+                  const done = learners.filter(o.done).length;
+                  const active = filter === `missing:${o.key}`;
+                  return (
+                    <button key={o.key} onClick={() => setFilter(active ? "all" : `missing:${o.key}`)} title={`Show the ${learners.length - done} learner(s) still missing this step`} className={`min-w-[120px] flex-1 rounded-xl border px-3 py-2 text-left transition ${active ? "border-[#3434ff] bg-[#f1f4ff]" : "border-[#eef1f6] hover:border-[#c7cdf9]"}`}>
+                      <div className="text-[11.5px] font-semibold text-[#69697b]">{o.label}</div>
+                      <div className="mt-0.5 text-[15px] font-extrabold tabular-nums">{done}<span className="text-[12px] font-semibold text-[#94a3b8]"> / {learners.length}</span></div>
+                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[#eef1f6]"><div className="h-full rounded-full bg-[#3434ff]" style={{ width: `${(done / n) * 100}%` }} /></div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <p className="mt-2 px-3 text-[12px] text-[#94a3b8]">Learners only (admins excluded). Click a step to see who still needs it, then select them to send a nudge.</p>
+          </div>
+        );
+      })()}
 
       {selected.size > 0 && (
         <div className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl bg-[#0b0b2c] px-4 py-3 text-white">
@@ -286,18 +356,19 @@ export function LmsAdminUsers() {
       )}
 
       <div className="mt-4 overflow-x-auto rounded-[20px] border border-[#e2e8f0] bg-white">
-        <table className="w-full min-w-[860px] text-sm">
+        <table className="w-full min-w-[980px] text-sm">
           <thead>
             <tr className="border-b border-[#e2e8f0] text-left text-[11px] font-bold uppercase tracking-wider text-[#69697b]">
               <th className="w-10 px-4 py-3"><input type="checkbox" checked={allOnPage} onChange={() => { const n = new Set(selected); pageRows.forEach((p) => (allOnPage ? n.delete(p.id) : n.add(p.id))); setSelected(n); }} className="accent-[#3434ff]" aria-label="Select all on this page" /></th>
               <th className="px-3 py-3">Person</th>
               <th className="px-3 py-3">Status</th>
+              <th className="px-3 py-3">Onboarding</th>
               {products.map((p) => <th key={p.key} className="max-w-[120px] px-2 py-3 text-center normal-case tracking-normal" title={p.title}><span className="line-clamp-2 text-[11.5px] font-bold">{p.title}</span></th>)}
               <th className="w-12 px-2 py-3"><span className="sr-only">Actions</span></th>
             </tr>
           </thead>
           <tbody>
-            {pageRows.length === 0 && <tr><td colSpan={4 + products.length} className="px-6 py-10 text-center text-[#94a3b8]">Nobody matches.</td></tr>}
+            {pageRows.length === 0 && <tr><td colSpan={5 + products.length} className="px-6 py-10 text-center text-[#94a3b8]">Nobody matches.</td></tr>}
             {pageRows.map((p) => {
               const st = status(p);
               return (
@@ -311,6 +382,12 @@ export function LmsAdminUsers() {
                   <td className={`whitespace-nowrap px-3 py-3 text-xs font-semibold ${st.c}`}>
                     {st.t}
                     {!p.lastSignIn && <button onClick={() => sendWelcome([p.id])} className="ml-2 font-bold text-[#3434ff] hover:underline">{p.welcomedAt ? "Resend" : "Invite"}</button>}
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="flex gap-1" aria-label={`Onboarding: ${ONBOARDING.filter((o) => o.done(p)).length} of ${ONBOARDING.length} steps`}>
+                      {ONBOARDING.map((o) => <span key={o.key} title={`${o.label}: ${o.done(p) ? "done" : "not yet"}`} className={`h-2 w-5 rounded-full ${o.done(p) ? (onboarded(p) ? "bg-[#84cc16]" : "bg-[#3434ff]") : "bg-[#e2e8f0]"}`} />)}
+                    </div>
+                    <div className={`mt-1 whitespace-nowrap text-[11.5px] font-semibold ${onboardingNote(p).c}`}>{onboardingNote(p).t}</div>
                   </td>
                   {products.map((prod) => {
                     const a = p.access[prod.key];

@@ -16,7 +16,8 @@ interface Props {
   isAdmin: boolean;
   screen: string;
   onNavigate: (screen: TourScreen) => void;
-  onClose: () => void;
+  /** completed = heard Mia to the end; step = last step reached (1-based). */
+  onClose: (outcome: { completed: boolean; step: number }) => void;
   /** Primary call to action on the last step. */
   onFinish: () => void;
   ctaLabel: string;
@@ -58,6 +59,17 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
   const durationMs = (m.video || m.audio) && mediaMs[step.id] ? mediaMs[step.id] + 700 : silentDurationMs(step);
   const finished = isLast && elapsed >= durationMs;
   const speaking = playing && !muted && !!(m.video || m.audio) && !finished;
+  const close = useCallback(() => onClose({ completed: finished || isLast, step: i + 1 }), [onClose, finished, isLast, i]);
+
+  // After Mia's last line, the card closes itself unless the learner acts.
+  const [closingIn, setClosingIn] = useState<number | null>(null);
+  useEffect(() => {
+    if (!finished) { setClosingIn(null); return; }
+    setClosingIn(10);
+    const t = window.setInterval(() => setClosingIn((n) => (n === null ? null : n - 1)), 1000);
+    return () => window.clearInterval(t);
+  }, [finished]);
+  useEffect(() => { if (closingIn !== null && closingIn <= 0) close(); }, [closingIn, close]);
   const firstName = name.split(" ")[0] || "there";
 
   const loadMedia = useCallback(async () => setMedia(await findMedia()), []);
@@ -204,14 +216,14 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (adminOpen) return;
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") close();
       else if (e.key === " ") { e.preventDefault(); setPlaying((p) => !p); }
       else if (e.key === "ArrowRight") go(i + 1);
       else if (e.key === "ArrowLeft") go(i - 1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [i, go, onClose, adminOpen]);
+  }, [i, go, close, adminOpen]);
 
   const caption = useMemo(() => {
     const parts = sentences(step.narration);
@@ -240,6 +252,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
         @keyframes mia-bar{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
         @media (prefers-reduced-motion:reduce){.mia-anim{animation:none!important;transition:none!important}}
         .mia-touring [data-private]{filter:blur(7px);user-select:none}
+        .mia-touring [data-tour-admin]{display:none!important}
       `}</style>
 
       {/* Dim layer when nothing is spotlit; otherwise the spotlight's own shadow dims the page. */}
@@ -281,7 +294,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
             <div className={`flex items-center gap-2 ${centre ? "justify-center" : ""}`}>
               <span className="text-[15px] font-extrabold">Mia</span>
               <span className="text-[12px] font-semibold text-white/50">{centre && i === 0 ? "Your SafetyTech guide" : step.title}</span>
-              {!centre && <button onClick={onClose} className="ml-auto -mr-1 -mt-1 rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white" aria-label="Close tour"><X size={16} /></button>}
+              <button onClick={close} className={`rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white ${centre ? "absolute right-3 top-3" : "ml-auto -mr-1 -mt-1"}`} aria-label="Close tour"><X size={16} /></button>
             </div>
             {centre && i === 0 && <p className="mt-1 text-sm font-semibold text-[#9eff1f]">Hi {firstName} 👋</p>}
             {captions && (
@@ -293,6 +306,9 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
         {finished && (
           <div className="px-5 pb-1">
             <button onClick={onFinish} className="w-full rounded-xl bg-[#9eff1f] px-5 py-3.5 text-[15px] font-extrabold text-[#0b0b2c] hover:brightness-95">{ctaLabel}</button>
+            {closingIn !== null && closingIn > 0 && (
+              <p className="mt-2 text-center text-[12px] text-white/45">Closing in {closingIn}s · <button onClick={() => setClosingIn(null)} className="font-semibold text-white/70 underline-offset-2 hover:underline">keep open</button></p>
+            )}
           </div>
         )}
 
@@ -316,7 +332,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
             {isAdmin && <button onClick={() => setAdminOpen(true)} className="rounded-full p-2 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Mia's voice" title="Mia's voice"><Mic size={17} /></button>}
             <button onClick={() => setCaptions((c) => !c)} className={`rounded-full p-2 hover:bg-white/10 ${captions ? "text-[#9eff1f]" : "text-white/50"}`} aria-label="Captions" aria-pressed={captions}>{captions ? <Captions size={18} /> : <CaptionsOff size={18} />}</button>
             {(m.video || m.audio) && <button onClick={() => setMuted((x) => !x)} className="rounded-full p-2 hover:bg-white/10" aria-label={muted ? "Unmute" : "Mute"}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button>}
-            {!finished && <button onClick={onClose} className="ml-1 rounded-lg px-2.5 py-1.5 text-[12px] font-bold text-white/60 hover:bg-white/10 hover:text-white">Skip</button>}
+            {!finished && <button onClick={close} className="ml-1 rounded-lg px-2.5 py-1.5 text-[12px] font-bold text-white/60 hover:bg-white/10 hover:text-white">Skip</button>}
           </div>
         </div>
       </div>

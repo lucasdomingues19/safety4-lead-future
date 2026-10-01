@@ -100,7 +100,14 @@ export async function voiceoverConfigured(): Promise<boolean> {
 const LOCAL_KEY = "lms-tour-done";
 export const tourSeenLocally = () => { try { return localStorage.getItem(LOCAL_KEY) === "1"; } catch { return false; } };
 
-export async function markTourDone(userId: string) {
+/** Records how far the learner got (shown in Admin > People). A finished tour is never downgraded by a later skipped replay. */
+export async function markTourDone(userId: string, outcome: { completed: boolean; step: number }) {
   try { localStorage.setItem(LOCAL_KEY, "1"); } catch { /* private mode */ }
-  await supabase.from("profiles").update({ tour_completed_at: new Date().toISOString() }).eq("id", userId);
+  const { data } = await supabase.from("profiles").select("tour_status").eq("id", userId).maybeSingle();
+  if (data?.tour_status === "completed" && !outcome.completed) return;
+  await supabase.from("profiles").update({
+    tour_completed_at: new Date().toISOString(),
+    tour_status: outcome.completed ? "completed" : "skipped",
+    tour_last_step: outcome.step,
+  }).eq("id", userId);
 }

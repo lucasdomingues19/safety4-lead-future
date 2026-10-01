@@ -254,7 +254,7 @@ export default function LmsInterface() {
           </div>
 
           {/* Navigation */}
-          <nav data-tour="nav" style={{
+          <nav style={{
             flex: 1,
             minHeight: 0,
             overflowY: "auto",
@@ -263,7 +263,8 @@ export default function LmsInterface() {
             flexDirection: "column",
             gap: "6px",
           }}>
-            {/* Learner Nav */}
+            {/* Learner Nav — the only part Mia's tour spotlights */}
+            <div data-tour="nav" style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
             <NavButton
               icon={<Home size={19} />}
               label="Dashboard"
@@ -300,10 +301,11 @@ export default function LmsInterface() {
               onClick={() => handleNavigation("support")}
               open={railOpen}
             />
+            </div>
 
-            {/* Admin Section */}
+            {/* Admin Section (hidden during Mia's tour so it matches what learners see) */}
             {isAdmin && (
-              <>
+              <div data-tour-admin style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 <div style={{
                   height: "1px",
                   background: "rgba(255,255,255,0.1)",
@@ -376,7 +378,7 @@ export default function LmsInterface() {
                   onClick={() => handleNavigation("admin:community")}
                   open={railOpen}
                 />
-              </>
+              </div>
             )}
 
             {/* Bottom section */}
@@ -520,7 +522,7 @@ export default function LmsInterface() {
                 <h2 style={{ margin: "18px 0 8px", fontSize: 26, fontWeight: 800 }}>Welcome, {(lmsUser.full_name || "").split(" ")[0] || "there"}!</h2>
                 <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "rgba(255,255,255,.72)" }}>I'm Mia, your guide. Let me show you around the academy — it takes about two minutes. Sound on for the best experience.</p>
                 <button onClick={() => { setTourInvite(false); setTourOpen(true); }} style={{ marginTop: 22, width: "100%", border: 0, borderRadius: 12, background: "#9eff1f", color: "#0b0b2c", fontWeight: 800, fontSize: 15, padding: "14px 18px", cursor: "pointer", fontFamily: "inherit" }}>Show me around</button>
-                <button onClick={() => { setTourInvite(false); markTourDone(lmsUser.id); }} style={{ marginTop: 10, border: 0, background: "none", color: "rgba(255,255,255,.6)", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>Skip — I'll explore myself</button>
+                <button onClick={() => { setTourInvite(false); markTourDone(lmsUser.id, { completed: false, step: 0 }); }} style={{ marginTop: 10, border: 0, background: "none", color: "rgba(255,255,255,.6)", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>Skip — I'll explore myself</button>
               </div>
             </div>
           )}
@@ -532,10 +534,10 @@ export default function LmsInterface() {
                 screen={screen}
                 onNavigate={(sc) => handleNavigation(sc)}
                 ctaLabel={currentCourse?.nextLessonId ? "Start learning" : "Explore courses"}
-                onClose={() => { setTourOpen(false); markTourDone(lmsUser.id); }}
+                onClose={(outcome) => { setTourOpen(false); markTourDone(lmsUser.id, outcome); }}
                 onFinish={() => {
                   setTourOpen(false);
-                  markTourDone(lmsUser.id);
+                  markTourDone(lmsUser.id, { completed: true, step: 13 });
                   if (currentCourse?.nextLessonId && currentCourse?.slug) navigate(`/learn/${currentCourse.slug}/lesson/${currentCourse.nextLessonId}`);
                   else handleNavigation("dash");
                 }}
