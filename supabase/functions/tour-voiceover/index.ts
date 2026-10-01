@@ -21,7 +21,9 @@ const DEFAULT_VOICE = "21m00Tcm4TlvDq8ikWAM";
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
-    await requireAdmin(req);
+    // Admins from the tour UI, or an operator token (TOUR_ADMIN_TOKEN) for re-recording from the CLI.
+    const opToken = Deno.env.get("TOUR_ADMIN_TOKEN");
+    if (!(opToken && opToken.length >= 32 && req.headers.get("x-tour-token") === opToken)) await requireAdmin(req);
     const key = Deno.env.get("ELEVENLABS_API_KEY");
     const body = await req.json().catch(() => ({})) as { action?: string; items?: { id: string; hash: string; text: string }[]; force?: boolean };
 
