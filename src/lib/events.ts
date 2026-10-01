@@ -64,7 +64,7 @@ const icsDate = (iso: string) => {
   const d = new Date(iso);
   return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
 };
-const icsEscape = (t: string) => t.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\;");
+const icsEscape = (t: string) => t.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
 
 const detailsText = (e: CommunityEvent) =>
   [e.description ?? "", e.join_url ? `Join: ${e.join_url}` : "", "SafetyTech Academy community: https://www.safetytech.academy/learn"].filter(Boolean).join("\n\n");

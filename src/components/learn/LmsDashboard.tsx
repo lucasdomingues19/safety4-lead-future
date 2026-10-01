@@ -7,35 +7,10 @@ import { getMyGamification, type MyGamification } from "@/lib/gamification";
 import { LevelChip, ProgressCard } from "@/components/learn/Gamification";
 import { toast } from "sonner";
 import { useTourActive } from "@/lib/tour";
+import { loadMyCourses, type CatalogCourse, type CourseProgress } from "@/lib/myCourses";
 import { ExampleCertificate, ExampleLesson, ExampleTag } from "@/components/learn/tour/TourExamples";
 
-export interface CourseProgress {
-  id: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  cpdHours: number | null;
-  coverUrl: string | null;
-  status: "in_progress" | "completed" | "not_started";
-  progressPercent: number;
-  totalModules: number;
-  totalLessons: number;
-  completedLessons: number;
-  nextLessonId: string | null;
-  nextLessonTitle: string | null;
-  nextModuleTitle: string | null;
-}
-
-interface CatalogCourse {
-  id: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  price_cents: number | null;
-  currency: string;
-  cpd_hours: number | null;
-  cover_image_url: string | null;
-}
+export type { CourseProgress } from "@/lib/myCourses";
 
 interface LeaderRow {
   user_id: string;
@@ -87,63 +62,13 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
       const name = [profile?.full_name, meta].find((n) => n && n.trim() && !n.includes("@"));
       setUserName(name ? name.trim().split(/\s+/)[0] : "there");
 
-      const [enrRes, courseRes, progRes, attemptRes, certRes, myPostsRes, lbRes, postsRes] = await Promise.all([
-        supabase.from("enrollments").select("course_id, status, expires_at").eq("user_id", user.id),
-        supabase.from("courses").select("id, title, slug, description, price_cents, currency, cpd_hours, cover_image_url").eq("published", true),
-        supabase.from("lesson_progress").select("lesson_id").eq("user_id", user.id),
-        supabase.from("quiz_attempts").select("score, passed").eq("user_id", user.id),
-        supabase.from("certificates").select("id").eq("recipient_email", (user.email ?? "").toLowerCase()),
-        supabase.from("community_posts").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+      const [mine, lbRes, postsRes] = await Promise.all([
+        loadMyCourses(user.id, user.email),
         supabase.rpc("get_leaderboard", { _limit: 5 }),
         supabase.from("community_posts").select("id, author_name, body, created_at").order("created_at", { ascending: false }).limit(3),
       ]);
-
-      const now = Date.now();
-      const activeIds = new Set(
-        (enrRes.data ?? [])
-          .filter((e) => e.status === "active" && (!e.expires_at || new Date(e.expires_at).getTime() > now))
-          .map((e) => e.course_id),
-      );
-      const allCourses = (courseRes.data ?? []) as CatalogCourse[];
-      const enrolledCourses = allCourses.filter((c) => activeIds.has(c.id));
-      setCatalog(allCourses.filter((c) => !activeIds.has(c.id)));
-
-      const completedIds = new Set((progRes.data ?? []).map((p) => p.lesson_id));
-
-      const list: CourseProgress[] = [];
-      for (const c of enrolledCourses) {
-        const { data: modules } = await supabase.from("modules").select("id, title").eq("course_id", c.id).order("position");
-        const moduleIds = (modules ?? []).map((m) => m.id);
-        const titleByModule = new Map((modules ?? []).map((m) => [m.id, m.title]));
-        const { data: lessons } = moduleIds.length
-          ? await supabase.from("lessons").select("id, title, module_id, position").in("module_id", moduleIds)
-          : { data: [] as { id: string; title: string; module_id: string; position: number }[] };
-
-        // order lessons by module order then lesson position
-        const moduleOrder = new Map(moduleIds.map((id, i) => [id, i]));
-        const ordered = [...(lessons ?? [])].sort(
-          (a, b) => (moduleOrder.get(a.module_id) ?? 0) - (moduleOrder.get(b.module_id) ?? 0) || a.position - b.position,
-        );
-        const done = ordered.filter((l) => completedIds.has(l.id)).length;
-        const next = ordered.find((l) => !completedIds.has(l.id)) ?? ordered[0] ?? null;
-
-        list.push({
-          id: c.id,
-          title: c.title,
-          slug: c.slug,
-          description: c.description,
-          cpdHours: c.cpd_hours,
-          coverUrl: c.cover_image_url ?? null,
-          status: done === 0 ? "not_started" : done >= ordered.length && ordered.length > 0 ? "completed" : "in_progress",
-          progressPercent: ordered.length ? Math.round((done / ordered.length) * 100) : 0,
-          totalModules: modules?.length ?? 0,
-          totalLessons: ordered.length,
-          completedLessons: done,
-          nextLessonId: next?.id ?? null,
-          nextLessonTitle: next?.title ?? null,
-          nextModuleTitle: next ? titleByModule.get(next.module_id) ?? null : null,
-        });
-      }
+      const list = mine.courses;
+      setCatalog(mine.catalog);
       setCourses(list);
       setCurrentCourse(list[0] ?? null);
 

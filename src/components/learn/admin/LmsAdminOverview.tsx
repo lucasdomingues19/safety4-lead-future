@@ -38,7 +38,7 @@ export function LmsAdminOverview() {
         supabase.from("enrollments").select("id, user_id, course_id, enrolled_at"),
         supabase.from("certificates").select("id, course_name, issued_at"),
         supabase.from("lessons").select("id, module_id"),
-        supabase.from("lesson_progress").select("user_id, lesson_id, completed_at"),
+        supabase.from("lesson_progress").select("user_id, lesson_id, completed_at").eq("is_completed", true),
       ]);
 
       const allCourses = coursesRes.data ?? [];

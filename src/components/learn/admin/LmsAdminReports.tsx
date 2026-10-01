@@ -14,7 +14,7 @@ async function learnerProgress(): Promise<Row[]> {
     supabase.from("enrollments").select("user_id, course_id, status, enrolled_at, completed_at"),
     supabase.from("modules").select("id, course_id"),
     supabase.from("lessons").select("id, module_id"),
-    supabase.from("lesson_progress").select("user_id, lesson_id"),
+    supabase.from("lesson_progress").select("user_id, lesson_id").eq("is_completed", true),
   ]);
   const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
   const cById = new Map((courses.data ?? []).map((c) => [c.id, c.title]));

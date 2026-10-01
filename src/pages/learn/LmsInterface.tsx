@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle, Sparkles } from "lucide-react";
+import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle, Sparkles, GraduationCap } from "lucide-react";
 import { markTourDone, tourSeenLocally } from "@/lib/tour";
 const MiaTour = React.lazy(() => import("@/components/learn/tour/MiaTour").then(m => ({ default: m.MiaTour })));
 import brandMarkWhite from "@/assets/brand-mark-white.png";
@@ -12,6 +12,7 @@ import { toast } from "sonner";
 const LmsDashboard = React.lazy(() => import("@/components/learn/LmsDashboard").then(m => ({ default: m.LmsDashboard })));
 const LmsCommunity = React.lazy(() => import("@/components/learn/LmsCommunity").then(m => ({ default: m.LmsCommunity })));
 const LmsSettings = React.lazy(() => import("@/components/learn/LmsSettings").then(m => ({ default: m.LmsSettings })));
+const LmsMyLearning = React.lazy(() => import("@/components/learn/LmsMyLearning").then(m => ({ default: m.LmsMyLearning })));
 const LmsSupport = React.lazy(() => import("@/components/learn/LmsSupport").then(m => ({ default: m.LmsSupport })));
 const LmsAdminOverview = React.lazy(() => import("@/components/learn/admin/LmsAdminOverview").then(m => ({ default: m.LmsAdminOverview })));
 const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdminUsers").then(m => ({ default: m.LmsAdminUsers })));
@@ -48,7 +49,7 @@ export default function LmsInterface() {
     const [cpdHours, setCpdHours] = useState(0);
 
     // Screen State
-    const [screen, setScreen] = useState<"dash" | "community" | "settings" | "support" | "admin">("dash");
+    const [screen, setScreen] = useState<"dash" | "learning" | "community" | "settings" | "support" | "admin">("dash");
     const [adminTab, setAdminTab] = useState<"overview" | "courses" | "users" | "access" | "emails" | "reports" | "billing" | "community">("overview");
 
     // Data
@@ -140,6 +141,7 @@ export default function LmsInterface() {
   const renderScreen = () => {
     const content = (() => {
       if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} onNavigate={handleNavigation} />;
+      if (screen === "learning") return <LmsMyLearning onNavigate={handleNavigation} />;
       if (screen === "community") return <LmsCommunity />;
       if (screen === "settings") return <LmsSettings />;
       if (screen === "support") return <LmsSupport onStartTour={() => setTourOpen(true)} />;
@@ -270,6 +272,13 @@ export default function LmsInterface() {
               label="Dashboard"
               active={screen === "dash"}
               onClick={() => handleNavigation("dash")}
+              open={railOpen}
+            />
+            <NavButton
+              icon={<GraduationCap size={19} />}
+              label="My learning"
+              active={screen === "learning"}
+              onClick={() => handleNavigation("learning")}
               open={railOpen}
             />
             <NavButton
