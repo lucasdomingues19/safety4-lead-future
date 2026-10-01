@@ -46,8 +46,6 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
   const [media, setMedia] = useState<Record<string, StepMedia> | null>(null);
   const [mediaMs, setMediaMs] = useState<Record<string, number>>({});
   const [target, setTarget] = useState<HTMLElement | null>(null);
-  const [side, setSide] = useState<"left" | "right" | "center">("center");
-  const [vEdge, setVEdge] = useState<"top" | "bottom">("bottom");
   const [adminOpen, setAdminOpen] = useState(false);
   const spotRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -150,15 +148,8 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
           el.style.transform = `translate(${r.left - PAD}px, ${r.top - PAD}px)`;
           el.style.width = `${r.width + PAD * 2}px`;
           el.style.height = `${r.height + PAD * 2}px`;
-          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-          const wantSide = window.innerWidth < 720 ? "center" : cx > window.innerWidth * 0.5 ? "left" : "right";
-          setSide((s) => (s === wantSide ? s : wantSide));
-          const wantEdge = window.innerWidth < 720 && cy > window.innerHeight * 0.5 ? "top" : "bottom";
-          setVEdge((v) => (v === wantEdge ? v : wantEdge));
         } else {
           el.style.opacity = "0";
-          setSide((s) => (s === "center" ? s : "center"));
-          setVEdge((v) => (v === "bottom" ? v : "bottom"));
         }
       }
       raf = requestAnimationFrame(tick);
@@ -213,21 +204,38 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
     setElapsed(0);
     setPlaying(true);
   }, []);
+  // Relative moves count every click, even rapid ones.
+  const move = useCallback((d: number) => {
+    setI((x) => Math.min(Math.max(x + d, 0), STEPS.length - 1));
+    setElapsed(0);
+    setPlaying(true);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (adminOpen) return;
       if (e.key === "Escape") close();
       else if (e.key === " ") { e.preventDefault(); setPlaying((p) => !p); }
-      else if (e.key === "ArrowRight") go(i + 1);
-      else if (e.key === "ArrowLeft") go(i - 1);
+      else if (e.key === "ArrowRight") move(1);
+      else if (e.key === "ArrowLeft") move(-1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [i, go, close, adminOpen]);
+  }, [move, close, adminOpen]);
 
+  // Subtitles: one short line at a time (long sentences split at commas),
+  // paced across the clip by length.
   const caption = useMemo(() => {
-    const parts = sentences(step.narration);
+    const parts = sentences(step.narration).flatMap((sen) => {
+      if (sen.length <= 80) return [sen];
+      const out: string[] = [];
+      let cur = "";
+      for (const bit of sen.split(/(?<=,)\s+/)) {
+        if (cur && (cur + " " + bit).length > 80) { out.push(cur); cur = bit; } else cur = cur ? `${cur} ${bit}` : bit;
+      }
+      if (cur) out.push(cur);
+      return out;
+    });
     const total = parts.reduce((n, p) => n + p.length, 0);
     const span = Math.max(1, durationMs - 700);
     let acc = 0;
@@ -235,21 +243,17 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
     return parts[parts.length - 1];
   }, [step, elapsed, durationMs]);
 
-  const centre = side === "center" && !target;
-  const progress = Math.min(1, elapsed / durationMs);
-
-  const panelPos: React.CSSProperties = centre
-    ? { left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: "min(460px, calc(100vw - 32px))" }
-    : side === "center"
-      ? { left: 12, right: 12, [vEdge]: 12 }
-      : { [side]: 24, bottom: 24, width: 400 };
+  // Ring around Mia = progress through the whole tour.
+  const overall = Math.min(1, (i + Math.min(1, elapsed / durationMs)) / STEPS.length);
+  const R = 47, C = 2 * Math.PI * R;
+  const ctl = "flex h-9 w-9 items-center justify-center rounded-full text-white/80 transition hover:bg-white/15 hover:text-white disabled:opacity-30";
 
   return (
     <div className="fixed inset-0 z-[80] font-['Plus_Jakarta_Sans',sans-serif]" role="dialog" aria-modal="true" aria-label="Guided tour with Mia">
       <style>{`
-        @keyframes mia-ring{0%{box-shadow:0 0 0 0 rgba(158,255,31,.55)}100%{box-shadow:0 0 0 16px rgba(158,255,31,0)}}
+        @keyframes mia-ring{0%{box-shadow:0 0 0 0 rgba(158,255,31,.5)}100%{box-shadow:0 0 0 14px rgba(158,255,31,0)}}
         @keyframes mia-spot{0%,100%{box-shadow:0 0 0 9999px rgba(8,8,36,.62),0 0 0 3px #9eff1f,0 0 24px 6px rgba(158,255,31,.35)}50%{box-shadow:0 0 0 9999px rgba(8,8,36,.62),0 0 0 3px #9eff1f,0 0 36px 12px rgba(158,255,31,.5)}}
-        @keyframes mia-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        @keyframes mia-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
         @keyframes mia-bar{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
         @media (prefers-reduced-motion:reduce){.mia-anim{animation:none!important;transition:none!important}}
         .mia-touring [data-private]{filter:blur(7px);user-select:none}
@@ -265,79 +269,67 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
         style={{ opacity: 0, transition: "transform .55s cubic-bezier(.2,.8,.2,1), width .55s cubic-bezier(.2,.8,.2,1), height .55s cubic-bezier(.2,.8,.2,1), opacity .4s", animation: "mia-spot 2.4s ease-in-out infinite" }}
       />
 
-      {/* Mia's card */}
-      <div
-        className="mia-anim absolute rounded-[24px] bg-[#0b0b2c] text-white shadow-[0_24px_70px_rgba(0,0,0,.45)] ring-1 ring-white/10"
-        style={{ ...panelPos, transition: "left .5s, right .5s, top .5s, bottom .5s, width .5s" }}
-      >
-        <div className={`flex gap-4 p-5 ${centre ? "flex-col items-center text-center" : "items-start"}`}>
-          <div className="relative shrink-0">
-            <div
-              className={`mia-anim overflow-hidden rounded-full bg-gradient-to-br from-[#9eff1f] via-[#3434ff] to-[#202058] ${centre ? (m.video ? "h-36 w-36" : "h-28 w-28") : m.video ? "h-20 w-20" : "h-16 w-16"}`}
-              style={{ animation: speaking ? "mia-ring 1.4s ease-out infinite" : undefined, transition: "width .4s, height .4s" }}
-            >
-              {media === null ? (
-                <div className="flex h-full w-full items-center justify-center"><Loader2 className="animate-spin text-white/80" size={centre ? 30 : 20} /></div>
-              ) : m.video ? (
-                <video ref={videoRef} playsInline className="h-full w-full object-cover" onLoadedMetadata={(e) => { const d = e.currentTarget.duration; if (Number.isFinite(d)) setMediaMs((x) => ({ ...x, [step.id]: d * 1000 })); }} />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center">
-                  <span className={`font-extrabold text-white drop-shadow ${centre ? "text-4xl" : "text-2xl"}`}>M</span>
-                </div>
-              )}
+      {/* Subtitles, centred along the bottom of the screen */}
+      <div className="pointer-events-none absolute inset-x-3 bottom-[118px] flex flex-col items-center gap-3 sm:inset-x-6 sm:bottom-24 sm:right-[176px]">
+        {finished ? (
+          <div className="pointer-events-auto flex flex-col items-center gap-2 rounded-2xl bg-[#0b0b2c]/95 px-5 py-4 text-center shadow-2xl ring-1 ring-white/10" style={{ animation: "mia-in .35s ease-out" }}>
+            <div className="text-[15px] font-bold text-white">You're all set, {firstName}!</div>
+            <div className="flex gap-2">
+              <button onClick={onFinish} className="rounded-xl bg-[#9eff1f] px-5 py-2.5 text-[14px] font-extrabold text-[#0b0b2c] hover:brightness-95">{ctaLabel}</button>
+              <button onClick={() => go(0)} className="inline-flex items-center gap-1.5 rounded-xl bg-white/10 px-4 py-2.5 text-[14px] font-bold text-white hover:bg-white/15"><RotateCcw size={15} /> Replay</button>
             </div>
-            {speaking && !m.video && (
-              <span className="absolute -bottom-1 -right-1 flex h-6 items-end gap-[2px] rounded-full bg-[#9eff1f] px-1.5 py-1.5" aria-hidden>
-                {[0, 1, 2].map((b) => <span key={b} className="mia-anim w-[3px] origin-bottom rounded-full bg-[#0b0b2c]" style={{ height: 10, animation: `mia-bar ${0.45 + b * 0.15}s ease-in-out infinite` }} />)}
-              </span>
-            )}
-          </div>
-
-          <div className="min-w-0 flex-1">
-            <div className={`flex items-center gap-2 ${centre ? "justify-center" : ""}`}>
-              <span className="text-[15px] font-extrabold">Mia</span>
-              <span className="text-[12px] font-semibold text-white/50">{centre && i === 0 ? "Your SafetyTech guide" : step.title}</span>
-              <button onClick={close} className={`rounded-full p-1.5 text-white/50 hover:bg-white/10 hover:text-white ${centre ? "absolute right-3 top-3" : "ml-auto -mr-1 -mt-1"}`} aria-label="Close tour"><X size={16} /></button>
-            </div>
-            {centre && i === 0 && <p className="mt-1 text-sm font-semibold text-[#9eff1f]">Hi {firstName} 👋</p>}
-            {captions && (
-              <p key={caption} className="mt-2 text-[15px] font-medium leading-relaxed text-white/90" style={{ animation: "mia-in .3s ease-out", minHeight: centre ? undefined : "3.2em" }} aria-live="polite">{caption}</p>
-            )}
-          </div>
-        </div>
-
-        {finished && (
-          <div className="px-5 pb-1">
-            <button onClick={onFinish} className="w-full rounded-xl bg-[#9eff1f] px-5 py-3.5 text-[15px] font-extrabold text-[#0b0b2c] hover:brightness-95">{ctaLabel}</button>
             {closingIn !== null && closingIn > 0 && (
-              <p className="mt-2 text-center text-[12px] text-white/45">Closing in {closingIn}s · <button onClick={() => setClosingIn(null)} className="font-semibold text-white/70 underline-offset-2 hover:underline">keep open</button></p>
+              <p className="text-[12px] text-white/50">Closing in {closingIn}s · <button onClick={() => setClosingIn(null)} className="font-semibold text-white/75 underline-offset-2 hover:underline">keep open</button></p>
             )}
           </div>
-        )}
+        ) : captions && media !== null ? (
+          <p key={caption} aria-live="polite" className="max-w-[760px] rounded-xl bg-[#0b0b2c]/90 px-4 py-2.5 text-center text-[16px] font-semibold leading-snug text-white shadow-xl sm:text-[19px]" style={{ animation: "mia-in .25s ease-out", textWrap: "balance" } as React.CSSProperties}>
+            {caption}
+          </p>
+        ) : null}
+      </div>
 
-        {/* progress + controls */}
-        <div className="px-5 pb-4 pt-2">
-          <div className="flex gap-1">
-            {STEPS.map((s, n) => (
-              <button key={s.id} onClick={() => go(n)} className="group h-4 flex-1" aria-label={`Go to ${s.title}`} title={s.title}>
-                <span className="block h-1 overflow-hidden rounded-full bg-white/15 group-hover:bg-white/25"><span className="block h-full rounded-full bg-[#9eff1f]" style={{ width: n < i ? "100%" : n === i ? `${progress * 100}%` : "0%" }} /></span>
-              </button>
-            ))}
-          </div>
-          <div className="mt-1 flex items-center gap-0.5">
-            <button onClick={() => go(i - 1)} disabled={i === 0} className="rounded-full p-2 hover:bg-white/10 disabled:opacity-30" aria-label="Previous"><ChevronLeft size={18} /></button>
-            {finished
-              ? <button onClick={() => go(0)} className="rounded-full p-2 hover:bg-white/10" aria-label="Replay"><RotateCcw size={17} /></button>
-              : <button onClick={() => setPlaying((p) => !p)} className="rounded-full p-2 hover:bg-white/10" aria-label={playing ? "Pause" : "Play"}>{playing ? <Pause size={18} /> : <Play size={18} />}</button>}
-            <button onClick={() => go(i + 1)} disabled={isLast} className="rounded-full p-2 hover:bg-white/10 disabled:opacity-30" aria-label="Next"><ChevronRight size={18} /></button>
-            <span className="ml-1 text-[12px] font-semibold tabular-nums text-white/40">{i + 1}/{STEPS.length}</span>
-            <span className="ml-auto" />
-            {isAdmin && <button onClick={() => setAdminOpen(true)} className="rounded-full p-2 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Mia's voice" title="Mia's voice"><Mic size={17} /></button>}
-            <button onClick={() => setCaptions((c) => !c)} className={`rounded-full p-2 hover:bg-white/10 ${captions ? "text-[#9eff1f]" : "text-white/50"}`} aria-label="Captions" aria-pressed={captions}>{captions ? <Captions size={18} /> : <CaptionsOff size={18} />}</button>
-            {(m.video || m.audio) && <button onClick={() => setMuted((x) => !x)} className="rounded-full p-2 hover:bg-white/10" aria-label={muted ? "Unmute" : "Mute"}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button>}
-            {!finished && <button onClick={close} className="ml-1 rounded-lg px-2.5 py-1.5 text-[12px] font-bold text-white/60 hover:bg-white/10 hover:text-white">Skip</button>}
-          </div>
+      {/* Controls */}
+      <div className="absolute bottom-5 right-[118px] flex items-center gap-0.5 rounded-full bg-[#0b0b2c]/95 px-1.5 py-1 shadow-xl ring-1 ring-white/10 sm:bottom-7 sm:right-[176px]">
+        <button onClick={() => move(-1)} disabled={i === 0} className={ctl} aria-label="Previous"><ChevronLeft size={18} /></button>
+        {finished
+          ? <button onClick={() => go(0)} className={ctl} aria-label="Replay"><RotateCcw size={16} /></button>
+          : <button onClick={() => setPlaying((p) => !p)} className={ctl} aria-label={playing ? "Pause" : "Play"}>{playing ? <Pause size={17} /> : <Play size={17} />}</button>}
+        <button onClick={() => move(1)} disabled={isLast} className={ctl} aria-label="Next"><ChevronRight size={18} /></button>
+        <span className="hidden px-1 text-[12px] font-semibold tabular-nums text-white/45 sm:inline">{i + 1}/{STEPS.length}</span>
+        <button onClick={() => setCaptions((c) => !c)} className={`${ctl} ${captions ? "!text-[#9eff1f]" : ""}`} aria-label="Subtitles" aria-pressed={captions}>{captions ? <Captions size={17} /> : <CaptionsOff size={17} />}</button>
+        {(m.video || m.audio) && <button onClick={() => setMuted((x) => !x)} className={ctl} aria-label={muted ? "Unmute" : "Mute"}>{muted ? <VolumeX size={17} /> : <Volume2 size={17} />}</button>}
+        {isAdmin && <button onClick={() => setAdminOpen(true)} className={`${ctl} hidden sm:flex`} aria-label="Mia's voice and video" title="Mia's voice and video"><Mic size={16} /></button>}
+        <button onClick={close} className={ctl} aria-label="Close tour" title="Close tour"><X size={18} /></button>
+      </div>
+
+      {/* Mia, always bottom-right */}
+      <div className="absolute bottom-4 right-4 h-[92px] w-[92px] sm:bottom-6 sm:right-6 sm:h-[136px] sm:w-[136px]">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full -rotate-90" aria-hidden>
+          <circle cx="50" cy="50" r={R} fill="none" stroke="rgba(255,255,255,.18)" strokeWidth="3" />
+          <circle cx="50" cy="50" r={R} fill="none" stroke="#9eff1f" strokeWidth="3" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={C * (1 - overall)} style={{ transition: "stroke-dashoffset .3s linear" }} />
+        </svg>
+        <div
+          className="mia-anim absolute inset-[7%] overflow-hidden rounded-full bg-gradient-to-br from-[#9eff1f] via-[#3434ff] to-[#202058] shadow-[0_12px_40px_rgba(0,0,0,.45)]"
+          style={{ animation: speaking ? "mia-ring 1.4s ease-out infinite" : undefined }}
+        >
+          {media === null ? (
+            <div className="flex h-full w-full items-center justify-center"><Loader2 className="animate-spin text-white/80" size={26} /></div>
+          ) : m.video ? (
+            <video ref={videoRef} playsInline className="h-full w-full object-cover" onLoadedMetadata={(e) => { const d = e.currentTarget.duration; if (Number.isFinite(d)) setMediaMs((x) => ({ ...x, [step.id]: d * 1000 })); }} />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center"><span className="text-3xl font-extrabold text-white drop-shadow sm:text-4xl">M</span></div>
+          )}
         </div>
+        {!playing && !finished && media !== null && (
+          <button onClick={() => setPlaying(true)} className="absolute inset-[7%] flex items-center justify-center rounded-full bg-black/45 text-white" aria-label="Resume"><Play size={30} className="translate-x-0.5" /></button>
+        )}
+        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full bg-[#9eff1f] px-2.5 py-0.5 text-[11px] font-extrabold text-[#0b0b2c] shadow">Mia</span>
+        {speaking && !m.video && (
+          <span className="absolute right-0 top-0 flex h-6 items-end gap-[2px] rounded-full bg-[#9eff1f] px-1.5 py-1.5" aria-hidden>
+            {[0, 1, 2].map((b) => <span key={b} className="mia-anim w-[3px] origin-bottom rounded-full bg-[#0b0b2c]" style={{ height: 10, animation: `mia-bar ${0.45 + b * 0.15}s ease-in-out infinite` }} />)}
+          </span>
+        )}
       </div>
 
       <audio ref={audioRef} preload="auto" onLoadedMetadata={(e) => { const d = e.currentTarget.duration; if (Number.isFinite(d)) setMediaMs((x) => ({ ...x, [step.id]: d * 1000 })); }} />

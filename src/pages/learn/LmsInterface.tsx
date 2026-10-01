@@ -177,7 +177,7 @@ export default function LmsInterface() {
           <div style={{ width: "32px", height: "32px", border: "3px solid #e2e8f0", borderTop: "3px solid #3434ff", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto" }} />
         </div>
       </div>}>
-        <ScreenErrorBoundary key={screen + adminTab}>{content}</ScreenErrorBoundary>
+        <ScreenErrorBoundary key={screen + adminTab} screen={screen === "admin" ? `admin:${adminTab}` : screen}>{content}</ScreenErrorBoundary>
       </React.Suspense>
     );
   };
@@ -556,13 +556,39 @@ export default function LmsInterface() {
     );
 }
 
-class ScreenErrorBoundary extends React.Component<{ children: React.ReactNode }, { error: Error | null }> {
+// A screen whose code was replaced by a newer deploy while the tab stayed open
+// fails to load its chunk; reloading once fixes it for good.
+const STALE_CHUNK = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|ChunkLoadError|Loading chunk \S+ failed/i;
+const RELOAD_KEY = "lms-chunk-reload";
+
+class ScreenErrorBoundary extends React.Component<{ children: React.ReactNode; screen?: string }, { error: Error | null }> {
   state = { error: null as Error | null };
   static getDerivedStateFromError(error: Error) {
     return { error };
   }
   componentDidCatch(error: Error) {
     console.error("LMS screen error:", error);
+    if (STALE_CHUNK.test(String(error?.message))) {
+      let last = 0;
+      try { last = Number(sessionStorage.getItem(RELOAD_KEY) || 0); } catch { /* private mode */ }
+      if (Date.now() - last > 60_000) {
+        try { sessionStorage.setItem(RELOAD_KEY, String(Date.now())); } catch { /* private mode */ }
+        window.location.reload();
+        return;
+      }
+    }
+    // Record it so admins can see what actually broke.
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) return;
+      supabase.from("client_errors").insert({
+        user_id: data.user.id,
+        screen: (this.props.screen ?? "").slice(0, 60),
+        message: String(error?.message ?? error).slice(0, 1000),
+        stack: String(error?.stack ?? "").slice(0, 4000),
+        url: window.location.href.slice(0, 500),
+        user_agent: navigator.userAgent.slice(0, 300),
+      }).then(() => undefined);
+    });
   }
   render() {
     if (!this.state.error) return this.props.children;
