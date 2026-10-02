@@ -92,6 +92,7 @@ export const CERT_FONTS: { value: string; label: string; stack: string }[] = [
   { value: 'lora', label: 'Lora', stack: "'Lora', Georgia, serif" },
   { value: 'marcellus', label: 'Marcellus', stack: "'Marcellus', Georgia, serif" },
   { value: 'montserrat', label: 'Montserrat', stack: "'Montserrat', system-ui, sans-serif" },
+  { value: 'instrument', label: 'Instrument Serif', stack: "'Instrument Serif', Georgia, serif" },
 ];
 
 export const fontStack = (v?: string | null) =>
@@ -118,6 +119,11 @@ export const rgba = (hex: string, a: number) => {
   if (Number.isNaN(num)) return `rgba(0,0,0,${a})`;
   return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${a})`;
 };
+
+/** UUIDs print as their first block (8A5E0241); human-readable numbers
+ *  (e.g. SA4-2026-00022) print in full rather than being cut mid-way. */
+const displayId = (id: string) =>
+  /^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(id) ? id.slice(0, 8).toUpperCase() : id;
 
 /** Background texture. Each option is a real, distinct security-print style. */
 function Pattern({ c, opacity = 0.06 }: { c: CertResolved; opacity?: number }) {
@@ -440,7 +446,7 @@ function IdQr({ c }: { c: CertResolved }) {
     <>
       <div className="absolute inset-x-[7%] bottom-[5%] flex items-end justify-between">
         <div style={{ fontFamily: SANS, fontSize: '0.6rem', letterSpacing: '0.08em', color: rgba(c.text, 0.5) }}>
-          {c.showCertificateId && c.certificateId && <div>ID {c.certificateId.slice(0, 8).toUpperCase()}</div>}
+          {c.showCertificateId && c.certificateId && <div>ID {displayId(c.certificateId)}</div>}
           {c.footer && <div style={{ marginTop: 2 }}>{c.footer}</div>}
         </div>
         {c.qr && !qrPositioned && (
@@ -850,7 +856,7 @@ function Vector(c: CertResolved) {
             style={{ marginTop: 14, paddingTop: 10, borderTop: `1px solid ${rgba(c.text, 0.14)}` }}
           >
             <div style={{ fontFamily: MONO, fontSize: '0.58rem', letterSpacing: '0.08em', color: rgba(c.text, 0.55) }}>
-              {c.showCertificateId && c.certificateId && <div>ID · {c.certificateId.slice(0, 8).toUpperCase()}</div>}
+              {c.showCertificateId && c.certificateId && <div>ID · {displayId(c.certificateId)}</div>}
               {c.footer && <div style={{ marginTop: 2 }}>{c.footer}</div>}
             </div>
             {c.qr && <img src={c.qr} alt="Verification QR" style={{ height: 44, width: 44, background: '#fff', padding: 2, borderRadius: 3 }} />}
@@ -862,7 +868,127 @@ function Vector(c: CertResolved) {
   );
 }
 
+/* ============================ ATELIER — light, editorial ============================ */
+
+/**
+ * Atelier: generous white space, the holder's name set large in the display
+ * face, a single short accent rule, and a faint oversized watermark of the
+ * issuer's mark. Everything else is quiet sans/mono metadata in one footer row.
+ */
+function Atelier(c: CertResolved) {
+  const muted = rgba(c.text, 0.62);
+  const faint = rgba(c.text, 0.45);
+  const label = { fontFamily: SANS, fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase' as const, color: faint };
+  const value = { fontFamily: SANS, fontSize: '0.92rem', fontWeight: 700, marginTop: 5, color: c.text };
+  const logoInline = c.showLogo && !(c.elementLayout?.logo || c.editable);
+  const sigInline = c.showSignature && !(c.elementLayout?.signature || c.editable);
+  const qrPositioned = !!c.elementLayout?.qr || c.editable;
+  const nameLen = c.holderName.length;
+  const nameSize = c.portrait
+    ? (nameLen > 22 ? '2.2rem' : '2.8rem')
+    : (nameLen > 26 ? '3.2rem' : nameLen > 20 ? '3.8rem' : '4.4rem');
+  return (
+    <Frame c={c} style={{ borderRadius: 4 }}>
+      <Pattern c={c} opacity={0.035} />
+      {c.showLogo && (
+        <div
+          className="pointer-events-none absolute"
+          style={{ right: '-4%', top: c.portrait ? '30%' : '19%', height: c.portrait ? '42%' : '60%', aspectRatio: '1 / 1', opacity: 0.045, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          aria-hidden="true"
+        >
+          {c.logoUrl
+            ? <img src={c.logoUrl} alt="" style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
+            : <Seal color={c.primary} size={300} />}
+        </div>
+      )}
+
+      <div className="relative flex h-full flex-col" style={{ padding: c.portrait ? '9% 9% 8%' : '6% 7% 5.5%', fontFamily: SANS }}>
+        {/* Top row — issuer mark + name, certificate number */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center" style={{ gap: 12 }}>
+            {logoInline && (c.logoUrl
+              ? <img src={c.logoUrl} alt="" style={{ height: 26, objectFit: 'contain' }} />
+              : <Seal color={c.primary} size={34} />)}
+            {c.showIssuer && (
+              <p style={{ fontSize: '0.92rem', fontWeight: 800, letterSpacing: '0.01em', color: c.text }}>{c.issuerName}</p>
+            )}
+          </div>
+          {c.showCertificateId && c.certificateId && (
+            <p style={{ fontFamily: MONO, fontSize: '0.66rem', letterSpacing: '0.08em', color: faint, whiteSpace: 'nowrap' }}>
+              No. {displayId(c.certificateId)}
+            </p>
+          )}
+        </div>
+
+        {/* Body */}
+        <div className="flex flex-1 flex-col justify-center" style={{ maxWidth: c.portrait ? '100%' : '72%' }}>
+          <p style={{ fontSize: '0.66rem', fontWeight: 800, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.primary }}>{c.header}</p>
+          <h2 style={{ fontFamily: c.fontDisplay, fontSize: nameSize, fontWeight: 400, lineHeight: 1, letterSpacing: '-0.01em', margin: '14px 0 0', color: c.text }}>
+            {c.holderName}
+          </h2>
+          <p style={{ fontSize: '0.92rem', color: muted, marginTop: 18 }}>has successfully completed</p>
+          <p style={{ fontSize: c.portrait ? '1.15rem' : '1.4rem', fontWeight: 700, lineHeight: 1.25, marginTop: 4, color: c.text, textWrap: 'balance' } as React.CSSProperties}>
+            {c.assessmentTitle}
+          </p>
+          <Description c={c} align="left" />
+          <div style={{ width: 56, height: 3, borderRadius: 2, background: c.primary, marginTop: 20 }} />
+          {c.showSkills && c.skills.length > 0 && (
+            <p style={{ fontSize: '0.76rem', lineHeight: 1.6, color: muted, marginTop: 12 }}>
+              {c.skills.join('  ·  ')}
+            </p>
+          )}
+        </div>
+
+        {/* Footer row — date, score, signature, verification */}
+        <div className="flex flex-wrap items-end" style={{ columnGap: c.portrait ? 28 : 40, rowGap: 18 }}>
+          {c.showDate && (
+            <div>
+              <p style={label}>{c.expiryText || 'Issued'}</p>
+              <p style={value}>{c.dateText}</p>
+            </div>
+          )}
+          {c.showScore && (
+            <div>
+              <p style={label}>Score</p>
+              <p style={value}>{c.score}%</p>
+            </div>
+          )}
+          {c.showSignature && (
+            <div className="ml-auto" style={{ minWidth: 150 }}>
+              {/* Signature scans carry lots of transparent padding — pull the
+                  mark into the caption so it reads as signed on the line. */}
+              {sigInline
+                ? <div style={{ margin: '-28px 0 -14px -8px' }}><SignatureMark c={c} imgHeight={104} /></div>
+                : <div style={{ height: 56 }} />}
+              <SignatureCaption c={c} align="left" />
+            </div>
+          )}
+          {(c.qr || c.footer) && (
+            <div className={c.showSignature ? 'flex items-center' : 'ml-auto flex items-center'} style={{ gap: 10 }}>
+              {c.qr && !qrPositioned && (
+                <img src={c.qr} alt="Verification QR" style={{ height: 52, width: 52, background: '#fff', padding: 3, borderRadius: 5 }} />
+              )}
+              <div style={{ fontSize: '0.64rem', lineHeight: 1.4, color: faint }}>
+                {c.qr && <div>Scan to verify</div>}
+                {c.footer && <div style={{ fontWeight: 600, color: muted }}>{c.footer}</div>}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {c.qr && qrPositioned && (
+        <PositionedElement c={c} elementKey="qr">
+          <img src={c.qr} alt="Verification QR" style={{ height: '100%', width: '100%', background: '#fff', padding: 2, borderRadius: 3, objectFit: 'contain' }} />
+        </PositionedElement>
+      )}
+      <SignatureOverlay c={c} />
+    </Frame>
+  );
+}
+
 export const CERT_DESIGNS: Record<string, { name: string; Component: (c: CertResolved) => JSX.Element }> = {
+  atelier: { name: 'Atelier', Component: Atelier },
   classic: { name: 'Sovereign', Component: Sovereign },
   sovereign: { name: 'Sovereign', Component: Sovereign },
   modern: { name: 'Meridian', Component: Meridian },
@@ -878,6 +1004,7 @@ export const CERT_DESIGNS: Record<string, { name: string; Component: (c: CertRes
 };
 
 export const DESIGN_GALLERY = [
+  { style: 'atelier', name: 'Atelier', blurb: 'Light, editorial, premium' },
   { style: 'sovereign', name: 'Sovereign', blurb: 'Formal, engraved, ceremonial' },
   { style: 'meridian', name: 'Meridian', blurb: 'Modern, minimal, confident' },
   { style: 'regalia', name: 'Regalia', blurb: 'Elegant, editorial, refined' },

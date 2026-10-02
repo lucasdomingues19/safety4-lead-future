@@ -6,27 +6,25 @@ import type { CertificateData } from "@/components/certificates/CertificateDocum
 // LMS certificates drawn with Syngraph's certificate designs, using the
 // branding Lucas set up in Syngraph for the IOSH Safety 4.0 assessment
 // (template "IOSH Approved Safety 4.0 - Leading Safety in the Digital Age",
-// Summit design). Copied 2026-10-02 — update here if the Syngraph template
+// Atelier design since 2026-10-02). Update here if the Syngraph template
 // changes, so LMS and Syngraph certificates stay identical.
 const SYNGRAPH_ASSETS = "https://bzmumnflczajlagnmppd.supabase.co/storage/v1/object/public/assessment-assets";
 export const SAFETYTECH_TEMPLATE = {
-  template_style: "summit",
-  background_pattern: "grid",
-  font_family: "cinzel",
-  orientation: "portrait" as const,
+  template_style: "atelier",
+  background_pattern: "none",
+  font_family: "instrument",
+  orientation: "landscape" as "landscape" | "portrait",
   primary_color: "#2b00ff",
   secondary_color: "#2b00ff",
-  background_color: "#FFFFFF",
-  text_color: "#1F2937",
-  custom_header: "Certificate of Completion",
+  background_color: "#FBFBFD",
+  text_color: "#0B0B2C",
+  custom_header: "Certificate of Achievement",
   custom_footer: "safetytech.academy",
   issuer_name: "SafetyTech Academy",
   signature_name: "Lucas Domingues, Founder",
   skills_label: "Skills Demonstrated",
-  element_layout: {
-    logo: { heightPx: 42, widthPx: 60, xPct: 82.06451612903226, yPct: 4.342200240609544 },
-    signature: { heightPx: 143, widthPx: 191, xPct: 69.19354838709677, yPct: 66.59749116973703 },
-  },
+  logo_file: "certificate-mark-safetytech-blue.png",
+  element_layout: null,
 };
 
 // Skills printed per course (the Syngraph template lists Safety 4.0's).
@@ -36,7 +34,7 @@ const SKILLS: Record<string, string[]> = {
 };
 const skillsFor = (course: string) => (/AI Fundamentals/i.test(course) ? SKILLS.ai : SKILLS.safety);
 
-const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" });
 
 let fontsRequested = false;
 const ensureFonts = () => {
@@ -44,7 +42,7 @@ const ensureFonts = () => {
   fontsRequested = true;
   const l = document.createElement("link");
   l.rel = "stylesheet";
-  l.href = "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Dancing+Script:wght@600&family=Great+Vibes&display=swap";
+  l.href = "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Instrument+Serif&family=Dancing+Script:wght@600&family=Great+Vibes&display=swap";
   document.head.appendChild(l);
 };
 
@@ -70,7 +68,7 @@ export const SyngraphCertificate = forwardRef<HTMLDivElement, Props>(function Sy
     text: t.text_color,
     fontDisplay: fontStack(t.font_family),
     pattern: t.background_pattern,
-    logoUrl: `${SYNGRAPH_ASSETS}/certificate-logo-transparent-1789461047559.png`,
+    logoUrl: `${SYNGRAPH_ASSETS}/${t.logo_file}`,
     showLogo: true,
     issuerName: t.issuer_name,
     showIssuer: true,
