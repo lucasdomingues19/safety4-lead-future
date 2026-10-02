@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { CertificateDocument, type CertificateData } from "@/components/certificates/CertificateDocument";
+import type { CertificateData } from "@/components/certificates/CertificateDocument";
+import { SyngraphCertificate } from "@/components/certificates/syngraph/SyngraphCertificate";
 import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
 import { CheckCircle2, XCircle, Download, Linkedin, Loader2, ShieldCheck } from "lucide-react";
 import jsPDF from "jspdf";
@@ -112,7 +113,7 @@ const VerifyCertificate = () => {
       const scale = Math.max(3, Math.min(4, (window.devicePixelRatio || 1) * 2));
       const canvas = await html2canvas(node, {
         scale,
-        backgroundColor: "#05080f",
+        backgroundColor: "#ffffff",
         useCORS: true,
         onclone: (doc) => { const el = doc.getElementById("cert-scaler"); if (el) el.style.transform = "none"; },
         imageTimeout: 15000,
@@ -125,7 +126,7 @@ const VerifyCertificate = () => {
       });
       const img = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
-        orientation: "landscape",
+        orientation: canvas.width >= canvas.height ? "landscape" : "portrait",
         unit: "px",
         format: [canvas.width, canvas.height],
         compress: true,
@@ -271,7 +272,7 @@ const VerifyCertificate = () => {
         <div ref={fitBoxRef} className="mb-8 overflow-hidden">
           <div className="mx-auto rounded-xl shadow-2xl" style={{ width: fit.scale < 1 ? "100%" : "fit-content", height: fit.height ? fit.height * fit.scale : undefined, overflow: "hidden" }}>
             <div id="cert-scaler" style={{ width: "fit-content", transform: fit.scale < 1 ? `scale(${fit.scale})` : undefined, transformOrigin: "top left" }}>
-              <CertificateDocument ref={certRef} cert={cert!} verifyUrl={verifyUrl} />
+              <SyngraphCertificate ref={certRef} cert={cert!} verifyUrl={verifyUrl} />
             </div>
           </div>
         </div>
