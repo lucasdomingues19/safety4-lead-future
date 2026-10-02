@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-const inputStyle: React.CSSProperties = { width: "100%", padding: "12px 14px", border: "1px solid #E2E8F0", borderRadius: "10px", fontSize: "14px", fontFamily: "inherit", color: "#0B0B2C", boxSizing: "border-box" };
+const inputStyle: React.CSSProperties = { width: "100%", padding: "12px 14px", border: "1px solid #E2E8F0", borderRadius: "10px", fontSize: "16px", fontFamily: "inherit", color: "#0B0B2C", boxSizing: "border-box" };
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -48,8 +48,8 @@ const ResetPassword = () => {
           </div>
         ) : (
           <form onSubmit={save} style={{ marginTop: 20, display: "grid", gap: 14 }}>
-            <input type="password" autoComplete="new-password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
-            <input type="password" autoComplete="new-password" placeholder="Confirm new password" value={confirm} onChange={(e) => setConfirm(e.target.value)} style={inputStyle} />
+            <input type="password" autoComplete="new-password" placeholder="New password" aria-label="New password" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
+            <input type="password" autoComplete="new-password" placeholder="Confirm new password" aria-label="Confirm new password" value={confirm} onChange={(e) => setConfirm(e.target.value)} style={inputStyle} />
             <button type="submit" disabled={saving} style={{ marginTop: 4, padding: "13px", border: 0, borderRadius: "10px", background: "#3434FF", color: "#fff", fontWeight: 700, fontSize: "14px", cursor: "pointer", fontFamily: "inherit", display: "flex", justifyContent: "center", alignItems: "center", gap: 8 }}>
               {saving && <Loader2 size={16} className="animate-spin" />} {welcome ? "Set password & start learning" : "Update password"}
             </button>

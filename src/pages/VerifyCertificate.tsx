@@ -27,6 +27,10 @@ const VerifyCertificate = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<Status>(certificateNumber ? "loading" : "search");
   const [cert, setCert] = useState<CertificateData | null>(null);
+  // The certificate is drawn at a fixed 1000px; on narrow screens it is scaled
+  // down to fit (the PDF/PNG exports still capture it at full size).
+  const fitBoxRef = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState({ scale: 1, height: 0 });
   const [searchValue, setSearchValue] = useState("");
   
   const certRef = useRef<HTMLDivElement>(null);
@@ -73,6 +77,20 @@ const VerifyCertificate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [certificateNumber]);
 
+  useEffect(() => {
+    const box = fitBoxRef.current, doc = certRef.current;
+    if (!box || !doc) return;
+    const measure = () => {
+      const w = doc.offsetWidth, h = doc.offsetHeight;
+      if (!w) return;
+      setFit({ scale: Math.min(1, box.clientWidth / w), height: h });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(box);
+    return () => ro.disconnect();
+  }, [cert]);
+
   const downloadCertificatePdf = async () => {
     if (!certRef.current) return;
     trackInteraction("engaged");
@@ -96,6 +114,7 @@ const VerifyCertificate = () => {
         scale,
         backgroundColor: "#05080f",
         useCORS: true,
+        onclone: (doc) => { const el = doc.getElementById("cert-scaler"); if (el) el.style.transform = "none"; },
         imageTimeout: 15000,
         width: node.offsetWidth,
         height: node.offsetHeight,
@@ -249,9 +268,11 @@ const VerifyCertificate = () => {
         </div>
 
         {/* Certificate */}
-        <div className="overflow-x-auto rounded-xl shadow-2xl mb-8">
-          <div className="mx-auto" style={{ width: "fit-content" }}>
-            <CertificateDocument ref={certRef} cert={cert!} verifyUrl={verifyUrl} />
+        <div ref={fitBoxRef} className="mb-8 overflow-hidden">
+          <div className="mx-auto rounded-xl shadow-2xl" style={{ width: fit.scale < 1 ? "100%" : "fit-content", height: fit.height ? fit.height * fit.scale : undefined, overflow: "hidden" }}>
+            <div id="cert-scaler" style={{ width: "fit-content", transform: fit.scale < 1 ? `scale(${fit.scale})` : undefined, transformOrigin: "top left" }}>
+              <CertificateDocument ref={certRef} cert={cert!} verifyUrl={verifyUrl} />
+            </div>
           </div>
         </div>
 

@@ -98,10 +98,11 @@ const ScrollToTop = () => {
 };
 
 // Floating widgets/popups — hidden on private proposal pages and inside the
-// LMS (learner pages, checkout and the course builder), where they cover the player.
+// LMS (learner pages, checkout and the course builder), where they cover the player,
+// and on certificate verification pages, which employers open to check a credential.
 const GlobalWidgets = () => {
   const { pathname } = useLocation();
-  if (/^\/(proposal|learn|student|admin\/courses)/.test(pathname)) return null;
+  if (/^\/(proposal|learn|student|admin\/courses|verify)/.test(pathname)) return null;
   return (
     <Suspense fallback={null}>
       <WhatsAppButton />

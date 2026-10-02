@@ -229,11 +229,13 @@ const LearnAuth = () => {
                 fontWeight: 600,
                 color: "#0B0B2C",
                 marginBottom: "8px",
-              }}>
+              }} htmlFor="auth-name">
                 Full name
               </label>
               <input
+                id="auth-name"
                 type="text"
+                autoComplete="name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Jane Smith"
@@ -242,7 +244,7 @@ const LearnAuth = () => {
                   padding: "12px 14px",
                   border: "1px solid #E2E8F0",
                   borderRadius: "10px",
-                  fontSize: "14px",
+                  fontSize: "16px",
                   fontFamily: "inherit",
                   color: "#0B0B2C",
                   boxSizing: "border-box",
@@ -267,11 +269,15 @@ const LearnAuth = () => {
               fontWeight: 600,
               color: "#0B0B2C",
               marginBottom: "8px",
-            }}>
+            }} htmlFor="auth-email">
               Email
             </label>
             <input
+              id="auth-email"
               type="email"
+              autoComplete="email"
+              autoCapitalize="none"
+              spellCheck={false}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
@@ -280,7 +286,7 @@ const LearnAuth = () => {
                 padding: "12px 14px",
                 border: "1px solid #E2E8F0",
                 borderRadius: "10px",
-                fontSize: "14px",
+                fontSize: "16px",
                 fontFamily: "inherit",
                 color: "#0B0B2C",
                 boxSizing: "border-box",
@@ -304,11 +310,13 @@ const LearnAuth = () => {
               fontWeight: 600,
               color: "#0B0B2C",
               marginBottom: "8px",
-            }}>
+            }} htmlFor="auth-password">
               Password
             </label>
             <input
+              id="auth-password"
               type="password"
+              autoComplete={mode === "signin" ? "current-password" : "new-password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
@@ -317,7 +325,7 @@ const LearnAuth = () => {
                 padding: "12px 14px",
                 border: "1px solid #E2E8F0",
                 borderRadius: "10px",
-                fontSize: "14px",
+                fontSize: "16px",
                 fontFamily: "inherit",
                 color: "#0B0B2C",
                 boxSizing: "border-box",
@@ -334,7 +342,7 @@ const LearnAuth = () => {
             />
             {mode === "signin" && (
               <div style={{ marginTop: "8px", textAlign: "right" }}>
-                <button type="button" onClick={handleForgot} disabled={loading} style={{ background: "none", border: 0, padding: 0, color: "#3434FF", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
+                <button type="button" onClick={handleForgot} disabled={loading} style={{ background: "none", border: 0, padding: "10px 0 10px 12px", margin: "-6px 0", color: "#3434FF", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
                   Forgot password?
                 </button>
               </div>
@@ -398,6 +406,8 @@ const LearnAuth = () => {
               textDecoration: "none",
               fontFamily: "inherit",
               fontSize: "inherit",
+              padding: "12px 6px",
+              margin: "-12px 0",
               transition: "color 0.2s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#2A2AD6")}

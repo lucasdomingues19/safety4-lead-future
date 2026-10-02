@@ -320,3 +320,13 @@ All colors MUST be HSL.
     print-color-adjust: exact;
   }
 }
+
+/* Phones: iOS Safari zooms the page when a form field's text is under 16px.
+   Bump small fields to 16px on phone-sized screens only. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  textarea,
+  select {
+    font-size: max(16px, 1em) !important;
+  }
+}

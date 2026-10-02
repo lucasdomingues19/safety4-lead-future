@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
   <head>
+    <!-- Marketing trackers run on the public website only. Inside the LMS app
+         (signed-in learner/admin pages) they would be able to read the
+         learner's session, so they are not loaded there. -->
+    <script>window.__lmsApp = /^\/(learn|student|admin)(\/|$)/.test(location.pathname);
+      window.__loadScript = function (src) { if (window.__lmsApp) return; var s = document.createElement("script"); s.async = true; s.src = src; document.head.appendChild(s); };</script>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>if (!window.__lmsApp) (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -10,8 +15,8 @@
     <!-- End Google Tag Manager -->
     <meta name="google" content="notranslate" />
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWGDBQ6H9D"></script>
     <script>
+      window.__loadScript("https://www.googletagmanager.com/gtag/js?id=G-PWGDBQ6H9D");
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
@@ -58,10 +63,10 @@
 
 
     <!-- Midbound AI Visitor Identification (reinstalled) -->
-    <script src="https://px.midbound.ai/cmjov6wcr0005s601e1ow4i5x" async></script>
+    <script>window.__loadScript("https://px.midbound.ai/cmjov6wcr0005s601e1ow4i5x");</script>
 
     <!-- TrustBox script -->
-    <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+    <script>window.__loadScript("https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js");</script>
     <!-- End TrustBox script -->
 
     <!-- Google Fonts with display=swap for better performance -->
@@ -114,7 +119,7 @@
       window._linkedin_data_partner_ids.push(_linkedin_partner_id);
     </script>
     <script type="text/javascript">
-      (function(l) {
+      if (!window.__lmsApp) (function(l) {
         if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
         window.lintrk.q=[]}
         var s = document.getElementsByTagName("script")[0];
@@ -129,12 +134,12 @@
     <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
       o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
       o.onload=function(){window.trackingFunctions.onLoad({appId:"6a706c4aebeb69001c345940"})},
-      document.head.appendChild(o)}initApollo();</script>
+      document.head.appendChild(o)}if(!window.__lmsApp)initApollo();</script>
 
 
     <!-- Meta Pixel Code -->
     <script>
-      !function(f,b,e,v,n,t,s)
+      if (!window.__lmsApp) !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
       if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -142,13 +147,12 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '958449093236996');
-      fbq('track', 'PageView');
+      if (window.fbq) { fbq('init', '958449093236996'); fbq('track', 'PageView'); }
     </script>
     <!-- End Meta Pixel Code -->
 
     <!-- OpenAI Conversion Pixel -->
-    <script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2jxpMUe7RQ8fSYi5dQZbvL",debug:true});</script>
+    <script>if (!window.__lmsApp) { !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2jxpMUe7RQ8fSYi5dQZbvL",debug:true}); }</script>
     <!-- End OpenAI Conversion Pixel -->
   </head>
 
