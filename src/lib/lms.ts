@@ -100,10 +100,12 @@ export const formatPrice = (priceCents: number | null | undefined, currency = "G
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
       currency,
-      minimumFractionDigits: 0,
+      // Whole amounts stay clean (£597); anything with pence shows both digits (£1.20).
+      minimumFractionDigits: priceCents % 100 === 0 ? 0 : 2,
+      maximumFractionDigits: priceCents % 100 === 0 ? 0 : 2,
     }).format(priceInUnits);
   } catch {
-    return `£${(priceCents / 100).toFixed(0)}`;
+    return `£${(priceCents / 100).toFixed(priceCents % 100 === 0 ? 0 : 2)}`;
   }
 };
 
