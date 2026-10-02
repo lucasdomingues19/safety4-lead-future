@@ -19,7 +19,7 @@ export const SAFETYTECH_TEMPLATE = {
   background_color: "#FFFFFF",
   text_color: "#1F2937",
   custom_header: "Certificate of Completion",
-  custom_footer: "safetyacademy.tech",
+  custom_footer: "safetytech.academy",
   issuer_name: "SafetyTech Academy",
   signature_name: "Lucas Domingues, Founder",
   skills_label: "Skills Demonstrated",
