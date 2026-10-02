@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import type { CertificateData } from "@/components/certificates/CertificateDocument";
 import { SyngraphCertificate } from "@/components/certificates/syngraph/SyngraphCertificate";
-import { BadgeMedallion } from "@/components/certificates/BadgeMedallion";
+import { CertifiedBadge, type CertifiedBadgeHandle } from "@/components/certificates/syngraph/CertifiedBadge";
 import { CheckCircle2, XCircle, Download, Linkedin, Loader2, ShieldCheck } from "lucide-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -35,7 +35,7 @@ const VerifyCertificate = () => {
   const [searchValue, setSearchValue] = useState("");
   
   const certRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
+  const badgeRef = useRef<CertifiedBadgeHandle>(null);
 
   const verifyUrl = `${ACADEMY_URL}/verify/${certificateNumber}`;
 
@@ -143,26 +143,9 @@ const VerifyCertificate = () => {
     trackInteraction("engaged");
     try {
       if (document.fonts?.ready) await document.fonts.ready;
-      const bImgs = Array.from(badgeRef.current.querySelectorAll("img"));
-      await Promise.all(
-        bImgs.map((img) =>
-          img.complete && img.naturalWidth > 0
-            ? Promise.resolve()
-            : new Promise<void>((resolve) => {
-                img.addEventListener("load", () => resolve(), { once: true });
-                img.addEventListener("error", () => resolve(), { once: true });
-              }),
-        ),
-      );
-      const canvas = await html2canvas(badgeRef.current, {
-        scale: 3,
-        backgroundColor: null,
-        useCORS: true,
-        imageTimeout: 15000,
-      });
       const link = document.createElement("a");
-      link.download = `Safety4-Badge-${cert?.certificate_number}.png`;
-      link.href = canvas.toDataURL("image/png");
+      link.download = `SafetyTech-Badge-${cert?.certificate_number}.png`;
+      link.href = await badgeRef.current.toPng(1200);
       link.click();
     } catch (e) {
       console.error(e);
@@ -333,7 +316,7 @@ const VerifyCertificate = () => {
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <BadgeMedallion ref={badgeRef} cert={cert!} size={260} />
+            <CertifiedBadge ref={badgeRef} cert={cert!} size={240} />
             <p className="text-xs text-slate-500">Your shareable badge</p>
           </div>
         </div>
