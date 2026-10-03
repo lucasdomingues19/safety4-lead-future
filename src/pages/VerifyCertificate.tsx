@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import type { CertificateData } from "@/components/certificates/CertificateDocument";
-import { SyngraphCertificate } from "@/components/certificates/syngraph/SyngraphCertificate";
+import { SyngraphCertificate, skillsFor } from "@/components/certificates/syngraph/SyngraphCertificate";
 import { CertifiedBadge, type CertifiedBadgeHandle } from "@/components/certificates/syngraph/CertifiedBadge";
 import { CheckCircle2, XCircle, Download, Linkedin, Loader2, ShieldCheck } from "lucide-react";
 import jsPDF from "jspdf";
@@ -11,15 +11,6 @@ import html2canvas from "html2canvas";
 
 const ACADEMY_URL = "https://www.safetytech.academy";
 
-const CERTIFICATE_SKILLS = [
-  "Artificial Intelligence",
-  "Digital Transformation",
-  "SafetyTech",
-  "AI Risk",
-  "Compliance and Governance",
-  "Leadership",
-  "Change Management",
-];
 
 type Status = "loading" | "valid" | "revoked" | "notfound" | "search";
 
@@ -267,7 +258,7 @@ const VerifyCertificate = () => {
             <div>
               <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Skills</h2>
               <div className="flex flex-wrap gap-2">
-                {CERTIFICATE_SKILLS.map((skill) => (
+                {(cert ? skillsFor(cert.course_name) : []).map((skill) => (
                   <span
                     key={skill}
                     className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-900"
@@ -304,11 +295,11 @@ const VerifyCertificate = () => {
               <p><span className="text-slate-900 font-medium">Course:</span> {cert?.course_name}</p>
               <p>
                 <span className="text-slate-900 font-medium">Issued:</span>{" "}
-                {cert && new Date(cert.issued_at || cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                {cert && new Date(cert.issued_at || cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" })}
               </p>
               <p>
                 <span className="text-slate-900 font-medium">Completed:</span>{" "}
-                {cert && new Date(cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                {cert && new Date(cert.completion_date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" })}
               </p>
               <p><span className="text-slate-900 font-medium">Expires on:</span> Does not expire</p>
               {cert?.cpd_hours ? <p><span className="text-slate-900 font-medium">CPD Hours:</span> {cert.cpd_hours}</p> : null}
