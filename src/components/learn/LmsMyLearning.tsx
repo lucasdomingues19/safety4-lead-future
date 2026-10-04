@@ -144,7 +144,7 @@ export function LmsMyLearning({ onNavigate }: { onNavigate?: (screen: string) =>
         {certs.length > 0 && (
           <section className="mt-10">
             <h2 className="text-[22px] font-bold">Certificates</h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {certs.map((c) => (
                 <a key={c.id} href={`/verify/${encodeURIComponent(c.certificate_number)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-[16px] border border-[#e2e8f0] bg-white p-4 transition hover:border-[#a6e21a]">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#ecffd1] text-[#3f6212]"><Award size={20} /></span>

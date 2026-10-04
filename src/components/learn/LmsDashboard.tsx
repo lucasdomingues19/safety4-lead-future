@@ -191,7 +191,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
             <div style={{ marginTop: "36px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "20px" }}>
               <h2 style={{ margin: 0, fontSize: "22px", fontWeight: 700 }}>Your learning</h2>
             </div>
-            <div data-tour="my-courses" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+            <div data-tour="my-courses" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "20px" }}>
               {learning.map((course) => {
                 const badge = statusBadges[course.status];
                 return (
@@ -231,7 +231,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
         {catalog.length > 0 && (
           <>
             <h2 style={{ margin: "44px 0 0", fontSize: "22px", fontWeight: 700 }}>Available courses</h2>
-            <div data-tour="catalog" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+            <div data-tour="catalog" style={{ marginTop: "20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "20px" }}>
               {catalog.map((c) => (
                 <div key={c.id} style={{ ...card, padding: "26px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
                   {c.cover_image_url && <img src={c.cover_image_url} alt="" style={{ display: "block", width: "calc(100% + 52px)", margin: "-26px -26px 20px", aspectRatio: "16/9", objectFit: "cover" }} />}
@@ -257,7 +257,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
         )}
 
         {/* Community + leaderboard */}
-        <div style={{ marginTop: "44px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px", alignItems: "start" }}>
+        <div style={{ marginTop: "44px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: "20px", alignItems: "start" }}>
           <div style={{ ...card, overflow: "hidden" }}>
             <div style={{ padding: "22px 26px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>

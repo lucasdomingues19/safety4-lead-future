@@ -210,11 +210,11 @@ export function LmsSettings() {
             </div>
             <input ref={photoInput} type="file" accept="image/png,image/jpeg,image/webp,image/heic" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadPhoto(f); e.target.value = ""; }} />
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <label className="block"><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Full name</span><input value={learnerName} onChange={(e) => setLearnerName(e.target.value)} autoComplete="name" className={inputCls} /></label>
             <label className="block"><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Job title</span><input value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} autoComplete="organization-title" className={inputCls} /></label>
             <label className="block"><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Company name</span><input value={organisation} onChange={(e) => setOrganisation(e.target.value)} placeholder="Where you work" autoComplete="organization" className={inputCls} /></label>
-            <div><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Email</span><div data-private className="rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3.5 py-3 text-[15px] text-[#69697b]">{user?.email}</div></div>
+            <div><span className="mb-2 block text-[13px] font-bold text-[#69697b]">Email</span><div data-private className="break-all rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3.5 py-3 text-[15px] text-[#69697b]">{user?.email}</div></div>
           </div>
         </Card>
 
@@ -229,7 +229,7 @@ export function LmsSettings() {
         </button>
 
         <Card title="Password" description="Enter your current password, then choose a new one (at least 8 characters).">
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {[
               { label: "Current password", value: currentPw, set: setCurrentPw, auto: "current-password" },
               { label: "New password", value: newPw, set: setNewPw, auto: "new-password" },

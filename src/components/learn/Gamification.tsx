@@ -57,7 +57,7 @@ export const ProgressCard = ({ g }: { g: MyGamification }) => {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-2.5 sm:grid-cols-5 lg:grid-cols-9">
+      <div className="mt-6 grid grid-cols-3 gap-2.5 sm:grid-cols-5 lg:grid-cols-9 [&>*]:min-w-0">
         {BADGES.map((b) => {
           const has = g.badges[b.id];
           return (
@@ -76,7 +76,7 @@ export const ProgressCard = ({ g }: { g: MyGamification }) => {
         <Info size={14} /> How points work
       </button>
       {showRules && (
-        <ul className="mt-3 grid gap-x-8 gap-y-1.5 text-[13px] text-[#69697b] sm:grid-cols-2">
+        <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-1.5 text-[13px] text-[#69697b] sm:grid-cols-2">
           {POINT_RULES.map((r) => (
             <li key={r.label} className="flex justify-between gap-4 border-b border-[#f1f4f8] py-1"><span>{r.label}</span><span className="font-bold text-[#0b0b2c]">+{r.points}</span></li>
           ))}

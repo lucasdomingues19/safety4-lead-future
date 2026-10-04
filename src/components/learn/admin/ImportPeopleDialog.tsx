@@ -159,7 +159,7 @@ export function ImportPeopleDialog({ products, existingEmails, existingTags = []
           {step === "map" && (
             <div className="space-y-5">
               <p className="text-sm text-[#69697b]"><strong className="text-[#0b0b2c]">{fileName}</strong> · {rows.length} rows. Check which columns hold what — we've guessed.</p>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {([
                   ["email", "Email (required)"], ["full", "Full name"], ["first", "First name"], ["last", "Last name"], ["company", "Company name"], ["products", "Products / offers they own"], ["tags", "Tags"],
                 ] as const).map(([k, label]) => (

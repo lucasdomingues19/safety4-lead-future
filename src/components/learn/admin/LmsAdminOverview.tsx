@@ -140,7 +140,7 @@ export function LmsAdminOverview() {
   return (
     <div style={{ marginTop: "28px", fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
       {/* KPI Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: "20px", marginBottom: "28px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(220px, 100%), 1fr))", gap: "20px", marginBottom: "28px" }}>
         <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "28px", boxShadow: "0 2px 8px rgba(11,11,44,0.06)" }}>
           <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", color: "#94a3b8", textTransform: "uppercase" }}>Total Learners</div>
           <div style={{ marginTop: "12px", fontSize: "32px", fontWeight: 800, color: "#0b0b2c" }}>{totalLearners}</div>

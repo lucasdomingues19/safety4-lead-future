@@ -43,7 +43,7 @@ export function LmsSupport({ onStartTour }: { onStartTour?: () => void } = {}) {
           </button>
         )}
 
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
           {CHANNELS.map(({ icon: Icon, title, text, subject, cta, highlight }) => (
             <a
               key={title}

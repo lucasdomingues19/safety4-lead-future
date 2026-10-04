@@ -491,7 +491,7 @@ function AddPersonDialog({ products, onClose, onDone }: { products: Product[]; o
           <h2 className="text-lg font-bold">Add a person</h2>
           <button type="button" onClick={onClose} className="rounded-full p-2 text-[#94a3b8] hover:bg-[#f5f7fa]" aria-label="Close"><X size={18} /></button>
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <input value={first} onChange={(e) => setFirst(e.target.value)} placeholder="First name" className={input} />
           <input value={last} onChange={(e) => setLast(e.target.value)} placeholder="Last name" className={input} />
           <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email address" className={`${input} sm:col-span-2`} />

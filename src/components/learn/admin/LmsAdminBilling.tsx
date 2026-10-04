@@ -54,7 +54,7 @@ export function LmsAdminBilling() {
               </div>
             </div>
           )}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 28 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(220px, 100%), 1fr))", gap: 20, marginBottom: 28 }}>
             <Kpi label="Revenue (30 days)" value={money(data.totals.last30Days, data.currency)} sub="Net of refunds" tone="good" />
             <Kpi label="Payments (30 days)" value={data.totals.paymentsLast30Days} sub="Successful charges" />
             <Kpi

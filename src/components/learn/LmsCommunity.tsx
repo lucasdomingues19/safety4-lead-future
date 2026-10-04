@@ -702,7 +702,7 @@ function CommunityGuidelines({ open, onToggle }: { open: boolean; onToggle: () =
       </button>
       {open && (
         <div className="border-t border-[#f1f4f8] px-5 pb-5 pt-4">
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {GUIDELINES.map((g) => (
               <div key={g.title} className="flex gap-3 rounded-2xl bg-[#f7f8fc] p-4">
                 <span className="text-2xl leading-none" aria-hidden>{g.emoji}</span>
