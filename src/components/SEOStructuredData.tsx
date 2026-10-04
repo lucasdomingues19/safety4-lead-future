@@ -213,7 +213,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
           "@type": "HowToStep",
           "position": 4,
           "name": "Receive IOSH & CPD Certification",
-          "text": "Get your globally recognized Safety 4.0 certification with 8+ CPD hours"
+          "text": "Get your globally recognized Safety 4.0 certification with 10 CPD hours"
         }
       ]
     };

@@ -456,7 +456,7 @@ export const guides: Guide[] = [
             ],
             [
               "IOSH-approved Safety 4.0 eLearning",
-              "Self-paced, 10 modules, 8+ CPD hours, 90-day course access",
+              "Self-paced, 10 modules, 10 CPD hours, 90-day course access",
               "£597",
             ],
             [
@@ -587,7 +587,7 @@ export const guides: Guide[] = [
       {
         heading: "Where to build the capability",
         body: [
-          "SafetyTech Academy exists specifically to close this gap. Our IOSH-approved Safety 4.0 programme is built for practising safety professionals and covers AI, IoT, analytics and digital safety leadership across ten modules with 8+ CPD hours. For a shorter entry point, AI Fundamentals in EHS covers the AI component alone.",
+          "SafetyTech Academy exists specifically to close this gap. Our IOSH-approved Safety 4.0 programme is built for practising safety professionals and covers AI, IoT, analytics and digital safety leadership across ten modules with 10 CPD hours. For a shorter entry point, AI Fundamentals in EHS covers the AI component alone.",
         ],
       },
     ],

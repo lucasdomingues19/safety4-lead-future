@@ -42,7 +42,7 @@ export const CookieConsent = () => {
       <p className="text-base font-semibold text-[#0b0b2c]">Your privacy choices</p>
       <p className="mt-1.5 text-sm leading-relaxed">
         We use essential cookies to run this site. With your permission we'd also use analytics cookies to understand
-        how the site is used, and marketing cookies (LinkedIn, Meta, Google, Apollo, OpenAI) to measure our ads. See our{" "}
+        how the site is used, and marketing cookies (LinkedIn, Meta, Google, OpenAI) to measure our ads. See our{" "}
         <Link to="/cookies-policy" className="font-medium text-[#3434ff] underline underline-offset-2">
           Cookies Policy
         </Link>
@@ -53,7 +53,7 @@ export const CookieConsent = () => {
         <div className="mt-4 divide-y divide-slate-100 rounded-xl border border-slate-200">
           <Row title="Essential" desc="Sign-in, security and your cookie choice. Always on." checked disabled />
           <Row title="Analytics" desc="Anonymous usage statistics (Google Analytics and our own page counts)." checked={analytics} onChange={setAnalytics} />
-          <Row title="Marketing" desc="Ad measurement and retargeting on LinkedIn, Meta, Google, Apollo and OpenAI." checked={marketing} onChange={setMarketing} />
+          <Row title="Marketing" desc="Ad measurement and retargeting on LinkedIn, Meta, Google and OpenAI." checked={marketing} onChange={setMarketing} />
         </div>
       )}
 

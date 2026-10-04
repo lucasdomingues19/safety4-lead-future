@@ -197,7 +197,7 @@ const Cohort = () => {
   { icon: Video, title: "7 Live Sessions", desc: "Weekly live group sessions — not webinars. Interactive, discussion-led, and tailored to what the cohort needs. Lucas brings 15 years of practitioner experience into every session." },
   { icon: Users, title: "Cohort of 10–15 Peers max", desc: "Deliberately small. You'll learn alongside EHS professionals from construction, manufacturing, energy, and logistics. Real problems, real perspectives, lasting relationships." },
   { icon: Award, title: "IOSH-Approved Certificate", desc: "The world's first IOSH-approved Safety 4.0 programme. Your certificate carries IOSH's institutional credibility — recognised by employers in the UK and internationally." },
-  { icon: BookOpen, title: "60+ On-Demand Lessons", desc: "Studio-recorded lessons available anytime, alongside live sessions. 10 modules covering AI, SafetyTech, data strategy, digital culture, and leadership. 8+ CPD hours." },
+  { icon: BookOpen, title: "60+ On-Demand Lessons", desc: "Studio-recorded lessons available anytime, alongside live sessions. 10 modules covering AI, SafetyTech, data strategy, digital culture, and leadership. 10 CPD hours." },
   { icon: Globe, title: "Alumni Community Access", desc: "Graduates join a growing network of Safety 4.0 leaders across 12+ countries. Lucas runs regular alumni sessions for ongoing development. A career-long network." },
   { icon: Zap, title: "Weekly Q&A Sessions", desc: "Live weekly Q&A sessions where you can ask questions, share progress, and get feedback on how to apply what you're learning in your specific context." }];
 
@@ -234,7 +234,7 @@ const Cohort = () => {
   { feature: "Full 10-module course content", accelerator: true, elearning: true },
   { feature: "60+ on-demand video lessons", accelerator: true, elearning: true },
   { feature: "IOSH-approved certificate", accelerator: true, elearning: true },
-  { feature: "8+ CPD hours", accelerator: true, elearning: true },
+  { feature: "10 CPD hours", accelerator: true, elearning: true },
   { feature: "7 live sessions with Lucas", accelerator: true, elearning: false },
   { feature: "Cohort peer community (10–15 people)", accelerator: true, elearning: false },
   { feature: "Direct Q&A access to Lucas", accelerator: true, elearning: false },

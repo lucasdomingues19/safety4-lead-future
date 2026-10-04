@@ -90,8 +90,9 @@ export const SyngraphCertificate = forwardRef<HTMLDivElement, Props>(function Sy
     qr,
     holderName: cert.recipient_name,
     assessmentTitle: cert.course_name,
-    showDescription: !!cert.cpd_hours,
-    certificateDescription: cert.cpd_hours ? `${cert.cpd_hours} CPD hours` : null,
+    // Lucas (2026-10-04): CPD hours are not printed on the certificate.
+    showDescription: false,
+    certificateDescription: null,
     portrait: t.orientation === "portrait",
     elementLayout: t.element_layout,
     editable: false,

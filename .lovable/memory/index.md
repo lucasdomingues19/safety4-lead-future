@@ -30,7 +30,7 @@ All lead forms must have mandatory phone with country code selector.
 - [Unified Lead Capture](mem://features/unified-lead-capture-system) — Mandatory phone numbers for conversions, optional for newsletter
 - [Accelerator Cohort](mem://pricing/accelerator-cohort) — 4-week live group offering, £997+VAT, no coaching
 - [Cohort Curriculum](mem://features/cohort/curriculum-timeline) — 4-week timeline and module distribution
-- [Tracking Integrations](mem://integrations/tracking-pixels) — GA4, LinkedIn, and Apollo pixels (Midbound removed 2026-10-04)
+- [Tracking Integrations](mem://integrations/tracking-pixels) — GA4, LinkedIn, Meta, OpenAI pixels — consent-gated (Midbound + Apollo removed 2026-10-04)
 - [Trustpilot Widget](mem://integrations/trustpilot) — Template ID and global footer integration
 - [Scorecard Categories](mem://features/scorecard/canonical-categories) — 5 canonical assessment categories
 - [Digital Maturity Pulse](mem://features/scorecard/digital-maturity-pulse) — Optional organizational context assessment

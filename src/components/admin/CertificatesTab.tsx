@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { Award, Send, Copy, ExternalLink, Ban, Trash2, Loader2, RotateCcw, Eye, MousePointerClick, Linkedin } from "lucide-react";
-import { CertificateDocument } from "@/components/certificates/CertificateDocument";
+import { SyngraphCertificate } from "@/components/certificates/syngraph/SyngraphCertificate";
 
 interface Certificate {
   id: string;
@@ -356,8 +356,9 @@ export const CertificatesTab = () => {
             </DialogDescription>
           </DialogHeader>
           <div className="overflow-x-auto">
-            <div style={{ width: 1000, transformOrigin: "top left" }} className="mx-auto">
-              <CertificateDocument
+            {/* Same design learners get on /verify (Atelier, from Syngraph). */}
+            <div className="mx-auto w-fit">
+              <SyngraphCertificate
                 cert={{
                   certificate_number: "SA4-PREVIEW",
                   recipient_name: form.recipientName.trim() || "Recipient Name",
