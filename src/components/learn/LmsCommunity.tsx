@@ -486,7 +486,7 @@ export function LmsCommunity() {
         </div>
 
         {/* Topic filter (mobile/tablet) */}
-        <div className="mt-6 flex gap-2 overflow-x-auto pb-1 lg:hidden">
+        <div className="relative mt-6 flex gap-2 overflow-x-auto pb-1 lg:hidden">
           {[{ id: "all" as const, label: "All", emoji: "✨" }, ...TOPICS].map((t) => (
             <button
               key={t.id}

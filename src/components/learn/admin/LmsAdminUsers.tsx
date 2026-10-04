@@ -355,7 +355,7 @@ export function LmsAdminUsers() {
         </div>
       )}
 
-      <div className="mt-4 overflow-x-auto rounded-[20px] border border-[#e2e8f0] bg-white">
+      <div className="relative mt-4 overflow-x-auto rounded-[20px] border border-[#e2e8f0] bg-white">
         <table className="w-full min-w-[980px] text-sm">
           <thead>
             <tr className="border-b border-[#e2e8f0] text-left text-[11px] font-bold uppercase tracking-wider text-[#69697b]">

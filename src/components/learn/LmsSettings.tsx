@@ -254,7 +254,7 @@ export function LmsSettings() {
           {access.length === 0 ? (
             <p className="text-sm text-[#69697b]">You're not enrolled in any courses yet.</p>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="relative overflow-x-auto">
               <table className="w-full min-w-[560px] text-left text-sm">
                 <thead><tr className="border-b border-[#eef1f6] text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]"><th className="pb-3 pr-4">Course</th><th className="pb-3 pr-4">Enrolled</th><th className="pb-3 pr-4">Access until</th><th className="pb-3">Status</th></tr></thead>
                 <tbody>
@@ -279,7 +279,7 @@ export function LmsSettings() {
           {purchases.length === 0 ? (
             <p className="flex items-center gap-2 text-sm text-[#69697b]"><Receipt size={16} /> No purchases yet.</p>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="relative overflow-x-auto">
               <table className="w-full min-w-[560px] text-left text-sm">
                 <thead><tr className="border-b border-[#eef1f6] text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]"><th className="pb-3 pr-4">Date</th><th className="pb-3 pr-4">Course</th><th className="pb-3 pr-4 text-right">Amount</th><th className="pb-3 pr-4">Status</th><th className="pb-3">Receipt</th></tr></thead>
                 <tbody>

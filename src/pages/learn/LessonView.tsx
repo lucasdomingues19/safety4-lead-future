@@ -461,7 +461,7 @@ const LessonView = () => {
           </div>
 
           {/* Tabs */}
-          <div style={{ display: "flex", borderBottom: "1px solid #e2e8f0", background: "white", borderRadius: "12px 12px 0 0", overflowX: "auto" }}>
+          <div style={{ display: "flex", borderBottom: "1px solid #e2e8f0", background: "white", borderRadius: "12px 12px 0 0", overflowX: "auto", position: "relative" }}>
             {TABS.map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: "12px 16px", border: "none", background: activeTab === tab ? "#f5f7fa" : "transparent", borderBottom: activeTab === tab ? "2px solid #3434ff" : "2px solid transparent", cursor: "pointer", fontSize: "13px", fontWeight: activeTab === tab ? 700 : 500, color: activeTab === tab ? "#3434ff" : "#69697b", flex: 1, textTransform: "capitalize", fontFamily: "inherit" }}>
                 {tab}{tab === "comments" && comments.length ? ` (${comments.length})` : ""}
