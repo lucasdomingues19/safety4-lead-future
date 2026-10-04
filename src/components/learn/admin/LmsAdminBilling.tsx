@@ -4,7 +4,7 @@ import { Kpi, PanelHeader, Spinner, adminFont, panel, ghostBtn } from "./adminUi
 
 interface Charge { id: string; amount: number; refunded: number; currency: string; status: string; created: string; email: string | null; description: string | null }
 interface WebhookHealth { expectedUrl: string; configured: boolean; missingEvents: string[]; others: string[] }
-interface Summary { live: boolean; charges: Charge[]; totals: { last30Days: number; allShown: number; paymentsLast30Days: number }; currency: string; webhookHealth: WebhookHealth }
+interface Summary { live: boolean; charges: Charge[]; totals: { last30Days: number; allShown: number; paymentsLast30Days: number }; currency: string; otherCurrencies?: Record<string, number>; webhookHealth: WebhookHealth }
 
 const money = (n: number, currency: string) => new Intl.NumberFormat("en-GB", { style: "currency", currency }).format(n);
 
@@ -57,7 +57,11 @@ export function LmsAdminBilling() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20, marginBottom: 28 }}>
             <Kpi label="Revenue (30 days)" value={money(data.totals.last30Days, data.currency)} sub="Net of refunds" tone="good" />
             <Kpi label="Payments (30 days)" value={data.totals.paymentsLast30Days} sub="Successful charges" />
-            <Kpi label="Recent payments total" value={money(data.totals.allShown, data.currency)} sub="Last 50 charges" />
+            <Kpi
+              label="Recent payments total"
+              value={money(data.totals.allShown, data.currency)}
+              sub={["Last 50 charges", ...Object.entries(data.otherCurrencies ?? {}).map(([cur, amt]) => `+ ${money(amt, cur)}`)].join(" · ")}
+            />
           </div>
           <div style={panel}>
             <PanelHeader title="Recent payments" sub="Straight from Stripe" right={<button onClick={load} style={ghostBtn}>Refresh</button>} />

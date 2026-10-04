@@ -59,13 +59,19 @@ serve(async (req) => {
     const paid = charges.filter((c) => c.status === "succeeded");
     const monthAgo = Date.now() - 30 * 86400000;
     const last30 = paid.filter((c) => new Date(c.created).getTime() >= monthAgo);
-    const sum = (rows: typeof paid) => rows.reduce((t, c) => t + c.amount - c.refunded, 0);
+    // Totals are in one currency only (GBP when there are any GBP charges);
+    // adding US$ invoices to £ sales as if they were the same was wrong.
+    const currency = paid.some((c) => c.currency === "GBP") ? "GBP" : (paid[0]?.currency ?? "GBP");
+    const sum = (rows: typeof paid) => rows.filter((c) => c.currency === currency).reduce((t, c) => t + c.amount - c.refunded, 0);
+    const otherCurrencies: Record<string, number> = {};
+    for (const c of paid) if (c.currency !== currency) otherCurrencies[c.currency] = (otherCurrencies[c.currency] ?? 0) + c.amount - c.refunded;
 
     return json({
       live: /^(sk|rk)_live_/.test(String(key)),
       charges,
       totals: { last30Days: sum(last30), allShown: sum(paid), paymentsLast30Days: last30.length },
-      currency: paid[0]?.currency ?? "GBP",
+      currency,
+      otherCurrencies,
       webhookHealth,
     });
   } catch (e) {

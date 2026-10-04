@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, PlayCircle, Sparkles, GraduationCap } from "lucide-react";
@@ -48,9 +48,13 @@ export default function LmsInterface() {
     const [railWidth, setRailWidth] = useState(initialOpen ? 240 : 80);
     const [cpdHours, setCpdHours] = useState(0);
 
-    // Screen State
-    const [screen, setScreen] = useState<"dash" | "learning" | "community" | "settings" | "support" | "admin">("dash");
-    const [adminTab, setAdminTab] = useState<"overview" | "courses" | "users" | "access" | "emails" | "reports" | "billing" | "community">("overview");
+    // Screen State lives in the URL (?view=community, ?view=admin-billing) so a
+    // refresh, the Back button, a bookmark or the stale-chunk auto-reload all
+    // land on the same screen instead of the dashboard.
+    const [params, setParams] = useSearchParams();
+    const view = params.get("view") ?? "dash";
+    const screen = (view.startsWith("admin-") ? "admin" : LEARNER_SCREENS.includes(view as LearnerScreen) ? view : "dash") as LearnerScreen | "admin";
+    const adminTab = (view.startsWith("admin-") && ADMIN_TABS.includes(view.slice(6) as AdminTab) ? view.slice(6) : "overview") as AdminTab;
 
     // Data
     const [lmsUser, setLmsUser] = useState<LmsUser | null>(null);
@@ -96,6 +100,9 @@ export default function LmsInterface() {
         full_name: profile?.full_name || metaName || undefined,
         avatar_url: profile?.avatar_url || undefined,
       });
+      // Only set as admin if role exists and equals "admin". Set together with
+      // the user (before the next await) so admin screens render immediately.
+      setIsAdmin(roles?.role === "admin" && !rolesError);
       if (profile && !profile.tour_completed_at && !tourSeenLocally()) setTourInvite(true);
 
       const [{ data: certs }, { data: cpdCourses }] = await Promise.all([
@@ -105,8 +112,6 @@ export default function LmsInterface() {
       const cpdByTitle = new Map((cpdCourses ?? []).map((c) => [c.title, Number(c.cpd_hours ?? 0)]));
       setCpdHours(Math.round((certs ?? []).reduce((sum, c) => sum + (cpdByTitle.get(c.course_name) ?? 0), 0) * 10) / 10);
 
-      // Only set as admin if role exists and equals "admin"
-      setIsAdmin(roles?.role === "admin" && !rolesError);
     } catch (err) {
       console.error("Error loading LMS user:", err);
       toast.error("Could not load user profile");
@@ -118,13 +123,15 @@ export default function LmsInterface() {
     setRailWidth(!railOpen ? 240 : 80);
   };
 
-  const handleNavigation = (screenName: string) => {
-    if (screenName.startsWith("admin:")) {
-      setScreen("admin");
-      setAdminTab(screenName.replace("admin:", "") as any);
-    } else {
-      setScreen(screenName as any);
-    }
+  const handleNavigation = (screenName: string, opts: { replace?: boolean } = {}) => {
+    const next = screenName.startsWith("admin:") ? `admin-${screenName.slice(6)}` : screenName;
+    if (next === view) return;
+    setParams((p) => {
+      const q = new URLSearchParams(p);
+      if (next === "dash") q.delete("view"); else q.set("view", next);
+      return q;
+    }, { replace: opts.replace });
+    window.scrollTo(0, 0);
   };
 
   const getInitials = (name?: string) => {
@@ -145,6 +152,9 @@ export default function LmsInterface() {
       if (screen === "community") return <LmsCommunity />;
       if (screen === "settings") return <LmsSettings />;
       if (screen === "support") return <LmsSupport onStartTour={() => setTourOpen(true)} />;
+      // Admin role is still loading (e.g. right after a refresh on an admin
+      // screen): don't flash the dashboard first.
+      if (screen === "admin" && !lmsUser) return <div style={{ minHeight: "100vh", background: "#eef1f6" }} />;
       if (screen === "admin" && isAdmin) {
         const ADMIN_PAGES: Record<string, { title: string; sub: string; el: React.ReactNode }> = {
           overview: { title: "Overview", sub: "How your academy is doing at a glance.", el: <LmsAdminOverview /> },
@@ -541,7 +551,7 @@ export default function LmsInterface() {
                 name={lmsUser.full_name || ""}
                 isAdmin={isAdmin}
                 screen={screen}
-                onNavigate={(sc) => handleNavigation(sc)}
+                onNavigate={(sc) => handleNavigation(sc, { replace: true })}
                 ctaLabel={currentCourse?.nextLessonId ? "Start learning" : "Explore courses"}
                 onClose={(outcome) => { setTourOpen(false); markTourDone(lmsUser.id, outcome); }}
                 onFinish={() => {
@@ -567,6 +577,12 @@ export default function LmsInterface() {
 
 // A screen whose code was replaced by a newer deploy while the tab stayed open
 // fails to load its chunk; reloading once fixes it for good.
+
+const LEARNER_SCREENS = ["dash", "learning", "community", "settings", "support"] as const;
+type LearnerScreen = (typeof LEARNER_SCREENS)[number];
+const ADMIN_TABS = ["overview", "courses", "users", "access", "emails", "reports", "billing", "community"] as const;
+type AdminTab = (typeof ADMIN_TABS)[number];
+
 const STALE_CHUNK = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|ChunkLoadError|Loading chunk \S+ failed/i;
 const RELOAD_KEY = "lms-chunk-reload";
 
