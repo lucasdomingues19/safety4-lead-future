@@ -1,15 +1,43 @@
 import AudienceNav from "@/components/AudienceNav";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { setPageSEO } from "@/utils/seo";
+import { openCookieSettings } from "@/lib/consent";
+
+const UPDATED = "4 October 2026";
+const EMAIL = "hello@safetytech.academy";
+
+const Section = ({ id, title, children }: { id: string; title: string; children: ReactNode }) => (
+  <section id={id} className="scroll-mt-24">
+    <h2 className="mb-3 text-2xl font-semibold text-slate-900">{title}</h2>
+    <div className="space-y-3">{children}</div>
+  </section>
+);
+
+const Table = ({ head, rows }: { head: string[]; rows: ReactNode[][] }) => (
+  <div className="overflow-x-auto rounded-xl border border-slate-200">
+    <table className="w-full min-w-[640px] text-left text-sm">
+      <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <tr>{head.map((h) => <th key={h} className="px-4 py-3 align-bottom">{h}</th>)}</tr>
+      </thead>
+      <tbody className="divide-y divide-slate-100">
+        {rows.map((r, i) => (
+          <tr key={i} className="align-top">
+            {r.map((c, j) => <td key={j} className={`px-4 py-3 ${j === 0 ? "font-medium text-slate-900" : ""}`}>{c}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+const Mail = () => <a href={`mailto:${EMAIL}`} className="font-medium text-primary hover:text-primary/80">{EMAIL}</a>;
 
 export default function PrivacyPolicy() {
   useEffect(() => {
     setPageSEO({
       title: "Privacy Policy | SafetyTech Academy",
-      description: "SafetyTech Academy's Privacy Policy. Learn how we collect, use, and protect your personal data in compliance with GDPR and international privacy standards.",
+      description: "How Shield360 Ltd (SafetyTech Academy) collects, uses and protects your personal data under UK and EU GDPR, who we share it with, how long we keep it and your rights.",
       canonical: "https://safetytech.academy/privacy-policy",
     });
   }, []);
@@ -19,228 +47,145 @@ export default function PrivacyPolicy() {
       <AudienceNav />
 
       <div className="container mx-auto px-4 py-12">
+        <div className="mx-auto max-w-4xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-12">
+          <h1 className="text-4xl font-bold text-slate-900">Privacy Policy</h1>
+          <p className="mt-2 text-sm text-slate-500">Last updated: {UPDATED}</p>
 
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12 border border-slate-200 shadow-sm">
-          <h1 className="text-4xl font-bold text-slate-900 mb-8">Privacy Policy</h1>
-          
-          <div className="space-y-6 text-slate-700 leading-relaxed">
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Introduction</h2>
+          <div className="mt-8 space-y-10 leading-relaxed text-slate-700">
+            <Section id="who-we-are" title="Who we are">
               <p>
-                SafetyTech Academy ("we", "our", or "us") is committed to protecting your privacy and ensuring 
-                the security of your personal data. This Privacy Policy explains how we collect, use, store, and 
-                protect your information in compliance with the General Data Protection Regulation (GDPR) and 
-                other applicable data protection laws.
+                SafetyTech Academy is a trading name of <strong>Shield360 Ltd</strong>, a company registered in England and
+                Wales (company number 16266290), registered office 20 Wenlock Road, London, N1 7GU. We are the data
+                controller for the personal data described in this policy and are registered with the UK Information
+                Commissioner's Office (registration ZC036763).
               </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Data Controller</h2>
               <p>
-                SafetyTech Academy is the data controller responsible for your personal data. If you have any 
-                questions about this policy or our data practices, please contact us at{" "}
-                <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
-                  hello@safetytech.academy
-                </a>
+                This policy covers our website (safetytech.academy), our learning platform, our live events and our
+                emails. Final assessments and digital credentials are delivered through Syngraph (syngraph.ai), which is
+                also operated by Shield360 Ltd.
               </p>
-            </section>
+              <p>Questions or requests about your data: <Mail />. We don't have a formal Data Protection Officer; our founder is responsible for data protection.</p>
+            </Section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Information We Collect</h2>
-              <p className="mb-3">We collect and process the following types of personal data:</p>
-              
-              <div className="space-y-3 ml-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">Account Information</h3>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Full name</li>
-                    <li>Email address</li>
-                    <li>Password (encrypted)</li>
-                    <li>Professional information (job title, company, industry)</li>
-                  </ul>
-                </div>
+            <Section id="what-we-collect" title="What we collect, why, and our lawful basis">
+              <Table
+                head={["Data", "What it's used for", "Lawful basis"]}
+                rows={[
+                  ["Account: name, email, password (stored only as a secure hash), profile photo, job title and company if you add them", "Creating and running your account; printing your name on certificates", "Contract"],
+                  ["Learning records: enrolments, lesson progress and watch time, quiz and assessment results, certificates", "Delivering courses, tracking completion, issuing and verifying certificates", "Contract"],
+                  ["Payments: course, amount, date, Stripe receipt link (we never see or store your card details)", "Selling courses, receipts, refunds, accounting", "Contract; legal obligation (tax records)"],
+                  ["Certificates: your name, course, completion date and certificate number, shown on a public verification page", "Letting you and employers check your certificate is genuine", "Contract; legitimate interest"],
+                  ["Community and events: posts, comments, reactions, event registrations", "Running the learner community and live sessions", "Contract"],
+                  ["What you type to our AI tutor or website assistant", "Answering your question", "Contract / legitimate interest"],
+                  ["Enquiries and free assessments: name, email, phone, company, role and your answers", "Replying to you and preparing proposals", "Legitimate interest"],
+                  ["Marketing emails: name and email", "Sending our newsletter and course news. You can unsubscribe at any time", "Consent (or, for customers, our legitimate interest in telling you about similar courses)"],
+                  ["Analytics and advertising cookies", "Understanding how the site is used and measuring our ads", "Consent (see our Cookies Policy)"],
+                  ["Security and error logs: IP address, browser and device details, error reports", "Keeping the service secure and fixing problems", "Legitimate interest"],
+                ]}
+              />
+              <p>We don't sell your personal data, and we don't use it for decisions that have legal or similarly significant effects on you.</p>
+            </Section>
 
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">Course Activity Data</h3>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Course enrollment and completion records</li>
-                    <li>Assessment results and progress</li>
-                    <li>Certificate issuance data</li>
-                    <li>Learning preferences and settings</li>
-                  </ul>
-                </div>
+            <Section id="who-we-share-with" title="Who we share it with">
+              <p>We use trusted providers ("processors") who handle data for us under contract and only on our instructions:</p>
+              <Table
+                head={["Provider", "Purpose", "Where data is held"]}
+                rows={[
+                  ["Supabase", "Database, sign-in and file storage", "EU (Ireland) and UK (London)"],
+                  ["Vercel", "Website and app hosting", "Global edge network (US company)"],
+                  ["Amazon Web Services", "Lesson video storage", "EU (Stockholm)"],
+                  ["Stripe", "Payments", "EU and US"],
+                  ["Resend", "Account and course emails (sign-in links, receipts, certificates)", "US"],
+                  ["Microsoft 365", "Our email inbox", "UK / EU"],
+                  ["Anthropic", "AI tutor and website assistant (your messages are not used to train its models)", "US"],
+                  ["Syngraph (Shield360 Ltd)", "Final assessments and digital credentials", "UK (London)"],
+                  ["Kajabi, moving to Kit", "Newsletter and marketing emails", "US"],
+                  ["Zoom", "Live webinars and roundtables, if you join one", "US"],
+                  ["Google, LinkedIn, Meta, OpenAI", "Analytics and ad measurement, only if you accept these cookies", "US / EU"],
+                  ["Trustpilot, YouTube, Vimeo", "Review widget and embedded videos", "EU / US"],
+                ]}
+              />
+              <p>
+                If you choose to add a certificate to LinkedIn, we send LinkedIn the certificate details you approve. We
+                may also share data where the law requires it, or with professional advisers under confidentiality.
+              </p>
+            </Section>
 
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">Technical Data</h3>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>IP address</li>
-                    <li>Browser type and version</li>
-                    <li>Device information</li>
-                    <li>Usage data and analytics</li>
-                  </ul>
-                </div>
+            <Section id="transfers" title="International transfers">
+              <p>
+                Some providers are based in, or access data from, the United States. Where that happens we rely on the
+                UK–US Data Bridge (for certified companies) or on the UK International Data Transfer Addendum to the EU
+                Standard Contractual Clauses, which require the provider to protect your data to UK standards.
+              </p>
+            </Section>
 
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">Payment Information</h3>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Billing address</li>
-                    <li>Payment method (processed securely by third-party payment processors)</li>
-                    <li>Transaction history</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
+            <Section id="retention" title="How long we keep your data">
+              <Table
+                head={["Data", "How long"]}
+                rows={[
+                  ["Your account, learning records and community content", "While your account is open. Deleted when you delete your account"],
+                  ["Certificates", "Kept so they stay verifiable, even after you delete your account, unless you ask us to remove them"],
+                  ["Payment records", "6 years, as required by UK tax law"],
+                  ["Enquiries and free-assessment results", "3 years after our last contact"],
+                  ["Website assistant conversations", "24 months after the last message"],
+                  ["Website analytics", "26 months"],
+                  ["Error reports", "90 days"],
+                  ["Encrypted backups", "Up to 14 days, then overwritten"],
+                ]}
+              />
+            </Section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Legal Basis for Processing</h2>
-              <p className="mb-3">We process your personal data based on the following legal grounds:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Contract Performance:</strong> To provide our courses and services to you</li>
-                <li><strong>Legitimate Interest:</strong> To improve our services, prevent fraud, and ensure security</li>
-                <li><strong>Legal Obligation:</strong> To comply with legal and regulatory requirements</li>
-                <li><strong>Consent:</strong> For marketing communications and certain optional features</li>
+            <Section id="your-rights" title="Your rights">
+              <p>Under UK and EU GDPR you can:</p>
+              <ul className="list-disc space-y-1 pl-5">
+                <li>get a copy of your data, and receive it in a portable format</li>
+                <li>correct anything that's wrong</li>
+                <li>have your data deleted</li>
+                <li>restrict or object to how we use it, including for marketing</li>
+                <li>withdraw consent at any time (for example, via <button type="button" onClick={openCookieSettings} className="font-medium text-primary hover:text-primary/80">Cookie settings</button> or the unsubscribe link in any email)</li>
+                <li>ask for a person to review an assessment result that was scored automatically</li>
               </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">How We Use Your Information</h2>
-              <p className="mb-3">We use your personal data for the following purposes:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li>Providing access to course materials and platform features</li>
-                <li>Processing payments and managing your account</li>
-                <li>Issuing certificates and tracking your progress</li>
-                <li>Communicating with you about courses, updates, and support</li>
-                <li>Improving our platform and educational content</li>
-                <li>Complying with legal obligations and maintaining accreditation standards</li>
-                <li>Sending marketing communications (with your consent)</li>
-                <li>Detecting and preventing fraud or security breaches</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Data Sharing and Disclosure</h2>
-              <p className="mb-3">We may share your personal data with:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Accreditation Bodies:</strong> IOSH and CPD for certification purposes</li>
-                <li><strong>Service Providers:</strong> Payment processors, email services, hosting providers (under strict data processing agreements)</li>
-                <li><strong>Legal Authorities:</strong> When required by law or to protect our rights</li>
-                <li><strong>Business Transfers:</strong> In case of merger, acquisition, or sale of assets</li>
-              </ul>
-              <p className="mt-3">
-                We do not sell your personal data to third parties. All third-party service providers are 
-                required to maintain appropriate security measures and use your data only for specified purposes.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">International Data Transfers</h2>
               <p>
-                Your data may be transferred to and processed in countries outside the European Economic Area (EEA). 
-                Where this occurs, we ensure appropriate safeguards are in place, including:
+                <strong>Learners can do the most common requests themselves:</strong> in the learning platform, go to
+                Settings, then <em>Your data</em>, to download everything we hold about you or to delete your account. For
+                anything else, email <Mail />. We'll reply within one month.
               </p>
-              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
-                <li>Standard Contractual Clauses approved by the European Commission</li>
-                <li>Adequacy decisions by the European Commission</li>
-                <li>Privacy Shield certification (where applicable)</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Data Retention</h2>
               <p>
-                We retain your personal data only for as long as necessary to fulfill the purposes outlined in 
-                this policy or as required by law. Specific retention periods include:
+                If you're unhappy with how we've handled your data, please tell us first. You also have the right to
+                complain to the Information Commissioner's Office:{" "}
+                <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:text-primary/80">ico.org.uk/make-a-complaint</a>{" "}
+                or 0303 123 1113.
               </p>
-              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
-                <li>Account data: Duration of your account plus 7 years (for accreditation and legal requirements)</li>
-                <li>Course completion and certificates: Indefinitely (for verification purposes)</li>
-                <li>Payment records: 7 years (for tax and accounting purposes)</li>
-                <li>Marketing data: Until you withdraw consent</li>
-              </ul>
-            </section>
+            </Section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Your Rights Under GDPR</h2>
-              <p className="mb-3">You have the following rights regarding your personal data:</p>
-              <ul className="list-disc list-inside space-y-2 ml-4">
-                <li><strong>Right of Access:</strong> Request a copy of your personal data</li>
-                <li><strong>Right to Rectification:</strong> Correct inaccurate or incomplete data</li>
-                <li><strong>Right to Erasure:</strong> Request deletion of your data (subject to legal obligations)</li>
-                <li><strong>Right to Restrict Processing:</strong> Limit how we use your data</li>
-                <li><strong>Right to Data Portability:</strong> Receive your data in a structured, machine-readable format</li>
-                <li><strong>Right to Object:</strong> Object to processing based on legitimate interests or direct marketing</li>
-                <li><strong>Right to Withdraw Consent:</strong> Withdraw consent at any time (where processing is based on consent)</li>
-                <li><strong>Right to Lodge a Complaint:</strong> File a complaint with your local data protection authority</li>
-              </ul>
-              <p className="mt-3">
-                To exercise any of these rights, please contact us at{" "}
-                <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
-                  hello@safetytech.academy
-                </a>
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Data Security</h2>
+            <Section id="security" title="How we protect it">
               <p>
-                We implement appropriate technical and organizational security measures to protect your personal 
-                data, including:
+                Data is encrypted in transit, access to the database is restricted row by row so learners can only reach
+                their own records, administrative access is limited to the academy's administrators, payments are handled
+                entirely by Stripe, and backups are encrypted. No system is perfectly secure, but if a breach ever
+                affected your data, we would tell you and the ICO where the law requires.
               </p>
-              <ul className="list-disc list-inside space-y-2 ml-4 mt-3">
-                <li>Encryption of data in transit and at rest</li>
-                <li>Regular security assessments and penetration testing</li>
-                <li>Access controls and authentication protocols</li>
-                <li>Employee training on data protection</li>
-                <li>Incident response and breach notification procedures</li>
-              </ul>
-            </section>
+            </Section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Automated Decision-Making</h2>
+            <Section id="cookies" title="Cookies">
               <p>
-                We do not use automated decision-making or profiling that produces legal effects or 
-                significantly affects you without human intervention.
+                We only use analytics and advertising cookies if you agree. See our{" "}
+                <Link to="/cookies-policy" className="font-medium text-primary hover:text-primary/80">Cookies Policy</Link>{" "}
+                for the full list, and change your choice at any time with{" "}
+                <button type="button" onClick={openCookieSettings} className="font-medium text-primary hover:text-primary/80">Cookie settings</button>.
               </p>
-            </section>
+            </Section>
 
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Children's Privacy</h2>
+            <Section id="children" title="Children">
+              <p>Our courses are for working professionals. We don't knowingly collect data from anyone under 18.</p>
+            </Section>
+
+            <Section id="changes" title="Changes to this policy">
               <p>
-                Our services are not intended for individuals under 18 years of age. We do not knowingly 
-                collect personal data from children. If we become aware that we have collected data from 
-                a child, we will take steps to delete it promptly.
+                We'll update this page when our practices change and change the date at the top. If a change is
+                significant, we'll let account holders know by email.
               </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Changes to This Policy</h2>
-              <p>
-                We may update this Privacy Policy from time to time to reflect changes in our practices, 
-                technology, legal requirements, or other factors. We will notify you of any material changes 
-                by email or through our platform. The updated policy will indicate the date of the latest revision.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-4">Contact Information</h2>
-              <p>
-                If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, 
-                please contact us:
-              </p>
-              <div className="mt-3 space-y-2">
-                <p>
-                  <strong>Email:</strong>{" "}
-                  <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
-                    hello@safetytech.academy
-                  </a>
-                </p>
-                <p><strong>Data Protection Officer:</strong> Available upon request</p>
-              </div>
-            </section>
-
-            <p className="text-sm text-slate-500 pt-6 border-t border-slate-200">
-              Last updated: October 2025
-            </p>
+            </Section>
           </div>
         </div>
       </div>

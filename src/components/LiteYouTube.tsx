@@ -52,7 +52,7 @@ export const LiteYouTube = ({
     return (
       <iframe
         className={`w-full h-full ${className}`}
-        src={`https://www.youtube.com/embed/${videoId}?${params}`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?${params}`}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

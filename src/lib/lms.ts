@@ -124,7 +124,7 @@ export const toEmbedUrl = (raw: string | null | undefined, opts: { captions?: bo
 
   const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|live\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
   if (yt) {
-    return `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1${opts.captions ? "&cc_load_policy=1&cc_lang_pref=en" : ""}`;
+    return `https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0&modestbranding=1${opts.captions ? "&cc_load_policy=1&cc_lang_pref=en" : ""}`;
   }
 
   const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);

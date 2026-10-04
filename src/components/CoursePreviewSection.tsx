@@ -49,7 +49,7 @@ export const CoursePreviewSection = () => {
     setSelectedVideo({
       title: video.title,
       description: video.description,
-      url: `https://www.youtube.com/embed/${video.ytId}?autoplay=1&mute=1&loop=1&playlist=${video.ytId}`,
+      url: `https://www.youtube-nocookie.com/embed/${video.ytId}?autoplay=1&mute=1&loop=1&playlist=${video.ytId}`,
     });
     setVideoModalOpen(true);
   };

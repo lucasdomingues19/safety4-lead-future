@@ -16,6 +16,13 @@ const LearnAuth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("deleted") === "1") {
+      toast.success("Your account and personal data have been deleted.");
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
+
+  useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) navigate("/learn");
     });

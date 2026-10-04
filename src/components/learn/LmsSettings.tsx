@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Camera, CheckCircle2, ExternalLink, Eye, EyeOff, Loader2, Receipt, Trash2 } from "lucide-react";
+import { Camera, CheckCircle2, Download, ExternalLink, Eye, EyeOff, Loader2, Receipt, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { formatPrice } from "@/lib/lms";
@@ -298,7 +298,91 @@ export function LmsSettings() {
           )}
           <p className="mt-4 text-[13px] text-[#94a3b8]">Questions about a payment? Email <a href="mailto:hello@safetytech.academy" className="font-semibold text-[#3434ff] hover:underline">hello@safetytech.academy</a>.</p>
         </Card>
+
+        <YourDataCard />
       </div>
     </div>
+  );
+}
+
+/** GDPR self-service: download everything we hold, or delete the account. */
+function YourDataCard() {
+  const [exporting, setExporting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [typed, setTyped] = useState("");
+  const [alsoCertificates, setAlsoCertificates] = useState(false);
+
+  const download = async () => {
+    setExporting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("account-data", { body: { action: "export" } });
+      if (error || !data || data.error) throw new Error(data?.error || "export failed");
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `safetytech-academy-my-data-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast.success("Your data has been downloaded");
+    } catch {
+      toast.error("Couldn't prepare your data. Try again, or email hello@safetytech.academy.");
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const remove = async () => {
+    setDeleting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("account-data", {
+        body: { action: "delete", confirm: typed, deleteCertificates: alsoCertificates },
+      });
+      if (error || !data?.ok) throw new Error(data?.error || "Couldn't delete your account.");
+      await supabase.auth.signOut();
+      window.location.assign("/learn/auth?deleted=1");
+    } catch (e) {
+      toast.error((e as Error).message || "Couldn't delete your account.");
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <Card title="Your data" description="Download a copy of everything we hold about you, or delete your account.">
+      <div className="flex flex-wrap gap-3">
+        <button type="button" onClick={download} disabled={exporting} className="inline-flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-white px-4 py-2.5 text-sm font-semibold text-[#0b0b2c] transition hover:bg-[#f8fafc] disabled:opacity-60">
+          {exporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />} Download my data
+        </button>
+        {!confirmOpen && (
+          <button type="button" onClick={() => setConfirmOpen(true)} className="inline-flex items-center gap-2 rounded-lg border border-[#fecaca] bg-white px-4 py-2.5 text-sm font-semibold text-[#b91c1c] transition hover:bg-[#fef2f2]">
+            <Trash2 size={16} /> Delete my account
+          </button>
+        )}
+      </div>
+
+      {confirmOpen && (
+        <div className="mt-5 rounded-xl border border-[#fecaca] bg-[#fef2f2] p-5">
+          <p className="text-[15px] font-bold text-[#7f1d1d]">Delete your account permanently?</p>
+          <p className="mt-1.5 text-[13px] leading-relaxed text-[#7f1d1d]/80">
+            This removes your profile, course access, progress, quiz results and community posts. It can't be undone,
+            and paid courses won't be refunded. Your certificates stay verifiable unless you tick the box below.
+          </p>
+          <label className="mt-4 flex items-start gap-2.5 text-[13px] text-[#7f1d1d]">
+            <input type="checkbox" checked={alsoCertificates} onChange={(e) => setAlsoCertificates(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[#b91c1c]" />
+            <span>Also delete my certificates. Their verification links (for example on LinkedIn) will stop working.</span>
+          </label>
+          <label className="mt-4 block text-[13px] font-bold text-[#7f1d1d]" htmlFor="confirm-delete">Type DELETE to confirm</label>
+          <input id="confirm-delete" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" className={`${inputCls} mt-1.5 max-w-xs`} />
+          <div className="mt-4 flex flex-wrap gap-3">
+            <button type="button" onClick={remove} disabled={typed !== "DELETE" || deleting} className="inline-flex items-center gap-2 rounded-lg bg-[#b91c1c] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#991b1b] disabled:opacity-50">
+              {deleting && <Loader2 size={16} className="animate-spin" />} Permanently delete my account
+            </button>
+            <button type="button" onClick={() => { setConfirmOpen(false); setTyped(""); setAlsoCertificates(false); }} className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#69697b] hover:bg-white">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </Card>
   );
 }

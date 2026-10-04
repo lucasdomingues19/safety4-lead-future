@@ -150,6 +150,8 @@ export const TrackedYouTube = ({ videoId, captionsOn, onSample }: { videoId: str
       host.current.innerHTML = "";
       host.current.appendChild(mount);
       player = new window.YT.Player(mount, {
+        // Privacy-enhanced mode: no YouTube tracking cookies until played.
+        host: "https://www.youtube-nocookie.com",
         videoId,
         width: "100%",
         height: "100%",
