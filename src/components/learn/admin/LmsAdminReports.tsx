@@ -136,7 +136,7 @@ export function LmsAdminReports() {
         <PanelHeader title="Reports" sub="Live data, exported as CSV for Excel or Google Sheets." />
         {REPORTS.map((r, i) => (
           <div key={r.key} style={{ padding: "22px 28px", borderBottom: i < REPORTS.length - 1 ? "1px solid #f1f4f8" : "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-            <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ minWidth: 0, flex: "1 1 220px" }}>
               <div style={{ fontSize: 15, fontWeight: 700 }}>{r.title}</div>
               <div style={{ fontSize: 13, color: "#69697b", marginTop: 4 }}>{r.desc}</div>
             </div>
