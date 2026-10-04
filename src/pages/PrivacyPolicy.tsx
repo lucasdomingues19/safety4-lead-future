@@ -39,8 +39,8 @@ export default function PrivacyPolicy() {
               <p>
                 SafetyTech Academy is the data controller responsible for your personal data. If you have any 
                 questions about this policy or our data practices, please contact us at{" "}
-                <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
-                  hello@safetyacademy.tech
+                <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
+                  hello@safetytech.academy
                 </a>
               </p>
             </section>
@@ -174,8 +174,8 @@ export default function PrivacyPolicy() {
               </ul>
               <p className="mt-3">
                 To exercise any of these rights, please contact us at{" "}
-                <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
-                  hello@safetyacademy.tech
+                <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
+                  hello@safetytech.academy
                 </a>
               </p>
             </section>
@@ -230,8 +230,8 @@ export default function PrivacyPolicy() {
               <div className="mt-3 space-y-2">
                 <p>
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
-                    hello@safetyacademy.tech
+                  <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
+                    hello@safetytech.academy
                   </a>
                 </p>
                 <p><strong>Data Protection Officer:</strong> Available upon request</p>

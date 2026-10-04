@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import brandMarkWhite from "@/assets/brand-mark-white.png";
 import ioshApprovedLogo from "@/assets/iosh-approved-provider.png";
 import cpdMemberLogo from "@/assets/cpd-member-logo.jpg";
+import { openCookieSettings } from "@/lib/consent";
 
 export const Footer = () => {
   return (
@@ -111,6 +112,15 @@ export const Footer = () => {
                 >
                   Cookies Policy
                 </Link>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={openCookieSettings}
+                  className="text-white/70 hover:text-white transition-colors text-xs md:text-sm text-left"
+                >
+                  Cookie settings
+                </button>
               </li>
               <li>
                 <Link 

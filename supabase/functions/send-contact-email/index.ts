@@ -98,11 +98,11 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
 
-    // Send email to hello@safetyacademy.tech
+    // Send email to hello@safetytech.academy
     console.log('Attempting to send email with Resend...');
     const emailResponse = await resend.emails.send({
-      from: "SafetyTech Academy <noreply@safetyacademy.tech>",
-      to: ["hello@safetyacademy.tech"],
+      from: "SafetyTech Academy <noreply@safetytech.academy>",
+      to: ["hello@safetyacademy.tech"], // old Google Workspace inbox; switch once hello@safetytech.academy is confirmed
       replyTo: formData.email,
       subject: `New Contact Form Submission - ${escapeHtml(formData.inquiryType)}`,
       html: `

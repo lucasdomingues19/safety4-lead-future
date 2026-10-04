@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
 const ChatWidget = lazy(() => import("./components/ChatWidget").then(m => ({ default: m.ChatWidget })));
 const GovernanceReadinessGate = lazy(() => import("./components/GovernanceReadinessGate"));
+const CookieConsent = lazy(() => import("./components/CookieConsent"));
 
 // Lazy load pages for better performance
 
@@ -102,9 +103,15 @@ const ScrollToTop = () => {
 // and on certificate verification pages, which employers open to check a credential.
 const GlobalWidgets = () => {
   const { pathname } = useLocation();
-  if (/^\/(proposal|learn|student|admin\/courses|verify)/.test(pathname)) return null;
+  // Trackers never load inside the LMS app (see index.html), so the cookie
+  // banner is only needed on public pages.
+  const consent = /^\/(learn|student|admin)(\/|$)/.test(pathname) ? null : (
+    <Suspense fallback={null}><CookieConsent /></Suspense>
+  );
+  if (/^\/(proposal|learn|student|admin\/courses|verify)/.test(pathname)) return consent;
   return (
     <Suspense fallback={null}>
+      {consent}
       <WhatsAppButton />
       <GovernanceReadinessGate />
       <ChatWidget />

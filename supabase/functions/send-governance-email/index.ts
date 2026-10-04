@@ -160,9 +160,9 @@ const handler = async (req: Request): Promise<Response> => {
 </body></html>`;
 
     const { error } = await resend.emails.send({
-      from: "SafetyTech Academy <noreply@safetyacademy.tech>",
+      from: "SafetyTech Academy <noreply@safetytech.academy>",
       to: [data.email],
-      reply_to: "hello@safetyacademy.tech",
+      reply_to: "hello@safetytech.academy",
       subject: `Your AI in EHS Governance Readiness position — ${bandName || "results"}`,
       html,
     });

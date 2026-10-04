@@ -286,7 +286,7 @@ const ProposalPage = ({ token: tokenProp }: { token?: string }) => {
               <Globe className="h-3 w-3" /> safetytech.academy
             </span>
             <span className="flex items-center gap-1">
-              <Mail className="h-3 w-3" /> hello@safetyacademy.tech
+              <Mail className="h-3 w-3" /> hello@safetytech.academy
             </span>
             <span className="flex items-center gap-1">
               <Phone className="h-3 w-3" /> +44 7983 819437

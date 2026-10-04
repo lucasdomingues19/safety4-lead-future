@@ -185,7 +185,7 @@ const Cohort = () => {
       console.error("Error submitting application:", error);
       toast({
         title: "Something went wrong",
-        description: "Please try again or contact us at hello@safetyacademy.tech",
+        description: "Please try again or contact us at hello@safetytech.academy",
         variant: "destructive"
       });
     } finally {

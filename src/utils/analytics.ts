@@ -1,5 +1,10 @@
-// Skip tracking in development/preview environments
+import { hasAnalyticsConsent } from '@/lib/consent';
+
+// Skip tracking in development/preview environments, and for anyone who hasn't
+// opted in to analytics (the session id below lives in browser storage, so
+// PECR needs consent first).
 const isDevEnvironment = () => {
+  if (!hasAnalyticsConsent()) return true;
   const hostname = window.location.hostname;
   return (
     hostname === 'localhost' ||

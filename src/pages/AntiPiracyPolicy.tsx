@@ -74,7 +74,7 @@ export default function AntiPiracyPolicy() {
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">Reporting Piracy</h2>
               <p>
                 If you become aware of any unauthorized use or distribution of SafetyTech Academy content, 
-                please report it immediately to <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">hello@safetyacademy.tech</a>.
+                please report it immediately to <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">hello@safetytech.academy</a>.
               </p>
             </section>
 

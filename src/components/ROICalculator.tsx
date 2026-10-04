@@ -581,7 +581,7 @@ export function ROICalculator() {
                   </div>
               )}
               </div>
-              <p className="text-xs text-muted-foreground">Questions? <span className="text-primary">hello@safetyacademy.tech</span></p>
+              <p className="text-xs text-muted-foreground">Questions? <span className="text-primary">hello@safetytech.academy</span></p>
             </div>
           }
 

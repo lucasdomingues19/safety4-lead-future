@@ -29,7 +29,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
         "@type": "ContactPoint",
         "telephone": "+44-20-1234-5678",
         "contactType": "Customer Service",
-        "email": "hello@safetyacademy.tech",
+        "email": "hello@safetytech.academy",
         "availableLanguage": ["English"],
         "areaServed": "Worldwide"
       },

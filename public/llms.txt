@@ -27,7 +27,7 @@ SafetyTech Academy helps safety leaders modernise workplace safety with AI, data
 - [Blog](/blog): Articles on AI in EHS, SafetyTech and digital safety leadership.
 - [eBook](/ebook): Free Safety 4.0 leadership eBook.
 - [FAQ](/faq): Common questions about programmes, pricing and certification.
-- [Contact](/contact): Get in touch — hello@safetyacademy.tech.
+- [Contact](/contact): Get in touch — hello@safetytech.academy.
 - [Offer](/offer): Current enrolment offer and pricing.
 
 ## Optional

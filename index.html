@@ -1,31 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
   <head>
-    <!-- Marketing trackers run on the public website only. Inside the LMS app
-         (signed-in learner/admin pages) they would be able to read the
-         learner's session, so they are not loaded there. -->
-    <script>window.__lmsApp = /^\/(learn|student|admin)(\/|$)/.test(location.pathname);
-      window.__loadScript = function (src) { if (window.__lmsApp) return; var s = document.createElement("script"); s.async = true; s.src = src; document.head.appendChild(s); };</script>
-    <!-- Google Tag Manager -->
-    <script>if (!window.__lmsApp) (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-TXK3CLMS');</script>
-    <!-- End Google Tag Manager -->
-    <meta name="google" content="notranslate" />
-    <!-- Google tag (gtag.js) -->
+    <meta charset="UTF-8" />
+    <!-- Trackers: never inside the LMS app (signed-in learner/admin pages,
+         where they could read the learner's session), and on the public site
+         only after the visitor opts in via the cookie banner (UK GDPR/PECR).
+         Choice is stored in localStorage "stc-consent-v1" by CookieConsent.tsx,
+         which calls window.__applyConsent. Google Consent Mode v2 defaults to
+         denied. Scripts can't be unloaded, so withdrawing consent reloads. -->
     <script>
-      window.__loadScript("https://www.googletagmanager.com/gtag/js?id=G-PWGDBQ6H9D");
+      window.__lmsApp = /^\/(learn|student|admin)(\/|$)/.test(location.pathname);
+      window.__loadScript = function (src) { if (window.__lmsApp) return; var s = document.createElement("script"); s.async = true; s.src = src; document.head.appendChild(s); };
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-PWGDBQ6H9D');
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag("consent", "default", { ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied", analytics_storage: "denied", wait_for_update: 500 });
+      try { window.__consent = JSON.parse(localStorage.getItem("stc-consent-v1") || "null"); } catch (e) { window.__consent = null; }
+      (function () {
+        var loaded = {};
+        window.__applyConsent = function (c) {
+          if (window.__lmsApp || !c) return;
+          gtag("consent", "update", {
+            analytics_storage: c.analytics ? "granted" : "denied",
+            ad_storage: c.marketing ? "granted" : "denied",
+            ad_user_data: c.marketing ? "granted" : "denied",
+            ad_personalization: c.marketing ? "granted" : "denied"
+          });
+          if (c.analytics && !loaded.analytics) {
+            loaded.analytics = true;
+            // Google Tag Manager + GA4
+            dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+            window.__loadScript("https://www.googletagmanager.com/gtm.js?id=GTM-TXK3CLMS");
+            window.__loadScript("https://www.googletagmanager.com/gtag/js?id=G-PWGDBQ6H9D");
+            gtag("js", new Date());
+            gtag("config", "G-PWGDBQ6H9D");
+          }
+          if (c.marketing && !loaded.marketing) {
+            loaded.marketing = true;
+            // LinkedIn Insight Tag
+            window._linkedin_partner_id = "9075105";
+            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+            window._linkedin_data_partner_ids.push("9075105");
+            if (!window.lintrk) { window.lintrk = function (a, b) { window.lintrk.q.push([a, b]); }; window.lintrk.q = []; }
+            window.__loadScript("https://snap.licdn.com/li.lms-analytics/insight.min.js");
+            // Apollo website tracker
+            var ap = document.createElement("script");
+            ap.async = true; ap.src = "https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=" + Math.random().toString(36).substring(7);
+            ap.onload = function () { window.trackingFunctions && window.trackingFunctions.onLoad({ appId: "6a706c4aebeb69001c345940" }); };
+            document.head.appendChild(ap);
+            // Meta Pixel
+            !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+            fbq("init", "958449093236996"); fbq("track", "PageView");
+            // OpenAI conversion pixel
+            !function (w, d, s, u) { if (w.oaiq) return; var q = function () { q.q.push(arguments); }; q.q = []; w.oaiq = q; var j = d.createElement(s); j.async = 1; j.src = u; var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(j, f); }(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+            oaiq("init", { pixelId: "2jxpMUe7RQ8fSYi5dQZbvL" });
+          }
+        };
+        window.__applyConsent(window.__consent);
+      })();
     </script>
+    <meta name="google" content="notranslate" />
 
     <meta name="google-site-verification" content="6FWNO8HsGFwVDEyuKEYef_Scdix1adn45y8EO3TopFc" />
     <meta name="trustpilot-one-time-domain-verification-id" content="f1db74bb-1b1e-4ed4-81a7-2bd056216038"/>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -109,61 +145,13 @@
     <meta name="learning_resource_type" content="online course, video lectures, assessments" />
     <meta name="typical_age_range" content="25-65" />
 
-    <!-- LinkedIn Insight Tag -->
-    <script type="text/javascript">
-      _linkedin_partner_id = "9075105";
-      window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-      window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-    </script>
-    <script type="text/javascript">
-      if (!window.__lmsApp) (function(l) {
-        if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
-        window.lintrk.q=[]}
-        var s = document.getElementsByTagName("script")[0];
-        var b = document.createElement("script");
-        b.type = "text/javascript";b.async = true;
-        b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
-        s.parentNode.insertBefore(b, s);
-      })(window.lintrk);
-    </script>
-
-    <!-- Apollo Website Tracker -->
-    <script>function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
-      o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
-      o.onload=function(){window.trackingFunctions.onLoad({appId:"6a706c4aebeb69001c345940"})},
-      document.head.appendChild(o)}if(!window.__lmsApp)initApollo();</script>
 
 
-    <!-- Meta Pixel Code -->
-    <script>
-      if (!window.__lmsApp) !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      if (window.fbq) { fbq('init', '958449093236996'); fbq('track', 'PageView'); }
-    </script>
-    <!-- End Meta Pixel Code -->
 
-    <!-- OpenAI Conversion Pixel -->
-    <script>if (!window.__lmsApp) { !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"2jxpMUe7RQ8fSYi5dQZbvL",debug:true}); }</script>
-    <!-- End OpenAI Conversion Pixel -->
+
   </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TXK3CLMS"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <!-- LinkedIn Insight Tag noscript fallback -->
-    <noscript>
-      <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=9075105&fmt=gif" />
-    </noscript>
-    <!-- Meta Pixel noscript fallback -->
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=958449093236996&ev=PageView&noscript=1" /></noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 

@@ -125,8 +125,8 @@ export default function TermsConditions() {
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">6.2 Refund Process</h3>
               <p>
                 To request a refund, contact us at{" "}
-                <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
-                  hello@safetyacademy.tech
+                <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
+                  hello@safetytech.academy
                 </a>
                 {" "}with your order details. Refunds are processed within 10-14 business days.
               </p>
@@ -326,8 +326,8 @@ export default function TermsConditions() {
               <div className="mt-3 space-y-2">
                 <p>
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:hello@safetyacademy.tech" className="text-primary hover:text-primary/80">
-                    hello@safetyacademy.tech
+                  <a href="mailto:hello@safetytech.academy" className="text-primary hover:text-primary/80">
+                    hello@safetytech.academy
                   </a>
                 </p>
               </div>
