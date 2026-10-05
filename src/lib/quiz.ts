@@ -7,6 +7,8 @@ export interface QuizQuestion {
   options: string[];
   /** Only present for admins (learners cannot read the answer key). */
   correct_index?: number;
+  /** Shown to learners after they submit (admins edit it in the builder). */
+  explanation?: string | null;
   position: number;
 }
 

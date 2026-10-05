@@ -16,6 +16,14 @@ const invoke = async <T,>(body: Record<string, unknown>): Promise<T> => {
 export const generateQuiz = (moduleId: string, count = 5, replace = false) =>
   invoke<{ quiz_id: string; added: number }>({ action: "quiz", module_id: moduleId, count, replace });
 
+export interface DraftQuestion { prompt: string; options: string[]; correct_index: number; explanation: string | null }
+export type QuizDifficulty = "foundation" | "intermediate" | "advanced";
+export type QuizStyle = "knowledge" | "scenario" | "mixed";
+
+/** Draft questions for review without saving them. */
+export const previewQuiz = (moduleId: string, opts: { count: number; difficulty: QuizDifficulty; style: QuizStyle }) =>
+  invoke<{ questions: DraftQuestion[] }>({ action: "quiz", module_id: moduleId, preview: true, ...opts });
+
 /** Write a Markdown lesson overview from the lesson transcript. */
 export const generateOverview = (lessonId: string) =>
   invoke<{ overview: string }>({ action: "overview", lesson_id: lessonId });

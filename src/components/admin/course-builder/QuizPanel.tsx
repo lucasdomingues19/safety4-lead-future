@@ -49,7 +49,7 @@ export const QuizPanel = ({
         const options = (q.options ?? []).map((o) => o.trim());
         const { error } = await supabase
           .from("quiz_questions")
-          .update({ prompt: q.prompt, options, correct_index: Math.min(q.correct_index ?? 0, Math.max(options.length - 1, 0)) })
+          .update({ prompt: q.prompt, options, correct_index: Math.min(q.correct_index ?? 0, Math.max(options.length - 1, 0)), explanation: q.explanation?.trim() || null })
           .eq("id", id);
         if (error) throw error;
       });
@@ -61,7 +61,7 @@ export const QuizPanel = ({
     const { data, error } = await supabase
       .from("quiz_questions")
       .insert({ quiz_id: quiz.id, prompt: "", options: ["", "", "", ""], correct_index: 0, position: questions?.length ?? 0 })
-      .select("id, quiz_id, prompt, options, correct_index, position")
+      .select("id, quiz_id, prompt, options, correct_index, explanation, position")
       .single();
     if (error || !data) { toast.error("Could not add a question"); return; }
     setQuestions((qs) => [...(qs ?? []), ...asQuizQuestions([data])]);
@@ -84,7 +84,7 @@ export const QuizPanel = ({
         <input value={quiz.title} onChange={(e) => saveQuiz({ title: e.target.value })} placeholder="Quiz title" className="mt-1 w-full bg-transparent py-1 text-[28px] font-bold leading-tight tracking-tight outline-none placeholder:text-[#cbd5e1]" />
       </div>
 
-      <Section title="Pass mark" description="Learners can retake the quiz until they pass. Correct answers are never shown to them.">
+      <Section title="Pass mark" description="Learners can retake the quiz until they pass. After each attempt they see the “why” for every question; the correct answers are revealed once they pass.">
         <div className="flex items-center gap-4">
           <input type="range" min={50} max={100} step={5} value={quiz.pass_threshold} onChange={(e) => saveQuiz({ pass_threshold: Number(e.target.value) })} className="flex-1 accent-[#3434ff]" aria-label="Pass mark" />
           <span className="w-14 text-right text-lg font-bold tabular-nums">{quiz.pass_threshold}%</span>
@@ -140,6 +140,10 @@ export const QuizPanel = ({
                         </div>
                       );
                     })}
+                    <div>
+                      <label className="mb-1 block text-[12px] font-bold uppercase tracking-[0.08em] text-[#94a3b8]">Why (shown after they answer)</label>
+                      <textarea rows={2} value={q.explanation ?? ""} onChange={(e) => updateQuestion(q.id, { explanation: e.target.value })} placeholder="Explain the idea behind the right answer, without quoting it" className={`${inputClass} resize-y text-[14px]`} />
+                    </div>
                     <div className="flex justify-between">
                       {(q.options ?? []).length < 6 ? (
                         <button onClick={() => updateQuestion(q.id, { options: [...(q.options ?? []), ""] })} className="text-[13px] font-semibold text-[#3434ff] hover:underline">+ Add answer</button>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { asLessons, type Course, type Lesson, type Module } from "@/lib/lms";
 import { deleteLessonFile } from "@/lib/lessonMedia";
-import { generateQuiz } from "@/lib/lmsAi";
+import { AiQuizDialog } from "./AiQuizDialog";
 import { useSaver } from "./useSaver";
 import { SaveIndicator } from "./ui";
 import { LessonPanel } from "./LessonPanel";
@@ -189,21 +189,12 @@ export const CourseBuilder = ({ courseId }: { courseId: string }) => {
     select({ kind: "quiz", id: data.id });
   };
 
-  const aiQuiz = async (moduleId?: string, count = 5) => {
+  // AI quiz generation opens a dialog: choose count/difficulty/style, review, add.
+  const [aiQuizModule, setAiQuizModule] = useState<string | null>(null);
+  const aiQuiz = (moduleId?: string, _count?: number) => {
     const target = moduleForQuiz(moduleId);
     if (!target) { toast.error("Add a module first"); return; }
-    setAiBusy(target);
-    const t = toast.loading("Writing quiz questions from the lesson content…");
-    try {
-      const { quiz_id, added } = await generateQuiz(target, count);
-      await loadQuizzes(modules.map((m) => m.id));
-      toast.success(`${added} questions added — review them before publishing`, { id: t });
-      select({ kind: "quiz", id: quiz_id });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Quiz generation failed", { id: t });
-    } finally {
-      setAiBusy(null);
-    }
+    setAiQuizModule(target);
   };
 
   const deleteLesson = async (id: string) => {
@@ -309,6 +300,13 @@ export const CourseBuilder = ({ courseId }: { courseId: string }) => {
 
   return (
     <div className="flex min-h-[calc(100vh-72px)] flex-col bg-[#f5f7fa] font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c]">
+      <AiQuizDialog
+        open={!!aiQuizModule}
+        onOpenChange={(o) => { if (!o) setAiQuizModule(null); }}
+        moduleId={aiQuizModule}
+        moduleTitle={modules.find((m) => m.id === aiQuizModule)?.title ?? "this module"}
+        onAdded={async (quizId) => { await loadQuizzes(modules.map((m) => m.id)); select({ kind: "quiz", id: quizId }); }}
+      />
       {/* Top bar */}
       <header className="sticky top-[72px] z-[19] border-b border-[#e2e8f0] bg-white">
         <div className="flex h-16 items-center gap-3 px-4 md:px-6">

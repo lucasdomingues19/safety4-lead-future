@@ -2,7 +2,9 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 // Admin-only AI helpers for the course builder:
-//   quiz     { module_id, count?, replace? } -> writes multiple-choice questions
+//   quiz     { module_id, count?, replace?, difficulty?, style?, preview? }
+//            -> multiple-choice questions with explanations; preview returns
+//            them for review instead of saving
 //            generated from the module's lesson transcripts/overviews into the
 //            module quiz (creating the quiz if needed)
 //   overview { lesson_id }                  -> returns a Markdown lesson
@@ -48,7 +50,7 @@ serve(async (req: Request) => {
     const { data: role } = await db.from("user_roles").select("role").eq("user_id", userData.user.id).eq("role", "admin").maybeSingle();
     if (!role) return json({ error: "Forbidden" }, 403);
 
-    const body = await req.json() as { action?: string; module_id?: string; lesson_id?: string; quiz_id?: string; count?: number; replace?: boolean; overwrite?: boolean };
+    const body = await req.json() as { action?: string; module_id?: string; lesson_id?: string; quiz_id?: string; count?: number; replace?: boolean; overwrite?: boolean; preview?: boolean; difficulty?: string; style?: string };
 
     // ---------- quiz ----------
     if (body.action === "quiz") {
@@ -73,53 +75,62 @@ serve(async (req: Request) => {
         : { data: [] as { prompt: string; position: number }[] };
       const avoid = body.replace ? [] : (existingQs ?? []).map((q) => q.prompt);
 
+      const difficulty = ["foundation", "intermediate", "advanced"].includes(body.difficulty ?? "") ? body.difficulty! : "intermediate";
+      const style = ["knowledge", "scenario", "mixed"].includes(body.style ?? "") ? body.style! : "mixed";
+      const styleText = {
+        knowledge: "Ask direct questions about the key concepts, frameworks and definitions taught.",
+        scenario: "Write each question as a short workplace scenario (construction, energy, manufacturing, logistics, offices) that asks what the learner should do or conclude.",
+        mixed: "Mix direct concept questions with short workplace scenarios (roughly half each).",
+      }[style];
+      const levelText = {
+        foundation: "Foundation level: test recognition and understanding of the main ideas.",
+        intermediate: "Intermediate level: test understanding and application; distractors should be plausible to someone who skimmed the material.",
+        advanced: "Advanced level: test judgement and application in less obvious situations; all options should be credible to a practitioner.",
+      }[difficulty];
+
+      // Structured output (forced tool_choice isn't supported on current models).
       const ai = await callClaude({
-        max_tokens: 4000,
+        max_tokens: 8000,
         system:
           "You write assessment questions for professional health & safety training (IOSH-approved CPD courses). " +
           "Questions test understanding and application of the lesson material, not trivia or wording recall. " +
           "Each question has exactly 4 plausible options and one unambiguously correct answer that is supported by the source material. " +
-          "Vary which option position is correct. Use British English. Never reference 'the video' or 'the transcript'.",
-        tools: [{
-          name: "save_quiz",
-          description: "Save the generated multiple-choice questions.",
-          input_schema: {
-            type: "object",
+          "Vary which option position is correct. Keep options similar in length. Avoid 'all of the above' and 'none of the above'. " +
+          "For each question also write an explanation: 1–2 sentences (max 45 words) on the underlying idea, grounded in the material, that helps someone who got it wrong — without quoting the correct option or naming an option letter. " +
+          "Use British English. Never reference 'the video' or 'the transcript'.",
+        output_config: { format: { type: "json_schema", schema: {
+          type: "object", additionalProperties: false, required: ["questions"],
+          properties: { questions: { type: "array", items: {
+            type: "object", additionalProperties: false, required: ["prompt", "options", "correct_index", "explanation"],
             properties: {
-              questions: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    prompt: { type: "string" },
-                    options: { type: "array", items: { type: "string" }, minItems: 4, maxItems: 4 },
-                    correct_index: { type: "integer", minimum: 0, maximum: 3 },
-                  },
-                  required: ["prompt", "options", "correct_index"],
-                },
-              },
+              prompt: { type: "string" },
+              options: { type: "array", items: { type: "string" } },
+              correct_index: { type: "integer" },
+              explanation: { type: "string" },
             },
-            required: ["questions"],
-          },
-        }],
-        tool_choice: { type: "tool", name: "save_quiz" },
+          } } },
+        } } },
         messages: [{
           role: "user",
           content:
-            `Course: ${course?.title ?? ""}\nModule: ${mod.title}\n\nWrite ${count} multiple-choice questions for this module's quiz, based only on the material below.` +
+            `Course: ${course?.title ?? ""}\nModule: ${mod.title}\n\nWrite ${count} multiple-choice questions for this module's quiz, based only on the material below.\n${levelText}\n${styleText}` +
             (avoid.length ? `\n\nDo not repeat or closely paraphrase these existing questions:\n- ${avoid.join("\n- ")}` : "") +
             `\n\n<material>\n${source}\n</material>`,
         }],
       });
 
-      const tool = ai.content.find((c) => c.type === "tool_use" && c.name === "save_quiz");
-      const questions = ((tool?.input as { questions?: unknown[] })?.questions ?? []) as { prompt: string; options: string[]; correct_index: number }[];
+      const raw = ai.content.filter((c) => c.type === "text").map((c) => c.text).join("");
+      let questions: { prompt: string; options: string[]; correct_index: number; explanation?: string }[] = [];
+      try { questions = JSON.parse(raw).questions ?? []; } catch { /* handled below */ }
       const valid = questions.filter((q) =>
         typeof q.prompt === "string" && q.prompt.trim() &&
         Array.isArray(q.options) && q.options.length >= 2 && q.options.every((o) => typeof o === "string" && o.trim()) &&
         Number.isInteger(q.correct_index) && q.correct_index >= 0 && q.correct_index < q.options.length,
-      );
+      ).slice(0, count);
       if (!valid.length) return json({ error: "The AI didn't return usable questions. Try again." }, 502);
+      if (body.preview) {
+        return json({ questions: valid.map((q) => ({ prompt: q.prompt.trim(), options: q.options.map((o) => o.trim()), correct_index: q.correct_index, explanation: q.explanation?.trim() || null })) });
+      }
 
       let quizId = existingQuiz?.id as string | undefined;
       if (!quizId) {
@@ -131,7 +142,7 @@ serve(async (req: Request) => {
       }
       const start = body.replace ? 0 : (existingQs ?? []).length;
       const { error: insErr } = await db.from("quiz_questions").insert(
-        valid.map((q, i) => ({ quiz_id: quizId, prompt: q.prompt.trim(), options: q.options.map((o) => o.trim()), correct_index: q.correct_index, position: start + i })),
+        valid.map((q, i) => ({ quiz_id: quizId, prompt: q.prompt.trim(), options: q.options.map((o) => o.trim()), correct_index: q.correct_index, explanation: q.explanation?.trim() || null, position: start + i })),
       );
       if (insErr) return json({ error: `Could not save questions: ${insErr.message}` }, 500);
       return json({ quiz_id: quizId, added: valid.length });
