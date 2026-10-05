@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Video players that report *actually played* seconds. Seeking never earns
 // credit: only small forward steps between consecutive time samples count.
@@ -16,6 +16,8 @@ export interface WatchSample {
 type OnSample = (s: WatchSample) => void;
 
 const MAX_STEP = 2.5; // seconds between samples at up to 2x speed
+const SPEEDS = [0.75, 1, 1.25, 1.5, 1.75, 2];
+const SPEED_KEY = "lms-playback-speed";
 
 const frameStyle: React.CSSProperties = {
   width: "100%",
@@ -78,7 +80,32 @@ export const TrackedVideo = ({
     onSample({ delta, position: t, duration: Number.isFinite(v.duration) ? v.duration : 0, playing });
   };
 
+  // Playback speed: visible buttons, remembered between lessons. Capped at 2x
+  // so watch-time tracking (MAX_STEP) still counts every second.
+  const [speed, setSpeed] = useState(() => { try { return Number(localStorage.getItem(SPEED_KEY)) || 1; } catch { return 1; } });
+  useEffect(() => { if (ref.current) ref.current.playbackRate = speed; }, [speed]);
+  const chooseSpeed = (r: number) => { setSpeed(r); try { localStorage.setItem(SPEED_KEY, String(r)); } catch { /* private mode */ } };
+
+  // Keyboard shortcuts (ignored while typing in a field).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const v = ref.current;
+      const t = e.target as HTMLElement | null;
+      if (!v || e.metaKey || e.ctrlKey || e.altKey || (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(t.tagName)))) return;
+      const k = e.key.toLowerCase();
+      if (k === " " || k === "k") { e.preventDefault(); if (v.paused) v.play().catch(() => undefined); else v.pause(); }
+      else if (k === "arrowleft" || k === "j") { e.preventDefault(); v.currentTime = Math.max(0, v.currentTime - 10); }
+      else if (k === "arrowright" || k === "l") { e.preventDefault(); v.currentTime = Math.min(v.duration || v.currentTime, v.currentTime + 10); }
+      else if (k === "f") { e.preventDefault(); if (document.fullscreenElement) document.exitFullscreen().catch(() => undefined); else v.requestFullscreen?.().catch(() => undefined); }
+      else if (k === "m") { v.muted = !v.muted; }
+      else if (k === "c" && v.textTracks[0]) { const tr = v.textTracks[0]; tr.mode = tr.mode === "showing" ? "hidden" : "showing"; }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
+    <div style={{ marginBottom: "20px" }}>
     <video
       ref={ref}
       src={src}
@@ -89,6 +116,7 @@ export const TrackedVideo = ({
       onLoadedMetadata={(e) => {
         const v = e.currentTarget;
         if (resumeFrom > 5 && resumeFrom < v.duration - 5) v.currentTime = resumeFrom;
+        v.playbackRate = speed;
         last.current = v.currentTime;
         onSample({ delta: 0, position: v.currentTime, duration: v.duration, playing: false });
       }}
@@ -103,10 +131,21 @@ export const TrackedVideo = ({
       onEnded={() => emit(false)}
       onError={onError}
       onContextMenu={(e) => e.preventDefault()}
-      style={{ ...frameStyle, objectFit: "contain" }}
+      style={{ ...frameStyle, marginBottom: 0, objectFit: "contain" }}
     >
       {captionsUrl && <track kind="captions" src={captionsUrl} srcLang="en" label="English" default={captionsOn} />}
     </video>
+    <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 6, marginTop: 10 }} role="group" aria-label="Playback speed">
+      <span style={{ fontSize: 12, fontWeight: 700, color: "#69697b", marginRight: 2 }}>Speed</span>
+      {SPEEDS.map((r) => (
+        <button key={r} type="button" onClick={() => chooseSpeed(r)} aria-pressed={speed === r}
+          style={{ border: `1px solid ${speed === r ? "#3434ff" : "#e2e8f0"}`, background: speed === r ? "#3434ff" : "#fff", color: speed === r ? "#fff" : "#0b0b2c", borderRadius: 999, padding: "4px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
+          {r}×
+        </button>
+      ))}
+      <span style={{ marginLeft: "auto", fontSize: 11.5, color: "#94a3b8" }} className="hidden md:inline">Space play/pause · ←/→ 10s · F full screen · C captions</span>
+    </div>
+    </div>
   );
 };
 
