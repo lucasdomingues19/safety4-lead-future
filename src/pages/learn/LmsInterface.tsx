@@ -97,7 +97,7 @@ export default function LmsInterface() {
           overview: { title: "Overview", sub: "How your academy is doing at a glance.", el: <LmsAdminOverview /> },
           users: { title: "People", sub: "Everyone on the platform and what they can access.", el: <LmsAdminUsers /> },
           access: { title: "Access", sub: "Who has each course, and until when.", el: <LmsAdminAccess /> },
-          emails: { title: "Emails", sub: "Send announcements to your learners.", el: <LmsAdminEmails /> },
+          emails: { title: "Emails", sub: "Automatic emails to learners, and announcements you send yourself.", el: <LmsAdminEmails /> },
           reports: { title: "Reports", sub: "Export live data to Excel or Google Sheets.", el: <LmsAdminReports /> },
           billing: { title: "Billing", sub: "Payments and Stripe connection status.", el: <LmsAdminBilling /> },
           community: { title: "Moderation", sub: "Review and remove community content.", el: <LmsAdminCommunity /> },

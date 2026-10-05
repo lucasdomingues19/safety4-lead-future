@@ -657,6 +657,27 @@ export type Database = {
         }
         Relationships: []
       }
+      email_automations: {
+        Row: {
+          enabled: boolean
+          kind: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          enabled?: boolean
+          kind: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          enabled?: boolean
+          kind?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       email_campaigns: {
         Row: {
           audience: string
@@ -1482,6 +1503,7 @@ export type Database = {
         Row: {
           correct_index: number
           created_at: string
+          explanation: string | null
           id: string
           options: Json
           position: number
@@ -1491,6 +1513,7 @@ export type Database = {
         Insert: {
           correct_index?: number
           created_at?: string
+          explanation?: string | null
           id?: string
           options?: Json
           position?: number
@@ -1500,6 +1523,7 @@ export type Database = {
         Update: {
           correct_index?: number
           created_at?: string
+          explanation?: string | null
           id?: string
           options?: Json
           position?: number
@@ -1659,6 +1683,7 @@ export type Database = {
         Returns: {
           correct_index: number
           created_at: string
+          explanation: string | null
           id: string
           options: Json
           position: number

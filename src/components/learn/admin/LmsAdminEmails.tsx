@@ -3,11 +3,29 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { invokeFunction } from "@/lib/invoke";
 import { PanelHeader, Spinner, adminFont, ghostBtn, input, panel, primaryBtn } from "./adminUi";
+import { EmailAutomations } from "./EmailAutomations";
 
 interface Campaign { id: string; subject: string; audience: string; recipient_count: number; failed_count: number; sent_at: string }
 interface CourseOpt { id: string; title: string }
 
 export function LmsAdminEmails() {
+  const [tab, setTab] = useState<"automations" | "announcements">("automations");
+  return (
+    <div style={{ marginTop: 28, fontFamily: adminFont }}>
+      <div role="tablist" style={{ display: "inline-flex", gap: 4, padding: 4, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, marginBottom: 20 }}>
+        {(["automations", "announcements"] as const).map((t) => (
+          <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
+            style={{ border: 0, borderRadius: 9, padding: "9px 16px", fontFamily: "inherit", fontSize: 13.5, fontWeight: 700, cursor: "pointer", background: tab === t ? "#0b0b2c" : "transparent", color: tab === t ? "#fff" : "#69697b" }}>
+            {t === "automations" ? "Automations" : "Announcements"}
+          </button>
+        ))}
+      </div>
+      {tab === "automations" ? <EmailAutomations /> : <Announcements />}
+    </div>
+  );
+}
+
+function Announcements() {
   const [loading, setLoading] = useState(true);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [courses, setCourses] = useState<CourseOpt[]>([]);
@@ -50,7 +68,7 @@ export function LmsAdminEmails() {
   if (loading) return <Spinner />;
 
   return (
-    <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gap: 24 }}>
+    <div style={{ display: "grid", gap: 24 }}>
       <div style={panel}>
         <PanelHeader title="Send an announcement" sub="Sent from hello@safetytech.academy (replies come to that inbox) with a link back to the learning hub." />
         <div style={{ padding: 28, display: "grid", gap: 16 }}>
