@@ -38,6 +38,8 @@ export interface GradingResult {
     max_score: number;
     feedback: string;
     correct: boolean;
+    explanation?: string | null;
+    correct_answer?: string | null;
   }>;
   message: string;
 }

@@ -7,6 +7,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 //            module quiz (creating the quiz if needed)
 //   overview { lesson_id }                  -> returns a Markdown lesson
 //            overview written from the lesson transcript
+//   explain  { quiz_id, overwrite? }        -> drafts a short "why" explanation
+//            for each question (from the module transcripts) and saves it to
+//            questions that don't have one yet (or all, with overwrite)
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -45,7 +48,7 @@ serve(async (req: Request) => {
     const { data: role } = await db.from("user_roles").select("role").eq("user_id", userData.user.id).eq("role", "admin").maybeSingle();
     if (!role) return json({ error: "Forbidden" }, 403);
 
-    const body = await req.json() as { action?: string; module_id?: string; lesson_id?: string; count?: number; replace?: boolean };
+    const body = await req.json() as { action?: string; module_id?: string; lesson_id?: string; quiz_id?: string; count?: number; replace?: boolean; overwrite?: boolean };
 
     // ---------- quiz ----------
     if (body.action === "quiz") {
@@ -152,6 +155,40 @@ serve(async (req: Request) => {
       const text = ai.content.filter((c) => c.type === "text").map((c) => c.text).join("\n").trim();
       if (!text) return json({ error: "The AI returned an empty overview. Try again." }, 502);
       return json({ overview: text });
+    }
+
+    // ---------- explain ----------
+    if (body.action === "explain") {
+      const { data: quiz } = await db.from("quizzes").select("id, module_id").eq("id", body.quiz_id ?? "").maybeSingle();
+      if (!quiz) return json({ error: "Quiz not found" }, 404);
+      const { data: qs } = await db.from("quiz_questions").select("id, prompt, options, correct_index, explanation").eq("quiz_id", quiz.id).order("position");
+      const todo = (qs ?? []).filter((q) => body.overwrite || !q.explanation?.trim());
+      if (!todo.length) return json({ updated: 0, total: qs?.length ?? 0 });
+      const { data: lessons } = await db.from("lessons").select("title, body, transcript").eq("module_id", quiz.module_id).order("position");
+      const source = (lessons ?? []).map((l) => `## ${l.title}\n${l.transcript || l.body || ""}`).join("\n\n").slice(0, MAX_SOURCE_CHARS);
+      const list = todo.map((q) => ({ id: q.id, question: q.prompt, options: q.options, correct: (q.options as string[])[q.correct_index] }));
+      const ai = await callClaude({
+        max_tokens: 6000,
+        system:
+          "You write answer explanations for quiz questions on an IOSH-approved health & safety e-learning course. " +
+          "For each question, write 1–2 sentences (max 45 words) explaining the underlying idea, grounded in the module material, so a learner who got it wrong understands why. " +
+          "Do not quote the answer option, name an option letter, or start with 'The correct answer is'. British English. Plain text.",
+        messages: [{ role: "user", content: `<module_material>\n${source}\n</module_material>\n\n<questions>\n${JSON.stringify(list)}\n</questions>` }],
+        output_config: { format: { type: "json_schema", schema: {
+          type: "object", additionalProperties: false, required: ["explanations"],
+          properties: { explanations: { type: "array", items: { type: "object", additionalProperties: false, required: ["id", "explanation"], properties: { id: { type: "string" }, explanation: { type: "string" } } } } },
+        } } },
+      });
+      const text = ai.content.filter((c) => c.type === "text").map((c) => c.text).join("");
+      let parsed: { explanations: { id: string; explanation: string }[] };
+      try { parsed = JSON.parse(text); } catch { return json({ error: "The AI returned an unreadable answer. Try again." }, 502); }
+      let updated = 0;
+      for (const e of parsed.explanations ?? []) {
+        if (!todo.some((q) => q.id === e.id) || !e.explanation?.trim()) continue;
+        const { error } = await db.from("quiz_questions").update({ explanation: e.explanation.trim().slice(0, 600) }).eq("id", e.id);
+        if (!error) updated++;
+      }
+      return json({ updated, total: qs?.length ?? 0 });
     }
 
     return json({ error: "Unknown action" }, 400);

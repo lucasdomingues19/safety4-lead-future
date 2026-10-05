@@ -13,9 +13,12 @@ import { verifyEnrollmentAccess } from "@/lib/stripe";
 import { courseOrder, lockedLessonIds, isVideoLesson, minWatchPercent, recordWatch, completeLesson, lockMessage } from "@/lib/progress";
 import { TrackedVideo, TrackedYouTube, TrackedVimeo, youTubeId, isVimeo, isDirectVideoUrl, type WatchSample } from "@/components/learn/TrackedPlayer";
 import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
+import { LessonTutor } from "@/components/learn/LessonTutor";
+import { LessonNotes } from "@/components/learn/LessonNotes";
 import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 
-const TABS = ["overview", "transcript", "resources", "comments"] as const;
+const TABS = ["overview", "ask", "transcript", "resources", "comments"] as const;
+const TAB_LABEL: Record<string, string> = { overview: "Overview", ask: "Ask Mia ✨", transcript: "Transcript", resources: "Resources", comments: "Comments" };
 type Tab = (typeof TABS)[number];
 
 interface LessonComment { id: string; user_id: string; author_name: string; body: string; created_at: string }
@@ -465,16 +468,23 @@ const LessonView = () => {
           {/* Tabs */}
           <div style={{ display: "flex", borderBottom: "1px solid #e2e8f0", background: "white", borderRadius: "12px 12px 0 0", overflowX: "auto", position: "relative" }}>
             {TABS.map((tab) => (
-              <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: "12px 16px", border: "none", background: activeTab === tab ? "#f5f7fa" : "transparent", borderBottom: activeTab === tab ? "2px solid #3434ff" : "2px solid transparent", cursor: "pointer", fontSize: "13px", fontWeight: activeTab === tab ? 700 : 500, color: activeTab === tab ? "#3434ff" : "#69697b", flex: 1, textTransform: "capitalize", fontFamily: "inherit" }}>
-                {tab}{tab === "comments" && comments.length ? ` (${comments.length})` : ""}
+              <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: "12px 16px", border: "none", background: activeTab === tab ? "#f5f7fa" : "transparent", borderBottom: activeTab === tab ? "2px solid #3434ff" : "2px solid transparent", cursor: "pointer", fontSize: "13px", fontWeight: activeTab === tab ? 700 : 500, color: activeTab === tab ? "#3434ff" : "#69697b", flex: 1, textTransform: "capitalize", fontFamily: "inherit", whiteSpace: "nowrap" }}>
+                {TAB_LABEL[tab]}{tab === "comments" && comments.length ? ` (${comments.length})` : ""}
               </button>
             ))}
           </div>
 
           <div style={{ background: "white", padding: "24px", borderRadius: "0 0 12px 12px", minHeight: "200px" }}>
-            {activeTab === "overview" && (lesson.body ? (
-              <div style={{ lineHeight: 1.7, color: "#0b0b2c" }} className="prose prose-sm max-w-none"><ReactMarkdown>{lesson.body}</ReactMarkdown></div>
-            ) : <p style={{ color: "#69697b" }}>No overview has been added for this lesson yet.</p>)}
+            {activeTab === "overview" && (
+              <>
+                {lesson.body ? (
+                  <div style={{ lineHeight: 1.7, color: "#0b0b2c" }} className="prose prose-sm max-w-none"><ReactMarkdown>{lesson.body}</ReactMarkdown></div>
+                ) : <p style={{ color: "#69697b" }}>No overview has been added for this lesson yet.</p>}
+                {user && <LessonNotes key={lesson.id} lessonId={lesson.id} userId={user.id} reflection={/reflection/i.test(lesson.title)} preview={preview} />}
+              </>
+            )}
+
+            {activeTab === "ask" && <LessonTutor key={lesson.id} lessonId={lesson.id} preview={preview} />}
 
             {activeTab === "transcript" && (lesson.transcript ? (
               <p style={{ lineHeight: 1.75, color: "#0b0b2c", whiteSpace: "pre-wrap", margin: 0 }}>{lesson.transcript}</p>

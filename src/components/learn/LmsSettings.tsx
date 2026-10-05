@@ -55,6 +55,7 @@ export function LmsSettings() {
   const [organisation, setOrganisation] = useState("");
   const [captionsDefault, setCaptionsDefault] = useState(true);
   const [hideFromLeaderboard, setHideFromLeaderboard] = useState(false);
+  const [emailReminders, setEmailReminders] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const photoInput = useRef<HTMLInputElement>(null);
@@ -72,7 +73,7 @@ export function LmsSettings() {
     if (!user) return;
     (async () => {
       const [{ data: profile }, { data: enr }, { data: buys }] = await Promise.all([
-        supabase.from("profiles").select("full_name, job_title, organisation, captions_default, hide_from_leaderboard, avatar_url").eq("id", user.id).maybeSingle(),
+        supabase.from("profiles").select("full_name, job_title, organisation, captions_default, hide_from_leaderboard, email_reminders, avatar_url").eq("id", user.id).maybeSingle(),
         supabase.from("enrollments").select("course_id, status, enrolled_at, expires_at, completed_at, courses(title, slug)").eq("user_id", user.id).order("enrolled_at", { ascending: false }),
         supabase.from("course_purchases").select("id, course_title, amount_cents, currency, status, receipt_url, purchased_at").order("purchased_at", { ascending: false }),
       ]);
@@ -82,6 +83,7 @@ export function LmsSettings() {
         setOrganisation(profile.organisation ?? "");
         setCaptionsDefault(profile.captions_default);
         setHideFromLeaderboard(profile.hide_from_leaderboard);
+        setEmailReminders(profile.email_reminders !== false);
         setAvatarUrl(profile.avatar_url ?? null);
       }
       setAccess((enr ?? []).map((e) => {
@@ -105,6 +107,7 @@ export function LmsSettings() {
       organisation: organisation.trim() || null,
       captions_default: captionsDefault,
       hide_from_leaderboard: hideFromLeaderboard,
+      email_reminders: emailReminders,
     }).eq("id", user.id);
     setSaving(false);
     if (error) { toast.error("Could not save your settings"); return; }
@@ -222,6 +225,8 @@ export function LmsSettings() {
           <Switch on={captionsDefault} onChange={setCaptionsDefault} label="Captions on by default" hint="Turn on subtitles automatically for lesson videos" />
           <div className="my-2 border-t border-[#f1f4f8]" />
           <Switch on={hideFromLeaderboard} onChange={setHideFromLeaderboard} label="Hide me from the leaderboard" hint="Your name won't appear in the public rankings" />
+          <div className="my-2 border-t border-[#f1f4f8]" />
+          <Switch on={emailReminders} onChange={setEmailReminders} label="Learning reminders by email" hint="A nudge when you've been away, onboarding tips and access reminders. Account, payment and certificate emails always arrive." />
         </Card>
 
         <button onClick={save} disabled={saving} className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition hover:bg-[#2a2ad6] disabled:opacity-60">

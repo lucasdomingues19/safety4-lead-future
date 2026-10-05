@@ -64,7 +64,7 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
         onOpenChange(o);
       }}
     >
-      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto border-[#e2e8f0] bg-white text-[#0b0b2c] font-['Plus_Jakarta_Sans',sans-serif]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Award className="h-5 w-5 text-primary" /> {quiz.title}
@@ -78,10 +78,10 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
           <div className="space-y-6 py-4">
             <div className="text-center">
               {result.passed ? <CheckCircle2 className="mx-auto mb-3 h-16 w-16 text-green-500" /> : <XCircle className="mx-auto mb-3 h-16 w-16 text-red-500" />}
-              <p className="text-4xl font-bold text-white">{result.score}%</p>
-              <p className="mt-2 text-lg text-white/70">{result.passed ? "You passed this quiz!" : "Not quite — have another go."}</p>
+              <p className="text-4xl font-bold text-[#0b0b2c]">{result.score}%</p>
+              <p className="mt-2 text-lg text-[#69697b]">{result.passed ? "You passed this quiz!" : "Not quite — have another go."}</p>
               {result.passed && (
-                <p className="mt-3 text-sm text-white/70">
+                <p className="mt-3 text-sm text-[#69697b]">
                   {issuing && (<span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Issuing your certificate...</span>)}
                   {!issuing && certUrl && (<>Your certificate has been emailed to you. <a href={certUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary underline">View certificate</a></>)}
                   {!issuing && certFailed && "We couldn't issue your certificate automatically — please contact support and we'll sort it out."}
@@ -93,21 +93,26 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
               {result.details.map((detail, idx) => {
                 const q = questions.find((x) => x.id === detail.question_id);
                 return (
-                  <div key={detail.question_id} className={`rounded-lg border-2 p-4 ${detail.correct ? "border-green-500/20 bg-green-500/5" : "border-red-500/20 bg-red-500/5"}`}>
+                  <div key={detail.question_id} className={`rounded-lg border-2 p-4 ${detail.correct ? "border-[#cde9a0] bg-[#f4fbe4]" : "border-[#fecaca] bg-[#fef2f2]"}`}>
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1">
-                        <p className="font-medium text-white">{idx + 1}. {q?.prompt}</p>
-                        <p className="mt-2 text-sm text-white/70">Your answer: <span className="text-white">{answers[detail.question_id]}</span></p>
+                        <p className="font-medium text-[#0b0b2c]">{idx + 1}. {q?.prompt}</p>
+                        <p className="mt-2 text-sm text-[#69697b]">Your answer: <span className="text-[#0b0b2c]">{answers[detail.question_id]}</span></p>
                       </div>
                       {detail.correct ? <CheckCircle2 className="h-5 w-5 text-green-500" /> : <XCircle className="h-5 w-5 text-red-500" />}
                     </div>
-                    {!detail.correct && <p className="mt-2 text-sm text-white/60">Review this topic and try again.</p>}
+                    {detail.correct_answer && !detail.correct && (
+                      <p className="mt-2 text-sm text-[#0b0b2c]">Correct answer: <span className="font-semibold">{detail.correct_answer}</span></p>
+                    )}
+                    {detail.explanation ? (
+                      <p className="mt-2 rounded-md bg-white/70 px-3 py-2 text-sm leading-relaxed text-[#334155]"><span className="font-semibold text-[#0b0b2c]">Why: </span>{detail.explanation}</p>
+                    ) : !detail.correct && <p className="mt-2 text-sm text-[#69697b]">Review this topic and try again.</p>}
                   </div>
                 );
               })}
             </div>
 
-            <div className="flex justify-end gap-2 border-t border-white/10 pt-4">
+            <div className="flex justify-end gap-2 border-t border-[#e2e8f0] pt-4">
               {!result.passed && <Button variant="outline" onClick={reset}>Try again</Button>}
               <Button onClick={() => onOpenChange(false)} disabled={issuing}>{result.passed ? "Done" : "Close"}</Button>
             </div>
@@ -115,8 +120,8 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
         ) : (
           <div className="space-y-6">
             {questions.map((q, idx) => (
-              <div key={q.id} className="space-y-2 border-b border-white/10 pb-6 last:border-b-0">
-                <p className="font-semibold text-white">{idx + 1}. {q.prompt}</p>
+              <div key={q.id} className="space-y-2 border-b border-[#e2e8f0] pb-6 last:border-b-0">
+                <p className="font-semibold text-[#0b0b2c]">{idx + 1}. {q.prompt}</p>
                 <div className="space-y-2">
                   {q.options.map((option, oi) => {
                     const selected = answers[q.id] === option;
@@ -125,9 +130,9 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
                         key={oi}
                         type="button"
                         onClick={() => setAnswers((a) => ({ ...a, [q.id]: option }))}
-                        className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-all ${selected ? "border-primary bg-primary/10 text-white" : "border-white/10 text-white/70 hover:border-white/20 hover:bg-white/5"}`}
+                        className={`w-full rounded-lg border-2 px-4 py-3 text-left transition-all ${selected ? "border-[#3434ff] bg-[#f5f7ff] text-[#0b0b2c]" : "border-[#e2e8f0] text-[#69697b] hover:border-[#3434ff]/40 hover:bg-white/5"}`}
                       >
-                        <span className={`mr-3 inline-flex h-5 w-5 items-center justify-center rounded-full border-2 ${selected ? "border-primary bg-primary" : "border-white/40"}`}>
+                        <span className={`mr-3 inline-flex h-5 w-5 items-center justify-center rounded-full border-2 ${selected ? "border-primary bg-primary" : "border-[#cbd5e1]"}`}>
                           {selected && <span className="h-2 w-2 rounded-full bg-white" />}
                         </span>
                         {option}
@@ -138,9 +143,9 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
               </div>
             ))}
 
-            <div className="flex gap-2 border-t border-white/10 pt-4">
+            <div className="flex gap-2 border-t border-[#e2e8f0] pt-4">
               {!allAnswered && (
-                <div className="flex items-center gap-2 text-sm text-white/60"><AlertCircle className="h-4 w-4" /> Answer all questions to submit</div>
+                <div className="flex items-center gap-2 text-sm text-[#69697b]"><AlertCircle className="h-4 w-4" /> Answer all questions to submit</div>
               )}
               <Button className="ml-auto" onClick={handleSubmit} disabled={submitting || !allAnswered}>
                 {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

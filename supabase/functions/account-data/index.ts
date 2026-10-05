@@ -24,7 +24,7 @@ const BY_USER = [
   "enrollments", "course_purchases", "lesson_progress", "lesson_watch", "quiz_attempts",
   "final_assessment_attempts", "learning_activity_days", "lesson_comments", "community_posts",
   "community_comments", "community_likes", "community_reactions", "community_event_rsvps",
-  "community_memberships", "people_tags", "user_roles",
+  "community_memberships", "people_tags", "user_roles", "lesson_notes", "notifications",
 ];
 
 // Rows in `table` whose `col` is exactly this email (case-insensitive). ilike

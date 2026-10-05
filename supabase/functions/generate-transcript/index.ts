@@ -4,9 +4,12 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 // Generates a lesson transcript for free wherever possible:
 // 1. YouTube videos: pulls YouTube's own auto-generated captions (no API
 //    key, no cost).
-// 2. Anything else (direct file upload, Vimeo, etc.): falls back to Groq's
-//    hosted Whisper API (whisper-large-v3), which has a free tier — needs
-//    a GROQ_API_KEY secret set on the project.
+// 2. Anything else (uploaded files on S3/Supabase, direct MP4 links):
+//    ElevenLabs Scribe speech-to-text, which fetches the file itself from
+//    the (signed) URL — no download into this function, so large videos work.
+//    Uses the ELEVENLABS_API_KEY already set for the onboarding voiceover.
+// 3. Fallback if ElevenLabs isn't configured: Groq's hosted Whisper
+//    (needs a GROQ_API_KEY secret; downloads the file, so small files only).
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -63,6 +66,27 @@ async function getYouTubeTranscript(videoId: string): Promise<string | null> {
   );
   const transcript = lines.filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
   return transcript || null;
+}
+
+async function getElevenLabsTranscript(videoUrl: string): Promise<string | null> {
+  const key = Deno.env.get("ELEVENLABS_API_KEY");
+  if (!key) return null;
+  const form = new FormData();
+  form.append("model_id", "scribe_v1");
+  form.append("cloud_storage_url", videoUrl);
+  form.append("tag_audio_events", "false");
+  form.append("diarize", "false");
+  const res = await fetch("https://api.elevenlabs.io/v1/speech-to-text", {
+    method: "POST",
+    headers: { "xi-api-key": key },
+    body: form,
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    throw new Error(`ElevenLabs transcription failed (${res.status}): ${detail.slice(0, 300)}`);
+  }
+  const data = await res.json() as { text?: string };
+  return data.text?.trim() || null;
 }
 
 async function getGroqTranscript(videoUrl: string): Promise<string | null> {
@@ -159,8 +183,13 @@ serve(async (req) => {
         );
       }
     } else {
-      transcript = await getGroqTranscript(videoUrl);
-      source = "groq_whisper";
+      if (Deno.env.get("ELEVENLABS_API_KEY")) {
+        transcript = await getElevenLabsTranscript(videoUrl);
+        source = "elevenlabs_scribe";
+      } else {
+        transcript = await getGroqTranscript(videoUrl);
+        source = "groq_whisper";
+      }
       if (!transcript) {
         return new Response(JSON.stringify({ error: "Transcription returned no text" }), {
           status: 422, headers: { "Content-Type": "application/json", ...corsHeaders },

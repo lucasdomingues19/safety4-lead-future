@@ -11,6 +11,7 @@ interface DbQuestion {
   prompt: string;
   options: string[];
   correct_index: number;
+  explanation?: string | null;
   position: number;
 }
 
@@ -109,7 +110,7 @@ serve(async (req) => {
     // Authoritative question set — fetched server-side, never trusted from client.
     const { data: questions, error: questionsError } = await supabase
       .from("quiz_questions")
-      .select("id, quiz_id, prompt, options, correct_index, position")
+      .select("id, quiz_id, prompt, options, correct_index, position, explanation")
       .eq("quiz_id", request.quiz_id)
       .order("position");
 
@@ -147,7 +148,12 @@ serve(async (req) => {
         score: finalScore,
         passed,
         pass_threshold: passThreshold,
-        details: questionScores,
+        // Explanations always; the correct option only once they've passed, so a
+        // failed attempt teaches the idea without handing over the answer key.
+        details: questionScores.map((d: QuestionScore) => {
+          const q = questions.find((x: DbQuestion) => x.id === d.question_id);
+          return { ...d, explanation: q?.explanation ?? null, correct_answer: passed ? q?.options?.[q.correct_index] ?? null : null };
+        }),
         message: passed
           ? `Great job! You scored ${finalScore}% and passed! 🎉`
           : `You scored ${finalScore}%. You need ${passThreshold}% to pass. Try again!`,
