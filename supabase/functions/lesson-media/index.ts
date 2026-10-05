@@ -62,6 +62,31 @@ const s3Presign = async (
   return signed.url;
 };
 
+// ---------- CloudFront signed URLs (videos + captions) ----------
+// Active only when CLOUDFRONT_DOMAIN, CLOUDFRONT_KEY_PAIR_ID and
+// CLOUDFRONT_PRIVATE_KEY are all set; otherwise S3 presigned links are used as
+// before. Downloads (files with a download name) stay on S3 presigned links.
+const cfConfig = () => {
+  const domain = Deno.env.get("CLOUDFRONT_DOMAIN")?.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+  const keyPairId = Deno.env.get("CLOUDFRONT_KEY_PAIR_ID");
+  const pem = Deno.env.get("CLOUDFRONT_PRIVATE_KEY");
+  return domain && keyPairId && pem ? { domain, keyPairId, pem } : null;
+};
+let cfKey: Promise<CryptoKey> | null = null;
+const cfPrivateKey = (pem: string) => (cfKey ??= (async () => {
+  const der = Uint8Array.from(atob(pem.replace(/-----[A-Z ]+-----/g, "").replace(/\s+/g, "")), (c) => c.charCodeAt(0));
+  // CloudFront signs with RSA-SHA1 (canned policy).
+  return crypto.subtle.importKey("pkcs8", der, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-1" }, false, ["sign"]);
+})());
+const cfSign = async (cf: NonNullable<ReturnType<typeof cfConfig>>, key: string, ttl: number) => {
+  const url = `https://${cf.domain}/${key.split("/").map(encodeURIComponent).join("/")}`;
+  const expires = Math.floor(Date.now() / 1000) + ttl;
+  const policy = JSON.stringify({ Statement: [{ Resource: url, Condition: { DateLessThan: { "AWS:EpochTime": expires } } }] });
+  const sig = new Uint8Array(await crypto.subtle.sign("RSASSA-PKCS1-v1_5", await cfPrivateKey(cf.pem), new TextEncoder().encode(policy)));
+  const b64 = btoa(String.fromCharCode(...sig)).replace(/\+/g, "-").replace(/=/g, "_").replace(/\//g, "~");
+  return `${url}?Expires=${expires}&Signature=${b64}&Key-Pair-Id=${cf.keyPairId}`;
+};
+
 const safeName = (name: string) =>
   name.normalize("NFKD").replace(/[^\w.\-]+/g, "-").replace(/-+/g, "-").slice(-120) || "file";
 
@@ -153,6 +178,8 @@ serve(async (req: Request) => {
       const sign = async (path: string | null, downloadName?: string): Promise<string | null> => {
         if (!path) return null;
         if (path.startsWith("s3:")) {
+          const cf = cfConfig();
+          if (cf && !downloadName) return cfSign(cf, path.slice(3), VIEW_TTL_SECONDS);
           if (!s3) return null;
           return s3Presign(s3, "GET", path.slice(3), VIEW_TTL_SECONDS, downloadName);
         }
@@ -201,7 +228,7 @@ serve(async (req: Request) => {
     // ---------- status (admin: which backends are live) ----------
     if (body.action === "status") {
       if (!isAdmin) return json({ error: "Forbidden" }, 403);
-      return json({ s3_configured: !!s3, supabase_max_bytes: SB_MAX_BYTES });
+      return json({ s3_configured: !!s3, cloudfront: !!cfConfig(), supabase_max_bytes: SB_MAX_BYTES });
     }
 
     return json({ error: "Unknown action" }, 400);
