@@ -61,10 +61,12 @@ export const QuizPanel = ({
     const { data, error } = await supabase
       .from("quiz_questions")
       .insert({ quiz_id: quiz.id, prompt: "", options: ["", "", "", ""], correct_index: 0, position: questions?.length ?? 0 })
-      .select("id, quiz_id, prompt, options, correct_index, explanation, position")
+      // correct_index/explanation aren't readable through the API (they're the
+      // answer key), so read back the safe columns and fill the rest locally.
+      .select("id, quiz_id, prompt, options, position")
       .single();
     if (error || !data) { toast.error("Could not add a question"); return; }
-    setQuestions((qs) => [...(qs ?? []), ...asQuizQuestions([data])]);
+    setQuestions((qs) => [...(qs ?? []), ...asQuizQuestions([{ ...data, correct_index: 0, explanation: null }])]);
     onSummaryChange({ questionCount: (questions?.length ?? 0) + 1 });
   };
 
