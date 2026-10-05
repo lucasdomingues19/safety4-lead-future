@@ -55,3 +55,6 @@ verify_jwt = false
 
 [functions.syngraph-webhook]
 verify_jwt = false
+
+[functions.lifecycle-messages]
+verify_jwt = false

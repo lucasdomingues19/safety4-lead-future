@@ -690,6 +690,36 @@ export type Database = {
         }
         Relationships: []
       }
+      email_log: {
+        Row: {
+          dedupe_key: string
+          error: string | null
+          id: string
+          kind: string
+          sent_at: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          dedupe_key?: string
+          error?: string | null
+          id?: string
+          kind: string
+          sent_at?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          dedupe_key?: string
+          error?: string | null
+          id?: string
+          kind?: string
+          sent_at?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       enrollments: {
         Row: {
           completed_at: string | null
@@ -1137,6 +1167,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       page_views: {
         Row: {
@@ -1641,6 +1704,17 @@ export type Database = {
           next_points: number
         }[]
       }
+      notify: {
+        Args: {
+          _body: string
+          _kind: string
+          _link: string
+          _title: string
+          _user: string
+        }
+        Returns: undefined
+      }
+      purge_expired_personal_data: { Args: never; Returns: Json }
       record_lesson_watch: {
         Args: { _duration: number; _lesson_id: string; _watched: number }
         Returns: number

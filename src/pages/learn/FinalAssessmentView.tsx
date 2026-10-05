@@ -13,13 +13,15 @@ import {
   type FinalAssessmentStatus,
   type FinalAttempt,
 } from "@/lib/finalAssessment";
-import brandMarkBlue from "@/assets/brand-mark-blue.png";
+import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
+import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 
 type Phase = "loading" | "overview" | "taking" | "checking" | "result";
 
 const FinalAssessmentView = () => {
   const { courseSlug } = useParams();
   const navigate = useNavigate();
+  const { profile } = useLmsProfile();
   const [course, setCourse] = useState<Course | null>(null);
   const [status, setStatus] = useState<FinalAssessmentStatus | null>(null);
   const [phase, setPhase] = useState<Phase>("loading");
@@ -93,21 +95,20 @@ const FinalAssessmentView = () => {
   };
 
   const shell = (children: React.ReactNode, wide = false) => (
-    <div style={{ minHeight: "100vh", background: "#f5f7fa", color: "#0b0b2c", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      <div style={{ background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)", color: "white", padding: "22px 24px" }}>
-        <div style={{ maxWidth: wide ? "1200px" : "880px", margin: "0 auto", display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap" }}>
-          <img src={brandMarkBlue} alt="SafetyTech Academy" style={{ height: "30px", filter: "brightness(0) invert(1)" }} />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.8 }}>Final assessment</div>
-            <div style={{ fontSize: "18px", fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{course?.title}</div>
-          </div>
-          <Link to={`/learn/${courseSlug}`} style={{ color: "white", fontSize: "13px", fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px", opacity: 0.9 }}>
+    <LmsShell
+      profile={profile}
+      active="learning"
+      header={
+        <>
+          <ShellTitle label="FINAL ASSESSMENT" title={course?.title ?? ""} />
+          <Link to={`/learn/${courseSlug}`} className="hidden flex-none items-center gap-1.5 text-[13px] font-semibold text-[#69697b] hover:text-[#0b0b2c] sm:inline-flex">
             <ArrowLeft size={15} /> Back to course
           </Link>
-        </div>
-      </div>
-      <div style={{ maxWidth: wide ? "1200px" : "880px", margin: "0 auto", padding: wide ? "16px" : "40px 16px" }}>{children}</div>
-    </div>
+        </>
+      }
+    >
+      <div style={{ maxWidth: wide ? "1200px" : "880px", margin: "0 auto", padding: wide ? "16px" : "40px 16px", color: "#0b0b2c" }}>{children}</div>
+    </LmsShell>
   );
 
   const card: React.CSSProperties = { background: "white", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "36px", textAlign: "center" };
@@ -124,7 +125,7 @@ const FinalAssessmentView = () => {
           src={launch.url}
           title="Final assessment"
           allow="clipboard-write"
-          style={{ width: "100%", height: "calc(100vh - 120px)", minHeight: "560px", border: "1px solid #e2e8f0", borderRadius: "16px", background: "white", display: "block" }}
+          style={{ width: "100%", height: "calc(100vh - 110px)", minHeight: "560px", border: "1px solid #e2e8f0", borderRadius: "16px", background: "white", display: "block" }}
         />
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", marginTop: "10px", fontSize: "12.5px", color: "#69697b", flexWrap: "wrap" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><ShieldCheck size={14} color="#3434ff" /> Graded and certified securely by Syngraph AI</span>

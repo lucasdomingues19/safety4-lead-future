@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { LearnHeader } from "@/components/learn/LearnHeader";
+import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
+import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
@@ -28,6 +29,7 @@ interface ModuleWithLessons extends Module {
 const CourseView = () => {
   const { courseSlug } = useParams();
   const { user, loading: authLoading } = useAuthUser();
+  const { profile } = useLmsProfile();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<Course | null>(null);
@@ -149,58 +151,69 @@ const CourseView = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f5f7fa]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
+      <LmsShell profile={profile} active="learning" header={<ShellTitle label="COURSE" title="Loading…" />}>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </LmsShell>
     );
   }
 
   if (!course) return null;
 
+  const header = (
+    <>
+      <ShellTitle label="COURSE" title={course.title} />
+      <div className="hidden flex-none items-center gap-3 sm:flex">
+        <div style={{ width: 120, height: 6, borderRadius: 999, background: "#eef1f6", overflow: "hidden" }}>
+          <div style={{ height: "100%", width: `${progressPercent}%`, background: "#3434ff", borderRadius: 999 }} />
+        </div>
+        <div className="text-[13px] font-bold text-[#69697b]">{progressPercent}%</div>
+      </div>
+    </>
+  );
+
   return (
-    <div className="min-h-screen bg-[#f5f7fa]">
-      <LearnHeader email={user?.email} />
-
-      {/* Hero */}
-      <div style={{ background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)" }} className="px-4 py-10 text-white md:py-12">
-        <div className="mx-auto max-w-4xl">
-          <Link to="/learn" className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white">
-            <ArrowLeft className="h-4 w-4" /> Back to My Learning
-          </Link>
-
+    <LmsShell profile={profile} active="learning" header={header}>
+      {/* Course heading */}
+      <div className="mx-auto max-w-4xl px-4 pt-8 md:px-7 md:pt-10">
+        <Link to="/learn?view=learning" className="mb-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#69697b] hover:text-[#0b0b2c]">
+          <ArrowLeft className="h-4 w-4" /> My learning
+        </Link>
+        <div className="rounded-[20px] border border-[#e2e8f0] bg-white p-6 md:p-8">
           {preview && (
-            <div className="mb-4 inline-block rounded-md bg-white/15 px-3 py-1 text-xs font-semibold text-white">Admin preview — not enrolled, progress isn't recorded</div>
+            <div className="mb-4 inline-block rounded-md bg-[#fff7e6] px-3 py-1 text-xs font-semibold text-[#8a5a00]">Admin preview — not enrolled, progress isn't recorded</div>
           )}
-          <h1 className="text-3xl font-extrabold tracking-tight text-white md:text-4xl">{course.title}</h1>
-          {course.description && <p className="mt-3 max-w-2xl text-white/70">{course.description}</p>}
+          <div className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">COURSE</div>
+          <h1 className="mt-2 text-[28px] font-bold leading-tight text-[#0b0b2c] md:text-[34px]" style={{ textWrap: "balance" } as React.CSSProperties}>{course.title}</h1>
+          {course.description && <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[#69697b]">{course.description}</p>}
 
-          <div className="mt-8 max-w-md">
-            <div className="mb-1.5 flex justify-between text-sm text-white/60">
+          <div className="mt-6 max-w-md">
+            <div className="mb-1.5 flex justify-between text-sm text-[#69697b]">
               <span>{completedCount} of {allLessons.length} lessons complete</span>
-              <span className="font-semibold text-white">{progressPercent}%</span>
+              <span className="font-bold text-[#0b0b2c]">{progressPercent}%</span>
             </div>
-            <Progress value={progressPercent} className="h-2.5 bg-white/10" />
+            <Progress value={progressPercent} className="h-2.5 bg-[#eef1f6]" />
           </div>
 
-          {certificateUrl && (
-            <a href={certificateUrl} target="_blank" rel="noopener noreferrer" className="mt-6 mr-3 inline-flex h-12 items-center gap-2 rounded-md bg-[#a6e21a] px-6 text-base font-semibold text-[#0b0b2c]">
-              <Award className="h-5 w-5" /> View certificate
-            </a>
-          )}
-          {nextLesson && (
-            <Button
-              className="mt-6 h-12 px-6 text-base font-semibold"
-              onClick={() => navigate(`/learn/${course.slug}/lesson/${nextLesson.id}`)}
-            >
-              <PlayCircle className="mr-2 h-5 w-5" />
-              {completedCount === 0 ? "Start course" : "Continue learning"}
-            </Button>
-          )}
+          <div className="mt-6 flex flex-wrap gap-3">
+            {nextLesson && (
+              <Button className="h-12 px-6 text-base font-semibold" onClick={() => navigate(`/learn/${course.slug}/lesson/${nextLesson.id}`)}>
+                <PlayCircle className="mr-2 h-5 w-5" />
+                {completedCount === 0 ? "Start course" : "Continue learning"}
+              </Button>
+            )}
+            {certificateUrl && (
+              <a href={certificateUrl} target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center gap-2 rounded-md bg-[#a6e21a] px-6 text-base font-semibold text-[#0b0b2c]">
+                <Award className="h-5 w-5" /> View certificate
+              </a>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Curriculum */}
-      <main className="mx-auto max-w-4xl px-4 py-10">
+      <main className="mx-auto max-w-4xl px-4 py-8 md:px-7">
         <div className="space-y-8">
           {modules.length === 0 && (
             <p className="text-[#69697b]">This course has no content yet.</p>
@@ -284,7 +297,7 @@ const CourseView = () => {
           )}
         </div>
       </main>
-    </div>
+    </LmsShell>
   );
 };
 

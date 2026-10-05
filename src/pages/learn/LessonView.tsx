@@ -12,7 +12,8 @@ import { QuizDialog } from "@/components/learn/QuizDialog";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
 import { courseOrder, lockedLessonIds, isVideoLesson, minWatchPercent, recordWatch, completeLesson, lockMessage } from "@/lib/progress";
 import { TrackedVideo, TrackedYouTube, TrackedVimeo, youTubeId, isVimeo, isDirectVideoUrl, type WatchSample } from "@/components/learn/TrackedPlayer";
-import brandMarkBlue from "@/assets/brand-mark-blue.png";
+import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
+import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 
 const TABS = ["overview", "transcript", "resources", "comments"] as const;
 type Tab = (typeof TABS)[number];
@@ -22,6 +23,7 @@ interface LessonComment { id: string; user_id: string; author_name: string; body
 const LessonView = () => {
   const { courseSlug, lessonId } = useParams();
   const { user } = useAuthUser();
+  const { profile } = useLmsProfile();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -30,7 +32,7 @@ const LessonView = () => {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [activeTab, setActiveTab] = useState<Tab>("overview");
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1180);
   const [saving, setSaving] = useState(false);
   const [captions, setCaptions] = useState(false);
 
@@ -56,7 +58,7 @@ const LessonView = () => {
   const [posting, setPosting] = useState(false);
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 1024);
+    const onResize = () => setIsMobile(window.innerWidth < 1180);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -319,9 +321,11 @@ const LessonView = () => {
 
   if (loading || !lesson || !course) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f7fa" }}>
-        <Loader2 size={30} className="animate-spin" color="#3434ff" />
-      </div>
+      <LmsShell profile={profile} active="learning" header={<ShellTitle label="LESSON" title="Loading…" />}>
+        <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader2 size={30} className="animate-spin" color="#3434ff" />
+        </div>
+      </LmsShell>
     );
   }
 
@@ -340,29 +344,27 @@ const LessonView = () => {
     : null;
   const courseProgress = orderedLessons.length ? Math.round((orderedLessons.filter((l) => completed.has(l.id)).length / orderedLessons.length) * 100) : 0;
 
-  return (
-    <div style={{ minHeight: "100vh", background: "#f5f7fa", color: "#0b0b2c", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      {/* Hero */}
-      <div style={{ background: "linear-gradient(135deg, #3434ff 0%, #2a2ad6 100%)", color: "white", padding: isMobile ? "24px 16px" : "36px 24px" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
-            <img src={brandMarkBlue} alt="SafetyTech Academy" style={{ height: "34px", filter: "brightness(0) invert(1)" }} />
-            <span style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", opacity: 0.85, textTransform: "uppercase" }}>SafetyTech Academy</span>
-          </div>
-          <h1 style={{ margin: "0 0 8px 0", fontSize: isMobile ? "28px" : "38px", fontWeight: 700, lineHeight: 1.2, color: "#fff" }}>{course.title}</h1>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", maxWidth: "420px" }}>
-            <div style={{ flex: 1, height: "6px", background: "rgba(255,255,255,0.25)", borderRadius: "999px", overflow: "hidden" }}>
-              <div style={{ width: `${courseProgress}%`, height: "100%", background: "#a6e21a" }} />
-            </div>
-            <span style={{ fontSize: "13px", fontWeight: 700 }}>{courseProgress}%</span>
-          </div>
+  const header = (
+    <>
+      <ShellTitle label={(currentModule?.title ?? "LESSON").toUpperCase()} title={lesson.title} />
+      <div className="hidden flex-none items-center gap-3 md:flex" title={`${courseProgress}% of ${course.title}`}>
+        <div style={{ width: 120, height: 6, borderRadius: 999, background: "#eef1f6", overflow: "hidden" }}>
+          <div style={{ height: "100%", width: `${courseProgress}%`, background: "#3434ff", borderRadius: 999 }} />
         </div>
+        <div className="text-[13px] font-bold text-[#69697b]">{courseProgress}%</div>
       </div>
+    </>
+  );
 
+  return (
+    <LmsShell profile={profile} active="learning" header={header}>
+    <div style={{ color: "#0b0b2c" }}>
       {/* Breadcrumb */}
-      <div style={{ background: "white", borderBottom: "1px solid #e2e8f0", padding: "12px 24px" }}>
+      <div style={{ padding: isMobile ? "14px 16px 0" : "22px 24px 0" }}>
         <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#69697b", flexWrap: "wrap" }}>
-          <Link to="/learn" style={{ color: "#3434ff", fontWeight: 500, textDecoration: "none" }}>My Learning</Link>
+          <Link to="/learn?view=learning" style={{ color: "#3434ff", fontWeight: 600, textDecoration: "none" }}>My learning</Link>
+          <ChevronRight size={16} />
+          <Link to={`/learn/${courseSlug}`} style={{ color: "#69697b", textDecoration: "none" }}>{course.title}</Link>
           <ChevronRight size={16} />
           <Link to={`/learn/${courseSlug}`} style={{ color: "#69697b", textDecoration: "none" }}>{currentModule?.title}</Link>
           <ChevronRight size={16} />
@@ -370,7 +372,7 @@ const LessonView = () => {
         </div>
       </div>
 
-      <div style={{ maxWidth: "1400px", margin: "0 auto", padding: isMobile ? "16px" : "32px 24px", display: isMobile ? "block" : "grid", gridTemplateColumns: "1fr 320px", gap: "32px" }}>
+      <div style={{ maxWidth: "1400px", margin: "0 auto", padding: isMobile ? "14px 16px 32px" : "18px 24px 48px", display: isMobile ? "block" : "grid", gridTemplateColumns: "minmax(0,1fr) 320px", gap: "32px" }}>
         <div>
           {/* Main content: uploaded file first, then embed link, else placeholder */}
           {lesson.media_path ? (
@@ -587,6 +589,7 @@ const LessonView = () => {
         )}
       </div>
     </div>
+    </LmsShell>
   );
 };
 

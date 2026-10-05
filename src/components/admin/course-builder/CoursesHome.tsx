@@ -75,12 +75,10 @@ export const CoursesHome = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f7fa] font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c]">
+    <div className="min-h-[calc(100vh-72px)] font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c]">
       <header className="border-b border-[#e2e8f0] bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
-          <button onClick={() => navigate("/learn")} className="inline-flex items-center gap-2 text-sm font-medium text-[#69697b] hover:text-[#0b0b2c]">
-            <ArrowLeft className="h-4 w-4" /> Back to LMS
-          </button>
+          <h1 className="text-xl font-bold">Courses</h1>
           <button
             onClick={() => { setNewTitle(""); setCreating(true); }}
             className="inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#2a2ad6] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#3434ff]/25"

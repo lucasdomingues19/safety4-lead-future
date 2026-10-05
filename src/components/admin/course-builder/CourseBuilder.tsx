@@ -289,7 +289,7 @@ export const CourseBuilder = ({ courseId }: { courseId: string }) => {
 
   // ---------- render ----------
   if (loading || !course) {
-    return <div className="flex min-h-screen items-center justify-center bg-[#f5f7fa]"><Loader2 className="h-7 w-7 animate-spin text-[#3434ff]" /></div>;
+    return <div className="flex min-h-[calc(100vh-72px)] items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-[#3434ff]" /></div>;
   }
 
   const selectedLesson = selection?.kind === "lesson" ? lessons.find((l) => l.id === selection.id) : undefined;
@@ -308,9 +308,9 @@ export const CourseBuilder = ({ courseId }: { courseId: string }) => {
   );
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f5f7fa] font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c]">
+    <div className="flex min-h-[calc(100vh-72px)] flex-col bg-[#f5f7fa] font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c]">
       {/* Top bar */}
-      <header className="sticky top-0 z-30 border-b border-[#e2e8f0] bg-white">
+      <header className="sticky top-[72px] z-[19] border-b border-[#e2e8f0] bg-white">
         <div className="flex h-16 items-center gap-3 px-4 md:px-6">
           <button onClick={async () => { await saver.flush(); navigate("/admin/courses"); }} className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-[#69697b] hover:bg-[#f5f7fa] hover:text-[#0b0b2c]">
             <ArrowLeft className="h-4 w-4" /> Courses
@@ -349,7 +349,7 @@ export const CourseBuilder = ({ courseId }: { courseId: string }) => {
       ) : (
         <div className="flex flex-1 flex-col lg:flex-row">
           {/* Outline */}
-          <aside className="border-b border-[#e2e8f0] bg-white lg:sticky lg:top-[105px] lg:h-[calc(100vh-105px)] lg:w-[340px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
+          <aside className="border-b border-[#e2e8f0] bg-white lg:sticky lg:top-[177px] lg:h-[calc(100vh-177px)] lg:w-[340px] lg:shrink-0 lg:overflow-y-auto lg:border-b-0 lg:border-r">
             <div className="flex items-center justify-between px-4 pb-2 pt-4">
               <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Outline</span>
               <DropdownMenu>
