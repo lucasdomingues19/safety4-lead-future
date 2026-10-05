@@ -112,7 +112,8 @@ const REPORTS = [
   { key: "purchases", title: "Purchases", desc: "Every course payment with amount, status and Stripe reference.", run: purchases },
 ];
 
-export function LmsAdminReports() {
+/** CSV downloads (the "Exports" tab of Reports). */
+export function ReportsExports() {
   const [busy, setBusy] = useState<string | null>(null);
 
   const download = async (r: (typeof REPORTS)[number]) => {
@@ -131,7 +132,7 @@ export function LmsAdminReports() {
   };
 
   return (
-    <div style={{ marginTop: 28, fontFamily: adminFont }}>
+    <div style={{ fontFamily: adminFont }}>
       <div style={panel}>
         <PanelHeader title="Reports" sub="Live data, exported as CSV for Excel or Google Sheets." />
         {REPORTS.map((r, i) => (

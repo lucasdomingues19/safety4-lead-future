@@ -19,7 +19,7 @@ const LmsAdminOverview = React.lazy(() => import("@/components/learn/admin/LmsAd
 const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdminUsers").then(m => ({ default: m.LmsAdminUsers })));
 const LmsAdminAccess = React.lazy(() => import("@/components/learn/admin/LmsAdminAccess").then(m => ({ default: m.LmsAdminAccess })));
 const LmsAdminEmails = React.lazy(() => import("@/components/learn/admin/LmsAdminEmails").then(m => ({ default: m.LmsAdminEmails })));
-const LmsAdminReports = React.lazy(() => import("@/components/learn/admin/LmsAdminReports").then(m => ({ default: m.LmsAdminReports })));
+const LmsAdminReports = React.lazy(() => import("@/components/learn/admin/reports/ReportsHub").then(m => ({ default: m.LmsAdminReports })));
 const LmsAdminBilling = React.lazy(() => import("@/components/learn/admin/LmsAdminBilling").then(m => ({ default: m.LmsAdminBilling })));
 const LmsAdminCommunity = React.lazy(() => import("@/components/learn/admin/LmsAdminCommunity").then(m => ({ default: m.LmsAdminCommunity })));
 
@@ -98,7 +98,7 @@ export default function LmsInterface() {
           users: { title: "People", sub: "Everyone on the platform and what they can access.", el: <LmsAdminUsers /> },
           access: { title: "Access", sub: "Who has each course, and until when.", el: <LmsAdminAccess /> },
           emails: { title: "Emails", sub: "Automatic emails to learners, and announcements you send yourself.", el: <LmsAdminEmails /> },
-          reports: { title: "Reports", sub: "Export live data to Excel or Google Sheets.", el: <LmsAdminReports /> },
+          reports: { title: "Reports", sub: "How learners are progressing — dashboards, learner tracking and quiz analytics, with exports.", el: <LmsAdminReports /> },
           billing: { title: "Billing", sub: "Payments and Stripe connection status.", el: <LmsAdminBilling /> },
           community: { title: "Moderation", sub: "Review and remove community content.", el: <LmsAdminCommunity /> },
         };
