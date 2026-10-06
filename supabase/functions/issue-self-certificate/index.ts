@@ -49,6 +49,7 @@ const buildEmailHtml = (cert: {
         </td></tr>
         <tr><td style="padding:22px 40px 34px;text-align:center;">
           <a href="${verifyUrl}" style="display:inline-block;background:${BRAND_LIME};color:${BRAND_NAVY};padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">View &amp; Download Your Certificate</a>
+          <p style="margin:18px 0 0;font-size:13px;color:#475569;line-height:1.6;">Enjoyed the course? A short Google review helps other safety professionals find us: <a href="https://g.page/r/CaJFIuivG8u-EAE/review" style="color:#3434ff;font-weight:700;">leave a review</a>.</p>
         </td></tr>
         <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;">
           <p style="margin:0;color:#94a3b8;font-size:11px;">© SafetyTech Academy · approved training provider by IOSH · www.safetytech.academy</p>

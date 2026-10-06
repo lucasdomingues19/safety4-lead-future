@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Award, BookOpen, CheckCircle2, Clock, ExternalLink, ListChecks, Loader2, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
+import { BuySeatsDialog } from "@/components/learn/BuySeatsDialog";
 import { courseMeta, linkedInPostText, linkedInPostUrl } from "@/lib/courseMeta";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { loadMyCourses, type CatalogCourse, type CourseProgress, type MyCertificate } from "@/lib/myCourses";
@@ -31,6 +32,7 @@ export function LmsMyLearning({ onNavigate }: { onNavigate?: (screen: string) =>
   const [catalog, setCatalog] = useState<CatalogCourse[]>([]);
   const [certs, setCerts] = useState<MyCertificate[]>([]);
   const [filter, setFilter] = useState<Filter>("all");
+  const [buyingSeats, setBuyingSeats] = useState(false);
 
   const load = useCallback(async () => {
     if (!user) return;
@@ -67,7 +69,11 @@ export function LmsMyLearning({ onNavigate }: { onNavigate?: (screen: string) =>
     <div className="min-h-screen bg-[#eef1f6] px-4 pb-20 pt-10 font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c] md:px-7">
       <div className="mx-auto max-w-[1100px]">
         <p className="text-[13px] font-extrabold tracking-[0.12em] text-[#8ab815]">MY LEARNING</p>
-        <h1 className="mt-3 text-[34px] font-bold leading-tight md:text-[38px]">Your courses</h1>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-[34px] font-bold leading-tight md:text-[38px]">Your courses</h1>
+          <button onClick={() => setBuyingSeats(true)} className="rounded-lg border border-[#e2e8f0] bg-white px-4 py-2.5 text-[13.5px] font-bold hover:border-[#c7cdf9]">Training a team? Buy seats</button>
+        </div>
+        {buyingSeats && <BuySeatsDialog onClose={() => setBuyingSeats(false)} />}
         <p className="mt-2 text-[16px] text-[#69697b]">
           {courses.length === 0 ? "You're not enrolled in a course yet." : `${counts.in_progress} in progress · ${counts.completed} completed${cpdEarned ? ` · ${cpdEarned} CPD hours earned` : ""}`}
         </p>

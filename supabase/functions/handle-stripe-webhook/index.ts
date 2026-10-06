@@ -1,11 +1,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { recordCoursePurchase } from "../_shared/purchases.ts";
+import { recordCoursePurchase, recordPurchase } from "../_shared/purchases.ts";
+import { fulfilBundle, fulfilTeamPurchase } from "../_shared/teams.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 // Stripe webhook (backup to confirm-course-checkout).
 // Point the Stripe endpoint at .../functions/v1/handle-stripe-webhook and
 // subscribe to: checkout.session.completed, checkout.session.async_payment_succeeded,
-// charge.refunded. Requires verify_jwt = false (Stripe sends no Supabase JWT).
+// charge.refunded, invoice.paid (company seat invoices). Requires verify_jwt = false (Stripe sends no Supabase JWT).
 
 const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET");
 const TOLERANCE_SECONDS = 300;
@@ -57,7 +58,27 @@ serve(async (req) => {
       case "checkout.session.completed":
       case "checkout.session.async_payment_succeeded": {
         const session = event.data.object;
-        const { course_id, user_id } = session.metadata ?? {};
+        const meta = session.metadata ?? {};
+        if (meta.kind === "team") {
+          if (session.payment_status !== "paid") break;
+          const r = await fulfilTeamPurchase(db, {
+            ref: session.id, buyerId: meta.user_id, courseId: meta.course_id, seats: Number(meta.seats), accessDays: Number(meta.access_days) > 0 ? Number(meta.access_days) : null,
+            amountCents: session.amount_total ?? 0, source: "card", orgId: meta.org_id ?? null, orgName: meta.org_name ?? null,
+          });
+          const { data: tc } = await db.from("courses").select("title").eq("id", meta.course_id).maybeSingle();
+          await recordPurchase(db, session.id, { userId: meta.user_id, courseId: meta.course_id, organisationId: r.orgId, quantity: Number(meta.seats), title: `${tc?.title ?? "Course"} (team seats)` });
+          console.log("Team seats granted via webhook", { ref: session.id, granted: r.granted });
+          break;
+        }
+        if (meta.kind === "bundle") {
+          if (session.payment_status !== "paid") break;
+          const n = await fulfilBundle(db, meta.user_id, meta.bundle_id);
+          const { data: bd } = await db.from("bundles").select("title").eq("id", meta.bundle_id).maybeSingle();
+          await recordPurchase(db, session.id, { userId: meta.user_id, bundleId: meta.bundle_id, title: `${bd?.title ?? "Bundle"} (bundle)` });
+          console.log("Bundle granted via webhook", { bundle: meta.bundle_id, enrolments: n });
+          break;
+        }
+        const { course_id, user_id } = meta;
         if (!course_id || !user_id) {
           console.log("Ignoring checkout session without course metadata", session.id);
           break;
@@ -73,6 +94,20 @@ serve(async (req) => {
         if (error) throw error;
         await recordCoursePurchase(db, session.id, user_id, course_id);
         console.log("Enrolled via webhook", { user_id, course_id });
+        break;
+      }
+      case "invoice.paid": {
+        // Company seat invoices raised from admin carry metadata.kind = "team".
+        const inv = event.data.object;
+        const m = inv.metadata ?? {};
+        if (m.kind !== "team") break;
+        const amount = inv.amount_paid ?? inv.total ?? 0;
+        await db.from("team_invoices").update({ status: "paid", paid_at: new Date().toISOString() }).eq("stripe_invoice_id", inv.id);
+        const r = await fulfilTeamPurchase(db, {
+          ref: inv.id, buyerId: m.created_by, courseId: m.course_id, seats: Number(m.seats), accessDays: Number(m.access_days) > 0 ? Number(m.access_days) : null,
+          amountCents: amount, source: "invoice", orgId: m.org_id, note: inv.number ? `Invoice ${inv.number}` : undefined,
+        });
+        console.log("Team seats granted from invoice", { invoice: inv.id, granted: r.granted });
         break;
       }
       case "charge.refunded": {

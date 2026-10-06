@@ -4,6 +4,9 @@ import badgeSafety4 from "@/assets/safety-4.0-badge-cert.png";
 
 const SITE = "https://www.safetytech.academy";
 
+/** Where we ask happy learners to leave a review. */
+export const GOOGLE_REVIEW_URL = "https://g.page/r/CaJFIuivG8u-EAE/review";
+
 export interface CourseMeta { badge: string | null; landing: string }
 
 /** Badge artwork and public page for a course (matched on its title/slug). */

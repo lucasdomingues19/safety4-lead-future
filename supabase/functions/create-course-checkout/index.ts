@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { stripeRequest } from "../_shared/stripe.ts";
+import { ensureStripeProduct } from "../_shared/catalog.ts";
 
 // Creates a one-time Stripe Checkout Session for a course. The price, the
 // buyer and the course are all resolved server-side — nothing in the request
@@ -29,7 +30,7 @@ serve(async (req) => {
 
     const { data: course } = await db
       .from("courses")
-      .select("id, title, slug, description, price_cents, currency, published")
+      .select("id, title, slug, description, price_cents, currency, published, stripe_product_id")
       .eq("id", course_id)
       .maybeSingle();
     if (!course || !course.published) return json({ error: "Course not available" }, 404);
@@ -44,6 +45,9 @@ serve(async (req) => {
     // include VAT) or "exclusive" (VAT is added on top) switches on automatic calculation.
     const taxMode = ["inclusive", "exclusive"].includes(Deno.env.get("STRIPE_TAX_MODE") ?? "") ? Deno.env.get("STRIPE_TAX_MODE")! : null;
 
+    // A Stripe Product per course lets a discount code be limited to this course.
+    const productId = await ensureStripeProduct(db, "courses", course);
+
     const base: Record<string, string> = {
       mode: "payment",
       customer_email: user.email,
@@ -51,8 +55,10 @@ serve(async (req) => {
       "line_items[0][quantity]": "1",
       "line_items[0][price_data][currency]": (course.currency || "GBP").toLowerCase(),
       "line_items[0][price_data][unit_amount]": String(course.price_cents),
-      "line_items[0][price_data][product_data][name]": course.title,
-      ...(course.description ? { "line_items[0][price_data][product_data][description]": course.description.slice(0, 500) } : {}),
+      ...(productId
+        ? { "line_items[0][price_data][product]": productId }
+        : { "line_items[0][price_data][product_data][name]": course.title,
+            ...(course.description ? { "line_items[0][price_data][product_data][description]": course.description.slice(0, 500) } : {}) }),
       "metadata[course_id]": course.id,
       "metadata[user_id]": user.id,
       "payment_intent_data[metadata][course_id]": course.id,

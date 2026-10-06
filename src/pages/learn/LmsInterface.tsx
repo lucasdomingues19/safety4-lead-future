@@ -15,6 +15,8 @@ const LmsDashboard = React.lazy(() => import("@/components/learn/LmsDashboard").
 const LmsCommunity = React.lazy(() => import("@/components/learn/LmsCommunity").then(m => ({ default: m.LmsCommunity })));
 const LmsSettings = React.lazy(() => import("@/components/learn/LmsSettings").then(m => ({ default: m.LmsSettings })));
 const LmsMyLearning = React.lazy(() => import("@/components/learn/LmsMyLearning").then(m => ({ default: m.LmsMyLearning })));
+const LmsTeam = React.lazy(() => import("@/components/learn/LmsTeam").then(m => ({ default: m.LmsTeam })));
+const LmsAdminTeams = React.lazy(() => import("@/components/learn/admin/LmsAdminTeams").then(m => ({ default: m.LmsAdminTeams })));
 const LmsSupport = React.lazy(() => import("@/components/learn/LmsSupport").then(m => ({ default: m.LmsSupport })));
 const LmsAdminOverview = React.lazy(() => import("@/components/learn/admin/LmsAdminOverview").then(m => ({ default: m.LmsAdminOverview })));
 const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdminUsers").then(m => ({ default: m.LmsAdminUsers })));
@@ -87,6 +89,7 @@ export default function LmsInterface() {
     const content = (() => {
       if (screen === "dash") return <LmsDashboard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse} onNavigate={handleNavigation} />;
       if (screen === "learning") return <LmsMyLearning onNavigate={handleNavigation} />;
+      if (screen === "team") return <LmsTeam />;
       if (screen === "community") return <LmsCommunity />;
       if (screen === "settings") return <LmsSettings />;
       if (screen === "support") return <LmsSupport onStartTour={() => setTourOpen(true)} />;
@@ -98,6 +101,7 @@ export default function LmsInterface() {
           overview: { title: "Overview", sub: "How your academy is doing at a glance.", el: <LmsAdminOverview /> },
           users: { title: "People", sub: "Everyone on the platform and what they can access.", el: <LmsAdminUsers /> },
           access: { title: "Access", sub: "Who has each course, and until when.", el: <LmsAdminAccess /> },
+          teams: { title: "Teams", sub: "Companies, their seats, and invoices for team purchases.", el: <LmsAdminTeams /> },
           emails: { title: "Emails", sub: "Automatic emails to learners, and announcements you send yourself.", el: <LmsAdminEmails /> },
           reports: { title: "Reports", sub: "How learners are progressing — dashboards, learner tracking and quiz analytics, with exports.", el: <LmsAdminReports /> },
           billing: { title: "Billing", sub: "Payments and Stripe connection status.", el: <LmsAdminBilling /> },
@@ -222,9 +226,9 @@ export default function LmsInterface() {
 // A screen whose code was replaced by a newer deploy while the tab stayed open
 // fails to load its chunk; reloading once fixes it for good.
 
-const LEARNER_SCREENS = ["dash", "learning", "community", "settings", "support"] as const;
+const LEARNER_SCREENS = ["dash", "learning", "team", "community", "settings", "support"] as const;
 type LearnerScreen = (typeof LEARNER_SCREENS)[number];
-const ADMIN_TABS = ["overview", "courses", "users", "access", "emails", "reports", "billing", "community"] as const;
+const ADMIN_TABS = ["overview", "courses", "users", "access", "teams", "emails", "reports", "billing", "community"] as const;
 type AdminTab = (typeof ADMIN_TABS)[number];
 
 const STALE_CHUNK = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|ChunkLoadError|Loading chunk \S+ failed/i;

@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, X } from "lucide-react";
+import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, Building2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import brandMarkWhite from "@/assets/brand-mark-white.png";
 import { NotificationBell } from "./NotificationBell";
@@ -8,7 +8,7 @@ import { LmsSearch } from "./LmsSearch";
 import type { LmsProfile } from "./useLmsProfile";
 
 /** Which nav item is highlighted: a learner screen, or `admin-<tab>`. */
-export type ShellActive = "dash" | "learning" | "community" | "settings" | "support" | `admin-${string}` | null;
+export type ShellActive = "dash" | "learning" | "team" | "community" | "settings" | "support" | `admin-${string}` | null;
 
 const RAIL_KEY = "lms-rail-open";
 const readRail = () => {
@@ -91,6 +91,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
           <div data-tour="nav" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <NavButton icon={<Home size={19} />} label="Dashboard" active={isActive("dash")} onClick={() => go("dash")} open={open} />
             <NavButton icon={<GraduationCap size={19} />} label="My learning" active={isActive("learning")} onClick={() => go("learning")} open={open} />
+            {(profile?.managedOrgs?.length ?? 0) > 0 && <NavButton icon={<Building2 size={19} />} label="My team" active={isActive("team")} onClick={() => go("team")} open={open} />}
             <NavButton icon={<Users size={19} />} label="Community" active={isActive("community")} onClick={() => go("community")} open={open} />
             <NavButton icon={<Settings size={19} />} label="Settings" active={isActive("settings")} onClick={() => go("settings")} open={open} />
             <NavButton icon={<Sparkles size={19} />} label="Take the tour" active={false} onClick={startTour} open={open} />
@@ -105,6 +106,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
               <NavButton icon={<BookOpen size={19} />} label="Courses" active={isActive("admin-courses")} onClick={() => { setMenuOpen(false); navigate("/admin/courses"); }} open={open} />
               <NavButton icon={<Users size={19} />} label="Users" active={isActive("admin-users")} onClick={() => go("admin:users")} open={open} />
               <NavButton icon={<Award size={19} />} label="Access" active={isActive("admin-access")} onClick={() => go("admin:access")} open={open} />
+              <NavButton icon={<Building2 size={19} />} label="Teams" active={isActive("admin-teams")} onClick={() => go("admin:teams")} open={open} />
               <NavButton icon={<Mail size={19} />} label="Emails" active={isActive("admin-emails")} onClick={() => go("admin:emails")} open={open} />
               <NavButton icon={<BarChart3 size={19} />} label="Reports" active={isActive("admin-reports")} onClick={() => go("admin:reports")} open={open} />
               <NavButton icon={<CreditCard size={19} />} label="Billing" active={isActive("admin-billing")} onClick={() => go("admin:billing")} open={open} />

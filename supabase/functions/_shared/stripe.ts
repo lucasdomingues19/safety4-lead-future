@@ -8,7 +8,7 @@ export function stripeKey(): string {
 }
 
 export async function stripeRequest<T = Record<string, unknown>>(
-  method: "GET" | "POST",
+  method: "GET" | "POST" | "DELETE",
   path: string,
   params?: Record<string, string>,
   opts?: { version?: string },

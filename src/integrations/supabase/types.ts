@@ -96,6 +96,81 @@ export type Database = {
         }
         Relationships: []
       }
+      bundle_courses: {
+        Row: {
+          bundle_id: string
+          course_id: string
+          position: number
+        }
+        Insert: {
+          bundle_id: string
+          course_id: string
+          position?: number
+        }
+        Update: {
+          bundle_id?: string
+          course_id?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bundle_courses_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "bundles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bundle_courses_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bundles: {
+        Row: {
+          cover_image_url: string | null
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          price_cents: number
+          published: boolean
+          slug: string
+          stripe_product_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          cover_image_url?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          price_cents: number
+          published?: boolean
+          slug: string
+          stripe_product_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          cover_image_url?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          price_cents?: number
+          published?: boolean
+          slug?: string
+          stripe_product_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           certificate_number: string
@@ -547,6 +622,7 @@ export type Database = {
       course_purchases: {
         Row: {
           amount_cents: number
+          bundle_id: string | null
           course_id: string | null
           course_title: string
           currency: string
@@ -554,8 +630,14 @@ export type Database = {
           customer_country: string | null
           customer_name: string | null
           customer_vat_id: string | null
+          discount_cents: number
           id: string
+          invoice_pdf: string | null
+          invoice_url: string | null
+          organisation_id: string | null
+          promo_code: string | null
           purchased_at: string
+          quantity: number
           receipt_url: string | null
           status: string
           stripe_payment_intent: string | null
@@ -565,6 +647,7 @@ export type Database = {
         }
         Insert: {
           amount_cents: number
+          bundle_id?: string | null
           course_id?: string | null
           course_title: string
           currency: string
@@ -572,8 +655,14 @@ export type Database = {
           customer_country?: string | null
           customer_name?: string | null
           customer_vat_id?: string | null
+          discount_cents?: number
           id?: string
+          invoice_pdf?: string | null
+          invoice_url?: string | null
+          organisation_id?: string | null
+          promo_code?: string | null
           purchased_at?: string
+          quantity?: number
           receipt_url?: string | null
           status?: string
           stripe_payment_intent?: string | null
@@ -583,6 +672,7 @@ export type Database = {
         }
         Update: {
           amount_cents?: number
+          bundle_id?: string | null
           course_id?: string | null
           course_title?: string
           currency?: string
@@ -590,8 +680,14 @@ export type Database = {
           customer_country?: string | null
           customer_name?: string | null
           customer_vat_id?: string | null
+          discount_cents?: number
           id?: string
+          invoice_pdf?: string | null
+          invoice_url?: string | null
+          organisation_id?: string | null
+          promo_code?: string | null
           purchased_at?: string
+          quantity?: number
           receipt_url?: string | null
           status?: string
           stripe_payment_intent?: string | null
@@ -601,10 +697,24 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "course_purchases_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "bundles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "course_purchases_course_id_fkey"
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "course_purchases_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
             referencedColumns: ["id"]
           },
         ]
@@ -622,6 +732,9 @@ export type Database = {
           price_cents: number
           published: boolean
           slug: string
+          stripe_product_id: string | null
+          team_enabled: boolean
+          team_tiers: Json
           title: string
           updated_at: string
         }
@@ -637,6 +750,9 @@ export type Database = {
           price_cents?: number
           published?: boolean
           slug: string
+          stripe_product_id?: string | null
+          team_enabled?: boolean
+          team_tiers?: Json
           title: string
           updated_at?: string
         }
@@ -652,6 +768,9 @@ export type Database = {
           price_cents?: number
           published?: boolean
           slug?: string
+          stripe_product_id?: string | null
+          team_enabled?: boolean
+          team_tiers?: Json
           title?: string
           updated_at?: string
         }
@@ -749,6 +868,7 @@ export type Database = {
           enrolled_at: string
           expires_at: string | null
           id: string
+          organisation_id: string | null
           status: string
           stripe_subscription_id: string | null
           updated_at: string
@@ -761,6 +881,7 @@ export type Database = {
           enrolled_at?: string
           expires_at?: string | null
           id?: string
+          organisation_id?: string | null
           status?: string
           stripe_subscription_id?: string | null
           updated_at?: string
@@ -773,6 +894,7 @@ export type Database = {
           enrolled_at?: string
           expires_at?: string | null
           id?: string
+          organisation_id?: string | null
           status?: string
           stripe_subscription_id?: string | null
           updated_at?: string
@@ -784,6 +906,13 @@ export type Database = {
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enrollments_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
             referencedColumns: ["id"]
           },
         ]
@@ -1280,6 +1409,125 @@ export type Database = {
         }
         Relationships: []
       }
+      organisation_members: {
+        Row: {
+          created_at: string
+          organisation_id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          organisation_id: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          organisation_id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organisation_members_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organisation_seats: {
+        Row: {
+          access_days: number | null
+          amount_cents: number | null
+          course_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          id: string
+          note: string | null
+          organisation_id: string
+          reference: string | null
+          seats: number
+          source: string
+        }
+        Insert: {
+          access_days?: number | null
+          amount_cents?: number | null
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          note?: string | null
+          organisation_id: string
+          reference?: string | null
+          seats: number
+          source: string
+        }
+        Update: {
+          access_days?: number | null
+          amount_cents?: number | null
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          id?: string
+          note?: string | null
+          organisation_id?: string
+          reference?: string | null
+          seats?: number
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organisation_seats_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organisation_seats_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organisations: {
+        Row: {
+          billing_email: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          stripe_customer_id: string | null
+          vat_id: string | null
+        }
+        Insert: {
+          billing_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          stripe_customer_id?: string | null
+          vat_id?: string | null
+        }
+        Update: {
+          billing_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          stripe_customer_id?: string | null
+          vat_id?: string | null
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           browser: string | null
@@ -1646,6 +1894,78 @@ export type Database = {
         }
         Relationships: []
       }
+      team_invoices: {
+        Row: {
+          access_days: number | null
+          amount_cents: number
+          course_id: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          due_date: string | null
+          hosted_url: string | null
+          number: string | null
+          organisation_id: string
+          paid_at: string | null
+          pdf_url: string | null
+          po_number: string | null
+          seats: number
+          status: string
+          stripe_invoice_id: string
+        }
+        Insert: {
+          access_days?: number | null
+          amount_cents: number
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          due_date?: string | null
+          hosted_url?: string | null
+          number?: string | null
+          organisation_id: string
+          paid_at?: string | null
+          pdf_url?: string | null
+          po_number?: string | null
+          seats: number
+          status?: string
+          stripe_invoice_id: string
+        }
+        Update: {
+          access_days?: number | null
+          amount_cents?: number
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          due_date?: string | null
+          hosted_url?: string | null
+          number?: string | null
+          organisation_id?: string
+          paid_at?: string | null
+          pdf_url?: string | null
+          po_number?: string | null
+          seats?: number
+          status?: string
+          stripe_invoice_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_invoices_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_invoices_organisation_id_fkey"
+            columns: ["organisation_id"]
+            isOneToOne: false
+            referencedRelation: "organisations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_events: {
         Row: {
           created_at: string | null
@@ -1726,6 +2046,7 @@ export type Database = {
           isSetofReturn: true
         }
       }
+      bundle_list_price: { Args: { _bundle: string }; Returns: number }
       can_use_lesson_comments: {
         Args: { _lesson: string; _user: string }
         Returns: boolean
@@ -1763,6 +2084,20 @@ export type Database = {
         }[]
       }
       get_my_gamification: { Args: never; Returns: Json }
+      grant_team_seats: {
+        Args: {
+          _access_days: number
+          _amount: number
+          _by: string
+          _course: string
+          _note: string
+          _org: string
+          _ref: string
+          _seats: number
+          _source: string
+        }
+        Returns: boolean
+      }
       has_community_access: {
         Args: { _space: string; _user: string }
         Returns: boolean
@@ -1778,6 +2113,11 @@ export type Database = {
         Args: { _course_id: string; _user_id: string }
         Returns: boolean
       }
+      is_org_manager: {
+        Args: { _org: string; _user: string }
+        Returns: boolean
+      }
+      is_org_member: { Args: { _org: string; _user: string }; Returns: boolean }
       lesson_lock_reason: {
         Args: { _lesson: string; _user: string }
         Returns: string
@@ -1801,10 +2141,72 @@ export type Database = {
         }
         Returns: undefined
       }
+      org_seat_summary: {
+        Args: { _org: string }
+        Returns: {
+          access_days: number
+          course_id: string
+          course_slug: string
+          course_title: string
+          free: number
+          seats: number
+          used: number
+        }[]
+      }
+      org_team: {
+        Args: { _org: string }
+        Returns: {
+          certified: boolean
+          course_id: string
+          course_title: string
+          email: string
+          enrolled_at: string
+          expires_at: string
+          last_active: string
+          lessons_done: number
+          lessons_total: number
+          name: string
+          role: string
+          signed_in: boolean
+          status: string
+          user_id: string
+        }[]
+      }
       purge_expired_personal_data: { Args: never; Returns: Json }
       record_lesson_watch: {
         Args: { _duration: number; _lesson_id: string; _watched: number }
         Returns: number
+      }
+      search_learning: {
+        Args: { _limit?: number; _q: string }
+        Returns: {
+          course_slug: string
+          course_title: string
+          kind: string
+          lesson_id: string
+          lesson_title: string
+          module_title: string
+          score: number
+          snippet: string
+        }[]
+      }
+      team_assign_seat: {
+        Args: { _course: string; _org: string; _user: string }
+        Returns: string
+      }
+      team_price: {
+        Args: { _course: string; _seats: number }
+        Returns: {
+          currency: string
+          discount_pct: number
+          list_cents: number
+          total_cents: number
+          unit_cents: number
+        }[]
+      }
+      team_remove_seat: {
+        Args: { _course: string; _org: string; _user: string }
+        Returns: string
       }
       user_points: {
         Args: { _user: string }

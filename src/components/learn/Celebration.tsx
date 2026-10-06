@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Award, Check, Copy, ExternalLink, Linkedin, Users, ArrowRight } from "lucide-react";
+import { Award, Check, Copy, ExternalLink, Linkedin, Star, Users, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
-import { courseMeta, linkedInAddToProfileUrl, linkedInPostText, linkedInPostUrl } from "@/lib/courseMeta";
+import { GOOGLE_REVIEW_URL, courseMeta, linkedInAddToProfileUrl, linkedInPostText, linkedInPostUrl } from "@/lib/courseMeta";
 
 const COLORS = ["#9EFF1F", "#3434FF", "#FAFAFA", "#8F8FFF", "#CFCFDB"];
 
@@ -122,6 +122,9 @@ export function CourseCelebration({ open, onClose, courseTitle, slug, verifyUrl,
                 <button type="button" onClick={() => { onClose(); navigate("/learn?view=community"); }} style={nextRow}>
                   <Users size={18} color="#3434ff" /><span style={{ flex: 1, textAlign: "left" }}><strong>Share what you learned</strong><br /><span style={{ fontSize: 12.5, color: "#69697b" }}>Post in the community and help others apply it.</span></span><ArrowRight size={16} />
                 </button>
+                <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" style={{ ...nextRow, textDecoration: "none", color: "inherit" }}>
+                  <Star size={18} color="#f59e0b" /><span style={{ flex: 1, textAlign: "left" }}><strong>Leave us a Google review</strong><br /><span style={{ fontSize: 12.5, color: "#69697b" }}>It takes a minute and helps other safety professionals find us.</span></span><ArrowRight size={16} />
+                </a>
                 {others.map((c) => (
                   <a key={c.id} href={courseMeta(c.title, c.slug).landing} target="_blank" rel="noopener noreferrer" style={{ ...nextRow, textDecoration: "none", color: "inherit" }}>
                     <Award size={18} color="#8ab815" /><span style={{ flex: 1, textAlign: "left" }}><strong>Continue with {c.title}</strong><br /><span style={{ fontSize: 12.5, color: "#69697b" }}>{money(c) ? `${money(c)} · ` : ""}Learn more</span></span><ArrowRight size={16} />
