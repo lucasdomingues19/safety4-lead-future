@@ -168,7 +168,7 @@ function ColumnChart({ data }: { data: { label: string; value: number; tip: stri
   const [hover, setHover] = useState<number | null>(null);
   const max = Math.max(1, ...data.map((d) => d.value));
   const ticks = [max, Math.round(max / 2), 0];
-  const every = Math.ceil(data.length / 8);
+  const every = Math.ceil(data.length / (typeof window !== "undefined" && window.innerWidth < 640 ? 4 : 8));
   return (
     <div style={{ position: "relative" }}>
       <div style={{ display: "flex", gap: 10 }}>
@@ -190,7 +190,7 @@ function ColumnChart({ data }: { data: { label: string; value: number; tip: stri
             )}
           </div>
           <div style={{ display: "flex", gap: 2, marginTop: 6 }}>
-            {data.map((d, i) => <div key={i} style={{ flex: 1, fontSize: 10.5, color: "#94a3b8", textAlign: "center", whiteSpace: "nowrap", overflow: "visible" }}>{i % every === 0 ? d.label : ""}</div>)}
+            {data.map((d, i) => <div key={i} style={{ flex: 1, fontSize: 10.5, color: "#94a3b8", textAlign: "center", whiteSpace: "nowrap", overflow: "visible", transform: i >= data.length - 3 ? "translateX(-45%)" : undefined }}>{i % every === 0 ? d.label : ""}</div>)}
           </div>
         </div>
       </div>
