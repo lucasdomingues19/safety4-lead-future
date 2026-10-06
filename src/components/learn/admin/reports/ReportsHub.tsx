@@ -37,7 +37,7 @@ export function LmsAdminReports() {
   if (!data) return <Spinner />;
 
   return (
-    <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gap: 20 }}>
+    <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 20 }}>
       {/* Filters: one row, apply to every tab */}
       <div style={{ ...panel, padding: "14px 18px", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", overflow: "visible" }}>
         <select aria-label="Course" value={courseId} onChange={(e) => setCourseId(e.target.value)} style={{ ...input, width: "auto", minWidth: 0, maxWidth: "100%", padding: "9px 12px" }}>
@@ -128,7 +128,7 @@ function Dashboard({ data, learners, courseId, since, period }: { data: ReportsD
   for (const c of completions) doneByLesson.set(c.lessonId, (doneByLesson.get(c.lessonId) ?? 0) + 1);
 
   return (
-    <div style={{ display: "grid", gap: 20 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 20 }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(190px, 100%), 1fr))", gap: 16 }}>
         <Kpi label="Learners" value={n} sub={`${newEnrols} new · ${periodLabel}`} />
         <Kpi label="Active learners" value={activeUsers.size} sub={periodLabel} tone={activeUsers.size ? "good" : "default"} />

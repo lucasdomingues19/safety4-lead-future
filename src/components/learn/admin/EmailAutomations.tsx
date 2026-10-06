@@ -92,7 +92,7 @@ export function EmailAutomations() {
   const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 
   return (
-    <div style={{ display: "grid", gap: 24 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 24 }}>
       <div style={panel}>
         <PanelHeader title="Automations" sub="Sent automatically, checked every 15 minutes. Each learner gets each message once. Reminders respect the learner's email preference and include an unsubscribe link." />
         {groups.map((g) => (

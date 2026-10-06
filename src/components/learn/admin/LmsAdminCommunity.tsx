@@ -55,7 +55,7 @@ export function LmsAdminCommunity() {
   );
 
   return (
-    <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gap: 24 }}>
+    <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 24 }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(200px, 100%), 1fr))", gap: 20 }}>
         <Kpi label="Community posts" value={counts.posts} />
         <Kpi label="Community replies" value={counts.replies} />

@@ -68,7 +68,7 @@ function Announcements() {
   if (loading) return <Spinner />;
 
   return (
-    <div style={{ display: "grid", gap: 24 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 24 }}>
       <div style={panel}>
         <PanelHeader title="Send an announcement" sub="Sent from hello@safetytech.academy (replies come to that inbox) with a link back to the learning hub." />
         <div style={{ padding: 28, display: "grid", gap: 16 }}>

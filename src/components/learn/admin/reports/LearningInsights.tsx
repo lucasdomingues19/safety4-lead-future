@@ -22,7 +22,7 @@ export function LearningInsights({ data, learners, courseId }: { data: ReportsDa
       </div>
     );
   }
-  return <div style={{ display: "grid", gap: 20 }}>{sections.map((s) => <Course key={s.courseId} s={s} />)}</div>;
+  return <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 20 }}>{sections.map((s) => <Course key={s.courseId} s={s} />)}</div>;
 }
 
 function Course({ s }: { s: CourseInsights }) {
