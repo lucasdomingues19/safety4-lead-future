@@ -77,6 +77,7 @@ export default function CookiesPolicy() {
 
             <Section title="Analytics (only with your consent)">
               <p>Help us understand which pages are useful. Turned on only if you choose Accept all, or Analytics in Customise.</p>
+              <p>If you don't accept, we still count the visit itself, without any cookie or other storage on your device: the page, your device type and browser, and a one-way scrambled daily code that can't be traced back to you. We don't store your IP address.</p>
               <CookieTable rows={[
                 ["_ga, _ga_*", "Google Analytics (via Google Tag Manager)", "Counts visits and how the site is used", "2 years"],
                 ["analytics_session_id", "SafetyTech Academy", "Groups page views in one visit for our own statistics (session storage)", "Until you close the tab"],

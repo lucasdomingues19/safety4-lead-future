@@ -80,6 +80,7 @@ export default function PrivacyPolicy() {
                   ["Enquiries and free assessments: name, email, phone, company, role and your answers", "Replying to you and preparing proposals", "Legitimate interest"],
                   ["Marketing emails: name and email", "Sending our newsletter and course news. You can unsubscribe at any time", "Consent (or, for customers, our legitimate interest in telling you about similar courses)"],
                   ["Analytics and advertising cookies", "Understanding how the site is used and measuring our ads", "Consent (see our Cookies Policy)"],
+                  ["Basic visit counting without cookies: the page visited, device type, browser and a one-way scrambled code made from your IP address and browser that changes every day and cannot be traced back to you. We don't store your IP address", "Counting how many people visit the site, so we can run it well", "Legitimate interest"],
                   ["Security and error logs: IP address, browser and device details, error reports", "Keeping the service secure and fixing problems", "Legitimate interest"],
                 ]}
               />

@@ -107,8 +107,8 @@ const validateLeadData = (data: any): { valid: boolean; errors: string[] } => {
   // Required: source
   if (!data.source || typeof data.source !== 'string') {
     errors.push('source is required and must be a string');
-  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment', 'cohort-application', 'accelerator-enrol', 'ebook_download', 'newsletter_popup', 'brochure_download', 'governance_readiness', 'event_registration'].includes(data.source)) {
-    errors.push('source must be one of: "assessment", "contact_form", "cohort-pre-enrollment", "cohort-application", "accelerator-enrol", "ebook_download", "newsletter_popup", "brochure_download", "governance_readiness", or "event_registration"');
+  } else if (!['assessment', 'contact_form', 'cohort-pre-enrollment', 'cohort-application', 'accelerator-enrol', 'ebook_download', 'newsletter_popup', 'brochure_download', 'governance_readiness', 'event_registration', 'roi_calculator', 'ehs-assessment'].includes(data.source)) {
+    errors.push('source must be one of: "assessment", "contact_form", "cohort-pre-enrollment", "cohort-application", "accelerator-enrol", "ebook_download", "newsletter_popup", "brochure_download", "governance_readiness", "event_registration", "roi_calculator", or "ehs-assessment"');
   }
 
   return { valid: errors.length === 0, errors };

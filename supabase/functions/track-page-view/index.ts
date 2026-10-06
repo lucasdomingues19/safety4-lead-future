@@ -34,10 +34,12 @@ const validateBotChallenge = (data: any): boolean => {
     console.log('Honeypot triggered, ignoring request');
     return false;
   }
-  // Timing: page must have loaded at least 1 second ago
+  // Timing: the timestamp must be real (not in the future, not older than a week).
+  // There is no minimum age: on a fast connection the first view legitimately
+  // fires well under a second after load, and dropping it undercounted visitors.
   if (data._ts) {
     const elapsed = Date.now() - Number(data._ts);
-    if (elapsed < 1000 || elapsed > 86400000) { // < 1s or > 24h
+    if (elapsed < -5000 || elapsed > 7 * 86400000) {
       console.log('Timing challenge failed:', elapsed, 'ms');
       return false;
     }

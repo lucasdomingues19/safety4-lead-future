@@ -382,7 +382,9 @@ const Admin = () => {
         if (count > 1) engagedSessions.add(sid);
       });
 
-      const isHuman = (sid: string) => !adminSessions.has(sid) && engagedSessions.has(sid);
+      // Cookie-less visitors (anonymous daily hash, "a-…") can't produce click/scroll
+      // events, so they are counted when the server's bot checks passed (JS proof etc.).
+      const isHuman = (sid: string) => !adminSessions.has(sid) && (engagedSessions.has(sid) || sid.startsWith('a-'));
 
       // Filter out admin + bot sessions from page views
       const filteredPageViews = (pageViewsResult.data || []).filter(
@@ -1065,6 +1067,9 @@ const Admin = () => {
                     <option value="ebook_download" >eBook</option>
                     <option value="brochure_download" >Brochure</option>
                     <option value="governance_readiness" >Governance Readiness</option>
+                    <option value="event_registration" >Event Registration</option>
+                    <option value="roi_calculator" >ROI Calculator</option>
+                    <option value="ehs-assessment" >EHS Assessment</option>
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-slate-400 dark:text-slate-500">
@@ -1163,6 +1168,9 @@ const Admin = () => {
                                  lead.source === 'newsletter_popup' ? 'Newsletter' :
                                  lead.source === 'ebook_download' ? 'eBook' :
                                  lead.source === 'governance_readiness' ? 'Governance Readiness' :
+                                 lead.source === 'roi_calculator' ? 'ROI Calculator' :
+                                 lead.source === 'ehs-assessment' ? 'EHS Assessment' :
+                                 lead.source === 'event_registration' ? 'Event Registration' :
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>
                             </TableCell>
