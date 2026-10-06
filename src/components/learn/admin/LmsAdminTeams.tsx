@@ -26,9 +26,13 @@ export function LmsAdminTeams() {
       supabase.from("organisations").select("id, name, billing_email, vat_id, created_at").order("created_at", { ascending: false }),
       supabase.from("courses").select("id, title, price_cents, currency, published, team_enabled, team_tiers").order("title"),
       supabase.from("team_invoices").select("*").order("created_at", { ascending: false }),
-      supabase.from("organisation_members").select("organisation_id, role, profiles(email)").eq("role", "owner"),
+      supabase.from("organisation_members").select("organisation_id, user_id").eq("role", "owner"),
     ]);
-    const owners = new Map((mem ?? []).map((m) => [m.organisation_id, (m.profiles as { email?: string } | null)?.email ?? null]));
+    const { data: ownerProfiles } = (mem ?? []).length
+      ? await supabase.from("profiles").select("id, email").in("id", (mem ?? []).map((m) => m.user_id))
+      : { data: [] as { id: string; email: string }[] };
+    const emailOf = new Map((ownerProfiles ?? []).map((p) => [p.id, p.email]));
+    const owners = new Map((mem ?? []).map((m) => [m.organisation_id, emailOf.get(m.user_id) ?? null]));
     const rows: Org[] = [];
     for (const org of o ?? []) {
       const { data: sum } = await supabase.rpc("org_seat_summary", { _org: org.id });
