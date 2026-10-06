@@ -220,7 +220,7 @@ Deno.serve(async (req) => {
       }
     };
     const [{ data: profiles }, { data: enrolls }, { data: courses }, { data: modules }, { data: lessons }, { data: progress }, { data: watches }, { data: days }, { data: finals }, { data: logs }, { data: admins }] = await Promise.all([
-      all("profiles", "id, full_name, email_reminders, tour_completed_at"),
+      all("profiles", "id, full_name, email_reminders, tour_completed_at, welcomed_at"),
       all("enrollments", "id, user_id, course_id, status, enrolled_at, expires_at", (q) => q.eq("status", "active")),
       all("courses", "id, title, slug, final_assessment_ref"),
       all("modules", "id, course_id, title, position"),
@@ -286,7 +286,9 @@ Deno.serve(async (req) => {
 
         // Welcome to the course (learners who have actually signed in; imported
         // learners get the admin "account ready" invite instead).
-        if (signedIn && now - enrolledAt < 3 * DAY && completedCount === 0) {
+        // Skipped when the "Your account is ready" invite (which lists their courses) went out in the last 2 days.
+        const justInvited = p.welcomed_at && now - new Date(p.welcomed_at).getTime() < 2 * DAY;
+        if (signedIn && !justInvited && now - enrolledAt < 3 * DAY && completedCount === 0) {
           want({ userId: u.id, email: u.email, kind: "welcome_course", key: e.id, ...T.welcome_course(base) });
         }
 
