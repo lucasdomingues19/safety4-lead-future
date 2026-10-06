@@ -41,6 +41,8 @@ const CourseView = () => {
   const [quizByModule, setQuizByModule] = useState<Map<string, { title: string; passed: boolean }>>(new Map());
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
+  // Enrolled admins test the course with everything open (progress still recorded).
+  const [adminOpen, setAdminOpen] = useState(false);
   const [finalStatus, setFinalStatus] = useState<FinalAssessmentStatus | null>(null);
 
   useEffect(() => {
@@ -77,9 +79,10 @@ const CourseView = () => {
 
       // Admins can preview any course without enrolling.
       const hasAccess = !!enr && (await verifyEnrollmentAccess(user.id, courseData.id));
+      const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+      setAdminOpen(hasAccess && !!role);
       let isPreview = false;
       if (!hasAccess) {
-        const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
         if (!role) {
           toast.error(enr ? "Your enrollment has expired or is not active" : "Enrol in this course to view it");
           navigate("/learn");
@@ -119,7 +122,7 @@ const CourseView = () => {
 
       const grouped: ModuleWithLessons[] = (moduleRows ?? []).map((m) => ({
         ...(m as Module),
-        unlocked: isPreview || isModuleUnlocked(m as Module, enr?.enrolled_at),
+        unlocked: isPreview || (hasAccess && !!role) || isModuleUnlocked(m as Module, enr?.enrolled_at),
         lessons: asLessons(lessonRows).filter((l) => l.module_id === m.id),
       }));
       setModules(grouped);
@@ -152,7 +155,7 @@ const CourseView = () => {
 
   // Lessons unlock in order (per-lesson "must complete" rule, enforced server-side).
   const ordered = courseOrder(modules, allLessons);
-  const sequenceLocked = preview ? new Set<string>() : lockedLessonIds(ordered, completedIds);
+  const sequenceLocked = preview || adminOpen ? new Set<string>() : lockedLessonIds(ordered, completedIds);
   const moduleUnlocked = new Map(modules.map((m) => [m.id, m.unlocked]));
   const openLessons = ordered.filter((l) => moduleUnlocked.get(l.module_id) && !sequenceLocked.has(l.id));
   // Resume where they stopped: the most recently watched unfinished lesson, else the first unfinished one.
@@ -192,6 +195,9 @@ const CourseView = () => {
           <ArrowLeft className="h-4 w-4" /> My learning
         </Link>
         <div className="rounded-[20px] border border-[#e2e8f0] bg-white p-6 md:p-8">
+          {adminOpen && (
+            <div className="mb-4 inline-block rounded-md bg-[#f4fbe4] px-3 py-1 text-xs font-semibold text-[#4a5230]">Admin test mode: every lesson is open and no minimum watch time applies. Your progress, quizzes and certificate are recorded.</div>
+          )}
           {preview && (
             <div className="mb-4 inline-block rounded-md bg-[#fff7e6] px-3 py-1 text-xs font-semibold text-[#8a5a00]">Admin preview — not enrolled, progress isn't recorded</div>
           )}

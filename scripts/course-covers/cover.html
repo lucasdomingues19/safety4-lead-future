@@ -57,6 +57,35 @@ if (BG) {
   document.querySelector(".grid").style.display = "none";
   document.getElementById("c").style.display = "none";
 }
+// Copilot scene: ?scene=m365
+if (qs.get("scene") === "m365") {
+  const plate = document.querySelector(".plate");
+  document.querySelector(".grid").style.display = "none";
+  document.getElementById("c").style.display = "none";
+  plate.style.background = "radial-gradient(90% 120% at 80% 35%, #22225E 0%, #15153F 45%, #0E0E33 100%)";
+  const add = (el, st) => { Object.assign(el.style, { position: "absolute", ...st }); plate.insertBefore(el, plate.querySelector(".copy")); return el; };
+  // The hard hat from cover 1, smaller and lower, faded into the background.
+  add(document.createElement("div"), { left: "400px", top: "318px", width: "900px", height: "504px", background: "url(gen1.png) center / cover",
+    maskImage: "radial-gradient(40% 48% at 70% 50%, #000 58%, transparent 100%)", webkitMaskImage: "radial-gradient(40% 48% at 70% 50%, #000 58%, transparent 100%)" });
+  const cx = 1020, cy = 236, rx = 192, ry = 128;
+  // Orbit
+  const ns = "http://www.w3.org/2000/svg", svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("width", 1280); svg.setAttribute("height", 720);
+  svg.innerHTML = `<defs><radialGradient id="h"><stop offset="0" stop-color="#8F8FFF" stop-opacity=".35"/><stop offset="1" stop-color="#8F8FFF" stop-opacity="0"/></radialGradient></defs>
+    <circle cx="${cx}" cy="${cy}" r="150" fill="url(#h)"/>
+    <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="#9EFF1F" stroke-opacity=".45" stroke-width="1.5" stroke-dasharray="4 7"/>
+    <ellipse cx="${cx}" cy="${cy}" rx="${rx * 0.62}" ry="${ry * 0.62}" fill="none" stroke="#CFCFDB" stroke-opacity=".12" stroke-width="1"/>`;
+  add(svg, { left: 0, top: 0 });
+  const logo = add(document.createElement("img"), { width: "128px", left: (cx - 64) + "px", top: (cy - 58) + "px", filter: "drop-shadow(0 12px 28px rgba(0,0,0,.5))" });
+  logo.src = "copilot-logo.webp";
+  const apps = [["icon-word.png", 180], ["icon-excel.png", 228], ["icon-teams.png", 270], ["icon-powerpoint.png", 312], ["icon-outlook.png", 0]];
+  apps.forEach(([src, deg]) => {
+    const a = (deg * Math.PI) / 180, x = cx + rx * Math.cos(a), y = cy + ry * Math.sin(a), size = 66;
+    const tile = add(document.createElement("div"), { left: (x - size / 2) + "px", top: (y - size / 2) + "px", width: size + "px", height: size + "px", borderRadius: "18px",
+      background: "rgba(22,22,74,.85)", border: "1px solid rgba(207,207,219,.18)", boxShadow: "0 10px 26px rgba(0,0,0,.45)", display: "flex", alignItems: "center", justifyContent: "center" });
+    const im = document.createElement("img"); im.src = src; Object.assign(im.style, { width: "40px", height: "40px", objectFit: "contain" }); tile.appendChild(im);
+  });
+}
 // Optional logo overlay: ?logo=file&lx=centreX&ly=centreY&lw=width (CSS px on the 1280x720 plate).
 const LOGO = qs.get("logo");
 if (LOGO) {

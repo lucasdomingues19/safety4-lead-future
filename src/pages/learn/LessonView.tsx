@@ -48,6 +48,8 @@ const LessonView = () => {
 
   // Admins without an enrolment can open any lesson in preview mode (nothing is recorded).
   const [preview, setPreview] = useState(false);
+  // Enrolled admins test with everything open (no order, drip or watch minimum); progress is recorded.
+  const [adminOpen, setAdminOpen] = useState(false);
   // Where the video resumes (seconds): taken from what they already watched.
   const [resumeAt, setResumeAt] = useState(0);
   // Watch tracking: server-confirmed seconds + what the player has measured since.
@@ -74,7 +76,7 @@ const LessonView = () => {
 
   // Course-ordered lesson list (module order, then lesson position) — same order the server enforces.
   const orderedLessons = useMemo(() => courseOrder(modules, lessons), [modules, lessons]);
-  const locked = useMemo(() => (preview ? new Set<string>() : lockedLessonIds(orderedLessons, completed)), [preview, orderedLessons, completed]);
+  const locked = useMemo(() => (preview || adminOpen ? new Set<string>() : lockedLessonIds(orderedLessons, completed)), [preview, adminOpen, orderedLessons, completed]);
 
   const loadCertificate = useCallback(async (courseTitle: string) => {
     const { data } = await supabase.from("certificates").select("certificate_number, external_url").eq("course_name", courseTitle).eq("recipient_email", (user?.email ?? "").toLowerCase()).order("issued_at", { ascending: false }).limit(1).maybeSingle();
@@ -95,8 +97,11 @@ const LessonView = () => {
 
       const { data: enr } = await supabase.from("enrollments").select("enrolled_at").eq("user_id", user.id).eq("course_id", c.id).maybeSingle();
       let isPreview = false;
-      if (!enr || !(await verifyEnrollmentAccess(user.id, c.id))) {
-        const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+      const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle();
+      const hasAccess = !!enr && (await verifyEnrollmentAccess(user.id, c.id));
+      const isAdminOpen = hasAccess && !!role;
+      setAdminOpen(isAdminOpen);
+      if (!hasAccess) {
         if (!role) {
           toast.error("You don't have active access to this course");
           navigate("/learn");
@@ -116,7 +121,7 @@ const LessonView = () => {
       if (!current) { toast.error("Lesson not found"); navigate(`/learn/${courseSlug}`); return; }
 
       const currentModule = moduleList.find((m) => m.id === current.module_id);
-      if (!isPreview && currentModule && !isModuleUnlocked(currentModule, enr!.enrolled_at)) {
+      if (!isPreview && !isAdminOpen && currentModule && !isModuleUnlocked(currentModule, enr!.enrolled_at)) {
         toast.error(`This module unlocks ${currentModule.drip_days} days after you enrolled`);
         navigate(`/learn/${courseSlug}`);
         return;
@@ -129,7 +134,7 @@ const LessonView = () => {
       const done = new Set((prog ?? []).map((p) => p.lesson_id));
 
       // Lessons unlock in order: bounce to the lesson that is blocking this one.
-      if (!isPreview) {
+      if (!isPreview && !isAdminOpen) {
         const ordered = courseOrder(moduleList, lessonList);
         if (lockedLessonIds(ordered, done).has(current.id)) {
           const blocker = ordered.find((l) => l.enforce_progress !== false && !done.has(l.id));
@@ -282,7 +287,7 @@ const LessonView = () => {
   }, [flushWatch]);
 
   const pct = minWatchPercent(course);
-  const requiresWatch = !!lesson && !preview && lesson.enforce_progress !== false && isVideoLesson(lesson) && pct > 0;
+  const requiresWatch = !!lesson && !preview && !adminOpen && lesson.enforce_progress !== false && isVideoLesson(lesson) && pct > 0;
   const neededSeconds = lesson ? (Number(lesson.video_duration_seconds) || playerDuration || (lesson.duration_minutes ?? 0) * 60) : 0;
   const watchedPct = neededSeconds > 0 ? Math.min(100, Math.floor((watched / neededSeconds) * 100)) : 0;
   const canComplete = isDone || !requiresWatch || (neededSeconds > 0 && watchedPct >= pct);
