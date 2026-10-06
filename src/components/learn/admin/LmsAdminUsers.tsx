@@ -104,6 +104,7 @@ export function LmsAdminUsers() {
   const [busyCell, setBusyCell] = useState<string | null>(null);
   const [bulkBusy, setBulkBusy] = useState(false);
   const [bulkProduct, setBulkProduct] = useState("");
+  const [bulkDays, setBulkDays] = useState(0);
   const [showImport, setShowImport] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
 
@@ -195,7 +196,8 @@ export function LmsAdminUsers() {
   };
 
   // ---------- access changes (admin RLS) ----------
-  const setAccess = async (personId: string, key: string, grant: boolean) => {
+  const setAccess = async (personId: string, key: string, grant: boolean, days = 0) => {
+    const ends = days ? new Date(Date.now() + days * 86_400_000).toISOString() : null;
     if (key === "network") {
       const { error } = grant
         ? await supabase.from("community_memberships").upsert({ user_id: personId, space: "global-network", status: "active", source: "admin", expires_at: null, granted_by: me?.id ?? null })
@@ -205,8 +207,8 @@ export function LmsAdminUsers() {
     const courseId = key.slice(7);
     const existing = people.find((p) => p.id === personId)?.access[key];
     if (!grant) return (await supabase.from("enrollments").update({ status: "cancelled" }).eq("user_id", personId).eq("course_id", courseId)).error;
-    if (existing) return (await supabase.from("enrollments").update({ status: "active", expires_at: live(existing) ? existing.expires : null }).eq("user_id", personId).eq("course_id", courseId)).error;
-    return (await supabase.from("enrollments").insert({ user_id: personId, course_id: courseId, status: "active" })).error;
+    if (existing) return (await supabase.from("enrollments").update({ status: "active", expires_at: live(existing) ? existing.expires : ends }).eq("user_id", personId).eq("course_id", courseId)).error;
+    return (await supabase.from("enrollments").insert({ user_id: personId, course_id: courseId, status: "active", expires_at: ends })).error;
   };
 
   const toggle = async (p: Person, key: string) => {
@@ -228,7 +230,7 @@ export function LmsAdminUsers() {
     for (const id of selected) {
       const p = people.find((x) => x.id === id);
       if (!p || live(p.access[bulkProduct]) === grant) continue;
-      if (await setAccess(id, bulkProduct, grant)) failed++;
+      if (await setAccess(id, bulkProduct, grant, bulkDays)) failed++;
     }
     setBulkBusy(false);
     if (failed) toast.error(`${failed} couldn't be updated`); else toast.success(`${grant ? "Gave" : "Removed"} ${title} for ${selected.size} people`);
@@ -340,6 +342,13 @@ export function LmsAdminUsers() {
           <select value={bulkProduct} onChange={(e) => setBulkProduct(e.target.value)} className="rounded-lg border-0 bg-white/10 px-3 py-2 text-sm text-white">
             <option value="" className="text-[#0b0b2c]">Choose a product…</option>
             {products.map((p) => <option key={p.key} value={p.key} className="text-[#0b0b2c]">{p.title}</option>)}
+          </select>
+          <select value={bulkDays} onChange={(e) => setBulkDays(Number(e.target.value))} aria-label="Access length" className="rounded-lg border-0 bg-white/10 px-3 py-2 text-sm text-white">
+            <option value={0} className="text-[#0b0b2c]">Lifetime access</option>
+            <option value={365} className="text-[#0b0b2c]">1 year</option>
+            <option value={180} className="text-[#0b0b2c]">6 months</option>
+            <option value={90} className="text-[#0b0b2c]">90 days</option>
+            <option value={30} className="text-[#0b0b2c]">30 days</option>
           </select>
           <button disabled={!bulkProduct || bulkBusy} onClick={() => bulk(true)} className="rounded-lg bg-[#9eff1f] px-3.5 py-2 text-sm font-bold text-[#0b0b2c] disabled:opacity-40">Give access</button>
           <button disabled={!bulkProduct || bulkBusy} onClick={() => bulk(false)} className="rounded-lg bg-white/10 px-3.5 py-2 text-sm font-bold disabled:opacity-40">Remove access</button>

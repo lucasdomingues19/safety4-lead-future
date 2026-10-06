@@ -13,6 +13,7 @@ interface Result { email: string; status: "created" | "updated" | "error"; welco
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const BATCH = 25;
+const ACCESS_OPTIONS = [{ days: 0, label: "Lifetime" }, { days: 365, label: "1 year" }, { days: 180, label: "6 months" }, { days: 90, label: "90 days" }, { days: 30, label: "30 days" }];
 const WELCOME_DAILY_LIMIT = 100;
 
 const pick = (headers: string[], ...patterns: RegExp[]) => headers.find((h) => patterns.some((p) => p.test(h))) ?? "";
@@ -37,6 +38,7 @@ export function ImportPeopleDialog({ products, existingEmails, existingTags = []
   // Tag everyone in this import (defaults to a dated "Kajabi import" tag so the batch is easy to find).
   const [batchTag, setBatchTag] = useState(`Kajabi import ${new Date().toISOString().slice(0, 10)}`);
   const [productMap, setProductMap] = useState<Record<string, string>>({});
+  const [accessDays, setAccessDays] = useState(0);
   const [grantAll, setGrantAll] = useState<Set<string>>(new Set());
   const [welcome, setWelcome] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -113,7 +115,7 @@ export function ImportPeopleDialog({ products, existingEmails, existingTags = []
     for (let i = 0; i < valid.length; i += BATCH) {
       const chunk = valid.slice(i, i + BATCH).map(({ valid: _v, ...rest }) => rest);
       const sendWelcome = welcome && i < WELCOME_DAILY_LIMIT;
-      const { data, error } = await supabase.functions.invoke("admin-people", { body: { action: "import", rows: chunk, welcome: sendWelcome } });
+      const { data, error } = await supabase.functions.invoke("admin-people", { body: { action: "import", rows: chunk, welcome: sendWelcome, access_days: accessDays } });
       if (error || data?.error) chunk.forEach((c) => all.push({ email: c.email, status: "error", error: data?.error ?? error?.message ?? "Request failed" }));
       else all.push(...(data.results as Result[]));
       setProgress(Math.min(100, Math.round(((i + chunk.length) / valid.length) * 100)));
@@ -215,6 +217,14 @@ export function ImportPeopleDialog({ products, existingEmails, existingTags = []
                   })}
                 </div>
               </div>
+
+              <label className="block">
+                <span className="text-sm font-bold">How long does course access last?</span>
+                <span className="mt-0.5 block text-[13px] text-[#69697b]">Counted from today, for courses given in this import. People who already have access keep theirs.</span>
+                <select value={accessDays} onChange={(e) => setAccessDays(Number(e.target.value))} className="mt-2 w-full max-w-sm rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm">
+                  {ACCESS_OPTIONS.map((o) => <option key={o.days} value={o.days}>{o.label}</option>)}
+                </select>
+              </label>
 
               <label className="block">
                 <span className="text-sm font-bold">Tag everyone in this import</span>

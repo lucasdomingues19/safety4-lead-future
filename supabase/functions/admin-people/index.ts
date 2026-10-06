@@ -32,8 +32,8 @@ async function sendWelcome(to: string, name: string, link: string, courses: stri
 <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:14px;overflow:hidden;">
 <tr><td style="background:#202058;padding:26px 36px;text-align:center;"><p style="margin:0;color:#9eff1f;font-size:12px;letter-spacing:3px;text-transform:uppercase;">SafetyTech Academy</p></td></tr>
 <tr><td style="padding:34px 40px 10px;color:#1e293b;font-size:15px;line-height:1.7;">
-<h1 style="margin:0 0 14px;font-size:22px;color:#0b0b2c;">Welcome to our new learning platform, ${first}</h1>
-<p style="margin:0 0 14px;">SafetyTech Academy has moved to a new home for your courses, community and certificates. Your account is ready — just choose a password to get started.</p>
+<h1 style="margin:0 0 14px;font-size:22px;color:#0b0b2c;">Welcome to SafetyTech Academy, ${first}</h1>
+<p style="margin:0 0 14px;">Your SafetyTech Academy account is ready. It\u2019s where you\u2019ll find your courses, the learning community and your certificates. Just choose a password to get started.</p>
 ${courseList}
 </td></tr>
 <tr><td style="padding:8px 40px 26px;text-align:center;"><a href="${esc(link)}" style="display:inline-block;background:#3434ff;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">Set my password</a></td></tr>
@@ -70,7 +70,7 @@ serve(async (req: Request) => {
     const { data: role } = await db.from("user_roles").select("role").eq("user_id", me.user.id).eq("role", "admin").maybeSingle();
     if (!role) return json({ error: "Forbidden" }, 403);
 
-    const body = await req.json().catch(() => ({})) as { action?: string; rows?: ImportRow[]; welcome?: boolean; user_ids?: string[] };
+    const body = await req.json().catch(() => ({})) as { action?: string; rows?: ImportRow[]; welcome?: boolean; user_ids?: string[]; access_days?: number };
 
     // Product key -> title, for welcome emails.
     const productTitles = async (keys: string[]) => {
@@ -113,6 +113,10 @@ serve(async (req: Request) => {
       const { data: validCourses } = await db.from("courses").select("id");
       const courseIds = new Set((validCourses ?? []).map((c) => c.id));
 
+      // New or re-activated course access lasts this many days (0/absent = lifetime).
+      const days = Number.isFinite(body.access_days) && (body.access_days as number) > 0 ? Math.min(Math.floor(body.access_days as number), 3650) : 0;
+      const accessEnds = days ? new Date(Date.now() + days * 86_400_000).toISOString() : null;
+
       for (const row of rows) {
         const email = String(row.email ?? "").trim().toLowerCase();
         if (!EMAIL_RE.test(email)) { results.push({ email, status: "error", error: "Invalid email" }); continue; }
@@ -138,8 +142,8 @@ serve(async (req: Request) => {
             } else if (key.startsWith("course:") && courseIds.has(key.slice(7))) {
               const courseId = key.slice(7);
               const { data: existing } = await db.from("enrollments").select("status").eq("user_id", profile.id).eq("course_id", courseId).maybeSingle();
-              if (!existing) await db.from("enrollments").insert({ user_id: profile.id, course_id: courseId, status: "active", expires_at: null });
-              else if (existing.status !== "active") await db.from("enrollments").update({ status: "active", expires_at: null }).eq("user_id", profile.id).eq("course_id", courseId);
+              if (!existing) await db.from("enrollments").insert({ user_id: profile.id, course_id: courseId, status: "active", expires_at: accessEnds });
+              else if (existing.status !== "active") await db.from("enrollments").update({ status: "active", expires_at: accessEnds }).eq("user_id", profile.id).eq("course_id", courseId);
             }
           }
 
