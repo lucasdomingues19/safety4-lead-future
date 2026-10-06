@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export const PROFILE_UPDATED_EVENT = "lms-profile-updated";
 
 interface AccessRow { courseId: string; title: string; slug: string; status: string; enrolledAt: string; expiresAt: string | null; completedAt: string | null }
-interface PurchaseRow { id: string; course_title: string; amount_cents: number; currency: string; status: string; receipt_url: string | null; purchased_at: string }
+interface PurchaseRow { id: string; course_title: string; amount_cents: number; currency: string; status: string; receipt_url: string | null; invoice_url: string | null; invoice_pdf: string | null; discount_cents: number; promo_code: string | null; quantity: number; purchased_at: string }
 
 const inputCls = "w-full rounded-lg border border-[#e2e8f0] bg-white px-3.5 py-3 text-[15px] text-[#0b0b2c] outline-none transition focus:border-[#3434ff] focus:ring-4 focus:ring-[#3434ff]/10";
 const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -75,7 +75,7 @@ export function LmsSettings() {
       const [{ data: profile }, { data: enr }, { data: buys }] = await Promise.all([
         supabase.from("profiles").select("full_name, job_title, organisation, captions_default, hide_from_leaderboard, email_reminders, avatar_url").eq("id", user.id).maybeSingle(),
         supabase.from("enrollments").select("course_id, status, enrolled_at, expires_at, completed_at, courses(title, slug)").eq("user_id", user.id).order("enrolled_at", { ascending: false }),
-        supabase.from("course_purchases").select("id, course_title, amount_cents, currency, status, receipt_url, purchased_at").order("purchased_at", { ascending: false }),
+        supabase.from("course_purchases").select("id, course_title, amount_cents, currency, status, receipt_url, invoice_url, invoice_pdf, discount_cents, promo_code, quantity, purchased_at").order("purchased_at", { ascending: false }),
       ]);
       if (profile) {
         setLearnerName(profile.full_name ?? "");
@@ -280,21 +280,25 @@ export function LmsSettings() {
           )}
         </Card>
 
-        <Card title="Purchase history" description="Payments made on this account. Receipts are issued by Stripe.">
+        <Card title="Purchase history" description="Payments made on this account, with your invoice and receipt from Stripe.">
           {purchases.length === 0 ? (
             <p className="flex items-center gap-2 text-sm text-[#69697b]"><Receipt size={16} /> No purchases yet.</p>
           ) : (
             <div className="relative overflow-x-auto">
               <table className="w-full min-w-[560px] text-left text-sm">
-                <thead><tr className="border-b border-[#eef1f6] text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]"><th className="pb-3 pr-4">Date</th><th className="pb-3 pr-4">Course</th><th className="pb-3 pr-4 text-right">Amount</th><th className="pb-3 pr-4">Status</th><th className="pb-3">Receipt</th></tr></thead>
+                <thead><tr className="border-b border-[#eef1f6] text-[11px] font-bold uppercase tracking-wider text-[#94a3b8]"><th className="pb-3 pr-4">Date</th><th className="pb-3 pr-4">Course</th><th className="pb-3 pr-4 text-right">Amount</th><th className="pb-3 pr-4">Status</th><th className="pb-3">Invoice / receipt</th></tr></thead>
                 <tbody>
                   {purchases.map((p) => (
                     <tr key={p.id} className="border-b border-[#f5f7fa] last:border-0">
                       <td className="py-3.5 pr-4 text-[#69697b] tabular-nums">{fmtDate(p.purchased_at)}</td>
-                      <td className="py-3.5 pr-4 font-semibold">{p.course_title}</td>
+                      <td className="py-3.5 pr-4 font-semibold">{p.course_title}{p.quantity > 1 ? <span className="font-normal text-[#94a3b8]"> · {p.quantity} seats</span> : null}{p.promo_code ? <div className="text-[12px] font-normal text-[#94a3b8]">Code {p.promo_code} saved you {formatPrice(p.discount_cents, p.currency)}</div> : null}</td>
                       <td className="py-3.5 pr-4 text-right font-semibold tabular-nums">{formatPrice(p.amount_cents, p.currency)}</td>
                       <td className="py-3.5 pr-4"><span className={`rounded-full px-2.5 py-1 text-[12px] font-bold ${p.status === "refunded" ? "bg-[#f1f5f9] text-[#69697b]" : "bg-[#f4fbe4] text-[#4a5230]"}`}>{p.status === "refunded" ? "Refunded" : "Paid"}</span></td>
-                      <td className="py-3.5">{p.receipt_url ? <a href={p.receipt_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-[#3434ff] hover:underline">View <ExternalLink size={13} /></a> : <span className="text-[#94a3b8]">—</span>}</td>
+                      <td className="py-3.5 whitespace-nowrap">
+                        {(p.invoice_pdf ?? p.invoice_url) ? <a href={(p.invoice_pdf ?? p.invoice_url)!} target="_blank" rel="noopener noreferrer" className="mr-3 inline-flex items-center gap-1 font-semibold text-[#3434ff] hover:underline">Invoice <ExternalLink size={13} /></a> : null}
+                        {p.receipt_url ? <a href={p.receipt_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-[#3434ff] hover:underline">Receipt <ExternalLink size={13} /></a> : null}
+                        {!p.invoice_pdf && !p.invoice_url && !p.receipt_url && <span className="text-[#94a3b8]">—</span>}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

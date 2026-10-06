@@ -8,6 +8,7 @@ import { LevelChip, ProgressCard } from "@/components/learn/Gamification";
 import { toast } from "sonner";
 import { useTourActive } from "@/lib/tour";
 import { loadMyCourses, type CatalogCourse, type CourseProgress } from "@/lib/myCourses";
+import { BundleShelf } from "@/components/learn/BundleShelf";
 import { ExampleCertificate, ExampleLesson, ExampleTag } from "@/components/learn/tour/TourExamples";
 
 export type { CourseProgress } from "@/lib/myCourses";
@@ -226,6 +227,8 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
             </div>
           </>
         )}
+
+        <BundleShelf onChanged={() => void load()} />
 
         {/* Catalog */}
         {catalog.length > 0 && (

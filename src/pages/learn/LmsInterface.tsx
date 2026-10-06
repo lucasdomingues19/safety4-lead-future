@@ -23,7 +23,7 @@ const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdmin
 const LmsAdminAccess = React.lazy(() => import("@/components/learn/admin/LmsAdminAccess").then(m => ({ default: m.LmsAdminAccess })));
 const LmsAdminEmails = React.lazy(() => import("@/components/learn/admin/LmsAdminEmails").then(m => ({ default: m.LmsAdminEmails })));
 const LmsAdminReports = React.lazy(() => import("@/components/learn/admin/reports/ReportsHub").then(m => ({ default: m.LmsAdminReports })));
-const LmsAdminBilling = React.lazy(() => import("@/components/learn/admin/LmsAdminBilling").then(m => ({ default: m.LmsAdminBilling })));
+const LmsAdminBilling = React.lazy(() => import("@/components/learn/admin/billing/BillingHub").then(m => ({ default: m.BillingHub })));
 const LmsAdminCommunity = React.lazy(() => import("@/components/learn/admin/LmsAdminCommunity").then(m => ({ default: m.LmsAdminCommunity })));
 
 interface LmsUser {
@@ -104,7 +104,7 @@ export default function LmsInterface() {
           teams: { title: "Teams", sub: "Companies, their seats, and invoices for team purchases.", el: <LmsAdminTeams /> },
           emails: { title: "Emails", sub: "Automatic emails to learners, and announcements you send yourself.", el: <LmsAdminEmails /> },
           reports: { title: "Reports", sub: "How learners are progressing — dashboards, learner tracking and quiz analytics, with exports.", el: <LmsAdminReports /> },
-          billing: { title: "Billing", sub: "Payments and Stripe connection status.", el: <LmsAdminBilling /> },
+          billing: { title: "Billing", sub: "Payments, sales and invoices, discount codes and bundles.", el: <LmsAdminBilling /> },
           community: { title: "Moderation", sub: "Review and remove community content.", el: <LmsAdminCommunity /> },
         };
         const page = ADMIN_PAGES[adminTab];
