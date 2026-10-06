@@ -157,10 +157,25 @@ const parseUserAgent = (ua: string) => {
   return { deviceType, browser, browserVersion, os };
 };
 
+// Country code from our own edge (no third party); empty if it can't be reached quickly.
+const getCountryCode = async (): Promise<string> => {
+  try {
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 1500);
+    const res = await fetch('/api/geo', { signal: ctl.signal, cache: 'no-store' });
+    clearTimeout(timer);
+    const { country } = await res.json();
+    return typeof country === 'string' && /^[A-Z]{2}$/.test(country) ? country : '';
+  } catch {
+    return '';
+  }
+};
+
 // Track page view with validation and rate limiting
 export const trackPageView = async (pagePath: string) => {
   if (isDevEnvironment()) return;
   try {
+    const countryCode = await getCountryCode();
     const consented = hasAnalyticsConsent();
     const userAgent = navigator.userAgent;
     const { deviceType, browser, browserVersion, os } = parseUserAgent(userAgent);
@@ -206,7 +221,7 @@ export const trackPageView = async (pagePath: string) => {
           'Content-Type': 'application/json',
           'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         },
-        body: JSON.stringify({ ...data, ...getBotChallengeFields() }),
+        body: JSON.stringify({ ...data, ...(countryCode ? { country_code: countryCode } : {}), ...getBotChallengeFields() }),
       }
     );
 

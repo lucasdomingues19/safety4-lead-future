@@ -306,13 +306,23 @@ serve(async (req) => {
       }
     }
 
+    // Country from the site's own edge (Vercel) when nothing else supplied one.
+    const countryCode = (data as any).country_code;
+    if (!country && typeof countryCode === 'string' && /^[A-Za-z]{2}$/.test(countryCode)) {
+      try {
+        country = new Intl.DisplayNames(['en'], { type: 'region' }).of(countryCode.toUpperCase()) || countryCode.toUpperCase();
+      } catch {
+        country = countryCode.toUpperCase();
+      }
+    }
+
     // Create Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Strip challenge fields before insert
-    const { _hp, _ts, _js, consented: _consented, ...cleanData } = data;
+    const { _hp, _ts, _js, consented: _consented, country_code: _cc, ...cleanData } = data as any;
 
     const pageViewData = {
       ...cleanData,
