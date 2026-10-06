@@ -57,6 +57,16 @@ if (BG) {
   document.querySelector(".grid").style.display = "none";
   document.getElementById("c").style.display = "none";
 }
+// Optional logo overlay: ?logo=file&lx=centreX&ly=centreY&lw=width (CSS px on the 1280x720 plate).
+const LOGO = qs.get("logo");
+if (LOGO) {
+  const im = document.createElement("img");
+  im.src = LOGO;
+  const w = Number(qs.get("lw") || 180);
+  Object.assign(im.style, { position: "absolute", width: w + "px", left: (Number(qs.get("lx")) - w / 2) + "px", top: (Number(qs.get("ly")) - w * 0.455) + "px",
+    filter: "drop-shadow(0 10px 30px rgba(0,0,0,.45)) drop-shadow(0 0 24px rgba(120,140,255,.35))" });
+  document.querySelector(".plate").appendChild(im);
+}
 const C = COURSES[key];
 document.getElementById("eyebrow").textContent = C.eyebrow;
 document.getElementById("title").innerHTML = C.title;
