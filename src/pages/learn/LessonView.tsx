@@ -9,6 +9,7 @@ import { toEmbedUrl, isIframeEmbed, isModuleUnlocked, type Lesson, type Module, 
 import { getSignedLessonMedia, isPdf, isOfficeDoc, type SignedLessonMedia } from "@/lib/lessonMedia";
 import { getQuizQuestions, type Quiz, type QuizQuestion } from "@/lib/quiz";
 import { QuizDialog } from "@/components/learn/QuizDialog";
+import { CourseCelebration, ShareActions } from "@/components/learn/Celebration";
 import { verifyEnrollmentAccess } from "@/lib/stripe";
 import { courseOrder, lockedLessonIds, isVideoLesson, minWatchPercent, recordWatch, completeLesson, lockMessage } from "@/lib/progress";
 import { TrackedVideo, TrackedYouTube, TrackedVimeo, youTubeId, isVimeo, isDirectVideoUrl, type WatchSample } from "@/components/learn/TrackedPlayer";
@@ -17,6 +18,21 @@ import { LessonTutor } from "@/components/learn/LessonTutor";
 import { LessonNotes } from "@/components/learn/LessonNotes";
 import { ReactionBar, useCommentReactions } from "@/components/learn/CommentReactions";
 import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
+
+/** Text with the searched words highlighted; optionally scrolls the first hit into view. */
+function HitText({ text, query, scroll }: { text: string; query: string; scroll?: boolean }) {
+  const words = query.toLowerCase().split(/\s+/).filter((w) => w.length >= 2).slice(0, 6);
+  const first = useRef<HTMLElement | null>(null);
+  useEffect(() => { if (scroll) first.current?.scrollIntoView({ block: "center", behavior: "smooth" }); }, [scroll, query, text]);
+  if (!words.length) return <>{text}</>;
+  const re = new RegExp(`(${words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "ig");
+  let seen = false;
+  return <>{text.split(re).map((part, i) => {
+    if (i % 2 === 0) return part;
+    const ref = !seen ? ((seen = true), first) : undefined;
+    return <mark key={i} ref={ref as React.Ref<HTMLElement> | undefined} style={{ background: "#e8ffbd", color: "inherit", borderRadius: 3, padding: "0 1px" }}>{part}</mark>;
+  })}</>;
+}
 
 const TABS = ["overview", "ask", "transcript", "resources", "comments"] as const;
 const TAB_LABEL: Record<string, string> = { overview: "Overview", ask: "Ask Mia ✨", transcript: "Transcript", resources: "Resources", comments: "Comments" };
@@ -45,8 +61,13 @@ const LessonView = () => {
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [quizPassed, setQuizPassed] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
+  const quizOpenRef = useRef(false);
+  quizOpenRef.current = quizOpen;
   // Where to go when the quiz that opened after the module's last lesson is closed.
   const afterQuiz = useRef<string | null>(null);
+  // Course-complete moment: opens once, right after the certificate is first issued.
+  const [celebrate, setCelebrate] = useState<{ url: string; number?: string } | null>(null);
+  const pendingCelebrate = useRef<{ url: string; number?: string } | null>(null);
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
 
   // Admins without an enrolment can open any lesson in preview mode (nothing is recorded).
@@ -190,7 +211,16 @@ const LessonView = () => {
     }
   }, [user, courseSlug, lessonId, navigate, loadCertificate]);
 
-  useEffect(() => { setLoading(true); setActiveTab("overview"); load(); }, [load]);
+  // Arriving from search (?tab=transcript&q=term): open that tab and highlight the term.
+  const [hitQuery, setHitQuery] = useState("");
+  useEffect(() => {
+    setLoading(true);
+    const sp = new URLSearchParams(window.location.search);
+    const t = sp.get("tab");
+    setActiveTab((TABS as readonly string[]).includes(t ?? "") ? (t as Tab) : "overview");
+    setHitQuery(sp.get("q") ?? "");
+    load();
+  }, [load]);
 
   // Uploaded files are private: fetch short-lived signed URLs for this lesson.
   const needsSigning = !!lesson && (!!lesson.media_path || (lesson.resources ?? []).some((r) => r.path));
@@ -242,6 +272,11 @@ const LessonView = () => {
     if (data.status === "final_assessment_required") return null;
     if (data.status === "issued" || data.status === "existing") {
       setCertificateUrl(data.verify_url);
+      if (data.status === "issued") {
+        // Show the celebration once the quiz window (if any) has closed.
+        const c = { url: data.verify_url as string, number: data.certificate_number as string | undefined };
+        if (quizOpenRef.current) pendingCelebrate.current = c; else setCelebrate(c);
+      }
       return data.verify_url as string;
     }
     return null;
@@ -527,7 +562,7 @@ const LessonView = () => {
             {activeTab === "ask" && <LessonTutor key={lesson.id} lessonId={lesson.id} preview={preview} />}
 
             {activeTab === "transcript" && (lesson.transcript ? (
-              <p style={{ lineHeight: 1.75, color: "#0b0b2c", whiteSpace: "pre-wrap", margin: 0 }}>{lesson.transcript}</p>
+              <p style={{ lineHeight: 1.75, color: "#0b0b2c", whiteSpace: "pre-wrap", margin: 0 }}><HitText text={lesson.transcript} query={hitQuery} scroll /></p>
             ) : <p style={{ color: "#69697b" }}>No transcript has been added for this lesson yet.</p>)}
 
             {activeTab === "resources" && (resources.length ? (
@@ -602,12 +637,22 @@ const LessonView = () => {
                 <Award size={26} color="#4a5230" />
                 <div><div style={{ fontWeight: 700 }}>Your certificate is ready</div><div style={{ fontSize: 13, color: "#4a5230" }}>Verified and shareable — a copy was emailed to you.</div></div>
               </div>
-              <a href={certificateUrl} target="_blank" rel="noopener noreferrer" style={{ padding: "10px 18px", background: "#3434ff", color: "white", borderRadius: "8px", fontWeight: 700, fontSize: "13px", textDecoration: "none" }}>View certificate</a>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, alignItems: "flex-end" }}><ShareActions courseTitle={course.title} slug={course.slug} verifyUrl={certificateUrl} compact />
+              <a href={certificateUrl} target="_blank" rel="noopener noreferrer" style={{ padding: "10px 18px", background: "#3434ff", color: "white", borderRadius: "8px", fontWeight: 700, fontSize: "13px", textDecoration: "none" }}>View certificate</a></div>
             </div>
           )}
 
+          {celebrate && <CourseCelebration open onClose={() => setCelebrate(null)} courseTitle={course.title} slug={course.slug} verifyUrl={celebrate.url} certNumber={celebrate.number} />}
+
           {user && quiz && quizQuestions.length > 0 && (
-            <QuizDialog open={quizOpen} onOpenChange={(o) => { setQuizOpen(o); if (!o && afterQuiz.current) { const to = afterQuiz.current; afterQuiz.current = null; navigate(to); } }} quiz={quiz} questions={quizQuestions} userId={user.id} onPassed={handleQuizPassed} />
+            <QuizDialog open={quizOpen} onOpenChange={(o) => {
+              setQuizOpen(o);
+              if (o) return;
+              if (pendingCelebrate.current) { setCelebrate(pendingCelebrate.current); pendingCelebrate.current = null; afterQuiz.current = null; return; }
+              if (afterQuiz.current) { const to = afterQuiz.current; afterQuiz.current = null; navigate(to); }
+            }}
+            nextLabel={nextLesson ? "Continue to the next lesson" : undefined}
+            onNext={nextLesson ? () => { afterQuiz.current = null; setQuizOpen(false); if (pendingCelebrate.current) { setCelebrate(pendingCelebrate.current); pendingCelebrate.current = null; } else navigate(`/learn/${courseSlug}/lesson/${nextLesson.id}`); } : undefined} quiz={quiz} questions={quizQuestions} userId={user.id} onPassed={handleQuizPassed} />
           )}
 
           <div style={{ display: "flex", gap: "12px", marginTop: "24px", justifyContent: "space-between" }}>

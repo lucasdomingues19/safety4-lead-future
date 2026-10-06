@@ -52,14 +52,16 @@ export interface QuizRow {
   passRate: number | null;
   avgScore: number | null;
   avgAttemptsToPass: number | null;
-  questions: { id: string; prompt: string; answered: number; correctPct: number | null }[];
+  questions: { id: string; prompt: string; answered: number; correctPct: number | null; topWrong: { text: string; pct: number } | null }[];
 }
 
 export interface ReportsData {
   courses: { id: string; title: string; slug: string }[];
   tags: string[];
   learners: LearnerRow[];
-  lessonsByCourse: Map<string, { id: string; title: string; module: string }[]>;
+  lessonsByCourse: Map<string, { id: string; title: string; module: string; seconds: number }[]>;
+  /** Per learner and lesson: seconds actually watched (never above the lesson length). */
+  watches: { userId: string; lessonId: string; watched: number }[];
   completions: { userId: string; lessonId: string; at: number }[];
   activity: { userId: string; day: string }[];
   attempts: { userId: string; quizId: string; score: number; passed: boolean; at: number; answers: Record<string, string> }[];
@@ -72,10 +74,10 @@ export async function loadReportsData(): Promise<ReportsData> {
     all("profiles", "id, full_name, email, organisation"),
     all("courses", "id, title, slug"),
     all("modules", "id, course_id, title, position"),
-    all("lessons", "id, module_id, title, position"),
+    all("lessons", "id, module_id, title, position, duration_minutes, video_duration_seconds"),
     all("enrollments", "id, user_id, course_id, status, enrolled_at, expires_at"),
     all("lesson_progress", "user_id, lesson_id, completed_at, is_completed"),
-    all("lesson_watch", "user_id, last_heartbeat_at"),
+    all("lesson_watch", "user_id, lesson_id, watched_seconds, duration_seconds, last_heartbeat_at"),
     all("learning_activity_days", "user_id, day"),
     all("quiz_attempts", "user_id, quiz_id, score, passed, answers, attempted_at"),
     all("quizzes", "id, module_id, title, pass_threshold"),
@@ -90,10 +92,10 @@ export async function loadReportsData(): Promise<ReportsData> {
   const modById = new Map(modules.map((m) => [m.id, m]));
 
   // Ordered lessons per course.
-  const lessonsByCourse = new Map<string, { id: string; title: string; module: string }[]>();
+  const lessonsByCourse = new Map<string, { id: string; title: string; module: string; seconds: number }[]>();
   for (const c of courses) {
     const mods = modules.filter((m) => m.course_id === c.id).sort((a, b) => a.position - b.position);
-    lessonsByCourse.set(c.id, mods.flatMap((m) => lessons.filter((l) => l.module_id === m.id).sort((a, b) => a.position - b.position).map((l) => ({ id: l.id, title: l.title, module: m.title }))));
+    lessonsByCourse.set(c.id, mods.flatMap((m) => lessons.filter((l) => l.module_id === m.id).sort((a, b) => a.position - b.position).map((l) => ({ id: l.id, title: l.title, module: m.title, seconds: Number(l.video_duration_seconds) || (Number(l.duration_minutes) || 0) * 60 }))));
   }
   const courseOfLesson = new Map<string, string>();
   for (const [cid, ls] of lessonsByCourse) for (const l of ls) courseOfLesson.set(l.id, cid);
@@ -164,7 +166,14 @@ export async function loadReportsData(): Promise<ReportsData> {
       questions: qs.map((qq) => {
         const answered = at.filter((a) => a.answers && qq.id in a.answers);
         const right = answered.filter((a) => a.answers[qq.id] === qq.options?.[qq.correct_index]).length;
-        return { id: qq.id, prompt: qq.prompt, answered: answered.length, correctPct: answered.length ? Math.round((right / answered.length) * 100) : null };
+        // The wrong answer people pick most often.
+        const wrong = new Map<string, number>();
+        for (const a of answered) { const pick = a.answers[qq.id]; if (pick !== qq.options?.[qq.correct_index]) wrong.set(pick, (wrong.get(pick) ?? 0) + 1); }
+        const worst = [...wrong.entries()].sort((x, y) => y[1] - x[1])[0];
+        return {
+          id: qq.id, prompt: qq.prompt, answered: answered.length, correctPct: answered.length ? Math.round((right / answered.length) * 100) : null,
+          topWrong: worst ? { text: String(worst[0]), pct: Math.round((worst[1] / answered.length) * 100) } : null,
+        };
       }),
     };
   });
@@ -174,6 +183,7 @@ export async function loadReportsData(): Promise<ReportsData> {
     tags: [...new Set(tags.map((t) => t.tag))].sort(),
     learners,
     lessonsByCourse,
+    watches: watches.filter((w) => !adminIds.has(w.user_id)).map((w) => ({ userId: w.user_id, lessonId: w.lesson_id, watched: Math.max(0, Math.min(Number(w.watched_seconds) || 0, Number(w.duration_seconds) || Infinity)) })),
     completions: completions.filter((c) => courseOfLesson.has(c.lessonId)),
     activity: days.filter((d) => !adminIds.has(d.user_id)).map((d) => ({ userId: d.user_id, day: d.day })),
     attempts: realAttempts.map((a) => ({ userId: a.user_id, quizId: a.quiz_id, score: Number(a.score) || 0, passed: !!a.passed, at: new Date(a.attempted_at).getTime(), answers: a.answers ?? {} })),

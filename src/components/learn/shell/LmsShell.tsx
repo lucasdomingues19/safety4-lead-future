@@ -4,6 +4,7 @@ import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashbo
 import { supabase } from "@/integrations/supabase/client";
 import brandMarkWhite from "@/assets/brand-mark-white.png";
 import { NotificationBell } from "./NotificationBell";
+import { LmsSearch } from "./LmsSearch";
 import type { LmsProfile } from "./useLmsProfile";
 
 /** Which nav item is highlighted: a learner screen, or `admin-<tab>`. */
@@ -142,6 +143,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
               </button>
             )}
             <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 20 }}>{header}</div>
+            {profile && <LmsSearch phone={phone} />}
             {profile && <NotificationBell userId={profile.id} />}
           </div>
         </div>

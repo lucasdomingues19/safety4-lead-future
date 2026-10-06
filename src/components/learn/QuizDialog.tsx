@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, XCircle, Award, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { Confetti } from "@/components/learn/Celebration";
 import { submitQuizAttempt, type GradingResult, type Quiz, type QuizQuestion } from "@/lib/quiz";
 
 interface QuizDialogProps {
@@ -13,9 +14,12 @@ interface QuizDialogProps {
   userId: string;
   /** Called once when the learner passes. Resolves to the certificate URL, or null if issuing failed. */
   onPassed: () => Promise<string | null>;
+  /** After a pass: the main next step (e.g. "Continue to the next lesson"). */
+  nextLabel?: string;
+  onNext?: () => void;
 }
 
-export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPassed }: QuizDialogProps) => {
+export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPassed, nextLabel, onNext }: QuizDialogProps) => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<GradingResult | null>(null);
@@ -76,10 +80,11 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
 
         {result ? (
           <div className="space-y-6 py-4">
-            <div className="text-center">
+            <div className="relative overflow-hidden text-center">
+              {result.passed && <Confetti run />}
               {result.passed ? <CheckCircle2 className="mx-auto mb-3 h-16 w-16 text-green-500" /> : <XCircle className="mx-auto mb-3 h-16 w-16 text-red-500" />}
               <p className="text-4xl font-bold text-[#0b0b2c]">{result.score}%</p>
-              <p className="mt-2 text-lg text-[#69697b]">{result.passed ? "You passed this quiz!" : "Not quite — have another go."}</p>
+              <p className="mt-2 text-lg text-[#69697b]">{result.passed ? (result.score === 100 ? "Perfect score. You passed this quiz!" : "You passed this quiz!") : "Not quite — have another go."}</p>
               {result.passed && (
                 <p className="mt-3 text-sm text-[#69697b]">
                   {issuing && (<span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Issuing your certificate...</span>)}
@@ -114,7 +119,12 @@ export const QuizDialog = ({ open, onOpenChange, quiz, questions, userId, onPass
 
             <div className="flex justify-end gap-2 border-t border-[#e2e8f0] pt-4">
               {!result.passed && <Button variant="outline" onClick={reset}>Try again</Button>}
-              <Button onClick={() => onOpenChange(false)} disabled={issuing}>{result.passed ? "Done" : "Close"}</Button>
+              {result.passed && onNext && nextLabel
+                ? (<>
+                    <Button variant="outline" onClick={() => onOpenChange(false)} disabled={issuing}>Review answers later</Button>
+                    <Button onClick={onNext} disabled={issuing}>{nextLabel}</Button>
+                  </>)
+                : <Button onClick={() => onOpenChange(false)} disabled={issuing}>{result.passed ? "Done" : "Close"}</Button>}
             </div>
           </div>
         ) : (

@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, Download, Search } from 
 import { AT_RISK_DAYS, courseOfLessonMap, loadReportsData, type LearnerRow, type LearnerState, type ReportsData } from "@/lib/reportsData";
 import { Kpi, PanelHeader, Spinner, adminFont, downloadCsv, input, panel } from "../adminUi";
 import { ReportsExports } from "../LmsAdminReports";
+import { LearningInsights } from "./LearningInsights";
 
 const DAY = 86_400_000;
 const PERIODS = [
@@ -17,7 +18,7 @@ const STATE_META: Record<LearnerState, { label: string; bg: string; fg: string }
 const BLUE = "#3434ff";
 const fmtDate = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "2-digit" }) : "—");
 
-type Tab = "dashboard" | "learners" | "quizzes" | "exports";
+type Tab = "dashboard" | "learning" | "learners" | "quizzes" | "exports";
 
 export function LmsAdminReports() {
   const [data, setData] = useState<ReportsData | null>(null);
@@ -56,7 +57,7 @@ export function LmsAdminReports() {
           </select>
         )}
         <div role="tablist" style={{ marginLeft: "auto", display: "inline-flex", gap: 4 }}>
-          {(["dashboard", "learners", "quizzes", "exports"] as Tab[]).map((t) => (
+          {(["dashboard", "learning", "learners", "quizzes", "exports"] as Tab[]).map((t) => (
             <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
               style={{ border: 0, borderBottom: `2px solid ${tab === t ? BLUE : "transparent"}`, background: "none", padding: "8px 10px", fontFamily: "inherit", fontSize: 14, fontWeight: 700, color: tab === t ? BLUE : "#69697b", cursor: "pointer", textTransform: "capitalize" }}>{t}</button>
           ))}
@@ -64,6 +65,7 @@ export function LmsAdminReports() {
       </div>
 
       {tab === "dashboard" && <Dashboard data={data} learners={learners} courseId={courseId} since={since} period={period} />}
+      {tab === "learning" && <LearningInsights data={data} learners={learners} courseId={courseId} />}
       {tab === "learners" && <Learners learners={learners} />}
       {tab === "quizzes" && <Quizzes data={data} courseId={courseId} learners={learners} since={since} />}
       {tab === "exports" && <ReportsExports />}
