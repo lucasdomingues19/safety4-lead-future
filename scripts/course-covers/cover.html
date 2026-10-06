@@ -43,11 +43,20 @@
 </div>
 <script>
 const COURSES = {
-  ai: { eyebrow: "FOUNDATION COURSE", title: "Fundamentals of <em>AI</em> in EHS", sub: "Understand it. Use it. Govern it.", meta: ["8 lessons", "4 quizzes", "Certificate"] },
+  ai: { eyebrow: "FOUNDATION COURSE", title: "Fundamentals of <em>AI</em> in EHS", sub: "Understand it. Use it. Govern it.", meta: ["8 lessons", "4 quizzes", "Certificate"], size: 74 },
   s4: { eyebrow: "IOSH-APPROVED COURSE", title: "Safety <em>4.0</em>", sub: "Leading safety in the digital age", meta: ["10 modules", "IOSH approved", "Certificate"] },
   cp: { eyebrow: "PRACTITIONER COURSE", title: "<em>Copilot</em> for EHS &amp; Sustainability", sub: "Microsoft 365 Copilot, put to work in EHS", meta: ["10 modules", "Microsoft 365", "Self-paced"], size: 70 },
 };
-const key = new URLSearchParams(location.search).get("c") || "ai";
+const qs = new URLSearchParams(location.search);
+const key = qs.get("c") || "ai";
+const BG = qs.get("bg");
+if (BG) {
+  // Photographic cover: the image carries the visual; a dark fade on the left keeps the text crisp.
+  const plate = document.querySelector(".plate");
+  plate.style.background = `linear-gradient(90deg, rgba(14,14,51,.94) 0%, rgba(14,14,51,.82) 36%, rgba(14,14,51,.25) 58%, rgba(14,14,51,0) 72%), url(${BG}) right center / cover no-repeat, #0E0E33`;
+  document.querySelector(".grid").style.display = "none";
+  document.getElementById("c").style.display = "none";
+}
 const C = COURSES[key];
 document.getElementById("eyebrow").textContent = C.eyebrow;
 document.getElementById("title").innerHTML = C.title;
@@ -59,7 +68,7 @@ document.getElementById("meta").innerHTML = C.meta.map((m) => `<span>${m}</span>
 let seed = { ai: 7, s4: 11, cp: 23 }[key];
 const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
 
-document.fonts.ready.then(() => {
+if (!BG) document.fonts.ready.then(() => {
 const cv = document.getElementById("c"), g = cv.getContext("2d");
 g.scale(2, 2);
 const LIME = "#9EFF1F", SOFT = "rgba(143,143,255,", WHITE = "rgba(250,250,250,";
