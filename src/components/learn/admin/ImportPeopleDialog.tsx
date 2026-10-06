@@ -219,8 +219,8 @@ export function ImportPeopleDialog({ products, existingEmails, existingTags = []
               </div>
 
               <label className="block">
-                <span className="text-sm font-bold">How long does course access last?</span>
-                <span className="mt-0.5 block text-[13px] text-[#69697b]">Counted from today, for courses given in this import. People who already have access keep theirs.</span>
+                <span className="text-sm font-bold">How long does access last?</span>
+                <span className="mt-0.5 block text-[13px] text-[#69697b]">Counted from today, for the courses and community access given in this import. People who already have access keep theirs.</span>
                 <select value={accessDays} onChange={(e) => setAccessDays(Number(e.target.value))} className="mt-2 w-full max-w-sm rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm">
                   {ACCESS_OPTIONS.map((o) => <option key={o.days} value={o.days}>{o.label}</option>)}
                 </select>

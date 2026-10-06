@@ -200,7 +200,7 @@ export function LmsAdminUsers() {
     const ends = days ? new Date(Date.now() + days * 86_400_000).toISOString() : null;
     if (key === "network") {
       const { error } = grant
-        ? await supabase.from("community_memberships").upsert({ user_id: personId, space: "global-network", status: "active", source: "admin", expires_at: null, granted_by: me?.id ?? null })
+        ? await supabase.from("community_memberships").upsert({ user_id: personId, space: "global-network", status: "active", source: "admin", expires_at: live(people.find((p) => p.id === personId)?.access.network) ? people.find((p) => p.id === personId)?.access.network.expires ?? null : ends, granted_by: me?.id ?? null })
         : await supabase.from("community_memberships").update({ status: "cancelled" }).eq("user_id", personId).eq("space", "global-network");
       return error;
     }
