@@ -59,6 +59,18 @@ const validateBotChallenge = (data: any): boolean => {
   return true;
 };
 
+// Cookie-less visit counting for visitors who haven't consented to analytics:
+// nothing is stored on their device, and the id is a hash of IP + browser that
+// changes every day (so it can't follow anyone across days) and can't be turned
+// back into the IP. The IP itself is never saved.
+const anonymousVisitorId = async (ip: string, ua: string) => {
+  const day = new Date().toISOString().slice(0, 10);
+  const secret = Deno.env.get('VISITOR_HASH_SECRET') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? 'x';
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(`${secret}:${day}`), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${ip}|${ua}`)));
+  return 'a-' + Array.from(sig.slice(0, 10)).map((b) => b.toString(16).padStart(2, '0')).join('');
+};
+
 interface PageViewData {
   session_id: string;
   page_path: string;
@@ -76,6 +88,7 @@ interface PageViewData {
   timezone?: string;
   country?: string;
   city?: string;
+  consented?: boolean;
 }
 
 const validatePageViewData = (data: any): { valid: boolean; errors: string[] } => {
@@ -215,6 +228,15 @@ serve(async (req) => {
       );
     }
 
+    // Who is this? (IP is used for counting/geo only and is never stored.)
+    const ip = req.headers.get('cf-connecting-ip') ||
+               req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+               req.headers.get('x-real-ip');
+    const consented = data.consented === true;
+    if (!consented) {
+      data.session_id = await anonymousVisitorId(ip ?? 'unknown', userAgent || req.headers.get('user-agent') || '');
+    }
+
     // Rate limiting
     if (!checkRateLimit(data.session_id)) {
       return new Response(
@@ -229,10 +251,6 @@ serve(async (req) => {
     let company: string | undefined = undefined;
     let isp: string | undefined = undefined;
 
-    const ip = req.headers.get('cf-connecting-ip') ||
-               req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-               req.headers.get('x-real-ip');
-
     // Consumer/residential ISP keywords — if org matches these, don't treat as a company
     const CONSUMER_ISP_PATTERNS = [
       /comcast/i, /verizon/i, /at&t\s*mobility/i, /t-mobile/i, /sprint/i, /charter/i,
@@ -246,7 +264,8 @@ serve(async (req) => {
       /hosting/i, /cloudflare/i, /amazon\.com/i, /google\s*llc/i, /microsoft/i,
     ];
 
-    if (ip && ip !== '127.0.0.1' && ip !== '::1') {
+    // Company/city lookup (sends the IP to a third party) only for visitors who accepted analytics.
+    if (consented && ip && ip !== '127.0.0.1' && ip !== '::1') {
       try {
         const geoResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,country,city,isp,org,as`);
         if (geoResponse.ok) {
@@ -291,7 +310,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Strip challenge fields before insert
-    const { _hp, _ts, _js, ...cleanData } = data;
+    const { _hp, _ts, _js, consented: _consented, ...cleanData } = data;
 
     const pageViewData = {
       ...cleanData,

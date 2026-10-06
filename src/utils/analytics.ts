@@ -1,10 +1,7 @@
 import { hasAnalyticsConsent } from '@/lib/consent';
 
-// Skip tracking in development/preview environments, and for anyone who hasn't
-// opted in to analytics (the session id below lives in browser storage, so
-// PECR needs consent first).
+// Skip tracking in development/preview environments.
 const isDevEnvironment = () => {
-  if (!hasAnalyticsConsent()) return true;
   const hostname = window.location.hostname;
   return (
     hostname === 'localhost' ||
@@ -39,7 +36,8 @@ const getBotChallengeFields = () => {
 
 // Track custom events via secure edge function (clicks, form submissions, etc.)
 export const trackEvent = async (eventType: string, eventData?: Record<string, unknown>) => {
-  if (isDevEnvironment()) return;
+  // Events use a stored session id, so they need analytics consent.
+  if (isDevEnvironment() || !hasAnalyticsConsent()) return;
   try {
     const sessionId = getSessionId();
     
@@ -163,26 +161,41 @@ const parseUserAgent = (ua: string) => {
 export const trackPageView = async (pagePath: string) => {
   if (isDevEnvironment()) return;
   try {
-    const sessionId = getSessionId();
+    const consented = hasAnalyticsConsent();
     const userAgent = navigator.userAgent;
     const { deviceType, browser, browserVersion, os } = parseUserAgent(userAgent);
 
-    const data = {
-      session_id: sessionId,
-      page_path: pagePath,
-      referrer: (document.referrer || '').substring(0, 999) || null,
-      user_agent: userAgent,
-      device_type: deviceType,
-      browser,
-      browser_version: browserVersion,
-      os,
-      screen_width: window.screen.width,
-      screen_height: window.screen.height,
-      viewport_width: window.innerWidth,
-      viewport_height: window.innerHeight,
-      language: navigator.language,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    };
+    // Without consent we count the visit but store nothing on the device and send
+    // nothing that could identify the browser: no session id (the server derives
+    // an anonymous daily hash), no screen size, language or timezone.
+    const data = consented
+      ? {
+          consented: true,
+          session_id: getSessionId(),
+          page_path: pagePath,
+          referrer: (document.referrer || '').substring(0, 999) || null,
+          user_agent: userAgent,
+          device_type: deviceType,
+          browser,
+          browser_version: browserVersion,
+          os,
+          screen_width: window.screen.width,
+          screen_height: window.screen.height,
+          viewport_width: window.innerWidth,
+          viewport_height: window.innerHeight,
+          language: navigator.language,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        }
+      : {
+          consented: false,
+          session_id: 'anonymous',
+          page_path: pagePath,
+          referrer: (document.referrer || '').substring(0, 999) || null,
+          user_agent: userAgent,
+          device_type: deviceType,
+          browser,
+          os,
+        };
 
     // Use validated edge function instead of direct insert
     const response = await fetch(
