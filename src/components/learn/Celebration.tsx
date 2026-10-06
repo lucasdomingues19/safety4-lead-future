@@ -99,9 +99,11 @@ export function CourseCelebration({ open, onClose, courseTitle, slug, verifyUrl,
             <Confetti run={open} />
             <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".16em", color: "#9EFF1F" }}>COURSE COMPLETE</div>
             {meta.badge
-              ? <img src={meta.badge} alt={`${courseTitle} badge`} style={{ width: 150, height: 150, objectFit: "contain", margin: "14px auto 6px", display: "block", filter: "drop-shadow(0 14px 30px rgba(0,0,0,.45))" }} />
+              ? <div style={{ width: 168, height: 168, margin: "16px auto 8px", background: "#fff", borderRadius: 28, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 18px 40px rgba(0,0,0,.45), 0 0 0 6px rgba(158,255,31,.18)" }}>
+                  <img src={meta.badge} alt={`${courseTitle} badge`} style={{ width: 148, height: 148, objectFit: "contain" }} />
+                </div>
               : <Award size={84} color="#9EFF1F" style={{ margin: "18px auto 8px", display: "block" }} />}
-            <h2 style={{ margin: "8px 0 4px", fontSize: 24, fontWeight: 800, lineHeight: 1.2 }}>You did it.</h2>
+            <h2 style={{ margin: "14px 0 4px", fontSize: 26, fontWeight: 800, lineHeight: 1.2, color: "#fff" }}>You did it.</h2>
             <p style={{ margin: 0, fontSize: 14.5, color: "#CFCFDB", lineHeight: 1.5 }}>You've completed <strong style={{ color: "#fff" }}>{courseTitle}</strong>. Your verified certificate is issued and emailed to you.</p>
           </div>
 
