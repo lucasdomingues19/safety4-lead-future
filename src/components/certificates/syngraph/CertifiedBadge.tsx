@@ -12,7 +12,7 @@ const SANS = "'Plus Jakarta Sans', 'Geist', system-ui, sans-serif";
 
 /** Title + subtitle per course. */
 export function badgeCopy(course: string) {
-  if (/AI Fundamentals/i.test(course)) return { title: "AI Fundamentals", subtitle: "AI in EHS" };
+  if (/AI Fundamentals|Fundamentals of AI/i.test(course)) return { title: "AI Fundamentals", subtitle: "AI in EHS" };
   if (/Accelerator/i.test(course)) return { title: "Safety 4.0", subtitle: "Accelerator Programme" };
   if (/Copilot/i.test(course)) return { title: "Copilot for EHS", subtitle: "EHS & Sustainability" };
   return { title: "Safety 4.0", subtitle: "Lead Safety in the Digital Age" };

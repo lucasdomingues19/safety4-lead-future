@@ -32,7 +32,7 @@ const SKILLS: Record<string, string[]> = {
   safety: ["SafetyTech", "Digital Transformation", "Artificial Intelligence", "Compliance & Governance", "Risk Management", "Safety Leadership"],
   ai: ["Artificial Intelligence", "AI Literacy", "Digital Transformation", "AI Risk & Governance", "Safety 4.0"],
 };
-export const skillsFor = (course: string) => (/AI Fundamentals/i.test(course) ? SKILLS.ai : SKILLS.safety);
+export const skillsFor = (course: string) => (/AI Fundamentals|Fundamentals of AI/i.test(course) ? SKILLS.ai : SKILLS.safety);
 
 const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" });
 
