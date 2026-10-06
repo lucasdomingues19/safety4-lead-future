@@ -315,6 +315,7 @@ function Quizzes({ data, courseId, learners, since }: { data: ReportsData; cours
   const [open, setOpen] = useState<string | null>(null);
   const users = new Set(learners.map((l) => l.userId));
   const quizzes = data.quizzes.filter((q) => (courseId === "all" || q.courseId === courseId) && !/test/i.test(q.course));
+  const narrow = typeof window !== "undefined" && window.innerWidth < 640;
   const rows = quizzes.map((q) => {
     const at = data.attempts.filter((a) => a.quizId === q.quizId && users.has(a.userId) && a.at >= since);
     return { ...q, pAttempts: at.length, pLearners: new Set(at.map((a) => a.userId)).size, pPass: at.length ? Math.round((at.filter((a) => a.passed).length / at.length) * 100) : null, pAvg: at.length ? Math.round(at.reduce((s, a) => s + a.score, 0) / at.length) : null };
@@ -329,13 +330,15 @@ function Quizzes({ data, courseId, learners, since }: { data: ReportsData; cours
         return (
           <div key={q.quizId} style={{ borderTop: "1px solid #f1f4f8" }}>
             <button type="button" onClick={() => setOpen(isOpen ? null : q.quizId)} aria-expanded={isOpen}
-              style={{ width: "100%", textAlign: "left", border: 0, background: "none", padding: "14px 24px", cursor: "pointer", fontFamily: "inherit", color: "#0b0b2c", display: "grid", gridTemplateColumns: "20px minmax(0, 2fr) repeat(4, minmax(70px, 1fr))", gap: 12, alignItems: "center" }}>
+              style={{ width: "100%", textAlign: "left", border: 0, background: "none", padding: "14px 24px", cursor: "pointer", fontFamily: "inherit", color: "#0b0b2c", display: "grid", gridTemplateColumns: narrow ? "20px minmax(0, 1fr)" : "20px minmax(0, 2fr) repeat(4, minmax(70px, 1fr))", gap: 12, alignItems: "center" }}>
               {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
               <span style={{ minWidth: 0 }}><span style={{ display: "block", fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{q.title}</span><span style={{ display: "block", fontSize: 12, color: "#94a3b8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{q.course}</span></span>
-              <Stat label="Attempts" value={q.pAttempts} />
-              <Stat label="Learners" value={q.pLearners} />
-              <Stat label="Pass rate" value={q.pPass === null ? "—" : `${q.pPass}%`} />
-              <Stat label="Avg score" value={q.pAvg === null ? "—" : `${q.pAvg}%`} />
+              <span style={narrow ? { gridColumn: "2 / -1", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 8 } : { display: "contents" }}>
+                <Stat label="Attempts" value={q.pAttempts} />
+                <Stat label="Learners" value={q.pLearners} />
+                <Stat label="Pass rate" value={q.pPass === null ? "—" : `${q.pPass}%`} />
+                <Stat label="Avg score" value={q.pAvg === null ? "—" : `${q.pAvg}%`} />
+              </span>
             </button>
             {isOpen && (
               <div style={{ padding: "4px 24px 20px 56px" }}>
