@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
@@ -29,6 +29,7 @@ const LessonView = () => {
   const { user } = useAuthUser();
   const { profile } = useLmsProfile();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<Course | null>(null);
@@ -44,6 +45,8 @@ const LessonView = () => {
   const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [quizPassed, setQuizPassed] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
+  // Where to go when the quiz that opened after the module's last lesson is closed.
+  const afterQuiz = useRef<string | null>(null);
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
 
   // Admins without an enrolment can open any lesson in preview mode (nothing is recorded).
@@ -315,6 +318,15 @@ const LessonView = () => {
         setCompleted((prev) => new Set(prev).add(lesson.id));
       }
 
+      // Last lesson of a module that has a quiz: offer the quiz before moving on.
+      const lastInModule = orderedLessons.filter((l) => l.module_id === lesson.module_id).every((l) => l.id === lesson.id || l.enforce_progress === false || completed.has(l.id));
+      if (quiz && quizQuestions.length > 0 && !quizPassed && lastInModule) {
+        afterQuiz.current = nextLesson ? `/learn/${courseSlug}/lesson/${nextLesson.id}` : `/learn/${courseSlug}`;
+        setQuizOpen(true);
+        toast.success("Lesson complete · now take the module quiz");
+        return;
+      }
+
       const allDone = orderedLessons.every((l) => l.id === lesson.id || l.enforce_progress === false || completed.has(l.id));
       if (nextLesson) {
         toast.success(isDone ? "Next lesson" : "Lesson complete · +10 points");
@@ -333,6 +345,17 @@ const LessonView = () => {
       setSaving(false);
     }
   };
+
+  // Deep link (?quiz=1): open this module's quiz once every lesson in the module is done.
+  const deepQuiz = searchParams.get("quiz") === "1";
+  useEffect(() => {
+    if (!deepQuiz || !lesson || !quiz || quizQuestions.length === 0 || quizPassed) return;
+    const inModule = orderedLessons.filter((l) => l.module_id === lesson.module_id);
+    if (inModule.every((l) => l.enforce_progress === false || completed.has(l.id))) {
+      setQuizOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [deepQuiz, lesson, quiz, quizQuestions.length, quizPassed, orderedLessons, completed, setSearchParams]);
 
   const handleQuizPassed = async (): Promise<string | null> => {
     setQuizPassed(true);
@@ -584,7 +607,7 @@ const LessonView = () => {
           )}
 
           {user && quiz && quizQuestions.length > 0 && (
-            <QuizDialog open={quizOpen} onOpenChange={setQuizOpen} quiz={quiz} questions={quizQuestions} userId={user.id} onPassed={handleQuizPassed} />
+            <QuizDialog open={quizOpen} onOpenChange={(o) => { setQuizOpen(o); if (!o && afterQuiz.current) { const to = afterQuiz.current; afterQuiz.current = null; navigate(to); } }} quiz={quiz} questions={quizQuestions} userId={user.id} onPassed={handleQuizPassed} />
           )}
 
           <div style={{ display: "flex", gap: "12px", marginTop: "24px", justifyContent: "space-between" }}>

@@ -286,9 +286,16 @@ const CourseView = () => {
                   <div className="flex items-center gap-3 bg-[#f8fafc] px-4 py-3.5">
                     <Award className={`h-5 w-5 shrink-0 ${quizByModule.get(module.id)!.passed ? "text-[#8ab815]" : "text-[#94a3b8]"}`} />
                     <span className="flex-1 text-sm font-medium text-[#0b0b2c]">{quizByModule.get(module.id)!.title}</span>
-                    <span className="text-xs font-semibold text-[#69697b]">
-                      {quizByModule.get(module.id)!.passed ? "Passed" : module.lessons.every((l) => l.enforce_progress === false || completedIds.has(l.id)) ? "Ready — open the last lesson" : "Unlocks after all lessons"}
-                    </span>
+                    {(() => {
+                      const q = quizByModule.get(module.id)!;
+                      const ready = module.lessons.every((l) => l.enforce_progress === false || completedIds.has(l.id));
+                      const last = module.lessons[module.lessons.length - 1];
+                      if (q.passed) return <span className="text-xs font-semibold text-[#4a5230]">Passed</span>;
+                      if (ready && last) return (
+                        <button type="button" onClick={() => navigate(`/learn/${courseSlug}/lesson/${last.id}?quiz=1`)} className="rounded-md bg-[#3434ff] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#2a2ad6]">Take quiz</button>
+                      );
+                      return <span className="text-xs font-semibold text-[#69697b]">Unlocks after all lessons</span>;
+                    })()}
                   </div>
                 )}
               </Card>
