@@ -36,6 +36,8 @@ const CourseView = () => {
   const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
   const [modules, setModules] = useState<ModuleWithLessons[]>([]);
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+  // Lessons watched part-way: lesson id -> { watched share 0-1, last watched time }
+  const [partial, setPartial] = useState<Map<string, { frac: number; at: string }>>(new Map());
   const [quizByModule, setQuizByModule] = useState<Map<string, { title: string; passed: boolean }>>(new Map());
   const [certificateUrl, setCertificateUrl] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
@@ -109,6 +111,12 @@ const CourseView = () => {
         .eq("is_completed", true);
       setCompletedIds(new Set((progressRows ?? []).map((p) => p.lesson_id)));
 
+      const { data: watchRows } = await supabase.from("lesson_watch").select("lesson_id, watched_seconds, duration_seconds, last_heartbeat_at").eq("user_id", user.id);
+      setPartial(new Map((watchRows ?? []).filter((w) => Number(w.watched_seconds) > 5).map((w) => [w.lesson_id, {
+        frac: Number(w.duration_seconds) > 0 ? Math.min(1, Number(w.watched_seconds) / Number(w.duration_seconds)) : 0,
+        at: w.last_heartbeat_at ?? "",
+      }])));
+
       const grouped: ModuleWithLessons[] = (moduleRows ?? []).map((m) => ({
         ...(m as Module),
         unlocked: isPreview || isModuleUnlocked(m as Module, enr?.enrolled_at),
@@ -147,7 +155,10 @@ const CourseView = () => {
   const sequenceLocked = preview ? new Set<string>() : lockedLessonIds(ordered, completedIds);
   const moduleUnlocked = new Map(modules.map((m) => [m.id, m.unlocked]));
   const openLessons = ordered.filter((l) => moduleUnlocked.get(l.module_id) && !sequenceLocked.has(l.id));
-  const nextLesson = openLessons.find((l) => !completedIds.has(l.id)) ?? openLessons[0];
+  // Resume where they stopped: the most recently watched unfinished lesson, else the first unfinished one.
+  const resumeLesson = openLessons.filter((l) => !completedIds.has(l.id) && partial.has(l.id)).sort((a, b) => (partial.get(b.id)!.at).localeCompare(partial.get(a.id)!.at))[0];
+  const nextLesson = resumeLesson ?? openLessons.find((l) => !completedIds.has(l.id)) ?? openLessons[0];
+  const started = completedCount > 0 || partial.size > 0;
 
   if (authLoading || loading) {
     return (
@@ -200,7 +211,7 @@ const CourseView = () => {
             {nextLesson && (
               <Button className="h-12 px-6 text-base font-semibold" onClick={() => navigate(`/learn/${course.slug}/lesson/${nextLesson.id}`)}>
                 <PlayCircle className="mr-2 h-5 w-5" />
-                {completedCount === 0 ? "Start course" : "Continue learning"}
+                {!started ? "Start course" : "Resume course"}
               </Button>
             )}
             {certificateUrl && (
@@ -254,6 +265,9 @@ const CourseView = () => {
                         <PlayCircle className="h-5 w-5 shrink-0 text-[#69697b]" />
                       )}
                       <span className="flex-1 text-sm font-medium text-[#0b0b2c]">{lesson.title}</span>
+                      {!done && partial.has(lesson.id) && Math.round(partial.get(lesson.id)!.frac * 100) >= 3 && (
+                        <span className="rounded-full bg-[#f5f7ff] px-2 py-0.5 text-[11px] font-bold text-[#2c23d2]">{lesson.id === nextLesson?.id ? "Resume · " : "In progress · "}{Math.round(partial.get(lesson.id)!.frac * 100)}%</span>
+                      )}
                       {lesson.duration_minutes ? (
                         <span className="flex items-center gap-1 text-xs text-[#94a3b8]">
                           <Clock className="h-3 w-3" /> {lesson.duration_minutes}m

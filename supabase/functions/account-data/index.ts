@@ -22,7 +22,7 @@ const json = (body: unknown, status = 200) =>
 // Tables holding the learner's rows by user_id (all cascade on account deletion).
 const BY_USER = [
   "enrollments", "course_purchases", "lesson_progress", "lesson_watch", "quiz_attempts",
-  "final_assessment_attempts", "learning_activity_days", "lesson_comments", "community_posts",
+  "final_assessment_attempts", "learning_activity_days", "lesson_comments", "lesson_comment_reactions", "community_posts",
   "community_comments", "community_likes", "community_reactions", "community_event_rsvps",
   "community_memberships", "people_tags", "user_roles", "lesson_notes", "notifications",
 ];

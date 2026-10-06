@@ -3,6 +3,7 @@ import { useNavigate, Navigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { PlayCircle } from "lucide-react";
+import { miaPhoto } from "@/components/learn/MiaAvatar";
 import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
 import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 import { markTourDone, tourSeenLocally } from "@/lib/tour";
@@ -159,7 +160,7 @@ export default function LmsInterface() {
         onClick={() => navigate(currentCourse.nextLessonId ? `/learn/${currentCourse.slug}/lesson/${currentCourse.nextLessonId}` : `/learn/${currentCourse.slug}`)}
         style={{ flex: "none", display: "flex", alignItems: "center", gap: "8px", border: 0, borderRadius: "10px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "14px", fontWeight: 700, padding: "11px 16px", cursor: "pointer" }}
       >
-        <PlayCircle size={16} /> {currentCourse.completedLessons > 0 ? "Continue" : "Start"}
+        <PlayCircle size={16} /> {currentCourse.started ? "Resume" : "Start"}
       </button>
     </>
   ) : <ShellTitle label="WELCOME" title="Pick a course to get started" />;
@@ -181,7 +182,7 @@ export default function LmsInterface() {
           {tourInvite && !tourOpen && lmsUser && (
             <div style={{ position: "fixed", inset: 0, zIndex: 70, background: "rgba(11,11,44,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
               <div style={{ width: "100%", maxWidth: 440, background: "linear-gradient(160deg,#11114a,#0b0b2c)", color: "#fff", borderRadius: 24, padding: "32px 30px", textAlign: "center", boxShadow: "0 30px 80px rgba(0,0,0,.5)" }}>
-                <div style={{ width: 64, height: 64, margin: "0 auto", borderRadius: "50%", background: "linear-gradient(135deg,#9eff1f,#3434ff)", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 30, fontWeight: 800, color: "#fff" }}>M</span></div>
+                <img src={miaPhoto} alt="Mia" style={{ width: 84, height: 84, margin: "0 auto", borderRadius: "50%", objectFit: "cover", display: "block", boxShadow: "0 0 0 3px #9eff1f" }} />
                 <h2 style={{ margin: "18px 0 8px", fontSize: 26, fontWeight: 800 }}>Welcome, {(lmsUser.full_name || "").split(" ")[0] || "there"}!</h2>
                 <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "rgba(255,255,255,.72)" }}>I'm Mia, your guide. Let me show you around the academy — it takes about two minutes. Sound on for the best experience.</p>
                 <button onClick={() => { setTourInvite(false); setTourOpen(true); }} style={{ marginTop: 22, width: "100%", border: 0, borderRadius: 12, background: "#9eff1f", color: "#0b0b2c", fontWeight: 800, fontSize: 15, padding: "14px 18px", cursor: "pointer", fontFamily: "inherit" }}>Show me around</button>

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
+import { htmlToText, resendSend, sleep } from "../_shared/emailText.ts";
 
 // Admin people management (service role, admin-only):
 //   list                         -> sign-in info from auth (last sign-in, created)
@@ -37,19 +38,16 @@ async function sendWelcome(to: string, name: string, link: string, courses: stri
 ${courseList}
 </td></tr>
 <tr><td style="padding:8px 40px 26px;text-align:center;"><a href="${esc(link)}" style="display:inline-block;background:#3434ff;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">Set my password</a></td></tr>
-<tr><td style="padding:0 40px 24px;color:#94a3b8;font-size:12px;line-height:1.6;">This link works once and expires in 24 hours. If it has expired, use “Forgot password?” on ${SITE}/learn/auth with this email address.</td></tr>
+<tr><td style="padding:0 40px 24px;color:#94a3b8;font-size:12px;line-height:1.6;">This link works once. If it has stopped working, go to ${SITE}/learn/auth, choose “Forgot password?” and enter this email address to get a new one.</td></tr>
 <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;"><p style="margin:0;color:#94a3b8;font-size:11px;">Questions? Reply to this email or write to hello@safetytech.academy</p></td></tr>
 </table></td></tr></table></body></html>`;
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: "SafetyTech Academy <hello@safetytech.academy>",
-      reply_to: "hello@safetytech.academy",
-      to: [to],
-      subject: "Your SafetyTech Academy account is ready",
-      html,
-    }),
+  const res = await resendSend(key, {
+    from: "SafetyTech Academy <hello@safetytech.academy>",
+    reply_to: "hello@safetytech.academy",
+    to: [to],
+    subject: "Your SafetyTech Academy account is ready",
+    html,
+    text: htmlToText(html),
   });
   if (res.ok) return null;
   const body = await res.json().catch(() => ({}));
@@ -83,13 +81,17 @@ serve(async (req: Request) => {
 
     const welcomeUser = async (userId: string, email: string, name: string) => {
       const { data: link, error } = await db.auth.admin.generateLink({ type: "recovery", email, options: { redirectTo: `${SITE}/learn/reset-password?welcome=1` } });
-      if (error || !link?.properties?.action_link) return error?.message ?? "Could not create link";
+      if (error || !link?.properties?.hashed_token) return error?.message ?? "Could not create link";
+      // Link to our own domain (not supabase.co): trusted by mail filters, and the
+      // one-time token is only used when the person presses the button there.
+      const confirmLink = `${SITE}/learn/auth/confirm?token_hash=${encodeURIComponent(link.properties.hashed_token)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
       const [{ data: enr }, { data: mem }] = await Promise.all([
         db.from("enrollments").select("course_id").eq("user_id", userId).eq("status", "active"),
         db.from("community_memberships").select("space").eq("user_id", userId).eq("status", "active"),
       ]);
       const keys = [...(enr ?? []).map((e) => `course:${e.course_id}`), ...((mem ?? []).length ? ["network"] : [])];
-      const err = await sendWelcome(email, name, link.properties.action_link, await productTitles(keys));
+      const err = await sendWelcome(email, name, confirmLink, await productTitles(keys));
+      await sleep(600); // stay under the email provider\u2019s rate limit
       if (!err) await db.from("profiles").update({ welcomed_at: new Date().toISOString() }).eq("id", userId);
       return err;
     };
@@ -138,7 +140,10 @@ serve(async (req: Request) => {
 
           for (const key of row.products ?? []) {
             if (key === "network") {
-              await db.from("community_memberships").upsert({ user_id: profile.id, space: "global-network", status: "active", source: "import", expires_at: null, granted_by: me.user.id });
+              // Same access length as the courses, but never shorten a membership that already runs longer.
+              const { data: mem } = await db.from("community_memberships").select("status, expires_at").eq("user_id", profile.id).eq("space", "global-network").maybeSingle();
+              const runsLonger = mem?.status === "active" && (!mem.expires_at || (accessEnds !== null && new Date(mem.expires_at) > new Date(accessEnds)));
+              if (!runsLonger) await db.from("community_memberships").upsert({ user_id: profile.id, space: "global-network", status: "active", source: "import", expires_at: accessEnds, granted_by: me.user.id });
             } else if (key.startsWith("course:") && courseIds.has(key.slice(7))) {
               const courseId = key.slice(7);
               const { data: existing } = await db.from("enrollments").select("status").eq("user_id", profile.id).eq("course_id", courseId).maybeSingle();

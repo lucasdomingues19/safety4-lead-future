@@ -20,6 +20,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { AuthError, requireAdmin } from "../_shared/auth.ts";
+import { htmlToText, resendSend, sleep } from "../_shared/emailText.ts";
 
 const SITE = "https://www.safetytech.academy";
 const FN_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/lifecycle-messages`;
@@ -405,11 +406,8 @@ Deno.serve(async (req) => {
           headers["List-Unsubscribe"] = `<${link}>`;
           headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
         }
-        const res = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ from: FROM, to: [m.email], reply_to: "hello@safetytech.academy", subject: m.subject, html, headers }),
-        });
+        const res = await resendSend(resendKey ?? "", { from: FROM, to: [m.email], reply_to: "hello@safetytech.academy", subject: m.subject, html, text: htmlToText(html), headers });
+        await sleep(600); // stay under the email provider's rate limit
         if (!res.ok) throw new Error(`${res.status} ${(await res.text()).slice(0, 200)}`);
         await db.from("email_log").update({ status: "sent" }).eq("user_id", m.userId).eq("kind", m.kind).eq("dedupe_key", m.key);
         emails++;

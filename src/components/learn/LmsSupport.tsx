@@ -1,5 +1,6 @@
+import { MiaAvatar } from "@/components/learn/MiaAvatar";
 import { useState } from "react";
-import { ChevronDown, HelpCircle, MessageCircle, Shield, Sparkles } from "lucide-react";
+import { ChevronDown, HelpCircle, MessageCircle, Shield } from "lucide-react";
 
 const SUPPORT_EMAIL = "hello@safetytech.academy";
 const mailto = (subject: string) => `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}`;
@@ -37,7 +38,7 @@ export function LmsSupport({ onStartTour }: { onStartTour?: () => void } = {}) {
 
         {onStartTour && (
           <button onClick={onStartTour} className="mt-6 flex w-full items-center gap-4 rounded-[20px] bg-gradient-to-r from-[#11114a] to-[#0b0b2c] p-5 text-left text-white transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#3434ff]/30">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#9eff1f] to-[#3434ff]"><Sparkles size={22} className="text-[#0b0b2c]" /></span>
+            <MiaAvatar size={48} ring={false} />
             <span className="min-w-0 flex-1"><span className="block text-[17px] font-bold">Take the 2-minute tour with Mia</span><span className="block text-sm text-white/70">Mia walks you through your dashboard, courses, community and settings.</span></span>
             <span className="hidden rounded-lg bg-[#9eff1f] px-4 py-2 text-sm font-extrabold text-[#0b0b2c] sm:inline">Start</span>
           </button>

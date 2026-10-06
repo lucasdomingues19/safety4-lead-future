@@ -969,6 +969,35 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_comment_reactions: {
+        Row: {
+          comment_id: string
+          created_at: string
+          kind: string
+          user_id: string
+        }
+        Insert: {
+          comment_id: string
+          created_at?: string
+          kind: string
+          user_id: string
+        }
+        Update: {
+          comment_id?: string
+          created_at?: string
+          kind?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_comment_reactions_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "lesson_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_comments: {
         Row: {
           author_name: string
@@ -1696,6 +1725,10 @@ export type Database = {
           isOneToOne: false
           isSetofReturn: true
         }
+      }
+      can_use_lesson_comments: {
+        Args: { _lesson: string; _user: string }
+        Returns: boolean
       }
       complete_lesson: { Args: { _lesson_id: string }; Returns: Json }
       course_of_lesson: { Args: { _lesson_id: string }; Returns: string }

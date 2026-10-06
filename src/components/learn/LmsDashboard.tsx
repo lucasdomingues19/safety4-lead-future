@@ -126,7 +126,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
   const exampleCourse: CourseProgress | null = touring && !realFirst ? {
     id: "example", title: catalog[0]?.title ?? "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age", slug: "", description: null,
     cpdHours: catalog[0]?.cpd_hours ?? null, coverUrl: catalog[0]?.cover_image_url ?? null, status: "in_progress", progressPercent: 35,
-    totalModules: 4, totalLessons: 12, completedLessons: 4, nextLessonId: null, nextLessonTitle: "Why AI matters in EHS", nextModuleTitle: "Module 2",
+    totalModules: 4, totalLessons: 12, completedLessons: 4, started: true, nextLessonWatchedPct: 0, nextLessonId: null, nextLessonTitle: "Why AI matters in EHS", nextModuleTitle: "Module 2",
   } : null;
   const first = realFirst ?? exampleCourse;
   const learning = courses.length ? courses : exampleCourse ? [exampleCourse] : [];
@@ -152,13 +152,13 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
               <div style={{ minWidth: 0, flex: "1 1 420px" }}>
                 <div style={{ fontSize: "13px", fontWeight: 800, letterSpacing: "0.12em", color: "#a6e21a", display: "flex", alignItems: "center", gap: 10 }}>
                   {!realFirst && <ExampleTag dark />}
-                  {first.completedLessons === 0 ? "START YOUR COURSE" : first.status === "completed" ? "COURSE COMPLETE" : "CONTINUE WHERE YOU LEFT OFF"}
+                  {!first.started ? "START YOUR COURSE" : first.status === "completed" ? "COURSE COMPLETE" : "CONTINUE WHERE YOU LEFT OFF"}
                 </div>
                 <div style={{ marginTop: "14px", fontSize: "28px", lineHeight: 1.25, fontWeight: 700, color: "#fff" }}>
                   {first.nextLessonTitle ? `${first.nextModuleTitle ? `${first.nextModuleTitle} • ` : ""}${first.nextLessonTitle}` : first.title}
                 </div>
                 <div style={{ marginTop: "10px", fontSize: "15px", color: "rgba(255,255,255,0.6)" }}>
-                  {first.totalLessons > 0 ? `${first.completedLessons} of ${first.totalLessons} lessons complete` : "No lessons published yet"}
+                  {first.totalLessons > 0 ? `${first.completedLessons} of ${first.totalLessons} lessons complete${first.nextLessonWatchedPct >= 3 && first.status !== "completed" ? ` · ${first.nextLessonWatchedPct}% through this lesson` : ""}` : "No lessons published yet"}
                 </div>
                 <div style={{ marginTop: "22px", height: "8px", borderRadius: "999px", background: "rgba(255,255,255,0.16)", overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${first.progressPercent}%`, background: "#a6e21a", borderRadius: "999px" }} />
@@ -168,7 +168,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
                 onClick={() => realFirst && resumeCourse(realFirst)}
                 style={{ flex: "none", border: 0, borderRadius: "999px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "14px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "16px 34px", cursor: "pointer", boxShadow: "0 0 40px rgba(52,52,255,0.4)" }}
               >
-                {first.completedLessons === 0 ? "Start course" : first.status === "completed" ? "Review course" : "Resume course"}
+                {!first.started ? "Start course" : first.status === "completed" ? "Review course" : "Resume course"}
               </button>
             </div>
           </div>
@@ -214,7 +214,7 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
                     <div style={{ marginTop: "10px", fontSize: "13px", fontWeight: 600, color: "#69697b" }}>{course.progressPercent}% complete</div>
                     <div style={{ marginTop: "18px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
                       <button onClick={() => resumeCourse(course)} style={{ border: 0, borderRadius: "8px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, padding: "10px 18px", cursor: "pointer" }}>
-                        {course.completedLessons === 0 ? "Start" : "Continue"}
+                        {!course.started ? "Start" : "Resume"}
                       </button>
                       <button onClick={() => navigate(`/learn/${course.slug}`)} style={{ border: "1px solid #e2e8f0", borderRadius: "8px", background: "#fff", color: "#0b0b2c", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, padding: "10px 18px", cursor: "pointer" }}>
                         Curriculum

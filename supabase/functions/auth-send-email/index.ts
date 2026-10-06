@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { htmlToText } from "../_shared/emailText.ts";
 
 // Supabase Auth "Send Email" hook. Auth calls this instead of its built-in
 // (2 emails/hour) mailer; we send the same messages through Resend.
@@ -9,6 +10,7 @@ import { Resend } from "npm:resend@2.0.0";
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const HOOK_SECRET = Deno.env.get("SEND_EMAIL_HOOK_SECRET") ?? "";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SITE = "https://www.safetytech.academy";
 const NAVY = "#11113a";
 const LIME = "#c1ff72";
 
@@ -94,8 +96,20 @@ serve(async (req) => {
 
   try {
     const { user, email_data: d } = JSON.parse(raw) as HookPayload;
-    const linkFor = (hash: string) =>
-      `${SUPABASE_URL}/auth/v1/verify?token=${encodeURIComponent(hash)}&type=${encodeURIComponent(d.email_action_type)}&redirect_to=${encodeURIComponent(d.redirect_to || d.site_url)}`;
+    // Links go to a page on our own domain that asks the person to press a button
+    // (see src/pages/learn/AuthConfirm.tsx): trusted by mail filters, and link
+    // scanners can't use up the one-time token. Anything unexpected falls back to
+    // Supabase's own verify URL, so sign-in never breaks.
+    const nextPath = (() => {
+      try {
+        const u = new URL(d.redirect_to || d.site_url);
+        return /(^|\.)safetytech\.academy$/.test(u.hostname) && u.pathname.startsWith("/learn") ? `${u.pathname}${u.search}` : "/learn";
+      } catch { return "/learn"; }
+    })();
+    const ownDomain = ["signup", "invite", "magiclink", "recovery", "email_change", "email"].includes(d.email_action_type);
+    const linkFor = (hash: string) => ownDomain
+      ? `${SITE}/learn/auth/confirm?token_hash=${encodeURIComponent(hash)}&type=${encodeURIComponent(d.email_action_type)}&next=${encodeURIComponent(nextPath)}`
+      : `${SUPABASE_URL}/auth/v1/verify?token=${encodeURIComponent(hash)}&type=${encodeURIComponent(d.email_action_type)}&redirect_to=${encodeURIComponent(d.redirect_to || d.site_url)}`;
 
     const jobs: Array<{ to: string; link: string; token: string }> = [];
     if (d.email_action_type === "email_change" && user.new_email) {
@@ -113,6 +127,7 @@ serve(async (req) => {
         to: [job.to],
         subject,
         html,
+        text: htmlToText(html),
       });
       if (res.error) {
         console.error("Resend rejected auth email:", res.error);

@@ -116,7 +116,7 @@ export function LmsMyLearning({ onNavigate }: { onNavigate?: (screen: string) =>
                   )}
                   <div className="mt-4 flex flex-wrap gap-2">
                     <button onClick={() => open(c)} className="inline-flex items-center gap-1.5 rounded-lg bg-[#3434ff] px-4 py-2.5 text-[13.5px] font-bold text-white hover:bg-[#2a2ad6]">
-                      {c.status === "completed" ? <><CheckCircle2 size={15} /> Review course</> : <><PlayCircle size={15} /> {c.status === "not_started" ? "Start course" : "Continue"}</>}
+                      {c.status === "completed" ? <><CheckCircle2 size={15} /> Review course</> : <><PlayCircle size={15} /> {c.status === "not_started" ? "Start course" : "Resume course"}</>}
                     </button>
                     <button onClick={() => navigate(`/learn/${c.slug}`)} className="inline-flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] px-4 py-2.5 text-[13.5px] font-bold hover:border-[#c7cdf9]"><ListChecks size={15} /> Curriculum</button>
                     {cert && (

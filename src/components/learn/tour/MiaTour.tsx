@@ -1,3 +1,4 @@
+import { miaPhoto } from "@/components/learn/MiaAvatar";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Captions, CaptionsOff, ChevronLeft, ChevronRight, Loader2, Mic, Pause, Play, RotateCcw, Volume2, VolumeX, X } from "lucide-react";
 import { toast } from "sonner";
@@ -314,11 +315,11 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
           style={{ animation: speaking ? "mia-ring 1.4s ease-out infinite" : undefined }}
         >
           {media === null ? (
-            <div className="flex h-full w-full items-center justify-center"><Loader2 className="animate-spin text-white/80" size={26} /></div>
+            <div className="relative h-full w-full"><img src={miaPhoto} alt="" className="h-full w-full object-cover" /><span className="absolute inset-0 flex items-center justify-center bg-[#0b0b2c]/35"><Loader2 className="animate-spin text-white/90" size={26} /></span></div>
           ) : m.video ? (
             <video ref={videoRef} playsInline className="h-full w-full object-cover" onLoadedMetadata={(e) => { const d = e.currentTarget.duration; if (Number.isFinite(d)) setMediaMs((x) => ({ ...x, [step.id]: d * 1000 })); }} />
           ) : (
-            <div className="flex h-full w-full items-center justify-center"><span className="text-3xl font-extrabold text-white drop-shadow sm:text-4xl">M</span></div>
+            <img src={miaPhoto} alt="Mia" className="h-full w-full object-cover" />
           )}
         </div>
         {!playing && !finished && media !== null && (

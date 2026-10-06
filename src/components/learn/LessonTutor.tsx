@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { ArrowUp, Square, Sparkles } from "lucide-react";
+import { ArrowUp, Square } from "lucide-react";
+import { MiaAvatar } from "@/components/learn/MiaAvatar";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Turn { role: "user" | "assistant"; content: string }
@@ -81,7 +82,7 @@ export function LessonTutor({ lessonId, preview }: { lessonId: string; preview?:
       {turns.length === 0 ? (
         <div style={{ borderRadius: 14, background: "linear-gradient(135deg,#f5f7ff,#f4fbe4)", padding: "18px 18px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 800, fontSize: 15 }}>
-            <Sparkles size={17} color="#3434ff" /> Ask Mia about this lesson
+            <MiaAvatar size={30} ring={false} /> Ask Mia about this lesson
           </div>
           <p style={{ margin: "6px 0 14px", fontSize: 13.5, color: "#69697b", lineHeight: 1.55 }}>
             Mia has read this lesson's transcript and notes. Ask anything: what a term means, how it applies to your site, or test yourself.
@@ -102,7 +103,7 @@ export function LessonTutor({ lessonId, preview }: { lessonId: string; preview?:
               <div key={i} style={{ alignSelf: "flex-end", maxWidth: "85%", background: "#3434ff", color: "#fff", borderRadius: "14px 14px 4px 14px", padding: "10px 14px", fontSize: 14, lineHeight: 1.55, whiteSpace: "pre-wrap" }}>{t.content}</div>
             ) : (
               <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", maxWidth: "100%" }}>
-                <span aria-hidden style={{ flex: "none", width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg,#9eff1f,#3434ff)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}><Sparkles size={14} /></span>
+                <MiaAvatar size={28} ring={false} />
                 <div style={{ minWidth: 0, background: "#f5f7fa", borderRadius: "4px 14px 14px 14px", padding: "10px 14px", fontSize: 14, lineHeight: 1.65 }} className="prose prose-sm max-w-none">
                   {t.content ? <ReactMarkdown>{t.content}</ReactMarkdown> : <span style={{ color: "#69697b" }}>Mia is thinking…</span>}
                 </div>

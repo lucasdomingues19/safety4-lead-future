@@ -15,6 +15,7 @@ import { TrackedVideo, TrackedYouTube, TrackedVimeo, youTubeId, isVimeo, isDirec
 import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
 import { LessonTutor } from "@/components/learn/LessonTutor";
 import { LessonNotes } from "@/components/learn/LessonNotes";
+import { ReactionBar, useCommentReactions } from "@/components/learn/CommentReactions";
 import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 
 const TABS = ["overview", "ask", "transcript", "resources", "comments"] as const;
@@ -47,6 +48,8 @@ const LessonView = () => {
 
   // Admins without an enrolment can open any lesson in preview mode (nothing is recorded).
   const [preview, setPreview] = useState(false);
+  // Where the video resumes (seconds): taken from what they already watched.
+  const [resumeAt, setResumeAt] = useState(0);
   // Watch tracking: server-confirmed seconds + what the player has measured since.
   const [watched, setWatched] = useState(0);
   const [playerDuration, setPlayerDuration] = useState(0);
@@ -58,6 +61,7 @@ const LessonView = () => {
 
   const [comments, setComments] = useState<LessonComment[]>([]);
   const [newComment, setNewComment] = useState("");
+  const reactions = useCommentReactions(comments.map((c) => c.id), user?.id);
   const [posting, setPosting] = useState(false);
 
   useEffect(() => {
@@ -146,6 +150,10 @@ const LessonView = () => {
       }
       tracker.current = { lessonId: current.id, value: serverWatched, sent: serverWatched, at: Date.now(), duration: Number(watchRow?.duration_seconds ?? 0) };
       setWatched(serverWatched);
+      // Prefer the exact position saved on this device; otherwise how much they've watched.
+      let stored = 0;
+      try { stored = Number(localStorage.getItem(`lms-pos:${current.id}`)) || 0; } catch { /* private mode */ }
+      setResumeAt(done.has(current.id) ? 0 : stored > 0 && (!watchRow?.duration_seconds || stored < Number(watchRow.duration_seconds)) ? stored : serverWatched);
       setPlayerDuration(Number(watchRow?.duration_seconds ?? 0));
 
       setCourse(c as unknown as Course);
@@ -253,6 +261,10 @@ const LessonView = () => {
     if (sample.duration > 0 && Math.abs(sample.duration - t.duration) > 1) {
       t.duration = sample.duration;
       setPlayerDuration(sample.duration);
+    }
+    // Remember exactly where they are (this device), so coming back resumes on the same second.
+    if (t.lessonId && sample.position > 5 && (sample.duration <= 0 || sample.position < sample.duration - 5)) {
+      try { localStorage.setItem(`lms-pos:${t.lessonId}`, String(Math.floor(sample.position))); } catch { /* private mode */ }
     }
     if (!tracking) return;
     if (sample.delta > 0) {
@@ -395,7 +407,7 @@ const LessonView = () => {
                 captionsUrl={signed?.captions_url}
                 captionsOn={captions}
                 lockSeekAhead={requiresWatch && !isDone}
-                resumeFrom={0}
+                resumeFrom={resumeAt}
                 onSample={onWatchSample}
                 onError={() => setMediaError(true)}
               />
@@ -422,7 +434,7 @@ const LessonView = () => {
           ) : lesson.video_url && isIframeEmbed(lesson.video_url) ? (
             <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen style={frame} />
           ) : lesson.video_url && isDirectVideoUrl(lesson.video_url) ? (
-            <TrackedVideo key={lesson.id} src={lesson.video_url} captionsOn={captions} lockSeekAhead={requiresWatch && !isDone} resumeFrom={0} onSample={onWatchSample} />
+            <TrackedVideo key={lesson.id} src={lesson.video_url} captionsOn={captions} lockSeekAhead={requiresWatch && !isDone} resumeFrom={resumeAt} onSample={onWatchSample} />
           ) : lesson.video_url ? (
             <video key={lesson.id} src={lesson.video_url} controls playsInline style={frame} />
           ) : (
@@ -518,6 +530,7 @@ const LessonView = () => {
                             {c.user_id === user?.id && <button onClick={() => deleteComment(c.id)} style={{ marginLeft: "auto", background: "none", border: "none", color: "#94a3b8", fontSize: 11, cursor: "pointer" }}>Delete</button>}
                           </div>
                           <p style={{ margin: "4px 0 0", fontSize: 13, lineHeight: 1.5, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{c.body}</p>
+                          <ReactionBar commentId={c.id} rows={reactions.rows} userId={user?.id} onToggle={reactions.toggle} />
                         </div>
                       </div>
                     ))}
