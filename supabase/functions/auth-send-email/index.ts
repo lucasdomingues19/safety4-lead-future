@@ -72,7 +72,7 @@ function build(type: string, link: string, token: string) {
     case "signup":
       return { subject: "Confirm your SafetyTech Academy account", html: layout("Confirm your email", "Welcome to SafetyTech Academy! Confirm your email address to activate your account.", "Confirm my email", link, "If you didn't create an account, you can ignore this email.") };
     case "recovery":
-      return { subject: "Reset your SafetyTech Academy password", html: layout("Reset your password", "We received a request to reset your password. This link works once and expires soon.", "Choose a new password", link, "If you didn't ask for this, you can safely ignore this email — your password won't change.") };
+      return { subject: "Reset your SafetyTech Academy password", html: layout("Reset your password", "We received a request to reset your password. This link works once and stays valid for 24 hours.", "Choose a new password", link, "If you didn't ask for this, you can safely ignore this email — your password won't change.") };
     case "magiclink":
       return { subject: "Your SafetyTech Academy sign-in link", html: layout("Sign in", "Use the button below to sign in.", "Sign in", link, "If you didn't request this, ignore this email.") };
     case "invite":

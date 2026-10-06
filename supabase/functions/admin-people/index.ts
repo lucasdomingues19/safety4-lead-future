@@ -38,7 +38,7 @@ async function sendWelcome(to: string, name: string, link: string, courses: stri
 ${courseList}
 </td></tr>
 <tr><td style="padding:8px 40px 26px;text-align:center;"><a href="${esc(link)}" style="display:inline-block;background:#3434ff;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">Set my password</a></td></tr>
-<tr><td style="padding:0 40px 24px;color:#94a3b8;font-size:12px;line-height:1.6;">This link works once. If it has stopped working, go to ${SITE}/learn/auth, choose “Forgot password?” and enter this email address to get a new one.</td></tr>
+<tr><td style="padding:0 40px 24px;color:#94a3b8;font-size:12px;line-height:1.6;">This link works once and stays valid for 24 hours. If it has stopped working, go to ${SITE}/learn/auth, choose “Forgot password?” and enter this email address to get a new one.</td></tr>
 <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;"><p style="margin:0;color:#94a3b8;font-size:11px;">Questions? Reply to this email or write to hello@safetytech.academy</p></td></tr>
 </table></td></tr></table></body></html>`;
   const res = await resendSend(key, {
