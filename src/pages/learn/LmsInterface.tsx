@@ -150,7 +150,7 @@ export default function LmsInterface() {
   const header = currentCourse ? (
     <>
       <ShellTitle label="CURRENT COURSE" title={currentCourse.title} />
-      <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: "none" }} className="hidden sm:flex">
+      <div style={{ alignItems: "center", gap: "12px", flex: "none" }} className="hidden sm:flex">
         <div style={{ width: "120px", height: "6px", borderRadius: "999px", background: "#eef1f6", overflow: "hidden" }}>
           <div style={{ height: "100%", width: `${currentCourse.progressPercent ?? 0}%`, background: "#3434ff", borderRadius: "999px" }}></div>
         </div>

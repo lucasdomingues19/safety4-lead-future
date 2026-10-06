@@ -6,18 +6,22 @@ import { invokeFunction } from "@/lib/invoke";
 import { PanelHeader, Spinner, panel } from "./adminUi";
 
 type Channel = "email" | "in-app";
-interface Automation { kind: string; name: string; trigger: string; channels: Channel[]; group: string }
+interface Automation { kind: string; name: string; trigger: string; channels: Channel[]; group: string; /** Always on: sent by the app itself, not the scheduler. */ fixed?: boolean }
 
 /** The lifecycle automations run by the lifecycle-messages function (every 15 min). */
 const AUTOMATIONS: Automation[] = [
   { group: "Onboarding", kind: "welcome_course", name: "Welcome to the course", trigger: "Within 3 days of enrolling, until they start the first lesson", channels: ["email"] },
   { group: "Onboarding", kind: "onboarding_day1", name: "Start your first lesson", trigger: "1–3 days after sign-up, if no lesson is completed yet", channels: ["email"] },
   { group: "Onboarding", kind: "onboarding_day3", name: "Meet the community", trigger: "3–6 days after sign-up", channels: ["email"] },
-  { group: "Progress", kind: "module_complete", name: "Module complete", trigger: "When every lesson in a module is finished, with what's next", channels: ["email", "in-app"] },
+  { group: "Progress", kind: "quiz_passed", name: "Quiz passed", trigger: "The moment a learner first passes a module quiz (instant, in the bell)", channels: ["in-app"], fixed: true },
+  { group: "Progress", kind: "module_complete", name: "Module complete", trigger: "When every lesson in a module is finished and its quiz is passed, with the score and what's next (within 15 minutes)", channels: ["email", "in-app"] },
   { group: "Progress", kind: "final_ready", name: "Ready for the final assessment", trigger: "All lessons finished, final assessment not yet passed", channels: ["email", "in-app"] },
   { group: "Progress", kind: "course_complete", name: "Course complete", trigger: "All lessons finished (courses without a final assessment)", channels: ["in-app"] },
   { group: "Re-engagement", kind: "nudge_7", name: "Pick up where you left off", trigger: "No learning activity for 7 days", channels: ["email", "in-app"] },
-  { group: "Re-engagement", kind: "nudge_21", name: "Your progress is saved", trigger: "No learning activity for 21 days", channels: ["email", "in-app"] },
+  { group: "Re-engagement", kind: "nudge_14", name: "Your next lesson is waiting", trigger: "No learning activity for 14 days", channels: ["email", "in-app"] },
+  { group: "Re-engagement", kind: "nudge_30", name: "Your progress is saved", trigger: "No learning activity for 30 days", channels: ["email", "in-app"] },
+  { group: "Re-engagement", kind: "nudge_60", name: "Still want to finish?", trigger: "No learning activity for 60 days", channels: ["email", "in-app"] },
+  { group: "Re-engagement", kind: "nudge_90", name: "We've kept your place (last reminder)", trigger: "No learning activity for 90 days", channels: ["email", "in-app"] },
   { group: "Re-engagement", kind: "access_expiring", name: "Access ending soon", trigger: "Course access ends within 7 days and the course isn't finished", channels: ["email", "in-app"] },
   { group: "Live sessions", kind: "event_reminder", name: "Live session starting soon", trigger: "1 hour before a live session the learner registered for", channels: ["email", "in-app"] },
 ];
@@ -95,7 +99,7 @@ export function EmailAutomations() {
           <div key={g}>
             <div style={{ padding: "14px 28px 6px", fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", color: "#94a3b8", textTransform: "uppercase" }}>{g}</div>
             {AUTOMATIONS.filter((a) => a.group === g).map((a) => {
-              const on = enabled[a.kind] ?? true;
+              const on = a.fixed ? true : (enabled[a.kind] ?? true);
               const st = stats[a.kind];
               return (
                 <div key={a.kind} style={{ padding: "14px 28px", borderTop: "1px solid #f1f4f8", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", opacity: on ? 1 : 0.6 }}>
@@ -119,10 +123,12 @@ export function EmailAutomations() {
                       <Eye size={14} /> {previewing === a.kind ? "Loading…" : "Preview"}
                     </button>
                   ) : <span style={{ width: 92 }} />}
+                  {a.fixed ? <span style={{ width: 46, flex: "none", textAlign: "center", fontSize: 11, fontWeight: 700, color: "#94a3b8" }}>Always on</span> : (
                   <button type="button" role="switch" aria-checked={on} aria-label={`${a.name}: ${on ? "on" : "off"}`} onClick={() => toggle(a.kind)}
                     style={{ position: "relative", width: 46, height: 26, flex: "none", border: 0, borderRadius: 999, background: on ? "#3434ff" : "#cbd5e1", cursor: "pointer" }}>
                     <span style={{ position: "absolute", top: 3, left: on ? 23 : 3, width: 20, height: 20, borderRadius: "50%", background: "#fff", transition: "left .2s" }} />
                   </button>
+                  )}
                 </div>
               );
             })}

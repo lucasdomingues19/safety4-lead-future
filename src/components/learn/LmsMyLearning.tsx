@@ -94,8 +94,8 @@ export function LmsMyLearning({ onNavigate }: { onNavigate?: (screen: string) =>
             const st = STATUS[c.status];
             return (
               <article key={c.id} className="flex flex-col overflow-hidden rounded-[20px] border border-[#e2e8f0] bg-white md:flex-row">
-                <button onClick={() => open(c)} className="relative block w-full shrink-0 bg-gradient-to-br from-[#17176e] to-[#05051e] md:w-[280px]" aria-label={`Open ${c.title}`}>
-                  {c.coverUrl ? <img src={c.coverUrl} alt="" className="aspect-video h-full w-full object-cover" /> : <div className="flex aspect-video items-center justify-center"><BookOpen size={34} className="text-white/60" /></div>}
+                <button onClick={() => open(c)} className="relative flex w-full shrink-0 items-center bg-[#0e0e33] md:w-[340px]" aria-label={`Open ${c.title}`}>
+                  {c.coverUrl ? <img src={c.coverUrl} alt="" className="block aspect-video w-full object-cover" /> : <div className="flex aspect-video items-center justify-center"><BookOpen size={34} className="text-white/60" /></div>}
                 </button>
                 <div className="flex min-w-0 flex-1 flex-col p-5 md:p-6">
                   <div className="flex flex-wrap items-center gap-2">

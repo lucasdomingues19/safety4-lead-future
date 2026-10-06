@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
+import { htmlToText, resendSend } from "../_shared/emailText.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 // Self-service certificate issuance: a learner calls this after passing a
@@ -10,7 +10,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 // quiz's own course, via a verified passing row in quiz_attempts. A learner
 // can only ever issue a certificate for their own verified pass.
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -167,18 +166,24 @@ serve(async (req: Request) => {
     }
 
     const verifyUrl = `${SITE_URL}/verify/${cert.certificate_number}`;
-    const emailResponse = await resend.emails.send({
-      from: "SafetyTech Academy <hello@safetytech.academy>",
-      reply_to: "hello@safetytech.academy",
-      to: [cert.recipient_email],
-      subject: "Your SafetyTech Academy Certificate",
-      html: buildEmailHtml(cert, verifyUrl),
-    });
-    if (emailResponse.error) {
-      console.error("Certificate email rejected:", cert.certificate_number, emailResponse.error);
+    const certHtml = buildEmailHtml(cert, verifyUrl);
+    let emailed = false;
+    try {
+      const res = await resendSend(Deno.env.get("RESEND_API_KEY") ?? "", {
+        from: "SafetyTech Academy <hello@safetytech.academy>",
+        reply_to: "hello@safetytech.academy",
+        to: [cert.recipient_email],
+        subject: "Your SafetyTech Academy Certificate",
+        html: certHtml,
+        text: htmlToText(certHtml),
+      });
+      emailed = res.ok;
+      if (!res.ok) console.error("Certificate email rejected:", cert.certificate_number, res.status, (await res.text()).slice(0, 200));
+    } catch (e) {
+      console.error("Certificate email failed:", cert.certificate_number, e);
     }
 
-    return json({ status: "issued", certificate_number: cert.certificate_number, verify_url: verifyUrl, emailed: !emailResponse.error });
+    return json({ status: "issued", certificate_number: cert.certificate_number, verify_url: verifyUrl, emailed });
   } catch (error) {
     console.error("issue-self-certificate error:", error);
     return json({ error: "Unexpected error issuing certificate" }, 500);

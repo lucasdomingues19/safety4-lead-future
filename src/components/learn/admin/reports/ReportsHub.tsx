@@ -40,23 +40,23 @@ export function LmsAdminReports() {
     <div style={{ marginTop: 28, fontFamily: adminFont, display: "grid", gap: 20 }}>
       {/* Filters: one row, apply to every tab */}
       <div style={{ ...panel, padding: "14px 18px", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", overflow: "visible" }}>
-        <select aria-label="Course" value={courseId} onChange={(e) => setCourseId(e.target.value)} style={{ ...input, width: "auto", minWidth: 220, padding: "9px 12px" }}>
+        <select aria-label="Course" value={courseId} onChange={(e) => setCourseId(e.target.value)} style={{ ...input, width: "auto", minWidth: 0, maxWidth: "100%", padding: "9px 12px" }}>
           <option value="all">All courses</option>
           {data.courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
         </select>
-        <div role="group" aria-label="Period" style={{ display: "inline-flex", gap: 4, padding: 3, border: "1px solid #e2e8f0", borderRadius: 10 }}>
+        <div role="group" aria-label="Period" style={{ display: "inline-flex", flexWrap: "wrap", maxWidth: "100%", gap: 4, padding: 3, border: "1px solid #e2e8f0", borderRadius: 10 }}>
           {PERIODS.map((p) => (
             <button key={p.v} type="button" aria-pressed={period === p.v} onClick={() => setPeriod(p.v)}
               style={{ border: 0, borderRadius: 7, padding: "7px 11px", fontFamily: "inherit", fontSize: 13, fontWeight: 700, cursor: "pointer", background: period === p.v ? "#0b0b2c" : "transparent", color: period === p.v ? "#fff" : "#69697b" }}>{p.label}</button>
           ))}
         </div>
         {data.tags.length > 0 && (
-          <select aria-label="Tag" value={tag} onChange={(e) => setTag(e.target.value)} style={{ ...input, width: "auto", minWidth: 160, padding: "9px 12px" }}>
+          <select aria-label="Tag" value={tag} onChange={(e) => setTag(e.target.value)} style={{ ...input, width: "auto", minWidth: 0, maxWidth: "100%", padding: "9px 12px" }}>
             <option value="">All tags</option>
             {data.tags.map((t) => <option key={t} value={t}>Tagged: {t}</option>)}
           </select>
         )}
-        <div role="tablist" style={{ marginLeft: "auto", display: "inline-flex", gap: 4 }}>
+        <div role="tablist" style={{ marginLeft: "auto", display: "inline-flex", gap: 4, maxWidth: "100%", overflowX: "auto" }}>
           {(["dashboard", "learning", "learners", "quizzes", "exports"] as Tab[]).map((t) => (
             <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
               style={{ border: 0, borderBottom: `2px solid ${tab === t ? BLUE : "transparent"}`, background: "none", padding: "8px 10px", fontFamily: "inherit", fontSize: 14, fontWeight: 700, color: tab === t ? BLUE : "#69697b", cursor: "pointer", textTransform: "capitalize" }}>{t}</button>

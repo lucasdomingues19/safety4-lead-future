@@ -6,10 +6,10 @@
 //   welcome_course   enrolment in the last 3 days            email
 //   onboarding_day1  signed up 1–3 days ago, no lesson done  email
 //   onboarding_day3  signed up 3–6 days ago                  email
-//   module_complete  finished a module (last 3 days)         email + in-app
+//   module_complete  finished a module, quiz passed (3 days)  email + in-app
 //   final_ready      finished all lessons, final assessment  email + in-app
 //   course_complete  finished all lessons, no final          in-app (certificate email is separate)
-//   nudge_7/nudge_21 no activity for 7 / 21 days             email + in-app   (reminder)
+//   nudge_7/14/30/60/90  no activity for 7, 14, 30, 60, 90 days  email + in-app   (reminder)
 //   access_expiring  access ends within 7 days               email + in-app   (reminder)
 //   event_reminder   RSVP'd live session within the hour     email + in-app
 //
@@ -29,7 +29,10 @@ const NAVY = "#0b0b2c", LIME = "#9eff1f", BLUE = "#3434ff";
 const MAX_PER_RUN = 25;          // keep each run small
 const MAX_PER_DAY = 90;          // Resend free plan allows 100/day
 const DAY = 86_400_000;
-const REMINDER_KINDS = new Set(["nudge_7", "nudge_21", "access_expiring", "onboarding_day1", "onboarding_day3"]);
+const NUDGES = [7, 14, 30, 60, 90] as const;
+const REMINDER_KINDS = new Set([...NUDGES.map((d) => `nudge_${d}`), "access_expiring", "onboarding_day1", "onboarding_day3"]);
+// Admins are never sent onboarding/reminder emails, but do get progress messages for courses they are enrolled in (so they can test the learner journey).
+const ADMIN_OK = new Set(["module_complete", "final_ready", "course_complete"]);
 
 const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret" };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -73,7 +76,7 @@ SafetyTech Academy · Shield360 Ltd, 20 Wenlock Road, London N1 7GU<br>Questions
 interface Ctx {
   first: string; course: string; courseUrl: string;
   lesson?: string; lessonUrl?: string; mins?: number | null; pct?: number; started?: boolean;
-  module?: string; nextModule?: string; finalUrl?: string;
+  module?: string; nextModule?: string; finalUrl?: string; quizTitle?: string; score?: number; accessEnds?: string;
   date?: string; event?: string; when?: string; joinUrl?: string;
 }
 const minsText = (m?: number | null) => (m ? ` — about ${m} minutes` : "");
@@ -103,7 +106,7 @@ const T: Record<string, (c: Ctx) => { subject: string; html: string }> = {
   module_complete: (c) => ({
     subject: `You've finished ${(c.module ?? "a module").replace(/^Module \d+:\s*/i, "")}`,
     html: layout({ heading: `Module complete — nice work, ${c.first}`, paras: [
-      `You've finished <strong>${esc(c.module ?? "")}</strong> in ${esc(c.course)}. You're now ${c.pct ?? 0}% of the way through.`,
+      `You've finished <strong>${esc(c.module ?? "")}</strong> in ${esc(c.course)}${c.quizTitle ? ` and passed <strong>${esc(c.quizTitle)}</strong>${c.score != null ? ` with ${c.score}%` : ""}` : ""}. You're now ${c.pct ?? 0}% of the way through.`,
       c.lesson ? `Next up: <strong>${esc(c.nextModule ?? "")}</strong>, starting with ${esc(c.lesson)}.` : "",
     ].filter(Boolean), cta: c.lessonUrl ? { label: "Start the next module", url: c.lessonUrl } : undefined }),
   }),
@@ -128,12 +131,35 @@ const T: Record<string, (c: Ctx) => { subject: string; html: string }> = {
       `Your next lesson is <strong>${esc(c.lesson ?? "")}</strong>${minsText(c.mins)}. A short session today keeps the momentum going.`,
     ], cta: { label: "Continue learning", url: c.lessonUrl ?? c.courseUrl } }),
   }),
-  nudge_21: (c) => ({
+  nudge_14: (c) => ({
+    subject: `Two weeks on: your next lesson in ${c.course}`,
+    html: layout({ heading: `A quick one for you, ${c.first}`, paras: [
+      `It's been about two weeks since your last session in <strong>${esc(c.course)}</strong>${c.started ? ` (${c.pct ?? 0}% done)` : ""}.`,
+      `Your next lesson is <strong>${esc(c.lesson ?? "")}</strong>${minsText(c.mins)}. Ten focused minutes is enough to get back into it.`,
+    ], cta: { label: "Continue learning", url: c.lessonUrl ?? c.courseUrl } }),
+  }),
+  nudge_30: (c) => ({
     subject: `Your progress in ${c.course} is saved`,
     html: layout({ heading: "Your place is saved", paras: [
-      `Hi ${esc(c.first)}, it's been a few weeks. Everything you've done in <strong>${esc(c.course)}</strong> is saved${c.started ? ` (${c.pct ?? 0}% complete)` : ""}.`,
-      `Even 10 minutes a week adds up. Your next lesson: <strong>${esc(c.lesson ?? "")}</strong>.`,
+      `Hi ${esc(c.first)}, it's been a month. Everything you've done in <strong>${esc(c.course)}</strong> is saved${c.started ? ` (${c.pct ?? 0}% complete)` : ""}, and you can pick up exactly where you stopped.`,
+      `Stuck on something, or short on time? Ask Mia, your AI learning guide, about any lesson, or just reply to this email and we'll help.`,
     ], cta: { label: "Continue learning", url: c.lessonUrl ?? c.courseUrl } }),
+  }),
+  nudge_60: (c) => ({
+    subject: `Still want to finish ${c.course}?`,
+    html: layout({ heading: `Still keen to finish, ${c.first}?`, paras: [
+      `You haven't been in <strong>${esc(c.course)}</strong> for about two months${c.started ? `, and you're ${c.pct ?? 0}% of the way there` : ""}.`,
+      c.accessEnds ? `Your access runs until <strong>${esc(c.accessEnds)}</strong>, so there's still time.` : "",
+      `Your next lesson, <strong>${esc(c.lesson ?? "")}</strong>${minsText(c.mins)}, is the easiest way back in. If the course isn't what you hoped for, tell us by replying, we read every message.`,
+    ].filter(Boolean), cta: { label: "Pick it back up", url: c.lessonUrl ?? c.courseUrl } }),
+  }),
+  nudge_90: (c) => ({
+    subject: `We've kept your place in ${c.course}`,
+    html: layout({ heading: "One last note from us", paras: [
+      `Hi ${esc(c.first)}, it's been about three months, so this is our last reminder about <strong>${esc(c.course)}</strong>.`,
+      `Your progress${c.started ? ` (${c.pct ?? 0}%)` : ""} stays saved${c.accessEnds ? ` until your access ends on <strong>${esc(c.accessEnds)}</strong>` : ""}. Whenever you're ready, your next lesson is <strong>${esc(c.lesson ?? "")}</strong>.`,
+      `If now isn't the right time, that's completely fine. You can switch reminders off any time using the link below.`,
+    ], cta: { label: "Return to the course", url: c.lessonUrl ?? c.courseUrl } }),
   }),
   event_reminder: (c) => ({
     subject: `Starting in an hour: ${c.event}`,
@@ -185,7 +211,7 @@ Deno.serve(async (req) => {
         const l = ls[0];
         sample = { first: firstName(prof?.full_name), course: c.title, courseUrl: `${SITE}/learn/${c.slug}`, lesson: l.title, lessonUrl: `${SITE}/learn/${c.slug}/lesson/${l.id}`,
           mins: l.duration_minutes || (l.video_duration_seconds ? Math.round(l.video_duration_seconds / 60) : null), pct: 30, started: true,
-          module: mods[0].title, nextModule: mods[1]?.title ?? mods[0].title, finalUrl: `${SITE}/learn/${c.slug}/final-assessment`,
+          module: mods[0].title, nextModule: mods[1]?.title ?? mods[0].title, quizTitle: `${mods[0].title.replace(/^Module \d+:\s*/i, "")} quiz`, score: 90, accessEnds: fmtDate(new Date(Date.now() + 120 * DAY)), finalUrl: `${SITE}/learn/${c.slug}/final-assessment`,
           date: fmtDate(new Date(Date.now() + 5 * DAY)), event: "Live roundtable: AI in EHS", when: fmtTime(new Date(Date.now() + 60 * 60_000)) };
         break;
       }
@@ -220,7 +246,7 @@ Deno.serve(async (req) => {
         if (!data || data.length < 1000) return { data: rows };
       }
     };
-    const [{ data: profiles }, { data: enrolls }, { data: courses }, { data: modules }, { data: lessons }, { data: progress }, { data: watches }, { data: days }, { data: finals }, { data: logs }, { data: admins }] = await Promise.all([
+    const [{ data: profiles }, { data: enrolls }, { data: courses }, { data: modules }, { data: lessons }, { data: progress }, { data: watches }, { data: days }, { data: finals }, { data: logs }, { data: admins }, { data: quizzes }, { data: quizPasses }] = await Promise.all([
       all("profiles", "id, full_name, email_reminders, tour_completed_at, welcomed_at"),
       all("enrollments", "id, user_id, course_id, status, enrolled_at, expires_at", (q) => q.eq("status", "active")),
       all("courses", "id, title, slug, final_assessment_ref"),
@@ -232,6 +258,8 @@ Deno.serve(async (req) => {
       all("final_assessment_attempts", "user_id, course_id, status"),
       all("email_log", "user_id, kind, dedupe_key, sent_at"),
       all("user_roles", "user_id", (q) => q.eq("role", "admin")),
+      all("quizzes", "id, module_id, title"),
+      all("quiz_attempts", "user_id, quiz_id, score, attempted_at", (q) => q.eq("passed", true)),
     ]);
     const adminIds = new Set((admins ?? []).map((a: any) => a.user_id));
     const { data: autos } = await db.from("email_automations").select("kind, enabled");
@@ -246,6 +274,12 @@ Deno.serve(async (req) => {
     for (const c of courses ?? []) {
       const mods = (modules ?? []).filter((m: any) => m.course_id === c.id).sort((a: any, b: any) => a.position - b.position);
       outline.set(c.id, mods.map((m: any) => ({ module: m, lessons: (lessons ?? []).filter((l: any) => l.module_id === m.id).sort((a: any, b: any) => a.position - b.position) })));
+    }
+    const quizOfModule = new Map<string, { id: string; title: string }>((quizzes ?? []).map((q: any) => [q.module_id, { id: q.id, title: q.title }]));
+    const passOf = new Map<string, { score: number; at: number }>(); // "user|quiz" -> best score, first pass time
+    for (const a of quizPasses ?? []) {
+      const k = `${a.user_id}|${a.quiz_id}`, at = new Date(a.attempted_at).getTime(), prev = passOf.get(k);
+      passOf.set(k, { score: Math.max(prev?.score ?? 0, Number(a.score) || 0), at: prev ? Math.min(prev.at, at) : at });
     }
     const done = new Map<string, Map<string, number>>(); // user -> lesson -> completed ms
     for (const p of progress ?? []) {
@@ -262,10 +296,13 @@ Deno.serve(async (req) => {
     const lessonUrl = (c: any, l: any) => `${SITE}/learn/${c.slug}/lesson/${l.id}`;
 
     const msgs: Msg[] = [];
-    const want = (m: Msg) => { if (!sent.has(`${m.userId}|${m.kind}|${m.key}`)) msgs.push(m); };
+    const want = (m: Msg) => {
+      if (adminIds.has(m.userId) && !ADMIN_OK.has(m.kind)) return;
+      if (!sent.has(`${m.userId}|${m.kind}|${m.key}`)) msgs.push(m);
+    };
 
     for (const u of users) {
-      if (!u.email || adminIds.has(u.id)) continue;               // never message admins
+      if (!u.email) continue;
       const p: any = prof.get(u.id) ?? {};
       const first = firstName(p.full_name || u.user_metadata?.full_name);
       const signedIn = !!u.last_sign_in_at;
@@ -293,16 +330,20 @@ Deno.serve(async (req) => {
           want({ userId: u.id, email: u.email, kind: "welcome_course", key: e.id, ...T.welcome_course(base) });
         }
 
-        // Module complete (most recent finish within 3 days).
+        // Module complete: every lesson done and, if the module has a quiz, the quiz passed
+        // (most recent finish within 3 days).
         if (completedCount < all.length) {
           mods.forEach((m, i) => {
             if (!m.lessons.length || !m.lessons.every((l: any) => myDone.has(l.id))) return;
-            const finishedAt = Math.max(...m.lessons.map((l: any) => myDone.get(l.id) || 0));
+            const quiz = quizOfModule.get(m.module.id);
+            const pass = quiz ? passOf.get(`${u.id}|${quiz.id}`) : undefined;
+            if (quiz && !pass) return; // the email waits for the quiz
+            const finishedAt = Math.max(...m.lessons.map((l: any) => myDone.get(l.id) || 0), pass?.at ?? 0);
             if (now - finishedAt > 3 * DAY) return;
             const nm = mods.slice(i + 1).find((x) => x.lessons.some((l: any) => !myDone.has(l.id)));
             const nl = nm?.lessons.find((l: any) => !myDone.has(l.id)) ?? next;
             want({ userId: u.id, email: u.email, kind: "module_complete", key: m.module.id,
-              ...T.module_complete({ ...base, module: m.module.title, nextModule: nm?.module.title, lesson: nl?.title, lessonUrl: nl ? lessonUrl(c, nl) : undefined }),
+              ...T.module_complete({ ...base, module: m.module.title, nextModule: nm?.module.title, lesson: nl?.title, lessonUrl: nl ? lessonUrl(c, nl) : undefined, quizTitle: quiz?.title, score: pass?.score }),
               notify: { title: `Module complete: ${m.module.title}`, body: nl ? `Next up: ${nl.title}` : `${pct}% of ${c.title} done`, link: nl ? `/learn/${c.slug}/lesson/${nl.id}` : `/learn/${c.slug}` } });
           });
         }
@@ -331,17 +372,21 @@ Deno.serve(async (req) => {
           }
         }
 
-        // Inactivity nudges (one per quiet spell, at 7 and 21 days).
+        // Inactivity nudges: one email per stage per quiet spell, at 7, 14, 30, 60 and 90 days.
+        // Each stage only fires inside its own window, so a long-quiet learner gets the
+        // stage that matches today, not a burst of every earlier one.
         if (signedIn && next && completedCount < all.length) {
           const last = Math.max(lastActive.get(u.id) ?? 0, enrolledAt);
-          const quiet = now - last;
+          const quietDays = (now - last) / DAY;
           const spell = new Date(last).toISOString().slice(0, 10);
-          if (quiet >= 7 * DAY && quiet < 21 * DAY) {
-            want({ userId: u.id, email: u.email, kind: "nudge_7", key: `${c.id}:${spell}`, ...T.nudge_7(base),
-              notify: { title: "Pick up where you left off", body: next.title, link: `/learn/${c.slug}/lesson/${next.id}` } });
-          } else if (quiet >= 21 * DAY && quiet < 60 * DAY) {
-            want({ userId: u.id, email: u.email, kind: "nudge_21", key: `${c.id}:${spell}`, ...T.nudge_21(base),
-              notify: { title: "Your progress is saved", body: `Next: ${next.title}`, link: `/learn/${c.slug}/lesson/${next.id}` } });
+          const stage = [...NUDGES].reverse().find((d) => quietDays >= d);
+          const nextStage = stage ? NUDGES[NUDGES.indexOf(stage) + 1] : undefined;
+          const windowEnd = nextStage ?? stage! + 60; // after 90 days, stop after 60 more
+          if (stage && quietDays < windowEnd) {
+            const kind = `nudge_${stage}`;
+            const heading: Record<number, string> = { 7: "Pick up where you left off", 14: "Your next lesson is waiting", 30: "Your progress is saved", 60: "Still want to finish?", 90: "We've kept your place" };
+            want({ userId: u.id, email: u.email, kind, key: `${c.id}:${spell}`, ...T[kind]({ ...base, accessEnds: e.expires_at ? fmtDate(e.expires_at) : undefined }),
+              notify: { title: heading[stage], body: `Next: ${next.title}`, link: `/learn/${c.slug}/lesson/${next.id}` } });
           }
         }
       }
