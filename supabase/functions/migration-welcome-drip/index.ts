@@ -69,10 +69,16 @@ serve(async (req) => {
 
   if (action === "test") {
     if (cron || !adminEmail) return json({ error: "Admins only" }, 403);
-    const err = await sendMigrationWelcome(adminEmail, "Alex Morgan", `${SITE}/learn/auth`, [
-      { title: "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age", pct: 52 },
-      { title: "Fundamentals of AI in EHS", pct: 100 },
-    ]);
+    const v = (body as { variant?: string }).variant ?? "learner";
+    const until = "6 October 2027";
+    const err = v === "network"
+      ? await sendMigrationWelcome(adminEmail, "Alex Morgan", `${SITE}/learn/auth`, [], { networkUntil: until })
+      : v === "free"
+        ? await sendMigrationWelcome(adminEmail, "Alex Morgan", `${SITE}/learn/auth`, [])
+        : await sendMigrationWelcome(adminEmail, "Alex Morgan", `${SITE}/learn/auth`, [
+          { title: "IOSH-approved Safety 4.0 - Leading Safety in the Digital Age", pct: 52 },
+          { title: "Fundamentals of AI in EHS", pct: 100 },
+        ], { networkUntil: until });
     return json({ ok: !err, sent_to: adminEmail, error: err });
   }
 
@@ -114,7 +120,9 @@ serve(async (req) => {
         const title = (e as unknown as { courses: { title: string } | null }).courses?.title;
         if (title) courses.push({ title, pct: ids.length ? Math.round(((done ?? 0) / ids.length) * 100) : 0 });
       }
-      const err = await sendMigrationWelcome(p.email, p.name, await link(p.email), courses);
+      const { data: mem } = await db.from("community_memberships").select("expires_at").eq("user_id", p.id).eq("space", "global-network").eq("status", "active").maybeSingle();
+      const networkUntil = mem?.expires_at ? new Date(mem.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" }) : null;
+      const err = await sendMigrationWelcome(p.email, p.name, await link(p.email), courses, { networkUntil });
       if (err) throw new Error(err);
       await db.from("email_log").update({ status: "sent" }).eq("user_id", p.id).eq("kind", KIND).eq("dedupe_key", "v1");
       const now = new Date().toISOString();
