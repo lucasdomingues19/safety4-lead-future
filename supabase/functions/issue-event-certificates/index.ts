@@ -42,13 +42,13 @@ function emailHtml(name: string, title: string, dateText: string, verifyUrl: str
 <tr><td style="background:#202058;padding:30px 36px;text-align:center;"><p style="margin:0;color:#9eff1f;font-size:12px;letter-spacing:3px;text-transform:uppercase;">SafetyTech Academy</p></td></tr>
 <tr><td style="padding:34px 40px 8px;color:#1e293b;font-size:15px;line-height:1.7;">
 <h1 style="margin:0 0 16px;font-size:24px;color:#0b0b2c;">Thank you for joining, ${first}</h1>
-<p style="margin:0 0 14px;">It was great to have you at the live <strong>${esc(title)}</strong> on ${esc(dateText)}. Your <strong>Certificate of Attendance</strong> is ready as a verified digital credential: signed, tamper-proof, and checkable by anyone you share it with.</p>
+<p style="margin:0 0 14px;">It was great to have you at the live <strong>${esc(title)}</strong> on ${esc(dateText)}. This was a short, 1-hour awareness-level session, and your <strong>Certificate of Attendance</strong> is ready as a record of it. It is signed, so anyone you share it with can check it is genuine.</p>
 </td></tr>
 <tr><td style="padding:12px 40px 8px;text-align:center;"><a href="${esc(verifyUrl)}" style="display:inline-block;background:#3434ff;color:#ffffff;padding:14px 30px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">View my certificate</a></td></tr>
 <tr><td style="padding:6px 40px 18px;text-align:center;"><a href="${esc(addToLinkedIn)}" style="color:#3434ff;font-size:14px;font-weight:700;text-decoration:none;">Add it to your LinkedIn profile →</a></td></tr>
 <tr><td style="padding:0 40px 18px;color:#1e293b;font-size:14px;line-height:1.7;">
 <p style="margin:0 0 10px;"><strong>Share it and tag us.</strong> If you post about it on LinkedIn, please tag <a href="${LINKEDIN_PAGE}" style="color:#3434ff;text-decoration:none;font-weight:700;">SafetyTech Academy</a> so we can celebrate with you and help others find the session. If it helps, here is a starting point:</p>
-<p style="margin:0;padding:12px 14px;background:#f5f7ff;border-radius:8px;color:#334155;font-size:13.5px;">I joined the Copilot in EHS Crash Course with SafetyTech Academy: a hands-on look at using Microsoft 365 Copilot for real EHS work, from drafting policies to structuring incident data. #EHS #Copilot #AIinEHS</p>
+<p style="margin:0;padding:12px 14px;background:#f5f7ff;border-radius:8px;color:#334155;font-size:13.5px;">I joined ${esc(title)} with SafetyTech Academy: a quick, practical introduction to using Microsoft 365 Copilot for real EHS work. #EHS #Copilot #AIinEHS</p>
 </td></tr>
 <tr><td style="padding:0 40px 28px;color:#1e293b;font-size:14px;line-height:1.7;">
 <p style="margin:0;">Want to watch the session again? The full recording is in our free learning community. <a href="${SITE}/learn/auth" style="color:#3434ff;font-weight:700;text-decoration:none;">Join here</a>.</p>
@@ -86,8 +86,8 @@ serve(async (req) => {
   const completionDate = ev.starts_at.slice(0, 10);
   const achievement = {
     name: title,
-    description: b.description ?? `Attended the live ${title} on ${dateText}: a hands-on session on using Microsoft 365 Copilot for real EHS work, including drafting policies, structuring incident data and summarising safety meetings.`,
-    criteria: `Attended the live ${title} session.`,
+    description: b.description ?? `Attended the live ${title} on ${dateText}: a 1-hour, awareness-level introduction to using Microsoft 365 Copilot for real EHS work. A short course, not an accredited qualification.`,
+    criteria: `Attended the live ${title} session (1 hour, awareness level).`,
     templateId: b.template_id,
     badgeId: b.badge_id ?? null,
   };
@@ -121,6 +121,12 @@ serve(async (req) => {
     return json({ sample: true, issued_to: me.email, verifyUrl: r.verifyUrl, publicId: r.publicId, note: "Syngraph only. Nothing copied into the LMS and no email sent." });
   }
 
+  if (mode === "email_preview") {
+    const link = typeof (b as { preview_url?: string }).preview_url === "string" ? (b as { preview_url?: string }).preview_url! : `${SITE}/learn`;
+    const err = await sendEmail(admin.email!, "Lucas Domingues", title, dateText, link);
+    return json({ preview_sent_to: admin.email, error: err });
+  }
+
   // ---- real list ----
   const min = Number.isFinite(b.min_minutes) ? b.min_minutes! : 30;
   const seen = new Set<string>();
@@ -136,6 +142,29 @@ serve(async (req) => {
   const { data: existing } = await db.from("certificates").select("recipient_email").eq("course_name", title).eq("status", "issued");
   const have = new Set((existing ?? []).map((r: { recipient_email: string }) => r.recipient_email.toLowerCase()));
   const todo = eligible.filter((a) => !have.has(a.email));
+
+  // ---- send_emails: email people who already hold the certificate, exactly once each ----
+  if (mode === "send_emails") {
+    const { data: certs } = await db.from("certificates").select("recipient_email, recipient_name, external_url").eq("course_name", title).eq("status", "issued");
+    const byEmail = new Map((certs ?? []).map((c: { recipient_email: string; recipient_name: string; external_url: string | null }) => [c.recipient_email.toLowerCase(), c]));
+    const { data: sentRows } = await db.from("email_log").select("dedupe_key").eq("kind", "event_certificate").like("dedupe_key", `${ev.id}:%`);
+    const already = new Set((sentRows ?? []).map((r: { dedupe_key: string }) => r.dedupe_key.split(":")[1]));
+    const { count } = await db.from("email_log").select("id", { count: "exact", head: true }).gte("sent_at", new Date(Date.now() - 86_400_000).toISOString());
+    let room = Math.max(0, DAILY_BUDGET - RESERVE - (count ?? 0));
+    const sentTo: string[] = [], failed: { email: string; error: string }[] = [];
+    let skippedBudget = 0, skippedAlready = 0;
+    for (const a of eligible) {
+      const c = byEmail.get(a.email);
+      if (!c?.external_url) { failed.push({ email: mask(a.email), error: "no certificate to send" }); continue; }
+      if (already.has(a.email)) { skippedAlready++; continue; }
+      if (room <= 0) { skippedBudget++; continue; }
+      const err = await sendEmail(a.email, c.recipient_name, title, dateText, c.external_url);
+      if (err) failed.push({ email: mask(a.email), error: err });
+      else { room--; sentTo.push(mask(a.email)); await db.from("email_log").insert({ kind: "event_certificate", dedupe_key: `${ev.id}:${a.email}`, status: "sent" }); }
+      await sleep(700);
+    }
+    return json({ emailed: sentTo.length, failed, already_emailed_before: skippedAlready, held_for_daily_budget: skippedBudget });
+  }
 
   if (mode !== "issue") {
     return json({ dry_run: true, event: title, date: dateText, min_minutes: min, would_issue: todo.length, already_have: eligible.length - todo.length, below_threshold: belowThreshold.map((p) => ({ name: p.name, minutes: p.minutes })), invalid, list: todo.map((p) => ({ name: p.name, email: mask(p.email), minutes: p.minutes })), would_email: !!b.send_email });
