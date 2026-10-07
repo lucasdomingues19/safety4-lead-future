@@ -50,6 +50,12 @@ serve(async (req) => {
       return json(out);
     }
 
+    // ---------- which webhook endpoints does Stripe have, and which events do they send? (read-only) ----------
+    if (b.action === "webhook_status") {
+      const l = await stripeRequest<any>("GET", "/webhook_endpoints", { limit: "20" });
+      return json({ expected_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/handle-stripe-webhook`, endpoints: (l.data ?? []).map((e: any) => ({ id: e.id, url: e.url, status: e.status, events: e.enabled_events, api_version: e.api_version })) });
+    }
+
     // ---------- read-only look at an unpaid checkout session (to confirm tax and invoice settings) ----------
     if (b.action === "inspect_session") {
       const id = String(b.id ?? "");
