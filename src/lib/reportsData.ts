@@ -79,7 +79,7 @@ export async function loadReportsData(): Promise<ReportsData> {
     all("lesson_progress", "user_id, lesson_id, completed_at, is_completed"),
     all("lesson_watch", "user_id, lesson_id, watched_seconds, duration_seconds, last_heartbeat_at"),
     all("learning_activity_days", "user_id, day"),
-    all("quiz_attempts", "user_id, quiz_id, score, passed, answers, attempted_at"),
+    all("quiz_attempts", "user_id, quiz_id, score, passed, answers, attempted_at").then((rows) => rows.filter((a) => !(a.answers as { migrated_from?: string } | null)?.migrated_from)), // carried-over waivers are not real scores
     all("quizzes", "id, module_id, title, pass_threshold"),
     all("certificates", "recipient_email, course_name, issued_at, status"),
     all("final_assessment_attempts", "user_id, course_id, status, score, completed_at"),

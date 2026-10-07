@@ -56,13 +56,13 @@ async function quizResults(): Promise<Row[]> {
   const [profiles, quizzes, attempts] = await Promise.all([
     supabase.from("profiles").select("id, email, full_name"),
     supabase.from("quizzes").select("id, title, pass_threshold"),
-    supabase.from("quiz_attempts").select("user_id, quiz_id, score, passed, attempted_at").order("attempted_at", { ascending: false }),
+    supabase.from("quiz_attempts").select("user_id, quiz_id, score, passed, attempted_at, answers").order("attempted_at", { ascending: false }),
   ]);
   const pById = new Map((profiles.data ?? []).map((p) => [p.id, p]));
   const qById = new Map((quizzes.data ?? []).map((q) => [q.id, q]));
   return (attempts.data ?? []).map((a) => ({
     Learner: pById.get(a.user_id)?.full_name ?? "", Email: pById.get(a.user_id)?.email ?? "", Quiz: qById.get(a.quiz_id)?.title ?? "",
-    "Score %": a.score, "Pass mark %": qById.get(a.quiz_id)?.pass_threshold ?? "", Result: a.passed ? "Passed" : "Failed", Date: a.attempted_at?.slice(0, 16).replace("T", " "),
+    "Score %": (a.answers as { migrated_from?: string } | null)?.migrated_from ? "" : a.score, "Pass mark %": qById.get(a.quiz_id)?.pass_threshold ?? "", Result: (a.answers as { migrated_from?: string } | null)?.migrated_from ? "Passed (carried over from Kajabi)" : a.passed ? "Passed" : "Failed", Date: a.attempted_at?.slice(0, 16).replace("T", " "),
   }));
 }
 
