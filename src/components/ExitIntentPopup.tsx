@@ -33,7 +33,7 @@ const ExitIntentPopup = () => {
           text.includes('start learning') ||
           text.includes('join the academy') ||
           text.includes('founding member') ||
-          href.includes('mykajabi.com')
+          href.includes('/enrol')
         ) {
           setHasClickedEnroll(true);
           sessionStorage.setItem('hasClickedEnroll', 'true');
@@ -78,7 +78,7 @@ const ExitIntentPopup = () => {
 
   const handleClaimDiscount = () => {
     navigator.clipboard.writeText('ACADEMY10');
-    window.open('https://safetyacademy.mykajabi.com/offers/E2ZXsoXV', '_blank');
+    window.open('/enrol', '_blank');
     setShowPopup(false);
   };
 

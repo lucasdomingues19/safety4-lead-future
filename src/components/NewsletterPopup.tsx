@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { X, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
 
 
-const SUBSCRIBE_URL = "https://learning.safetytech.academy/newsletters/safety-4-0-newsletter/subscribe";
 
 export const NewsletterPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [sending, setSending] = useState(false);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("newsletter_popup_shown");
@@ -29,6 +32,28 @@ export const NewsletterPopup = () => {
     releasePopupSlot("newsletter");
   };
 
+
+  const subscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const address = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(address)) { toast.error("Please enter a valid email address."); return; }
+    setSending(true);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/capture-lead`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+        body: JSON.stringify({ name: address.split("@")[0], email: address, source: "newsletter_popup", message: "Subscribed to the Safety Beyond Compliance newsletter from the website popup." }),
+      });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      setDone(true);
+      setTimeout(handleClose, 2500);
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -64,19 +89,24 @@ export const NewsletterPopup = () => {
           Join hundreds of safety innovators and changemakers receiving our monthly newsletter.
         </p>
 
-        <Button
-          asChild
-          className="w-full bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white font-semibold py-3"
-        >
-          <a
-            href={SUBSCRIBE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={handleClose}
-          >
-            Subscribe Now
-          </a>
-        </Button>
+        {done ? (
+          <p className="text-center text-lime-400 font-semibold py-3">You're on the list. Thank you!</p>
+        ) : (
+          <form onSubmit={subscribe} className="space-y-3">
+            <input
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-lg bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-lime-400"
+            />
+            <Button type="submit" disabled={sending} className="w-full bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700 text-white font-semibold py-3">
+              {sending ? "Subscribing…" : "Subscribe"}
+            </Button>
+          </form>
+        )}
 
         {/* Privacy note */}
         <p className="text-xs text-gray-500 text-center mt-4">

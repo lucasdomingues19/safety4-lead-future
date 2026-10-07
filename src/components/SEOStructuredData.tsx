@@ -83,7 +83,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
         "price": "597",
         "priceCurrency": "GBP",
         "availability": "https://schema.org/InStock",
-        "url": "https://safetyacademy.mykajabi.com/offers/E2ZXsoXV",
+        "url": "https://www.safetytech.academy/enrol",
         "validFrom": "2025-11-27",
         "priceValidUntil": "2026-12-31"
       },
