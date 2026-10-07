@@ -18,6 +18,14 @@ import { SITE, sendOwnerWelcome } from "../_shared/welcome.ts";
 const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { "Content-Type": "application/json", ...corsHeaders } });
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/** Billing address as the form sends it, trimmed to what Stripe accepts. */
+const cleanAddress = (a: any) => {
+  if (!a || typeof a !== "object") return null;
+  const f = (k: string, n = 120) => String(a[k] ?? "").trim().slice(0, n);
+  const out = { line1: f("line1"), line2: f("line2"), city: f("city", 80), postal_code: f("postal_code", 20), country: f("country", 2).toUpperCase() };
+  return out.line1 && out.city && out.postal_code && /^[A-Z]{2}$/.test(out.country) ? out : null;
+};
+const addressParams = (a: any, prefix = "address") => a ? Object.fromEntries(Object.entries({ line1: a.line1, line2: a.line2, city: a.city, postal_code: a.postal_code, country: a.country }).filter(([, v]) => v).map(([k, v]) => [`${prefix}[${k}]`, String(v)])) : {};
 const uuid = (v: unknown) => (typeof v === "string" && /^[0-9a-f-]{36}$/i.test(v) ? v : null);
 
 serve(async (req) => {
@@ -29,6 +37,38 @@ serve(async (req) => {
     const b = (await req.json().catch(() => ({}))) as any;
     const taxMode = ["inclusive", "exclusive"].includes(Deno.env.get("STRIPE_TAX_MODE") ?? "") ? Deno.env.get("STRIPE_TAX_MODE")! : null;
     const accessDaysOf = (v: unknown) => { const n = Math.floor(Number(v)); return Number.isFinite(n) && n > 0 ? Math.min(n, 3650) : null; };
+
+    // ---------- is Stripe Tax ready? (read-only; decides whether VAT can be switched on) ----------
+    if (b.action === "stripe_tax_status") {
+      const out: Record<string, unknown> = { tax_mode: taxMode };
+      try { const st = await stripeRequest<any>("GET", "/tax/settings"); out.settings = { status: st.status, head_office: st.head_office?.address?.country ?? null, default_tax_code: st.defaults?.tax_code ?? null, tax_behavior: st.defaults?.tax_behavior ?? null, pending: st.status_details?.pending?.missing_fields ?? null }; }
+      catch (e) { out.settings_error = (e as Error).message; }
+      try { const rg = await stripeRequest<any>("GET", "/tax/registrations", { status: "all", limit: "20" }); out.registrations = (rg.data ?? []).map((r: any) => ({ country: r.country, status: r.status, type: r.country_options?.[String(r.country).toLowerCase()]?.type ?? null })); }
+      catch (e) { out.registrations_error = (e as Error).message; }
+      try { const t = await stripeRequest<any>("GET", "/tax_ids", { "owner[type]": "self", limit: "20" }); out.account_tax_ids = (t.data ?? []).map((x: any) => ({ id: x.id, type: x.type, value: x.value, verification: x.verification?.status ?? null })); }
+      catch (e) { out.tax_ids_error = (e as Error).message; }
+      return json(out);
+    }
+
+    // ---------- read-only look at an unpaid checkout session (to confirm tax and invoice settings) ----------
+    if (b.action === "inspect_session") {
+      const id = String(b.id ?? "");
+      if (!/^cs_(live|test)_[A-Za-z0-9]+$/.test(id)) return json({ error: "Bad session id" }, 400);
+      const x = await stripeRequest<any>("GET", `/checkout/sessions/${id}`);
+      return json({ status: x.status, payment_status: x.payment_status, amount_subtotal: x.amount_subtotal, amount_total: x.amount_total, tax: x.total_details?.amount_tax ?? null, automatic_tax: x.automatic_tax?.enabled ?? null,
+        invoice_creation: x.invoice_creation?.enabled ?? null, invoice_account_tax_ids: x.invoice_creation?.invoice_data?.account_tax_ids ?? null, allow_promotion_codes: x.allow_promotion_codes ?? null });
+    }
+
+    // ---------- register the seller's own VAT number with Stripe, so it prints on every invoice ----------
+    if (b.action === "set_vat_id") {
+      const value = String(b.value ?? "").replace(/\s+/g, "").toUpperCase();
+      if (!/^GB\d{9}(\d{3})?$/.test(value)) return json({ error: "That doesn't look like a UK VAT number (GB followed by 9 digits)" }, 400);
+      const existing = await stripeRequest<any>("GET", "/tax_ids", { "owner[type]": "self", limit: "20" });
+      const have = (existing.data ?? []).find((x: any) => x.value === value);
+      if (have) return json({ id: have.id, value, created: false });
+      const t = await stripeRequest<any>("POST", "/tax_ids", { type: "gb_vat", value, "owner[type]": "self" });
+      return json({ id: t.id, value: t.value, verification: t.verification?.status ?? null, created: true });
+    }
 
     // ---------- create a company ----------
     if (b.action === "create_org") {
@@ -46,7 +86,7 @@ serve(async (req) => {
         created = true;
       }
       const { data: org, error: oErr } = await db.from("organisations").insert({
-        name, billing_email: EMAIL_RE.test(billing) ? billing : email, vat_id: String(b.vat_id ?? "").trim().slice(0, 40) || null, created_by: admin.id,
+        name, billing_email: EMAIL_RE.test(billing) ? billing : email, vat_id: String(b.vat_id ?? "").trim().slice(0, 40) || null, billing_address: cleanAddress(b.address), created_by: admin.id,
       }).select("id").single();
       if (oErr) throw oErr;
       await db.from("organisation_members").upsert({ organisation_id: org.id, user_id: p.id, role: "owner" }, { onConflict: "organisation_id,user_id" });
@@ -70,8 +110,16 @@ serve(async (req) => {
       if (typeof b.name === "string" && b.name.trim().length >= 2) patch.name = b.name.trim().slice(0, 120);
       if (typeof b.billing_email === "string") patch.billing_email = EMAIL_RE.test(b.billing_email.trim()) ? b.billing_email.trim().toLowerCase() : null;
       if (typeof b.vat_id === "string") patch.vat_id = b.vat_id.trim().slice(0, 40) || null;
-      const { error } = await db.from("organisations").update(patch).eq("id", orgId);
+      const update: Record<string, unknown> = { ...patch };
+      if (b.address !== undefined) update.billing_address = cleanAddress(b.address);
+      const { error } = await db.from("organisations").update(update).eq("id", orgId);
       if (error) throw error;
+      // Keep the Stripe customer (if there is one) in step, so the next invoice uses the new details.
+      const { data: o } = await db.from("organisations").select("name, billing_email, billing_address, stripe_customer_id").eq("id", orgId).maybeSingle();
+      if (o?.stripe_customer_id) {
+        try { await stripeRequest("POST", `/customers/${o.stripe_customer_id}`, { name: o.name, ...(o.billing_email ? { email: o.billing_email } : {}), ...addressParams(o.billing_address) }); }
+        catch (e) { console.error("customer not updated:", (e as Error).message); }
+      }
       return json({ ok: true });
     }
 
@@ -94,20 +142,21 @@ serve(async (req) => {
       if (!orgId || !courseId) return json({ error: "Choose a company and a course" }, 400);
       if (!Number.isFinite(seats) || seats < 1 || seats > 5000) return json({ error: "Seats must be between 1 and 5000" }, 400);
       const [{ data: org }, { data: course }, { data: price }] = await Promise.all([
-        db.from("organisations").select("id, name, billing_email, vat_id, stripe_customer_id").eq("id", orgId).maybeSingle(),
+        db.from("organisations").select("id, name, billing_email, vat_id, billing_address, stripe_customer_id").eq("id", orgId).maybeSingle(),
         db.from("courses").select("id, title, description, currency, stripe_product_id").eq("id", courseId).maybeSingle(),
         db.rpc("team_price", { _course: courseId, _seats: seats }),
       ]);
       const p = Array.isArray(price) ? price[0] : price;
       if (!org || !course || !p?.unit_cents) return json({ error: "That course can't be invoiced as seats" }, 400);
       if (!org.billing_email) return json({ error: "Add a billing email to the company first" }, 400);
+      if (taxMode && !cleanAddress(org.billing_address)) return json({ error: "Add the company's billing address first (Edit company). Stripe needs it to work out VAT." }, 400);
       const accessDays = accessDaysOf(b.access_days ?? 365);
       const days = Math.min(Math.max(Math.floor(Number(b.days_until_due)) || 30, 1), 120);
       const currency = (course.currency || "GBP").toLowerCase();
 
       let customer = org.stripe_customer_id as string | null;
       if (!customer) {
-        const c = await stripeRequest<{ id: string }>("POST", "/customers", { name: org.name, email: org.billing_email, "metadata[organisation_id]": org.id });
+        const c = await stripeRequest<{ id: string }>("POST", "/customers", { name: org.name, email: org.billing_email, "metadata[organisation_id]": org.id, ...addressParams(cleanAddress(org.billing_address)) });
         customer = c.id;
         await db.from("organisations").update({ stripe_customer_id: customer }).eq("id", org.id);
         const vat = String(org.vat_id ?? "").replace(/\s+/g, "").toUpperCase();
@@ -127,6 +176,7 @@ serve(async (req) => {
           ...Object.fromEntries(Object.entries(meta).map(([k, v]) => [`metadata[${k}]`, v])),
           ...(po ? { "custom_fields[0][name]": "PO number", "custom_fields[0][value]": po } : {}),
           ...(taxMode ? { "automatic_tax[enabled]": "true" } : {}),
+          ...(Deno.env.get("STRIPE_ACCOUNT_TAX_ID") ? { "account_tax_ids[0]": Deno.env.get("STRIPE_ACCOUNT_TAX_ID")! } : {}),
         });
         invoiceId = inv.id;
         const productId = await ensureStripeProduct(db, "courses", course);

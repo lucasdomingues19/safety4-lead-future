@@ -1500,6 +1500,7 @@ export type Database = {
       }
       organisations: {
         Row: {
+          billing_address: Json | null
           billing_email: string | null
           created_at: string
           created_by: string | null
@@ -1509,6 +1510,7 @@ export type Database = {
           vat_id: string | null
         }
         Insert: {
+          billing_address?: Json | null
           billing_email?: string | null
           created_at?: string
           created_by?: string | null
@@ -1518,6 +1520,7 @@ export type Database = {
           vat_id?: string | null
         }
         Update: {
+          billing_address?: Json | null
           billing_email?: string | null
           created_at?: string
           created_by?: string | null

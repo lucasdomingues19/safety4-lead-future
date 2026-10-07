@@ -81,6 +81,7 @@ serve(async (req) => {
       "tax_id_collection[enabled]": "true",
       allow_promotion_codes: "true",
       "invoice_creation[enabled]": "true",
+      ...(Deno.env.get("STRIPE_ACCOUNT_TAX_ID") ? { "invoice_creation[invoice_data][account_tax_ids][0]": Deno.env.get("STRIPE_ACCOUNT_TAX_ID")! } : {}),
       "invoice_creation[invoice_data][description]": `Online course: ${course.title}`,
       "custom_text[submit][message]": "You get instant access to your course as soon as the payment goes through.",
       ...(taxMode ? { "automatic_tax[enabled]": "true", "line_items[0][price_data][tax_behavior]": taxMode } : {}),

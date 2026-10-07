@@ -47,7 +47,8 @@ serve(async (req) => {
       ...base, customer_creation: "always", billing_address_collection: "required", "phone_number_collection[enabled]": "true",
       "name_collection[individual][enabled]": "true", "name_collection[business][enabled]": "true", "name_collection[business][optional]": "true",
       "tax_id_collection[enabled]": "true", allow_promotion_codes: "true",
-      "invoice_creation[enabled]": "true", "invoice_creation[invoice_data][description]": `Course bundle: ${bundle.title}`,
+      "invoice_creation[enabled]": "true",
+      ...(Deno.env.get("STRIPE_ACCOUNT_TAX_ID") ? { "invoice_creation[invoice_data][account_tax_ids][0]": Deno.env.get("STRIPE_ACCOUNT_TAX_ID")! } : {}), "invoice_creation[invoice_data][description]": `Course bundle: ${bundle.title}`,
       "custom_text[submit][message]": `You get instant access to all ${ids.length} courses in the bundle as soon as the payment goes through.`,
       ...(taxMode ? { "automatic_tax[enabled]": "true", "line_items[0][price_data][tax_behavior]": taxMode } : {}),
     };

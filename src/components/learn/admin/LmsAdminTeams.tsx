@@ -8,7 +8,8 @@ import { PanelHeader, Spinner, adminFont, input, panel } from "./adminUi";
 
 // Admin > Teams: companies, their seats, the seat invoices, and team pricing per course.
 
-interface Org { id: string; name: string; billing_email: string | null; vat_id: string | null; created_at: string; owner: string | null; seats: number; used: number }
+interface Address { line1: string; line2?: string; city: string; postal_code: string; country: string }
+interface Org { id: string; name: string; billing_email: string | null; vat_id: string | null; billing_address: Address | null; created_at: string; owner: string | null; seats: number; used: number }
 interface Course { id: string; title: string; price_cents: number; currency: string | null; published: boolean; team_enabled: boolean; team_tiers: { min: number; pct: number }[] }
 interface Invoice { stripe_invoice_id: string; organisation_id: string; course_id: string; seats: number; amount_cents: number; currency: string; status: string; number: string | null; hosted_url: string | null; due_date: string | null; po_number: string | null; created_at: string }
 const money = (c: number, cur = "GBP") => new Intl.NumberFormat("en-GB", { style: "currency", currency: cur }).format(c / 100);
@@ -19,11 +20,11 @@ export function LmsAdminTeams() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [open, setOpen] = useState<string | null>(null);
-  const [dialog, setDialog] = useState<null | { kind: "org" } | { kind: "seats" | "invoice"; org: Org }>(null);
+  const [dialog, setDialog] = useState<null | { kind: "org" } | { kind: "edit"; org: Org } | { kind: "seats" | "invoice"; org: Org }>(null);
 
   const load = useCallback(async () => {
     const [{ data: o }, { data: c }, { data: inv }, { data: mem }] = await Promise.all([
-      supabase.from("organisations").select("id, name, billing_email, vat_id, created_at").order("created_at", { ascending: false }),
+      supabase.from("organisations").select("id, name, billing_email, vat_id, billing_address, created_at").order("created_at", { ascending: false }),
       supabase.from("courses").select("id, title, price_cents, currency, published, team_enabled, team_tiers").order("title"),
       supabase.from("team_invoices").select("*").order("created_at", { ascending: false }),
       supabase.from("organisation_members").select("organisation_id, user_id").eq("role", "owner"),
@@ -36,7 +37,7 @@ export function LmsAdminTeams() {
     const rows: Org[] = [];
     for (const org of o ?? []) {
       const { data: sum } = await supabase.rpc("org_seat_summary", { _org: org.id });
-      rows.push({ ...org, owner: owners.get(org.id) ?? null, seats: (sum ?? []).reduce((n, s) => n + s.seats, 0), used: (sum ?? []).reduce((n, s) => n + s.used, 0) });
+      rows.push({ ...org, billing_address: (org.billing_address as unknown as Address | null) ?? null, owner: owners.get(org.id) ?? null, seats: (sum ?? []).reduce((n, s) => n + s.seats, 0), used: (sum ?? []).reduce((n, s) => n + s.used, 0) });
     }
     setOrgs(rows);
     setCourses(((c ?? []) as unknown as Course[]).map((x) => ({ ...x, team_tiers: Array.isArray(x.team_tiers) ? x.team_tiers : [] })));
@@ -73,6 +74,8 @@ export function LmsAdminTeams() {
                   <div style={{ fontSize: 12.5, color: "#94a3b8" }}>{o.owner ?? "No manager"}{o.vat_id ? ` · VAT ${o.vat_id}` : ""}</div>
                 </div>
                 <div style={{ fontSize: 13, color: "#69697b", fontVariantNumeric: "tabular-nums" }}><strong style={{ color: "#0b0b2c" }}>{o.used}</strong> of {o.seats} seats used</div>
+                {!o.billing_address && <span title="Stripe needs an address to work out VAT on invoices" style={{ fontSize: 12, fontWeight: 800, color: "#9a3412", background: "#fff4e5", padding: "3px 9px", borderRadius: 999 }}>No billing address</span>}
+                <button style={btn()} onClick={() => setDialog({ kind: "edit", org: o })}>Edit company</button>
                 <button style={btn()} onClick={() => setDialog({ kind: "seats", org: o })}>Add seats</button>
                 <button style={btn()} onClick={() => setDialog({ kind: "invoice", org: o })}><FileText size={14} /> Invoice seats</button>
                 <button style={{ ...btn(), color: "#b91c1c" }} onClick={() => del(o)} aria-label={`Delete ${o.name}`}><Trash2 size={14} /></button>
@@ -105,7 +108,8 @@ export function LmsAdminTeams() {
 
       <TeamPricing courses={courses} onSaved={load} />
       {dialog?.kind === "org" && <OrgDialog onClose={() => setDialog(null)} onDone={() => { setDialog(null); void load(); }} />}
-      {dialog && dialog.kind !== "org" && <SeatsDialog kind={dialog.kind} org={dialog.org} courses={courses.filter((c) => c.price_cents > 0)} onClose={() => setDialog(null)} onDone={() => { setDialog(null); void load(); }} />}
+      {dialog?.kind === "edit" && <OrgDialog org={dialog.org} onClose={() => setDialog(null)} onDone={() => { setDialog(null); void load(); }} />}
+      {dialog && dialog.kind !== "org" && dialog.kind !== "edit" && <SeatsDialog kind={dialog.kind} org={dialog.org} courses={courses.filter((c) => c.price_cents > 0)} onClose={() => setDialog(null)} onDone={() => { setDialog(null); void load(); }} />}
     </div>
   );
 }
@@ -122,22 +126,36 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
 }
 const Field = ({ label, children }: { label: string; children: React.ReactNode }) => <label style={{ display: "block", fontSize: 13, fontWeight: 700, marginBottom: 12 }}>{label}<div style={{ marginTop: 5 }}>{children}</div></label>;
 
-function OrgDialog({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
-  const [f, setF] = useState({ name: "", owner_email: "", billing_email: "", vat_id: "" });
+/** Create a company (no `org`) or edit one. The address is what lets Stripe work out VAT on invoices. */
+function OrgDialog({ org, onClose, onDone }: { org?: Org; onClose: () => void; onDone: () => void }) {
+  const a = org?.billing_address;
+  const [f, setF] = useState({ name: org?.name ?? "", owner_email: "", billing_email: org?.billing_email ?? "", vat_id: org?.vat_id ?? "", line1: a?.line1 ?? "", line2: a?.line2 ?? "", city: a?.city ?? "", postal_code: a?.postal_code ?? "", country: a?.country ?? "GB" });
   const [busy, setBusy] = useState(false);
+  const address = { line1: f.line1, line2: f.line2, city: f.city, postal_code: f.postal_code, country: f.country };
   const submit = async () => {
     setBusy(true);
-    try { await invokeFunction("admin-teams", { action: "create_org", ...f }); toast.success("Company created"); onDone(); }
-    catch (e) { toast.error(e instanceof Error ? e.message : "Couldn't create it"); setBusy(false); }
+    try {
+      if (org) await invokeFunction("admin-teams", { action: "update_org", org_id: org.id, name: f.name, billing_email: f.billing_email, vat_id: f.vat_id, address });
+      else await invokeFunction("admin-teams", { action: "create_org", name: f.name, owner_email: f.owner_email, billing_email: f.billing_email, vat_id: f.vat_id, address });
+      toast.success(org ? "Company saved" : "Company created"); onDone();
+    } catch (e) { toast.error(e instanceof Error ? e.message : "Couldn't save it"); setBusy(false); }
   };
   return (
-    <Modal title="New company" onClose={onClose}>
+    <Modal title={org ? `Edit ${org.name}` : "New company"} onClose={onClose}>
       <Field label="Company name"><input style={input} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="Acme Safety Ltd" /></Field>
-      <Field label="Manager's email (they run the team)"><input style={input} type="email" value={f.owner_email} onChange={(e) => setF({ ...f, owner_email: e.target.value })} placeholder="ana@acme.com" /></Field>
-      <Field label="Billing email for invoices (optional)"><input style={input} type="email" value={f.billing_email} onChange={(e) => setF({ ...f, billing_email: e.target.value })} placeholder="accounts@acme.com" /></Field>
-      <Field label="VAT number (optional)"><input style={input} value={f.vat_id} onChange={(e) => setF({ ...f, vat_id: e.target.value })} placeholder="GB123456789" /></Field>
-      <p style={{ fontSize: 12.5, color: "#69697b", margin: "0 0 14px" }}>If the manager is new, they get an email to set a password.</p>
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><button style={btn()} onClick={onClose}>Cancel</button><button style={btn(true)} disabled={busy || f.name.trim().length < 2 || !f.owner_email.includes("@")} onClick={submit}>{busy && <Loader2 size={14} className="animate-spin" />} Create company</button></div>
+      {!org && <Field label="Manager's email (they run the team)"><input style={input} type="email" value={f.owner_email} onChange={(e) => setF({ ...f, owner_email: e.target.value })} placeholder="ana@acme.com" /></Field>}
+      <Field label="Billing email for invoices"><input style={input} type="email" value={f.billing_email} onChange={(e) => setF({ ...f, billing_email: e.target.value })} placeholder="accounts@acme.com" /></Field>
+      <Field label="Their VAT number (optional)"><input style={input} value={f.vat_id} onChange={(e) => setF({ ...f, vat_id: e.target.value })} placeholder="GB123456789" /></Field>
+      <div style={{ fontSize: 13, fontWeight: 800, margin: "4px 0 8px" }}>Billing address <span style={{ fontWeight: 500, color: "#69697b" }}>(needed to invoice with VAT)</span></div>
+      <Field label="Address line 1"><input style={input} value={f.line1} onChange={(e) => setF({ ...f, line1: e.target.value })} /></Field>
+      <Field label="Address line 2 (optional)"><input style={input} value={f.line2} onChange={(e) => setF({ ...f, line2: e.target.value })} /></Field>
+      <div style={{ display: "flex", gap: 12 }}>
+        <div style={{ flex: 2 }}><Field label="Town / city"><input style={input} value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} /></Field></div>
+        <div style={{ flex: 1 }}><Field label="Postcode"><input style={input} value={f.postal_code} onChange={(e) => setF({ ...f, postal_code: e.target.value })} /></Field></div>
+        <div style={{ flex: 1 }}><Field label="Country"><input style={input} maxLength={2} value={f.country} onChange={(e) => setF({ ...f, country: e.target.value.toUpperCase() })} placeholder="GB" /></Field></div>
+      </div>
+      {!org && <p style={{ fontSize: 12.5, color: "#69697b", margin: "0 0 14px" }}>If the manager is new, they get an email to set a password.</p>}
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><button style={btn()} onClick={onClose}>Cancel</button><button style={btn(true)} disabled={busy || f.name.trim().length < 2 || (!org && !f.owner_email.includes("@"))} onClick={submit}>{busy && <Loader2 size={14} className="animate-spin" />} {org ? "Save" : "Create company"}</button></div>
     </Modal>
   );
 }
@@ -174,7 +192,7 @@ function SeatsDialog({ kind, org, courses, onClose, onDone }: { kind: "seats" | 
             <div style={{ flex: 1 }}><Field label="Payment due in (days)"><input style={input} type="number" min={1} max={120} value={due} onChange={(e) => setDue(Math.floor(Number(e.target.value)) || 30)} /></Field></div>
             <div style={{ flex: 1 }}><Field label="Their PO number (optional)"><input style={input} value={po} onChange={(e) => setPo(e.target.value)} /></Field></div>
           </div>
-          {course && seats > 0 && <div style={{ background: "#f5f7ff", borderRadius: 10, padding: "10px 14px", fontSize: 13.5, marginBottom: 12 }}><strong>{seats} × {money(unit)}</strong> = <strong>{money(unit * seats)}</strong>{pct ? ` (${pct}% volume discount)` : ""}{" "}<span style={{ color: "#69697b" }}>plus VAT if switched on in Stripe</span></div>}
+          {course && seats > 0 && <div style={{ background: "#f5f7ff", borderRadius: 10, padding: "10px 14px", fontSize: 13.5, marginBottom: 12 }}><strong>{seats} × {money(unit)}</strong> = <strong>{money(unit * seats)}</strong>{pct ? ` (${pct}% volume discount)` : ""}{" "}<span style={{ color: "#69697b" }}>plus VAT, worked out by Stripe from the company's address</span></div>}
         </>
       )}
       <Field label={kind === "invoice" ? "Note on the invoice (optional)" : "Internal note (optional)"}><input style={input} value={note} onChange={(e) => setNote(e.target.value)} /></Field>
