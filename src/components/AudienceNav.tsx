@@ -143,10 +143,10 @@ const AudienceNav = () => {
             )
           )}
           <Link
-            to="/enrol"
+            to="/learn"
             className="ml-2 px-6 py-2.5 rounded bg-primary text-white text-sm font-medium uppercase tracking-[0.08em] hover:bg-primary/90 transition-colors"
           >
-            Enrol Now
+            Learn
           </Link>
         </div>
 
@@ -206,11 +206,11 @@ const AudienceNav = () => {
             )
           )}
           <Link
-            to="/enrol"
+            to="/learn"
             onClick={() => setMobileOpen(false)}
             className="block text-center mt-3 px-5 py-2.5 rounded bg-primary text-white text-sm font-medium uppercase tracking-[0.08em] hover:bg-primary/90 transition-colors"
           >
-            Enrol Now
+            Learn
           </Link>
         </div>
       )}
