@@ -296,7 +296,12 @@ Deno.serve(async (req) => {
     const lessonUrl = (c: any, l: any) => `${SITE}/learn/${c.slug}/lesson/${l.id}`;
 
     const msgs: Msg[] = [];
+    // Progress emails ("module complete", "final ready"...) only go to people who have actually signed in:
+    // imported or migrated progress must never trigger a message to someone who hasn't heard from us yet.
+    const PROGRESS_KINDS = new Set(["module_complete", "final_ready", "course_complete"]);
+    const signedInIds = new Set(users.filter((x: any) => x.last_sign_in_at).map((x: any) => x.id));
     const want = (m: Msg) => {
+      if (PROGRESS_KINDS.has(m.kind) && !signedInIds.has(m.userId)) return;
       if (adminIds.has(m.userId) && !ADMIN_OK.has(m.kind)) return;
       if (!sent.has(`${m.userId}|${m.kind}|${m.key}`)) msgs.push(m);
     };
