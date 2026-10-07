@@ -680,7 +680,7 @@ export function LmsCommunity() {
           {!locked && (
             <div data-tour="events-card" className="mb-4">
               <UpcomingEventsCard
-                upcoming={ev.upcoming} going={ev.going} mine={ev.mine} isAdmin={isAdmin}
+                upcoming={ev.upcoming} past={ev.past} going={ev.going} mine={ev.mine} isAdmin={isAdmin}
                 onOpen={(e) => setOpenEventId(e.id)} onAdd={() => setEditingEvent({ event: null })} onSeeAll={() => setView("events")}
               />
             </div>

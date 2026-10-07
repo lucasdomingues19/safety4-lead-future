@@ -85,8 +85,8 @@ export const LiveBanner = ({ events, onOpen }: { events: CommunityEvent[]; onOpe
 };
 
 export const UpcomingEventsCard = ({
-  upcoming, going, mine, isAdmin, onOpen, onAdd, onSeeAll,
-}: { upcoming: CommunityEvent[]; going: Record<string, number>; mine: Set<string>; isAdmin: boolean; onOpen: (e: CommunityEvent) => void; onAdd: () => void; onSeeAll: () => void }) => (
+  upcoming, past = [], going, mine, isAdmin, onOpen, onAdd, onSeeAll,
+}: { upcoming: CommunityEvent[]; past?: CommunityEvent[]; going: Record<string, number>; mine: Set<string>; isAdmin: boolean; onOpen: (e: CommunityEvent) => void; onAdd: () => void; onSeeAll: () => void }) => (
   <section>
     <div className="mb-2 flex items-center justify-between">
       <h2 className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Upcoming events</h2>
@@ -110,6 +110,25 @@ export const UpcomingEventsCard = ({
             </span>
           </button>
         ))}
+      </div>
+    )}
+    {past.some((e) => e.replay_url) && (
+      <div className="mt-5">
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#69697b]">Recent replays</h2>
+          <button onClick={onSeeAll} className="text-[12px] font-bold text-[#3434ff] hover:underline">See all</button>
+        </div>
+        <div className="space-y-2">
+          {past.filter((e) => e.replay_url).slice(0, 3).map((e) => (
+            <button key={e.id} onClick={() => onOpen(e)} className="flex w-full items-center gap-3 rounded-2xl border border-[#e2e8f0] bg-white p-3 text-left transition hover:border-[#c7cdf9] hover:shadow-sm">
+              <DateTile iso={e.starts_at} />
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[14px] font-bold text-[#0b0b2c]">{e.title}</span>
+                <span className="mt-0.5 inline-flex items-center gap-1 text-[12px] font-semibold text-[#3434ff]"><Video size={12} /> Watch the recording</span>
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
     )}
   </section>

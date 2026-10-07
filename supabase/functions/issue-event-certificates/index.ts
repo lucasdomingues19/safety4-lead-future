@@ -75,7 +75,7 @@ serve(async (req) => {
   let admin;
   try { admin = await requireAdmin(req); } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const b = await req.json().catch(() => ({})) as { event_id?: string; attendees?: Attendee[]; template_id?: string; min_minutes?: number; mode?: string; send_email?: boolean; description?: string };
+  const b = await req.json().catch(() => ({})) as { event_id?: string; attendees?: Attendee[]; template_id?: string; badge_id?: string; min_minutes?: number; mode?: string; send_email?: boolean; description?: string };
 
   const { data: ev } = await db.from("community_events").select("id, title, starts_at").eq("id", b.event_id ?? "").maybeSingle();
   if (!ev) return json({ error: "Event not found" }, 404);
@@ -89,10 +89,28 @@ serve(async (req) => {
     description: b.description ?? `Attended the live ${title} on ${dateText}: a hands-on session on using Microsoft 365 Copilot for real EHS work, including drafting policies, structuring incident data and summarising safety meetings.`,
     criteria: `Attended the live ${title} session.`,
     templateId: b.template_id,
+    badgeId: b.badge_id ?? null,
   };
-  const issue = (a: { name: string; email: string }) => {
+  // Syngraph creates a NEW achievement whenever it is not given an achievementId, so find ours once
+  // (by name) and reuse it for every recipient; the first call creates it, with the design and badge.
+  let achievementId: string | null = null;
+  let looked = false;
+  const findAchievement = async () => {
+    looked = true;
+    const base = Deno.env.get("SYNGRAPH_FUNCTIONS_URL") ?? "https://bzmumnflczajlagnmppd.supabase.co/functions/v1";
+    const res = await fetch(`${base}/api-list-achievements`, { headers: { Authorization: `Bearer ${Deno.env.get("SYNGRAPH_API_KEY") ?? ""}` }, signal: AbortSignal.timeout(15_000) });
+    const data = await res.json().catch(() => ({}));
+    achievementId = (data?.achievements ?? []).find((x: { id: string; name: string }) => x.name === title)?.id ?? null;
+  };
+  const issue = async (a: { name: string; email: string }) => {
+    if (!looked) await findAchievement();
     const n = splitName(a.name);
-    return callSyngraph<Issued & { ok?: boolean }>("api-issue-credential", { achievement, kind: "certificate", recipient: { firstName: n.firstName, lastName: n.lastName, email: a.email }, issuedAt: ev.starts_at });
+    const r = await callSyngraph<Issued & { ok?: boolean; achievementId?: string }>("api-issue-credential", {
+      ...(achievementId ? { achievementId } : { achievement }),
+      kind: "certificate", recipient: { firstName: n.firstName, lastName: n.lastName, email: a.email }, issuedAt: ev.starts_at,
+    });
+    if (!achievementId && r.achievementId) achievementId = r.achievementId;
+    return r;
   };
   const mode = b.mode ?? "dry_run";
 
