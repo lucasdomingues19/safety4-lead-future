@@ -376,7 +376,7 @@ Deno.serve(async (req) => {
         // Each stage only fires inside its own window, so a long-quiet learner gets the
         // stage that matches today, not a burst of every earlier one.
         if (signedIn && next && completedCount < all.length) {
-          const last = Math.max(lastActive.get(u.id) ?? 0, enrolledAt);
+          const last = Math.max(lastActive.get(u.id) ?? 0, enrolledAt, p.welcomed_at ? new Date(p.welcomed_at).getTime() : 0);
           const quietDays = (now - last) / DAY;
           const spell = new Date(last).toISOString().slice(0, 10);
           const stage = [...NUDGES].reverse().find((d) => quietDays >= d);

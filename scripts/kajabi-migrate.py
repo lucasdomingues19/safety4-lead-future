@@ -255,13 +255,44 @@ def cmd_progress(apply):
         print("(dry run, rolled back)", m.group(1) if m else (out.stdout + out.stderr)[-1500:])
 
 
+def cmd_queue(apply):
+    """Fill the welcome queue (priority: learning in progress, then finished, then not started) and restore real start dates."""
+    _, plan, people = build_plan()
+    by = {}
+    for p in plan:
+        by.setdefault(p["email"], []).append(p)
+    rows = []
+    for email, ps in by.items():
+        prio = 1 if any(0 < p["n"] < p["total"] for p in ps) else 2 if any(p["n"] == p["total"] for p in ps) else 3
+        last = max((p["last"] for p in ps if p["last"]), default=None)
+        rows.append((email, prio, last))
+    starts = [(p["email"], p["course_id"], p["start"] or p["last"]) for p in plan if (p["start"] or p["last"])]
+    q = f"""
+    with s(email, course_id, d) as (values {values(starts)})
+    update enrollments e set enrolled_at = (s.d::date)::timestamp + interval '12 hours'
+      from s join auth.users u on lower(u.email) = s.email
+     where e.user_id = u.id and e.course_id = s.course_id::uuid and e.enrolled_at > now() - interval '2 days';
+    with p(email, prio, last_d) as (values {values(rows)})
+    insert into migration_welcome_queue (user_id, priority, last_active)
+      select u.id, p.prio::int, p.last_d::date from p join auth.users u on lower(u.email) = p.email
+      on conflict (user_id) do update set priority = excluded.priority, last_active = excluded.last_active;
+    select priority, count(*) as people from migration_welcome_queue group by priority order by priority;
+    """
+    if apply:
+        print("queue:", sql(q))
+    else:
+        print("(dry run) would queue", len(rows), "people:", {k: sum(1 for r in rows if r[1] == k) for k in (1, 2, 3)})
+
+
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "plan"
     if cmd == "plan":
         cmd_plan()
     elif cmd == "accounts":
         cmd_accounts("--apply" in sys.argv)
+    elif cmd == "queue":
+        cmd_queue("--apply" in sys.argv)
     elif cmd == "progress":
         cmd_progress("--apply" in sys.argv)
     else:
-        raise SystemExit("usage: kajabi-migrate.py plan | accounts [--apply] | progress [--apply]")
+        raise SystemExit("usage: kajabi-migrate.py plan | accounts [--apply] | progress [--apply] | queue [--apply]")

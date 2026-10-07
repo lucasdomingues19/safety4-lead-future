@@ -58,3 +58,6 @@ verify_jwt = false
 
 [functions.lifecycle-messages]
 verify_jwt = false
+
+[functions.migration-welcome-drip]
+verify_jwt = false
