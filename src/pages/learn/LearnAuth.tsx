@@ -10,6 +10,7 @@ const LearnAuth = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
   const [loading, setLoading] = useState(false);
   // Set after sign-up (or an unconfirmed sign-in): shows the "check your inbox" screen.
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
@@ -88,7 +89,7 @@ const LearnAuth = () => {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/learn`,
-            data: { full_name: fullName.trim() },
+            data: { full_name: fullName.trim(), marketing_opt_in: marketingOptIn },
           },
         });
         if (error) throw error;
@@ -355,6 +356,13 @@ const LearnAuth = () => {
               </div>
             )}
           </div>
+
+          {mode === "signup" && (
+            <label style={{ display: "flex", gap: "10px", alignItems: "flex-start", fontSize: "13px", lineHeight: 1.5, color: "#69697B", cursor: "pointer" }}>
+              <input type="checkbox" checked={marketingOptIn} onChange={(e) => setMarketingOptIn(e.target.checked)} style={{ marginTop: "3px", width: "16px", height: "16px", accentColor: "#3434FF", flex: "none" }} />
+              <span>Send me occasional safety-tech tips and course news. Optional, and you can unsubscribe any time.</span>
+            </label>
+          )}
 
           <button
             type="submit"

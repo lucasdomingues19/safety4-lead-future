@@ -98,12 +98,16 @@ export async function voiceoverConfigured(): Promise<boolean> {
 }
 
 // ---------- who has seen it ----------
-const LOCAL_KEY = "lms-tour-done";
-export const tourSeenLocally = () => { try { return localStorage.getItem(LOCAL_KEY) === "1"; } catch { return false; } };
+// Per learner: a shared browser must not carry one person's "tour done" over to the next account.
+const localKey = (userId: string) => `lms-tour-done:${userId}`;
+const bannerKey = (userId: string) => `lms-tour-banner-dismissed:${userId}`;
+export const tourSeenLocally = (userId: string) => { try { return localStorage.getItem(localKey(userId)) === "1"; } catch { return false; } };
+export const tourBannerDismissed = (userId: string) => { try { return localStorage.getItem(bannerKey(userId)) === "1"; } catch { return false; } };
+export const dismissTourBanner = (userId: string) => { try { localStorage.setItem(bannerKey(userId), "1"); } catch { /* private mode */ } };
 
 /** Records how far the learner got (shown in Admin > People). A finished tour is never downgraded by a later skipped replay. */
 export async function markTourDone(userId: string, outcome: { completed: boolean; step: number }) {
-  try { localStorage.setItem(LOCAL_KEY, "1"); } catch { /* private mode */ }
+  try { localStorage.setItem(localKey(userId), "1"); } catch { /* private mode */ }
   const { data } = await supabase.from("profiles").select("tour_status").eq("id", userId).maybeSingle();
   if (data?.tour_status === "completed" && !outcome.completed) return;
   await supabase.from("profiles").update({

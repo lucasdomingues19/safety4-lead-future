@@ -8,6 +8,7 @@ export interface LmsProfile {
   full_name?: string;
   avatar_url?: string;
   tour_completed_at?: string | null;
+  tour_status?: string | null;
   isAdmin: boolean;
   cpdHours: number;
   /** Companies this person manages (owner or manager). */
@@ -31,7 +32,7 @@ export function useLmsProfile() {
     let cancelled = false;
     const load = async () => {
       const [{ data: p }, { data: role }, { data: orgRows }] = await Promise.all([
-        supabase.from("profiles").select("full_name, avatar_url, tour_completed_at").eq("id", user.id).maybeSingle(),
+        supabase.from("profiles").select("full_name, avatar_url, tour_completed_at, tour_status").eq("id", user.id).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", user.id).eq("role", "admin").maybeSingle(),
         supabase.from("organisation_members").select("organisation_id, role, organisations(name)").eq("user_id", user.id).in("role", ["owner", "manager"]),
       ]);
@@ -42,6 +43,7 @@ export function useLmsProfile() {
         full_name: p?.full_name || metaName || undefined,
         avatar_url: p?.avatar_url || undefined,
         tour_completed_at: p?.tour_completed_at ?? null,
+        tour_status: p?.tour_status ?? null,
         isAdmin: role?.role === "admin",
         cpdHours: cache?.id === user.id ? cache.cpdHours : 0,
         managedOrgs: (orgRows ?? []).map((o) => ({ id: o.organisation_id, name: (o.organisations as { name?: string } | null)?.name ?? "Your company", role: o.role })),

@@ -1629,6 +1629,8 @@ export type Database = {
           auto_advance: boolean
           avatar_url: string | null
           captions_default: boolean
+          community_guidelines_accepted_at: string | null
+          community_guidelines_version: string | null
           created_at: string | null
           email: string | null
           email_reminders: boolean
@@ -1636,6 +1638,8 @@ export type Database = {
           hide_from_leaderboard: boolean
           id: string
           job_title: string | null
+          marketing_opt_in: boolean
+          marketing_opt_in_at: string | null
           organisation: string | null
           tour_completed_at: string | null
           tour_last_step: number | null
@@ -1646,6 +1650,8 @@ export type Database = {
           auto_advance?: boolean
           avatar_url?: string | null
           captions_default?: boolean
+          community_guidelines_accepted_at?: string | null
+          community_guidelines_version?: string | null
           created_at?: string | null
           email?: string | null
           email_reminders?: boolean
@@ -1653,6 +1659,8 @@ export type Database = {
           hide_from_leaderboard?: boolean
           id: string
           job_title?: string | null
+          marketing_opt_in?: boolean
+          marketing_opt_in_at?: string | null
           organisation?: string | null
           tour_completed_at?: string | null
           tour_last_step?: number | null
@@ -1663,6 +1671,8 @@ export type Database = {
           auto_advance?: boolean
           avatar_url?: string | null
           captions_default?: boolean
+          community_guidelines_accepted_at?: string | null
+          community_guidelines_version?: string | null
           created_at?: string | null
           email?: string | null
           email_reminders?: boolean
@@ -1670,6 +1680,8 @@ export type Database = {
           hide_from_leaderboard?: boolean
           id?: string
           job_title?: string | null
+          marketing_opt_in?: boolean
+          marketing_opt_in_at?: string | null
           organisation?: string | null
           tour_completed_at?: string | null
           tour_last_step?: number | null
@@ -2022,6 +2034,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_community_guidelines: {
+        Args: { _version?: string }
+        Returns: string
+      }
       admin_first_lessons: {
         Args: never
         Returns: {
@@ -2101,6 +2117,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_accepted_guidelines: { Args: { _user: string }; Returns: boolean }
       has_community_access: {
         Args: { _space: string; _user: string }
         Returns: boolean
@@ -2211,6 +2228,7 @@ export type Database = {
         Args: { _course: string; _org: string; _user: string }
         Returns: string
       }
+      text_has_link: { Args: { _t: string }; Returns: boolean }
       user_points: {
         Args: { _user: string }
         Returns: {

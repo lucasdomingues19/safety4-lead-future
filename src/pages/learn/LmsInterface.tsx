@@ -6,7 +6,7 @@ import { PlayCircle } from "lucide-react";
 import { miaPhoto } from "@/components/learn/MiaAvatar";
 import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
 import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
-import { markTourDone, tourSeenLocally } from "@/lib/tour";
+import { dismissTourBanner, markTourDone, tourBannerDismissed, tourSeenLocally } from "@/lib/tour";
 const MiaTour = React.lazy(() => import("@/components/learn/tour/MiaTour").then(m => ({ default: m.MiaTour })));
 import { toast } from "sonner";
 
@@ -62,8 +62,12 @@ export default function LmsInterface() {
     const [currentCourse, setCurrentCourse] = useState<any>(null);
 
     useEffect(() => {
-      if (profile && !profile.tour_completed_at && !tourSeenLocally()) setTourInvite(true);
+      if (profile && !profile.tour_completed_at && !tourSeenLocally(profile.id)) setTourInvite(true);
     }, [profile?.id]);
+
+    // After the popup is skipped or closed, a banner stays on the dashboard until the tour is finished or dismissed.
+    const [bannerGone, setBannerGone] = useState(false);
+    const showTourBanner = !!profile && screen === "dash" && profile.tour_status !== "completed" && !tourInvite && !tourOpen && !bannerGone && !tourBannerDismissed(profile.id);
 
     // Pages outside this screen (course, lesson) start the tour with ?tour=1.
     useEffect(() => {
@@ -178,6 +182,17 @@ export default function LmsInterface() {
         onNavigate={(v) => handleNavigation(v)}
         onStartTour={() => setTourOpen(true)}
       >
+          {showTourBanner && lmsUser && (
+            <div role="region" aria-label="Take the tour" style={{ margin: "16px 28px 0", maxWidth: 1400, marginInline: "auto", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", background: "linear-gradient(120deg,#11114a,#0b0b2c)", color: "#fff", borderRadius: 16, padding: "14px 18px", boxShadow: "0 10px 30px rgba(11,11,44,.18)" }}>
+              <img src={miaPhoto} alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", boxShadow: "0 0 0 2px #9eff1f", flex: "none" }} />
+              <div style={{ flex: "1 1 240px", minWidth: 0 }}>
+                <div style={{ fontWeight: 800, fontSize: 15 }}>New here? Take a 2-minute tour with Mia</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,.7)", marginTop: 2 }}>See where your lessons, quizzes, certificates and the community live.</div>
+              </div>
+              <button onClick={() => setTourOpen(true)} style={{ border: 0, borderRadius: 10, background: "#9eff1f", color: "#0b0b2c", fontWeight: 800, fontSize: 14, padding: "10px 18px", cursor: "pointer", fontFamily: "inherit" }}>Start the tour</button>
+              <button onClick={() => { dismissTourBanner(lmsUser.id); setBannerGone(true); }} aria-label="Dismiss" style={{ border: 0, background: "none", color: "rgba(255,255,255,.6)", fontSize: 22, lineHeight: 1, cursor: "pointer", padding: "4px 6px" }}>×</button>
+            </div>
+          )}
           {/* SCREEN CONTENT */}
           <div data-tour-stage style={{ minHeight: "calc(100vh - 72px)" }}>
             {renderScreen()}

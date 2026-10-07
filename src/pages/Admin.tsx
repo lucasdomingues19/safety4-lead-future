@@ -1070,6 +1070,7 @@ const Admin = () => {
                     <option value="event_registration" >Event Registration</option>
                     <option value="roi_calculator" >ROI Calculator</option>
                     <option value="ehs-assessment" >EHS Assessment</option>
+                    <option value="lms_signup" >LMS sign-up (opted in)</option>
                   </select>
                   {sourceFilter !== 'all' && (
                     <span className="text-xs text-slate-400 dark:text-slate-500">
@@ -1170,6 +1171,7 @@ const Admin = () => {
                                  lead.source === 'governance_readiness' ? 'Governance Readiness' :
                                  lead.source === 'roi_calculator' ? 'ROI Calculator' :
                                  lead.source === 'ehs-assessment' ? 'EHS Assessment' :
+                                 lead.source === 'lms_signup' ? 'LMS sign-up' :
                                  lead.source === 'event_registration' ? 'Event Registration' :
                                  lead.source === 'brochure_download' ? 'Brochure' : lead.source}
                               </span>

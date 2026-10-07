@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { LmsContext } from "@/pages/learn/LmsInterface";
 import { toast } from "sonner";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { toEmbedUrl } from "@/lib/lms";
 import { EmojiPicker, insertAtCaret } from "./EmojiPicker";
 import { LevelChip, NetworkChip } from "./Gamification";
@@ -230,8 +231,40 @@ export function LmsCommunity() {
     setFiles(next);
   };
 
+  // ---------- guidelines agreement + new-account link rule ----------
+  // Enforced by the database; these checks only give instant, friendly feedback.
+  const [agreed, setAgreed] = useState<boolean | null>(null);
+  const [showAgree, setShowAgree] = useState(false);
+  const autoPrompted = useRef(false);
+  useEffect(() => {
+    if (!user) return;
+    if (isAdmin) { setAgreed(true); return; }
+    supabase.from("profiles").select("community_guidelines_accepted_at").eq("id", user.id).maybeSingle()
+      .then(({ data }) => setAgreed(!!data?.community_guidelines_accepted_at));
+  }, [user, isAdmin]);
+  useEffect(() => {
+    if (agreed === false && !autoPrompted.current) { autoPrompted.current = true; setShowAgree(true); }
+  }, [agreed]);
+  const requireAgreement = () => {
+    if (agreed === false) { setShowAgree(true); return false; }
+    return true;
+  };
+  const isNewAccount = !isAdmin && !!user?.created_at && Date.now() - new Date(user.created_at).getTime() < 24 * 3600 * 1000;
+  const linkBlocked = (text: string) => {
+    if (!isNewAccount || !LINK_RE.test(text)) return false;
+    toast.error(NEW_ACCOUNT_LINK_MSG);
+    return true;
+  };
+  const reportError = (err: unknown, fallback: string) => {
+    const msg = String((err as { message?: string } | null)?.message ?? "");
+    if (msg.includes("NEW_ACCOUNT_LINKS")) toast.error(NEW_ACCOUNT_LINK_MSG);
+    else if (msg.includes("row-level security")) setShowAgree(true);
+    else toast.error(fallback);
+  };
+
   const createPost = async () => {
     if (!user || (!draft.trim() && !files.length)) return;
+    if (!requireAgreement() || linkBlocked(draft)) return;
     setPosting(true);
     const uploaded: string[] = [];
     try {
@@ -261,7 +294,7 @@ export function LmsCommunity() {
     } catch (err) {
       console.error(err);
       if (uploaded.length) supabase.storage.from(BUCKET).remove(uploaded);
-      toast.error("Could not publish your post");
+      reportError(err, "Could not publish your post");
     } finally {
       setPosting(false);
     }
@@ -269,20 +302,21 @@ export function LmsCommunity() {
 
   // ---------- actions ----------
   const toggleReaction = async (postId: string, emoji: string) => {
-    if (!user) return;
+    if (!user || !requireAgreement()) return;
     const mine = reactions.some((r) => r.post_id === postId && r.user_id === user.id && r.emoji === emoji);
     setReactions((prev) => (mine ? prev.filter((r) => !(r.post_id === postId && r.user_id === user.id && r.emoji === emoji)) : [...prev, { post_id: postId, user_id: user.id, emoji }]));
     setReactingOn(null);
     const { error } = mine
       ? await supabase.from("community_reactions").delete().eq("post_id", postId).eq("user_id", user.id).eq("emoji", emoji)
       : await supabase.from("community_reactions").insert({ post_id: postId, user_id: user.id, emoji });
-    if (error) { toast.error("Could not update your reaction"); load(); }
+    if (error) { reportError(error, "Could not update your reaction"); load(); }
   };
 
   const addComment = async (postId: string) => {
     if (!user || !commentDraft.trim()) return;
+    if (!requireAgreement() || linkBlocked(commentDraft)) return;
     const { error } = await supabase.from("community_comments").insert({ post_id: postId, user_id: user.id, author_name: displayName(), body: commentDraft.trim() });
-    if (error) { toast.error("Could not post your reply"); return; }
+    if (error) { reportError(error, "Could not post your reply"); return; }
     setCommentDraft("");
     load();
   };
@@ -318,6 +352,12 @@ export function LmsCommunity() {
 
   return (
     <div className="min-h-screen bg-[#eef1f6] px-4 pb-20 pt-10 font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c] md:px-7">
+      <GuidelinesDialog
+        open={showAgree}
+        onClose={() => setShowAgree(false)}
+        onAgreed={() => { setAgreed(true); setShowAgree(false); toast.success("Thanks. You're ready to join in."); }}
+        newAccount={isNewAccount}
+      />
       <div className="mx-auto grid max-w-[1400px] gap-6 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[220px_minmax(0,1fr)_320px]">
         {/* Left rail (desktop): communities + topics */}
         <aside className="hidden lg:sticky lg:top-6 lg:block lg:self-start">
@@ -679,6 +719,10 @@ export function LmsCommunity() {
 }
 
 // ---------- guidelines ----------
+// Mirrors text_has_link() in the database: web addresses and bare domains.
+const LINK_RE = /(https?:\/\/|hxxps?:\/\/|www\.|(^|[^a-z0-9@.-])[a-z0-9-]+(\.[a-z0-9-]+)*\.(com|net|org|io|co|uk|ai|app|ly|info|biz|xyz|site|online|link|academy|dev|page|click|top|shop|store|live|tech|eu|nl|ru|cn)(\/|[^a-z0-9-]|$))/i;
+const NEW_ACCOUNT_LINK_MSG = "To keep spam out, new accounts can't post links for the first 24 hours. Remove the link and try again, or share it tomorrow.";
+
 const GUIDELINES = [
   { emoji: "🤝", title: "Respect people", text: "Debate ideas, not people. No harassment, discrimination, personal attacks or pile-ons. Assume good intent — we're all here to make workplaces safer." },
   { emoji: "🔒", title: "Protect confidentiality", text: "Anonymise before you share. No confidential incident or investigation details, employer or client names in incidents, personal data, or photos of identifiable people or injuries without consent." },
@@ -720,5 +764,54 @@ function CommunityGuidelines({ open, onToggle }: { open: boolean; onToggle: () =
         </div>
       )}
     </section>
+  );
+}
+
+/** First-time agreement: read the guidelines, tick the box, then post, reply and react. */
+function GuidelinesDialog({ open, onClose, onAgreed, newAccount }: { open: boolean; onClose: () => void; onAgreed: () => void; newAccount: boolean }) {
+  const [ticked, setTicked] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const agree = async () => {
+    setSaving(true);
+    const { error } = await supabase.rpc("accept_community_guidelines", { _version: "v1" });
+    setSaving(false);
+    if (error) { console.error(error); toast.error("Could not save that. Please try again."); return; }
+    onAgreed();
+  };
+  return (
+    <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto font-['Plus_Jakarta_Sans',sans-serif]">
+        <DialogTitle className="text-2xl font-extrabold text-[#0b0b2c]">Before you join the conversation</DialogTitle>
+        <DialogDescription className="text-[15px] leading-relaxed text-[#69697b]">
+          The Academy community is free for every member. Please agree to our guidelines so it stays a safe, useful place for EHS professionals. You can read without agreeing, but you need to agree to post, reply or react.
+        </DialogDescription>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {GUIDELINES.map((g) => (
+            <div key={g.title} className="flex gap-3 rounded-2xl bg-[#f7f8fc] p-3.5">
+              <span className="text-xl leading-none" aria-hidden>{g.emoji}</span>
+              <span>
+                <span className="block text-sm font-bold text-[#0b0b2c]">{g.title}</span>
+                <span className="mt-1 block text-[12.5px] leading-relaxed text-[#69697b]">{g.text}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+        {newAccount && (
+          <p className="rounded-xl border border-[#d9f09a] bg-[#f4fbe4] p-3 text-[13px] leading-relaxed text-[#4a5230]">
+            <strong className="text-[#0b0b2c]">Heads up:</strong> to keep spam out, new accounts can post links after their first 24 hours.
+          </p>
+        )}
+        <label className="flex cursor-pointer items-start gap-3 text-sm font-medium text-[#0b0b2c]">
+          <input type="checkbox" checked={ticked} onChange={(e) => setTicked(e.target.checked)} className="mt-1 h-4 w-4 accent-[#3434ff]" />
+          <span>I've read the community guidelines and agree to follow them.</span>
+        </label>
+        <div className="flex flex-wrap items-center justify-end gap-3">
+          <button onClick={onClose} className="rounded-lg px-4 py-2.5 text-sm font-semibold text-[#69697b] hover:text-[#0b0b2c]">Not now</button>
+          <button onClick={agree} disabled={!ticked || saving} className="inline-flex items-center gap-2 rounded-lg bg-[#3434ff] px-5 py-2.5 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
+            {saving && <Loader2 className="h-4 w-4 animate-spin" />}Agree and continue
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
