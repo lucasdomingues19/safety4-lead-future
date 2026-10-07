@@ -1,6 +1,138 @@
 {
   "redirects": [
     {
+      "source": "/brochure",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetytech.academy"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/brochure",
+      "permanent": false
+    },
+    {
+      "source": "/offers/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetytech.academy"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/enrol",
+      "permanent": false
+    },
+    {
+      "source": "/forms/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetytech.academy"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/copilot-for-ehs#waitlist",
+      "permanent": false
+    },
+    {
+      "source": "/newsletters/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetytech.academy"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/",
+      "permanent": false
+    },
+    {
+      "source": "/products/communities/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetytech.academy"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/learn?view=community",
+      "permanent": false
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetytech.academy"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/learn",
+      "permanent": false
+    },
+    {
+      "source": "/brochure",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetyacademy.tech"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/brochure",
+      "permanent": false
+    },
+    {
+      "source": "/offers/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetyacademy.tech"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/enrol",
+      "permanent": false
+    },
+    {
+      "source": "/forms/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetyacademy.tech"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/copilot-for-ehs#waitlist",
+      "permanent": false
+    },
+    {
+      "source": "/newsletters/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetyacademy.tech"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/",
+      "permanent": false
+    },
+    {
+      "source": "/products/communities/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetyacademy.tech"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/learn?view=community",
+      "permanent": false
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "learning.safetyacademy.tech"
+        }
+      ],
+      "destination": "https://www.safetytech.academy/learn",
+      "permanent": false
+    },
+    {
       "source": "/:path(.*)",
       "has": [
         {
