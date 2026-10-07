@@ -22,7 +22,7 @@ export const SEOStructuredData = ({ type = 'course', faqItems }: StructuredDataP
       "foundingDate": "2024",
       "areaServed": "Worldwide",
       "sameAs": [
-        "https://www.linkedin.com/company/safety-4-0-academy",
+        "https://www.linkedin.com/company/safety-40-academy",
         "https://twitter.com/safety4academy"
       ],
       "contactPoint": {

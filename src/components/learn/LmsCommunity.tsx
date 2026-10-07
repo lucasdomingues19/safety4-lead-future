@@ -780,7 +780,7 @@ function GuidelinesDialog({ open, onClose, onAgreed, newAccount }: { open: boole
   };
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
-      <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto font-['Plus_Jakarta_Sans',sans-serif]">
+      <DialogContent className="max-h-[90vh] max-w-2xl gap-4 overflow-y-auto border-[#e2e8f0] bg-white p-6 font-['Plus_Jakarta_Sans',sans-serif] text-[#0b0b2c] sm:rounded-[20px]">
         <DialogTitle className="text-2xl font-extrabold text-[#0b0b2c]">Before you join the conversation</DialogTitle>
         <DialogDescription className="text-[15px] leading-relaxed text-[#69697b]">
           The Academy community is free for every member. Please agree to our guidelines so it stays a safe, useful place for EHS professionals. You can read without agreeing, but you need to agree to post, reply or react.
