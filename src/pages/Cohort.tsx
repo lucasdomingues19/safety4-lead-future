@@ -338,7 +338,7 @@ const Cohort = () => {
               )}
             </div>
 
-            <a href="https://learning.safetytech.academy/brochure" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group">
+            <a href="/brochure" className="inline-flex items-center gap-2 mt-8 text-sm font-semibold text-primary hover:text-primary/80 transition-colors group">
               <FileDown className="w-4 h-4" />
               Download Cohort Brochure
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -749,7 +749,7 @@ const Cohort = () => {
                       Apply Now <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
-                  <a href="https://safetyacademy.mykajabi.com/offers/E2ZXsoXV" target="_blank" rel="noopener noreferrer">
+                  <a href="/learn/auth">
                     <Button variant="outline" className="bg-white border-primary text-primary hover:bg-primary/5 font-medium text-base uppercase tracking-[0.08em] px-10 py-[22px] h-auto rounded">
                       Or start with eLearning (£597)
                     </Button>

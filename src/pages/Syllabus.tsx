@@ -70,8 +70,8 @@ const Syllabus = () => {
           { icon: PlayCircle, label: "Lessons", value: "60+" },
           { icon: GraduationCap, label: "Programme", value: "90 Days" },
         ]}
-        cta={{ label: "Start Learning — £597", href: "https://learning.safetytech.academy/offers/E2ZXsoXV/checkout", external: true }}
-        secondaryCta={{ label: "Download Brochure", href: "https://learning.safetytech.academy/brochure", external: true }}
+        cta={{ label: "Start Learning — £597", href: "/learn/auth" }}
+        secondaryCta={{ label: "Download Brochure", href: "/brochure" }}
       />
 
       <div className="container mx-auto px-4 max-w-4xl pb-20">

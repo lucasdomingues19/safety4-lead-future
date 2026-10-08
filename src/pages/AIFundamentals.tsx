@@ -22,7 +22,7 @@ import {
   UserCheck, Compass, BookOpen, Zap, Sparkles,
 } from "lucide-react";
 
-const CHECKOUT_URL = "https://learning.safetytech.academy/offers/osRfeBFj/checkout";
+const CHECKOUT_URL = "/learn/auth";
 
 const reviews = testimonials.filter((t) => ["Dan Warnock", "Shebin Abraham"].includes(t.name));
 
@@ -60,7 +60,7 @@ const AIFundamentals = () => {
           { icon: BookOpen, label: "Modules", value: "5" },
           { icon: Award, label: "Certificate", value: "Included" },
         ]}
-        cta={{ label: "Start Learning — £97", href: CHECKOUT_URL, external: true }}
+        cta={{ label: "Start Learning — £97", href: CHECKOUT_URL }}
         secondaryCta={{ label: "Talk to Us", href: "/contact" }}
         guarantee="7-day money-back guarantee"
       />
