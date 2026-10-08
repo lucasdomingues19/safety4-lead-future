@@ -81,7 +81,7 @@ export function MiaHelp() {
               </>
             )}
             {turns.map((t, i) => (
-              <div key={i} className={t.role === "user" ? "ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-[#3434ff] px-3.5 py-2 text-white" : "max-w-[92%] rounded-2xl rounded-bl-sm bg-[#f1f4fb] px-3.5 py-2 text-[#0b0b2c] [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5 [&_p]:my-1"}>
+              <div key={i} className={t.role === "user" ? "ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-[#e8ecff] px-3.5 py-2 text-[#0b0b2c]" : "max-w-[92%] rounded-2xl rounded-bl-sm bg-[#f1f4fb] px-3.5 py-2 text-[#0b0b2c] [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5 [&_p]:my-1"}>
                 {t.role === "user" ? t.content : <ReactMarkdown>{t.content}</ReactMarkdown>}
               </div>
             ))}
@@ -98,7 +98,8 @@ export function MiaHelp() {
                 maxLength={1500}
                 placeholder="Ask about the academy…"
                 aria-label="Your question for Mia"
-                className="max-h-24 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-[#3434ff] focus:outline-none"
+                style={{ color: "#0b0b2c", WebkitTextFillColor: "#0b0b2c", backgroundColor: "#ffffff" }}
+                className="max-h-24 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-sm placeholder:text-slate-400 focus:border-[#3434ff] focus:outline-none"
               />
               <button type="submit" disabled={busy || !input.trim()} aria-label="Send" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#3434ff] text-white disabled:opacity-40">
                 <ArrowUp size={18} />
