@@ -376,6 +376,44 @@ export type Database = {
           },
         ]
       }
+      community_email_queue: {
+        Row: {
+          email: string
+          error: string | null
+          post_id: string
+          queued_at: string
+          sent_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          email: string
+          error?: string | null
+          post_id: string
+          queued_at?: string
+          sent_at?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          email?: string
+          error?: string | null
+          post_id?: string
+          queued_at?: string
+          sent_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_email_queue_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_event_rsvps: {
         Row: {
           created_at: string
@@ -559,6 +597,7 @@ export type Database = {
           author_name: string
           body: string
           created_at: string
+          email_requested: boolean
           id: string
           media: Json
           pinned: boolean
@@ -570,6 +609,7 @@ export type Database = {
           author_name: string
           body: string
           created_at?: string
+          email_requested?: boolean
           id?: string
           media?: Json
           pinned?: boolean
@@ -581,6 +621,7 @@ export type Database = {
           author_name?: string
           body?: string
           created_at?: string
+          email_requested?: boolean
           id?: string
           media?: Json
           pinned?: boolean
@@ -1335,6 +1376,54 @@ export type Database = {
           },
         ]
       }
+      migration_drip_config: {
+        Row: {
+          daily_cap: number
+          enabled: boolean
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          daily_cap?: number
+          enabled?: boolean
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          daily_cap?: number
+          enabled?: boolean
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      migration_welcome_queue: {
+        Row: {
+          error: string | null
+          last_active: string | null
+          priority: number
+          queued_at: string
+          sent_at: string | null
+          user_id: string
+        }
+        Insert: {
+          error?: string | null
+          last_active?: string | null
+          priority?: number
+          queued_at?: string
+          sent_at?: string | null
+          user_id: string
+        }
+        Update: {
+          error?: string | null
+          last_active?: string | null
+          priority?: number
+          queued_at?: string
+          sent_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       modules: {
         Row: {
           course_id: string
@@ -1505,6 +1594,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           id: string
+          logo_url: string | null
           name: string
           stripe_customer_id: string | null
           vat_id: string | null
@@ -1515,6 +1605,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           id?: string
+          logo_url?: string | null
           name: string
           stripe_customer_id?: string | null
           vat_id?: string | null
@@ -1525,6 +1616,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           id?: string
+          logo_url?: string | null
           name?: string
           stripe_customer_id?: string | null
           vat_id?: string | null

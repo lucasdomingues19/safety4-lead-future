@@ -9,7 +9,7 @@ import { PanelHeader, Spinner, adminFont, input, panel } from "./adminUi";
 // Admin > Teams: companies, their seats, the seat invoices, and team pricing per course.
 
 interface Address { line1: string; line2?: string; city: string; postal_code: string; country: string }
-interface Org { id: string; name: string; billing_email: string | null; vat_id: string | null; billing_address: Address | null; created_at: string; owner: string | null; seats: number; used: number }
+interface Org { id: string; name: string; billing_email: string | null; vat_id: string | null; billing_address: Address | null; logo_url: string | null; created_at: string; owner: string | null; seats: number; used: number }
 interface Course { id: string; title: string; price_cents: number; currency: string | null; published: boolean; team_enabled: boolean; team_tiers: { min: number; pct: number }[] }
 interface Invoice { stripe_invoice_id: string; organisation_id: string; course_id: string; seats: number; amount_cents: number; currency: string; status: string; number: string | null; hosted_url: string | null; due_date: string | null; po_number: string | null; created_at: string }
 const money = (c: number, cur = "GBP") => new Intl.NumberFormat("en-GB", { style: "currency", currency: cur }).format(c / 100);
@@ -24,7 +24,7 @@ export function LmsAdminTeams() {
 
   const load = useCallback(async () => {
     const [{ data: o }, { data: c }, { data: inv }, { data: mem }] = await Promise.all([
-      supabase.from("organisations").select("id, name, billing_email, vat_id, billing_address, created_at").order("created_at", { ascending: false }),
+      supabase.from("organisations").select("id, name, billing_email, vat_id, billing_address, logo_url, created_at").order("created_at", { ascending: false }),
       supabase.from("courses").select("id, title, price_cents, currency, published, team_enabled, team_tiers").order("title"),
       supabase.from("team_invoices").select("*").order("created_at", { ascending: false }),
       supabase.from("organisation_members").select("organisation_id, user_id").eq("role", "owner"),
@@ -69,8 +69,9 @@ export function LmsAdminTeams() {
             <div key={o.id} style={{ borderTop: "1px solid #f1f4f8" }}>
               <div style={{ padding: "14px 24px", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
                 <button onClick={() => setOpen(isOpen ? null : o.id)} aria-expanded={isOpen} aria-label={`${isOpen ? "Hide" : "Show"} ${o.name}`} style={{ border: 0, background: "none", cursor: "pointer", color: "#0b0b2c", padding: 0, display: "flex" }}>{isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}</button>
+                {o.logo_url ? <img src={o.logo_url} alt="" style={{ width: 40, height: 40, borderRadius: 10, objectFit: "contain", background: "#f7f8fc", flex: "none" }} /> : null}
                 <div style={{ flex: "1 1 220px", minWidth: 0 }}>
-                  <div style={{ fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}><Building2 size={16} color="#3434ff" /> {o.name}</div>
+                  <div style={{ fontWeight: 800, display: "flex", alignItems: "center", gap: 8 }}>{o.logo_url ? null : <Building2 size={16} color="#3434ff" />} {o.name}</div>
                   <div style={{ fontSize: 12.5, color: "#94a3b8" }}>{o.owner ?? "No manager"}{o.vat_id ? ` · VAT ${o.vat_id}` : ""}</div>
                 </div>
                 <div style={{ fontSize: 13, color: "#69697b", fontVariantNumeric: "tabular-nums" }}><strong style={{ color: "#0b0b2c" }}>{o.used}</strong> of {o.seats} seats used</div>
@@ -131,12 +132,24 @@ function OrgDialog({ org, onClose, onDone }: { org?: Org; onClose: () => void; o
   const a = org?.billing_address;
   const [f, setF] = useState({ name: org?.name ?? "", owner_email: "", billing_email: org?.billing_email ?? "", vat_id: org?.vat_id ?? "", line1: a?.line1 ?? "", line2: a?.line2 ?? "", city: a?.city ?? "", postal_code: a?.postal_code ?? "", country: a?.country ?? "GB" });
   const [busy, setBusy] = useState(false);
+  const [logo, setLogo] = useState<string | null>(null);
   const address = { line1: f.line1, line2: f.line2, city: f.city, postal_code: f.postal_code, country: f.country };
+  const readLogo = (file: File | undefined) => {
+    if (!file) return;
+    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) { toast.error("Use a PNG, JPEG or WebP logo"); return; }
+    if (file.size > 1048576) { toast.error("The logo must be under 1 MB"); return; }
+    const r = new FileReader(); r.onload = () => setLogo(String(r.result)); r.readAsDataURL(file);
+  };
   const submit = async () => {
     setBusy(true);
     try {
+      let orgId = org?.id;
       if (org) await invokeFunction("admin-teams", { action: "update_org", org_id: org.id, name: f.name, billing_email: f.billing_email, vat_id: f.vat_id, address });
-      else await invokeFunction("admin-teams", { action: "create_org", name: f.name, owner_email: f.owner_email, billing_email: f.billing_email, vat_id: f.vat_id, address });
+      else {
+        const made = await invokeFunction("admin-teams", { action: "create_org", name: f.name, owner_email: f.owner_email, billing_email: f.billing_email, vat_id: f.vat_id, address }) as { org_id?: string };
+        orgId = made?.org_id;
+      }
+      if (logo && orgId) await invokeFunction("admin-teams", { action: "set_logo", org_id: orgId, data_url: logo });
       toast.success(org ? "Company saved" : "Company created"); onDone();
     } catch (e) { toast.error(e instanceof Error ? e.message : "Couldn't save it"); setBusy(false); }
   };
@@ -154,6 +167,12 @@ function OrgDialog({ org, onClose, onDone }: { org?: Org; onClose: () => void; o
         <div style={{ flex: 1 }}><Field label="Postcode"><input style={input} value={f.postal_code} onChange={(e) => setF({ ...f, postal_code: e.target.value })} /></Field></div>
         <div style={{ flex: 1 }}><Field label="Country"><input style={input} maxLength={2} value={f.country} onChange={(e) => setF({ ...f, country: e.target.value.toUpperCase() })} placeholder="GB" /></Field></div>
       </div>
+      <Field label="Company logo (optional, PNG/JPEG/WebP, under 1 MB)">
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {logo || org?.logo_url ? <img src={logo ?? org?.logo_url ?? ""} alt="" style={{ width: 48, height: 48, borderRadius: 10, objectFit: "contain", background: "#f7f8fc" }} /> : null}
+          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => readLogo(e.target.files?.[0])} style={{ fontSize: 13 }} />
+        </div>
+      </Field>
       {!org && <p style={{ fontSize: 12.5, color: "#69697b", margin: "0 0 14px" }}>If the manager is new, they get an email to set a password.</p>}
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}><button style={btn()} onClick={onClose}>Cancel</button><button style={btn(true)} disabled={busy || f.name.trim().length < 2 || (!org && !f.owner_email.includes("@"))} onClick={submit}>{busy && <Loader2 size={14} className="animate-spin" />} {org ? "Save" : "Create company"}</button></div>
     </Modal>

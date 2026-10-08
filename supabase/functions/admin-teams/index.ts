@@ -10,6 +10,7 @@ import { SITE, sendOwnerWelcome } from "../_shared/welcome.ts";
 // Admin-only: companies, seats and seat invoices.
 //   create_org      { name, owner_email, billing_email?, vat_id? }
 //   update_org      { org_id, name?, billing_email?, vat_id? }
+//   set_logo        { org_id, data_url }   (PNG/JPEG/WebP, under 1 MB)
 //   grant_seats     { org_id, course_id, seats, access_days?, note? }    (manual / paid offline)
 //   create_invoice  { org_id, course_id, seats, access_days?, days_until_due?, po_number?, note?, send?, draft_only? }
 //   sync_invoice    { stripe_invoice_id }   (re-reads Stripe; grants the seats if it is paid)
@@ -109,6 +110,23 @@ serve(async (req) => {
     }
 
     const orgId = uuid(b.org_id);
+
+    // ---------- company logo (PNG/JPEG/WebP, up to 1 MB) ----------
+    if (b.action === "set_logo") {
+      if (!orgId) return json({ error: "Missing company" }, 400);
+      const m = String(b.data_url ?? "").match(/^data:(image\/(png|jpeg|webp));base64,(.+)$/);
+      if (!m) return json({ error: "Upload a PNG, JPEG or WebP image" }, 400);
+      const bytes = Uint8Array.from(atob(m[3]), (c) => c.charCodeAt(0));
+      if (bytes.length > 1048576) return json({ error: "The logo must be under 1 MB" }, 400);
+      const ext = m[2] === "jpeg" ? "jpg" : m[2];
+      const path = `${orgId}/logo-${Date.now()}.${ext}`;
+      const { error: upErr } = await db.storage.from("org-logos").upload(path, bytes, { contentType: m[1], upsert: false });
+      if (upErr) throw upErr;
+      const url = `${Deno.env.get("SUPABASE_URL")}/storage/v1/object/public/org-logos/${path}`;
+      const { error } = await db.from("organisations").update({ logo_url: url }).eq("id", orgId);
+      if (error) throw error;
+      return json({ ok: true, logo_url: url });
+    }
 
     if (b.action === "update_org") {
       if (!orgId) return json({ error: "Missing company" }, 400);
