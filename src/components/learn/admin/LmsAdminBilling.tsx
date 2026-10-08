@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { invokeFunction } from "@/lib/invoke";
-import { Kpi, PanelHeader, Spinner, adminFont, panel, ghostBtn } from "./adminUi";
+import { Kpi, PanelHeader, Spinner, adminFont, panel, ghostBtn, primaryBtn } from "./adminUi";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 interface Charge { id: string; amount: number; refunded: number; currency: string; status: string; created: string; email: string | null; description: string | null }
 interface WebhookHealth { expectedUrl: string; configured: boolean; missingEvents: string[]; others: string[] }
@@ -12,6 +13,9 @@ export function LmsAdminBilling() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<Summary | null>(null);
+  const [refunding, setRefunding] = useState<Charge | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [notice, setNotice] = useState<{ ok: boolean; text: string } | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -24,6 +28,21 @@ export function LmsAdminBilling() {
     setLoading(false);
   };
   useEffect(() => { load(); }, []);
+
+  const refundNow = async () => {
+    if (!refunding) return;
+    setBusy(true);
+    try {
+      const r = await invokeFunction<{ amount: number; currency: string; email: string | null }>("admin-refund-purchase", { charge_id: refunding.id });
+      setNotice({ ok: true, text: `Refunded ${money(r.amount, r.currency)}${r.email ? ` to ${r.email}` : ""}. Access to the course has ended.` });
+      setRefunding(null);
+      await load();
+    } catch (e) {
+      setNotice({ ok: false, text: e instanceof Error ? e.message : "The refund did not go through" });
+      setRefunding(null);
+    }
+    setBusy(false);
+  };
 
   if (loading) return <Spinner />;
 
@@ -63,20 +82,44 @@ export function LmsAdminBilling() {
               sub={["Last 50 charges", ...Object.entries(data.otherCurrencies ?? {}).map(([cur, amt]) => `+ ${money(amt, cur)}`)].join(" · ")}
             />
           </div>
+          {notice && (
+            <div style={{ marginBottom: 16, padding: "12px 16px", borderRadius: 10, fontSize: 13, fontWeight: 600, background: notice.ok ? "#f4fbe4" : "#fff5f5", color: notice.ok ? "#4a5230" : "#c93636" }}>{notice.text}</div>
+          )}
           <div style={panel}>
             <PanelHeader title="Recent payments" sub="Straight from Stripe" right={<button onClick={load} style={ghostBtn}>Refresh</button>} />
             {data.charges.length === 0 && <div style={{ padding: 28, fontSize: 13, color: "#94a3b8" }}>No payments yet. Paid enrolments will appear here.</div>}
             {data.charges.map((c, i) => (
-              <div key={c.id} style={{ padding: "16px 28px", borderBottom: i < data.charges.length - 1 ? "1px solid #f1f4f8" : "none", display: "grid", gridTemplateColumns: "1fr 120px 110px", gap: 16, alignItems: "center" }}>
+              <div key={c.id} style={{ padding: "16px 28px", borderBottom: i < data.charges.length - 1 ? "1px solid #f1f4f8" : "none", display: "grid", gridTemplateColumns: "1fr 120px 110px 104px", gap: 16, alignItems: "center" }}>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: 14, fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.email ?? "Unknown customer"}</div>
                   <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>{new Date(c.created).toLocaleString()}{c.description ? ` · ${c.description}` : ""}</div>
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 800, textAlign: "right" }}>{money(c.amount, c.currency)}{c.refunded > 0 && <div style={{ fontSize: 11, color: "#c93636", fontWeight: 600 }}>-{money(c.refunded, c.currency)} refunded</div>}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, textAlign: "center", padding: "6px 10px", borderRadius: 4, background: c.status === "succeeded" ? "#f4fbe4" : "#fff5f5", color: c.status === "succeeded" ? "#4a5230" : "#c93636", textTransform: "uppercase" }}>{c.status}</div>
+                <div style={{ textAlign: "right" }}>
+                  {c.status === "succeeded" && c.refunded < c.amount && (
+                    <button onClick={() => setRefunding(c)} style={ghostBtn}>Refund</button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
+          <AlertDialog open={!!refunding} onOpenChange={(o) => { if (!o && !busy) setRefunding(null); }}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Refund {refunding ? money(refunding.amount - refunding.refunded, refunding.currency) : ""}?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  The full amount goes back to {refunding?.email ?? "the customer"}&apos;s card. Their access to this course ends straight away. Stripe keeps its processing fee, and a refund can&apos;t be reversed from here.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel disabled={busy}>Cancel</AlertDialogCancel>
+                <AlertDialogAction disabled={busy} onClick={(e) => { e.preventDefault(); refundNow(); }} style={{ ...primaryBtn, background: "#c93636" }}>
+                  {busy ? "Refunding..." : "Refund payment"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </>
       )}
     </div>

@@ -64,3 +64,6 @@ verify_jwt = false
 
 [functions.community-post-email]
 verify_jwt = false
+
+[functions.admin-refund-purchase]
+verify_jwt = false
