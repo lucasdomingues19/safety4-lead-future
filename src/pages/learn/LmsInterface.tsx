@@ -166,9 +166,11 @@ export default function LmsInterface() {
       </div>
       <button
         onClick={() => navigate(currentCourse.nextLessonId ? `/learn/${currentCourse.slug}/lesson/${currentCourse.nextLessonId}` : `/learn/${currentCourse.slug}`)}
-        style={{ flex: "none", display: "flex", alignItems: "center", gap: "8px", border: 0, borderRadius: "10px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "14px", fontWeight: 700, padding: "11px 16px", cursor: "pointer" }}
+        aria-label={currentCourse.started ? "Resume course" : "Start course"}
+        className="px-3 sm:px-4"
+        style={{ flex: "none", display: "flex", alignItems: "center", gap: "8px", border: 0, borderRadius: "10px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "14px", fontWeight: 700, minHeight: "40px", cursor: "pointer" }}
       >
-        <PlayCircle size={16} /> {currentCourse.started ? "Resume" : "Start"}
+        <PlayCircle size={16} /> <span className="hidden sm:inline">{currentCourse.started ? "Resume" : "Start"}</span>
       </button>
     </>
   ) : <ShellTitle label="WELCOME" title="Pick a course to get started" />;

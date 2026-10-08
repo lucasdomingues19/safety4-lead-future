@@ -144,7 +144,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
                 <Menu size={19} />
               </button>
             )}
-            <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 20 }}>{header}</div>
+            <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: phone ? 10 : 20 }}>{header}</div>
             {profile && <LmsSearch phone={phone} />}
             {profile && <NotificationBell userId={profile.id} />}
           </div>
