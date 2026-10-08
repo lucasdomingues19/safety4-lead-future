@@ -334,15 +334,18 @@ export function EventEditor({
       join_url: f.join_url.trim() || null, stream_url: f.stream_url.trim() || null, replay_url: f.replay_url.trim() || null, image_url: f.image_url || null,
     };
     const { data: me } = await supabase.auth.getUser();
-    const { error } = initial
-      ? await supabase.from("community_events").update(row).eq("id", initial.id)
-      : await supabase.from("community_events").insert({ ...row, created_by: me.user?.id ?? null });
+    // Every event lives in both communities: one copy per space.
+    const spaces = ["academy", "global-network"] as const;
+    const error = initial
+      ? (await supabase.from("community_events").update({ ...row, space: undefined })
+          .eq("title", initial.title).eq("starts_at", initial.starts_at)).error
+      : (await supabase.from("community_events").insert(spaces.map((sp) => ({ ...row, space: sp, created_by: me.user?.id ?? null })))).error;
     if (error) { setSaving(false); toast.error("Could not save the event"); return; }
     if (!initial && f.announce && me.user) {
-      await supabase.from("community_posts").insert({
-        user_id: me.user.id, author_name: authorName, space: f.space, topic: "general",
+      await supabase.from("community_posts").insert(spaces.map((sp) => ({
+        user_id: me.user!.id, author_name: authorName, space: sp, topic: "general",
         body: `📅 New live session: ${row.title}\n${formatWhen({ starts_at: row.starts_at, ends_at: row.ends_at })}\n\nRSVP and add it to your calendar from the Events tab.`,
-      });
+      })));
     }
     setSaving(false);
     toast.success(initial ? "Event updated" : "Event scheduled");
@@ -371,12 +374,9 @@ export function EventEditor({
           <textarea rows={3} maxLength={4000} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} className={`${input} mt-1 resize-y`} />
         </label>
         <div className="mt-3 grid grid-cols-2 gap-3">
-          <label className="block text-[13px] font-semibold">Community
-            <select value={f.space} onChange={(e) => setF({ ...f, space: e.target.value as typeof f.space })} className={`${input} mt-1`}>
-              <option value="academy">SafetyTech Academy (free)</option>
-              <option value="global-network">Global Network (members)</option>
-            </select>
-          </label>
+          <div className="block text-[13px] font-semibold">Community
+            <div className={`${input} mt-1 flex items-center text-[#69697b]`}>Both: SafetyTech Academy and the Global Network</div>
+          </div>
           <label className="block text-[13px] font-semibold">Length
             <select value={f.minutes} onChange={(e) => setF({ ...f, minutes: Number(e.target.value) })} className={`${input} mt-1`}>
               {[30, 45, 60, 90, 120, 180].map((m) => <option key={m} value={m}>{m >= 60 ? `${m / 60} hour${m === 60 ? "" : "s"}` : `${m} min`}</option>)}
