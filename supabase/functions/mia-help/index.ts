@@ -60,7 +60,7 @@ serve(async (req) => {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({ model: "claude-sonnet-5-5", max_tokens: 600, system: SYSTEM, messages }),
+    body: JSON.stringify({ model: "claude-haiku-5-5", max_tokens: 600, system: SYSTEM, messages }),
   });
   if (!res.ok) {
     console.error("mia-help Anthropic error", res.status, await res.text().catch(() => ""));
