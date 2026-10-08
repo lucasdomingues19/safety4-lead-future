@@ -44,7 +44,7 @@ export const ProblemStatsSection = () => {
           </div>
 
           {/* Blue Band with Animation */}
-          <div className="bg-primary text-white rounded-lg md:rounded-xl p-8 md:p-10 mb-10 md:mb-14 overflow-hidden min-h-[200px] flex items-center justify-center relative">
+          <div className="bg-primary text-white rounded-lg md:rounded-xl p-8 md:p-10 mb-10 md:mb-14 overflow-hidden grid relative">
             <style>{`
               @keyframes fadeInOut {
                 0%, 60% { opacity: 1; }
@@ -59,7 +59,7 @@ export const ProblemStatsSection = () => {
             `}</style>
 
             {/* Original text */}
-            <div className="text-content-anim absolute inset-0 flex flex-col items-center justify-center p-8 md:p-10">
+            <div className="text-content-anim col-start-1 row-start-1 flex flex-col items-center justify-center text-center">
               <p className="text-base md:text-lg mb-5 leading-relaxed">
                 Most EHS functions aren't ready to implement, evaluate and govern AI and SafetyTech investments without building team capability first. Generic AI training won't prepare your team for the risks and opportunities of the digital age or help you comply with emerging regulations including the EU AI Act Article 4 on AI Literacy.
               </p>
@@ -69,7 +69,7 @@ export const ProblemStatsSection = () => {
             </div>
 
             {/* Animated overlay */}
-            <div className="question-anim absolute inset-0 flex items-center justify-center p-8">
+            <div className="question-anim col-start-1 row-start-1 flex items-center justify-center text-center">
               <h3 className="text-4xl md:text-5xl font-bold text-center text-white">
                 Is Your Team Ready?
               </h3>
