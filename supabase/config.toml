@@ -61,3 +61,6 @@ verify_jwt = false
 
 [functions.migration-welcome-drip]
 verify_jwt = false
+
+[functions.community-post-email]
+verify_jwt = false

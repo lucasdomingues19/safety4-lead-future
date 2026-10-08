@@ -148,6 +148,8 @@ export function LmsCommunity() {
   const [topic, setTopic] = useState<TopicId>("general");
   const [files, setFiles] = useState<File[]>([]);
   const [pinOnPost, setPinOnPost] = useState(false);
+  // Admin only, per post: email members about it. Off unless ticked for that post.
+  const [emailOnPost, setEmailOnPost] = useState(false);
   const [posting, setPosting] = useState(false);
   const draftRef = useRef<HTMLTextAreaElement>(null);
   const previews = useMemo(() => files.map((f) => URL.createObjectURL(f)), [files]);
@@ -276,7 +278,7 @@ export function LmsCommunity() {
         uploaded.push(path);
         media.push({ type: f.type.startsWith("video/") ? "video" : "image", path });
       }
-      const { error } = await supabase.from("community_posts").insert({
+      const { data: created, error } = await supabase.from("community_posts").insert({
         user_id: user.id,
         author_name: displayName(),
         body: draft.trim(),
@@ -284,12 +286,19 @@ export function LmsCommunity() {
         topic,
         space,
         pinned: isAdmin && pinOnPost,
-      });
+      }).select("id").single();
       if (error) throw error;
+      const wantEmail = isAdmin && emailOnPost;
       setDraft("");
       setFiles([]);
       setPinOnPost(false);
+      setEmailOnPost(false);
       toast.success("Posted");
+      if (wantEmail && created?.id) {
+        const { data: res, error: mailErr } = await supabase.functions.invoke("community-post-email", { body: { action: "send", post_id: created.id } });
+        if (mailErr || !res) toast.error("Posted, but the email could not be queued");
+        else toast.success(`Email queued for ${res.queued_total} members. ${res.sent_now} sent now, the rest follow within the daily limit.`);
+      }
       load();
     } catch (err) {
       console.error(err);
@@ -510,6 +519,11 @@ export function LmsCommunity() {
                 {isAdmin && (
                   <label className="ml-1 flex cursor-pointer items-center gap-1.5 text-[13px] font-semibold text-[#69697b]">
                     <input type="checkbox" checked={pinOnPost} onChange={(e) => setPinOnPost(e.target.checked)} className="accent-[#3434ff]" /> Pin as announcement
+                  </label>
+                )}
+                {isAdmin && (
+                  <label className="ml-1 flex cursor-pointer items-center gap-1.5 text-[13px] font-semibold text-[#69697b]" title="Send this post by email to members who have signed in and not turned off email">
+                    <input type="checkbox" checked={emailOnPost} onChange={(e) => setEmailOnPost(e.target.checked)} className="accent-[#3434ff]" /> Email members
                   </label>
                 )}
                 <button onClick={openGuidelines} className="ml-auto hidden text-[12px] font-semibold text-[#94a3b8] hover:text-[#3434ff] md:inline">Community guidelines</button>
