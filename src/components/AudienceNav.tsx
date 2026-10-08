@@ -150,13 +150,21 @@ const AudienceNav = () => {
           </Link>
         </div>
 
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-slate-900 p-2"
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link
+            to="/learn"
+            className="px-4 py-2 rounded bg-primary text-white text-xs font-medium uppercase tracking-[0.08em] hover:bg-primary/90 transition-colors"
+          >
+            Learn
+          </Link>
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-slate-900 p-2"
           aria-label="Toggle menu"
         >
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile */}
