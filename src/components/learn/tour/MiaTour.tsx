@@ -28,7 +28,8 @@ const PAD = 10;
 const visible = (el: Element | null): el is HTMLElement => {
   if (!el) return false;
   const r = el.getBoundingClientRect();
-  return r.width > 8 && r.height > 8;
+  // Off-screen counts as hidden: the phone menu is a drawer parked past the left edge until it opens.
+  return r.width > 8 && r.height > 8 && r.right > 0 && r.left < window.innerWidth;
 };
 const stageEl = () => document.querySelector<HTMLElement>("[data-tour-stage]");
 const resetZoom = (instant = false) => {
@@ -79,7 +80,7 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
   // exactly as it was afterwards.
   useEffect(() => {
     setTourActive(true);
-    return () => { resetZoom(true); setTourActive(false); };
+    return () => { resetZoom(true); setTourActive(false); window.dispatchEvent(new CustomEvent("lms-tour-menu", { detail: { open: false } })); };
   }, []);
 
   // 1) Show the step's screen, 2) find its anchor, 3) let the page settle,
@@ -92,6 +93,8 @@ export function MiaTour({ name, isAdmin, screen, onNavigate, onClose, onFinish, 
     resetZoom();
     const switching = screen !== step.screen;
     if (switching) onNavigate(step.screen);
+    // On phones the menu is a drawer: open it for the steps that point at it, close it for the rest.
+    window.dispatchEvent(new CustomEvent("lms-tour-menu", { detail: { open: step.targets.some((t) => t === "nav" || t === "nav-support") } }));
     const started = Date.now();
 
     const zoomTo = (el: HTMLElement) => {

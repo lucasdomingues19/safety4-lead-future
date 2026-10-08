@@ -42,6 +42,13 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // The guided tour opens the phone menu when it talks about the menu, and closes it afterwards.
+  useEffect(() => {
+    const onTourMenu = (e: Event) => { if (phone) setMenuOpen((e as CustomEvent<{ open: boolean }>).detail.open); };
+    window.addEventListener("lms-tour-menu", onTourMenu);
+    return () => window.removeEventListener("lms-tour-menu", onTourMenu);
+  }, [phone]);
+
   const toggleRail = () => {
     if (phone) { setMenuOpen((o) => !o); return; }
     setRailOpen((o) => { try { localStorage.setItem(RAIL_KEY, o ? "0" : "1"); } catch { /* ignore */ } return !o; });
