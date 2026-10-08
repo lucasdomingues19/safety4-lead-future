@@ -51,7 +51,7 @@ export async function sendMigrationWelcome(to: string, name: string, link: strin
     from: "SafetyTech Academy <hello@safetytech.academy>",
     reply_to: "hello@safetytech.academy",
     to: [to],
-    subject: courses.length === 0 ? "Your SafetyTech Academy community has a new home" : "Your SafetyTech Academy courses have a new home",
+    subject: "Welcome to SafetyTech Academy, set your password",
     html,
     text: htmlToText(html),
   });

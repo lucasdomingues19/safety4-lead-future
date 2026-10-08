@@ -45,7 +45,7 @@ ${courseList}
     from: "SafetyTech Academy <hello@safetytech.academy>",
     reply_to: "hello@safetytech.academy",
     to: [to],
-    subject: "Your SafetyTech Academy account is ready",
+    subject: "Welcome to SafetyTech Academy, set your password",
     html,
     text: htmlToText(html),
   });
