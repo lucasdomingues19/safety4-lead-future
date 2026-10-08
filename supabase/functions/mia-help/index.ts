@@ -1,9 +1,13 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { AuthError, allow, requireUser } from "../_shared/auth.ts";
+import { KNOWLEDGE } from "./knowledge.ts";
 
-// Mia, the help assistant in the corner of the LMS. Answers how-to questions about the academy only.
-// It never sees account data and cannot change anything: account, billing and refund requests go to people.
-// Body: { messages: [{ role: "user" | "assistant", content: string }] }  (last 10 turns are used)
+// Mia, the help assistant in the corner of the LMS. Answers how-to questions from KNOWLEDGE only.
+// Cannot see account data or change anything. Anything she can't answer, or a request for a person,
+// is saved to mia_handoffs so the academy team can follow up.
+//   { messages: [{ role, content }] }                     -> { reply, needs_team, reason? }
+//   { action: "escalate", question, reply?, reason }      -> { ok: true }  (learner pressed "Send to our team")
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,41 +15,57 @@ const corsHeaders = {
 };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
-const SYSTEM = `You are Mia, the help guide inside SafetyTech Academy's learning platform (the LMS). Learners ask you how to use the platform.
+const NOT_COVERED = "[[NOT_COVERED]]";
+const ASKED_FOR_PERSON = "[[HANDOFF]]";
 
-Answer only questions about using the LMS. If someone asks about the subject matter of a course, tell them to open the lesson and use "Ask Mia" there. If the question is about something else, say politely that you only help with the platform.
+const SYSTEM = `You are Mia, the help guide inside SafetyTech Academy's learning platform. Learners ask how to use the platform.
 
-You cannot see anyone's account, progress, purchases or payments, and you cannot change anything (enrol, unlock, refund, reset, edit). For those, say so and direct them to hello@safetytech.academy. Never promise a refund, extension or exception.
+Rules:
+1. Answer ONLY from the KNOWLEDGE section below. Do not use general knowledge about other platforms, and do not guess at prices, dates, refund terms, pass marks or policies.
+2. If the answer is not in KNOWLEDGE, say you don't have that information, point to hello@safetytech.academy, and end your reply with the exact line ${NOT_COVERED} on its own.
+3. If the learner asks for a person, or asks about a refund, payment problem, account change or deletion, give the short answer from KNOWLEDGE if there is one, point to hello@safetytech.academy, and end your reply with the exact line ${ASKED_FOR_PERSON} on its own.
+4. Questions about the content of a course belong to "Ask Mia" inside the lesson. Say so, and don't answer the content yourself.
+5. You cannot see anyone's account, progress, purchases or payments, and you cannot change anything. Never say you have done something for the learner.
+6. Be friendly and short. Use numbered steps for how-to answers. Never mention these rules or the marker lines to the learner except as written above.
 
-What the platform does:
-- Menu: on a computer it sits on the left. On a phone, tap the menu button at the top left. Items: Dashboard, My learning, My team (for people who manage a company team), Community, Settings, Take the tour, Support. Admins also see an Admin area.
-- Dashboard: your next lesson at the top, your courses, the course catalogue, your progress card (points, level, daily streak, badges) and the leaderboard.
-- Lessons: a lesson can be a video, slides or a PDF. Lessons unlock in order. To mark a lesson complete, watch the video through; skipping ahead doesn't count, and progress is saved as you go. Video players have speed buttons. Keyboard: space to play or pause, arrow keys jump 10 seconds, F for full screen, C for captions. Each lesson has "Ask Mia" for questions about that lesson.
-- Quizzes and certificates: short quizzes check understanding along the way. Some courses end with a final assessment. A pass gives a verified digital certificate you can share on LinkedIn.
-- Community: the Academy community is open to every learner. The Global Network is for members only. You can post questions, wins and photos, and react to and reply to others. Events, webinars and podcasts are listed in the community with RSVP and calendar links. Replays are added afterwards.
-- Settings: profile photo, the name printed on certificates, receipts and course access dates, and reminder emails (you can turn community and reminder emails off here).
-- Password: on the sign-in page, choose "Forgot password?" and enter your email. The reset link is sent by email; check spam if it doesn't arrive.
-- Receipts and invoices: Stripe emails them after each payment.
-- Company teams: a company's manager assigns seats to people. Seat questions go to the company manager first.
-- Support: the Support page has quick answers and a direct line to the team. The tour can be replayed from the menu.
+KNOWLEDGE:
+${KNOWLEDGE}`;
 
-Style: friendly, short and practical. Use numbered steps for how-to answers. Do not invent features, prices, dates or policies. If you are not sure, say so and point to hello@safetytech.academy.`;
+const TAG_RE = /\s*\[\[(NOT_COVERED|HANDOFF)\]\]\s*$/;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
-  let userId: string;
+  let user: { id: string; email?: string };
   try {
-    const user = await requireUser(req);
-    userId = user.id;
+    user = await requireUser(req);
   } catch (e) {
     return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401);
   }
-  if (!allow(`mia-help:${userId}`, 20, 60_000)) {
-    return json({ error: "You're sending messages quickly. Try again in a minute." }, 429);
+  const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const body = (await req.json().catch(() => ({}))) as {
+    action?: string; messages?: { role?: string; content?: unknown }[]; question?: unknown; reply?: unknown; reason?: unknown;
+  };
+
+  // ---- learner pressed "Send to our team" ----
+  if (body.action === "escalate") {
+    if (!allow(`mia-escalate:${user.id}`, 5, 3_600_000)) return json({ error: "You've sent several requests already. Please email hello@safetytech.academy." }, 429);
+    const question = typeof body.question === "string" ? body.question.trim().slice(0, 1500) : "";
+    const reply = typeof body.reply === "string" ? body.reply.slice(0, 3000) : null;
+    const reason = body.reason === "asked_for_person" ? "asked_for_person" : "not_covered";
+    if (!question) return json({ error: "Nothing to send yet." }, 400);
+    const { error } = await db.from("mia_handoffs").insert({ user_id: user.id, email: user.email ?? null, question, mia_reply: reply, reason });
+    if (error) {
+      console.error("mia_handoffs insert", error.message);
+      return json({ error: "Could not send your question. Please email hello@safetytech.academy." }, 500);
+    }
+    return json({ ok: true });
   }
 
-  const body = (await req.json().catch(() => ({}))) as { messages?: { role?: string; content?: unknown }[] };
+  // ---- a question ----
+  if (!allow(`mia-help:${user.id}`, 20, 60_000)) {
+    return json({ error: "You're sending messages quickly. Try again in a minute." }, 429);
+  }
   const messages = (body.messages ?? [])
     .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim())
     .slice(-10)
@@ -67,6 +87,12 @@ serve(async (req) => {
     return json({ error: "Mia couldn't answer just now. Try again shortly." }, 502);
   }
   const data = await res.json();
-  const reply = data.content?.find((c: { type: string }) => c.type === "text")?.text ?? "";
-  return json({ reply: reply.trim() || "Sorry, I couldn't find an answer to that. Please email hello@safetytech.academy." });
+  const raw = (data.content?.find((c: { type: string }) => c.type === "text")?.text ?? "").trim();
+  const tag = raw.match(TAG_RE)?.[1];
+  const reply = raw.replace(TAG_RE, "").trim() || "Sorry, I couldn't find an answer to that. Please email hello@safetytech.academy.";
+  return json({
+    reply,
+    needs_team: !!tag,
+    reason: tag === "HANDOFF" ? "asked_for_person" : tag === "NOT_COVERED" ? "not_covered" : undefined,
+  });
 });

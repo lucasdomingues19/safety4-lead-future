@@ -5,7 +5,16 @@ import { MiaAvatar } from "@/components/learn/MiaAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useTourActive } from "@/lib/tour";
 
-interface Turn { role: "user" | "assistant"; content: string }
+interface Turn {
+  role: "user" | "assistant";
+  content: string;
+  /** Mia couldn't answer, or the learner asked for a person: offer to send it to the team. */
+  needsTeam?: boolean;
+  reason?: "not_covered" | "asked_for_person";
+  /** The question behind this reply (the learner's message just before it). */
+  question?: string;
+  sent?: boolean;
+}
 
 const SUGGESTIONS = [
   "How do I get my certificate?",
@@ -29,6 +38,24 @@ export function MiaHelp() {
 
   if (tourOn) return null;
 
+  const sendToTeam = async (index: number) => {
+    const turn = turns[index];
+    if (!turn?.question || turn.sent) return;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mia-help`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session?.access_token ?? ""}`, "Content-Type": "application/json", apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+        body: JSON.stringify({ action: "escalate", question: turn.question, reply: turn.content, reason: turn.reason ?? "not_covered" }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(j.error || "Could not send. Please email hello@safetytech.academy.");
+      setTurns((t) => t.map((x, i) => (i === index ? { ...x, sent: true } : x)));
+    } catch (e) {
+      setTurns((t) => [...t, { role: "assistant", content: e instanceof Error ? e.message : "Could not send. Please email hello@safetytech.academy." }]);
+    }
+  };
+
   const send = async (text: string) => {
     const question = text.trim();
     if (!question || busy) return;
@@ -45,7 +72,7 @@ export function MiaHelp() {
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(j.error || "Mia couldn't answer just now. Try again shortly.");
-      setTurns((t) => [...t, { role: "assistant", content: j.reply }]);
+      setTurns((t) => [...t, { role: "assistant", content: j.reply, needsTeam: !!j.needs_team, reason: j.reason, question }]);
     } catch (e) {
       setTurns((t) => [...t, { role: "assistant", content: e instanceof Error ? e.message : "Mia couldn't answer just now." }]);
     } finally {
@@ -83,6 +110,18 @@ export function MiaHelp() {
             {turns.map((t, i) => (
               <div key={i} className={t.role === "user" ? "ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-[#e8ecff] px-3.5 py-2 text-[#0b0b2c]" : "max-w-[92%] rounded-2xl rounded-bl-sm bg-[#f1f4fb] px-3.5 py-2 text-[#0b0b2c] [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5 [&_p]:my-1"}>
                 {t.role === "user" ? t.content : <ReactMarkdown>{t.content}</ReactMarkdown>}
+                {t.role === "assistant" && t.needsTeam && (
+                  <div className="mt-2 border-t border-slate-200 pt-2 text-xs text-[#4a4a60]">
+                    {t.sent ? (
+                      "Sent. The academy team will reply to your email."
+                    ) : (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span>{t.reason === "asked_for_person" ? "Want a person to reply?" : "Want the team to look into this?"}</span>
+                        <button onClick={() => sendToTeam(i)} className="rounded-full bg-[#3434ff] px-3 py-1 font-bold text-white">Send to our team</button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
             {busy && <div className="text-xs text-[#69697b]">Mia is typing…</div>}
