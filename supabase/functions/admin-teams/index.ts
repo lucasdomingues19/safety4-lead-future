@@ -111,6 +111,26 @@ serve(async (req) => {
 
     const orgId = uuid(b.org_id);
 
+    // ---------- (re)send the manager welcome for a company that already exists ----------
+    if (b.action === "send_manager_welcome") {
+      if (!orgId) return json({ error: "Missing company" }, 400);
+      const { data: org } = await db.from("organisations").select("name").eq("id", orgId).maybeSingle();
+      const { data: owner } = await db.from("organisation_members").select("user_id").eq("organisation_id", orgId).eq("role", "owner").limit(1).maybeSingle();
+      if (!org || !owner) return json({ error: "That company has no manager yet" }, 400);
+      const { data: au } = await db.auth.admin.getUserById(owner.user_id);
+      const email = au?.user?.email;
+      if (!email) return json({ error: "The manager has no email address" }, 400);
+      const { data: prof } = await db.from("profiles").select("full_name").eq("id", owner.user_id).maybeSingle();
+      const { data: link } = await db.auth.admin.generateLink({ type: "recovery", email, options: { redirectTo: `${SITE}/learn/reset-password?welcome=1` } });
+      const th = link?.properties?.hashed_token;
+      if (!th) return json({ error: "Could not create the sign-in link" }, 500);
+      const url = `${SITE}/learn/auth/confirm?token_hash=${encodeURIComponent(th)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
+      const err = await sendOwnerWelcome({ to: email, name: prof?.full_name ?? "", org: org.name, link: url });
+      if (err) return json({ error: err }, 502);
+      await db.from("profiles").update({ welcomed_at: new Date().toISOString() }).eq("id", owner.user_id);
+      return json({ ok: true, sent_to: email });
+    }
+
     // ---------- company logo (PNG/JPEG/WebP, up to 1 MB) ----------
     if (b.action === "set_logo") {
       if (!orgId) return json({ error: "Missing company" }, 400);
