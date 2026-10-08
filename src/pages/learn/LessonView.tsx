@@ -491,9 +491,9 @@ const LessonView = () => {
               </div>
             )
           ) : lesson.video_url && youTubeId(lesson.video_url) ? (
-            <TrackedYouTube key={lesson.id} videoId={youTubeId(lesson.video_url)!} captionsOn={captions} onSample={onWatchSample} />
+            <TrackedYouTube key={lesson.id} videoId={youTubeId(lesson.video_url)!} captionsOn={captions} lockSeekAhead={requiresWatch && !isDone} resumeFrom={resumeAt} onSample={onWatchSample} />
           ) : lesson.video_url && isVimeo(lesson.video_url) ? (
-            <TrackedVimeo key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? lesson.video_url} onSample={onWatchSample} />
+            <TrackedVimeo key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? lesson.video_url} lockSeekAhead={requiresWatch && !isDone} resumeFrom={resumeAt} onSample={onWatchSample} />
           ) : lesson.video_url && isIframeEmbed(lesson.video_url) ? (
             <iframe key={lesson.id} src={toEmbedUrl(lesson.video_url, { captions }) ?? undefined} title={lesson.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowFullScreen style={frame} />
           ) : lesson.video_url && isDirectVideoUrl(lesson.video_url) ? (

@@ -154,6 +154,7 @@ interface YTPlayer {
   getCurrentTime(): number;
   getDuration(): number;
   getPlayerState(): number;
+  seekTo(seconds: number, allowSeekAhead: boolean): void;
   destroy(): void;
 }
 declare global {
@@ -172,10 +173,20 @@ const loadYouTubeApi = () =>
     loadScript("https://www.youtube.com/iframe_api", "__never__").catch(() => undefined);
   });
 
-export const TrackedYouTube = ({ videoId, captionsOn, onSample }: { videoId: string; captionsOn: boolean; onSample: OnSample }) => {
+export const TrackedYouTube = ({ videoId, captionsOn, lockSeekAhead, resumeFrom, onSample }: {
+  videoId: string;
+  captionsOn: boolean;
+  /** Stop learners jumping past the furthest point they've reached. */
+  lockSeekAhead: boolean;
+  resumeFrom: number;
+  onSample: OnSample;
+}) => {
   const host = useRef<HTMLDivElement>(null);
   const cb = useRef(onSample);
   cb.current = onSample;
+  const lock = useRef(lockSeekAhead);
+  lock.current = lockSeekAhead;
+  const furthest = useRef(resumeFrom);
 
   useEffect(() => {
     let player: YTPlayer | null = null;
@@ -194,8 +205,13 @@ export const TrackedYouTube = ({ videoId, captionsOn, onSample }: { videoId: str
         videoId,
         width: "100%",
         height: "100%",
-        playerVars: { rel: 0, modestbranding: 1, playsinline: 1, ...(captionsOn ? { cc_load_policy: 1, cc_lang_pref: "en" } : {}) },
+        playerVars: {
+          rel: 0, modestbranding: 1, playsinline: 1,
+          ...(captionsOn ? { cc_load_policy: 1, cc_lang_pref: "en" } : {}),
+          ...(resumeFrom > 5 ? { start: Math.floor(resumeFrom) } : {}),
+        },
       });
+      // Polled once a second: a jump ahead is undone on the next tick. Rewinding is always allowed.
       timer = window.setInterval(() => {
         if (!player?.getPlayerState) return;
         const playing = player.getPlayerState() === 1;
@@ -206,7 +222,10 @@ export const TrackedYouTube = ({ videoId, captionsOn, onSample }: { videoId: str
           if (step > 0 && step <= MAX_STEP) delta = step;
         }
         last = playing ? t : null;
-        cb.current({ delta, position: t, duration: player.getDuration?.() ?? 0, playing });
+        const blocked = lock.current && t > furthest.current + 2;
+        if (blocked) { player.seekTo(furthest.current, true); last = null; }
+        else if (delta > 0) furthest.current = Math.max(furthest.current, t);
+        cb.current({ delta: blocked ? 0 : delta, position: blocked ? furthest.current : t, duration: player.getDuration?.() ?? 0, playing });
       }, 1000);
     });
 
@@ -223,13 +242,24 @@ export const TrackedYouTube = ({ videoId, captionsOn, onSample }: { videoId: str
 // ---------- Vimeo ----------
 interface VimeoPlayer {
   on(event: string, cb: (d: { seconds: number; duration: number }) => void): void;
+  ready(): Promise<void>;
+  setCurrentTime(seconds: number): Promise<number>;
   destroy(): Promise<void>;
 }
 
-export const TrackedVimeo = ({ src, onSample }: { src: string; onSample: OnSample }) => {
+export const TrackedVimeo = ({ src, lockSeekAhead, resumeFrom, onSample }: {
+  src: string;
+  /** Stop learners jumping past the furthest point they've reached. */
+  lockSeekAhead: boolean;
+  resumeFrom: number;
+  onSample: OnSample;
+}) => {
   const frame = useRef<HTMLIFrameElement>(null);
   const cb = useRef(onSample);
   cb.current = onSample;
+  const lock = useRef(lockSeekAhead);
+  lock.current = lockSeekAhead;
+  const furthest = useRef(resumeFrom);
 
   useEffect(() => {
     let player: VimeoPlayer | null = null;
@@ -238,6 +268,7 @@ export const TrackedVimeo = ({ src, onSample }: { src: string; onSample: OnSampl
     loadScript("https://player.vimeo.com/api/player.js", "Vimeo").then(() => {
       if (cancelled || !frame.current || !window.Vimeo) return;
       player = new window.Vimeo.Player(frame.current);
+      if (resumeFrom > 5) player.ready().then(() => player?.setCurrentTime(resumeFrom)).catch(() => undefined);
       player.on("timeupdate", ({ seconds, duration }) => {
         let delta = 0;
         if (last !== null) {
@@ -245,9 +276,18 @@ export const TrackedVimeo = ({ src, onSample }: { src: string; onSample: OnSampl
           if (step > 0 && step <= MAX_STEP) delta = step;
         }
         last = seconds;
+        if (delta > 0) furthest.current = Math.max(furthest.current, seconds);
         cb.current({ delta, position: seconds, duration, playing: true });
       });
-      player.on("seeked", ({ seconds }) => { last = seconds; });
+      // A jump ahead is snapped back to the furthest point reached. Rewinding is always allowed.
+      player.on("seeked", ({ seconds }) => {
+        if (lock.current && seconds > furthest.current + 2) {
+          last = furthest.current;
+          player?.setCurrentTime(furthest.current).catch(() => undefined);
+          return;
+        }
+        last = seconds;
+      });
       player.on("pause", ({ seconds, duration }) => { last = seconds; cb.current({ delta: 0, position: seconds, duration, playing: false }); });
     }).catch(() => undefined);
     return () => {
