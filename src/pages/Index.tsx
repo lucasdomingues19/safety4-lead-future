@@ -12,7 +12,6 @@ const SolutionSection = lazy(() => import("@/components/SolutionSection").then(m
 const OurTeamTrainingSection = lazy(() => import("@/components/OurTeamTrainingSection").then(m => ({ default: m.OurTeamTrainingSection })));
 const SocialProofSection = lazy(() => import("@/components/SocialProofSection").then(m => ({ default: m.SocialProofSection })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
-const NewsletterPopup = lazy(() => import("@/components/NewsletterPopup").then(m => ({ default: m.NewsletterPopup })));
 
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { SEOStructuredData } from "@/components/SEOStructuredData";
@@ -64,10 +63,6 @@ const Index = () => {
     <AnalyticsTracker>
       <SEOStructuredData type="course" />
       <div className="min-h-screen relative bg-white text-slate-900" role="main">
-
-        <Suspense fallback={null}>
-          <NewsletterPopup />
-        </Suspense>
 
         <HeroSection />
 
