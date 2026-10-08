@@ -67,3 +67,6 @@ verify_jwt = false
 
 [functions.admin-refund-purchase]
 verify_jwt = false
+
+[functions.mia-help]
+verify_jwt = false

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { PlayCircle } from "lucide-react";
 import { miaPhoto } from "@/components/learn/MiaAvatar";
+import { MiaHelp } from "@/components/learn/MiaHelp";
 import { LmsShell, ShellTitle } from "@/components/learn/shell/LmsShell";
 import { useLmsProfile } from "@/components/learn/shell/useLmsProfile";
 import { dismissTourBanner, markTourDone, tourBannerDismissed, tourSeenLocally } from "@/lib/tour";
@@ -230,6 +231,8 @@ export default function LmsInterface() {
             </React.Suspense>
           )}
       </LmsShell>
+
+      <MiaHelp />
 
       <style>{`
         @keyframes spin {
