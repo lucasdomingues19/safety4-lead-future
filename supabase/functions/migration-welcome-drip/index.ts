@@ -52,6 +52,36 @@ serve(async (req) => {
     return json({ enabled: cfg?.enabled, daily_cap: cfg?.daily_cap, queued: total, sent, failed, pending: (total ?? 0) - (sent ?? 0), emails_last_24h_all: sentLast24h, welcomes_last_24h: dripLast24h, room_now: room });
   }
 
+  // Read-only look at how Resend has the sending domain set up (no keys are returned).
+  if (action === "resend_domains") {
+    if (cron) return json({ error: "Admins only" }, 403);
+    const key = Deno.env.get("RESEND_API_KEY");
+    if (!key) return json({ error: "RESEND_API_KEY missing" }, 500);
+    const list = await (await fetch("https://api.resend.com/domains", { headers: { Authorization: `Bearer ${key}` } })).json().catch(() => ({}));
+    const out = [];
+    for (const d of (list?.data ?? [])) {
+      const full = await (await fetch(`https://api.resend.com/domains/${d.id}`, { headers: { Authorization: `Bearer ${key}` } })).json().catch(() => ({}));
+      out.push({
+        name: d.name, status: d.status, region: d.region, created_at: d.created_at,
+        open_tracking: full?.open_tracking, click_tracking: full?.click_tracking, tls: full?.tls, capabilities: full?.capabilities,
+        records: (full?.records ?? []).map((r: { record: string; type: string; name: string; status: string }) => ({ record: r.record, type: r.type, name: r.name, status: r.status })),
+      });
+    }
+    return json({ domains: out });
+  }
+
+  // Read-only delivery outcomes for recent emails (counts only: no addresses).
+  if (action === "resend_recent") {
+    if (cron) return json({ error: "Admins only" }, 403);
+    const key = Deno.env.get("RESEND_API_KEY");
+    if (!key) return json({ error: "RESEND_API_KEY missing" }, 500);
+    const res = await (await fetch("https://api.resend.com/emails?limit=100", { headers: { Authorization: `Bearer ${key}` } })).json().catch(() => ({}));
+    const rows = (res?.data ?? []) as { last_event?: string; subject?: string; created_at?: string }[];
+    const by: Record<string, Record<string, number>> = {};
+    for (const r of rows) { const subj = (r.subject ?? "").slice(0, 60); (by[subj] ??= {})[r.last_event ?? "unknown"] = ((by[subj] ??= {})[r.last_event ?? "unknown"] ?? 0) + 1; }
+    return json({ sampled: rows.length, newest: rows[0]?.created_at, by_subject: by });
+  }
+
   if (action === "set") {
     if (cron) return json({ error: "Admins only" }, 403);
     const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
