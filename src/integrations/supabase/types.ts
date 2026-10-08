@@ -2166,6 +2166,13 @@ export type Database = {
       course_of_lesson: { Args: { _lesson_id: string }; Returns: string }
       course_of_module: { Args: { _module_id: string }; Returns: string }
       course_of_quiz: { Args: { _quiz_id: string }; Returns: string }
+      course_public_counts: {
+        Args: { _course: string }
+        Returns: {
+          lessons: number
+          modules: number
+        }[]
+      }
       event_rsvp_counts: {
         Args: { _ids: string[] }
         Returns: {

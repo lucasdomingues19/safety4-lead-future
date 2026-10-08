@@ -39,10 +39,10 @@ const EnrollmentCheckout = () => {
       const { data } = await supabase.from("courses").select("id, title, slug, description, price_cents, currency, cpd_hours").eq("id", id).maybeSingle();
       setCourse(data as Course | null);
       if (data) {
-        const { data: mods } = await supabase.from("modules").select("id").eq("course_id", data.id);
-        const ids = (mods ?? []).map((m) => m.id);
-        const { count } = ids.length ? await supabase.from("lessons").select("id", { count: "exact", head: true }).in("module_id", ids) : { count: 0 };
-        setCounts({ modules: ids.length, lessons: count ?? 0 });
+        // Counts only (the lessons themselves stay private until you're enrolled).
+        const { data: c } = await supabase.rpc("course_public_counts", { _course: data.id });
+        const row = Array.isArray(c) ? c[0] : c;
+        setCounts({ modules: Number(row?.modules ?? 0), lessons: Number(row?.lessons ?? 0) });
       }
       setLoading(false);
     })();
