@@ -82,7 +82,7 @@ export const PricingSection = () => {
                       {course.originalPrice && (
                         <span className="text-slate-400 text-sm line-through">{course.originalPrice}</span>
                       )}
-                      <span className="text-lg font-bold text-slate-900">{course.price}</span>
+                      <span className="text-lg font-bold text-slate-900">{course.price}</span><span className="ml-1 text-xs font-normal text-slate-500">+ VAT where applicable</span>
                       {course.period && (
                         <span className="text-slate-400 text-sm">{course.period}</span>
                       )}

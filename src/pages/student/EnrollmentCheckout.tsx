@@ -168,6 +168,7 @@ const EnrollmentCheckout = () => {
           <div className="h-fit rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm">
             <div className="text-sm text-[#69697b]">One-time payment</div>
             <div className="mt-1 text-3xl font-extrabold">{formatPrice(course.price_cents, course.currency)}</div>
+            <div className="mt-1 text-sm text-[#69697b]">+ VAT where applicable</div>
             <button
               onClick={startCheckout}
               disabled={processing}

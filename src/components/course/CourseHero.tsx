@@ -113,7 +113,7 @@ export const CourseHero = ({
                   {originalPrice && (
                     <span className="text-slate-400 text-base line-through">{originalPrice}</span>
                   )}
-                  <span className="text-3xl font-bold text-slate-900">{price}</span>
+                  <span className="text-3xl font-bold text-slate-900">{price}</span><span className="ml-1 text-xs font-normal text-slate-500">+ VAT where applicable</span>
                   {period && <span className="text-[#69697b] text-sm">{period}</span>}
                 </div>
 

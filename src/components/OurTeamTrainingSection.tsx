@@ -76,7 +76,7 @@ export const OurTeamTrainingSection = () => {
                       {copilotCourse.originalPrice && (
                         <span className="text-slate-400 text-sm line-through">{copilotCourse.originalPrice}</span>
                       )}
-                      <span className="text-lg font-bold text-slate-900">{copilotCourse.price}</span>
+                      <span className="text-lg font-bold text-slate-900">{copilotCourse.price}</span><span className="ml-1 text-xs font-normal text-slate-500">+ VAT where applicable</span>
                       {copilotCourse.period && (
                         <span className="text-slate-400 text-sm">{copilotCourse.period}</span>
                       )}

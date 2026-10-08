@@ -46,7 +46,7 @@ export const RelatedCourses = ({ currentHref }: { currentHref: string }) => {
                   <p className="text-[#69697b] text-sm leading-relaxed mb-4">{course.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs uppercase tracking-wide text-slate-500">{course.level}</span>
-                    <span className="text-base font-bold text-slate-900">{course.price}</span>
+                    <span className="text-base font-bold text-slate-900">{course.price}</span><span className="ml-1 text-xs font-normal text-slate-500">+ VAT where applicable</span>
                   </div>
                 </div>
               </Link>
