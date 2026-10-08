@@ -18,12 +18,15 @@ const json = (body: unknown, status = 200) =>
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
-    const auth = req.headers.get("Authorization");
-    if (!auth) return json({ error: "Please sign in first" }, 401);
+    // Signed in or not: anyone can buy. A guest enters their email on Stripe's page; the webhook
+    // creates the account once the payment clears, and they set a password from the email.
+    const auth = req.headers.get("Authorization") ?? "";
     const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-    const { data: u } = await db.auth.getUser(auth.replace("Bearer ", ""));
-    const user = u?.user;
-    if (!user?.email) return json({ error: "Please sign in first" }, 401);
+    let user: { id: string; email?: string } | null = null;
+    if (auth) {
+      const { data: u } = await db.auth.getUser(auth.replace("Bearer ", ""));
+      user = u?.user?.email ? { id: u.user.id, email: u.user.email } : null;
+    }
 
     const { course_id } = (await req.json()) as { course_id?: string };
     if (!course_id) return json({ error: "course_id is required" }, 400);
@@ -36,9 +39,11 @@ serve(async (req) => {
     if (!course || !course.published) return json({ error: "Course not available" }, 404);
     if (!course.price_cents || course.price_cents <= 0) return json({ error: "This course is free — enrol from your dashboard" }, 400);
 
-    const { data: existing } = await db.from("enrollments").select("status, expires_at").eq("user_id", user.id).eq("course_id", course.id).maybeSingle();
-    if (existing && existing.status === "active" && (!existing.expires_at || new Date(existing.expires_at) > new Date())) {
-      return json({ alreadyEnrolled: true, slug: course.slug });
+    if (user) {
+      const { data: existing } = await db.from("enrollments").select("status, expires_at").eq("user_id", user.id).eq("course_id", course.id).maybeSingle();
+      if (existing && existing.status === "active" && (!existing.expires_at || new Date(existing.expires_at) > new Date())) {
+        return json({ alreadyEnrolled: true, slug: course.slug });
+      }
     }
 
     // Sales tax: off until Stripe Tax is set up. STRIPE_TAX_MODE = "inclusive" (prices already
@@ -48,10 +53,12 @@ serve(async (req) => {
     // A Stripe Product per course lets a discount code be limited to this course.
     const productId = await ensureStripeProduct(db, "courses", course);
 
+    const who: Record<string, string> = user
+      ? { customer_email: user.email!, client_reference_id: user.id, "metadata[user_id]": user.id, "payment_intent_data[metadata][user_id]": user.id }
+      : { "metadata[guest]": "1", "payment_intent_data[metadata][guest]": "1" };
     const base: Record<string, string> = {
       mode: "payment",
-      customer_email: user.email,
-      client_reference_id: user.id,
+      ...who,
       "line_items[0][quantity]": "1",
       "line_items[0][price_data][currency]": (course.currency || "GBP").toLowerCase(),
       "line_items[0][price_data][unit_amount]": String(course.price_cents),
@@ -60,11 +67,9 @@ serve(async (req) => {
         : { "line_items[0][price_data][product_data][name]": course.title,
             ...(course.description ? { "line_items[0][price_data][product_data][description]": course.description.slice(0, 500) } : {}) }),
       "metadata[course_id]": course.id,
-      "metadata[user_id]": user.id,
       "payment_intent_data[metadata][course_id]": course.id,
-      "payment_intent_data[metadata][user_id]": user.id,
       "payment_intent_data[description]": `Course: ${course.title}`,
-      success_url: `${SITE_URL}/student/checkout/${course.id}?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${SITE_URL}/student/checkout/${course.id}?session_id={CHECKOUT_SESSION_ID}${user ? "" : "&guest=1"}`,
       cancel_url: `${SITE_URL}/student/checkout/${course.id}?cancelled=1`,
     };
 

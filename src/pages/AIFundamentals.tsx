@@ -22,7 +22,7 @@ import {
   UserCheck, Compass, BookOpen, Zap, Sparkles,
 } from "lucide-react";
 
-const CHECKOUT_URL = "/learn/auth";
+const CHECKOUT_URL = "/student/checkout/975d7f89-30f5-4fda-a68a-b4506a20f55e";
 
 const reviews = testimonials.filter((t) => ["Dan Warnock", "Shebin Abraham"].includes(t.name));
 

@@ -28,7 +28,9 @@ const EnrollmentCheckout = () => {
   const [counts, setCounts] = useState({ modules: 0, lessons: 0 });
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const [confirming, setConfirming] = useState(!!sessionId);
+  const guest = params.get("guest") === "1";
+  const [guestDone, setGuestDone] = useState(false);
+  const [confirming, setConfirming] = useState(!!sessionId && !guest);
   const [confirmError, setConfirmError] = useState<string | null>(null);
   const confirmedOnce = useRef(false);
 
@@ -47,8 +49,13 @@ const EnrollmentCheckout = () => {
   }, [id]);
 
   // Returning from Stripe: confirm the payment server-side, then send them into the course.
+  // A guest who paid has no session to confirm yet: their account is created by the payment webhook.
   useEffect(() => {
-    if (!sessionId || confirmedOnce.current) return;
+    if (guest && sessionId) { setGuestDone(true); setConfirming(false); }
+  }, [guest, sessionId]);
+
+  useEffect(() => {
+    if (!sessionId || guest || confirmedOnce.current) return;
     confirmedOnce.current = true;
     let attempts = 0;
     const confirm = async () => {
@@ -95,6 +102,22 @@ const EnrollmentCheckout = () => {
     }
     window.location.href = data.url;
   };
+
+  if (guestDone) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f5f7fa] px-4 text-[#0b0b2c]">
+        <div className="max-w-lg rounded-[20px] border border-slate-200 bg-white p-8 text-center">
+          <CheckCircle2 className="mx-auto h-12 w-12 text-primary" />
+          <h1 className="mt-4 text-2xl font-extrabold">Payment confirmed</h1>
+          <p className="mt-3 leading-relaxed text-[#69697b]">
+            Thank you. Check your inbox for an email with a link to set your password. Your course{course ? ` (${course.title})` : ""} is waiting for you.
+          </p>
+          <p className="mt-3 text-sm text-[#69697b]">Didn't get it after a few minutes? Check your spam folder, or write to hello@safetytech.academy.</p>
+          <Link to="/learn/auth" className="mt-6 inline-block font-semibold text-primary">Already have a password? Sign in</Link>
+        </div>
+      </div>
+    );
+  }
 
   if (loading || confirming) {
     return (

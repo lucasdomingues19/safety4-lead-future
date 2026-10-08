@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { recordCoursePurchase, recordPurchase } from "../_shared/purchases.ts";
 import { fulfilBundle, fulfilTeamPurchase } from "../_shared/teams.ts";
+import { sendPurchaseEmail } from "../_shared/purchaseEmail.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 // Stripe webhook (backup to confirm-course-checkout).
@@ -78,8 +79,8 @@ serve(async (req) => {
           console.log("Bundle granted via webhook", { bundle: meta.bundle_id, enrolments: n });
           break;
         }
-        const { course_id, user_id } = meta;
-        if (!course_id || !user_id) {
+        const { course_id } = meta;
+        if (!course_id) {
           console.log("Ignoring checkout session without course metadata", session.id);
           break;
         }
@@ -87,13 +88,45 @@ serve(async (req) => {
           console.log("Checkout session not paid yet", session.id);
           break;
         }
+        // A guest (no account when they paid): find the account for their email, or create one.
+        const buyerEmail = String(session.customer_details?.email ?? session.customer_email ?? "").trim().toLowerCase();
+        const buyerName = String(session.customer_details?.name ?? "").trim();
+        let user_id: string | undefined = meta.user_id || undefined;
+        let isNew = false;
+        if (!user_id) {
+          if (!buyerEmail) { console.error("Guest purchase with no email", session.id); break; }
+          const { data: prof } = await db.from("profiles").select("id").ilike("email", buyerEmail).maybeSingle();
+          if (prof?.id) user_id = prof.id;
+          else {
+            const { data: c, error: ce } = await db.auth.admin.createUser({ email: buyerEmail, email_confirm: true, user_metadata: buyerName ? { full_name: buyerName } : {} });
+            if (ce || !c?.user) {
+              // The address may already exist in sign-in without a profile row: find it there.
+              const { data: list } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 });
+              const found = list?.users?.find((u: { email?: string }) => (u.email ?? "").toLowerCase() === buyerEmail);
+              if (!found) throw ce ?? new Error("Could not create the buyer's account");
+              user_id = found.id;
+            } else { user_id = c.user.id; isNew = true; }
+          }
+        }
         const { error } = await db.from("enrollments").upsert(
           { user_id, course_id, status: "active", stripe_subscription_id: session.payment_intent ?? session.id, expires_at: null },
           { onConflict: "user_id,course_id" },
         );
         if (error) throw error;
-        await recordCoursePurchase(db, session.id, user_id, course_id);
-        console.log("Enrolled via webhook", { user_id, course_id });
+        await recordCoursePurchase(db, session.id, user_id!, course_id);
+        console.log("Enrolled via webhook", { user_id, course_id, isNew });
+        // Welcome email is best-effort: the enrolment above is already saved.
+        try {
+          const { data: course } = await db.from("courses").select("title").eq("id", course_id).maybeSingle();
+          let link = "https://www.safetytech.academy/learn/auth";
+          if (isNew) {
+            const { data: l } = await db.auth.admin.generateLink({ type: "recovery", email: buyerEmail, options: { redirectTo: "https://www.safetytech.academy/learn/reset-password?welcome=1" } });
+            const th = l?.properties?.hashed_token;
+            if (th) link = `https://www.safetytech.academy/learn/auth/confirm?token_hash=${encodeURIComponent(th)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
+          }
+          const err = buyerEmail ? await sendPurchaseEmail({ to: buyerEmail, name: buyerName, course: course?.title ?? "your course", link, isNew }) : "no email";
+          if (err) console.error("purchase email not sent:", err);
+        } catch (e) { console.error("purchase email error:", (e as Error).message); }
         break;
       }
       case "invoice.paid": {

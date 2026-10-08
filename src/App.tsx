@@ -210,7 +210,7 @@ const App = () => (
             {/* Student Learning Platform */}
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/student/courses" element={<Navigate to="/learn" replace />} />
-            <Route path="/student/checkout/:id" element={<ProtectedRoute><EnrollmentCheckout /></ProtectedRoute>} />
+            <Route path="/student/checkout/:id" element={<EnrollmentCheckout />} />
             <Route path="/support" element={<Support />} />
 
             {/* Catch-all route for proposal slugs - must be last before wildcard */}

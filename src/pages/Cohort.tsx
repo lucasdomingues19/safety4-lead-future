@@ -749,7 +749,7 @@ const Cohort = () => {
                       Apply Now <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </a>
-                  <a href="/learn/auth">
+                  <a href="/student/checkout/e3f701c1-70ff-4072-8f6b-3862a3998986">
                     <Button variant="outline" className="bg-white border-primary text-primary hover:bg-primary/5 font-medium text-base uppercase tracking-[0.08em] px-10 py-[22px] h-auto rounded">
                       Or start with eLearning (£597)
                     </Button>

@@ -482,7 +482,7 @@ const Enroll = () => {
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   Self-paced eLearning — same IOSH-approved content, at your own pace.
                 </p>
-                <a href="/learn/auth" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-auto">
+                <a href="/student/checkout/e3f701c1-70ff-4072-8f6b-3862a3998986" className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80 transition-colors mt-auto">
                   View eLearning (£597) <ArrowRight className="w-3 h-3" />
                 </a>
               </div>

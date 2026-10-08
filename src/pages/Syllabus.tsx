@@ -70,7 +70,7 @@ const Syllabus = () => {
           { icon: PlayCircle, label: "Lessons", value: "60+" },
           { icon: GraduationCap, label: "Programme", value: "90 Days" },
         ]}
-        cta={{ label: "Start Learning — £597", href: "/learn/auth" }}
+        cta={{ label: "Start Learning — £597", href: "/student/checkout/e3f701c1-70ff-4072-8f6b-3862a3998986" }}
         secondaryCta={{ label: "Download Brochure", href: "/brochure" }}
       />
 
