@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, MailCheck } from "lucide-react";
@@ -7,6 +7,10 @@ import brandMarkBlue from "@/assets/brand-mark-blue.png";
 
 const LearnAuth = () => {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [searchParams] = useSearchParams();
+  // Where to land after signing in (e.g. a course checkout from the website). Only in-app paths are allowed.
+  const rawNext = searchParams.get("next") ?? "";
+  const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/learn";
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,10 +29,10 @@ const LearnAuth = () => {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/learn");
+      if (session) navigate(next);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session && event === "SIGNED_IN") navigate("/learn");
+      if (session && event === "SIGNED_IN") navigate(next);
     });
     return () => subscription.unsubscribe();
   }, [navigate]);
@@ -99,7 +103,7 @@ const LearnAuth = () => {
             window.oaiq("measure", "registration_completed", { type: "customer_action" });
           }
           toast.success("Account created! You're all set.");
-          navigate("/learn");
+          navigate(next);
         } else {
           // In development, auto-confirm email and auto-sign in
           if (import.meta.env.DEV) {
@@ -110,7 +114,7 @@ const LearnAuth = () => {
                 window.oaiq("measure", "registration_completed", { type: "customer_action" });
               }
               toast.success("Account created! Signed in automatically.");
-              navigate("/learn");
+              navigate(next);
               return;
             }
           }
@@ -130,7 +134,7 @@ const LearnAuth = () => {
           }
           throw error;
         }
-        navigate("/learn");
+        navigate(next);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Authentication failed";
