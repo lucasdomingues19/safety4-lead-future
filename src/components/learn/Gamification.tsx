@@ -32,7 +32,8 @@ export const ProgressCard = ({ g }: { g: MyGamification }) => {
 
   return (
     <div className="rounded-[20px] border border-[#e2e8f0] bg-white p-6 md:p-7">
-      <div className="flex flex-wrap items-center gap-5">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+        <div className="flex min-w-0 flex-1 items-center gap-4 sm:gap-5">
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl" style={{ background: level.bg }}>{level.emoji}</div>
         <div className="min-w-0 flex-1">
           <div className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#8ab815]">Level {g.level}</div>
@@ -45,12 +46,13 @@ export const ProgressCard = ({ g }: { g: MyGamification }) => {
           </div>
           {next && nextName && <div className="mt-1 text-xs text-[#94a3b8]">{next - g.points} points to {nextName}</div>}
         </div>
-        <div className="flex gap-3">
-          <div className="rounded-2xl bg-[#fff7ed] px-4 py-3 text-center">
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:w-auto sm:shrink-0">
+          <div className="min-w-0 rounded-2xl bg-[#fff7ed] px-4 py-3 text-center">
             <div className="flex items-center justify-center gap-1 text-2xl font-extrabold text-[#c2410c]"><Flame size={22} /> {g.streak}</div>
             <div className="text-[11px] font-semibold text-[#9a3412]">day streak</div>
           </div>
-          <div className="rounded-2xl bg-[#f1f4ff] px-4 py-3 text-center">
+          <div className="min-w-0 rounded-2xl bg-[#f1f4ff] px-4 py-3 text-center">
             <div className="text-2xl font-extrabold text-[#3434ff]">{earned}<span className="text-base text-[#94a3b8]">/{BADGES.length}</span></div>
             <div className="text-[11px] font-semibold text-[#3434ff]">badges</div>
           </div>
