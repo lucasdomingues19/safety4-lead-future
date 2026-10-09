@@ -76,13 +76,16 @@ export const TrackedVideo = ({
       if (step > 0 && step <= MAX_STEP) delta = step;
     }
     last.current = t;
-    furthest.current = Math.max(furthest.current, t);
+    // Only real playback moves the "furthest reached" mark. A jump must never
+    // push it forward, or the snap-back in onSeeking would let the jump stand.
+    if (delta > 0) furthest.current = Math.max(furthest.current, t);
     onSample({ delta, position: t, duration: Number.isFinite(v.duration) ? v.duration : 0, playing });
   };
 
-  // Playback speed: visible buttons, remembered between lessons. Capped at 2x
-  // so watch-time tracking (MAX_STEP) still counts every second.
-  const [speed, setSpeed] = useState(() => { try { return Number(localStorage.getItem(SPEED_KEY)) || 1; } catch { return 1; } });
+  // Playback speed: visible buttons, remembered between lessons. Only the
+  // listed speeds are accepted (max 2x), so a hand-edited value can't speed
+  // through a video while still earning watch time.
+  const [speed, setSpeed] = useState(() => { try { const r = Number(localStorage.getItem(SPEED_KEY)); return SPEEDS.includes(r) ? r : 1; } catch { return 1; } });
   useEffect(() => { if (ref.current) ref.current.playbackRate = speed; }, [speed]);
   const chooseSpeed = (r: number) => { setSpeed(r); try { localStorage.setItem(SPEED_KEY, String(r)); } catch { /* private mode */ } };
 
