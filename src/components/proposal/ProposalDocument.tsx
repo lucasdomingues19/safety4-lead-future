@@ -10,6 +10,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import logo from "@/assets/safety-academy-logo.png";
+import { BespokeProposalDocument } from "@/components/proposal/BespokeProposalDocument";
 import founderPhoto from "@/assets/founder-cutout.png";
 import { formatMoney, proposalTotals, SITE_URL, type Proposal } from "@/lib/proposals";
 
@@ -40,6 +41,22 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const ProposalDocument = ({ proposal, preview }: Props) => {
+  // Bespoke proposals (built in the admin builder) have their own layout: their sections, not course items.
+  const bespoke = proposal as unknown as { proposal_type?: string; sections?: unknown[]; contact_role?: string | null };
+  if (bespoke.proposal_type === "bespoke") {
+    return (
+      <BespokeProposalDocument
+        organisation={proposal.organisation}
+        contact_name={proposal.contact_name ?? undefined}
+        contact_role={bespoke.contact_role ?? undefined}
+        intro_note={proposal.intro_note ?? undefined}
+        sections={(bespoke.sections ?? []) as any}
+        valid_until={proposal.valid_until ?? undefined}
+        token={proposal.token}
+        created_at={proposal.created_at}
+      />
+    );
+  }
   const { subtotal, discount, total } = proposalTotals(proposal.items, proposal.discount_pct);
   const ref = (proposal.token || "DRAFT").slice(0, 8).toUpperCase();
   const issued = proposal.created_at ? new Date(proposal.created_at) : new Date();
