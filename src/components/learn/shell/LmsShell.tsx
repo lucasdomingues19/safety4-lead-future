@@ -1,9 +1,10 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, Building2, X } from "lucide-react";
+import { Sun, Moon, Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, Building2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import brandMarkBlue from "@/assets/brand-mark-blue.png";
 import { NotificationBell } from "./NotificationBell";
+import { useLmsTheme } from "@/lib/lmsTheme";
 import { LmsSearch } from "./LmsSearch";
 import type { LmsProfile } from "./useLmsProfile";
 
@@ -70,6 +71,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
   const offset = phone ? 0 : width;
   const isActive = (key: string) => active === key;
 
+  const [theme, toggleTheme] = useLmsTheme();
   const initials = (profile?.full_name ?? "").split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2) || "U";
 
   return (
@@ -123,6 +125,11 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
 
           <div style={{ marginTop: "auto", flex: "none", display: "flex", flexDirection: "column", gap: 6 }}>
             <div style={{ height: 1, background: "#e2e8f0", margin: "8px 4px" }} />
+            <button onClick={toggleTheme} aria-label={theme === "dark" ? "Switch to the light theme" : "Switch to the dark theme"} title={theme === "dark" ? "Light theme" : "Dark theme"}
+              style={{ border: 0, background: "transparent", color: "#69697b", fontFamily: "inherit", fontSize: 14, fontWeight: 600, borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 14, cursor: "pointer", textAlign: "left", whiteSpace: "nowrap" }}>
+              {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+              {open && <span>{theme === "dark" ? "Light theme" : "Dark theme"}</span>}
+            </button>
             <div style={{ display: "flex", alignItems: "center", gap: 14, padding: 12, borderRadius: 10, background: "#f5f7ff" }}>
               <div style={{ width: 34, height: 34, flex: "none", borderRadius: "50%", background: "#3434ff", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700 }}>
                 {profile?.avatar_url ? <img src={profile.avatar_url} alt="" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} /> : initials}
