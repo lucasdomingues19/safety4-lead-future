@@ -9,8 +9,8 @@
   --accent: 210 40% 96.1%; --accent-foreground: 222.2 47.4% 11.2%;
   --border: 214.3 31.8% 91.4%; --input: 214.3 31.8% 91.4%;
 }
-.lms-white [style*="color: rgb(148, 163, 184)"], .lms-white .text-\[\#94a3b8\] { color: #64748b !important; }
-.lms-white [style*="color: rgb(138, 184, 21)"], .lms-white .text-\[\#8ab815\] { color: #4d7c0f !important; }
+.lms-white [style*="color: rgb(148, 163, 184)"], .lms-white .text-\[\#94a3b8\] { color: #556275 !important; }
+.lms-white [style*="color: rgb(138, 184, 21)"], .lms-white .text-\[\#8ab815\] { color: #3f6212 !important; }
 
 /* ---------- LMS dark theme (navy) ---------- */
 html.lms-dark { background: #0b1230; color-scheme: dark; }
