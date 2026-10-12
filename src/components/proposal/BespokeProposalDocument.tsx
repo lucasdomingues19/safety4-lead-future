@@ -118,9 +118,11 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="pt-1">
-                      <span className="block text-[15px] font-semibold leading-snug">{item.split(" || ")[0]}</span>
+                      <span className="block text-[15px] font-bold leading-snug text-[#0b0b2c]">
+                        {item.split(" || ")[0].replace(/^\d+\.\s*/, "")}
+                      </span>
                       {item.includes(" || ") && (
-                        <span className="mt-1 block text-sm leading-relaxed text-slate-600">{item.split(" || ")[1]}</span>
+                        <span className="mt-1 block text-[15px] leading-relaxed text-slate-700">{item.split(" || ")[1]}</span>
                       )}
                     </span>
                   </li>
