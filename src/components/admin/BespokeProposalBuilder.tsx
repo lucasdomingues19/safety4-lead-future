@@ -111,7 +111,7 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         id: crypto.randomUUID(),
         title: "Return on investment",
         type: "table",
-        content: { headers: ["Measure", "Value"], rows: [["Participants", "25"], ["Hours saved per person per week", "1 (conservative; the course page cites an hour or more)"], ["Loaded hourly rate (assumption, to confirm)", "£70"], ["Value recovered per week", "£1,250"], ["Value recovered per year (52 weeks)", "£65,000"], ["Training investment (25 × £1,250)", "£31,250"], ["Payback period", "about 25 weeks"]] },
+        content: { headers: ["Measure", "Value"], rows: [["Participants", "25"], ["Hours saved per person per week", "1 (conservative; the course page cites an hour or more)"], ["Loaded hourly rate (assumption, to confirm)", "£50"], ["Value recovered per week", "£1,250"], ["Value recovered per year (52 weeks)", "£65,000"], ["Training investment (25 × £1,250)", "£31,250"], ["Payback period", "about 25 weeks"]] },
         order: 5,
       },
       {
