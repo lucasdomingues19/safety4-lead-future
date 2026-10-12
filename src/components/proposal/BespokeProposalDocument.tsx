@@ -78,7 +78,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
             <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">Prepared by</p>
             <p className="mt-1 font-bold">Lucas Domingues</p>
             <p className="text-slate-600">Founder, SafetyTech Academy</p>
-            <p className="text-slate-600">hello@safetytech.academy</p>
+            <p className="text-slate-600">lucas@safetytech.academy</p>
           </div>
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">Dates</p>
@@ -227,7 +227,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           ))}
         </ol>
         <p className="mt-10 border-t border-slate-200 pt-4 text-xs text-slate-500">
-          SafetyTech Academy · hello@safetytech.academy · www.safetytech.academy
+          SafetyTech Academy · lucas@safetytech.academy · www.safetytech.academy
         </p>
       </section>
     </div>
