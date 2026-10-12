@@ -46,6 +46,7 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
   if (bespoke.proposal_type === "bespoke") {
     return (
       <BespokeProposalDocument
+        title={(bespoke as { title?: string | null }).title ?? undefined}
         organisation={proposal.organisation}
         contact_name={proposal.contact_name ?? undefined}
         contact_role={bespoke.contact_role ?? undefined}

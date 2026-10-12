@@ -197,6 +197,7 @@ const ProposalPage = ({ token: tokenProp }: { token?: string }) => {
 
       {(proposal as any).proposal_type === "bespoke" ? (
         <BespokeProposalDocument
+          title={(proposal as any).title ?? undefined}
           organisation={proposal.organisation}
           contact_name={proposal.contact_name ?? undefined}
           contact_role={(proposal as any).contact_role ?? undefined}

@@ -1834,6 +1834,7 @@ export type Database = {
           responded_at: string | null
           sections: Json
           status: string
+          title: string | null
           token: string
           updated_at: string
           valid_until: string | null
@@ -1857,6 +1858,7 @@ export type Database = {
           responded_at?: string | null
           sections?: Json
           status?: string
+          title?: string | null
           token?: string
           updated_at?: string
           valid_until?: string | null
@@ -1880,6 +1882,7 @@ export type Database = {
           responded_at?: string | null
           sections?: Json
           status?: string
+          title?: string | null
           token?: string
           updated_at?: string
           valid_until?: string | null

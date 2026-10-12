@@ -18,6 +18,7 @@ interface ProposalSection {
 }
 
 interface BespokeProposal {
+  title?: string;
   organisation: string;
   contact_name: string;
   contact_role?: string;
@@ -29,6 +30,7 @@ interface BespokeProposal {
 }
 
 const emptyProposal = (): BespokeProposal => ({
+  title: "",
   organisation: "",
   contact_name: "",
   contact_email: "",
@@ -61,27 +63,27 @@ const sectionTemplates = {
 
 const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposal> = {
   galp_copilot: {
-    organisation: "Galp",
+    organisation: "Galp Energy",
+    title: "Copilot for EHS & Sustainability",
     contact_name: "Jose Almeida",
     contact_role: "Corporate Head Safety & Security",
     contact_email: "jose.almeida@galp.com",
     contact_emails: ["jose.almeida@galp.com"],
-    intro_note:
-      "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at Galp's headquarters in Lisbon for up to 25 of your colleagues.",
+    intro_note: "",
     valid_until: "30",
     sections: [
       {
         id: crypto.randomUUID(),
-        title: "Overview",
+        title: "Summary",
         type: "text",
-        content: { body: "A full-day, in-person Copilot workshop at Galp's headquarters in Lisbon, for up to 25 of your EHS and sustainability colleagues. The day is hands-on: each session uses EHS tasks your teams already do, so people leave able to use Microsoft 365 Copilot on real work." },
+        content: { body: "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at Galp's headquarters in Lisbon for up to 25 of your colleagues." },
         order: 0,
       },
       {
         id: crypto.randomUUID(),
-        title: "Programme for the day",
+        title: "Programme modules",
         type: "list",
-        content: { items: ["Foundations: AI, GenAI and Microsoft 365 Copilot", "Prompt engineering for EHS", "Copilot in Word and Outlook: policies, procedures and safety communications", "Copilot in Excel: incident, inspection and ESG data analysis", "Copilot in Teams and PowerPoint: toolbox talks, meetings and training", "Copilot Notebooks: building your EHS knowledge base", "Risk assessments and incident investigations with Copilot", "Sustainability and ESG reporting with Copilot", "Agents and automation: Copilot Studio for EHS workflows", "Responsible AI, governance and your Copilot roadmap"] },
+        content: { items: ["1. AI Fundamentals for EHS Professionals || What generative AI is, how Copilot works, and the principle that the AI drafts while a competent person reviews and signs off.", "2. Prompt Engineering for EHS || The GRACE framework (Ground, Role, Artefact, Constraints, Evidence) for writing reliable, source-grounded prompts.", "3. Copilot in Apps for EHS Productivity (Part 1) || Using Copilot in everyday Microsoft 365 apps for EHS work, with hands-on practice.", "4. Copilot in Apps for EHS Productivity (Part 2) || Applying Copilot to more day-to-day EHS workflows, including reporting and analysis.", "5. Notebook || Building a shared EHS knowledge base in Copilot Notebooks from your own procedures and documents.", "6. Copilot Cowork || Working with Copilot on multi-step tasks alongside your team.", "7. Copilot Agents || Setting up agents for repeatable EHS tasks, with a person checking the output.", "8. AI Risks, Ethics, Security and Governance || Data protection, bias, security and the governance a safety function needs to use AI responsibly.", "9. Stay Copilot Confident || Keeping skills current with Microsoft's monthly Copilot releases, with a routine for review.", "10. Capstone Project: Copilot-Powered EHS Investigation & Improvement || A practical project: using Copilot to run an EHS investigation and an improvement programme from start to finish."] },
         order: 1,
       },
       {
@@ -95,21 +97,21 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         id: crypto.randomUUID(),
         title: "Investment",
         type: "pricing_table",
-        content: { tiers: [{ seats: "25 participants (per head)", price: 1250 }] },
+        content: { tiers: [{ seats: "Course price (list, per participant)", price: 1600 }, { seats: "Discounted price for 25 participants", price: 1250 }] },
         order: 3,
       },
       {
         id: crypto.randomUUID(),
         title: "Total",
         type: "text",
-        content: { body: "25 participants at £1,250 each: £31,250 in total. VAT is not applicable. Travel and accommodation are billed at cost and are not included in this price." },
+        content: { body: "25 participants at the discounted price of £1,250 each: £31,250 in total. VAT is not applicable. Travel and accommodation are billed at cost and are not included in this price." },
         order: 4,
       },
       {
         id: crypto.randomUUID(),
         title: "What's included",
         type: "list",
-        content: { items: ["Course materials for each participant", "A certificate of attendance for each participant (attendance only, not an accredited qualification)", "Follow-up support by email after the day"] },
+        content: { items: ["Course materials for each participant", "A certificate of attendance for each participant (attendance only, not an accredited qualification)", "Office hours for support after the day", "Follow-up support by email after the day"] },
         order: 5,
       },
       {
@@ -120,7 +122,6 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         order: 6,
       },
     ],
-
   },
   expand_energy: {
     organisation: "Expand Energy",
@@ -303,6 +304,7 @@ export const BespokeProposalBuilder = () => {
         .from("proposals")
         .insert({
           organisation: form.organisation,
+          title: form.title || null,
           contact_name: form.contact_name || null,
           contact_role: form.contact_role || null,
           contact_email: form.contact_emails[0],

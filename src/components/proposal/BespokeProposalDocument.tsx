@@ -39,7 +39,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
   sections,
   valid_until,
   created_at,
-  title = "AI & Safety Technology Training",
+  title = "Training proposal",
 }) => {
   const issued = new Date(created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
   const validUntil = valid_until
@@ -58,6 +58,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           .bespoke-doc h2 { break-after: avoid; page-break-after: avoid; }
           .bespoke-doc footer { break-before: auto; }
           .bespoke-doc > div:last-child { padding-bottom: 0 !important; }
+          .bespoke-terms { break-before: page; page-break-before: always; }
         }
       `}</style>
 
@@ -116,7 +117,12 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#3434ff] text-sm font-extrabold text-white">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="pt-1 text-[15px] font-semibold leading-snug">{item}</span>
+                    <span className="pt-1">
+                      <span className="block text-[15px] font-semibold leading-snug">{item.split(" || ")[0]}</span>
+                      {item.includes(" || ") && (
+                        <span className="mt-1 block text-sm leading-relaxed text-slate-600">{item.split(" || ")[1]}</span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -194,6 +200,34 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           </p>
         </footer>
       </div>
+      {/* Terms and conditions: its own page in print */}
+      <section className="bespoke-terms border-t-0 px-8 pb-14 pt-4 md:px-14">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#3434ff]">Terms and conditions</p>
+        <h2 className="mt-2 text-2xl font-bold">{title}</h2>
+        <p className="mt-1 text-sm text-slate-500">For {organisation}. Issued {issued}.</p>
+        <ol className="mt-8 space-y-5 text-[15px] leading-relaxed text-slate-700">
+          {[
+            ["Validity", `This proposal is valid until ${validUntil ?? "the date shown on the cover"}.`],
+            ["Participants", "The price covers the number of seats stated. Seats are for named participants from Galp Energy."],
+            ["Price and VAT", "Prices are in pounds sterling. VAT is not applicable to this proposal."],
+            ["Payment", "Invoiced on approval, payable within 30 days by bank transfer or card."],
+            ["Travel and accommodation", "Billed at cost and not included in the price."],
+            ["Refunds and cancellations", "Agreed in writing before the training day is confirmed."],
+            ["Certificates", "A certificate of attendance is issued for attendance. It is not an accredited qualification."],
+            ["Course materials", "Materials are for the participants' use within Galp Energy and may not be shared outside it without written consent."],
+            ["Personal data", "Participants' personal data is used only to deliver the training, in line with our Privacy Policy."],
+            ["Acceptance", "Approving this proposal confirms the seats, the dates and these terms."],
+          ].map(([heading, text], i) => (
+            <li key={heading} className="grid gap-1 md:grid-cols-[200px_1fr] md:gap-6">
+              <span className="font-bold text-[#0b0b2c]">{String(i + 1).padStart(2, "0")}. {heading}</span>
+              <span>{text}</span>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-10 border-t border-slate-200 pt-4 text-xs text-slate-500">
+          SafetyTech Academy · hello@safetytech.academy · www.safetytech.academy
+        </p>
+      </section>
     </div>
   );
 };
