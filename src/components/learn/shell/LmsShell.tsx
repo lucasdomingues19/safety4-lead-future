@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, Building2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import brandMarkWhite from "@/assets/brand-mark-white.png";
+import brandMarkBlue from "@/assets/brand-mark-blue.png";
 import { NotificationBell } from "./NotificationBell";
 import { LmsSearch } from "./LmsSearch";
 import type { LmsProfile } from "./useLmsProfile";
@@ -80,18 +80,18 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
       <aside
         aria-label="Main menu"
         style={{
-          width, flex: "none", background: "#0b0b2c", display: "flex", flexDirection: "column",
+          width, flex: "none", background: "#ffffff", borderRight: "1px solid #e2e8f0", display: "flex", flexDirection: "column",
           position: "fixed", top: 0, left: 0, height: "100vh", zIndex: 40, overflow: "hidden",
           transform: phone && !menuOpen ? "translateX(-100%)" : "none",
           transition: "width .25s cubic-bezier(.4,0,.2,1), transform .25s cubic-bezier(.4,0,.2,1)",
           boxShadow: (phone && menuOpen) || (!phone && railOpen) ? "0 18px 40px rgba(11,11,44,.16)" : "none",
         }}
       >
-        <div style={{ height: 72, flex: "none", display: "flex", alignItems: "center", gap: 12, padding: "0 18px", borderBottom: "1px solid rgba(255,255,255,.1)" }}>
+        <div style={{ height: 72, flex: "none", display: "flex", alignItems: "center", gap: 12, padding: "0 18px", borderBottom: "1px solid #e2e8f0" }}>
           <button onClick={toggleRail} title={phone ? "Close menu" : "Toggle menu"} aria-label={phone ? "Close menu" : "Toggle menu"} style={iconBtn}>
             {phone ? <X size={19} /> : <Menu size={19} />}
           </button>
-          {open && <img src={brandMarkWhite} alt="SafetyTech Academy" style={{ height: 26, width: "auto", flex: "none" }} />}
+          {open && <img src={brandMarkBlue} alt="SafetyTech Academy" style={{ height: 26, width: "auto", flex: "none" }} />}
         </div>
 
         <nav style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "18px 12px", display: "flex", flexDirection: "column", gap: 6 }}>
@@ -107,8 +107,8 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
 
           {profile?.isAdmin && (
             <div data-tour-admin style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ height: 1, background: "rgba(255,255,255,.1)", margin: "10px 4px" }} />
-              {open && <div style={{ padding: "0 12px 8px", fontSize: 11, fontWeight: 800, letterSpacing: ".12em", color: "rgba(255,255,255,.32)" }}>ADMIN</div>}
+              <div style={{ height: 1, background: "#e2e8f0", margin: "10px 4px" }} />
+              {open && <div style={{ padding: "0 12px 8px", fontSize: 11, fontWeight: 800, letterSpacing: ".12em", color: "#94a3b8" }}>ADMIN</div>}
               <NavButton icon={<LayoutDashboard size={19} />} label="Overview" active={isActive("admin-overview")} onClick={() => go("admin:overview")} open={open} />
               <NavButton icon={<BookOpen size={19} />} label="Courses" active={isActive("admin-courses")} onClick={() => { setMenuOpen(false); navigate("/admin/courses"); }} open={open} />
               <NavButton icon={<Users size={19} />} label="Users" active={isActive("admin-users")} onClick={() => go("admin:users")} open={open} />
@@ -122,17 +122,17 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
           )}
 
           <div style={{ marginTop: "auto", flex: "none", display: "flex", flexDirection: "column", gap: 6 }}>
-            <div style={{ height: 1, background: "rgba(255,255,255,.1)", margin: "8px 4px" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 14, padding: 12, borderRadius: 10, background: "rgba(255,255,255,.06)" }}>
+            <div style={{ height: 1, background: "#e2e8f0", margin: "8px 4px" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 14, padding: 12, borderRadius: 10, background: "#f5f7ff" }}>
               <div style={{ width: 34, height: 34, flex: "none", borderRadius: "50%", background: "#3434ff", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700 }}>
                 {profile?.avatar_url ? <img src={profile.avatar_url} alt="" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} /> : initials}
               </div>
               {open && (
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "#0b0b2c", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     <span data-private={profile?.full_name ? undefined : ""}>{profile?.full_name || profile?.email.split("@")[0] || "You"}</span>
                   </div>
-                  <div style={{ marginTop: 2, fontSize: 12, color: "rgba(255,255,255,.5)" }}>{profile?.cpdHours ?? 0} CPD hour{profile?.cpdHours === 1 ? "" : "s"}</div>
+                  <div style={{ marginTop: 2, fontSize: 12, color: "#69697b" }}>{profile?.cpdHours ?? 0} CPD hour{profile?.cpdHours === 1 ? "" : "s"}</div>
                 </div>
               )}
             </div>
@@ -147,7 +147,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
         <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,.86)", backdropFilter: "blur(10px)", borderBottom: "1px solid #e2e8f0" }}>
           <div style={{ maxWidth: 1400, margin: "0 auto", padding: phone ? "0 12px" : "0 28px", height: 72, display: "flex", alignItems: "center", gap: phone ? 12 : 24 }}>
             {phone && (
-              <button onClick={() => setMenuOpen(true)} aria-label="Open menu" style={{ ...iconBtn, background: "#0b0b2c" }}>
+              <button onClick={() => setMenuOpen(true)} aria-label="Open menu" style={{ ...iconBtn, background: "#eef1f6", color: "#0b0b2c" }}>
                 <Menu size={19} />
               </button>
             )}
@@ -163,7 +163,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
 }
 
 const iconBtn: React.CSSProperties = {
-  width: 40, height: 40, flex: "none", border: 0, borderRadius: 10, background: "rgba(255,255,255,.08)", color: "#fff",
+  width: 40, height: 40, flex: "none", border: 0, borderRadius: 10, background: "#f1f4f8", color: "#0b0b2c",
   display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
 };
 
@@ -175,11 +175,11 @@ function NavButton({ icon, label, active, onClick, open, tour }: { icon: ReactNo
       title={label}
       aria-current={active ? "page" : undefined}
       style={{
-        border: 0, background: active ? "rgba(255,255,255,.12)" : "transparent", color: active ? "#fff" : "rgba(255,255,255,.6)",
+        border: 0, background: active ? "#eef1ff" : "transparent", color: active ? "#0b0b2c" : "#69697b",
         fontFamily: "inherit", fontSize: 14, fontWeight: 600, borderRadius: 10, padding: 12, display: "flex", alignItems: "center",
         gap: 14, cursor: "pointer", textAlign: "left", whiteSpace: "nowrap", transition: "background .2s",
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,.1)"; }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = "#f5f7ff"; }}
       onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
     >
       {icon}

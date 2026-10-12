@@ -44,6 +44,12 @@ interface LmsContextType {
 export const LmsContext = React.createContext<LmsContextType | null>(null);
 
 export default function LmsInterface() {
+  // The LMS is a white theme: the class goes on the page, so popups (which render elsewhere) are white too.
+  useEffect(() => {
+    document.documentElement.classList.add("lms-white");
+    return () => { document.documentElement.classList.remove("lms-white"); };
+  }, []);
+
     const { authUser, authLoading, profile } = useLmsProfile();
     const navigate = useNavigate();
 
