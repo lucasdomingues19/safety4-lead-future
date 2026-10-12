@@ -33,12 +33,13 @@ export function LmsAdminOverview() {
   const load = async () => {
     setLoading(true);
     try {
-      const [coursesRes, enrollmentsRes, certificatesRes, lessonsRes, progressRes] = await Promise.all([
+      const [coursesRes, enrollmentsRes, certificatesRes, lessonsRes, progressRes, profilesRes] = await Promise.all([
         supabase.from("courses").select("id, title, published"),
-        supabase.from("enrollments").select("id, user_id, course_id, enrolled_at"),
-        supabase.from("certificates").select("id, course_name, issued_at"),
+        supabase.from("enrollments").select("id, user_id, course_id, enrolled_at, completed_at"),
+        supabase.from("certificates").select("id, course_name, issued_at, recipient_name, recipient_email, certificate_number"),
         supabase.from("lessons").select("id, module_id"),
         supabase.from("lesson_progress").select("user_id, lesson_id, completed_at").eq("is_completed", true),
+        supabase.from("profiles").select("id, full_name, email"),
       ]);
 
       const allCourses = coursesRes.data ?? [];
@@ -95,21 +96,35 @@ export function LmsAdminOverview() {
       });
       setCourses(courseStats);
 
+      // Who each event is about: the learner's name and email, so every line says whose it is.
+      const people = new Map((profilesRes.data ?? []).map((p) => [p.id, p]));
+      const who = (userId: string) => {
+        const p = people.get(userId);
+        const label = p?.full_name ? `${p.full_name} (${p.email ?? "no email"})` : (p?.email ?? "Unknown person");
+        return label;
+      };
+      const courseTitle = (courseId: string) => allCourses.find((c) => c.id === courseId)?.title ?? "a course";
+
       const events: ActivityEvent[] = [
         ...enrollments.map((e) => ({
-          text: `New enrolment in ${allCourses.find((c) => c.id === e.course_id)?.title ?? "a course"}`,
+          text: `${who(e.user_id)} enrolled in ${courseTitle(e.course_id)}`,
           at: e.enrolled_at,
           type: "enroll" as const,
         })),
+        ...enrollments.filter((e) => e.completed_at).map((e) => ({
+          text: `${who(e.user_id)} finished ${courseTitle(e.course_id)}`,
+          at: e.completed_at as string,
+          type: "enroll" as const,
+        })),
         ...certificates.map((c) => ({
-          text: `Certificate issued for ${c.course_name}`,
+          text: `Certificate ${c.certificate_number} issued to ${c.recipient_name} (${c.recipient_email}) for ${c.course_name}`,
           at: c.issued_at,
           type: "cert" as const,
         })),
       ]
         .filter((e) => e.at)
         .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
-        .slice(0, 8)
+        .slice(0, 15)
         .map((e) => ({ ...e, time: new Date(e.at).toLocaleDateString() }));
       setActivity(events);
     } catch (err) {
