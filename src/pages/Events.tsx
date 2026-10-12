@@ -8,6 +8,7 @@ import { setPageSEO } from "@/utils/seo";
 import EventRegistrationModal from "@/components/EventRegistrationModal";
 import { supabase } from "@/integrations/supabase/client";
 import copilotHseCard from "@/assets/event-copilot-hse-card.webp";
+import copilotNextCard from "@/assets/event-copilot-hse-15oct-card.webp";
 
 interface Event {
   id: string;
@@ -82,8 +83,8 @@ const Events = () => {
             <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
               <div className="relative h-64 md:h-full rounded-[12px] overflow-hidden bg-gray-200 group-hover:scale-[1.02] transition-transform duration-300 flex-shrink-0">
                 <img
-                  src={copilotHseCard}
-                  alt="Copilot in HSE — Live Crash Course with Lucas Domingues"
+                  src={copilotNextCard}
+                  alt="Copilot in EHS — Live Crash Course with Lucas Domingues"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -94,7 +95,7 @@ const Events = () => {
                     Live Crash Course · Free
                   </span>
                   <h3 className="text-2xl font-bold text-[#0b0b2c] mb-3">
-                    Copilot in HSE
+                    Copilot in EHS
                   </h3>
                   <p className="text-[#69697b] mb-6 leading-relaxed">
                     A live, hands-on session on using Microsoft 365 Copilot for real EHS work —
@@ -106,7 +107,7 @@ const Events = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-3 text-[#0b0b2c]">
                     <Calendar size={20} className="text-primary flex-shrink-0" />
-                    <span className="font-medium">Wednesday 30 September 2026</span>
+                    <span className="font-medium">Thursday 15 October 2026</span>
                   </div>
                   <div className="flex items-center gap-3 text-[#0b0b2c]">
                     <Clock size={20} className="text-primary flex-shrink-0" />
@@ -125,6 +126,24 @@ const Events = () => {
               </div>
             </div>
           </Link>
+
+          {/* Past events */}
+          <div>
+            <h2 className="text-2xl font-bold text-[#0b0b2c] mb-6">Past events</h2>
+            <Link
+              to="/events/copilot-hse-30-september"
+              className="group flex items-center gap-5 bg-white rounded-[20px] border border-slate-200 p-4 md:p-5 hover:shadow-lg transition-all duration-300"
+            >
+              <img src={copilotHseCard} alt="" className="w-24 h-24 md:w-28 md:h-28 rounded-[12px] object-cover flex-shrink-0" />
+              <div className="min-w-0">
+                <span className="inline-block bg-slate-100 text-[#69697b] text-xs font-bold uppercase tracking-[0.08em] px-3 py-1 rounded-full mb-2">
+                  Passed
+                </span>
+                <h3 className="text-lg font-bold text-[#0b0b2c]">Copilot in HSE</h3>
+                <p className="text-sm text-[#69697b]">Wednesday 30 September 2026 · Live on Zoom</p>
+              </div>
+            </Link>
+          </div>
 
           {loading ? (
             <div className="text-center py-12 text-[#69697b]">Loading events...</div>

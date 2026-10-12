@@ -5,9 +5,38 @@ import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
-import eventBanner from "@/assets/event-copilot-hse-banner.png";
+import eventBannerPast from "@/assets/event-copilot-hse-banner.png";
+import eventBannerNext from "@/assets/event-copilot-hse-15oct-banner.png";
 
-const ZOOM_REGISTRATION_URL = "https://us06web.zoom.us/meeting/register/qqHLqHeBSvmxb0yo_u1Z8w";
+interface EventDetails {
+  name: string;          // "Copilot in EHS" or "Copilot in HSE"
+  dateLabel: string;     // shown on the card
+  seoDate: string;
+  banner: string;
+  zoomUrl: string | null;
+  canonical: string;
+  past: boolean;
+}
+
+const NEXT: EventDetails = {
+  name: "Copilot in EHS",
+  dateLabel: "Thursday 15 October 2026",
+  seoDate: "Thursday 15 October 2026, 3:00 PM UK time",
+  banner: eventBannerNext,
+  zoomUrl: "https://us06web.zoom.us/meeting/register/eQ3c-ybhRNqgFq85LLY4gQ",
+  canonical: "https://safetytech.academy/events/copilot-hse",
+  past: false,
+};
+
+const PAST: EventDetails = {
+  name: "Copilot in HSE",
+  dateLabel: "Wednesday 30 September 2026",
+  seoDate: "Wednesday 30 September 2026",
+  banner: eventBannerPast,
+  zoomUrl: null,
+  canonical: "https://safetytech.academy/events/copilot-hse-30-september",
+  past: true,
+};
 
 const agenda = [
   "Where Copilot fits across Word, Excel, Outlook, Teams and PowerPoint for EHS work",
@@ -16,16 +45,19 @@ const agenda = [
   "Q&A — bring your own EHS use cases",
 ];
 
-const EventPage = () => {
+const EventPage = ({ past = false }: { past?: boolean }) => {
+  const ev = past ? PAST : NEXT;
+
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Copilot in HSE — Live Crash Course | SafetyTech Academy",
-      description:
-        "Join Lucas Domingues for a live hands-on crash course on Microsoft 365 Copilot for HSE. Wednesday 30 September 2026, 3:00 PM UK time on Zoom.",
-      canonical: "https://safetytech.academy/events/copilot-hse",
+      title: ev.past ? `${ev.name} — Past event | SafetyTech Academy` : `${ev.name} — Live Crash Course | SafetyTech Academy`,
+      description: ev.past
+        ? `The live Microsoft 365 Copilot crash course for HSE ran on ${ev.seoDate}. Upcoming sessions are listed on our Events page.`
+        : `Join Lucas Domingues for a live hands-on crash course on Microsoft 365 Copilot for EHS. ${ev.seoDate} on Zoom.`,
+      canonical: ev.canonical,
     });
-  }, []);
+  }, [ev]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -36,20 +68,20 @@ const EventPage = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto mb-12 md:mb-16 rounded-[20px] overflow-hidden shadow-lg">
             <img
-              src={eventBanner}
-              alt="Copilot in HSE — Live Crash Course with Lucas Domingues"
+              src={ev.banner}
+              alt={`${ev.name} — Live Crash Course with Lucas Domingues`}
               className="w-full h-auto object-cover"
             />
           </div>
 
           <div className="grid lg:grid-cols-[1fr_420px] gap-12 lg:gap-16 max-w-6xl mx-auto items-start">
-            {/* Left — title, description, CTA */}
+            {/* Left — title, description */}
             <div>
               <span className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 block">
-                Live Crash Course · Free
+                {ev.past ? "Live Crash Course · Past event" : "Live Crash Course · Free"}
               </span>
               <h1 className="mb-5 leading-[1.05] text-[#0b0b2c]">
-                <span className="text-primary">Copilot</span> in HSE
+                <span className="text-primary">Copilot</span> in {ev.past ? "HSE" : "EHS"}
               </h1>
               <p className="text-lg text-[#69697b] leading-relaxed max-w-xl">
                 A live, hands-on session on using Microsoft 365 Copilot for real EHS work — drafting
@@ -65,7 +97,7 @@ const EventPage = () => {
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center gap-3 text-sm text-[#0b0b2c]">
                       <Calendar className="w-4 h-4 text-primary shrink-0" />
-                      <span className="font-medium">Wednesday 30 September 2026</span>
+                      <span className="font-medium">{ev.dateLabel}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-[#0b0b2c]">
                       <Clock className="w-4 h-4 text-primary shrink-0" />
@@ -76,15 +108,26 @@ const EventPage = () => {
                       <span className="font-medium">Live online · Zoom</span>
                     </div>
                   </div>
-                  <a
-                    href={ZOOM_REGISTRATION_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
-                  >
-                    Register now
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
+                  {ev.past ? (
+                    <div className="space-y-3">
+                      <span className="inline-flex items-center justify-center w-full px-6 py-[18px] bg-slate-100 text-[#69697b] font-medium text-sm uppercase tracking-[0.08em] rounded">
+                        This event has passed
+                      </span>
+                      <Link to="/events" className="block text-center text-sm font-semibold text-primary hover:underline">
+                        See upcoming events
+                      </Link>
+                    </div>
+                  ) : (
+                    <a
+                      href={ev.zoomUrl ?? undefined}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+                    >
+                      Register now
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -105,8 +148,9 @@ const EventPage = () => {
               building presentations in PowerPoint.
             </p>
             <p className="text-[#69697b] leading-relaxed mb-12">
-              Hosted live on Zoom by Lucas Domingues (MSc, CMIOSH), founder of SafetyTech Academy.
-              Spaces are limited — register to save your seat and receive the Zoom link by email.
+              {ev.past
+                ? "This session took place on 30 September 2026. Upcoming sessions are listed on the Events page."
+                : "Hosted live on Zoom by Lucas Domingues (MSc, CMIOSH), founder of SafetyTech Academy. Spaces are limited — register to save your seat and receive the Zoom link by email."}
             </p>
 
             <h2 className="text-[#0b0b2c] mb-6">What you'll cover</h2>
