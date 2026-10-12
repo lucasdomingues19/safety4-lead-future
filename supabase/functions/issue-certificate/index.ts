@@ -73,6 +73,7 @@ const buildEmailHtml = (cert: {
           <p style="margin:0 0 16px;">Hi ${firstName},</p>
           <p style="margin:0 0 16px;">We are pleased to share your SafetyTech Academy certificate. Please click the link below to access your credentials.</p>
           <p style="margin:0 0 16px;">Don't forget to share your achievement on LinkedIn and tag the SafetyTech Academy page.</p>
+          <p style="margin:0 0 16px;">If you enjoyed the course, a short Google review helps other safety professionals find us: <a href="https://g.page/r/CaJFIuivG8u-EAE/review" style="color:#3434ff;">leave a review</a>.</p>
           <p style="margin:0 0 4px;">Proud of you.</p>
           <p style="margin:0;">Regards,</p>
           <p style="margin:4px 0 0;font-weight:700;">SafetyTech Academy Team</p>

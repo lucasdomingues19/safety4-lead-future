@@ -30,7 +30,7 @@ const MAX_PER_RUN = 25;          // keep each run small
 const MAX_PER_DAY = 90;          // Resend free plan allows 100/day
 const DAY = 86_400_000;
 const NUDGES = [7, 14, 30, 60, 90] as const;
-const REMINDER_KINDS = new Set([...NUDGES.map((d) => `nudge_${d}`), "access_expiring", "onboarding_day1", "onboarding_day3"]);
+const REMINDER_KINDS = new Set([...NUDGES.map((d) => `nudge_${d}`), "access_expiring", "onboarding_day1", "onboarding_day3", "review_request"]);
 // Admins are never sent onboarding/reminder emails, but do get progress messages for courses they are enrolled in (so they can test the learner journey).
 const ADMIN_OK = new Set(["module_complete", "final_ready", "course_complete"]);
 
@@ -81,6 +81,13 @@ interface Ctx {
 }
 const minsText = (m?: number | null) => (m ? ` — about ${m} minutes` : "");
 const T: Record<string, (c: Ctx) => { subject: string; html: string }> = {
+  review_request: (c) => ({
+    subject: `How was ${c.course}?`,
+    html: layout({ heading: `Thank you for finishing, ${c.first}`, paras: [
+      `You've completed <strong>${esc(c.course)}</strong>. Congratulations.`,
+      "If you have a minute, a short Google review helps other safety professionals decide whether this course is for them. Honest feedback is what we want, good or bad.",
+    ], cta: { label: "Leave a Google review", url: "https://g.page/r/CaJFIuivG8u-EAE/review" } }),
+  }),
   welcome_course: (c) => ({
     subject: `Welcome to ${c.course}`,
     html: layout({ heading: `You're in, ${c.first}!`, paras: [
@@ -365,6 +372,14 @@ Deno.serve(async (req) => {
               want({ userId: u.id, email: u.email, kind: "course_complete", key: c.id,
                 notify: { title: `Course complete: ${c.title}`, body: "Your certificate is in My learning.", link: "/learn?view=learning" } });
             }
+          }
+        }
+
+        // Review ask: a few days after finishing the whole course. Off until switched on in email_automations.
+        if (completedCount === all.length) {
+          const finishedAt = Math.max(...all.map((l: any) => myDone.get(l.id) || 0));
+          if (now - finishedAt >= 5 * DAY && now - finishedAt < 30 * DAY) {
+            want({ userId: u.id, email: u.email, kind: "review_request", key: c.id, ...T.review_request({ ...base }) });
           }
         }
 
