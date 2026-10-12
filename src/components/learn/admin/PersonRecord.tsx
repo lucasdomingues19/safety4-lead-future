@@ -83,15 +83,22 @@ export function PersonRecord({ personId, name, email, onClose }: { personId: str
       {children}
     </section>
   );
-  const empty = <p className="text-sm text-[#94a3b8]">Nothing yet.</p>;
+  const empty = <p className="text-sm text-[#69697b]">Nothing yet.</p>;
 
   return (
     <Dialog open onOpenChange={(o) => { if (!o) onClose(); }}>
-      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto bg-white p-6 text-[#0b0b2c] font-['Plus_Jakarta_Sans',sans-serif]">
         <DialogHeader>
-          <DialogTitle>{name}</DialogTitle>
-          <DialogDescription>{email}</DialogDescription>
+          <DialogTitle className="text-2xl font-extrabold text-[#0b0b2c]">{name}</DialogTitle>
+          <DialogDescription className="text-sm text-[#69697b]">{email}</DialogDescription>
         </DialogHeader>
+        {!loading && !error && (
+          <p className="mt-3 rounded-xl bg-[#f5f7ff] px-4 py-3 text-sm font-semibold text-[#0b0b2c]">
+            {courses.length === 0
+              ? "No courses yet."
+              : `${courses.filter((c) => c.completedAt).length} of ${courses.length} course${courses.length === 1 ? "" : "s"} finished · ${certs.length} certificate${certs.length === 1 ? "" : "s"} issued`}
+          </p>
+        )}
 
         {loading && <div className="flex justify-center py-10"><Loader2 className="animate-spin text-[#3434ff]" /></div>}
         {error && <p role="alert" className="mt-4 rounded-lg bg-[#fef2f2] p-3 text-sm text-[#b91c1c]">{error}</p>}
@@ -104,7 +111,7 @@ export function PersonRecord({ personId, name, email, onClose }: { personId: str
                   {courses.map((c) => {
                     const pct = c.total ? Math.round((c.done / c.total) * 100) : 0;
                     return (
-                      <li key={c.courseId} className="rounded-lg border border-[#e2e8f0] p-3">
+                      <li key={c.courseId} className="rounded-xl border border-[#e2e8f0] bg-white p-4">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="font-bold">{c.title}</span>
                           <span className={`text-xs font-bold ${c.status === "active" ? "text-[#3f6212]" : "text-[#94a3b8]"}`}>{c.status}</span>
@@ -152,7 +159,7 @@ export function PersonRecord({ personId, name, email, onClose }: { personId: str
               certs.length === 0 ? <p className="text-sm font-semibold text-[#9a3412]">No certificate issued yet.</p> : (
                 <ul className="space-y-2">
                   {certs.map((c) => (
-                    <li key={c.number} className="rounded-lg border border-[#e2e8f0] p-3 text-sm">
+                    <li key={c.number} className="rounded-xl border border-[#e2e8f0] bg-white p-4 text-sm">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="font-bold">{c.course}</span>
                         <span className={c.revokedAt || c.status !== "issued" ? "font-bold text-[#b91c1c]" : "font-bold text-[#3f6212]"}>{c.revokedAt ? "Revoked" : c.status}</span>
