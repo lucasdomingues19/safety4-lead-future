@@ -76,7 +76,7 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         id: crypto.randomUUID(),
         title: "Summary",
         type: "text",
-        content: { body: "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at Galp's headquarters in Lisbon for up to 25 of your colleagues." },
+        content: { body: "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at Galp's headquarters in Lisbon for up to 25 of your colleagues. To learn more about the course, see https://www.safetytech.academy/copilot-for-ehs." },
         order: 0,
       },
       {

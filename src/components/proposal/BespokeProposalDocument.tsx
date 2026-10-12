@@ -21,6 +21,17 @@ interface BespokeProposalDocumentProps {
   title?: string;
 }
 
+const linkify = (text: string) =>
+  String(text ?? "").split(/(https?:\/\/\S+)/g).map((part, i) =>
+    /^https?:\/\//.test(part) ? (
+      <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#3434ff] underline underline-offset-2">
+        {part}
+      </a>
+    ) : (
+      <React.Fragment key={i}>{part}</React.Fragment>
+    )
+  );
+
 const isCurriculum = (s: ProposalSection) =>
   s.type === "list" && /module|curriculum|programme|program/i.test(s.title);
 
@@ -108,7 +119,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
 
             {section.type === "text" && (
               <p className="whitespace-pre-wrap border-l-4 border-[#3434ff] pl-5 text-[15px] leading-relaxed text-slate-700">
-                {section.content.body}
+                {linkify(section.content.body)}
               </p>
             )}
 
