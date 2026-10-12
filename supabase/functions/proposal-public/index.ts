@@ -46,6 +46,17 @@ serve(async (req) => {
       return json({ error: "Invalid link" }, 400);
     }
 
+    // An admin signed in to the site can look at a draft (read only), so it can be reviewed before it is sent.
+    let isAdmin = false;
+    const jwt = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+    if (jwt) {
+      const { data: u } = await admin.auth.getUser(jwt);
+      if (u?.user) {
+        const { data: role } = await admin.from("user_roles").select("role").eq("user_id", u.user.id).eq("role", "admin").maybeSingle();
+        isAdmin = !!role;
+      }
+    }
+
     const { data: proposal, error } = await admin
       .from("proposals")
       .select("*")
@@ -53,14 +64,15 @@ serve(async (req) => {
       .maybeSingle();
 
     if (error) throw error;
-    if (!proposal || proposal.status === "draft") {
+    const previewDraft = isAdmin && action === "view" && proposal?.status === "draft";
+    if (!proposal || (proposal.status === "draft" && !previewDraft)) {
       return json({ error: "Proposal not found" }, 404);
     }
 
     // Recipient verification: the visitor must know the email the proposal was sent to.
     const expected = String(proposal.contact_email ?? "").trim().toLowerCase();
     const provided = email.trim().toLowerCase().slice(0, 200);
-    if (expected && provided !== expected) {
+    if (!previewDraft && expected && provided !== expected) {
       const [user, domain] = expected.split("@");
       const maskedUser = user.length <= 2 ? user[0] + "*" : user[0] + "*".repeat(Math.max(1, user.length - 2)) + user[user.length - 1];
       return json({
