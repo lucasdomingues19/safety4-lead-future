@@ -97,8 +97,10 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           </section>
         )}
 
-        {ordered.map((section, index) => (
-          <section key={section.id} className="scroll-mt-8">
+        {ordered.map((section, index) => {
+          const highlight = /EU AI Act/i.test(section.title);
+          return (
+          <section key={section.id} className={highlight ? "rounded-2xl border-l-4 border-[#9eff1f] bg-[#f5f7ff] p-6" : "scroll-mt-8"}>
             <div className="mb-5 flex items-baseline gap-3">
               <span className="text-xs font-bold tabular-nums text-[#3434ff]">{String(index + 1).padStart(2, "0")}</span>
               <h2 className="text-2xl font-bold">{section.title}</h2>
@@ -192,7 +194,8 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
               </div>
             )}
           </section>
-        ))}
+          );
+        })}
 
         <footer className="border-t border-slate-200 pt-8 text-sm text-slate-600">
           <p className="font-bold text-[#0b0b2c]">Lucas Domingues</p>
