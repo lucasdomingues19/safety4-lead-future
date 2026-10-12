@@ -191,6 +191,7 @@ const App = () => (
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
             <Route path="/events/copilot-hse" element={<EventPage />} />
+            <Route path="/events/copilot-hse-30-september" element={<EventPage past />} />
             <Route path="/events" element={<Events />} />
             <Route path="/brochure" element={<Brochure />} />
             <Route path="/proposal_:token" element={<ProposalPage />} />
