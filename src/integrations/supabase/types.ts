@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.15"
   }
   graphql_public: {
     Tables: {
@@ -1376,6 +1376,39 @@ export type Database = {
           },
         ]
       }
+      mia_handoffs: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          mia_reply: string | null
+          question: string
+          reason: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          mia_reply?: string | null
+          question: string
+          reason: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          mia_reply?: string | null
+          question?: string
+          reason?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       migration_drip_config: {
         Row: {
           daily_cap: number
@@ -2129,6 +2162,10 @@ export type Database = {
       accept_community_guidelines: {
         Args: { _version?: string }
         Returns: string
+      }
+      admin_analytics_summary: {
+        Args: { _since: string; _until?: string }
+        Returns: Json
       }
       admin_first_lessons: {
         Args: never

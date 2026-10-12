@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import EventsManager from "@/pages/admin/EventsManager";
 import { FunctionsHttpError } from "@supabase/supabase-js";
 import { ZOOM_SCHEDULER_URL, openWhatsAppBusiness, getWhatsAppLeadMessage } from "@/lib/outreach";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
+import { AnalyticsTrust } from "@/components/admin/AnalyticsTrust";
 import { useAdminTheme } from "@/hooks/useAdminTheme";
 
 interface PageView {
@@ -117,19 +118,15 @@ const Admin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAdmin]);
 
-  useEffect(() => {
-    if (leads.length > 0 && stats) {
-      const sourceCount: Record<string, number> = {};
-      leads.forEach(lead => {
-        sourceCount[lead.source] = (sourceCount[lead.source] || 0) + 1;
-      });
-      const sourceBreakdown = Object.entries(sourceCount)
-        .map(([name, value]) => ({ name, value }))
-        .sort((a, b) => b.value - a.value);
-
-      setStats({ ...stats, sourceBreakdown });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Lead sources, counted straight from the leads list (kept out of `stats`, which the analytics refresh overwrites).
+  const sourceBreakdown = useMemo(() => {
+    const sourceCount: Record<string, number> = {};
+    leads.forEach(lead => {
+      sourceCount[lead.source] = (sourceCount[lead.source] || 0) + 1;
+    });
+    return Object.entries(sourceCount)
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value);
   }, [leads]);
 
   const handleDateRangeChange = (range: DateRange) => {
@@ -409,6 +406,8 @@ const Admin = () => {
                eventData.includes('founding') ||
                eventData.includes('join the safety') ||
                eventData.includes('join the academy') ||
+               eventData.includes('/student/checkout') ||
+               eventData.includes('buy') ||
                eventData.includes('safetyacademy.mykajabi.com');
       });
 
@@ -714,6 +713,7 @@ const Admin = () => {
         {/* Analytics Tab */}
         {activeTab === 'analytics' && (
           <>
+            <AnalyticsTrust range={dateRange} />
             {/* Date Range Toggle */}
             <div className="flex gap-2 mb-6">
               <Button
@@ -922,11 +922,11 @@ const Admin = () => {
               <CardDescription className="text-slate-600 dark:text-slate-400">Distribution of leads by source</CardDescription>
             </CardHeader>
             <CardContent>
-              {stats.sourceBreakdown.length > 0 ? (
+              {sourceBreakdown.length > 0 ? (
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
                     <Pie
-                      data={stats.sourceBreakdown}
+                      data={sourceBreakdown}
                       cx="50%"
                       cy="50%"
                       labelLine={false}
@@ -935,7 +935,7 @@ const Admin = () => {
                       fill="#8884d8"
                       dataKey="value"
                     >
-                      {stats.sourceBreakdown.map((entry, index) => (
+                      {sourceBreakdown.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
@@ -957,8 +957,8 @@ const Admin = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {stats.sourceBreakdown.length > 0 ? (
-                  stats.sourceBreakdown.map((source, index) => (
+                {sourceBreakdown.length > 0 ? (
+                  sourceBreakdown.map((source, index) => (
                     <div key={index} className="flex justify-between items-center">
                       <span className="text-slate-900 dark:text-slate-50 capitalize">{source.name.replace(/_|-/g, ' ')}</span>
                       <span className="text-slate-500 dark:text-slate-400 font-medium">{source.value} leads</span>
