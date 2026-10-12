@@ -80,7 +80,7 @@ export function LessonTutor({ lessonId, preview }: { lessonId: string; preview?:
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {turns.length === 0 ? (
-        <div style={{ borderRadius: 14, background: "linear-gradient(135deg,#f5f7ff,#f4fbe4)", padding: "18px 18px 16px" }}>
+        <div className="lms-tint-panel" style={{ borderRadius: 14, background: "linear-gradient(135deg,#f5f7ff,#f4fbe4)", padding: "18px 18px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 800, fontSize: 15 }}>
             <MiaAvatar size={30} ring={false} /> Ask Mia about this lesson
           </div>

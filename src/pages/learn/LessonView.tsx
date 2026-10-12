@@ -533,7 +533,7 @@ const LessonView = () => {
               onClick={markCompleteAndContinue}
               disabled={saving || !canComplete}
               title={!canComplete ? `Watch ${pct}% of the video first` : undefined}
-              style={{ padding: "10px 20px", background: isDone ? "#16a34a" : "#3434ff", color: "white", border: "none", borderRadius: "8px", cursor: saving ? "wait" : !canComplete ? "not-allowed" : "pointer", fontSize: "13px", fontWeight: 700, opacity: saving || !canComplete ? 0.5 : 1, display: "flex", alignItems: "center", gap: "6px" }}
+              style={{ padding: "10px 20px", background: isDone ? "#15803d" : "#3434ff", color: "white", border: "none", borderRadius: "8px", cursor: saving ? "wait" : !canComplete ? "not-allowed" : "pointer", fontSize: "13px", fontWeight: 700, opacity: saving || !canComplete ? 0.5 : 1, display: "flex", alignItems: "center", gap: "6px" }}
             >
               {!canComplete && <Lock size={14} />}
               {preview ? (nextLesson ? "Next lesson (preview)" : "End of course") : saving ? "Saving..." : isDone ? (nextLesson ? "✓ Completed — next lesson" : "✓ Completed") : nextLesson ? "Mark complete & continue" : "Mark complete & finish"}
