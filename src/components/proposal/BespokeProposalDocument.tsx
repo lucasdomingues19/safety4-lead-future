@@ -224,13 +224,13 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
         <ol className="mt-8 space-y-5 text-[15px] leading-relaxed text-slate-700">
           {[
             ["Validity", `This proposal is valid until ${validUntil ?? "the date shown on the cover"}.`],
-            ["Participants", "The price covers the number of seats stated. Seats are for named participants from Galp Energy."],
+            ["Participants", `The price covers the number of seats stated. Seats are for named participants from ${organisation}.`],
             ["Price and VAT", "Prices are in pounds sterling. VAT is not applicable to this proposal."],
             ["Payment", "Invoiced on approval, payable within 30 days by bank transfer or card."],
             ["Travel and accommodation", "Billed at cost and not included in the price."],
             ["Refunds and cancellations", "Agreed in writing before the training day is confirmed."],
             ["Certificates", "A certificate of attendance is issued for attendance. It is not an accredited qualification."],
-            ["Course materials", "Materials are for the participants' use within Galp Energy and may not be shared outside it without written consent."],
+            ["Course materials", `Materials are for the participants' use within ${organisation} and may not be shared outside it without written consent.`],
             ["Personal data", "Participants' personal data is used only to deliver the training, in line with our Privacy Policy."],
             ["Acceptance", "Approving this proposal confirms the seats, the dates and these terms."],
           ].map(([heading, text], i) => (

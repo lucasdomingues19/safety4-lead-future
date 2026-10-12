@@ -61,14 +61,14 @@ const sectionTemplates = {
   },
 };
 
-const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposal> = {
-  galp_copilot: {
-    organisation: "Galp Energy",
+const proposalTemplates: Record<"expand_energy" | "copilot_inperson_day", BespokeProposal> = {
+  copilot_inperson_day: {
+    organisation: "[Organisation]",
     title: "Copilot for EHS & Sustainability",
-    contact_name: "Jose Almeida",
-    contact_role: "Corporate Head Safety & Security",
-    contact_email: "jose.almeida@galp.com",
-    contact_emails: ["jose.almeida@galp.com"],
+    contact_name: "[Contact name]",
+    contact_role: "[Contact role]",
+    contact_email: "",
+    contact_emails: [] as string[],
     intro_note: "",
     valid_until: "30",
     sections: [
@@ -76,14 +76,14 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         id: crypto.randomUUID(),
         title: "Summary",
         type: "text",
-        content: { body: "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at Galp's headquarters in Lisbon for up to 25 of your colleagues. To learn more about the course, see https://www.safetytech.academy/copilot-for-ehs." },
+        content: { body: "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at [Organisation]'s headquarters in [city] for up to 25 of your colleagues. To learn more about the course, see https://www.safetytech.academy/copilot-for-ehs." },
         order: 0,
       },
       {
         id: crypto.randomUUID(),
         title: "Why this matters now: EU AI Act, Article 4",
         type: "text",
-        content: { body: "Article 4 of the EU AI Act requires organisations that use AI to make sure their staff have a sufficient level of AI literacy. The obligation has applied since February 2025, and enforcement begins in August 2026. This programme builds the practical skill your EHS and sustainability teams need to use Copilot safely, with a person checking every output. This is training, not legal advice: Galp's legal team should confirm how Article 4 applies to your organisation." },
+        content: { body: "Article 4 of the EU AI Act requires organisations that use AI to make sure their staff have a sufficient level of AI literacy. The obligation has applied since February 2025, and enforcement begins in August 2026. This programme builds the practical skill your EHS and sustainability teams need to use Copilot safely, with a person checking every output. This is training, not legal advice: [Organisation]'s legal team should confirm how Article 4 applies to your organisation." },
         order: 1,
       },
       {
@@ -97,7 +97,7 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         id: crypto.randomUUID(),
         title: "Venue, date and format",
         type: "text",
-        content: { body: "Format: in person, one full day.\nVenue: Galp headquarters, Lisbon.\nDate: second half of November 2026, to be confirmed.\nParticipants: up to 25." },
+        content: { body: "Format: in person, one full day.\nVenue: [Organisation] headquarters, [city].\nDate: second half of November 2026, to be confirmed.\nParticipants: up to 25." },
         order: 3,
       },
       {
@@ -139,7 +139,7 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         id: crypto.randomUUID(),
         title: "Next steps",
         type: "text",
-        content: { body: "Confirm the date in the second half of November, the list of 25 participants and a contact at Galp's headquarters. We'll then confirm the agenda and logistics." },
+        content: { body: "Confirm the date in the second half of November, the list of 25 participants and a contact at [Organisation]'s headquarters. We'll then confirm the agenda and logistics." },
         order: 9,
       },
     ],
@@ -430,10 +430,10 @@ export const BespokeProposalBuilder = () => {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => setForm(proposalTemplates.galp_copilot)}
+                  onClick={() => setForm(proposalTemplates.copilot_inperson_day)}
                   className="bg-white text-purple-700 border-purple-200 hover:bg-purple-50"
                 >
-                  Galp · Copilot 25 seats
+                  Copilot in-person day (template)
                 </Button>
               </div>
             </div>
