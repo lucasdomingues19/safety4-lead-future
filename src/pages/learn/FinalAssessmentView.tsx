@@ -111,7 +111,7 @@ const FinalAssessmentView = () => {
     </LmsShell>
   );
 
-  const card: React.CSSProperties = { background: "white", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "36px", textAlign: "center" };
+  const card: React.CSSProperties = { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "36px", textAlign: "center" };
   const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: "8px", padding: "14px 26px", background: "#3434ff", color: "white", border: "none", borderRadius: "10px", fontWeight: 700, fontSize: "15px", cursor: "pointer", textDecoration: "none", fontFamily: "inherit" };
 
   if (phase === "loading" || !status) {
@@ -125,7 +125,7 @@ const FinalAssessmentView = () => {
           src={launch.url}
           title="Final assessment"
           allow="clipboard-write"
-          style={{ width: "100%", height: "calc(100vh - 110px)", minHeight: "560px", border: "1px solid #e2e8f0", borderRadius: "16px", background: "white", display: "block" }}
+          style={{ width: "100%", height: "calc(100vh - 110px)", minHeight: "560px", border: "1px solid #e2e8f0", borderRadius: "16px", background: "#ffffff", display: "block" }}
         />
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", marginTop: "10px", fontSize: "12.5px", color: "#69697b", flexWrap: "wrap" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><ShieldCheck size={14} color="#3434ff" /> Graded and certified securely by Syngraph AI</span>
@@ -169,7 +169,7 @@ const FinalAssessmentView = () => {
             <a href={result.credential_url} target="_blank" rel="noopener noreferrer" style={primaryBtn}><Award size={18} /> View my certificate <ExternalLink size={14} /></a>
           )}
           {!passed && status.can_attempt !== false && <button onClick={start} disabled={starting} style={{ ...primaryBtn, opacity: starting ? 0.7 : 1 }}>{starting ? <Loader2 size={16} className="animate-spin" /> : <RotateCcw size={16} />} Try again</button>}
-          <Link to={`/learn/${courseSlug}`} style={{ ...primaryBtn, background: "white", color: "#0b0b2c", border: "1px solid #e2e8f0" }}>Back to course</Link>
+          <Link to={`/learn/${courseSlug}`} style={{ ...primaryBtn, background: "#ffffff", color: "#0b0b2c", border: "1px solid #e2e8f0" }}>Back to course</Link>
         </div>
       </div>,
     );

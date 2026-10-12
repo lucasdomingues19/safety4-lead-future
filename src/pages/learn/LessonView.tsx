@@ -514,7 +514,7 @@ const LessonView = () => {
           )}
 
           {/* Complete bar */}
-          <div style={{ background: "white", padding: "16px 20px", borderRadius: "12px", marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+          <div style={{ background: "#ffffff", padding: "16px 20px", borderRadius: "12px", marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
             <div style={{ flex: 1, minWidth: "200px" }}>
               <div style={{ fontSize: "14px", color: "#69697b" }}>Lesson {lessonNum} of {moduleLessons.length} · {currentModule?.title}</div>
               {requiresWatch && !isDone && (
@@ -541,7 +541,7 @@ const LessonView = () => {
           </div>
 
           {/* Tabs */}
-          <div style={{ display: "flex", borderBottom: "1px solid #e2e8f0", background: "white", borderRadius: "12px 12px 0 0", overflowX: "auto", position: "relative" }}>
+          <div style={{ display: "flex", borderBottom: "1px solid #e2e8f0", background: "#ffffff", borderRadius: "12px 12px 0 0", overflowX: "auto", position: "relative" }}>
             {TABS.map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)} style={{ padding: "12px 16px", border: "none", background: activeTab === tab ? "#f5f7fa" : "transparent", borderBottom: activeTab === tab ? "2px solid #3434ff" : "2px solid transparent", cursor: "pointer", fontSize: "13px", fontWeight: activeTab === tab ? 700 : 500, color: activeTab === tab ? "#3434ff" : "#69697b", flex: 1, textTransform: "capitalize", fontFamily: "inherit", whiteSpace: "nowrap" }}>
                 {TAB_LABEL[tab]}{tab === "comments" && comments.length ? ` (${comments.length})` : ""}
@@ -549,7 +549,7 @@ const LessonView = () => {
             ))}
           </div>
 
-          <div style={{ background: "white", padding: "24px", borderRadius: "0 0 12px 12px", minHeight: "200px" }}>
+          <div style={{ background: "#ffffff", padding: "24px", borderRadius: "0 0 12px 12px", minHeight: "200px" }}>
             {activeTab === "overview" && (
               <>
                 {lesson.body ? (
@@ -616,7 +616,7 @@ const LessonView = () => {
                 </div>
               </div>
               {moduleFullyDone && !quizPassed && (
-                <button onClick={() => setQuizOpen(true)} style={{ padding: "10px 20px", background: "white", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Take quiz</button>
+                <button onClick={() => setQuizOpen(true)} style={{ padding: "10px 20px", background: "#ffffff", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Take quiz</button>
               )}
             </div>
           )}
@@ -627,7 +627,7 @@ const LessonView = () => {
                 <Award size={26} />
                 <div><div style={{ fontWeight: 700 }}>Final assessment</div><div style={{ fontSize: 13, opacity: 0.85 }}>Pass it to earn your verified certificate.</div></div>
               </div>
-              <button onClick={() => navigate(`/learn/${courseSlug}/final-assessment`)} style={{ padding: "10px 18px", background: "white", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Go to final assessment</button>
+              <button onClick={() => navigate(`/learn/${courseSlug}/final-assessment`)} style={{ padding: "10px 18px", background: "#ffffff", color: "#3434ff", border: "none", borderRadius: "8px", fontWeight: 700, fontSize: "13px", cursor: "pointer" }}>Go to final assessment</button>
             </div>
           )}
 
@@ -656,7 +656,7 @@ const LessonView = () => {
           )}
 
           <div style={{ display: "flex", gap: "12px", marginTop: "24px", justifyContent: "space-between" }}>
-            <button onClick={() => navigate(`/learn/${courseSlug}`)} style={{ padding: "12px 20px", background: "white", border: "1px solid #e2e8f0", borderRadius: "8px", cursor: "pointer", color: "#0b0b2c", fontWeight: 600, fontFamily: "inherit" }}>Course curriculum</button>
+            <button onClick={() => navigate(`/learn/${courseSlug}`)} style={{ padding: "12px 20px", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", cursor: "pointer", color: "#0b0b2c", fontWeight: 600, fontFamily: "inherit" }}>Course curriculum</button>
             {nextLesson && (
               locked.has(nextLesson.id) ? (
                 <button disabled title="Complete this lesson to unlock the next one" style={{ padding: "12px 20px", background: "#e2e8f0", border: "none", borderRadius: "8px", cursor: "not-allowed", color: "#69697b", fontWeight: 700, fontFamily: "inherit", display: "flex", alignItems: "center", gap: "6px" }}><Lock size={14} /> Next lesson</button>
@@ -670,7 +670,7 @@ const LessonView = () => {
         {/* Sidebar */}
         {!isMobile && (
           <div>
-            <div style={{ background: "white", borderRadius: "12px", padding: "16px", marginBottom: "20px" }}>
+            <div style={{ background: "#ffffff", borderRadius: "12px", padding: "16px", marginBottom: "20px" }}>
               <h3 style={{ fontSize: "12px", fontWeight: 700, marginBottom: "12px", textTransform: "uppercase", color: "#69697b", letterSpacing: "0.06em" }}>{currentModule?.title}</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {moduleLessons.map((l) => (
