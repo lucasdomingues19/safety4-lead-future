@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Check, FileUp, Loader2, Mail, MoreHorizontal, Plus, Search, ShieldCheck, ShieldOff, Tag, UserPlus, X } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
+import { PersonRecord } from "@/components/learn/admin/PersonRecord";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { toast } from "sonner";
 import { ImportPeopleDialog, type Product } from "./ImportPeopleDialog";
@@ -107,6 +108,7 @@ export function LmsAdminUsers() {
   const [bulkDays, setBulkDays] = useState(0);
   const [showImport, setShowImport] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+  const [openPerson, setOpenPerson] = useState<Person | null>(null);
 
   const load = useCallback(async () => {
     const [profilesRes, rolesRes, coursesRes, enrRes, memRes, authRes, tagsRes, lessonsRes] = await Promise.all([
@@ -384,7 +386,7 @@ export function LmsAdminUsers() {
                 <tr key={p.id} className={`border-b border-[#f1f4f8] last:border-0 ${selected.has(p.id) ? "bg-[#f7f8ff]" : "hover:bg-[#fafbfc]"}`}>
                   <td className="px-4 py-3"><input type="checkbox" checked={selected.has(p.id)} onChange={() => { const n = new Set(selected); if (n.has(p.id)) n.delete(p.id); else n.add(p.id); setSelected(n); }} className="accent-[#3434ff]" aria-label={`Select ${p.name}`} /></td>
                   <td className="px-3 py-3">
-                    <div className="font-bold">{p.name}{p.isAdmin && <span className="ml-2 rounded bg-[#0b0b2c] px-1.5 py-0.5 text-[10px] font-bold uppercase text-white">Admin</span>}</div>
+                    <div className="font-bold"><button onClick={() => setOpenPerson(p)} className="text-left hover:text-[#3434ff] hover:underline">{p.name}</button>{p.isAdmin && <span className="ml-2 rounded bg-[#0b0b2c] px-1.5 py-0.5 text-[10px] font-bold uppercase text-white">Admin</span>}</div>
                     <div className="text-xs text-[#94a3b8]">{p.email}{p.company ? ` · ${p.company}` : ""}</div>
                     <TagEditor tags={p.tags} allTags={allTags} onAdd={(t) => addTag([p.id], t)} onRemove={(t) => removeTag([p.id], t)} />
                   </td>
@@ -439,7 +441,7 @@ export function LmsAdminUsers() {
                     </DropdownMenu>
                   </td>
                 </tr>
-              );
+  );
             })}
           </tbody>
         </table>
@@ -458,6 +460,7 @@ export function LmsAdminUsers() {
 
       {showImport && <ImportPeopleDialog products={products} existingTags={allTags} existingEmails={new Set(people.map((p) => p.email.toLowerCase()))} onClose={() => setShowImport(false)} onDone={load} />}
       {showAdd && <AddPersonDialog products={products} onClose={() => setShowAdd(false)} onDone={load} />}
+              {openPerson && <PersonRecord personId={openPerson.id} name={openPerson.name} email={openPerson.email} onClose={() => setOpenPerson(null)} />}
     </div>
   );
 }
@@ -521,4 +524,5 @@ function AddPersonDialog({ products, onClose, onDone }: { products: Product[]; o
       </form>
     </div>
   );
+
 }
