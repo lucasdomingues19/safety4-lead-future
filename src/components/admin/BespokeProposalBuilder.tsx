@@ -111,7 +111,7 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
         title: "Total",
         type: "text",
         content: {
-          body: "25 seats at £1,250 each: £31,250 in total, plus VAT where applicable. This offer is valid for 30 days from the date above.",
+          body: "25 seats at £1,250 each: £31,250 in total. VAT is not applicable. This offer is valid for 30 days from the date above.",
         },
         order: 3,
       },
