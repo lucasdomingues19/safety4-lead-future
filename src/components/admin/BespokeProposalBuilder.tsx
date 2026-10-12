@@ -67,66 +67,60 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
     contact_email: "jose.almeida@galp.com",
     contact_emails: ["jose.almeida@galp.com"],
     intro_note:
-      "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. Below is our proposal for 25 seats on Copilot for EHS & Sustainability.",
+      "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. We propose an in-person, hands-on Copilot training day at Galp's headquarters in Lisbon for up to 25 of your colleagues.",
     valid_until: "30",
     sections: [
       {
         id: crypto.randomUUID(),
         title: "Overview",
         type: "text",
-        content: {
-          body: "A hands-on programme that shows your EHS and sustainability team how to use Microsoft 365 Copilot on real safety work: policies, incident data, risk assessments, ESG reporting and Copilot Studio workflows. Every module is built around EHS tasks your team already does.",
-        },
+        content: { body: "A full-day, in-person Copilot workshop at Galp's headquarters in Lisbon, for up to 25 of your EHS and sustainability colleagues. The day is hands-on: each session uses EHS tasks your teams already do, so people leave able to use Microsoft 365 Copilot on real work." },
         order: 0,
       },
       {
         id: crypto.randomUUID(),
-        title: "Programme modules",
+        title: "Programme for the day",
         type: "list",
-        content: {
-          items: [
-            "Foundations: AI, GenAI and Microsoft 365 Copilot",
-            "Prompt engineering for EHS",
-            "Copilot in Word and Outlook: policies, procedures and safety communications",
-            "Copilot in Excel: incident, inspection and ESG data analysis",
-            "Copilot in Teams and PowerPoint: toolbox talks, meetings and training",
-            "Copilot Notebooks: building your EHS knowledge base",
-            "Risk assessments and incident investigations with Copilot",
-            "Sustainability and ESG reporting with Copilot",
-            "Agents and automation: Copilot Studio for EHS workflows",
-            "Responsible AI, governance and your Copilot roadmap",
-          ],
-        },
+        content: { items: ["Foundations: AI, GenAI and Microsoft 365 Copilot", "Prompt engineering for EHS", "Copilot in Word and Outlook: policies, procedures and safety communications", "Copilot in Excel: incident, inspection and ESG data analysis", "Copilot in Teams and PowerPoint: toolbox talks, meetings and training", "Copilot Notebooks: building your EHS knowledge base", "Risk assessments and incident investigations with Copilot", "Sustainability and ESG reporting with Copilot", "Agents and automation: Copilot Studio for EHS workflows", "Responsible AI, governance and your Copilot roadmap"] },
         order: 1,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Venue, date and format",
+        type: "text",
+        content: { body: "Format: in person, one full day.\nVenue: Galp headquarters, Lisbon.\nDate: second half of November 2026, to be confirmed.\nParticipants: up to 25." },
+        order: 2,
       },
       {
         id: crypto.randomUUID(),
         title: "Investment",
         type: "pricing_table",
-        content: {
-          tiers: [{ seats: "25 seats (list price £1,600 per seat)", price: 1250 }],
-        },
-        order: 2,
+        content: { tiers: [{ seats: "25 participants (per head)", price: 1250 }] },
+        order: 3,
       },
       {
         id: crypto.randomUUID(),
         title: "Total",
         type: "text",
-        content: {
-          body: "25 seats at £1,250 each: £31,250 in total. VAT is not applicable. This offer is valid for 30 days from the date above.",
-        },
-        order: 3,
+        content: { body: "25 participants at £1,250 each: £31,250 in total. VAT is not applicable. Travel and accommodation are billed at cost and are not included in this price." },
+        order: 4,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "What's included",
+        type: "list",
+        content: { items: ["Course materials for each participant", "A certificate of attendance for each participant (attendance only, not an accredited qualification)", "Follow-up support by email after the day"] },
+        order: 5,
       },
       {
         id: crypto.randomUUID(),
         title: "Next steps",
         type: "text",
-        content: {
-          body: "Confirm the 25 people who will join, and we'll set up their access within a few working days. Reply to this proposal or call to go ahead.",
-        },
-        order: 4,
+        content: { body: "Confirm the date in the second half of November, the list of 25 participants and a contact at Galp's headquarters. We'll then confirm the agenda and logistics." },
+        order: 6,
       },
     ],
+
   },
   expand_energy: {
     organisation: "Expand Energy",

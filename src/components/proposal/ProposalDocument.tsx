@@ -146,7 +146,6 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
             <ul className="list-disc list-inside space-y-1">
               <li>Recognised credentials your regulator, client and board understand.</li>
               <li>Rollout handled for you: seat allocation, progress tracking, completion reports.</li>
-              <li>14-day money-back guarantee on every programme.</li>
             </ul>
           </div>
         </Page>
@@ -299,8 +298,8 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
                 <dd>All prices exclude VAT, which is added where applicable.</dd>
               </div>
               <div>
-                <dt className="font-medium text-slate-900">Guarantee</dt>
-                <dd>14-day money-back guarantee from the date access is provisioned.</dd>
+                <dt className="font-medium text-slate-900">Refunds</dt>
+                <dd>Refund and cancellation terms are agreed in writing before the programme starts.</dd>
               </div>
             </dl>
           </div>
@@ -332,7 +331,7 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
               },
               {
                 t: "5. Refunds and cancellation",
-                b: "A 14-day money-back guarantee applies from the date access is provisioned. Requests after 14 days, or after a certificate has been issued, are not eligible for refund. Cohort places cancelled more than 14 days before the start date may be deferred to the next cohort at no charge.",
+                b: "Refund and cancellation terms are agreed in writing before the programme starts. Nothing in this proposal creates a refund right beyond those written terms.",
               },
               {
                 t: "6. Certification",
