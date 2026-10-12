@@ -68,7 +68,7 @@ export const ProgressCard = ({ g }: { g: MyGamification }) => {
                 {b.emoji}
                 {!has && <Lock size={11} className="absolute -bottom-0.5 -right-0.5 rounded-full bg-white p-0.5 text-[#94a3b8]" />}
               </div>
-              <div className={`mt-2 text-[11.5px] font-bold leading-tight ${has ? "text-[#0b0b2c]" : "text-[#94a3b8]"}`}>{b.name}</div>
+              <div className={`mt-2 text-[11.5px] font-bold leading-tight ${has ? "lms-keep-dark text-[#0b0b2c]" : "text-[#94a3b8]"}`}>{b.name}</div>
             </div>
           );
         })}

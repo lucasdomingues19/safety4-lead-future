@@ -173,6 +173,13 @@ All colors MUST be HSL.
   .lms-dark [style*="solid rgb(226, 232, 240)"] { border-color: #2a3658 !important; }
   .lms-dark [style*="solid rgb(241, 244, 248)"] { border-color: #26335e !important; }
 
+  /* Light surfaces that keep navy text in both themes (earned badge tiles) */
+  .lms-dark .lms-keep-dark { color: #0b0b2c !important; }
+  /* Headings */
+  .lms-dark h1, .lms-dark h2, .lms-dark h3, .lms-dark h4 { color: #f1f5ff; }
+  /* Translucent white top bar */
+  .lms-dark [style*="background: rgba(255, 255, 255, 0.86)"] { background: rgba(11, 18, 48, 0.92) !important; }
+
   /* Tailwind utilities used across the LMS */
   .lms-dark .bg-white { background-color: #141d3b !important; }
   .lms-dark .bg-slate-50 { background-color: #141d3b !important; }
