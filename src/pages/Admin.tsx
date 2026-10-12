@@ -21,6 +21,7 @@ import { FunctionsHttpError } from "@supabase/supabase-js";
 import { ZOOM_SCHEDULER_URL, openWhatsAppBusiness, getWhatsAppLeadMessage } from "@/lib/outreach";
 import { useAdminGuard } from "@/hooks/useAdminGuard";
 import { AnalyticsTrust } from "@/components/admin/AnalyticsTrust";
+import { markThisBrowserAsAdmin } from "@/utils/analytics";
 import { useAdminTheme } from "@/hooks/useAdminTheme";
 
 interface PageView {
@@ -106,6 +107,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (isAdmin) {
+      markThisBrowserAsAdmin();
       fetchAnalytics(dateRange);
     }
   }, [isAdmin, dateRange]);
@@ -766,28 +768,6 @@ const Admin = () => {
 
           </Card>
 
-          <Card className="bg-white dark:bg-slate-900 border-primary/30 shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Offer Clicks</CardTitle>
-              <ShoppingCart className="h-4 w-4 text-primary" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-primary">{stats.offerClicks.toLocaleString()}</div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Enrollment button clicks</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white dark:bg-slate-900 border-orange-300 shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Kajabi Click-throughs</CardTitle>
-              <Target className="h-4 w-4 text-orange-500 dark:text-orange-400" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-orange-500 dark:text-orange-400">{stats.kajabiClicks.toLocaleString()}</div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{stats.kajabiUniqueVisitors} unique visitors</p>
-            </CardContent>
-          </Card>
-
           <Card className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-slate-900 dark:text-slate-50">Avg. Session Duration</CardTitle>
@@ -868,51 +848,7 @@ const Admin = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-slate-900 border-primary/20 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-slate-900 dark:text-slate-50">Offer Clicks ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})</CardTitle>
-              <CardDescription className="text-slate-600 dark:text-slate-400">Daily enrollment button clicks</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.dailyOfferClicks}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
-                  <XAxis dataKey="date" stroke={chartColors.axis} />
-                  <YAxis stroke={chartColors.axis} allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
-                  <Legend />
-                  <Bar dataKey="clicks" fill="#3434FF" name="Offer Clicks" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
         </div>
-
-        {/* Kajabi Click-throughs Chart */}
-        <Card className="bg-white dark:bg-slate-900 border-orange-200 shadow-sm mb-8">
-          <CardHeader>
-            <CardTitle className="text-slate-900 dark:text-slate-50 flex items-center gap-2">
-              <Target className="h-5 w-5 text-orange-500 dark:text-orange-400" />
-              Kajabi Portal Click-throughs ({dateRange === '7days' ? 'Last 7 Days' : dateRange === '30days' ? 'Last 30 Days' : 'All Time'})
-            </CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400">
-              Visitors who clicked through to the enrollment page • Total: {stats.kajabiClicks} clicks from {stats.kajabiUniqueVisitors} unique visitors
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={stats.dailyKajabiClicks}>
-                <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
-                <XAxis dataKey="date" stroke={chartColors.axis} />
-                <YAxis stroke={chartColors.axis} allowDecimals={false} />
-                <Tooltip contentStyle={{ backgroundColor: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: 8, color: chartColors.tooltipText }} />
-                <Legend />
-                <Bar dataKey="clicks" fill="#f97316" name="Total Clicks" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="unique" fill="#fb923c" name="Unique Visitors" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
 
         {/* Lead Source Breakdown */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

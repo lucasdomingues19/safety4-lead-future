@@ -12,6 +12,11 @@ const isDevEnvironment = () => {
 // Page load timestamp for bot detection timing challenge
 const PAGE_LOAD_TIME = Date.now();
 
+// An admin's own browser is not a visitor: once the admin page has been opened here, nothing is recorded in it.
+const EXCLUDE_KEY = 'analytics_excluded';
+export const markThisBrowserAsAdmin = () => { try { localStorage.setItem(EXCLUDE_KEY, '1'); } catch { /* private mode */ } };
+const isExcludedBrowser = () => { try { return localStorage.getItem(EXCLUDE_KEY) === '1'; } catch { return false; } };
+
 // Generate or retrieve session ID
 const getSessionId = (): string => {
   let sessionId = sessionStorage.getItem('analytics_session_id');
@@ -37,7 +42,7 @@ const getBotChallengeFields = () => {
 // Track custom events via secure edge function (clicks, form submissions, etc.)
 export const trackEvent = async (eventType: string, eventData?: Record<string, unknown>) => {
   // Events use a stored session id, so they need analytics consent.
-  if (isDevEnvironment() || !hasAnalyticsConsent()) return;
+  if (isDevEnvironment() || isExcludedBrowser() || !hasAnalyticsConsent()) return;
   try {
     const sessionId = getSessionId();
     
@@ -173,7 +178,7 @@ const getCountryCode = async (): Promise<string> => {
 
 // Track page view with validation and rate limiting
 export const trackPageView = async (pagePath: string) => {
-  if (isDevEnvironment()) return;
+  if (isDevEnvironment() || isExcludedBrowser()) return;
   try {
     const countryCode = await getCountryCode();
     const consented = hasAnalyticsConsent();

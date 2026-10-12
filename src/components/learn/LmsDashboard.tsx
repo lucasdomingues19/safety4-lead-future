@@ -247,6 +247,8 @@ export function LmsDashboard({ setCurrentCourse, onNavigate }: { currentCourse?:
                   <div style={{ marginTop: "20px", fontSize: "19px", fontWeight: 700 }}>{c.title}</div>
                   {c.description && <div style={{ marginTop: "8px", fontSize: "14px", lineHeight: 1.6, color: "#69697b", flex: 1 }}>{c.description}</div>}
                   <button
+                    data-track="enrol"
+                    data-href={c.price_cents && c.price_cents > 0 ? `/student/checkout/${c.id}` : undefined}
                     onClick={() => enrol(c)}
                     disabled={enrollingId === c.id}
                     style={{ marginTop: "18px", border: 0, borderRadius: "8px", background: "#3434ff", color: "#fff", fontFamily: "inherit", fontSize: "13px", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", padding: "13px 18px", cursor: enrollingId === c.id ? "wait" : "pointer", opacity: enrollingId === c.id ? 0.7 : 1 }}

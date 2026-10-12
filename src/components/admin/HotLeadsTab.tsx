@@ -113,7 +113,14 @@ export const HotLeadsTab = () => {
 
       const pageViews = pageViewsResult.data as PageView[];
       const userEvents = (userEventsResult.data || []) as UserEvent[];
-      const rawLeadsData = (leadsResult.data || []) as LeadRecord[];
+      // Admins' own sign-ups and enquiries are not leads.
+      const { data: adminRows } = await supabase.from('user_roles').select('user_id').eq('role', 'admin');
+      const adminIds = (adminRows ?? []).map(r => r.user_id);
+      const { data: adminProfiles } = adminIds.length
+        ? await supabase.from('profiles').select('email').in('id', adminIds)
+        : { data: [] as { email: string | null }[] };
+      const adminEmails = new Set((adminProfiles ?? []).map(p => (p.email || '').toLowerCase()).filter(Boolean));
+      const rawLeadsData = ((leadsResult.data || []) as LeadRecord[]).filter(l => !adminEmails.has((l.email || '').toLowerCase()));
       const scorecardCompletions = scorecardResult.data || [];
 
       // Match leads to sessions by time proximity (lead created during or shortly after a session)
@@ -129,7 +136,7 @@ export const HotLeadsTab = () => {
       // Filter out admin sessions (sessions that accessed /admin page)
       const adminSessionIds = new Set(
         pageViews
-          .filter(pv => pv.page_path === '/admin')
+          .filter(pv => (pv.page_path || '').startsWith('/admin') || (pv.page_path || '').includes('view=admin'))
           .map(pv => pv.session_id)
       );
 
