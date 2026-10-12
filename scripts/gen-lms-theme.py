@@ -28,13 +28,15 @@ TEXT_DARK = {
     "#9a3412": "#fdba74", "#b45309": "#fcd34d", "#c2410c": "#fdba74", "#7a4b00": "#fcd34d", "#a05a00": "#fcd34d",
     "#8a5a00": "#fcd34d", "#7c2d12": "#fdba74",
     "#be185d": "#f9a8d4", "#0a66c2": "#7fb6ff", "#2c23d2": "#a5a0ff",
+    "#991b1b": "#fca5a5", "#dc2626": "#fca5a5", "#5555ff": "#a5a9ff",
+    "#0f766e": "#5eead4", "#7c3aed": "#c4b5fd", "#0369a1": "#7dd3fc",
 }
 BLUE_TINT, LIME_TINT, RED_TINT, AMBER_TINT = "rgba(91, 99, 255, 0.16)", "rgba(158, 255, 31, 0.10)", "rgba(244, 63, 94, 0.13)", "rgba(251, 146, 60, 0.13)"
-BG_DARK = {"#fff": SURFACE, "#ffffff": SURFACE, "#eef1f6": PAGE, "#0b0b2c": ACTIVE, "#e2e8f0": BORDER}
+BG_DARK = {"#fff": SURFACE, "#ffffff": SURFACE, "#fafafa": SURFACE, "#eef1f6": PAGE, "#0b0b2c": ACTIVE, "#e2e8f0": BORDER, "#fbfcff": RAISED}
 for h in ["#f5f7fa", "#f7f8fc", "#f8fafc", "#fafbfc", "#f1f5f9", "#eef0f6", "#f1f4f8"]: BG_DARK[h] = RAISED
-for h in ["#f1f4ff", "#f5f7ff", "#f7f8ff", "#fafbff", "#eef1ff", "#e8ecff", "#eef0ff", "#f3f8ff", "#f1f4fb", "#ece9ff"]: BG_DARK[h] = BLUE_TINT
-for h in ["#f4fbe4", "#ecffd1", "#f7fde8", "#e8ffbd", "#fbfdf7"]: BG_DARK[h] = LIME_TINT
-for h in ["#fef2f2", "#fff1f2", "#fff5f5", "#fdf2f8"]: BG_DARK[h] = RED_TINT
+for h in ["#f1f4ff", "#f5f7ff", "#f7f8ff", "#fafbff", "#eef1ff", "#e8ecff", "#eef0ff", "#f3f8ff", "#f1f4fb", "#ece9ff", "#e8e8ff"]: BG_DARK[h] = BLUE_TINT
+for h in ["#f4fbe4", "#ecffd1", "#f7fde8", "#e8ffbd", "#fbfdf7", "#f2fcd9"]: BG_DARK[h] = LIME_TINT
+for h in ["#fef2f2", "#fff1f2", "#fff5f5", "#fdf2f8", "#fee2e2"]: BG_DARK[h] = RED_TINT
 for h in ["#fff7e6", "#fff4e5", "#fff7ed"]: BG_DARK[h] = AMBER_TINT
 BORDER_DARK = {}
 for h in ["#e2e8f0", "#f1f4f8", "#eef1f6", "#cbd5e1", "#cfd6e4", "#dfe5ee", "#c9d8f0", "#f5f7fa"]: BORDER_DARK[h] = BORDER
@@ -98,5 +100,13 @@ for h in LIME_SOLID:
              f"html.lms-dark {tw('bg', h)}", f"html.lms-dark {tw('bg', h)} *"]
 keep += ["html.lms-dark .lms-keep-dark"]
 out.append(", ".join(keep) + " { color: #0b0b2c !important; }")
+out += ["", "/* badges (Gamification.tsx): designed for the dark theme */",
+    "html.lms-dark .lms-badge--earned { background: linear-gradient(180deg, rgba(158, 255, 31, 0.16), rgba(158, 255, 31, 0.04)) !important; border-color: rgba(158, 255, 31, 0.45) !important; }",
+    "html.lms-dark .lms-badge--earned .lms-badge-icon { background: rgba(11, 18, 48, 0.65) !important; box-shadow: 0 0 0 1px rgba(158, 255, 31, 0.45), 0 0 18px rgba(158, 255, 31, 0.22) !important; }",
+    "html.lms-dark .lms-badge--earned .lms-badge-name { color: #e6ffc2 !important; }",
+    "html.lms-dark .lms-badge--locked { background: #121b3a !important; border-color: #222c52 !important; }",
+    "html.lms-dark .lms-badge--locked .lms-badge-icon { background: #1a2448 !important; }",
+    "html.lms-dark .lms-badge--locked .lms-badge-name { color: #8794b3 !important; }",
+    "html.lms-dark .lms-badge-lock { background: #26325a !important; color: #a9b4cf !important; }"]
 open("src/lms-theme.css", "w").write("\n".join(out) + "\n")
 print("wrote src/lms-theme.css:", len(out), "lines")

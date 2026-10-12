@@ -63,12 +63,12 @@ export const ProgressCard = ({ g }: { g: MyGamification }) => {
         {BADGES.map((b) => {
           const has = g.badges[b.id];
           return (
-            <div key={b.id} title={has ? `${b.name} — earned` : `${b.name}: ${b.hint}`} className={`flex flex-col items-center rounded-2xl border px-2 py-3 text-center ${has ? "border-[#d9f09a] bg-[#f7fde8]" : "border-[#eef1f6] bg-[#fafbfc]"}`}>
-              <div className={`relative flex h-11 w-11 items-center justify-center rounded-full text-2xl ${has ? "bg-white shadow-sm" : "bg-[#eef1f6] grayscale opacity-50"}`}>
+            <div key={b.id} title={has ? `${b.name} — earned` : `${b.name}: ${b.hint}`} className={`lms-badge ${has ? "lms-badge--earned" : "lms-badge--locked"} flex flex-col items-center rounded-2xl border px-2 py-3 text-center ${has ? "border-[#d9f09a] bg-[#f7fde8]" : "border-[#eef1f6] bg-[#fafbfc]"}`}>
+              <div className={`lms-badge-icon relative flex h-11 w-11 items-center justify-center rounded-full text-2xl ${has ? "bg-white shadow-sm" : "bg-[#eef1f6] grayscale opacity-50"}`}>
                 {b.emoji}
-                {!has && <Lock size={11} className="absolute -bottom-0.5 -right-0.5 rounded-full bg-white p-0.5 text-[#94a3b8]" />}
+                {!has && <Lock size={11} className="lms-badge-lock absolute -bottom-0.5 -right-0.5 rounded-full bg-white p-0.5 text-[#94a3b8]" />}
               </div>
-              <div className={`mt-2 text-[11.5px] font-bold leading-tight ${has ? "lms-keep-dark text-[#0b0b2c]" : "text-[#94a3b8]"}`}>{b.name}</div>
+              <div className={`lms-badge-name mt-2 text-[11.5px] font-bold leading-tight ${has ? "text-[#0b0b2c]" : "text-[#94a3b8]"}`}>{b.name}</div>
             </div>
           );
         })}

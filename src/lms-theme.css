@@ -29,9 +29,11 @@ html.lms-dark { background: #0b1230; color-scheme: dark; }
 /* surfaces */
 .lms-dark [style*="background: rgb(255, 255, 255)"], .lms-dark [style*="background-color: rgb(255, 255, 255)"], .lms-dark .bg-\[\#fff\], .lms-dark .hover\:bg-\[\#fff\]:hover { background-color: #121b3a !important; }
 .lms-dark [style*="background: rgb(255, 255, 255)"], .lms-dark [style*="background-color: rgb(255, 255, 255)"], .lms-dark .bg-\[\#ffffff\], .lms-dark .hover\:bg-\[\#ffffff\]:hover { background-color: #121b3a !important; }
+.lms-dark [style*="background: rgb(250, 250, 250)"], .lms-dark [style*="background-color: rgb(250, 250, 250)"], .lms-dark .bg-\[\#fafafa\], .lms-dark .hover\:bg-\[\#fafafa\]:hover { background-color: #121b3a !important; }
 .lms-dark [style*="background: rgb(238, 241, 246)"], .lms-dark [style*="background-color: rgb(238, 241, 246)"], .lms-dark .bg-\[\#eef1f6\], .lms-dark .hover\:bg-\[\#eef1f6\]:hover { background-color: #0b1230 !important; }
 .lms-dark [style*="background: rgb(11, 11, 44)"], .lms-dark [style*="background-color: rgb(11, 11, 44)"], .lms-dark .bg-\[\#0b0b2c\], .lms-dark .hover\:bg-\[\#0b0b2c\]:hover { background-color: #26335e !important; }
 .lms-dark [style*="background: rgb(226, 232, 240)"], .lms-dark [style*="background-color: rgb(226, 232, 240)"], .lms-dark .bg-\[\#e2e8f0\], .lms-dark .hover\:bg-\[\#e2e8f0\]:hover { background-color: #26325a !important; }
+.lms-dark [style*="background: rgb(251, 252, 255)"], .lms-dark [style*="background-color: rgb(251, 252, 255)"], .lms-dark .bg-\[\#fbfcff\], .lms-dark .hover\:bg-\[\#fbfcff\]:hover { background-color: #18224a !important; }
 .lms-dark [style*="background: rgb(245, 247, 250)"], .lms-dark [style*="background-color: rgb(245, 247, 250)"], .lms-dark .bg-\[\#f5f7fa\], .lms-dark .hover\:bg-\[\#f5f7fa\]:hover { background-color: #18224a !important; }
 .lms-dark [style*="background: rgb(247, 248, 252)"], .lms-dark [style*="background-color: rgb(247, 248, 252)"], .lms-dark .bg-\[\#f7f8fc\], .lms-dark .hover\:bg-\[\#f7f8fc\]:hover { background-color: #18224a !important; }
 .lms-dark [style*="background: rgb(248, 250, 252)"], .lms-dark [style*="background-color: rgb(248, 250, 252)"], .lms-dark .bg-\[\#f8fafc\], .lms-dark .hover\:bg-\[\#f8fafc\]:hover { background-color: #18224a !important; }
@@ -49,15 +51,18 @@ html.lms-dark { background: #0b1230; color-scheme: dark; }
 .lms-dark [style*="background: rgb(243, 248, 255)"], .lms-dark [style*="background-color: rgb(243, 248, 255)"], .lms-dark .bg-\[\#f3f8ff\], .lms-dark .hover\:bg-\[\#f3f8ff\]:hover { background-color: rgba(91, 99, 255, 0.16) !important; }
 .lms-dark [style*="background: rgb(241, 244, 251)"], .lms-dark [style*="background-color: rgb(241, 244, 251)"], .lms-dark .bg-\[\#f1f4fb\], .lms-dark .hover\:bg-\[\#f1f4fb\]:hover { background-color: rgba(91, 99, 255, 0.16) !important; }
 .lms-dark [style*="background: rgb(236, 233, 255)"], .lms-dark [style*="background-color: rgb(236, 233, 255)"], .lms-dark .bg-\[\#ece9ff\], .lms-dark .hover\:bg-\[\#ece9ff\]:hover { background-color: rgba(91, 99, 255, 0.16) !important; }
+.lms-dark [style*="background: rgb(232, 232, 255)"], .lms-dark [style*="background-color: rgb(232, 232, 255)"], .lms-dark .bg-\[\#e8e8ff\], .lms-dark .hover\:bg-\[\#e8e8ff\]:hover { background-color: rgba(91, 99, 255, 0.16) !important; }
 .lms-dark [style*="background: rgb(244, 251, 228)"], .lms-dark [style*="background-color: rgb(244, 251, 228)"], .lms-dark .bg-\[\#f4fbe4\], .lms-dark .hover\:bg-\[\#f4fbe4\]:hover { background-color: rgba(158, 255, 31, 0.10) !important; }
 .lms-dark [style*="background: rgb(236, 255, 209)"], .lms-dark [style*="background-color: rgb(236, 255, 209)"], .lms-dark .bg-\[\#ecffd1\], .lms-dark .hover\:bg-\[\#ecffd1\]:hover { background-color: rgba(158, 255, 31, 0.10) !important; }
 .lms-dark [style*="background: rgb(247, 253, 232)"], .lms-dark [style*="background-color: rgb(247, 253, 232)"], .lms-dark .bg-\[\#f7fde8\], .lms-dark .hover\:bg-\[\#f7fde8\]:hover { background-color: rgba(158, 255, 31, 0.10) !important; }
 .lms-dark [style*="background: rgb(232, 255, 189)"], .lms-dark [style*="background-color: rgb(232, 255, 189)"], .lms-dark .bg-\[\#e8ffbd\], .lms-dark .hover\:bg-\[\#e8ffbd\]:hover { background-color: rgba(158, 255, 31, 0.10) !important; }
 .lms-dark [style*="background: rgb(251, 253, 247)"], .lms-dark [style*="background-color: rgb(251, 253, 247)"], .lms-dark .bg-\[\#fbfdf7\], .lms-dark .hover\:bg-\[\#fbfdf7\]:hover { background-color: rgba(158, 255, 31, 0.10) !important; }
+.lms-dark [style*="background: rgb(242, 252, 217)"], .lms-dark [style*="background-color: rgb(242, 252, 217)"], .lms-dark .bg-\[\#f2fcd9\], .lms-dark .hover\:bg-\[\#f2fcd9\]:hover { background-color: rgba(158, 255, 31, 0.10) !important; }
 .lms-dark [style*="background: rgb(254, 242, 242)"], .lms-dark [style*="background-color: rgb(254, 242, 242)"], .lms-dark .bg-\[\#fef2f2\], .lms-dark .hover\:bg-\[\#fef2f2\]:hover { background-color: rgba(244, 63, 94, 0.13) !important; }
 .lms-dark [style*="background: rgb(255, 241, 242)"], .lms-dark [style*="background-color: rgb(255, 241, 242)"], .lms-dark .bg-\[\#fff1f2\], .lms-dark .hover\:bg-\[\#fff1f2\]:hover { background-color: rgba(244, 63, 94, 0.13) !important; }
 .lms-dark [style*="background: rgb(255, 245, 245)"], .lms-dark [style*="background-color: rgb(255, 245, 245)"], .lms-dark .bg-\[\#fff5f5\], .lms-dark .hover\:bg-\[\#fff5f5\]:hover { background-color: rgba(244, 63, 94, 0.13) !important; }
 .lms-dark [style*="background: rgb(253, 242, 248)"], .lms-dark [style*="background-color: rgb(253, 242, 248)"], .lms-dark .bg-\[\#fdf2f8\], .lms-dark .hover\:bg-\[\#fdf2f8\]:hover { background-color: rgba(244, 63, 94, 0.13) !important; }
+.lms-dark [style*="background: rgb(254, 226, 226)"], .lms-dark [style*="background-color: rgb(254, 226, 226)"], .lms-dark .bg-\[\#fee2e2\], .lms-dark .hover\:bg-\[\#fee2e2\]:hover { background-color: rgba(244, 63, 94, 0.13) !important; }
 .lms-dark [style*="background: rgb(255, 247, 230)"], .lms-dark [style*="background-color: rgb(255, 247, 230)"], .lms-dark .bg-\[\#fff7e6\], .lms-dark .hover\:bg-\[\#fff7e6\]:hover { background-color: rgba(251, 146, 60, 0.13) !important; }
 .lms-dark [style*="background: rgb(255, 244, 229)"], .lms-dark [style*="background-color: rgb(255, 244, 229)"], .lms-dark .bg-\[\#fff4e5\], .lms-dark .hover\:bg-\[\#fff4e5\]:hover { background-color: rgba(251, 146, 60, 0.13) !important; }
 .lms-dark [style*="background: rgb(255, 247, 237)"], .lms-dark [style*="background-color: rgb(255, 247, 237)"], .lms-dark .bg-\[\#fff7ed\], .lms-dark .hover\:bg-\[\#fff7ed\]:hover { background-color: rgba(251, 146, 60, 0.13) !important; }
@@ -89,6 +94,12 @@ html.lms-dark { background: #0b1230; color-scheme: dark; }
 .lms-dark [style*="color: rgb(190, 24, 93)"], .lms-dark .text-\[\#be185d\], .lms-dark .hover\:text-\[\#be185d\]:hover { color: #f9a8d4 !important; }
 .lms-dark [style*="color: rgb(10, 102, 194)"], .lms-dark .text-\[\#0a66c2\], .lms-dark .hover\:text-\[\#0a66c2\]:hover { color: #7fb6ff !important; }
 .lms-dark [style*="color: rgb(44, 35, 210)"], .lms-dark .text-\[\#2c23d2\], .lms-dark .hover\:text-\[\#2c23d2\]:hover { color: #a5a0ff !important; }
+.lms-dark [style*="color: rgb(153, 27, 27)"], .lms-dark .text-\[\#991b1b\], .lms-dark .hover\:text-\[\#991b1b\]:hover { color: #fca5a5 !important; }
+.lms-dark [style*="color: rgb(220, 38, 38)"], .lms-dark .text-\[\#dc2626\], .lms-dark .hover\:text-\[\#dc2626\]:hover { color: #fca5a5 !important; }
+.lms-dark [style*="color: rgb(85, 85, 255)"], .lms-dark .text-\[\#5555ff\], .lms-dark .hover\:text-\[\#5555ff\]:hover { color: #a5a9ff !important; }
+.lms-dark [style*="color: rgb(15, 118, 110)"], .lms-dark .text-\[\#0f766e\], .lms-dark .hover\:text-\[\#0f766e\]:hover { color: #5eead4 !important; }
+.lms-dark [style*="color: rgb(124, 58, 237)"], .lms-dark .text-\[\#7c3aed\], .lms-dark .hover\:text-\[\#7c3aed\]:hover { color: #c4b5fd !important; }
+.lms-dark [style*="color: rgb(3, 105, 161)"], .lms-dark .text-\[\#0369a1\], .lms-dark .hover\:text-\[\#0369a1\]:hover { color: #7dd3fc !important; }
 /* borders */
 .lms-dark [style*="solid rgb(226, 232, 240)"], .lms-dark [style*="border-color: rgb(226, 232, 240)"], .lms-dark .border-\[\#e2e8f0\], .lms-dark .hover\:border-\[\#e2e8f0\]:hover { border-color: #26325a !important; }
 .lms-dark [style*="solid rgb(241, 244, 248)"], .lms-dark [style*="border-color: rgb(241, 244, 248)"], .lms-dark .border-\[\#f1f4f8\], .lms-dark .hover\:border-\[\#f1f4f8\]:hover { border-color: #26325a !important; }
@@ -118,3 +129,12 @@ html.lms-dark { background: #0b1230; color-scheme: dark; }
 .lms-dark .border-slate-200, .lms-dark .border-slate-100 { border-color: #26325a !important; }
 /* navy text stays navy on lime buttons and on surfaces marked lms-keep-dark */
 html.lms-dark [style*="background: rgb(158, 255, 31)"], html.lms-dark [style*="background: rgb(158, 255, 31)"] *, html.lms-dark .bg-\[\#9eff1f\], html.lms-dark .bg-\[\#9eff1f\] *, html.lms-dark [style*="background: rgb(166, 226, 26)"], html.lms-dark [style*="background: rgb(166, 226, 26)"] *, html.lms-dark .bg-\[\#a6e21a\], html.lms-dark .bg-\[\#a6e21a\] *, html.lms-dark [style*="background: rgb(132, 204, 22)"], html.lms-dark [style*="background: rgb(132, 204, 22)"] *, html.lms-dark .bg-\[\#84cc16\], html.lms-dark .bg-\[\#84cc16\] *, html.lms-dark .lms-keep-dark { color: #0b0b2c !important; }
+
+/* badges (Gamification.tsx): designed for the dark theme */
+html.lms-dark .lms-badge--earned { background: linear-gradient(180deg, rgba(158, 255, 31, 0.16), rgba(158, 255, 31, 0.04)) !important; border-color: rgba(158, 255, 31, 0.45) !important; }
+html.lms-dark .lms-badge--earned .lms-badge-icon { background: rgba(11, 18, 48, 0.65) !important; box-shadow: 0 0 0 1px rgba(158, 255, 31, 0.45), 0 0 18px rgba(158, 255, 31, 0.22) !important; }
+html.lms-dark .lms-badge--earned .lms-badge-name { color: #e6ffc2 !important; }
+html.lms-dark .lms-badge--locked { background: #121b3a !important; border-color: #222c52 !important; }
+html.lms-dark .lms-badge--locked .lms-badge-icon { background: #1a2448 !important; }
+html.lms-dark .lms-badge--locked .lms-badge-name { color: #8794b3 !important; }
+html.lms-dark .lms-badge-lock { background: #26325a !important; color: #a9b4cf !important; }
