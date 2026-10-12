@@ -48,7 +48,19 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
   const ordered = [...sections].sort((a, b) => a.order - b.order);
 
   return (
-    <div className="mx-auto max-w-4xl bg-white text-[#0b0b2c]">
+    <div className="bespoke-doc mx-auto max-w-4xl bg-white text-[#0b0b2c]">
+      {/* Printing: A4 pages, no section split across two pages, no empty page at the end */}
+      <style>{`
+        @media print {
+          @page { size: A4; margin: 14mm; }
+          .bespoke-doc { max-width: none; }
+          .bespoke-doc section, .bespoke-doc li, .bespoke-doc table, .bespoke-doc tr { break-inside: avoid; page-break-inside: avoid; }
+          .bespoke-doc h2 { break-after: avoid; page-break-after: avoid; }
+          .bespoke-doc footer { break-before: auto; }
+          .bespoke-doc > div:last-child { padding-bottom: 0 !important; }
+        }
+      `}</style>
+
       {/* Cover */}
       <header className="px-8 pt-12 pb-10 md:px-14">
         <img src={logo} alt="SafetyTech Academy" className="h-10 w-auto" />
