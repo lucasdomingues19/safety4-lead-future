@@ -147,7 +147,7 @@ export function LmsAdminAccess() {
   };
 
   const getInitialColor = (initial: string) => {
-    const colors = ["#3434ff", "#8ab815", "#5555ff", "#b8d430", "#2a2ad6"];
+    const colors = ["#3434ff", "#2c23d2", "#5555ff", "#202058", "#2a2ad6"]; // white initials stay readable on each
     return colors[initial.charCodeAt(0) % colors.length];
   };
 

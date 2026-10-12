@@ -127,7 +127,7 @@ export function LmsMyLearning({ onNavigate }: { onNavigate?: (screen: string) =>
                     </button>
                     <button onClick={() => navigate(`/learn/${c.slug}`)} className="inline-flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] px-4 py-2.5 text-[13.5px] font-bold hover:border-[#c7cdf9]"><ListChecks size={15} /> Curriculum</button>
                     {cert && (
-                      <a href={linkedInPostUrl(linkedInPostText(c.title, `https://www.safetytech.academy/verify/${encodeURIComponent(cert.certificate_number)}`, courseMeta(c.title, c.slug).landing))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-[#c9d8f0] bg-[#f3f8ff] px-4 py-2.5 text-[13.5px] font-bold text-[#0A66C2] hover:border-[#0A66C2]">Share on LinkedIn</a>
+                      <a href={linkedInPostUrl(linkedInPostText(c.title, `https://www.safetytech.academy/verify/${encodeURIComponent(cert.certificate_number)}`, courseMeta(c.title, c.slug).landing))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-[#c9d8f0] bg-[#f3f8ff] px-4 py-2.5 text-[13.5px] font-bold text-[#0a66c2] hover:border-[#0a66c2]">Share on LinkedIn</a>
                     )}
                     {cert && (
                       <a href={`/verify/${encodeURIComponent(cert.certificate_number)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-lg border border-[#d9f09a] bg-[#f7fde8] px-4 py-2.5 text-[13.5px] font-bold text-[#3f6212] hover:border-[#a6e21a]"><Award size={15} /> Certificate</a>
