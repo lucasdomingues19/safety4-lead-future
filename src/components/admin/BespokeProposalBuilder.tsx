@@ -58,7 +58,74 @@ const sectionTemplates = {
   },
 };
 
-const proposalTemplates = {
+const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposal> = {
+  galp_copilot: {
+    organisation: "Galp",
+    contact_name: "Jose Almeida",
+    contact_email: "jose.almeida@galp.com",
+    contact_emails: ["jose.almeida@galp.com"],
+    intro_note:
+      "Thank you for speaking with us about Microsoft 365 Copilot for your EHS and sustainability teams. Below is our proposal for 25 seats on Copilot for EHS & Sustainability.",
+    valid_until: "30",
+    sections: [
+      {
+        id: crypto.randomUUID(),
+        title: "Overview",
+        type: "text",
+        content: {
+          body: "A hands-on programme that shows your EHS and sustainability team how to use Microsoft 365 Copilot on real safety work: policies, incident data, risk assessments, ESG reporting and Copilot Studio workflows. Every module is built around EHS tasks your team already does.",
+        },
+        order: 0,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Programme modules",
+        type: "list",
+        content: {
+          items: [
+            "Foundations: AI, GenAI and Microsoft 365 Copilot",
+            "Prompt engineering for EHS",
+            "Copilot in Word and Outlook: policies, procedures and safety communications",
+            "Copilot in Excel: incident, inspection and ESG data analysis",
+            "Copilot in Teams and PowerPoint: toolbox talks, meetings and training",
+            "Copilot Notebooks: building your EHS knowledge base",
+            "Risk assessments and incident investigations with Copilot",
+            "Sustainability and ESG reporting with Copilot",
+            "Agents and automation: Copilot Studio for EHS workflows",
+            "Responsible AI, governance and your Copilot roadmap",
+          ],
+        },
+        order: 1,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Investment",
+        type: "pricing_table",
+        content: {
+          tiers: [{ seats: "25 seats (list price £1,600 per seat)", price: 1250 }],
+        },
+        order: 2,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Total",
+        type: "text",
+        content: {
+          body: "25 seats at £1,250 each: £31,250 in total. This offer is valid for 30 days from the date above.",
+        },
+        order: 3,
+      },
+      {
+        id: crypto.randomUUID(),
+        title: "Next steps",
+        type: "text",
+        content: {
+          body: "Confirm the 25 people who will join, and we'll set up their access within a few working days. Reply to this proposal or call to go ahead.",
+        },
+        order: 4,
+      },
+    ],
+  },
   expand_energy: {
     organisation: "Expand Energy",
     contact_name: "Jane Smith",
@@ -244,8 +311,8 @@ export const BespokeProposalBuilder = () => {
           contact_email: form.contact_emails[0],
           contact_emails_json: form.contact_emails,
           intro_note: form.intro_note || null,
-          valid_until: parseInt(form.valid_until) || 30,
-          sections: form.sections,
+          valid_until: new Date(Date.now() + (parseInt(form.valid_until) || 30) * 86400000).toISOString().slice(0, 10),
+          sections: JSON.parse(JSON.stringify(form.sections)),
           proposal_type: "bespoke",
           status: "draft",
         });
@@ -339,6 +406,14 @@ export const BespokeProposalBuilder = () => {
                   className="bg-white text-purple-700 border-purple-200 hover:bg-purple-50"
                 >
                   Expand Energy Template
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setForm(proposalTemplates.galp_copilot)}
+                  className="bg-white text-purple-700 border-purple-200 hover:bg-purple-50"
+                >
+                  Galp · Copilot 25 seats
                 </Button>
               </div>
             </div>
