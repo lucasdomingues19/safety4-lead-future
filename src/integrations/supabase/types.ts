@@ -1820,6 +1820,7 @@ export type Database = {
           approver_name: string | null
           approver_note: string | null
           contact_email: string | null
+          contact_emails_json: Json
           contact_name: string | null
           contact_role: string | null
           created_at: string
@@ -1829,7 +1830,9 @@ export type Database = {
           intro_note: string | null
           items: Json
           organisation: string
+          proposal_type: string
           responded_at: string | null
+          sections: Json
           status: string
           token: string
           updated_at: string
@@ -1840,6 +1843,7 @@ export type Database = {
           approver_name?: string | null
           approver_note?: string | null
           contact_email?: string | null
+          contact_emails_json?: Json
           contact_name?: string | null
           contact_role?: string | null
           created_at?: string
@@ -1849,7 +1853,9 @@ export type Database = {
           intro_note?: string | null
           items?: Json
           organisation: string
+          proposal_type?: string
           responded_at?: string | null
+          sections?: Json
           status?: string
           token?: string
           updated_at?: string
@@ -1860,6 +1866,7 @@ export type Database = {
           approver_name?: string | null
           approver_note?: string | null
           contact_email?: string | null
+          contact_emails_json?: Json
           contact_name?: string | null
           contact_role?: string | null
           created_at?: string
@@ -1869,7 +1876,9 @@ export type Database = {
           intro_note?: string | null
           items?: Json
           organisation?: string
+          proposal_type?: string
           responded_at?: string | null
+          sections?: Json
           status?: string
           token?: string
           updated_at?: string

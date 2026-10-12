@@ -145,7 +145,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
                       <tr key={i} className="border-b border-slate-200">
                         <td className="py-3 px-4">{tier.seats}</td>
                         <td className="py-3 px-4 font-semibold">
-                          ${tier.price.toLocaleString()}
+                          £{tier.price.toLocaleString()}
                         </td>
                       </tr>
                     )
@@ -176,7 +176,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
                     Hourly rate (loaded cost)
                   </p>
                   <p className="text-2xl font-bold">
-                    ${section.content.data?.hourlyRate}
+                    £{section.content.data?.hourlyRate}
                   </p>
                 </div>
                 <div className="bg-slate-50 p-4 rounded">
