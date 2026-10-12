@@ -20,6 +20,7 @@ interface ProposalSection {
 interface BespokeProposal {
   organisation: string;
   contact_name: string;
+  contact_role?: string;
   contact_email: string;
   contact_emails: string[]; // Multiple recipients
   intro_note: string;
@@ -62,6 +63,7 @@ const proposalTemplates: Record<"expand_energy" | "galp_copilot", BespokeProposa
   galp_copilot: {
     organisation: "Galp",
     contact_name: "Jose Almeida",
+    contact_role: "Corporate Head Safety & Security",
     contact_email: "jose.almeida@galp.com",
     contact_emails: ["jose.almeida@galp.com"],
     intro_note:
@@ -308,6 +310,7 @@ export const BespokeProposalBuilder = () => {
         .insert({
           organisation: form.organisation,
           contact_name: form.contact_name || null,
+          contact_role: form.contact_role || null,
           contact_email: form.contact_emails[0],
           contact_emails_json: form.contact_emails,
           intro_note: form.intro_note || null,

@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { CheckCircle2, Loader2, Download, Lock, Globe, Mail, Phone } from "lucide-react";
 import logo from "@/assets/safety-academy-logo.png";
 import ProposalDocument from "@/components/proposal/ProposalDocument";
+import { BespokeProposalDocument } from "@/components/proposal/BespokeProposalDocument";
 import { asProposal, type Proposal } from "@/lib/proposals";
 
 const ProposalPage = ({ token: tokenProp }: { token?: string }) => {
@@ -194,7 +195,20 @@ const ProposalPage = ({ token: tokenProp }: { token?: string }) => {
         </div>
       </div>
 
-      <ProposalDocument proposal={proposal} />
+      {(proposal as any).proposal_type === "bespoke" ? (
+        <BespokeProposalDocument
+          organisation={proposal.organisation}
+          contact_name={proposal.contact_name ?? undefined}
+          contact_role={(proposal as any).contact_role ?? undefined}
+          intro_note={proposal.intro_note ?? undefined}
+          sections={(proposal as any).sections ?? []}
+          valid_until={proposal.valid_until ?? undefined}
+          token={proposal.token}
+          created_at={proposal.created_at}
+        />
+      ) : (
+        <ProposalDocument proposal={proposal} />
+      )}
 
       {/* Acceptance (screen only — page 2 of the printed PDF carries the terms) */}
       <div className="print:hidden max-w-4xl mx-auto px-6 pb-12">

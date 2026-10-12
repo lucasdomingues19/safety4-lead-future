@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "@/assets/brand-logo.png";
 
 interface ProposalSection {
   id: string;
@@ -11,217 +12,175 @@ interface ProposalSection {
 interface BespokeProposalDocumentProps {
   organisation: string;
   contact_name?: string;
+  contact_role?: string;
   intro_note?: string;
   sections: ProposalSection[];
   valid_until?: string;
   token: string;
   created_at: string;
+  title?: string;
 }
+
+const isCurriculum = (s: ProposalSection) =>
+  s.type === "list" && /module|curriculum|programme|program/i.test(s.title);
+
+const firstNumber = (text: string) => {
+  const m = text.match(/\d[\d,]*/);
+  return m ? Number(m[0].replace(/,/g, "")) : null;
+};
+
+const money = (n: number) => `£${n.toLocaleString("en-GB")}`;
 
 export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = ({
   organisation,
   contact_name,
+  contact_role,
   intro_note,
   sections,
   valid_until,
-  token,
   created_at,
+  title = "AI & Safety Technology Training",
 }) => {
-  const issuedDate = new Date(created_at).toLocaleDateString("en-GB", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
-  const validUntilDate = valid_until
-    ? new Date(
-        Date.now() + parseInt(valid_until) * 24 * 60 * 60 * 1000
-      ).toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+  const issued = new Date(created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  const validUntil = valid_until
+    ? new Date(valid_until).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : null;
+  const ordered = [...sections].sort((a, b) => a.order - b.order);
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white text-slate-900">
-      {/* Header */}
-      <div className="mb-12 pb-8 border-b">
-        <h1 className="text-3xl font-bold mb-2">Proposal</h1>
-        <h2 className="text-xl text-slate-600 mb-8">
-          AI & Safety Technology Training for EHS & Sustainability Professionals
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-8 text-sm">
+    <div className="mx-auto max-w-4xl bg-white text-[#0b0b2c]">
+      {/* Cover */}
+      <header className="px-8 pt-12 pb-10 md:px-14">
+        <img src={logo} alt="SafetyTech Academy" className="h-10 w-auto" />
+        <p className="mt-14 text-xs font-bold uppercase tracking-[0.2em] text-[#3434ff]">Proposal</p>
+        <h1 className="mt-3 text-4xl font-extrabold leading-tight md:text-5xl">{title}</h1>
+        <div className="mt-8 grid gap-8 border-t border-slate-200 pt-6 text-sm md:grid-cols-3">
           <div>
-            <p className="text-slate-500 mb-1">PREPARED FOR</p>
-            <p className="font-semibold text-lg">{organisation}</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">Prepared for</p>
+            <p className="mt-1 text-lg font-bold">{organisation}</p>
             {contact_name && <p className="text-slate-600">{contact_name}</p>}
+            {contact_role && <p className="text-slate-500">{contact_role}</p>}
           </div>
           <div>
-            <p className="text-slate-500 mb-1">PREPARED BY</p>
-            <p className="font-semibold">Lucas Domingues</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">Prepared by</p>
+            <p className="mt-1 font-bold">Lucas Domingues</p>
             <p className="text-slate-600">Founder, SafetyTech Academy</p>
-            <p className="text-slate-600">lucas@safetytech.academy</p>
+            <p className="text-slate-600">hello@safetytech.academy</p>
+          </div>
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">Dates</p>
+            <p className="mt-1">Issued {issued}</p>
+            {validUntil && <p className="text-slate-600">Valid until {validUntil}</p>}
           </div>
         </div>
+      </header>
 
-        <div className="mt-6 pt-6 border-t text-xs text-slate-500">
-          <p>Issued on {issuedDate}</p>
-          {validUntilDate && <p>Valid until {validUntilDate}</p>}
-          <p>Commercial in confidence</p>
-        </div>
-      </div>
+      <div className="h-1.5 bg-gradient-to-r from-[#3434ff] via-[#2c23d2] to-[#9eff1f]" />
 
-      {/* Intro Note */}
-      {intro_note && (
-        <div className="mb-12 pb-8 border-b">
-          <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
+      <div className="space-y-12 px-8 py-12 md:px-14">
+        {intro_note && (
+          <section className="rounded-2xl bg-[#f5f7ff] p-6 text-[15px] leading-relaxed text-slate-700 whitespace-pre-wrap">
             {intro_note}
-          </p>
-        </div>
-      )}
+          </section>
+        )}
 
-      {/* Sections */}
-      {sections.map((section) => (
-        <div key={section.id} className="mb-10 pb-8 border-b last:border-b-0">
-          <h3 className="text-2xl font-bold mb-6">{section.title}</h3>
-
-          {/* Text Section */}
-          {section.type === "text" && (
-            <div className="text-slate-700 leading-relaxed whitespace-pre-wrap">
-              {section.content.body}
+        {ordered.map((section, index) => (
+          <section key={section.id} className="scroll-mt-8">
+            <div className="mb-5 flex items-baseline gap-3">
+              <span className="text-xs font-bold tabular-nums text-[#3434ff]">{String(index + 1).padStart(2, "0")}</span>
+              <h2 className="text-2xl font-bold">{section.title}</h2>
             </div>
-          )}
 
-          {/* Table Section */}
-          {section.type === "table" && (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b-2 border-slate-300">
-                    {section.content.headers?.map((header: string, i: number) => (
-                      <th
-                        key={i}
-                        className="text-left py-3 px-4 font-semibold bg-slate-50"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {section.content.rows?.map((row: string[], ri: number) => (
-                    <tr key={ri} className="border-b border-slate-200">
-                      {row.map((cell: string, ci: number) => (
-                        <td key={ci} className="py-3 px-4">
-                          {cell}
-                        </td>
+            {section.type === "text" && (
+              <p className="whitespace-pre-wrap border-l-4 border-[#3434ff] pl-5 text-[15px] leading-relaxed text-slate-700">
+                {section.content.body}
+              </p>
+            )}
+
+            {isCurriculum(section) && (
+              <ol className="grid gap-3 md:grid-cols-2">
+                {(section.content.items ?? []).map((item: string, i: number) => (
+                  <li key={i} className="flex gap-4 rounded-xl border border-slate-200 bg-white p-4">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#3434ff] text-sm font-extrabold text-white">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="pt-1 text-[15px] font-semibold leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ol>
+            )}
+
+            {section.type === "list" && !isCurriculum(section) && (
+              <ul className="space-y-3">
+                {(section.content.items ?? []).map((item: string, i: number) => (
+                  <li key={i} className="flex gap-3 text-[15px] leading-relaxed text-slate-700">
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#9eff1f] ring-1 ring-[#3434ff]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {section.type === "table" && (
+              <div className="overflow-x-auto rounded-xl border border-slate-200">
+                <table className="w-full border-collapse text-sm">
+                  <thead className="bg-[#0b0b2c] text-left text-white">
+                    <tr>
+                      {section.content.headers?.map((h: string, i: number) => (
+                        <th key={i} className="px-4 py-3 font-semibold">{h}</th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* Pricing Table */}
-          {section.type === "pricing_table" && (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b-2 border-slate-300">
-                    <th className="text-left py-3 px-4 font-semibold bg-slate-50">
-                      Enrolment
-                    </th>
-                    <th className="text-left py-3 px-4 font-semibold bg-slate-50">
-                      Price per Seat
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {section.content.tiers?.map(
-                    (tier: any, i: number) => (
-                      <tr key={i} className="border-b border-slate-200">
-                        <td className="py-3 px-4">{tier.seats}</td>
-                        <td className="py-3 px-4 font-semibold">
-                          £{tier.price.toLocaleString()}
-                        </td>
+                  </thead>
+                  <tbody>
+                    {section.content.rows?.map((row: string[], ri: number) => (
+                      <tr key={ri} className="border-t border-slate-200">
+                        {row.map((cell: string, ci: number) => (
+                          <td key={ci} className="px-4 py-3">{cell}</td>
+                        ))}
                       </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
-
-          {/* ROI Table */}
-          {section.type === "roi_table" && (
-            <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-slate-50 p-4 rounded">
-                  <p className="text-slate-500 text-sm">Participants trained</p>
-                  <p className="text-2xl font-bold">
-                    {section.content.data?.participants}
-                  </p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded">
-                  <p className="text-slate-500 text-sm">Time saved per week</p>
-                  <p className="text-2xl font-bold">
-                    {section.content.data?.timePerWeek} hour
-                  </p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded">
-                  <p className="text-slate-500 text-sm">
-                    Hourly rate (loaded cost)
-                  </p>
-                  <p className="text-2xl font-bold">
-                    £{section.content.data?.hourlyRate}
-                  </p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded">
-                  <p className="text-slate-500 text-sm">Annual savings</p>
-                  <p className="text-2xl font-bold">
-                    $
-                    {(
-                      section.content.data?.participants *
-                      section.content.data?.timePerWeek *
-                      section.content.data?.hourlyRate *
-                      52
-                    ).toLocaleString()}
-                  </p>
-                </div>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* List Section */}
-          {section.type === "list" && (
-            <ul className="space-y-2">
-              {section.content.items?.map((item: string, i: number) => (
-                <li key={i} className="flex gap-3 text-slate-700">
-                  <span className="text-primary font-bold">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
+            {section.type === "pricing_table" && (
+              <div className="overflow-hidden rounded-2xl border border-slate-200">
+                <table className="w-full border-collapse text-[15px]">
+                  <thead className="bg-slate-50 text-left text-xs uppercase tracking-wider text-slate-500">
+                    <tr>
+                      <th className="px-5 py-3 font-semibold">Enrolment</th>
+                      <th className="px-5 py-3 text-right font-semibold">Price per seat</th>
+                      <th className="px-5 py-3 text-right font-semibold">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(section.content.tiers ?? []).map((tier: any, i: number) => {
+                      const seats = firstNumber(String(tier.seats ?? ""));
+                      return (
+                        <tr key={i} className="border-t border-slate-200">
+                          <td className="px-5 py-4">{tier.seats}</td>
+                          <td className="px-5 py-4 text-right font-semibold">{money(Number(tier.price))}</td>
+                          <td className="px-5 py-4 text-right font-extrabold text-[#3434ff]">
+                            {seats ? money(seats * Number(tier.price)) : "—"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        ))}
 
-      {/* Footer */}
-      <div className="mt-12 pt-8 border-t text-sm text-slate-600">
-        <p>
-          To proceed or discuss any element of this proposal, contact Lucas
-          Domingues
-        </p>
-        <p className="mt-2">
-          lucas@safetytech.academy · safetytech.academy
-        </p>
-        <p className="mt-4 text-xs text-slate-500">
-          This proposal is valid for {valid_until} days. Please confirm
-          acceptance via email.
-        </p>
+        <footer className="border-t border-slate-200 pt-8 text-sm text-slate-600">
+          <p className="font-bold text-[#0b0b2c]">Lucas Domingues</p>
+          <p>MSc, CMIOSH · Founder, SafetyTech Academy</p>
+          <p className="mt-4 text-xs text-slate-500">
+            Commercial in confidence. Prices are in pounds sterling. Any VAT is shown in the total line.
+          </p>
+        </footer>
       </div>
     </div>
   );
