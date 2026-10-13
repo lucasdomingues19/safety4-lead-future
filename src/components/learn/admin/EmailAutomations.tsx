@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Bell, Eye, Lock, Mail, X } from "lucide-react";
+import { Bell, Eye, Lock, Mail, Send, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { invokeFunction } from "@/lib/invoke";
@@ -23,6 +23,7 @@ const AUTOMATIONS: Automation[] = [
   { group: "Re-engagement", kind: "nudge_60", name: "Still want to finish?", trigger: "No learning activity for 60 days", channels: ["email", "in-app"] },
   { group: "Re-engagement", kind: "nudge_90", name: "We've kept your place (last reminder)", trigger: "No learning activity for 90 days", channels: ["email", "in-app"] },
   { group: "Re-engagement", kind: "access_expiring", name: "Access ending soon", trigger: "Course access ends within 7 days and the course isn't finished", channels: ["email", "in-app"] },
+  { group: "Progress", kind: "review_request", name: "Google review request", trigger: "5–30 days after a learner finishes every lesson of a course, once per course (starts switched off)", channels: ["email"] },
   { group: "Live sessions", kind: "event_reminder", name: "Live session starting soon", trigger: "1 hour before a live session the learner registered for", channels: ["email", "in-app"] },
 ];
 
@@ -44,7 +45,8 @@ export function EmailAutomations() {
   const [loading, setLoading] = useState(true);
   const [enabled, setEnabled] = useState<Record<string, boolean>>({});
   const [stats, setStats] = useState<Record<string, Stat>>({});
-  const [preview, setPreview] = useState<{ name: string; subject: string; html: string } | null>(null);
+  const [preview, setPreview] = useState<{ kind: string; name: string; subject: string; html: string } | null>(null);
+  const [sendingTest, setSendingTest] = useState(false);
   const [previewing, setPreviewing] = useState<string | null>(null);
 
   useEffect(() => {
@@ -79,11 +81,24 @@ export function EmailAutomations() {
     setPreviewing(a.kind);
     try {
       const out = await invokeFunction<{ subject: string; html: string }>("lifecycle-messages", { preview: a.kind });
-      setPreview({ name: a.name, ...out });
+      setPreview({ kind: a.kind, name: a.name, ...out });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Couldn't load the preview");
     } finally {
       setPreviewing(null);
+    }
+  };
+
+  const sendTest = async () => {
+    if (!preview) return;
+    setSendingTest(true);
+    try {
+      const out = await invokeFunction<{ sentTo: string }>("lifecycle-messages", { preview: preview.kind, sendTest: true });
+      toast.success(`Test sent to ${out.sentTo}`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Couldn't send the test");
+    } finally {
+      setSendingTest(false);
     }
   };
 
@@ -157,6 +172,7 @@ export function EmailAutomations() {
                 <div style={{ marginTop: 4, fontSize: 15, fontWeight: 700 }}>Subject: {preview.subject}</div>
                 <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 2 }}>From SafetyTech Academy &lt;hello@safetytech.academy&gt; · filled in with sample learner data</div>
               </div>
+              <button type="button" onClick={sendTest} disabled={sendingTest} style={{ display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid #cbd5e1", background: "#fff", borderRadius: 8, padding: "7px 12px", fontSize: 12.5, fontWeight: 700, color: "#0b0b2c", cursor: sendingTest ? "wait" : "pointer", flex: "none" }}><Send size={13} /> {sendingTest ? "Sending…" : "Email me this test"}</button>
               <button type="button" onClick={() => setPreview(null)} aria-label="Close preview" style={{ border: 0, background: "none", cursor: "pointer", color: "#69697b" }}><X size={20} /></button>
             </div>
             <iframe title="Email preview" srcDoc={preview.html} sandbox="" style={{ border: 0, width: "100%", height: "70vh", background: "#f1f5f9" }} />

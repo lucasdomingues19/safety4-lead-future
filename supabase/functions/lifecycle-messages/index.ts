@@ -226,6 +226,13 @@ Deno.serve(async (req) => {
       if (REMINDER_KINDS.has(body.preview)) {
         out.html = out.html.replace("Questions? Just reply to this email.", `Questions? Just reply to this email.<br><a href="#" style="color:#94a3b8;">Stop learning reminders</a> · <a href="#" style="color:#94a3b8;">Email settings</a>`);
       }
+      // "Email me this test": goes only to the signed-in admin's own address, never to a learner.
+      if (body.sendTest === true) {
+        if (!admin.email) return json({ error: "Your account has no email address" }, 400);
+        const res = await resendSend(Deno.env.get("RESEND_API_KEY") ?? "", { from: FROM, to: [admin.email], reply_to: "hello@safetytech.academy", subject: `[Test] ${out.subject}`, html: out.html, text: htmlToText(out.html) });
+        if (!res.ok) return json({ error: `The email provider refused it (${res.status})` }, 502);
+        return json({ ...out, sentTo: admin.email });
+      }
       return json(out);
     }
   }
@@ -305,7 +312,7 @@ Deno.serve(async (req) => {
     const msgs: Msg[] = [];
     // Progress emails ("module complete", "final ready"...) only go to people who have actually signed in:
     // imported or migrated progress must never trigger a message to someone who hasn't heard from us yet.
-    const PROGRESS_KINDS = new Set(["module_complete", "final_ready", "course_complete"]);
+    const PROGRESS_KINDS = new Set(["module_complete", "final_ready", "course_complete", "review_request"]);
     const signedInIds = new Set(users.filter((x: any) => x.last_sign_in_at).map((x: any) => x.id));
     const want = (m: Msg) => {
       if (PROGRESS_KINDS.has(m.kind) && !signedInIds.has(m.userId)) return;
