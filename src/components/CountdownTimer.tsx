@@ -52,7 +52,7 @@ export const CountdownTimer = () => {
             <span className="text-lime-400">✓</span> Lifetime Platform Access
           </span>
           <span className="flex items-center gap-1">
-            <span className="text-lime-400">✓</span> 14-Day Money-Back
+            <span className="text-lime-400">✓</span> 7-Day Money-Back
           </span>
           <span className="flex items-center gap-1">
             <span className="text-lime-400">✓</span> Expert Masterclasses

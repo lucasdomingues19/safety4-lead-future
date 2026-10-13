@@ -118,8 +118,9 @@ export default function TermsConditions() {
               <h2 className="text-2xl font-semibold text-slate-900 mb-4">6. Refund and Cancellation Policy</h2>
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">6.1 Refund Eligibility</h3>
               <p>
-                We offer a 14-day money-back guarantee from the date of purchase, provided you have not 
-                completed more than 20% of the course content or obtained certification.
+                Self-paced online courses come with a 7-day money-back guarantee from the date of purchase, provided you have not 
+                completed more than 20% of the course content or obtained certification. Guarantee terms for live cohort
+                programmes are stated on each programme page.
               </p>
 
               <h3 className="text-lg font-semibold text-slate-900 mb-2 mt-3">6.2 Refund Process</h3>
@@ -136,6 +137,7 @@ export default function TermsConditions() {
                 <li>Completed courses with issued certificates</li>
                 <li>Promotional or discounted courses (unless required by law)</li>
                 <li>Corporate or bulk licenses</li>
+                <li>Live and in-person training, including bespoke in-company sessions. Refund and cancellation terms for these are agreed in writing before the session is confirmed</li>
               </ul>
             </section>
 

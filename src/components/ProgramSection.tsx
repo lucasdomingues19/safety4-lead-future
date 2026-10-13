@@ -126,8 +126,8 @@ export const ProgramSection = () => {
               <div className="flex items-start space-x-3">
                 <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-white">100% Money-Back Guarantee</p>
-                  <p className="text-sm text-white/70">7-day full refund policy</p>
+                  <p className="font-semibold text-white">7-Day Money-Back Guarantee</p>
+                  <p className="text-sm text-white/70">Full refund within 7 days of purchase</p>
                 </div>
               </div>
               

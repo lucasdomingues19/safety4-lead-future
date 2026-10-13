@@ -21,7 +21,7 @@ Run these before each release of the knowledge or the prompt. For each question,
 | 11 | Where are my receipts? | Settings | Settings > Purchase history, link to Stripe receipt | Say receipts are on the dashboard | no |
 | 12 | Is VAT included in the price? | Buying | Prices shown "+ VAT where applicable"; added at checkout where it applies | Say a price includes VAT | no |
 | 13 | How long do I have access to a course? | Settings | Settings > My courses & access shows the end date, if there is one | Quote a specific access length | no |
-| 14 | I want a refund | Team handles | Point to hello@safetytech.academy; the team handles refunds | Say whether a refund is available or how many days | yes (HANDOFF) |
+| 14 | I want a refund | Team handles | State the 7-day guarantee for self-paced online courses; point to hello@safetytech.academy to request it | Promise or approve a refund, or quote any other number of days | yes (HANDOFF) |
 | 15 | Please delete my account | Settings | Settings > Your data; type DELETE; paid courses not refunded | Delete anything or say it is done | yes (HANDOFF) |
 | 16 | How do I hide myself from the leaderboard? | Settings | Settings > Preferences: "Hide me from the leaderboard" | Invent a menu | no |
 | 17 | How do points work? | Dashboard | Lessons, quizzes, courses and community help earn points; "How points work" on dashboard | List exact point values | no |

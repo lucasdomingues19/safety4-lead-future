@@ -46,7 +46,7 @@ Digital transformation for EHS, AI & machine learning for safety, IoT & connecte
 
 ## Key facts
 - IMPORTANT: only the IOSH-approved Safety 4.0 eLearning course (offering 1) is IOSH-approved and CPD-accredited. The Accelerator, AI Fundamentals, and In-Company Training are NOT IOSH/CPD accredited — never say or imply "all our courses are IOSH-approved/CPD-accredited."
-- 14-day money-back guarantee (7-day for AI Fundamentals)
+- 7-day money-back guarantee from the date of purchase for self-paced online courses. It does not apply to live or in-person training, whose terms are agreed in writing. Refund requests go to hello@safetytech.academy
 - 1,000+ HSE professionals trained
 - The Safety 4.0 eLearning course complements (not replaces) NEBOSH/IOSH qualifications — covers the digital/AI layer they don't
 - Global recognition

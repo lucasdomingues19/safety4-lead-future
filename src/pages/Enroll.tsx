@@ -457,7 +457,7 @@ const Enroll = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span>100% money-back guarantee</span>
+                    <span>7-day money-back guarantee</span>
                   </div>
                 </div>
               </div>

@@ -80,7 +80,7 @@ export const FinalCTASection = () => {
           {/* Info */}
           <div className="text-white/70 space-y-2">
             <p className="text-sm">
-              IOSH & CPD Approved • 90-Day Course Access • 14-Day Money Back Guarantee
+              IOSH & CPD Approved • 90-Day Course Access • 7-Day Money-Back Guarantee
             </p>
           </div>
         </div>

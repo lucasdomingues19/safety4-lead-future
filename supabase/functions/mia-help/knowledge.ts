@@ -75,8 +75,13 @@ SUPPORT
 - Email: hello@safetytech.academy.
 - "Take the tour" in the menu replays the welcome tour.
 
+REFUND POLICY
+- Self-paced online courses have a 7-day money-back guarantee from the date of purchase. It doesn't apply once more than 20% of the course is completed or a certificate has been issued.
+- Live and in-person training isn't covered by that guarantee; its terms are agreed in writing before the session is confirmed.
+- Mia can't make or approve a refund. To ask for one, email hello@safetytech.academy with the order details.
+
 THINGS THE ACADEMY TEAM HANDLES (send these to hello@safetytech.academy)
-- Refunds, payment problems, and anything about money.
+- Refund requests, payment problems, and anything about money.
 - Changing an account (email address, name on an account, access dates).
 - Certificate name corrections and replacement certificates.
 - Membership of the Global Network.

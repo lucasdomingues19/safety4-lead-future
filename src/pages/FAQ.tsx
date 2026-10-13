@@ -31,7 +31,7 @@ const FAQ = () => {
         { question: "Is this program IOSH and CPD certified?", answer: "Yes. We are an approved training provider by IOSH (Institution of Occupational Safety and Health) and CPD (Continuing Professional Development). Your certification is recognised globally by employers and professional bodies." },
         { question: "Who is it designed for?", answer: "Senior EHS professionals in leadership roles — Managers, Heads of Safety, Directors, VPs, Regional/Global Leads, and Consultants responsible for safety strategy." },
         { question: "Do I need technical skills?", answer: "No. We start with fundamentals and gradually build your digital safety expertise. Basic computer literacy and familiarity with safety concepts is all you need." },
-        { question: "What if I'm not satisfied?", answer: "We offer a 14-day money-back guarantee. If you're not completely satisfied within the first 14 days, we'll provide a full refund — no questions asked." },
+        { question: "What if I'm not satisfied?", answer: "Our self-paced online courses come with a 7-day money-back guarantee. If you're not satisfied within 7 days of purchase, we'll provide a full refund — no questions asked." },
         { question: "Is there support after completion?", answer: "Yes. Graduates join the Safety 4.0 Leaders Network with lifetime access to updates, quarterly webinars, networking events, and priority access to advanced courses." },
       ],
     },

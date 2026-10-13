@@ -50,7 +50,7 @@ serve(async (req) => {
 User Role: ${body.userRole || "student"}
 ${body.courseContext ? `Current Course: ${body.courseContext.courseName}` : ""}
 
-Be helpful, professional, and encouraging. Keep responses concise but informative. If asked about billing or refunds, direct them to support@safetytech.com.`;
+Be helpful, professional, and encouraging. Keep responses concise but informative. If asked about billing or refunds, tell them self-paced online courses have a 7-day money-back guarantee from the date of purchase, and to email hello@safetytech.academy to request a refund.`;
 
     // Build messages array
     const messages: Array<{

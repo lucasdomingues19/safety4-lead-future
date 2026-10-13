@@ -36,7 +36,7 @@ const Support = () => {
     {
       id: 5,
       question: "What if I need a refund?",
-      answer: "We offer a 7-day money-back guarantee for all paid courses. Please contact support with your order details to request a refund.",
+      answer: "Self-paced online courses come with a 7-day money-back guarantee from the date of purchase. Email hello@safetytech.academy with your order details to request a refund. Live and in-person training is not covered by the guarantee; its terms are agreed in writing before the session is confirmed.",
     },
     {
       id: 6,

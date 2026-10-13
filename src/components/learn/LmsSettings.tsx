@@ -374,7 +374,7 @@ function YourDataCard() {
           <p className="text-[15px] font-bold text-[#7f1d1d]">Delete your account permanently?</p>
           <p className="mt-1.5 text-[13px] leading-relaxed text-[#7f1d1d]/80">
             This removes your profile, course access, progress, quiz results and community posts. It can't be undone,
-            and paid courses won't be refunded. Your certificates stay verifiable unless you tick the box below.
+            and paid courses won't be refunded. If you're within the 7-day guarantee, email hello@safetytech.academy before you delete. Your certificates stay verifiable unless you tick the box below.
           </p>
           <label className="mt-4 flex items-start gap-2.5 text-[13px] text-[#7f1d1d]">
             <input type="checkbox" checked={alsoCertificates} onChange={(e) => setAlsoCertificates(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[#b91c1c]" />

@@ -159,7 +159,7 @@ const AIFundamentals = () => {
               { q: "Is the certificate recognised by employers?", a: "You will receive a Certificate of Completion issued by SafetyTech Academy, an approved training provider by IOSH. It demonstrates practical AI literacy in an EHS context." },
               { q: "Can my employer pay for this course?", a: "Yes. At checkout you can use a company card or request an invoice. Many learners expense this as professional development." },
               { q: "What is the time commitment?", a: "The course is 90 minutes in total, split into 5 short modules. You can complete it in one sitting or across multiple sessions." },
-              { q: "Is there a money-back guarantee?", a: "Yes. If you are not satisfied, contact us within 7 days of purchase for a full refund — no questions asked." },
+              { q: "Is there a money-back guarantee?", a: "Yes. If you are not satisfied, contact us within 7 days of purchase for a full refund." },
               { q: "Will this teach me to build AI systems?", a: "No. This course focuses on using AI tools responsibly and effectively in EHS workflows — not coding or building models." },
             ].map((item, i) => (
               <AccordionItem key={i} value={`ai-faq-${i}`} className="border-slate-200">
