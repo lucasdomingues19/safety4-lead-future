@@ -138,7 +138,7 @@ export function MiaHelp() {
                 placeholder="Ask about the academy…"
                 aria-label="Your question for Mia"
                 style={{ color: "#0b0b2c", WebkitTextFillColor: "#0b0b2c", backgroundColor: "#ffffff" }}
-                className="max-h-24 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-sm placeholder:text-slate-400 focus:border-[#3434ff] focus:outline-none"
+                className="lms-mia-input max-h-24 flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-sm placeholder:text-slate-400 focus:border-[#3434ff] focus:outline-none"
               />
               <button type="submit" disabled={busy || !input.trim()} aria-label="Send" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#3434ff] text-white disabled:opacity-40">
                 <ArrowUp size={18} />
@@ -153,10 +153,10 @@ export function MiaHelp() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Ask Mia for help"
-          className="fixed bottom-20 right-3 z-[35] flex items-center gap-2 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_10px_30px_rgba(11,11,44,.18)] sm:bottom-6 sm:right-6"
+          className="fixed bottom-20 right-3 z-[35] flex items-center gap-2 rounded-full bg-white py-1.5 pl-1.5 pr-1.5 shadow-[0_10px_30px_rgba(11,11,44,.18)] sm:bottom-6 sm:right-6 sm:pr-4"
         >
           <MiaAvatar size={44} />
-          <span className="text-sm font-extrabold text-[#0b0b2c]">Ask Mia</span>
+          <span className="hidden text-sm font-extrabold text-[#0b0b2c] sm:inline">Ask Mia</span>
         </button>
       )}
     </>

@@ -107,6 +107,8 @@ out += ["", "/* badges (Gamification.tsx): designed for the dark theme */",
     "html.lms-dark .lms-badge--locked { background: #121b3a !important; border-color: #222c52 !important; }",
     "html.lms-dark .lms-badge--locked .lms-badge-icon { background: #1a2448 !important; }",
     "html.lms-dark .lms-badge--locked .lms-badge-name { color: #8794b3 !important; }",
+    "html.lms-dark .lms-mia-input { color: #eef2ff !important; -webkit-text-fill-color: #eef2ff !important; background-color: #18224a !important; border-color: #3a4775 !important; }",
+    "html.lms-dark .lms-mia-input::placeholder { color: #8794b3 !important; -webkit-text-fill-color: #8794b3 !important; }",
     "html.lms-dark .lms-tint-panel { background: linear-gradient(135deg, rgba(91, 99, 255, 0.16), rgba(158, 255, 31, 0.07)) !important; border: 1px solid #26325a; }",
     "html.lms-dark .lms-badge-lock { background: #26325a !important; color: #a9b4cf !important; }"]
 open("src/lms-theme.css", "w").write("\n".join(out) + "\n")
