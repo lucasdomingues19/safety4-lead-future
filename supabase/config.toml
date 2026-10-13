@@ -70,3 +70,6 @@ verify_jwt = false
 
 [functions.mia-help]
 verify_jwt = false
+
+[functions.welcome-link]
+verify_jwt = false

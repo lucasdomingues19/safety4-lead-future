@@ -54,6 +54,7 @@ const Brochure = lazy(() => import("./pages/BrochureInteractive"));
 const LearnAuth = lazy(() => import("./pages/learn/LearnAuth"));
 const ResetPassword = lazy(() => import("./pages/learn/ResetPassword"));
 const AuthConfirm = lazy(() => import("./pages/learn/AuthConfirm"));
+const WelcomeLink = lazy(() => import("./pages/learn/WelcomeLink"));
 const LmsInterface = lazy(() => import("./pages/learn/LmsInterface"));
 const CourseView = lazy(() => import("./pages/learn/CourseView"));
 const LessonView = lazy(() => import("./pages/learn/LessonView"));
@@ -201,6 +202,7 @@ const App = () => (
             <Route path="/learn/auth" element={<LearnAuth />} />
             <Route path="/learn/reset-password" element={<ResetPassword />} />
             <Route path="/learn/auth/confirm" element={<AuthConfirm />} />
+            <Route path="/learn/welcome" element={<WelcomeLink />} />
             <Route path="/learn" element={<ProtectedRoute><LmsInterface /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug" element={<ProtectedRoute><CourseView /></ProtectedRoute>} />
             <Route path="/learn/:courseSlug/lesson/:lessonId" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />

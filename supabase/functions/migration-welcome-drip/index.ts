@@ -2,7 +2,8 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { AuthError, requireAdmin } from "../_shared/auth.ts";
 import { sleep } from "../_shared/emailText.ts";
-import { sendMigrationWelcome, type MovedCourse } from "../_shared/migrationWelcome.ts";
+import { sendMigrationReminder, sendMigrationWelcome, type MovedCourse } from "../_shared/migrationWelcome.ts";
+import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 
 // Sends the "your courses have a new home" email to Kajabi learners a few at a time.
 //   cron (x-cron-secret)  run    -> sends the next batch, if the drip is switched on
@@ -18,6 +19,8 @@ const DAILY_BUDGET = 90;    // matches lifecycle-messages
 const RESERVE = 10;         // headroom for certificates, quiz mail and anything else that day
 const PER_RUN = 8;          // small batches, spread over the day
 const KIND = "migration_welcome";
+const REMIND_KIND = "migration_reminder";
+const REMIND_AFTER_DAYS = 3;  // a welcome must be at least this old before we nudge
 
 const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret" };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -34,12 +37,13 @@ serve(async (req) => {
   const body = await req.json().catch(() => ({})) as { action?: string; enabled?: boolean; daily_cap?: number; dry_run?: boolean };
   const cron = safeEqual(req.headers.get("x-cron-secret") ?? "", Deno.env.get("LIFECYCLE_CRON_SECRET") ?? "");
   let adminEmail: string | null = null;
+  let adminId: string | null = null;
   if (!cron) {
-    try { adminEmail = (await requireAdmin(req)).email ?? null; } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
+    try { const a = await requireAdmin(req); adminEmail = a.email ?? null; adminId = a.id; } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
   }
   const action = body.action ?? "run";
 
-  const { data: cfg } = await db.from("migration_drip_config").select("enabled, daily_cap").eq("id", 1).single();
+  const { data: cfg } = await db.from("migration_drip_config").select("enabled, daily_cap, reminder_enabled, reminder_deadline").eq("id", 1).single();
   const since = new Date(Date.now() - DAY).toISOString();
   const { count: sentLast24h } = await db.from("email_log").select("id", { count: "exact", head: true }).gte("sent_at", since);
   const { count: dripLast24h } = await db.from("email_log").select("id", { count: "exact", head: true }).eq("kind", KIND).gte("sent_at", since);
@@ -86,20 +90,39 @@ serve(async (req) => {
     if (cron) return json({ error: "Admins only" }, 403);
     const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
     if (typeof body.enabled === "boolean") patch.enabled = body.enabled;
+    if (typeof (body as { reminder_enabled?: boolean }).reminder_enabled === "boolean") patch.reminder_enabled = (body as { reminder_enabled?: boolean }).reminder_enabled;
+    if (typeof (body as { reminder_deadline?: string | null }).reminder_deadline !== "undefined") patch.reminder_deadline = String((body as { reminder_deadline?: string | null }).reminder_deadline ?? "").slice(0, 40) || null;
     if (Number.isFinite(body.daily_cap)) patch.daily_cap = Math.max(1, Math.min(90, Math.floor(body.daily_cap!)));
     await db.from("migration_drip_config").update(patch).eq("id", 1);
     return json({ ok: true, ...patch });
   }
 
-  const link = async (email: string) => {
-    const { data, error } = await db.auth.admin.generateLink({ type: "recovery", email, options: { redirectTo: `${SITE}/learn/reset-password?welcome=1` } });
-    if (error || !data?.properties?.hashed_token) throw new Error(error?.message ?? "Could not create link");
-    return `${SITE}/learn/auth/confirm?token_hash=${encodeURIComponent(data.properties.hashed_token)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
+  // Where each person is in each course, for the "where you are" list.
+  const courseSummary = async (userId: string): Promise<MovedCourse[]> => {
+    const courses: MovedCourse[] = [];
+    const { data: enr } = await db.from("enrollments").select("course_id, courses(title)").eq("user_id", userId).eq("status", "active");
+    for (const e of enr ?? []) {
+      const { data: lessons } = await db.from("lessons").select("id, modules!inner(course_id)").eq("modules.course_id", e.course_id);
+      const ids = (lessons ?? []).map((l: { id: string }) => l.id);
+      const { count: done } = ids.length
+        ? await db.from("lesson_progress").select("id", { count: "exact", head: true }).eq("user_id", userId).eq("is_completed", true).in("lesson_id", ids)
+        : { count: 0 };
+      const title = (e as unknown as { courses: { title: string } | null }).courses?.title;
+      if (title) courses.push({ title, pct: ids.length ? Math.round(((done ?? 0) / ids.length) * 100) : 0 });
+    }
+    return courses;
   };
+
+  // A 14-day link of our own (Supabase's own one-time links die after 24 hours).
+  const link = async (userId: string) => `${SITE}/learn/welcome?t=${encodeURIComponent(await createWelcomeToken(db, userId))}`;
 
   if (action === "test") {
     if (cron || !adminEmail) return json({ error: "Admins only" }, 403);
     const v = (body as { variant?: string }).variant ?? "learner";
+    if (v === "reminder") {
+      const err = await sendMigrationReminder(adminEmail, "Alex Morgan", await link(adminId!), [{ title: "Fundamentals of AI in EHS", pct: 52 }], { deadline: cfg?.reminder_deadline ?? null });
+      return json({ ok: !err, sent_to: adminEmail, error: err });
+    }
     const until = "6 October 2027";
     const err = v === "network"
       ? await sendMigrationWelcome(adminEmail, "Alex Morgan", `${SITE}/learn/auth`, [], { networkUntil: until })
@@ -131,6 +154,46 @@ serve(async (req) => {
     if (au?.user?.last_sign_in_at) { await db.from("migration_welcome_queue").update({ sent_at: au.user.last_sign_in_at }).eq("user_id", q.user_id); continue; }
     picked.push({ id: q.user_id, email: prof.email, name: prof.full_name ?? "" });
   }
+  // ---- reminders: nobody left to welcome, so nudge the people who still haven't signed in (once each) ----
+  if (picked.length === 0 && (cfg?.reminder_enabled || !sending)) {
+    const { data: done } = await db.from("email_log").select("user_id").eq("kind", REMIND_KIND);
+    const reminded = new Set((done ?? []).map((r: { user_id: string }) => r.user_id));
+    const { data: admins } = await db.from("user_roles").select("user_id").eq("role", "admin");
+    const adminIds = new Set((admins ?? []).map((a: { user_id: string }) => a.user_id));
+    const cutoff = Date.now() - REMIND_AFTER_DAYS * DAY;
+    const { data: sentQ } = await db.from("migration_welcome_queue").select("user_id, sent_at, priority, last_active").not("sent_at", "is", null)
+      .order("priority").order("last_active", { ascending: false, nullsFirst: false });
+    const due: { id: string; email: string; name: string }[] = [];
+    for (const q of sentQ ?? []) {
+      if (due.length >= batch) break;
+      if (reminded.has(q.user_id) || adminIds.has(q.user_id) || new Date(q.sent_at).getTime() > cutoff) continue;
+      const { data: prof } = await db.from("profiles").select("id, email, full_name, email_reminders").eq("id", q.user_id).maybeSingle();
+      if (!prof?.email || prof.email_reminders === false) continue;
+      const { data: au } = await db.auth.admin.getUserById(q.user_id);
+      if (au?.user?.last_sign_in_at) continue;
+      due.push({ id: q.user_id, email: prof.email, name: prof.full_name ?? "" });
+    }
+    if (!sending) return json({ dry_run: true, reminders_enabled: !!cfg?.reminder_enabled, would_remind: due.map((p) => ({ name: p.name, email: p.email.replace(/^(.).*(@.*)$/, "$1***$2") })), room });
+    const sentR: { email: string; ok: boolean; error?: string }[] = [];
+    for (const p of due) {
+      const { error: claim } = await db.from("email_log").insert({ user_id: p.id, kind: REMIND_KIND, dedupe_key: "v1", status: "sending" });
+      if (claim) { sentR.push({ email: p.email, ok: false, error: "already claimed" }); continue; }
+      try {
+        const err = await sendMigrationReminder(p.email, p.name, await link(p.id), await courseSummary(p.id), { deadline: cfg?.reminder_deadline ?? null });
+        if (err) throw new Error(err);
+        await db.from("email_log").update({ status: "sent" }).eq("user_id", p.id).eq("kind", REMIND_KIND).eq("dedupe_key", "v1");
+        sentR.push({ email: p.email, ok: true });
+      } catch (e) {
+        const msg = String((e as Error).message).slice(0, 300);
+        await db.from("email_log").update({ status: "failed", error: msg }).eq("user_id", p.id).eq("kind", REMIND_KIND).eq("dedupe_key", "v1");
+        sentR.push({ email: p.email, ok: false, error: msg });
+        if (/rate|429|quota|limit/i.test(msg)) break;
+      }
+      await sleep(700);
+    }
+    return json({ reminders_sent: sentR.filter((r) => r.ok).length, failed: sentR.filter((r) => !r.ok).length, room });
+  }
+
   if (!sending) return json({ dry_run: true, would_send: picked.map((p) => ({ name: p.name, email: p.email.replace(/^(.).*(@.*)$/, "$1***$2") })), room });
 
   const results: { email: string; ok: boolean; error?: string }[] = [];
@@ -139,20 +202,10 @@ serve(async (req) => {
     const { error: claim } = await db.from("email_log").insert({ user_id: p.id, kind: KIND, dedupe_key: "v1", status: "sending" });
     if (claim) { results.push({ email: p.email, ok: false, error: "already claimed" }); continue; }
     try {
-      const { data: enr } = await db.from("enrollments").select("course_id, courses(title)").eq("user_id", p.id).eq("status", "active");
-      const courses: MovedCourse[] = [];
-      for (const e of enr ?? []) {
-        const { data: lessons } = await db.from("lessons").select("id, modules!inner(course_id)").eq("modules.course_id", e.course_id);
-        const ids = (lessons ?? []).map((l: { id: string }) => l.id);
-        const { count: done } = ids.length
-          ? await db.from("lesson_progress").select("id", { count: "exact", head: true }).eq("user_id", p.id).eq("is_completed", true).in("lesson_id", ids)
-          : { count: 0 };
-        const title = (e as unknown as { courses: { title: string } | null }).courses?.title;
-        if (title) courses.push({ title, pct: ids.length ? Math.round(((done ?? 0) / ids.length) * 100) : 0 });
-      }
+      const courses = await courseSummary(p.id);
       const { data: mem } = await db.from("community_memberships").select("expires_at").eq("user_id", p.id).eq("space", "global-network").eq("status", "active").maybeSingle();
       const networkUntil = mem?.expires_at ? new Date(mem.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" }) : null;
-      const err = await sendMigrationWelcome(p.email, p.name, await link(p.email), courses, { networkUntil });
+      const err = await sendMigrationWelcome(p.email, p.name, await link(p.id), courses, { networkUntil });
       if (err) throw new Error(err);
       await db.from("email_log").update({ status: "sent" }).eq("user_id", p.id).eq("kind", KIND).eq("dedupe_key", "v1");
       const now = new Date().toISOString();
