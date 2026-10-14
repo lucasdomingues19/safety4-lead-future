@@ -18,6 +18,7 @@ const FUNCTIONS = [
   "admin-people", "admin-send-email", "capture-lead", "track-page-view", "chat-assistant", "lms-chat",
 ];
 // Secret names only. "critical" ones stop a feature working when missing.
+// (GROQ_API_KEY is deliberately not listed: it is only a backup for transcripts, used when there is no ElevenLabs key.)
 const SECRETS: { name: string; critical: boolean; used: string }[] = [
   { name: "RESEND_API_KEY", critical: true, used: "all email" },
   { name: "STRIPE_SECRET_KEY", critical: true, used: "checkout and refunds" },
@@ -29,8 +30,7 @@ const SECRETS: { name: string; critical: boolean; used: string }[] = [
   { name: "CLOUDFRONT_DOMAIN", critical: false, used: "lesson video delivery" },
   { name: "CLOUDFRONT_KEY_PAIR_ID", critical: false, used: "lesson video delivery" },
   { name: "CLOUDFRONT_PRIVATE_KEY", critical: false, used: "lesson video delivery" },
-  { name: "ELEVENLABS_API_KEY", critical: false, used: "tour voice" },
-  { name: "GROQ_API_KEY", critical: false, used: "transcripts" },
+  { name: "ELEVENLABS_API_KEY", critical: false, used: "transcripts and the tour voice" },
 ];
 
 async function timed(url: string, init: RequestInit = {}, ms = 8000) {
@@ -52,7 +52,9 @@ serve(async (req) => {
   const resendKey = Deno.env.get("RESEND_API_KEY");
   const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
 
-  const [site, functions, resend, stripe] = await Promise.all([
+  const elevenKey = Deno.env.get("ELEVENLABS_API_KEY");
+
+  const [site, functions, resend, stripe, elevenlabs] = await Promise.all([
     Promise.all(PAGES.map(async (p) => ({ path: p, ...(await timed(`${SITE}${p}`)) }))),
     Promise.all(FUNCTIONS.map(async (name) => ({ name, ...(await timed(`${base}/functions/v1/${name}`, { method: "OPTIONS" }, 6000)) }))),
     (async () => {
@@ -81,11 +83,22 @@ serve(async (req) => {
         };
       } catch { return { configured: true, error: "unreachable" }; }
     })(),
+    // ElevenLabs does the transcripts and the tour voice. Read-only look at the plan: status and credits used.
+    (async () => {
+      if (!elevenKey) return { configured: false };
+      try {
+        const r = await fetch("https://api.elevenlabs.io/v1/user/subscription", { headers: { "xi-api-key": elevenKey }, signal: AbortSignal.timeout(8000) });
+        if (r.status === 401 || r.status === 403) return { configured: true, key_accepted: r.status !== 401, note: "The key works for speech but isn't allowed to read plan details" };
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) return { configured: true, error: `ElevenLabs answered ${r.status}` };
+        return { configured: true, status: j.status ?? null, tier: j.tier ?? null, used: j.character_count ?? null, limit: j.character_limit ?? null, resets_at: j.next_character_count_reset_unix ? new Date(j.next_character_count_reset_unix * 1000).toISOString() : null };
+      } catch { return { configured: true, error: "unreachable" }; }
+    })(),
   ]);
 
   return json({
     checked_at: new Date().toISOString(),
-    site, functions, resend, stripe,
+    site, functions, resend, stripe, elevenlabs,
     secrets: SECRETS.map((s) => ({ ...s, set: !!Deno.env.get(s.name) })),
   });
 });
