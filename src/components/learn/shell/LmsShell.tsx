@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sun, Moon, Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, Building2, X } from "lucide-react";
+import { Sun, Moon, Menu, Home, Users, Settings, HelpCircle, LogOut, BookOpen, LayoutDashboard, BarChart3, CreditCard, Mail, Award, MessagesSquare, Sparkles, GraduationCap, Building2, X, HeartPulse } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import brandMarkBlue from "@/assets/brand-mark-blue.png";
 import { NotificationBell } from "./NotificationBell";
@@ -120,6 +120,7 @@ export function LmsShell({ profile, active, header, onNavigate, onStartTour, chi
               <NavButton icon={<BarChart3 size={19} />} label="Reports" active={isActive("admin-reports")} onClick={() => go("admin:reports")} open={open} />
               <NavButton icon={<CreditCard size={19} />} label="Billing" active={isActive("admin-billing")} onClick={() => go("admin:billing")} open={open} />
               <NavButton icon={<MessagesSquare size={19} />} label="Moderation" active={isActive("admin-community")} onClick={() => go("admin:community")} open={open} />
+              <NavButton icon={<HeartPulse size={19} />} label="Health" active={isActive("admin-health")} onClick={() => go("admin:health")} open={open} />
             </div>
           )}
 

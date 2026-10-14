@@ -24,6 +24,7 @@ const LmsAdminUsers = React.lazy(() => import("@/components/learn/admin/LmsAdmin
 const LmsAdminAccess = React.lazy(() => import("@/components/learn/admin/LmsAdminAccess").then(m => ({ default: m.LmsAdminAccess })));
 const LmsAdminEmails = React.lazy(() => import("@/components/learn/admin/LmsAdminEmails").then(m => ({ default: m.LmsAdminEmails })));
 const LmsAdminReports = React.lazy(() => import("@/components/learn/admin/reports/ReportsHub").then(m => ({ default: m.LmsAdminReports })));
+const LmsAdminHealth = React.lazy(() => import("@/components/learn/admin/LmsAdminHealth"));
 const LmsAdminBilling = React.lazy(() => import("@/components/learn/admin/billing/BillingHub").then(m => ({ default: m.BillingHub })));
 const LmsAdminCommunity = React.lazy(() => import("@/components/learn/admin/LmsAdminCommunity").then(m => ({ default: m.LmsAdminCommunity })));
 
@@ -112,6 +113,7 @@ export default function LmsInterface() {
           reports: { title: "Reports", sub: "How learners are progressing — dashboards, learner tracking and quiz analytics, with exports.", el: <LmsAdminReports /> },
           billing: { title: "Billing", sub: "Payments, sales and invoices, discount codes and bundles.", el: <LmsAdminBilling /> },
           community: { title: "Moderation", sub: "Review and remove community content.", el: <LmsAdminCommunity /> },
+          health: { title: "Health", sub: "Whether the platform is working: website, scheduled jobs, email, payments and errors.", el: <LmsAdminHealth /> },
         };
         const page = ADMIN_PAGES[adminTab];
         if (page) {
@@ -249,7 +251,7 @@ export default function LmsInterface() {
 
 const LEARNER_SCREENS = ["dash", "learning", "team", "community", "settings", "support"] as const;
 type LearnerScreen = (typeof LEARNER_SCREENS)[number];
-const ADMIN_TABS = ["overview", "courses", "users", "access", "teams", "emails", "reports", "billing", "community"] as const;
+const ADMIN_TABS = ["overview", "courses", "users", "access", "teams", "emails", "reports", "billing", "community", "health"] as const;
 type AdminTab = (typeof ADMIN_TABS)[number];
 
 const STALE_CHUNK = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module|ChunkLoadError|Loading chunk \S+ failed/i;
