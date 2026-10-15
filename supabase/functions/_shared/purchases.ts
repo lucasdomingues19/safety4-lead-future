@@ -15,7 +15,9 @@ export interface PurchaseTarget {
   quantity?: number;
 }
 
-export async function recordPurchase(db: any, sessionId: string, t: PurchaseTarget) {
+export interface PurchaseRecord { receiptUrl: string | null; invoiceUrl: string | null; invoicePdf: string | null; amount: number; currency: string; tax: number }
+
+export async function recordPurchase(db: any, sessionId: string, t: PurchaseTarget): Promise<PurchaseRecord | null> {
   try {
     let session: any;
     try {
@@ -25,7 +27,7 @@ export async function recordPurchase(db: any, sessionId: string, t: PurchaseTarg
     } catch {
       session = await stripeRequest<any>("GET", `/checkout/sessions/${sessionId}`, { "expand[0]": "payment_intent.latest_charge" });
     }
-    if (session.payment_status !== "paid") return;
+    if (session.payment_status !== "paid") return null;
     const pi = session.payment_intent;
     const cd = session.customer_details ?? {};
     const taxId = Array.isArray(cd.tax_ids) && cd.tax_ids.length ? String(cd.tax_ids[0].value ?? "") : null;
@@ -65,14 +67,29 @@ export async function recordPurchase(db: any, sessionId: string, t: PurchaseTarg
       tax_cents: session.total_details?.amount_tax ?? 0,
       purchased_at: new Date((session.created ?? Date.now() / 1000) * 1000).toISOString(),
     }, { onConflict: "stripe_session_id", ignoreDuplicates: true });
+
+    // Stripe can create the invoice a few seconds after the payment, so the first save may have no invoice.
+    // Fill it in whenever a later call sees it (the first save wins everything else).
+    if (inv?.hosted_invoice_url) {
+      await db.from("course_purchases").update({ invoice_url: inv.hosted_invoice_url, invoice_pdf: inv.invoice_pdf ?? null }).eq("stripe_session_id", session.id).is("invoice_url", null);
+    }
+    return {
+      receiptUrl: typeof pi === "object" ? pi?.latest_charge?.receipt_url ?? null : null,
+      invoiceUrl: inv?.hosted_invoice_url ?? null,
+      invoicePdf: inv?.invoice_pdf ?? null,
+      amount: (session.amount_total ?? 0) / 100,
+      currency: (session.currency ?? "gbp").toUpperCase(),
+      tax: (session.total_details?.amount_tax ?? 0) / 100,
+    };
   } catch (e) {
     // Never block the enrolment on bookkeeping.
     console.error("recordPurchase failed", (e as Error).message);
+    return null;
   }
 }
 
 /** Single course purchase (kept for the existing callers). */
 export async function recordCoursePurchase(db: any, sessionId: string, userId: string, courseId: string) {
   const { data: course } = await db.from("courses").select("title").eq("id", courseId).maybeSingle();
-  await recordPurchase(db, sessionId, { userId, courseId, title: course?.title ?? "Course" });
+  return await recordPurchase(db, sessionId, { userId, courseId, title: course?.title ?? "Course" });
 }

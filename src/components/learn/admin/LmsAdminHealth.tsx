@@ -79,6 +79,12 @@ function build(snap: Json | null, ext: Json | null, snapError: string | null, ex
     email.push({ label: "Sent in the last 24 hours", value: `${n(e.sent_24h)} of 90`, level: n(e.sent_24h) >= 80 ? "warn" : "ok", detail: n(e.sent_24h) >= 80 ? "Close to the daily sending limit" : `Last sent ${ago(e.last_sent_at)}` });
     email.push({ label: "Failed in the last 48 hours", value: String(n(e.failed_48h)), level: n(e.failed_48h) >= 5 ? "bad" : n(e.failed_48h) > 0 ? "warn" : "ok", detail: n(e.failed_48h) > 0 && e.recent_failures?.[0] ? `${e.recent_failures[0].kind}: ${e.recent_failures[0].error}` : undefined });
     email.push({ label: "Stuck mid-send", value: String(n(e.stuck_sending)), level: n(e.stuck_sending) > 0 ? "warn" : "ok", detail: n(e.stuck_sending) > 0 ? "Started but never finished; these emails may not have gone out" : undefined });
+    const ib = snap.inbox;
+    if (ib) {
+      const stale = ib.last_probe_at ? Date.now() - new Date(ib.last_probe_at).getTime() > 36 * 3600_000 : true;
+      email.push({ label: "Our own inbox (hello@) accepts mail", value: !ib.last_probe_at ? "Not tested yet" : ib.last_ok ? "Working" : "Not working", level: !ib.last_probe_at ? "warn" : !ib.last_ok ? "bad" : stale ? "warn" : "ok", detail: !ib.last_probe_at ? "A daily self-test sends itself a message; the first result appears after 07:05 UTC" : !ib.last_ok ? `Customers' replies to hello@ would bounce. Last test ${ago(ib.last_probe_at)}: ${ib.last_detail}` : `Last test ${ago(ib.last_probe_at)}${stale ? ", overdue" : ""}` });
+    }
+    if (n(e.purchase_emails_failed_7d) > 0) email.push({ label: "Purchase emails that failed, 7 days", value: String(n(e.purchase_emails_failed_7d)), level: "bad", detail: "A buyer did not get their access email or receipt" });
     if ((e.automations_off as string[]).length) email.push({ label: "Automations switched off", value: String((e.automations_off as string[]).length), level: "info", detail: (e.automations_off as string[]).join(", ") });
   }
   if (ext) {
@@ -108,6 +114,7 @@ function build(snap: Json | null, ext: Json | null, snapError: string | null, ex
   }
   if (snap) {
     const p = snap.payments;
+    if (n(p.missing_invoice) > 0) pay.push({ label: "Paid purchases with no invoice link", value: String(n(p.missing_invoice)), level: "warn", detail: "Buyers can't download an invoice for these yet" });
     pay.push({ label: "Last payment", value: ago(p.last_purchase_at), level: "info", detail: `${n(p.paid_30d)} paid and ${n(p.refunded_30d)} refunded in 30 days` });
   }
   if (!pay.length) pay.push({ label: "Payments", value: "Couldn't check", level: "bad" });

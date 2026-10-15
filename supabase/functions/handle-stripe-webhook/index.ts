@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { recordCoursePurchase, recordPurchase } from "../_shared/purchases.ts";
 import { fulfilBundle, fulfilTeamPurchase } from "../_shared/teams.ts";
 import { sendPurchaseEmail } from "../_shared/purchaseEmail.ts";
+import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
 // Stripe webhook (backup to confirm-course-checkout).
@@ -113,19 +114,31 @@ serve(async (req) => {
           { onConflict: "user_id,course_id" },
         );
         if (error) throw error;
-        await recordCoursePurchase(db, session.id, user_id!, course_id);
+        const rec = await recordCoursePurchase(db, session.id, user_id!, course_id);
         console.log("Enrolled via webhook", { user_id, course_id, isNew });
-        // Welcome email is best-effort: the enrolment above is already saved.
+        // The purchase email is best-effort (the enrolment above is already saved) but never invisible:
+        // it is logged, so a failure shows up on the Health page, and a Stripe retry can't send it twice.
         try {
           const { data: course } = await db.from("courses").select("title").eq("id", course_id).maybeSingle();
           let link = "https://www.safetytech.academy/learn/auth";
           if (isNew) {
-            const { data: l } = await db.auth.admin.generateLink({ type: "recovery", email: buyerEmail, options: { redirectTo: "https://www.safetytech.academy/learn/reset-password?welcome=1" } });
-            const th = l?.properties?.hashed_token;
-            if (th) link = `https://www.safetytech.academy/learn/auth/confirm?token_hash=${encodeURIComponent(th)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
+            try { link = `https://www.safetytech.academy/learn/welcome?t=${encodeURIComponent(await createWelcomeToken(db, user_id!))}`; }
+            catch (te) {
+              console.error("welcome token failed, using one-time link:", (te as Error).message);
+              const { data: l } = await db.auth.admin.generateLink({ type: "recovery", email: buyerEmail, options: { redirectTo: "https://www.safetytech.academy/learn/reset-password?welcome=1" } });
+              const th = l?.properties?.hashed_token;
+              if (th) link = `https://www.safetytech.academy/learn/auth/confirm?token_hash=${encodeURIComponent(th)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
+            }
           }
-          const err = buyerEmail ? await sendPurchaseEmail({ to: buyerEmail, name: buyerName, course: course?.title ?? "your course", link, isNew }) : "no email";
-          if (err) console.error("purchase email not sent:", err);
+          const { error: claim } = await db.from("email_log").insert({ user_id, kind: "purchase", dedupe_key: session.id, status: "sending" });
+          if (claim) { console.log("purchase email already handled for", session.id); }
+          else {
+            const err = buyerEmail
+              ? await sendPurchaseEmail({ to: buyerEmail, name: buyerName, course: course?.title ?? "your course", link, isNew, receiptUrl: rec?.receiptUrl, invoiceUrl: rec?.invoiceUrl, amount: rec?.amount, currency: rec?.currency, tax: rec?.tax })
+              : "no email";
+            if (err) console.error("purchase email not sent:", err);
+            await db.from("email_log").update(err ? { status: "failed", error: String(err).slice(0, 300) } : { status: "sent" }).eq("user_id", user_id).eq("kind", "purchase").eq("dedupe_key", session.id);
+          }
         } catch (e) { console.error("purchase email error:", (e as Error).message); }
         break;
       }
@@ -133,7 +146,15 @@ serve(async (req) => {
         // Company seat invoices raised from admin carry metadata.kind = "team".
         const inv = event.data.object;
         const m = inv.metadata ?? {};
-        if (m.kind !== "team") break;
+        if (m.kind !== "team") {
+          // A course checkout's own invoice. It can appear after the purchase was recorded, so attach its links now.
+          const pi = typeof inv.payment_intent === "string" ? inv.payment_intent : inv.payment_intent?.id
+            ?? inv.payments?.data?.[0]?.payment?.payment_intent ?? null;
+          if (pi && inv.hosted_invoice_url) {
+            await db.from("course_purchases").update({ invoice_url: inv.hosted_invoice_url, invoice_pdf: inv.invoice_pdf ?? null }).eq("stripe_payment_intent", pi).is("invoice_url", null);
+          }
+          break;
+        }
         const amount = inv.amount_paid ?? inv.total ?? 0;
         await db.from("team_invoices").update({ status: "paid", paid_at: new Date().toISOString() }).eq("stripe_invoice_id", inv.id);
         const r = await fulfilTeamPurchase(db, {
