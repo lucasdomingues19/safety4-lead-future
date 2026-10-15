@@ -10,6 +10,8 @@ import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 //   admin   backfill_invoices            attach Stripe invoice links to purchases that have none (up to 100 a run)
 //   admin   test_email { purchase_id }   the purchase email, built from a real purchase, sent to the admin only
 //   admin   resend_email { purchase_id, confirm: true }   send that email to the buyer (needs confirm)
+//   admin   suppression_status { email }   is this address on Resend's block list, and why (our own domains only)
+//   admin   suppression_remove { email }    take it off the block list (our own domains only)
 //   admin or cron   probe_inbox          send a test message to our own hello@ address and see whether it is accepted;
 //                                         the result is stored for the Health page. Run daily by the scheduler.
 
@@ -27,7 +29,7 @@ function safeEqual(a: string, b: string) {
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  const body = await req.json().catch(() => ({})) as { action?: string; purchase_id?: string; confirm?: boolean };
+  const body = await req.json().catch(() => ({})) as { action?: string; purchase_id?: string; confirm?: boolean; email?: string };
   const action = body.action ?? "";
   const cron = safeEqual(req.headers.get("x-cron-secret") ?? "", Deno.env.get("LIFECYCLE_CRON_SECRET") ?? "");
   let adminEmail: string | null = null;
@@ -37,6 +39,18 @@ serve(async (req) => {
   if (cron && action !== "probe_inbox") return json({ error: "Admins only" }, 403);
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const resendKey = Deno.env.get("RESEND_API_KEY");
+
+  // ---------- Resend block list (our own addresses only) ----------
+  if (action === "suppression_status" || action === "suppression_remove") {
+    const addr = String(body.email ?? "").trim().toLowerCase();
+    if (!/^[^\s@]+@(safetytech\.academy|safetyacademy\.tech)$/.test(addr)) return json({ error: "Only addresses on our own domains" }, 400);
+    if (!resendKey) return json({ error: "RESEND_API_KEY missing" }, 500);
+    const r = await fetch(`https://api.resend.com/suppressions/${encodeURIComponent(addr)}`, { method: action === "suppression_remove" ? "DELETE" : "GET", headers: { Authorization: `Bearer ${resendKey}` } });
+    const j = await r.json().catch(() => ({})) as Record<string, unknown>;
+    if (r.status === 404) return json({ email: addr, on_block_list: false });
+    if (!r.ok) return json({ error: String(j.message ?? `Resend answered ${r.status}`), resend_status: r.status }, 502);
+    return json(action === "suppression_remove" ? { email: addr, removed: true } : { email: addr, on_block_list: true, origin: j.origin ?? null, reason: j.reason ?? null, since: j.created_at ?? null });
+  }
 
   // ---------- inbox probe ----------
   if (action === "probe_inbox") {
