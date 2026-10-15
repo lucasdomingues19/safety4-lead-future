@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { htmlToText, resendSend, sleep } from "../_shared/emailText.ts";
+import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 
 // Admin people management (service role, admin-only):
 //   list                         -> sign-in info from auth (last sign-in, created)
@@ -38,7 +39,7 @@ async function sendWelcome(to: string, name: string, link: string, courses: stri
 ${courseList}
 </td></tr>
 <tr><td style="padding:8px 40px 26px;text-align:center;"><a href="${esc(link)}" style="display:inline-block;background:#3434ff;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">Set my password</a></td></tr>
-<tr><td style="padding:0 40px 24px;color:#94a3b8;font-size:12px;line-height:1.6;">This link works once and stays valid for 24 hours. If it has stopped working, go to ${SITE}/learn/auth, choose “Forgot password?” and enter this email address to get a new one.</td></tr>
+<tr><td style="padding:0 40px 24px;color:#94a3b8;font-size:12px;line-height:1.6;">This link stays valid for 14 days. If it has stopped working, go to ${SITE}/learn/auth, choose “Forgot password?” and enter this email address to get a new one.</td></tr>
 <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;"><p style="margin:0;color:#94a3b8;font-size:11px;">Questions? Reply to this email or write to hello@safetytech.academy</p></td></tr>
 </table></td></tr></table></body></html>`;
   const res = await resendSend(key, {
@@ -80,11 +81,11 @@ serve(async (req: Request) => {
     };
 
     const welcomeUser = async (userId: string, email: string, name: string) => {
-      const { data: link, error } = await db.auth.admin.generateLink({ type: "recovery", email, options: { redirectTo: `${SITE}/learn/reset-password?welcome=1` } });
-      if (error || !link?.properties?.hashed_token) return error?.message ?? "Could not create link";
-      // Link to our own domain (not supabase.co): trusted by mail filters, and the
-      // one-time token is only used when the person presses the button there.
-      const confirmLink = `${SITE}/learn/auth/confirm?token_hash=${encodeURIComponent(link.properties.hashed_token)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
+      // A 14-day link of our own (Supabase's one-time links die after 24 hours). It is only exchanged for a
+      // sign-in when the person presses the button on our page, so mail scanners can't use it up.
+      let confirmLink: string;
+      try { confirmLink = `${SITE}/learn/welcome?t=${encodeURIComponent(await createWelcomeToken(db, userId))}`; }
+      catch (te) { return (te as Error).message; }
       const [{ data: enr }, { data: mem }] = await Promise.all([
         db.from("enrollments").select("course_id").eq("user_id", userId).eq("status", "active"),
         db.from("community_memberships").select("space").eq("user_id", userId).eq("status", "active"),

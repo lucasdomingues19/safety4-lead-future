@@ -41,7 +41,7 @@ const Support = () => {
     {
       id: 6,
       question: "How can I contact support?",
-      answer: "You can reach us through email (support@safetytech.com), phone (+1-800-SAFETY-1), or submit a support ticket below. We respond within 24 hours.",
+      answer: "Email us at hello@safetytech.academy, or use the contact form on the website. We reply by email.",
     },
   ];
 
@@ -88,12 +88,10 @@ const Support = () => {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-8 py-12 ml-1">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 gap-8 mb-16 max-w-md mx-auto">
           {/* Contact Options */}
           {[
-            { icon: Mail, title: "Email Support", desc: "support@safetytech.com", value: "Email us" },
-            { icon: Phone, title: "Phone Support", desc: "+1-800-SAFETY-1", value: "Call us" },
-            { icon: MessageCircle, title: "Chat Support", desc: "Available 9AM-5PM EST", value: "Live chat" },
+            { icon: Mail, title: "Email Support", desc: "hello@safetytech.academy", value: "Email us", href: "mailto:hello@safetytech.academy" },
           ].map((option, i) => {
             const Icon = option.icon;
             return (
@@ -109,12 +107,13 @@ const Support = () => {
                 <p className="text-sm mb-5" style={{ color: "#69697B", fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}>
                   {option.desc}
                 </p>
-                <button
-                  className="w-full py-2.5 px-4 rounded-lg text-sm font-bold transition-all hover:shadow-lg"
+                <a
+                  href={option.href}
+                  className="block w-full py-2.5 px-4 rounded-lg text-sm font-bold transition-all hover:shadow-lg"
                   style={{ backgroundColor: "#3434FF", color: "#FFFFFF", fontFamily: "'Poppins', sans-serif", fontWeight: 600 }}
                 >
                   {option.value}
-                </button>
+                </a>
               </div>
             );
           })}

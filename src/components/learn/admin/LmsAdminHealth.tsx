@@ -93,6 +93,7 @@ function build(snap: Json | null, ext: Json | null, snapError: string | null, ex
     else if (r.error) email.push({ label: "Email provider (Resend)", value: "Couldn't reach", level: "warn", detail: r.error });
     else {
       const bad = (r.domains as Json[]).filter((d) => d.status !== "verified");
+      if (r.daily_used !== null && r.daily_used !== undefined) email.push({ label: "Email sending allowance today (free plan, 100 a day)", value: `${r.daily_used} of 100`, level: r.daily_used >= 95 ? "bad" : r.daily_used >= 80 ? "warn" : "ok", detail: r.daily_used >= 80 ? "Near the cap: a purchase email or receipt could fail. Upgrading the email plan removes the cap" : r.monthly_used != null ? `${r.monthly_used} of 3,000 this month` : undefined });
       email.push({ label: "Sending domains verified", value: `${(r.domains as Json[]).length - bad.length} of ${(r.domains as Json[]).length}`, level: bad.length || !(r.domains as Json[]).length ? "bad" : "ok", detail: bad.length ? `Not verified: ${bad.map((d) => d.name).join(", ")}` : (r.domains as Json[]).map((d) => d.name).join(", ") });
     }
   }

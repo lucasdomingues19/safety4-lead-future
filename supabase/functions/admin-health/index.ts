@@ -63,7 +63,9 @@ serve(async (req) => {
         const r = await fetch("https://api.resend.com/domains", { headers: { Authorization: `Bearer ${resendKey}` }, signal: AbortSignal.timeout(8000) });
         const j = await r.json().catch(() => ({}));
         if (!r.ok) return { configured: true, error: `Resend answered ${r.status}` };
-        return { configured: true, domains: (j.data ?? []).map((d: { name: string; status: string }) => ({ name: d.name, status: d.status })) };
+        // Resend reports today's and this month's use in headers, but only on plans with a cap (the free plan: 100 a day).
+        const dq = r.headers.get("x-resend-daily-quota"), mq = r.headers.get("x-resend-monthly-quota");
+        return { configured: true, domains: (j.data ?? []).map((d: { name: string; status: string }) => ({ name: d.name, status: d.status })), daily_used: dq !== null ? Number(dq) : null, monthly_used: mq !== null ? Number(mq) : null };
       } catch { return { configured: true, error: "unreachable" }; }
     })(),
     (async () => {

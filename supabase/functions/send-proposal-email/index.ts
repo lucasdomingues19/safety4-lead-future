@@ -88,6 +88,7 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           from: "proposals@safetytech.academy",
+          reply_to: "lucas@safetytech.academy",
           to: email,
           subject: `Proposal for ${proposal.organisation} - SafetyTech Academy`,
           html: `

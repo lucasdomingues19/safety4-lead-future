@@ -16,7 +16,68 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try { await requireAdmin(req); } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
 
-  const body = await req.json().catch(() => ({})) as { email?: string; days?: number };
+  const body = await req.json().catch(() => ({})) as { email?: string; days?: number; report?: boolean; recover_contact?: boolean };
+
+  // ---- recover website contact-form messages that never reached hello@ (bounced or blocked) ----
+  if (body.recover_contact === true) {
+    const key = Deno.env.get("RESEND_API_KEY");
+    if (!key) return json({ error: "Resend isn't set up" }, 500);
+    const cutoff = Date.now() - Math.min(Math.max(Number(body.days) || 14, 1), 30) * 86_400_000;
+    const lost: { id: string; at: string; event: string; subject: string }[] = [];
+    let after: string | undefined;
+    for (let page = 0; page < 40; page++) {
+      const r = await fetch(`https://api.resend.com/emails?limit=100${after ? `&after=${after}` : ""}`, { headers: { Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(10000) }).catch(() => null);
+      if (!r || !r.ok) break;
+      const j = await r.json().catch(() => ({}));
+      const rows = (j.data ?? []) as { id: string; to: string[] | string; subject: string; created_at: string; last_event: string }[];
+      for (const m of rows) {
+        const to = (Array.isArray(m.to) ? m.to : [m.to]).map((x) => String(x).toLowerCase());
+        if (/contact form submission/i.test(m.subject ?? "") && to.includes("hello@safetytech.academy") && !["delivered", "opened", "clicked"].includes(m.last_event)) lost.push({ id: m.id, at: m.created_at, event: m.last_event, subject: m.subject });
+      }
+      if (!j.has_more || !rows.length || new Date(rows[rows.length - 1].created_at.replace(" ", "T")).getTime() < cutoff) break;
+      after = rows[rows.length - 1].id;
+      await sleep(600);
+    }
+    const messages = [];
+    for (const m of lost) {
+      await sleep(600);
+      const r = await fetch(`https://api.resend.com/emails/${m.id}`, { headers: { Authorization: `Bearer ${key}` } }).catch(() => null);
+      const j = r && r.ok ? await r.json().catch(() => ({})) : {};
+      const text = String((j as { text?: string; html?: string }).text ?? (j as { html?: string }).html ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      messages.push({ at: m.at, event: m.event, subject: m.subject, reply_to: (j as { reply_to?: unknown }).reply_to ?? null, body: text.slice(0, 1500) });
+    }
+    return json({ found: messages.length, messages });
+  }
+
+  // ---- delivery report: how every recent email ended, and who did NOT get theirs (recipients masked) ----
+  if (body.report === true) {
+    const key = Deno.env.get("RESEND_API_KEY");
+    if (!key) return json({ error: "Resend isn't set up" }, 500);
+    const cutoff = Date.now() - Math.min(Math.max(Number(body.days) || 7, 1), 30) * 86_400_000;
+    const byEvent: Record<string, number> = {}, bySubject: Record<string, Record<string, number>> = {};
+    const problems: { subject: string; to: string; event: string; at: string }[] = [];
+    let scanned = 0, oldest = "", after: string | undefined, note: string | null = null;
+    const mask = (a: string) => a.replace(/^(.{2}).*(@.*)$/, "$1***$2");
+    for (let page = 0; page < 40; page++) {
+      const r = await fetch(`https://api.resend.com/emails?limit=100${after ? `&after=${after}` : ""}`, { headers: { Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(10000) }).catch(() => null);
+      if (!r || !r.ok) { note = `Resend answered ${r?.status ?? "no response"}`; break; }
+      const j = await r.json().catch(() => ({}));
+      const rows = (j.data ?? []) as { id: string; to: string[] | string; subject: string; created_at: string; last_event: string }[];
+      for (const m of rows) {
+        scanned++; oldest = m.created_at;
+        const ev = m.last_event ?? "unknown";
+        byEvent[ev] = (byEvent[ev] ?? 0) + 1;
+        const subj = (m.subject ?? "").replace(/[A-Z][a-z]+ [A-Z][a-z]+(?= is ready| \()/g, "…").slice(0, 60);
+        (bySubject[subj] ??= {})[ev] = ((bySubject[subj] ??= {})[ev] ?? 0) + 1;
+        if (!["delivered", "opened", "clicked"].includes(ev)) problems.push({ subject: m.subject, to: mask((Array.isArray(m.to) ? m.to[0] : m.to) ?? ""), event: ev, at: m.created_at });
+      }
+      if (!j.has_more || !rows.length || new Date(rows[rows.length - 1].created_at.replace(" ", "T")).getTime() < cutoff) break;
+      after = rows[rows.length - 1].id;
+      await sleep(600);
+    }
+    return json({ scanned, oldest_seen: oldest, by_event: byEvent, not_delivered: problems.slice(0, 60), not_delivered_count: problems.length, note });
+  }
+
   const email = String(body.email ?? "").trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: "Enter a full email address" }, 400);
   const days = Math.min(Math.max(Number(body.days) || 7, 1), 30);
