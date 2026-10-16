@@ -119,7 +119,7 @@ serve(async (req) => {
             },
             body: JSON.stringify({
               from: "SafetyTech Academy <noreply@safetytech.academy>",
-              to: ["lucas@getshield360.com"],
+              to: ["lucas@safetytech.academy"],
               subject: `Proposal ${decision}: ${proposal.organisation}`,
               html: `
                 <h2>Proposal ${decision}</h2>

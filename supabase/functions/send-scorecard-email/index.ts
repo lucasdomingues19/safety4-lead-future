@@ -286,7 +286,7 @@ const handler = async (req: Request): Promise<Response> => {
       await sendEmailWithRetry(
         {
           from: "SafetyTech Academy <noreply@safetytech.academy>",
-          to: ["lucas@getshield360.com"],
+          to: ["lucas@safetytech.academy"],
           replyTo: data.email,
           subject: `Scorecard Completed: ${data.firstName} ${safeLastName} — ${data.overallScore}/100`,
           html: `<p><strong>${escapeHtml(data.firstName)} ${escapeHtml(safeLastName)}</strong> (${escapeHtml(data.email)}) completed the Safety 4.0 Scorecard.</p>
