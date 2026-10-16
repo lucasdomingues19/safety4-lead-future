@@ -12,6 +12,7 @@ import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 //   admin   resend_email { purchase_id, confirm: true }   send that email to the buyer (needs confirm)
 //   admin   suppression_status { email }   is this address on Resend's block list, and why (our own domains only)
 //   admin   suppression_remove { email }    take it off the block list (our own domains only)
+//   admin   anthropic_whoami               which Anthropic organisation owns the AI key Mia uses (id and rate limits only, never the key)
 //   admin or cron   probe_inbox          send a test message to our own hello@ address and see whether it is accepted;
 //                                         the result is stored for the Health page. Run daily by the scheduler.
 
@@ -39,6 +40,17 @@ serve(async (req) => {
   if (cron && action !== "probe_inbox") return json({ error: "Admins only" }, 403);
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const resendKey = Deno.env.get("RESEND_API_KEY");
+
+  // ---------- which Anthropic account does Mia's key belong to? ----------
+  if (action === "anthropic_whoami") {
+    const key = Deno.env.get("ANTHROPIC_API_KEY");
+    if (!key) return json({ error: "ANTHROPIC_API_KEY is not set" }, 500);
+    const r = await fetch("https://api.anthropic.com/v1/models?limit=1", { headers: { "x-api-key": key, "anthropic-version": "2023-06-01" } });
+    const h = r.headers;
+    return json({ http: r.status, key_works: r.ok, organization_id: h.get("anthropic-organization-id"), key_prefix_kind: key.startsWith("sk-ant-api") ? "api key" : "other",
+      ratelimit: { requests_limit: h.get("anthropic-ratelimit-requests-limit"), tokens_limit: h.get("anthropic-ratelimit-tokens-limit"), input_tokens_limit: h.get("anthropic-ratelimit-input-tokens-limit") },
+      error: r.ok ? null : String((await r.json().catch(() => ({}))).error?.message ?? "request failed").slice(0, 200) });
+  }
 
   // ---------- Resend block list (our own addresses only) ----------
   if (action === "suppression_status" || action === "suppression_remove") {
