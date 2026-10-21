@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 import { AuthError, requireAdmin } from "../_shared/auth.ts";
 import { sleep } from "../_shared/emailText.ts";
-import { sendMigrationReminder, sendMigrationWelcome, type MovedCourse } from "../_shared/migrationWelcome.ts";
+import { sendMigrationFinal, sendMigrationReminder, sendMigrationWelcome, type MovedCourse } from "../_shared/migrationWelcome.ts";
 import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 
 // Sends the "your courses have a new home" email to Kajabi learners a few at a time.
@@ -20,6 +20,7 @@ const RESERVE = 10;         // headroom for certificates, quiz mail and anything
 const PER_RUN = 8;          // small batches, spread over the day
 const KIND = "migration_welcome";
 const REMIND_KIND = "migration_reminder";
+const FINAL_KIND = "migration_final";
 const REMIND_AFTER_DAYS = 3;  // a welcome must be at least this old before we nudge
 
 const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret" };
@@ -43,7 +44,7 @@ serve(async (req) => {
   }
   const action = body.action ?? "run";
 
-  const { data: cfg } = await db.from("migration_drip_config").select("enabled, daily_cap, reminder_enabled, reminder_deadline").eq("id", 1).single();
+  const { data: cfg } = await db.from("migration_drip_config").select("enabled, daily_cap, reminder_enabled, reminder_deadline, final_enabled, final_deadline").eq("id", 1).single();
   const since = new Date(Date.now() - DAY).toISOString();
   const { count: sentLast24h } = await db.from("email_log").select("id", { count: "exact", head: true }).gte("sent_at", since);
   const { count: dripLast24h } = await db.from("email_log").select("id", { count: "exact", head: true }).eq("kind", KIND).gte("sent_at", since);
@@ -92,6 +93,8 @@ serve(async (req) => {
     if (typeof body.enabled === "boolean") patch.enabled = body.enabled;
     if (typeof (body as { reminder_enabled?: boolean }).reminder_enabled === "boolean") patch.reminder_enabled = (body as { reminder_enabled?: boolean }).reminder_enabled;
     if (typeof (body as { reminder_deadline?: string | null }).reminder_deadline !== "undefined") patch.reminder_deadline = String((body as { reminder_deadline?: string | null }).reminder_deadline ?? "").slice(0, 40) || null;
+    if (typeof (body as { final_enabled?: boolean }).final_enabled === "boolean") patch.final_enabled = (body as { final_enabled?: boolean }).final_enabled;
+    if (typeof (body as { final_deadline?: string | null }).final_deadline !== "undefined") patch.final_deadline = String((body as { final_deadline?: string | null }).final_deadline ?? "").slice(0, 40) || null;
     if (Number.isFinite(body.daily_cap)) patch.daily_cap = Math.max(1, Math.min(90, Math.floor(body.daily_cap!)));
     await db.from("migration_drip_config").update(patch).eq("id", 1);
     return json({ ok: true, ...patch });
@@ -119,6 +122,10 @@ serve(async (req) => {
   if (action === "test") {
     if (cron || !adminEmail) return json({ error: "Admins only" }, 403);
     const v = (body as { variant?: string }).variant ?? "learner";
+    if (v === "final") {
+      const err = await sendMigrationFinal(adminEmail, "Alex Morgan", await link(adminId!), [{ title: "Fundamentals of AI in EHS", pct: 52 }], { deadline: cfg?.final_deadline ?? "Friday 23 October" });
+      return json({ ok: !err, sent_to: adminEmail, error: err });
+    }
     if (v === "reminder") {
       const err = await sendMigrationReminder(adminEmail, "Alex Morgan", await link(adminId!), [{ title: "Fundamentals of AI in EHS", pct: 52 }], { deadline: cfg?.reminder_deadline ?? null });
       return json({ ok: !err, sent_to: adminEmail, error: err });
@@ -154,6 +161,47 @@ serve(async (req) => {
     if (au?.user?.last_sign_in_at) { await db.from("migration_welcome_queue").update({ sent_at: au.user.last_sign_in_at }).eq("user_id", q.user_id); continue; }
     picked.push({ id: q.user_id, email: prof.email, name: prof.full_name ?? "" });
   }
+  // ---- final notice before Kajabi closes: everyone who still hasn't signed in, course learners first, once each ----
+  const wantFinal = !!cfg?.final_enabled || (body as { stage?: string }).stage === "final";
+  if (picked.length === 0 && wantFinal && (cfg?.final_enabled || !sending)) {
+    const { data: doneF } = await db.from("email_log").select("user_id").eq("kind", FINAL_KIND);
+    const notified = new Set((doneF ?? []).map((r: { user_id: string }) => r.user_id));
+    const { data: adminsF } = await db.from("user_roles").select("user_id").eq("role", "admin");
+    const adminSet = new Set((adminsF ?? []).map((a: { user_id: string }) => a.user_id));
+    const { data: allQ } = await db.from("migration_welcome_queue").select("user_id, priority, last_active").not("sent_at", "is", null)
+      .order("priority").order("last_active", { ascending: false, nullsFirst: false });
+    const dueF: { id: string; email: string; name: string; course: boolean }[] = [];
+    for (const q of allQ ?? []) {
+      if (dueF.length >= batch) break;
+      if (notified.has(q.user_id) || adminSet.has(q.user_id)) continue;
+      const { data: prof } = await db.from("profiles").select("id, email, full_name, email_reminders").eq("id", q.user_id).maybeSingle();
+      if (!prof?.email || prof.email_reminders === false) continue;
+      const { data: au } = await db.auth.admin.getUserById(q.user_id);
+      if (au?.user?.last_sign_in_at) continue;
+      dueF.push({ id: q.user_id, email: prof.email, name: prof.full_name ?? "", course: q.priority <= 3 });
+    }
+    if (!sending) return json({ dry_run: true, final_enabled: !!cfg?.final_enabled, would_send_final: dueF.map((p) => ({ name: p.name, segment: p.course ? "course" : "community", email: p.email.replace(/^(.).*(@.*)$/, "$1***$2") })), room });
+    const deadline = cfg?.final_deadline ?? "Friday 23 October";
+    const sentF: { ok: boolean }[] = [];
+    for (const p of dueF) {
+      const { error: claim } = await db.from("email_log").insert({ user_id: p.id, kind: FINAL_KIND, dedupe_key: "v1", status: "sending" });
+      if (claim) { sentF.push({ ok: false }); continue; }
+      try {
+        const err = await sendMigrationFinal(p.email, p.name, await link(p.id), await courseSummary(p.id), { deadline });
+        if (err) throw new Error(err);
+        await db.from("email_log").update({ status: "sent" }).eq("user_id", p.id).eq("kind", FINAL_KIND).eq("dedupe_key", "v1");
+        sentF.push({ ok: true });
+      } catch (e) {
+        const msg = String((e as Error).message).slice(0, 300);
+        await db.from("email_log").update({ status: "failed", error: msg }).eq("user_id", p.id).eq("kind", FINAL_KIND).eq("dedupe_key", "v1");
+        sentF.push({ ok: false });
+        if (/rate|429|quota|limit/i.test(msg)) break;
+      }
+      await sleep(700);
+    }
+    return json({ final_sent: sentF.filter((r) => r.ok).length, failed: sentF.filter((r) => !r.ok).length, room });
+  }
+
   // ---- reminders: nobody left to welcome, so nudge the people who still haven't signed in (once each) ----
   if (picked.length === 0 && (cfg?.reminder_enabled || !sending)) {
     const { data: done } = await db.from("email_log").select("user_id").eq("kind", REMIND_KIND);
