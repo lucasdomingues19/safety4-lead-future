@@ -73,3 +73,6 @@ verify_jwt = false
 
 [functions.welcome-link]
 verify_jwt = false
+
+[functions.admin-purchase-tools]
+verify_jwt = false
