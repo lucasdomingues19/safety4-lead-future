@@ -76,3 +76,7 @@ verify_jwt = false
 
 [functions.admin-purchase-tools]
 verify_jwt = false
+
+# Does its own check: a signed-in admin, or the cron secret for the self-test modes only.
+[functions.issue-event-certificates]
+verify_jwt = false
