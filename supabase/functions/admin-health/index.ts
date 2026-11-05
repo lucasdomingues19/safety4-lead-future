@@ -44,6 +44,23 @@ async function timed(url: string, init: RequestInit = {}, ms = 8000) {
   }
 }
 
+// Pinging all the functions at once from inside one function can trip the platform's limit on simultaneous outgoing
+// connections, so the last ones in the list looked "not answering" while answering fine from outside. Ping in small
+// groups and give a failure one more try before calling it down.
+async function pingFunctions(base: string) {
+  const out: { name: string; status: number; ms: number; error?: string }[] = [];
+  for (let i = 0; i < FUNCTIONS.length; i += 6) {
+    const group = FUNCTIONS.slice(i, i + 6);
+    out.push(...await Promise.all(group.map(async (name) => {
+      const url = `${base}/functions/v1/${name}`;
+      let r = await timed(url, { method: "OPTIONS" }, 6000);
+      if (r.status === 0 || r.status >= 500) { await new Promise((res) => setTimeout(res, 1000)); r = await timed(url, { method: "OPTIONS" }, 8000); }
+      return { name, ...r };
+    })));
+  }
+  return out;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try { await requireAdmin(req); } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
@@ -56,7 +73,7 @@ serve(async (req) => {
 
   const [site, functions, resend, stripe, elevenlabs] = await Promise.all([
     Promise.all(PAGES.map(async (p) => ({ path: p, ...(await timed(`${SITE}${p}`)) }))),
-    Promise.all(FUNCTIONS.map(async (name) => ({ name, ...(await timed(`${base}/functions/v1/${name}`, { method: "OPTIONS" }, 6000)) }))),
+    pingFunctions(base),
     (async () => {
       if (!resendKey) return { configured: false };
       try {

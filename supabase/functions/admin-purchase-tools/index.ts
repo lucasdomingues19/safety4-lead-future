@@ -74,10 +74,18 @@ serve(async (req) => {
       await db.from("mail_probes").insert({ address: PROBE_TO, ok: false, last_event: "not_sent", detail: String(sent.message ?? `Resend answered ${res.status}`).slice(0, 300) });
       return json({ ok: false, event: "not_sent", detail: sent.message ?? res.status });
     }
+    // An earlier test that was still "queued" when it stopped waiting (the mail server can take a minute) is settled
+    // here from what Resend now says, so one slow answer doesn't leave a false alarm on the Health page.
+    const { data: open } = await db.from("mail_probes").select("id, resend_id").eq("ok", false).in("last_event", ["queued", "sent", "delivery_delayed"]).not("resend_id", "is", null).gte("sent_at", new Date(Date.now() - 3 * 86400000).toISOString());
+    for (const p of open ?? []) {
+      const r = await fetch(`https://api.resend.com/emails/${p.resend_id}`, { headers: { Authorization: `Bearer ${resendKey}` } }).catch(() => null);
+      const ev = r && r.ok ? ((await r.json().catch(() => ({}))) as { last_event?: string }).last_event : undefined;
+      if (ev === "delivered") await db.from("mail_probes").update({ last_event: ev, ok: true, detail: "Accepted by the mail server" }).eq("id", p.id);
+    }
     // Resend reports what the receiving server said: delivered, bounced, delivery_delayed...
     let event = "queued";
-    for (let i = 0; i < 8; i++) {
-      await sleep(3000);
+    for (let i = 0; i < 15; i++) {
+      await sleep(4000);
       const r = await fetch(`https://api.resend.com/emails/${sent.id}`, { headers: { Authorization: `Bearer ${resendKey}` } }).catch(() => null);
       const j = r && r.ok ? await r.json().catch(() => ({})) : {};
       event = (j as { last_event?: string }).last_event ?? event;
