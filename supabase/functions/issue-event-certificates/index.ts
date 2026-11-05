@@ -82,7 +82,7 @@ function emailHtml(name: string, title: string, dateText: string, verifyUrl: str
 </td></tr>
 <tr><td style="padding:0 40px 18px;color:#1e293b;font-size:14px;line-height:1.7;">
 <p style="margin:0 0 10px;"><strong>Did the training help?</strong> A short Google review helps other safety professionals decide whether it is for them. Honest feedback is what we need.</p>
-<p style="margin:0;text-align:center;"><a href="${GOOGLE_REVIEW_URL}" style="display:inline-block;background:#ffffff;color:#202058;border:2px solid #202058;padding:10px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">★ Leave a Google review</a></p>
+<p style="margin:0;text-align:center;"><a href="${GOOGLE_REVIEW_URL}" style="display:inline-block;background:#9eff1f;color:#0b0b2c;padding:13px 30px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">★ Leave a Google review</a></p>
 </td></tr>
 <tr><td style="padding:0 40px 28px;color:#1e293b;font-size:14px;line-height:1.7;">
 <p style="margin:0;">${closing}</p>
