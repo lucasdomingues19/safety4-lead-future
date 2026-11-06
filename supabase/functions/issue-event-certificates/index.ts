@@ -11,14 +11,30 @@ import { htmlToText, resendSend, sleep } from "../_shared/emailText.ts";
 //   mode "dry_run" -> (default) who would get one, nothing is created
 //   mode "issue"   -> issues through Syngraph, copies each into `certificates`,
 //                     and only emails people when send_email is true
+//   mode "self_test" -> issues ONE certificate to the calling admin AND emails it to them exactly as
+//                     every attendee would get it (nothing is copied into the LMS). Also allowed with the
+//                     cron secret, in which case it always goes to lucas@safetytech.academy.
+// A multi-hour course (not a community event) is described with `course`:
+//   { title, date:"YYYY-MM-DD", achievement_id?, credential_level?, hours?, intro?, share_text?, skills_line? }
+// and then needs no community_events row.
 // Syngraph's issue API never emails the recipient, so emailing is our choice.
 
 const SITE = "https://www.safetytech.academy";
 const LINKEDIN_PAGE = "https://www.linkedin.com/company/safety-40-academy";
+const GOOGLE_REVIEW_URL = "https://g.page/r/CaJFIuivG8u-EAE/review";
+const SELF_TEST_TO = "lucas@safetytech.academy";
+
+// Constant-time comparison for the cron secret.
+function safeEqual(a: string, b: string): boolean {
+  if (!a || !b || a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
 const MAX_PEOPLE = 150;
 const DAILY_BUDGET = 90, RESERVE = 10; // shared with lifecycle + migration emails (Resend allows 100/day)
 
-const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type" };
+const corsHeaders = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret" };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 const esc = (t: string) => String(t ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]!));
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -32,37 +48,55 @@ const splitName = (full: string) => {
   return { firstName: parts[0] ?? "", lastName: parts.slice(1).join(" ") };
 };
 
-function emailHtml(name: string, title: string, dateText: string, verifyUrl: string) {
+interface CourseInfo { title: string; date: string; achievement_id?: string; credential_level?: string; hours?: number; intro?: string; share_text?: string }
+interface EmailOpts { credentialLevel: string; course?: CourseInfo; year: number; month: number }
+
+function emailHtml(name: string, title: string, dateText: string, verifyUrl: string, o: EmailOpts) {
   const first = esc((name || "").split(" ")[0] || "there");
-  const addToLinkedIn = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(`${title} (Certificate of Attendance)`)}&organizationName=${encodeURIComponent("SafetyTech Academy")}&certUrl=${encodeURIComponent(verifyUrl)}`;
+  const linkedinName = o.course ? title : `${title} (${o.credentialLevel})`;
+  const addToLinkedIn = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(linkedinName)}&organizationName=${encodeURIComponent("SafetyTech Academy")}&issueYear=${o.year}&issueMonth=${o.month}&certUrl=${encodeURIComponent(verifyUrl)}`;
+  const shareOnLinkedIn = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(verifyUrl)}`;
+  const heading = o.course ? `Congratulations, ${first}` : `Thank you for joining, ${first}`;
+  const intro = o.course
+    ? (o.course.intro ? esc(o.course.intro) : `Thank you for joining the live <strong>${esc(title)}</strong> training on ${esc(dateText)}${o.course.hours ? ` (${o.course.hours} hours)` : ""}. Your <strong>${esc(o.credentialLevel)}</strong> and <strong>Certified</strong> badge are ready, together in one signed credential. Anyone you share it with can check it is genuine.`)
+    : `It was great to have you at the live <strong>${esc(title)}</strong> on ${esc(dateText)}. This was a short, 1-hour awareness-level session, and your <strong>Certificate of Attendance</strong> is ready as a record of it. It is signed, so anyone you share it with can check it is genuine.`;
+  const sample = o.course?.share_text ?? `I joined ${title} with SafetyTech Academy: a quick, practical introduction to using Microsoft 365 Copilot for real EHS work. #EHS #Copilot #AIinEHS`;
+  const closing = o.course
+    ? `Want to keep learning with other EHS professionals? Our free learning community is open to you. <a href="${SITE}/learn/auth" style="color:#3434ff;font-weight:700;text-decoration:none;">Join here</a>.`
+    : `Want to watch the session again? The full recording is in our free learning community. <a href="${SITE}/learn/auth" style="color:#3434ff;font-weight:700;text-decoration:none;">Join here</a>.`;
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,Helvetica,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:28px 0;"><tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:14px;overflow:hidden;">
 <tr><td style="background:#202058;padding:30px 36px;text-align:center;"><p style="margin:0;color:#9eff1f;font-size:12px;letter-spacing:3px;text-transform:uppercase;">SafetyTech Academy</p></td></tr>
 <tr><td style="padding:34px 40px 8px;color:#1e293b;font-size:15px;line-height:1.7;">
-<h1 style="margin:0 0 16px;font-size:24px;color:#0b0b2c;">Thank you for joining, ${first}</h1>
-<p style="margin:0 0 14px;">It was great to have you at the live <strong>${esc(title)}</strong> on ${esc(dateText)}. This was a short, 1-hour awareness-level session, and your <strong>Certificate of Attendance</strong> is ready as a record of it. It is signed, so anyone you share it with can check it is genuine.</p>
+<h1 style="margin:0 0 16px;font-size:24px;color:#0b0b2c;">${heading}</h1>
+<p style="margin:0 0 14px;">${intro}</p>
 </td></tr>
 <tr><td style="padding:12px 40px 8px;text-align:center;"><a href="${esc(verifyUrl)}" style="display:inline-block;background:#3434ff;color:#ffffff;padding:14px 30px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">View my certificate</a></td></tr>
-<tr><td style="padding:6px 40px 18px;text-align:center;"><a href="${esc(addToLinkedIn)}" style="color:#3434ff;font-size:14px;font-weight:700;text-decoration:none;">Add it to your LinkedIn profile →</a></td></tr>
+<tr><td style="padding:6px 40px 18px;text-align:center;font-size:14px;"><a href="${esc(addToLinkedIn)}" style="color:#3434ff;font-weight:700;text-decoration:none;">Add it to your LinkedIn profile →</a></td></tr>
 <tr><td style="padding:0 40px 18px;color:#1e293b;font-size:14px;line-height:1.7;">
-<p style="margin:0 0 10px;"><strong>Share it and tag us.</strong> If you post about it on LinkedIn, please tag <a href="${LINKEDIN_PAGE}" style="color:#3434ff;text-decoration:none;font-weight:700;">SafetyTech Academy</a> so we can celebrate with you and help others find the session. If it helps, here is a starting point:</p>
-<p style="margin:0;padding:12px 14px;background:#f5f7ff;border-radius:8px;color:#334155;font-size:13.5px;">I joined ${esc(title)} with SafetyTech Academy: a quick, practical introduction to using Microsoft 365 Copilot for real EHS work. #EHS #Copilot #AIinEHS</p>
+<p style="margin:0 0 12px;"><strong>Share it and tag us.</strong> Post your achievement on LinkedIn and tag <a href="${LINKEDIN_PAGE}" style="color:#3434ff;text-decoration:none;font-weight:700;">SafetyTech Academy</a> so we can celebrate with you and help others find the training. If it helps, here is a starting point:</p>
+<p style="margin:0 0 14px;padding:12px 14px;background:#f5f7ff;border-radius:8px;color:#334155;font-size:13.5px;">${esc(sample)}</p>
+<p style="margin:0;text-align:center;"><a href="${esc(shareOnLinkedIn)}" style="display:inline-block;background:#0a66c2;color:#ffffff;padding:11px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">Share on LinkedIn</a></p>
+</td></tr>
+<tr><td style="padding:0 40px 18px;color:#1e293b;font-size:14px;line-height:1.7;">
+<p style="margin:0 0 10px;"><strong>Did the training help?</strong> A short Google review helps other safety professionals decide whether it is for them. Honest feedback is what we need.</p>
+<p style="margin:0;text-align:center;"><a href="${GOOGLE_REVIEW_URL}" style="display:inline-block;background:#9eff1f;color:#0b0b2c;padding:13px 30px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;">★ Leave a Google review</a></p>
 </td></tr>
 <tr><td style="padding:0 40px 28px;color:#1e293b;font-size:14px;line-height:1.7;">
-<p style="margin:0;">Want to watch the session again? The full recording is in our free learning community. <a href="${SITE}/learn/auth" style="color:#3434ff;font-weight:700;text-decoration:none;">Join here</a>.</p>
+<p style="margin:0;">${closing}</p>
 </td></tr>
 <tr><td style="padding:16px 36px;text-align:center;border-top:1px solid #f1f5f9;"><p style="margin:0;color:#94a3b8;font-size:11px;">SafetyTech Academy · Certificate verified by Syngraph AI · Questions? Reply to this email.</p></td></tr>
 </table></td></tr></table></body></html>`;
 }
 
-async function sendEmail(to: string, name: string, title: string, dateText: string, verifyUrl: string): Promise<string | null> {
+async function sendEmail(to: string, name: string, title: string, dateText: string, verifyUrl: string, o: EmailOpts, cc: string[] = []): Promise<string | null> {
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return "RESEND_API_KEY missing";
-  const html = emailHtml(name, title, dateText, verifyUrl);
+  const html = emailHtml(name, title, dateText, verifyUrl, o);
   const res = await resendSend(key, {
-    from: "SafetyTech Academy <hello@safetytech.academy>", reply_to: "hello@safetytech.academy", to: [to],
+    from: "SafetyTech Academy <hello@safetytech.academy>", reply_to: "hello@safetytech.academy", to: [to], ...(cc.length ? { cc } : {}),
     subject: `Your ${title} certificate`, html, text: htmlToText(html),
   });
   if (res.ok) return null;
@@ -72,14 +106,32 @@ async function sendEmail(to: string, name: string, title: string, dateText: stri
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  let admin;
-  try { admin = await requireAdmin(req); } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
+  let admin: { id: string | null; email?: string | null };
+  const cron = safeEqual(req.headers.get("x-cron-secret") ?? "", Deno.env.get("LIFECYCLE_CRON_SECRET") ?? "");
+  if (cron) admin = { id: null, email: SELF_TEST_TO }; // cron secret: only the self-test modes below, and only to Lucas
+  else {
+    try { admin = await requireAdmin(req); } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
+  }
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const b = await req.json().catch(() => ({})) as { event_id?: string; attendees?: Attendee[]; template_id?: string; badge_id?: string; min_minutes?: number; mode?: string; send_email?: boolean; description?: string };
+  const b = await req.json().catch(() => ({})) as { event_id?: string; attendees?: Attendee[]; template_id?: string; badge_id?: string; min_minutes?: number; mode?: string; send_email?: boolean; description?: string; course?: CourseInfo; cc?: string[]; require_tag?: string };
 
-  const { data: ev } = await db.from("community_events").select("id, title, starts_at").eq("id", b.event_id ?? "").maybeSingle();
+  // The cron secret may also run a real course issue, but only for people already tagged `require_tag` in the LMS.
+  const cronIssue = cron && ["dry_run", "issue", "send_emails"].includes(b.mode ?? "") && !!b.course?.title && !!b.require_tag;
+  if (cron && !cronIssue && !["self_test", "email_preview"].includes(b.mode ?? "")) return json({ error: "Admins only" }, 403);
+  // cc: internal addresses only, so this can never copy a certificate to an outside party.
+  const cc = (b.cc ?? []).map((x) => String(x).trim().toLowerCase()).filter((x) => EMAIL_RE.test(x) && x.endsWith("@safetytech.academy")).slice(0, 3);
+  const course = b.course?.title && /^\d{4}-\d{2}-\d{2}$/.test(b.course.date ?? "") ? b.course : undefined;
+  let ev: { id: string; title: string; starts_at: string } | null;
+  if (course) {
+    ev = { id: `course:${course.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, title: course.title, starts_at: `${course.date}T12:00:00Z` };
+  } else {
+    const { data } = await db.from("community_events").select("id, title, starts_at").eq("id", b.event_id ?? "").maybeSingle();
+    ev = data;
+  }
   if (!ev) return json({ error: "Event not found" }, 404);
-  if (!b.template_id) return json({ error: "template_id (the Syngraph certificate design) is required" }, 400);
+  if (!b.template_id && !course?.achievement_id) return json({ error: "template_id (the Syngraph certificate design) is required" }, 400);
+  const credentialLevel = course?.credential_level ?? "Certificate of Attendance";
+  const emailOpts: EmailOpts = { credentialLevel, course, year: Number(ev.starts_at.slice(0, 4)), month: Number(ev.starts_at.slice(5, 7)) };
   const title = ev.title;
   const when = new Date(ev.starts_at);
   const dateText = when.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/London" });
@@ -93,8 +145,8 @@ serve(async (req) => {
   };
   // Syngraph creates a NEW achievement whenever it is not given an achievementId, so find ours once
   // (by name) and reuse it for every recipient; the first call creates it, with the design and badge.
-  let achievementId: string | null = null;
-  let looked = false;
+  let achievementId: string | null = course?.achievement_id ?? null;
+  let looked = !!course?.achievement_id; // an explicit achievement is used as given: no name lookup
   const findAchievement = async () => {
     looked = true;
     const base = Deno.env.get("SYNGRAPH_FUNCTIONS_URL") ?? "https://bzmumnflczajlagnmppd.supabase.co/functions/v1";
@@ -121,9 +173,17 @@ serve(async (req) => {
     return json({ sample: true, issued_to: me.email, verifyUrl: r.verifyUrl, publicId: r.publicId, note: "Syngraph only. Nothing copied into the LMS and no email sent." });
   }
 
+  // ---- self_test: a real certificate AND the real email, to the calling admin only ----
+  if (mode === "self_test") {
+    const me = { name: "Lucas Domingues", email: admin.email! };
+    const r = await issue(me);
+    const err = await sendEmail(me.email, me.name, title, dateText, r.verifyUrl, emailOpts);
+    return json({ self_test: true, issued_to: me.email, verifyUrl: r.verifyUrl, publicId: r.publicId, email_error: err, note: "One signed certificate issued in Syngraph and emailed to you. Nothing copied into the LMS." });
+  }
+
   if (mode === "email_preview") {
     const link = typeof (b as { preview_url?: string }).preview_url === "string" ? (b as { preview_url?: string }).preview_url! : `${SITE}/learn`;
-    const err = await sendEmail(admin.email!, "Lucas Domingues", title, dateText, link);
+    const err = await sendEmail(admin.email!, "Lucas Domingues", title, dateText, link, emailOpts);
     return json({ preview_sent_to: admin.email, error: err });
   }
 
@@ -139,6 +199,14 @@ serve(async (req) => {
     const person = { name: String(a.name ?? "").trim() || email.split("@")[0], email, minutes: a.minutes };
     if ((a.minutes ?? min) < min) belowThreshold.push(person); else eligible.push(person);
   }
+  if (cronIssue) {
+    const { data: tagged } = await db.from("people_tags").select("user_id").eq("tag", b.require_tag!);
+    const ids = (tagged ?? []).map((t: { user_id: string }) => t.user_id);
+    const { data: prof } = ids.length ? await db.from("profiles").select("email").in("id", ids) : { data: [] };
+    const ok = new Set((prof ?? []).map((r: { email: string | null }) => (r.email ?? "").toLowerCase()));
+    const outside = [...eligible, ...belowThreshold].filter((a) => !ok.has(a.email)).map((a) => mask(a.email));
+    if (outside.length) return json({ error: `Not tagged ${b.require_tag}: ${outside.join(", ")}` }, 403);
+  }
   const { data: existing } = await db.from("certificates").select("recipient_email").eq("course_name", title).eq("status", "issued");
   const have = new Set((existing ?? []).map((r: { recipient_email: string }) => r.recipient_email.toLowerCase()));
   const todo = eligible.filter((a) => !have.has(a.email));
@@ -148,7 +216,7 @@ serve(async (req) => {
     const { data: certs } = await db.from("certificates").select("recipient_email, recipient_name, external_url").eq("course_name", title).eq("status", "issued");
     const byEmail = new Map((certs ?? []).map((c: { recipient_email: string; recipient_name: string; external_url: string | null }) => [c.recipient_email.toLowerCase(), c]));
     const { data: sentRows } = await db.from("email_log").select("dedupe_key").eq("kind", "event_certificate").like("dedupe_key", `${ev.id}:%`);
-    const already = new Set((sentRows ?? []).map((r: { dedupe_key: string }) => r.dedupe_key.split(":")[1]));
+    const already = new Set((sentRows ?? []).map((r: { dedupe_key: string }) => r.dedupe_key.slice(ev.id.length + 1)));
     const { count } = await db.from("email_log").select("id", { count: "exact", head: true }).gte("sent_at", new Date(Date.now() - 86_400_000).toISOString());
     let room = Math.max(0, DAILY_BUDGET - RESERVE - (count ?? 0));
     const sentTo: string[] = [], failed: { email: string; error: string }[] = [];
@@ -158,7 +226,7 @@ serve(async (req) => {
       if (!c?.external_url) { failed.push({ email: mask(a.email), error: "no certificate to send" }); continue; }
       if (already.has(a.email)) { skippedAlready++; continue; }
       if (room <= 0) { skippedBudget++; continue; }
-      const err = await sendEmail(a.email, c.recipient_name, title, dateText, c.external_url);
+      const err = await sendEmail(a.email, c.recipient_name, title, dateText, c.external_url, emailOpts, cc);
       if (err) failed.push({ email: mask(a.email), error: err });
       else { room--; sentTo.push(mask(a.email)); await db.from("email_log").insert({ kind: "event_certificate", dedupe_key: `${ev.id}:${a.email}`, status: "sent" }); }
       await sleep(700);
@@ -181,13 +249,13 @@ serve(async (req) => {
       const r = await issue(a);
       const { error } = await db.from("certificates").insert({
         recipient_name: a.name, recipient_email: a.email, course_name: title, completion_date: completionDate,
-        credential_level: "Certificate of Attendance", status: "issued", issued_by: admin.id, issued_at: ev.starts_at, external_url: r.verifyUrl,
+        credential_level: credentialLevel, status: "issued", issued_by: admin.id, issued_at: ev.starts_at, external_url: r.verifyUrl,
       });
       if (error) throw new Error(`certificate saved in Syngraph but not mirrored: ${error.message}`);
       let emailed = false;
       if (b.send_email) {
         if (emailRoom > 0) {
-          const err = await sendEmail(a.email, a.name, title, dateText, r.verifyUrl);
+          const err = await sendEmail(a.email, a.name, title, dateText, r.verifyUrl, emailOpts, cc);
           if (!err) { emailed = true; emailRoom--; await db.from("email_log").insert({ kind: "event_certificate", dedupe_key: `${ev.id}:${a.email}`, status: "sent" }); }
           await sleep(700);
         }
