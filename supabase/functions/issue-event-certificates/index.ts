@@ -91,12 +91,12 @@ function emailHtml(name: string, title: string, dateText: string, verifyUrl: str
 </table></td></tr></table></body></html>`;
 }
 
-async function sendEmail(to: string, name: string, title: string, dateText: string, verifyUrl: string, o: EmailOpts): Promise<string | null> {
+async function sendEmail(to: string, name: string, title: string, dateText: string, verifyUrl: string, o: EmailOpts, cc: string[] = []): Promise<string | null> {
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return "RESEND_API_KEY missing";
   const html = emailHtml(name, title, dateText, verifyUrl, o);
   const res = await resendSend(key, {
-    from: "SafetyTech Academy <hello@safetytech.academy>", reply_to: "hello@safetytech.academy", to: [to],
+    from: "SafetyTech Academy <hello@safetytech.academy>", reply_to: "hello@safetytech.academy", to: [to], ...(cc.length ? { cc } : {}),
     subject: `Your ${title} certificate`, html, text: htmlToText(html),
   });
   if (res.ok) return null;
@@ -113,9 +113,13 @@ serve(async (req) => {
     try { admin = await requireAdmin(req); } catch (e) { return json({ error: (e as Error).message }, e instanceof AuthError ? e.status : 401); }
   }
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const b = await req.json().catch(() => ({})) as { event_id?: string; attendees?: Attendee[]; template_id?: string; badge_id?: string; min_minutes?: number; mode?: string; send_email?: boolean; description?: string; course?: CourseInfo };
+  const b = await req.json().catch(() => ({})) as { event_id?: string; attendees?: Attendee[]; template_id?: string; badge_id?: string; min_minutes?: number; mode?: string; send_email?: boolean; description?: string; course?: CourseInfo; cc?: string[]; require_tag?: string };
 
-  if (cron && !["self_test", "email_preview"].includes(b.mode ?? "")) return json({ error: "Admins only" }, 403);
+  // The cron secret may also run a real course issue, but only for people already tagged `require_tag` in the LMS.
+  const cronIssue = cron && ["dry_run", "issue", "send_emails"].includes(b.mode ?? "") && !!b.course?.title && !!b.require_tag;
+  if (cron && !cronIssue && !["self_test", "email_preview"].includes(b.mode ?? "")) return json({ error: "Admins only" }, 403);
+  // cc: internal addresses only, so this can never copy a certificate to an outside party.
+  const cc = (b.cc ?? []).map((x) => String(x).trim().toLowerCase()).filter((x) => EMAIL_RE.test(x) && x.endsWith("@safetytech.academy")).slice(0, 3);
   const course = b.course?.title && /^\d{4}-\d{2}-\d{2}$/.test(b.course.date ?? "") ? b.course : undefined;
   let ev: { id: string; title: string; starts_at: string } | null;
   if (course) {
@@ -195,6 +199,14 @@ serve(async (req) => {
     const person = { name: String(a.name ?? "").trim() || email.split("@")[0], email, minutes: a.minutes };
     if ((a.minutes ?? min) < min) belowThreshold.push(person); else eligible.push(person);
   }
+  if (cronIssue) {
+    const { data: tagged } = await db.from("people_tags").select("user_id").eq("tag", b.require_tag!);
+    const ids = (tagged ?? []).map((t: { user_id: string }) => t.user_id);
+    const { data: prof } = ids.length ? await db.from("profiles").select("email").in("id", ids) : { data: [] };
+    const ok = new Set((prof ?? []).map((r: { email: string | null }) => (r.email ?? "").toLowerCase()));
+    const outside = [...eligible, ...belowThreshold].filter((a) => !ok.has(a.email)).map((a) => mask(a.email));
+    if (outside.length) return json({ error: `Not tagged ${b.require_tag}: ${outside.join(", ")}` }, 403);
+  }
   const { data: existing } = await db.from("certificates").select("recipient_email").eq("course_name", title).eq("status", "issued");
   const have = new Set((existing ?? []).map((r: { recipient_email: string }) => r.recipient_email.toLowerCase()));
   const todo = eligible.filter((a) => !have.has(a.email));
@@ -204,7 +216,7 @@ serve(async (req) => {
     const { data: certs } = await db.from("certificates").select("recipient_email, recipient_name, external_url").eq("course_name", title).eq("status", "issued");
     const byEmail = new Map((certs ?? []).map((c: { recipient_email: string; recipient_name: string; external_url: string | null }) => [c.recipient_email.toLowerCase(), c]));
     const { data: sentRows } = await db.from("email_log").select("dedupe_key").eq("kind", "event_certificate").like("dedupe_key", `${ev.id}:%`);
-    const already = new Set((sentRows ?? []).map((r: { dedupe_key: string }) => r.dedupe_key.split(":")[1]));
+    const already = new Set((sentRows ?? []).map((r: { dedupe_key: string }) => r.dedupe_key.slice(ev.id.length + 1)));
     const { count } = await db.from("email_log").select("id", { count: "exact", head: true }).gte("sent_at", new Date(Date.now() - 86_400_000).toISOString());
     let room = Math.max(0, DAILY_BUDGET - RESERVE - (count ?? 0));
     const sentTo: string[] = [], failed: { email: string; error: string }[] = [];
@@ -214,7 +226,7 @@ serve(async (req) => {
       if (!c?.external_url) { failed.push({ email: mask(a.email), error: "no certificate to send" }); continue; }
       if (already.has(a.email)) { skippedAlready++; continue; }
       if (room <= 0) { skippedBudget++; continue; }
-      const err = await sendEmail(a.email, c.recipient_name, title, dateText, c.external_url, emailOpts);
+      const err = await sendEmail(a.email, c.recipient_name, title, dateText, c.external_url, emailOpts, cc);
       if (err) failed.push({ email: mask(a.email), error: err });
       else { room--; sentTo.push(mask(a.email)); await db.from("email_log").insert({ kind: "event_certificate", dedupe_key: `${ev.id}:${a.email}`, status: "sent" }); }
       await sleep(700);
@@ -243,7 +255,7 @@ serve(async (req) => {
       let emailed = false;
       if (b.send_email) {
         if (emailRoom > 0) {
-          const err = await sendEmail(a.email, a.name, title, dateText, r.verifyUrl, emailOpts);
+          const err = await sendEmail(a.email, a.name, title, dateText, r.verifyUrl, emailOpts, cc);
           if (!err) { emailed = true; emailRoom--; await db.from("email_log").insert({ kind: "event_certificate", dedupe_key: `${ev.id}:${a.email}`, status: "sent" }); }
           await sleep(700);
         }
