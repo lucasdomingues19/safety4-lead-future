@@ -16,8 +16,8 @@ export default function ForProfessionals() {
     setPageSEO({
       title: "Professional Development Courses for EHS Leaders | SafetyTech Academy",
       description: "IOSH-approved professional development courses for EHS professionals. Master AI, Safety 4.0, and digital transformation. Advance your career with expert-led training.",
-      canonical: "https://safetytech.academy/for-professionals",
-      ogImage: "https://safetytech.academy/opengraph-image.png?v=3",
+      canonical: "https://www.safetytech.academy/for-professionals",
+      ogImage: "https://www.safetytech.academy/opengraph-image.png?v=3",
     });
   }, []);
 

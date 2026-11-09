@@ -216,7 +216,7 @@ Happy to jump on a call if anything needs adjusting.
 Best regards,
 Lucas Domingues
 MSc, CMIOSH — Founder, SafetyTech Academy
-https://safetytech.academy
+https://www.safetytech.academy
 +44 7983 819437`,
     });
   };

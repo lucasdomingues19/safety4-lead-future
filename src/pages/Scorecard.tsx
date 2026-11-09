@@ -10,7 +10,7 @@ const Scorecard = () => {
     setPageSEO({
       title: "Free EHS AI Readiness Assessment | Digital Maturity Scorecard",
       description: "Assess your EHS team's readiness for AI and digital transformation. Evaluate organizational maturity across awareness, technology, governance, change management and leadership. Get a detailed PDF report.",
-      canonical: "https://safetytech.academy/scorecard",
+      canonical: "https://www.safetytech.academy/scorecard",
     });
     trackPageView(window.location.pathname);
   }, []);

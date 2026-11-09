@@ -33,7 +33,7 @@ const AIFundamentals = () => {
       title: "AI Fundamentals in EHS | SafetyTech Academy",
       description:
         "Build the AI literacy every modern EHS professional needs in 90 minutes. Practical, no jargon — actionable skills you can use immediately.",
-      canonical: "https://safetytech.academy/ai-fundamentals",
+      canonical: "https://www.safetytech.academy/ai-fundamentals",
     });
   }, []);
 

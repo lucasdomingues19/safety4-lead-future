@@ -148,8 +148,8 @@ const handler = async (req: Request): Promise<Response> => {
         <p style="font-size:14px;color:#475569;line-height:1.7;margin:0 0 18px;">
           SafetyTech Academy runs IOSH-approved, CPD-certified training that produces the certificated evidence the AI literacy obligation asks for.
         </p>
-        <a href="https://safetytech.academy/#pricing" style="display:block;text-align:center;background:#3858E9;color:#ffffff;font-weight:800;text-decoration:none;padding:15px 20px;border-radius:8px;">Discover SafetyTech Academy</a>
-        <a href="https://safetytech.academy/contact" style="display:block;text-align:center;border:1px solid #cbd5e1;color:#3858E9;font-weight:600;text-decoration:none;padding:14px 20px;border-radius:8px;margin-top:12px;">Book a call with us</a>
+        <a href="https://www.safetytech.academy/#pricing" style="display:block;text-align:center;background:#3858E9;color:#ffffff;font-weight:800;text-decoration:none;padding:15px 20px;border-radius:8px;">Discover SafetyTech Academy</a>
+        <a href="https://www.safetytech.academy/contact" style="display:block;text-align:center;border:1px solid #cbd5e1;color:#3858E9;font-weight:600;text-decoration:none;padding:14px 20px;border-radius:8px;margin-top:12px;">Book a call with us</a>
       </div>
 
       <p style="font-size:12px;color:#94a3b8;line-height:1.7;margin-top:28px;border-top:1px solid #e2e8f0;padding-top:18px;">

@@ -2,97 +2,97 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const staticUrls = `  <url>
-    <loc>https://safetytech.academy/</loc>
+    <loc>https://www.safetytech.academy/</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/elearning</loc>
+    <loc>https://www.safetytech.academy/elearning</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/accelerator</loc>
+    <loc>https://www.safetytech.academy/accelerator</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/enrol</loc>
+    <loc>https://www.safetytech.academy/enrol</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/in-company</loc>
+    <loc>https://www.safetytech.academy/in-company</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/certification</loc>
+    <loc>https://www.safetytech.academy/certification</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/case-studies</loc>
+    <loc>https://www.safetytech.academy/case-studies</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/faq</loc>
+    <loc>https://www.safetytech.academy/faq</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/scorecard</loc>
+    <loc>https://www.safetytech.academy/scorecard</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/blog</loc>
+    <loc>https://www.safetytech.academy/blog</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/contact</loc>
+    <loc>https://www.safetytech.academy/contact</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/ebook</loc>
+    <loc>https://www.safetytech.academy/ebook</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/privacy-policy</loc>
+    <loc>https://www.safetytech.academy/privacy-policy</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/terms-conditions</loc>
+    <loc>https://www.safetytech.academy/terms-conditions</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/cookies-policy</loc>
+    <loc>https://www.safetytech.academy/cookies-policy</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://safetytech.academy/anti-piracy-policy</loc>
+    <loc>https://www.safetytech.academy/anti-piracy-policy</loc>
     <lastmod>2026-04-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -113,7 +113,7 @@ serve(async () => {
     blogUrls = (data ?? [])
       .map(
         (post: { slug: string; publish_date: string }) => `  <url>
-    <loc>https://safetytech.academy/blog/${post.slug}</loc>
+    <loc>https://www.safetytech.academy/blog/${post.slug}</loc>
     <lastmod>${post.publish_date}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

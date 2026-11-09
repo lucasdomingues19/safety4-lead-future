@@ -41,7 +41,7 @@ const Syllabus = () => {
     setPageSEO({
       title: "eLearning — IOSH-approved Safety 4.0 Course",
       description: "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
-      canonical: "https://safetytech.academy/elearning",
+      canonical: "https://www.safetytech.academy/elearning",
     });
     trackPageView(window.location.pathname);
   }, []);

@@ -36,7 +36,7 @@ const Events = () => {
     setPageSEO({
       title: "Upcoming Events — SafetyTech Academy",
       description: "Join our upcoming webinars and masterclasses on AI, Safety 4.0, and modern EHS leadership. Free online events with industry experts.",
-      canonical: "https://safetytech.academy/events",
+      canonical: "https://www.safetytech.academy/events",
     });
   }, []);
 

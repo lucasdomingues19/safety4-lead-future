@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { setPageSEO } from "@/utils/seo";
 import founderPhoto from "@/assets/founder-cutout.png";
 
-const BASE = "https://safetytech.academy";
+const BASE = "https://www.safetytech.academy";
 // featuredImage is either a site-relative path or a full external URL (e.g.
 // Unsplash) — only prepend the origin for the relative case.
 const absoluteImageUrl = (src: string) => (src.startsWith("http") ? src : `${BASE}${src}`);
@@ -45,7 +45,7 @@ const BlogPost = () => {
       setPageSEO({
         title: `${post.title} | SafetyTech Academy Blog`,
         description: post.metaDescription,
-        canonical: `https://safetytech.academy/blog/${post.slug}`,
+        canonical: `https://www.safetytech.academy/blog/${post.slug}`,
         ogImage: absoluteImageUrl(post.featuredImage),
         ogType: "article",
       });
@@ -71,14 +71,14 @@ const BlogPost = () => {
           "name": "SafetyTech Academy",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://safetytech.academy/safety-academy-logo.png"
+            "url": "https://www.safetytech.academy/safety-academy-logo.png"
           }
         },
         "datePublished": post.publishDate,
         "dateModified": post.publishDate,
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": `https://safetytech.academy/blog/${post.slug}`
+          "@id": `https://www.safetytech.academy/blog/${post.slug}`
         },
         "keywords": post.tags.join(", "),
         "articleSection": post.category,

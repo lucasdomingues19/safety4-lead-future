@@ -24,7 +24,7 @@ const AboutUs = () => {
     setPageSEO({
       title: "About Us — SafetyTech Academy",
       description: "SafetyTech Academy's mission is to lead safety forward. Meet the team behind the world's first IOSH-approved, CPD-accredited Safety 4.0 certification.",
-      canonical: "https://safetytech.academy/about-us",
+      canonical: "https://www.safetytech.academy/about-us",
     });
   }, []);
 

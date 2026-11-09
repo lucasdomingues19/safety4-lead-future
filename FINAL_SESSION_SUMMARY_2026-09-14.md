@@ -25,7 +25,7 @@
 - Full audit trail with attempts tracking
 
 ### Phase 4B: Email Notifications ✅
-- Resend API integration (hello@safetyacademy.tech)
+- Resend API integration (hello@safetytech.academy)
 - 3 branded email templates
 - Enrollment confirmation emails
 - Course completion congratulations

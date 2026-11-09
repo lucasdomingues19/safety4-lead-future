@@ -4,7 +4,7 @@
 **The LMS is fully built, deployed, and operational in production.**
 
 ### What's Live Now
-- ✅ Auth page: https://safetytech.academy/learn/auth
+- ✅ Auth page: https://www.safetytech.academy/learn/auth
 - ✅ Signup/signin with email and Google OAuth
 - ✅ Password validation and error handling
 - ✅ Course navigation wired
@@ -40,11 +40,11 @@ Wait for email rate limit to reset (~1hr) and create account directly through si
 Use Supabase dashboard to bypass rate limiting and create test user programmatically.
 
 ### Production URLs
-- **Website:** https://safetytech.academy
-- **LMS Auth:** https://safetytech.academy/learn/auth
-- **LMS Dashboard:** https://safetytech.academy/learn (after login)
-- **Course View:** https://safetytech.academy/learn/[course-slug]
-- **Lesson Player:** https://safetytech.academy/learn/[course-slug]/lesson/[lesson-id]
+- **Website:** https://www.safetytech.academy
+- **LMS Auth:** https://www.safetytech.academy/learn/auth
+- **LMS Dashboard:** https://www.safetytech.academy/learn (after login)
+- **Course View:** https://www.safetytech.academy/learn/[course-slug]
+- **Lesson Player:** https://www.safetytech.academy/learn/[course-slug]/lesson/[lesson-id]
 
 ### Key Accomplishments This Session
 1. ✅ Updated Copilot for EHS page (10-module curriculum, LIVE)

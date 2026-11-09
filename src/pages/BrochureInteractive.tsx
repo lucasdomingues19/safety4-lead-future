@@ -31,7 +31,7 @@ const BrochureInteractive = () => {
     setPageSEO({
       title: "SafetyTech Academy Brochure",
       description: "Premium brochure featuring industry-leading courses in AI and Safety 4.0.",
-      canonical: "https://safetytech.academy/brochure",
+      canonical: "https://www.safetytech.academy/brochure",
     });
 
     return () => window.removeEventListener("resize", handleResize);

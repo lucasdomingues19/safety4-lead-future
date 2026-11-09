@@ -13,7 +13,7 @@ const Courses = () => {
     setPageSEO({
       title: "Our Courses — IOSH & CPD Approved Safety 4.0 Training",
       description: "Browse every SafetyTech Academy course: AI Fundamentals in EHS, IOSH-approved Safety 4.0, and the Safety 4.0 Accelerator Cohort.",
-      canonical: "https://safetytech.academy/courses",
+      canonical: "https://www.safetytech.academy/courses",
     });
   }, []);
 

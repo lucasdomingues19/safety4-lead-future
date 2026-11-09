@@ -7,7 +7,7 @@ import { guides } from "@/data/guides";
 import { setPageSEO } from "@/utils/seo";
 import { trackPageView } from "@/utils/analytics";
 
-const BASE = "https://safetytech.academy";
+const BASE = "https://www.safetytech.academy";
 
 const GuidesHub = () => {
   useEffect(() => {

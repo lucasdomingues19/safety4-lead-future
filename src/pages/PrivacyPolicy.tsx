@@ -38,7 +38,7 @@ export default function PrivacyPolicy() {
     setPageSEO({
       title: "Privacy Policy | SafetyTech Academy",
       description: "How Shield360 Ltd (SafetyTech Academy) collects, uses and protects your personal data under UK and EU GDPR, who we share it with, how long we keep it and your rights.",
-      canonical: "https://safetytech.academy/privacy-policy",
+      canonical: "https://www.safetytech.academy/privacy-policy",
     });
   }, []);
 
