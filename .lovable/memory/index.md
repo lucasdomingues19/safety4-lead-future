@@ -4,7 +4,7 @@
 Black theme, minimalist B2B. Text-lime-400 primary, pink secondary. No blue.
 Inter font. British English spelling. Always "approved training provider by IOSH".
 Admin: lucas.domingues1985@gmail.com. Strict RLS. No client-side DB inserts for analytics.
-Contact: hello@safetyacademy.tech, WhatsApp +44 7979116555, Zoom scheduling.
+Contact: hello@safetytech.academy, WhatsApp +44 7979116555, Zoom scheduling.
 B2B ROI data must be accurate and sourced (e.g., NSC, McKinsey). No invented metrics.
 No fake scarcity markers or automated toasts.
 All lead forms must have mandatory phone with country code selector.
@@ -26,7 +26,7 @@ All lead forms must have mandatory phone with country code selector.
 - [B2B Data Constraint](mem://constraints/b2b-calculator-accuracy) — Constraint regarding accurate sourced benchmark data
 - [Main Pricing Structure](mem://pricing/main-pricing-section) — Core learning paths (eLearning, Accelerator, In-Company)
 - [Resend Email Config](mem://email/resend-sender-configuration) — noreply@ to hello@, skip MX records for Resend
-- [Primary Contact Email](mem://email/primary-contact-address) — hello@safetyacademy.tech
+- [Primary Contact Email](mem://email/primary-contact-address) — hello@safetytech.academy
 - [Unified Lead Capture](mem://features/unified-lead-capture-system) — Mandatory phone numbers for conversions, optional for newsletter
 - [Accelerator Cohort](mem://pricing/accelerator-cohort) — 4-week live group offering, £997+VAT, no coaching
 - [Cohort Curriculum](mem://features/cohort/curriculum-timeline) — 4-week timeline and module distribution

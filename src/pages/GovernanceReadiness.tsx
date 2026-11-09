@@ -13,7 +13,7 @@ const GovernanceReadiness = () => {
       title: "AI in EHS Governance Readiness Review | SafetyTech Academy",
       description:
         "Free 3-minute AI governance readiness review for EHS leaders. Score your position across visibility, literacy, governance, assurance and records.",
-      canonical: "https://safetytech.academy/governance-readiness",
+      canonical: "https://www.safetytech.academy/governance-readiness",
     });
   }, []);
 

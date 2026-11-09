@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 import { guides } from "../src/data/guides";
 import { routeBodies, renderBodyHtml, type RouteBody } from "./route-bodies";
 
-const BASE = "https://safetytech.academy";
+const BASE = "https://www.safetytech.academy";
 const DEFAULT_OG = `${BASE}/opengraph-image.png?v=3`;
 
 export interface RouteSeo {

@@ -37,7 +37,7 @@ export default function CookiesPolicy() {
     setPageSEO({
       title: "Cookies Policy | SafetyTech Academy",
       description: "The cookies and similar technologies SafetyTech Academy uses, why, how long they last, and how to change your choice at any time.",
-      canonical: "https://safetytech.academy/cookies-policy",
+      canonical: "https://www.safetytech.academy/cookies-policy",
     });
   }, []);
 

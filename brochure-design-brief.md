@@ -263,7 +263,7 @@
 
 - **Contact Info** (centered, large):
   ```
-  hello@safetyacademy.tech
+  hello@safetytech.academy
   www.safetytech.academy
   ```
 

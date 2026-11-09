@@ -3,7 +3,7 @@
 **Status:** ✅ IMPLEMENTATION COMPLETE  
 **Date:** 2026-09-14  
 **Email Provider:** Resend API  
-**Sender:** hello@safetyacademy.tech
+**Sender:** hello@safetytech.academy
 
 ---
 
@@ -109,7 +109,7 @@ await sendCertificateEmail(
   "student@example.com",
   "Sarah Chen",
   "Microsoft Copilot for EHS",
-  "https://safetyacademy.tech/certificates/abc123.pdf"
+  "https://www.safetytech.academy/certificates/abc123.pdf"
 );
 ```
 
@@ -321,18 +321,18 @@ CREATE TABLE email_logs (
 2. **Add to Supabase Secrets**
    - Supabase Dashboard → Settings → Edge Functions → Secrets
    - Add `RESEND_API_KEY` with your key
-   - Add `APP_BASE_URL` (e.g., https://safetyacademy.tech)
+   - Add `APP_BASE_URL` (e.g., https://www.safetytech.academy)
 
 3. **Verify Sender Email**
    - Resend requires verified domain
-   - Add hello@safetyacademy.tech to DNS records
+   - Add hello@safetytech.academy to DNS records
    - Verify in Resend dashboard
 
 ### Environment Variables
 
 ```
 RESEND_API_KEY=re_XXXXXXXXXXXXX
-APP_BASE_URL=https://safetyacademy.tech
+APP_BASE_URL=https://www.safetytech.academy
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
@@ -498,7 +498,7 @@ ORDER BY sent_at DESC;
 - Check template formatting in edge function
 
 ### Emails going to spam
-- Add SPF, DKIM, DMARC records for hello@safetyacademy.tech
+- Add SPF, DKIM, DMARC records for hello@safetytech.academy
 - Verify domain in Resend dashboard
 - Check email content for spam keywords
 

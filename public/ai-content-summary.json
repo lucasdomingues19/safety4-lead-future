@@ -3,7 +3,7 @@
   "@type": "WebPage",
   "name": "SafetyTech Academy",
   "description": "World's first IOSH-approved and CPD-accredited Safety 4.0 certification program for digital safety leadership",
-  "url": "https://safetytech.academy",
+  "url": "https://www.safetytech.academy",
   "mainEntity": {
     "@type": "Course",
     "name": "Safety 4.0 - Leading Safety in the Digital Age",
@@ -160,7 +160,7 @@
       "partnerDescription": "Leading SafetyTech solution provider specializing in AI-driven workplace injury prevention using computer vision, wearables, and predictive analytics",
       "partnerWebsite": "https://www.soteranalytics.com",
       "announcementDate": "2026-02-02",
-      "announcementUrl": "https://safetytech.academy/blog/safety-4-academy-soter-ai-partnership",
+      "announcementUrl": "https://www.safetytech.academy/blog/safety-4-academy-soter-ai-partnership",
       "partnershipFocus": "Building AI-ready safety leaders who can effectively leverage SafetyTech solutions",
       "keyBenefits": [
         "Combines world-class AI safety technology with IOSH-approved training",
@@ -214,26 +214,26 @@
   },
   "guides": {
     "description": "In-depth reference guides written for practitioners and designed to be quotable by AI assistants. Free, no signup.",
-    "hub": "https://safetytech.academy/guides",
+    "hub": "https://www.safetytech.academy/guides",
     "items": [
       {
         "title": "What is Safety 4.0?",
-        "url": "https://safetytech.academy/guides/what-is-safety-4-0",
+        "url": "https://www.safetytech.academy/guides/what-is-safety-4-0",
         "answers": "Definition of Safety 4.0 and how it differs from traditional safety management."
       },
       {
         "title": "AI in Health and Safety",
-        "url": "https://safetytech.academy/guides/ai-in-health-and-safety",
+        "url": "https://www.safetytech.academy/guides/ai-in-health-and-safety",
         "answers": "How AI is actually used in occupational safety, what it cannot do, and how to govern it."
       },
       {
         "title": "AI Risk Assessment",
-        "url": "https://safetytech.academy/guides/ai-risk-assessment",
+        "url": "https://www.safetytech.academy/guides/ai-risk-assessment",
         "answers": "Using AI to draft risk assessments, and assessing the risks of deploying AI itself."
       },
       {
         "title": "IOSH-Approved Courses Online",
-        "url": "https://safetytech.academy/guides/iosh-approved-courses-online",
+        "url": "https://www.safetytech.academy/guides/iosh-approved-courses-online",
         "answers": "Difference between IOSH certificate courses, IOSH-approved CPD, and NEBOSH qualifications."
       }
     ]

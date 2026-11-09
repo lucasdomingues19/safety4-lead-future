@@ -24,7 +24,7 @@ const NEXT: EventDetails = {
   seoDate: "Thursday 15 October 2026, 3:00 PM UK time",
   banner: eventBannerNext,
   zoomUrl: "https://us06web.zoom.us/meeting/register/eQ3c-ybhRNqgFq85LLY4gQ",
-  canonical: "https://safetytech.academy/events/copilot-hse",
+  canonical: "https://www.safetytech.academy/events/copilot-hse",
   past: false,
 };
 
@@ -34,7 +34,7 @@ const PAST: EventDetails = {
   seoDate: "Wednesday 30 September 2026",
   banner: eventBannerPast,
   zoomUrl: null,
-  canonical: "https://safetytech.academy/events/copilot-hse-30-september",
+  canonical: "https://www.safetytech.academy/events/copilot-hse-30-september",
   past: true,
 };
 

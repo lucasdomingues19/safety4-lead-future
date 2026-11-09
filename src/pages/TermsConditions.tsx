@@ -10,7 +10,7 @@ export default function TermsConditions() {
     setPageSEO({
       title: "Terms & Conditions | SafetyTech Academy",
       description: "Read the Terms and Conditions for SafetyTech Academy's IOSH-approved digital safety leadership training. Covers enrolment, payment, intellectual property, and refund policies.",
-      canonical: "https://safetytech.academy/terms-conditions",
+      canonical: "https://www.safetytech.academy/terms-conditions",
     });
   }, []);
 

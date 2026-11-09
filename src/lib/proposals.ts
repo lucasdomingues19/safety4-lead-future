@@ -1,6 +1,6 @@
 // Shared catalogue + types for client proposals.
 
-export const SITE_URL = "https://safetytech.academy";
+export const SITE_URL = "https://www.safetytech.academy";
 
 export interface ProposalItem {
   id: string;

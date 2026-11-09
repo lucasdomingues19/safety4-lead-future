@@ -42,7 +42,7 @@ export default defineConfig(({ mode }) => {
         // Lovable Assets are served from the edge in production/preview.
         // Proxy them locally so dev previews render uploaded images correctly.
         "/__l5e/assets-v1": {
-          target: "https://safetytech.academy",
+          target: "https://www.safetytech.academy",
           changeOrigin: true,
         },
       },

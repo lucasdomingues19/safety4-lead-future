@@ -6,7 +6,7 @@ Disallow: /learn/auth
 Disallow: /linkedin-callback
 Disallow: /proposal_
 
-Sitemap: https://safetytech.academy/sitemap.xml
+Sitemap: https://www.safetytech.academy/sitemap.xml
 
 
 # ============================================

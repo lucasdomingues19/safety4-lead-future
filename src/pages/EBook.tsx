@@ -46,7 +46,7 @@ const EBook = () => {
     setPageSEO({
       title: "Free Safety 4.0 eBook | Digital Safety Leadership Guide Download",
       description: "Download the free Safety 4.0 eBook — your guide to leading safety in the digital age. Learn about AI, IoT, and SafetyTech for modern workplace safety management.",
-      canonical: "https://safetytech.academy/ebook",
+      canonical: "https://www.safetytech.academy/ebook",
     });
   }, []);
 

@@ -192,7 +192,7 @@ const CopilotEHS = () => {
       title: "Microsoft Copilot for EHS & Sustainability | SafetyTech Academy",
       description:
         "Group training that turns Microsoft Copilot licences into genuine, audit-ready AI competence for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
-      canonical: "https://safetytech.academy/copilot-for-ehs",
+      canonical: "https://www.safetytech.academy/copilot-for-ehs",
     });
   }, []);
 
