@@ -3,7 +3,7 @@ import { Download, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { PanelHeader, Spinner, adminFont, downloadCsv, panel } from "../adminUi";
 
-interface Sale { id: string; course_title: string; customer_name: string | null; customer_business: string | null; customer_vat_id: string | null; amount_cents: number; currency: string; tax_cents: number | null; discount_cents: number; promo_code: string | null; quantity: number; status: string; purchased_at: string; invoice_url: string | null; invoice_pdf: string | null; receipt_url: string | null; bundle_id: string | null; organisation_id: string | null; user_id: string }
+interface Sale { id: string; course_title: string; customer_name: string | null; customer_email: string | null; customer_phone: string | null; customer_business: string | null; customer_vat_id: string | null; amount_cents: number; currency: string; tax_cents: number | null; discount_cents: number; promo_code: string | null; quantity: number; status: string; purchased_at: string; invoice_url: string | null; invoice_pdf: string | null; receipt_url: string | null; bundle_id: string | null; organisation_id: string | null; user_id: string }
 const money = (c: number, cur = "GBP") => new Intl.NumberFormat("en-GB", { style: "currency", currency: cur }).format(c / 100);
 
 /** Every sale we have recorded, with the buyer's invoice and receipt, discount used and team/bundle labels. */
@@ -22,7 +22,7 @@ export function Sales() {
   if (!rows) return <Spinner />;
   const total = rows.filter((r) => r.status !== "refunded").reduce((n, r) => n + r.amount_cents, 0);
   const exportCsv = () => downloadCsv(`sales-${new Date().toISOString().slice(0, 10)}.csv`, rows.map((r) => ({
-    Date: r.purchased_at.slice(0, 10), Product: r.course_title, Seats: r.quantity, Buyer: emails.get(r.user_id) ?? "", Business: r.customer_business ?? "", "VAT number": r.customer_vat_id ?? "",
+    Date: r.purchased_at.slice(0, 10), Product: r.course_title, Seats: r.quantity, Name: r.customer_name ?? "", Buyer: r.customer_email ?? emails.get(r.user_id) ?? "", Phone: r.customer_phone ?? "", Business: r.customer_business ?? "", "VAT number": r.customer_vat_id ?? "",
     Total: (r.amount_cents / 100).toFixed(2), VAT: ((r.tax_cents ?? 0) / 100).toFixed(2), Discount: (r.discount_cents / 100).toFixed(2), Code: r.promo_code ?? "", Status: r.status, Invoice: r.invoice_pdf ?? r.invoice_url ?? r.receipt_url ?? "",
   })));
   return (
@@ -37,7 +37,7 @@ export function Sales() {
                 <tr key={r.id} style={{ borderBottom: "1px solid #f1f4f8" }}>
                   <td style={{ padding: "10px 14px", whiteSpace: "nowrap" }}>{new Date(r.purchased_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "2-digit" })}</td>
                   <td style={{ padding: "10px 14px" }}><div style={{ fontWeight: 700 }}>{r.course_title}</div>{r.quantity > 1 && <div style={{ fontSize: 12, color: "#94a3b8" }}>{r.quantity} seats</div>}</td>
-                  <td style={{ padding: "10px 14px" }}><div>{emails.get(r.user_id) ?? "—"}</div>{r.customer_business && <div style={{ fontSize: 12, color: "#94a3b8" }}>{r.customer_business}{r.customer_vat_id ? ` · VAT ${r.customer_vat_id}` : ""}</div>}</td>
+                  <td style={{ padding: "10px 14px" }}>{r.customer_name && <div style={{ fontWeight: 700 }}>{r.customer_name}</div>}<div>{r.customer_email ?? emails.get(r.user_id) ?? "—"}</div>{r.customer_phone && <div style={{ fontSize: 12, color: "#94a3b8" }}>{r.customer_phone}</div>}{r.customer_business && <div style={{ fontSize: 12, color: "#94a3b8" }}>{r.customer_business}{r.customer_vat_id ? ` · VAT ${r.customer_vat_id}` : ""}</div>}</td>
                   <td style={{ padding: "10px 14px", textAlign: "right", fontVariantNumeric: "tabular-nums", fontWeight: 700 }}>{money(r.amount_cents, r.currency)}{!!r.tax_cents && <div style={{ fontSize: 11.5, color: "#94a3b8", fontWeight: 500 }}>incl. {money(r.tax_cents, r.currency)} VAT</div>}</td>
                   <td style={{ padding: "10px 14px", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{r.discount_cents ? <>−{money(r.discount_cents, r.currency)}{r.promo_code && <div style={{ fontSize: 11.5, color: "#94a3b8" }}>{r.promo_code}</div>}</> : "—"}</td>
                   <td style={{ padding: "10px 14px" }}><span style={{ padding: "2px 9px", borderRadius: 999, fontSize: 11.5, fontWeight: 800, background: r.status === "refunded" ? "#fee2e2" : "#ecffd1", color: r.status === "refunded" ? "#b91c1c" : "#3f6212" }}>{r.status}</span></td>

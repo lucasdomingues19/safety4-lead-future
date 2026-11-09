@@ -61,6 +61,8 @@ export async function recordPurchase(db: any, sessionId: string, t: PurchaseTarg
       discount_cents: session.total_details?.amount_discount ?? 0,
       promo_code: promoCode,
       customer_name: individual,
+      customer_email: (cd.email || session.customer_email || "").trim().toLowerCase() || null,
+      customer_phone: (cd.phone || "").trim() || null,
       customer_business: business,
       customer_country: cd.address?.country ?? null,
       customer_vat_id: taxId,
