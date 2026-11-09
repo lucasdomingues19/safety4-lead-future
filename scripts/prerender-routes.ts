@@ -5,6 +5,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { guides } from "../src/data/guides";
 import { routeBodies, renderBodyHtml, type RouteBody } from "./route-bodies";
+import { courseLd, courseListLd, faqLd, aboutPageLd } from "../src/data/siteFacts";
+import { allFaqs } from "../src/data/faqs";
+
+/** Time-bound answers (e.g. next cohort dates) go stale; keep them out of structured data. */
+const evergreenFaqs = allFaqs.filter((f) => !/next cohort/i.test(f.question));
 
 const BASE = "https://www.safetytech.academy";
 const DEFAULT_OG = `${BASE}/opengraph-image.png?v=3`;
@@ -35,18 +40,21 @@ export interface RouteSeo {
 const staticRoutes: RouteSeo[] = [
   {
     path: "/elearning",
+    jsonLd: [courseLd("elearning")],
     title: "IOSH-approved Safety 4.0 — Leading Safety in the Digital Age",
     description:
       "Self-paced, IOSH-approved eLearning. Master AI, IoT, SafetyTech and digital leadership at your own pace. CPD accredited.",
   },
   {
     path: "/ai-fundamentals",
+    jsonLd: [courseLd("ai-fundamentals")],
     title: "AI Fundamentals in EHS | SafetyTech Academy",
     description:
       "Learn the fundamentals of AI for environment, health and safety. A practical introduction to using AI in EHS workflows.",
   },
   {
     path: "/copilot-for-ehs",
+    jsonLd: [courseLd("copilot-for-ehs")],
     title: "Microsoft Copilot for EHS & Sustainability | SafetyTech Academy",
     description:
       "Group training that turns Microsoft Copilot licences into genuine, audit-ready AI competence for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
@@ -60,6 +68,7 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/accelerator",
+    jsonLd: [courseLd("accelerator")],
     title:
       "Accelerator • Cohort — 6-Week IOSH Approved Live Programme | September 2026",
     description:
@@ -73,12 +82,14 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/courses",
+    jsonLd: [courseListLd()],
     title: "Our Courses — IOSH & CPD Approved Safety 4.0 Training",
     description:
       "Browse every SafetyTech Academy course: AI Fundamentals in EHS, IOSH-approved Safety 4.0, and the Safety 4.0 Accelerator Cohort.",
   },
   {
     path: "/about-us",
+    jsonLd: [aboutPageLd()],
     title: "About Us — SafetyTech Academy",
     description:
       "SafetyTech Academy's mission is to lead safety forward. Meet the team behind the world's first IOSH-approved, CPD-accredited Safety 4.0 certification.",
@@ -91,6 +102,7 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/faq",
+    jsonLd: [faqLd(evergreenFaqs)],
     title: "FAQ — SafetyTech Academy",
     description:
       "Answers on our eLearning, Accelerator cohort, In-Company training, IOSH certification and pricing.",
@@ -233,6 +245,21 @@ async function getBlogRoutes(supabaseUrl: string, supabaseKey: string): Promise<
     description: post.meta_description,
     ogImage: post.featured_image.startsWith("http") ? post.featured_image : `${BASE}${post.featured_image}`,
     ogType: "article",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.meta_description,
+        image: post.featured_image.startsWith("http") ? post.featured_image : `${BASE}${post.featured_image}`,
+        url: `${BASE}/blog/${post.slug}`,
+        mainEntityOfPage: `${BASE}/blog/${post.slug}`,
+        inLanguage: "en-GB",
+        ...(post.publish_date ? { datePublished: post.publish_date } : {}),
+        author: { "@type": "Organization", name: "SafetyTech Academy", url: BASE },
+        publisher: { "@id": `${BASE}/#organization` },
+      },
+    ],
     body: {
       h1: post.title,
       sections: post.excerpt ? [{ heading: "", paragraphs: [post.excerpt] }] : [],
@@ -440,7 +467,7 @@ export function applyRouteSeo(template: string, route: RouteSeo): string {
     const blocks = route.jsonLd
       .map(
         (block) =>
-          `    <script type="application/ld+json">${JSON.stringify(block).replace(
+          `    <script type="application/ld+json" data-prerendered="${route.path}">${JSON.stringify(block).replace(
             /</g,
             "\\u003c",
           )}</script>`,

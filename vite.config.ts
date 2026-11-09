@@ -4,6 +4,14 @@ import path from "path";
 import fs from "fs";
 // import { componentTagger } from "lovable-tagger"; // Lovable dev tool, not needed for production build
 import { getPrerenderRoutes, applyRouteSeo } from "./scripts/prerender-routes";
+import { buildLlmsTxt, buildLlmsFull } from "./scripts/ai-search";
+import { organizationLd, websiteLd, courseListLd } from "./src/data/siteFacts";
+
+/** JSON-LD <script> tags for the static HTML, tagged so the client fallback can tell they're there. */
+const ldTags = (tag: string, blocks: object[]) =>
+  blocks
+    .map((b) => `    <script type="application/ld+json" data-prerendered="${tag}">${JSON.stringify(b).replace(/</g, "\\u003c")}</script>`)
+    .join("\n");
 
 // Emits a static HTML file per route with unique title/description/canonical/
 // og:url baked in, so crawlers get self-canonicalising pages before any JS runs.
@@ -16,7 +24,11 @@ function seoPrerenderPlugin(supabaseUrl: string, supabaseKey: string): Plugin {
       const dist = path.resolve(__dirname, "dist");
       const templatePath = path.join(dist, "index.html");
       if (!fs.existsSync(templatePath)) return;
-      const template = fs.readFileSync(templatePath, "utf-8");
+      // Organisation + website schema on every page; the homepage also lists the courses.
+      const template = fs
+        .readFileSync(templatePath, "utf-8")
+        .replace(/<\/head>/, `${ldTags("site", [organizationLd(), websiteLd()])}\n  </head>`);
+      fs.writeFileSync(templatePath, template.replace(/<\/head>/, `${ldTags("/", [courseListLd()])}\n  </head>`));
 
       const routes = await getPrerenderRoutes(supabaseUrl, supabaseKey);
 
@@ -27,6 +39,11 @@ function seoPrerenderPlugin(supabaseUrl: string, supabaseKey: string): Plugin {
         fs.writeFileSync(path.join(outDir, "index.html"), html);
       }
       console.log(`seo-prerender: wrote ${routes.length} route pages`);
+
+      // AI-assistant index and full-text reference, generated from the same data.
+      fs.writeFileSync(path.join(dist, "llms.txt"), buildLlmsTxt(routes));
+      fs.writeFileSync(path.join(dist, "llms-full.txt"), buildLlmsFull(routes));
+      console.log("seo-prerender: wrote llms.txt and llms-full.txt");
     },
   };
 }
