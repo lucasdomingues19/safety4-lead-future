@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { recordCoursePurchase, recordPurchase } from "../_shared/purchases.ts";
 import { fulfilBundle, fulfilTeamPurchase } from "../_shared/teams.ts";
 import { sendPurchaseEmail } from "../_shared/purchaseEmail.ts";
+import { communityGrantOf, fulfilCommunityPurchase } from "../_shared/community.ts";
 import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
 
@@ -78,6 +79,13 @@ serve(async (req) => {
           const { data: bd } = await db.from("bundles").select("title").eq("id", meta.bundle_id).maybeSingle();
           await recordPurchase(db, session.id, { userId: meta.user_id, bundleId: meta.bundle_id, title: `${bd?.title ?? "Bundle"} (bundle)` });
           console.log("Bundle granted via webhook", { bundle: meta.bundle_id, enrolments: n });
+          break;
+        }
+        // A Payment Link that unlocks the paid community only (the live Copilot training runs on Teams).
+        const grant = meta.course_id ? null : await communityGrantOf(session, meta);
+        if (grant) {
+          if (session.payment_status !== "paid") { console.log("Community checkout not paid yet", session.id); break; }
+          await fulfilCommunityPurchase(db, session, grant);
           break;
         }
         const { course_id } = meta;
