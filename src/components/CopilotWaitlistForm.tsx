@@ -56,7 +56,7 @@ export const CopilotWaitlistForm = () => {
     return (
       <div className="rounded-[20px] border border-primary bg-primary/5 p-8 text-center max-w-xl mx-auto">
         <CheckCircle className="w-10 h-10 text-primary mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-slate-900 mb-1">You're on the list</h3>
+        <h3 className="text-lg font-bold text-slate-900 mb-1">Thanks, we've noted your interest</h3>
         <p className="text-sm text-[#69697b]">
           We'll be in touch with early access and pricing ahead of the October 2026 launch.
         </p>
@@ -113,7 +113,7 @@ export const CopilotWaitlistForm = () => {
         className="w-full inline-flex items-center justify-center gap-2 px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors disabled:opacity-60"
       >
         {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
-        {submitting ? "Joining..." : "Join the Waitlist"}
+        {submitting ? "Registering..." : "Register Interest"}
       </button>
       <p className="text-xs text-slate-400 text-center mt-3">
         No spam. We'll only email you about this program's launch.

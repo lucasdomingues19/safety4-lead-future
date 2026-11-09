@@ -228,9 +228,9 @@ const CopilotEHS = () => {
           { icon: Target, label: "Group size", value: "10–30+ participants" },
           { icon: Calendar, label: "Launch", value: "October 2026" },
         ]}
-        cta={{ label: "Join the Waitlist", href: "/copilot-for-ehs#waitlist" }}
+        cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
         secondaryCta={{ label: "Talk to Us", href: "/contact" }}
-        guarantee="Live cohorts launch October 2026 — waitlist members get early access."
+        guarantee="Live cohorts launch October 2026 — those who register interest get early access."
       />
 
       {/* Copilot across the everyday EHS toolkit */}
@@ -334,7 +334,7 @@ const CopilotEHS = () => {
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="mb-2 text-center">Two ways to run the program</h2>
           <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
-            Pricing scales with group size, from 10 to 30+ participants. Join the waitlist and we'll confirm a
+            Pricing scales with group size, from 10 to 30+ participants. Register your interest and we'll confirm a
             quote for your team.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
@@ -486,7 +486,7 @@ const CopilotEHS = () => {
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="mb-4">Ready to give your team real Copilot competence?</h2>
           <p className="text-[#69697b] leading-relaxed mb-8 max-w-xl mx-auto">
-            Live cohorts launch October 2026. Join the waitlist for early access and a quote scaled to your team.
+            Live cohorts launch October 2026. Register your interest for early access and a quote scaled to your team.
           </p>
           <CopilotWaitlistForm />
           <p className="text-sm text-[#69697b] mt-6">
