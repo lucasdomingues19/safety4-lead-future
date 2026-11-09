@@ -52,7 +52,7 @@ export async function sendPurchaseEmail(o: PurchaseEmailInput): Promise<string |
  * After a payment that unlocks the paid community only (e.g. the live Copilot training, which runs on
  * Teams, so there is no course to open). Lucas is copied in so he knows to send the joining details.
  */
-export async function sendCommunityPurchaseEmail(o: { to: string; name: string; title: string; link: string; isNew: boolean; until: Date | null }): Promise<string | null> {
+export async function sendCommunityPurchaseEmail(o: { to: string; name: string; title: string; link: string; isNew: boolean; until: Date | null; receiptUrl?: string | null }): Promise<string | null> {
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return "RESEND_API_KEY missing";
   const first = esc((o.name || "").split(" ")[0] || "there");
@@ -65,6 +65,7 @@ export async function sendCommunityPurchaseEmail(o: { to: string; name: string; 
 <h1 style="margin:0 0 14px;font-size:22px;color:#0b0b2c;">Thank you, ${first}. Your place is confirmed.</h1>
 <p style="margin:0 0 14px;">Your payment for <strong>${esc(o.title)}</strong> is confirmed.</p>
 <p style="margin:0 0 14px;">The training runs live on Microsoft Teams, so there is nothing to open on the learning platform for it. We will email you the date and your joining details separately.</p>
+<p style="margin:0 0 14px;">Your VAT invoice and receipt are saved under <strong>Settings, then Purchase history</strong> on the learning platform${o.receiptUrl ? `, and you can <a href="${esc(o.receiptUrl)}" style="color:#3434ff;">open your receipt here</a>` : ""}.</p>
 <p style="margin:0 0 14px;">Your <strong>SafetyTech Global Network</strong> membership is now active${until ? ` until <strong>${until}</strong>` : ""}. It is the members-only community of SafetyTech Academy.</p>
 <p style="margin:0 0 14px;">${o.isNew ? "Choose a password to open your account and join the community." : "You already have an account, so sign in to join the community."}</p>
 </td></tr>

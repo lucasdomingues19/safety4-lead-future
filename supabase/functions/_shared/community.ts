@@ -76,7 +76,7 @@ export async function fulfilCommunityPurchase(db: any, session: any, g: Communit
 
   const { userId, isNew } = await resolveBuyer(db, email, name);
   const { until } = await grantNetwork(db, userId, g.months);
-  if (!opts.skipBookkeeping) await recordPurchase(db, session.id, { userId, title: `${g.title} (live training)` });
+  const rec = opts.skipBookkeeping ? null : await recordPurchase(db, session.id, { userId, title: `${g.title} (live training)` });
   console.log("Community access granted via webhook", { userId, isNew, until: until?.toISOString() ?? "no end date" });
 
   // The email is best-effort: access is already saved.
@@ -88,7 +88,7 @@ export async function fulfilCommunityPurchase(db: any, session: any, g: Communit
       const th = l?.properties?.hashed_token;
       if (th) link = `https://www.safetytech.academy/learn/auth/confirm?token_hash=${encodeURIComponent(th)}&type=recovery&next=${encodeURIComponent("/learn/reset-password?welcome=1")}`;
     }
-    emailError = await sendCommunityPurchaseEmail({ to: email, name, title: g.title, link, isNew, until });
+    emailError = await sendCommunityPurchaseEmail({ to: email, name, title: g.title, link, isNew, until, receiptUrl: rec?.receiptUrl ?? null });
     if (emailError) console.error("community purchase email not sent:", emailError);
   } catch (e) { emailError = (e as Error).message; console.error("community purchase email error:", emailError); }
   return { ok: true as const, userId, isNew, until, emailError };
