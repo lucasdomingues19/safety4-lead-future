@@ -1,5 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { guides } from "../src/data/guides";
+import { routeBodies, renderBodyHtml, type RouteBody } from "./route-bodies";
 
 const BASE = "https://safetytech.academy";
 const DEFAULT_OG = `${BASE}/opengraph-image.png?v=3`;
@@ -19,10 +24,11 @@ export interface RouteSeo {
    */
   jsonLd?: Record<string, unknown>[];
   /**
-   * Plain-text content baked into a <noscript> block, so non-JS crawlers read
-   * the actual answer rather than an empty shell.
+   * The route's own H1 and main text, baked into the static HTML so crawlers
+   * and AI assistants that never run JS read this page's content instead of
+   * the homepage fallback. Every prerendered route must have one.
    */
-  noscriptContent?: { heading: string; paragraphs: string[] }[];
+  body?: RouteBody;
 }
 
 
@@ -104,6 +110,9 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/assess-readiness",
+    // Same page as /scorecard (Scorecard.tsx), which sets its canonical to
+    // /scorecard client-side; keep the static HTML consistent with that.
+    canonical: `${BASE}/scorecard`,
     title:
       "Free EHS AI Readiness Assessment | Digital Maturity Scorecard",
     description:
@@ -153,6 +162,18 @@ const staticRoutes: RouteSeo[] = [
       "SafetyTech Academy's Anti-Piracy Policy. Learn about our intellectual property protection measures for IOSH-approved course materials and digital content.",
   },
   {
+    path: "/for-professionals",
+    title: "Professional Development Courses for EHS Leaders | SafetyTech Academy",
+    description:
+      "IOSH-approved professional development courses for EHS professionals. Master AI, Safety 4.0, and digital transformation. Advance your career with expert-led training.",
+  },
+  {
+    path: "/verify",
+    title: "Verify a Certificate | SafetyTech Academy",
+    description:
+      "Check that a SafetyTech Academy certificate is genuine. Enter the certificate number to confirm the holder, course and date of completion.",
+  },
+  {
     path: "/events/copilot-hse",
     title: "Copilot in HSE — Live Crash Course | SafetyTech Academy",
     description:
@@ -165,6 +186,24 @@ interface BlogPostSeoRow {
   title: string;
   meta_description: string;
   featured_image: string;
+  excerpt: string | null;
+  content: string;
+  publish_date: string | null;
+}
+
+/**
+ * Renders a post's markdown to static HTML the same way BlogPost.tsx does
+ * (react-markdown + GFM). Markdown H1s become H2s so the post title stays the
+ * page's only H1.
+ */
+function renderPostMarkdown(markdown: string): string {
+  return renderToStaticMarkup(
+    createElement(
+      ReactMarkdown,
+      { remarkPlugins: [remarkGfm], components: { h1: "h2" } },
+      markdown,
+    ),
+  );
 }
 
 /**
@@ -181,23 +220,58 @@ async function getBlogRoutes(supabaseUrl: string, supabaseKey: string): Promise<
   const supabase = createClient(supabaseUrl, supabaseKey);
   const { data, error } = await supabase
     .from("blog_posts")
-    .select("slug,title,meta_description,featured_image")
-    .eq("published", true);
+    .select("slug,title,meta_description,featured_image,excerpt,content,publish_date")
+    .eq("published", true)
+    .order("publish_date", { ascending: false });
   if (error) {
     throw new Error(`seo-prerender: failed to fetch blog posts for prerendering — ${error.message}`);
   }
-  return ((data ?? []) as BlogPostSeoRow[]).map((post) => ({
+  const posts = (data ?? []) as BlogPostSeoRow[];
+  const postRoutes = posts.map((post): RouteSeo => ({
     path: `/blog/${post.slug}`,
     title: `${post.title} | SafetyTech Academy Blog`,
     description: post.meta_description,
     ogImage: post.featured_image.startsWith("http") ? post.featured_image : `${BASE}${post.featured_image}`,
     ogType: "article",
+    body: {
+      h1: post.title,
+      sections: post.excerpt ? [{ heading: "", paragraphs: [post.excerpt] }] : [],
+      html: renderPostMarkdown(post.content),
+    },
   }));
+  // The /blog index lists the live posts, so it needs them too.
+  const blogIndex = routeBodies["/blog"];
+  const indexBody: RouteBody = {
+    ...blogIndex,
+    sections: [
+      ...blogIndex.sections,
+      {
+        heading: "Latest articles",
+        links: posts.map((p) => ({
+          href: `/blog/${p.slug}`,
+          label: p.title,
+          text: p.excerpt || p.meta_description,
+        })),
+      },
+    ],
+  };
+  const blogIndexSeo = staticRoutes.find((r) => r.path === "/blog")!;
+  return [{ ...blogIndexSeo, body: indexBody }, ...postRoutes];
 }
 
 const guideRoutes: RouteSeo[] = [
   {
     path: "/guides",
+    body: {
+      ...routeBodies["/guides"],
+      sections: [
+        ...routeBodies["/guides"].sections,
+        {
+          heading: "All guides",
+          links: guides.map((g) => ({ href: `/guides/${g.slug}`, label: g.title, text: g.summary })),
+        },
+      ],
+    },
     title: "Guides — AI, Safety 4.0 and IOSH Training Explained",
     description:
       "In-depth, practitioner-written guides on AI in health and safety, AI risk assessment, Safety 4.0 and IOSH-approved training. Free to read.",
@@ -260,22 +334,41 @@ const guideRoutes: RouteSeo[] = [
           ],
         },
       ],
-      noscriptContent: [
-        { heading: guide.title, paragraphs: [guide.summary] },
-        { heading: "Key takeaways", paragraphs: guide.keyTakeaways },
-        ...guide.sections.map((s) => ({
-          heading: s.heading,
-          paragraphs: [...(s.body ?? []), ...(s.bullets ?? [])],
-        })),
-        ...guide.faqs.map((f) => ({ heading: f.question, paragraphs: [f.answer] })),
-      ],
+      body: {
+        h1: guide.title,
+        sections: [
+          { heading: "", paragraphs: [guide.summary] },
+          { heading: "Key takeaways", bullets: guide.keyTakeaways },
+          ...guide.sections.map((s) => ({
+            heading: s.heading,
+            paragraphs: s.body,
+            bullets: s.bullets,
+          })),
+          { heading: "Frequently asked questions" },
+          ...guide.faqs.map((f) => ({ heading: f.question, level: 3 as const, paragraphs: [f.answer] })),
+        ],
+      },
     };
   }),
 ];
 
 export async function getPrerenderRoutes(supabaseUrl: string, supabaseKey: string): Promise<RouteSeo[]> {
   const blogRoutes = await getBlogRoutes(supabaseUrl, supabaseKey);
-  return [...staticRoutes, ...blogRoutes, ...guideRoutes];
+  const routes = [
+    // /blog is emitted by getBlogRoutes so its body can list the live posts.
+    ...staticRoutes
+      .filter((r) => r.path !== "/blog")
+      .map((r) => ({ ...r, body: r.body ?? routeBodies[r.path] })),
+    ...blogRoutes,
+    ...guideRoutes,
+  ];
+  // Fail the build rather than ship a route that falls back to the homepage
+  // body — that duplicate text is what kept pages out of Google's index.
+  const missing = routes.filter((r) => !r.body?.h1).map((r) => r.path);
+  if (missing.length) {
+    throw new Error(`seo-prerender: no body content for ${missing.join(", ")} — add it to scripts/route-bodies.ts`);
+  }
+  return routes;
 }
 
 
@@ -356,16 +449,13 @@ export function applyRouteSeo(template: string, route: RouteSeo): string {
     html = html.replace(/<\/head>/, `${blocks}\n  </head>`);
   }
 
-  // Readable fallback content for non-JS crawlers.
-  if (route.noscriptContent?.length) {
-    const body = route.noscriptContent
-      .map(
-        (s) =>
-          `        <h2>${esc(s.heading)}</h2>\n` +
-          s.paragraphs.map((p) => `        <p>${esc(p)}</p>`).join("\n"),
-      )
-      .join("\n");
-    const nsBlock = `    <noscript>\n      <div style="max-width:900px;margin:0 auto;padding:40px 20px;font-family:sans-serif;color:#222;">\n${body}\n      </div>\n    </noscript>\n`;
+  // The template's <noscript> block is the homepage's text. Every other route
+  // replaces it with its own H1 and main content, so crawlers and AI
+  // assistants that don't run JS see a distinct page rather than a copy of
+  // the homepage.
+  html = html.replace(/\s*<!-- Rich noscript fallback[\s\S]*?<\/noscript>/, "");
+  if (route.body) {
+    const nsBlock = `    <noscript>\n${renderBodyHtml(route.body)}\n    </noscript>\n`;
     html = html.replace(/<div id="root"><\/div>/, `${nsBlock}    <div id="root"></div>`);
   }
 
