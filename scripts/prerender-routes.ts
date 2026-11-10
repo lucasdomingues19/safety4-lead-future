@@ -57,7 +57,7 @@ const staticRoutes: RouteSeo[] = [
     jsonLd: [courseLd("copilot-for-ehs")],
     title: "Copilot for EHS Professionals | SafetyTech Academy",
     description:
-      "Hands-on Copilot training for EHS professionals, live on Microsoft Teams, and group training for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
+      "Group Copilot training for EHS and sustainability teams, with open live sessions for individuals on Microsoft Teams — aligned to the EU AI Act Article 4 obligation.",
   },
   {
     path: "/syllabus",
