@@ -233,8 +233,8 @@ const CopilotEHS = () => {
         ]}
         icon={iconCopilot}
         badgeSrc={badgeCopilot}
-        price="Custom Pricing"
-        period="per participant"
+        price="On consultation"
+        period="priced per team"
         meta={[
           { icon: Users, label: "Format", value: "Live cohort or self-paced" },
           { icon: Target, label: "Group size", value: "10–30+ participants" },
@@ -243,7 +243,7 @@ const CopilotEHS = () => {
         cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
         secondaryCta={
           liveOpen
-            ? { label: `Open live session · ${LIVE_SESSION.dateShort.replace(" 2026", "")}`, href: "/copilot-for-ehs#live-session" }
+            ? { label: `Book live session · ${LIVE_SESSION.dateShort.replace(" 2026", "")}`, href: LIVE_SESSION.bookHref, external: true }
             : { label: "Talk to Us", href: "/contact" }
         }
         guarantee={liveOpen ? `Group cohorts are scheduled around your team. Individual places are open on the ${LIVE_SESSION.dateShort} live session.` : "Group cohorts are scheduled around your team."}
@@ -351,8 +351,8 @@ const CopilotEHS = () => {
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="mb-2 text-center">Two ways to run the program</h2>
           <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
-            Pricing scales with group size, from 10 to 30+ participants. Register your interest and we'll confirm a
-            quote for your team.
+            Groups run from 10 to 30+ participants, and pricing is agreed on consultation. Register your interest and
+            we'll confirm a quote for your team.
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="rounded-[20px] border border-primary bg-white p-6 md:p-8">
@@ -445,7 +445,7 @@ const CopilotEHS = () => {
                   {[
                     `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
                     "Live on Microsoft Teams. Joining details are emailed after you book.",
-                    `${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT`,
+                    `Individual price: ${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT`,
                     "Includes 12 months in the SafetyTech Global Network community",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
