@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
+import { AnnouncementBanner, ANNOUNCEMENT_HEIGHT_CLASS, useAnnouncementVisible } from "./AnnouncementBanner";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -99,6 +100,7 @@ const AudienceNav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const announcement = useAnnouncementVisible();
 
   const handleHashLink = useCallback((e: React.MouseEvent, href: string) => {
     const [path, hash] = href.split("#");
@@ -116,6 +118,7 @@ const AudienceNav = () => {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-100">
+      {announcement.visible && <AnnouncementBanner onDismiss={announcement.dismiss} />}
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         <BrandLogo />
 
@@ -223,6 +226,8 @@ const AudienceNav = () => {
         </div>
       )}
     </nav>
+      {/* Pushes page content down by the banner height so the fixed nav doesn't cover it */}
+      {announcement.visible && <div aria-hidden className={ANNOUNCEMENT_HEIGHT_CLASS} />}
     </>
   );
 };
