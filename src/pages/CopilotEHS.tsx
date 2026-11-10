@@ -205,7 +205,7 @@ const CopilotEHS = () => {
     setPageSEO({
       title: "Copilot for EHS Professionals | SafetyTech Academy",
       description:
-        "Hands-on Copilot training for EHS professionals, live on Microsoft Teams, and group training for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
+        "Group Copilot training for EHS and sustainability teams, with open live sessions for individuals on Microsoft Teams — aligned to the EU AI Act Article 4 obligation.",
       canonical: "https://www.safetytech.academy/copilot-for-ehs",
     });
   }, []);
@@ -221,116 +221,34 @@ const CopilotEHS = () => {
     <div className="min-h-screen bg-white">
       <AudienceNav />
 
-      {liveOpen ? (
-        <CourseHero
-          eyebrow={`LIVE ON MICROSOFT TEAMS · ${LIVE_SESSION.dateShort.toUpperCase()}`}
-          title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
-          subtitle="A one-day, hands-on live training for EHS professionals. Learn to use Microsoft 365 Copilot well in real EHS work, build AI agents, analyse EHS data, and keep risk and governance in the hands of a competent person. Also delivered as group training for teams."
-          features={[
-            { icon: Laptop, label: "Live on Microsoft Teams" },
-            { icon: Calendar, label: LIVE_SESSION.timeLabel },
-            { icon: ShieldCheck, label: "Article 4 Aligned" },
-            { icon: Users, label: "12 months in the Global Network" },
-          ]}
-          icon={iconCopilot}
-          badgeSrc={badgeCopilot}
-          price={LIVE_SESSION.earlyPrice}
-          originalPrice={LIVE_SESSION.fullPrice}
-          period={`first ${LIVE_SESSION.earlyPlaces} places`}
-          meta={[
-            { icon: Laptop, label: "Format", value: "Live on Microsoft Teams" },
-            { icon: Calendar, label: "Date", value: LIVE_SESSION.dateShort },
-            { icon: Calendar, label: "Time", value: LIVE_SESSION.timeLabel },
-            { icon: Users, label: "Includes", value: "12 months community" },
-          ]}
-          cta={{ label: "Book your place", href: LIVE_SESSION.bookHref, external: true }}
-          secondaryCta={{ label: "Training a team? Talk to us", href: "/copilot-for-ehs#waitlist" }}
-          guarantee={`${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT.`}
-          notes={["Joining details are emailed after you book"]}
-        />
-      ) : (
-        <CourseHero
-          eyebrow="B2B GROUP TRAINING"
-          title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
-          subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
-          features={[
-            { icon: Users, label: "Live or Self-Paced" },
-            { icon: ShieldCheck, label: "Article 4 Aligned" },
-            { icon: Calendar, label: "10 Modules" },
-            { icon: Laptop, label: "365-Day Access" },
-          ]}
-          icon={iconCopilot}
-          badgeSrc={badgeCopilot}
-          price="Custom Pricing"
-          period="per participant"
-          meta={[
-            { icon: Users, label: "Format", value: "Live cohort or self-paced" },
-            { icon: Target, label: "Group size", value: "10–30+ participants" },
-            { icon: Calendar, label: "Start", value: "By arrangement" },
-          ]}
-          cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
-          secondaryCta={{ label: "Talk to Us", href: "/contact" }}
-          guarantee="Group cohorts are scheduled around your team."
-        />
-      )}
+      <CourseHero
+        eyebrow="B2B GROUP TRAINING"
+        title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
+        subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
+        features={[
+          { icon: Users, label: "Live or Self-Paced" },
+          { icon: ShieldCheck, label: "Article 4 Aligned" },
+          { icon: Calendar, label: "10 Modules" },
+          { icon: Laptop, label: "365-Day Access" },
+        ]}
+        icon={iconCopilot}
+        badgeSrc={badgeCopilot}
+        price="Custom Pricing"
+        period="per participant"
+        meta={[
+          { icon: Users, label: "Format", value: "Live cohort or self-paced" },
+          { icon: Target, label: "Group size", value: "10–30+ participants" },
+          { icon: Calendar, label: "Start", value: "By arrangement" },
+        ]}
+        cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
+        secondaryCta={
+          liveOpen
+            ? { label: `Open live session · ${LIVE_SESSION.dateShort.replace(" 2026", "")}`, href: "/copilot-for-ehs#live-session" }
+            : { label: "Talk to Us", href: "/contact" }
+        }
+        guarantee={liveOpen ? `Group cohorts are scheduled around your team. Individual places are open on the ${LIVE_SESSION.dateShort} live session.` : "Group cohorts are scheduled around your team."}
+      />
 
-      {liveOpen && (
-        <section id="live-session" className="py-10 md:py-14 border-t border-slate-200 bg-slate-50 scroll-mt-20">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <h2 className="mb-2 text-center">Join the live session on {LIVE_SESSION.dateLong}</h2>
-            <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
-              One day, live on Microsoft Teams. Built for EHS professionals who have, or soon will have, Microsoft 365
-              Copilot. You do not need a technical background.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-[20px] border border-slate-200 bg-white p-6 md:p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4">What you will do</h3>
-                <ul className="space-y-2.5">
-                  {[
-                    "Use Microsoft 365 Copilot on real EHS tasks",
-                    "Build AI agents that take routine work off your plate",
-                    "Analyse EHS data with Copilot",
-                    "Put risk and governance in place, with a competent person always in charge",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-xs text-slate-400 mt-5">
-                  In November we ran this training for 21 EHS professionals at an energy company. All 21 completed it.
-                </p>
-              </div>
-              <div className="rounded-[20px] border border-primary bg-white p-6 md:p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4">The details</h3>
-                <ul className="space-y-2.5 mb-6">
-                  {[
-                    `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
-                    "Live on Microsoft Teams. Joining details are emailed after you book.",
-                    `${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT`,
-                    "Includes 12 months in the SafetyTech Global Network community",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href={LIVE_SESSION.bookHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
-                >
-                  Book your place
-                </a>
-                <p className="text-xs text-slate-400 mt-3 text-center">The discount is applied automatically at checkout.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Copilot across the everyday EHS toolkit */}
       <div className="container mx-auto px-4">
@@ -492,6 +410,64 @@ const CopilotEHS = () => {
           </div>
         </div>
       </section>
+
+      {liveOpen && (
+        <section id="live-session" className="py-10 md:py-14 border-t border-slate-200 bg-slate-50 scroll-mt-20">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <h2 className="mb-2 text-center">Open live session: {LIVE_SESSION.dateLong}</h2>
+            <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
+              Not booking for a team? Individual places are open for one day, live on Microsoft Teams. Built for EHS
+              professionals who have, or soon will have, Microsoft 365 Copilot. You do not need a technical background.
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="rounded-[20px] border border-slate-200 bg-white p-6 md:p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">What you will do</h3>
+                <ul className="space-y-2.5">
+                  {[
+                    "Use Microsoft 365 Copilot on real EHS tasks",
+                    "Build AI agents that take routine work off your plate",
+                    "Analyse EHS data with Copilot",
+                    "Put risk and governance in place, with a competent person always in charge",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-slate-400 mt-5">
+                  In November we ran this training for 21 EHS professionals at an energy company. All 21 completed it.
+                </p>
+              </div>
+              <div className="rounded-[20px] border border-primary bg-white p-6 md:p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">The details</h3>
+                <ul className="space-y-2.5 mb-6">
+                  {[
+                    `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
+                    "Live on Microsoft Teams. Joining details are emailed after you book.",
+                    `${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT`,
+                    "Includes 12 months in the SafetyTech Global Network community",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={LIVE_SESSION.bookHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+                >
+                  Book your place
+                </a>
+                <p className="text-xs text-slate-400 mt-3 text-center">The discount is applied automatically at checkout.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* The ten modules */}
       <section className="py-10 md:py-14 border-t border-slate-200 bg-slate-50">
