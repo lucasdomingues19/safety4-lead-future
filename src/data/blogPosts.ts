@@ -57,7 +57,7 @@ Not a ten-minute video and a link to Microsoft's docs — that's the most common
 
 If you want to see where your organisation stands first, the free [AI in EHS Governance Readiness assessment](/governance-readiness) scores your AI literacy and oversight gaps in about five minutes.
 
-## Coming soon: Copilot for EHS & Sustainability Professionals
+## Coming soon: Copilot for EHS Professionals
 
 Your team already has the license. We're building the training to go with it — role-specific, hands-on, and built to keep the judgement that makes you competent in the first place.
 

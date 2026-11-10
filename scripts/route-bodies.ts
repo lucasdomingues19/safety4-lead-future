@@ -48,7 +48,7 @@ const SITE_LINKS: RouteBodyLink[] = [
   { href: "/courses", label: "All courses" },
   { href: "/elearning", label: "IOSH-approved Safety 4.0 eLearning" },
   { href: "/ai-fundamentals", label: "AI Fundamentals in EHS" },
-  { href: "/copilot-for-ehs", label: "Microsoft Copilot for EHS" },
+  { href: "/copilot-for-ehs", label: "Copilot for EHS Professionals" },
   { href: "/accelerator", label: "Safety 4.0 Accelerator Cohort" },
   { href: "/guides", label: "Guides" },
   { href: "/blog", label: "Blog" },
