@@ -138,7 +138,7 @@ export const courses: CourseMeta[] = [
     period: "",
     popular: false,
     features: ["12-module live or self-paced curriculum", "EU AI Act Article 4 aligned", "Group pricing for 10–30+ participants"],
-    cta: "Join Waitlist",
+    cta: Date.now() < Date.parse("2026-12-09T17:00:00Z") ? "Book live session" : "Register Interest",
   },
   {
     name: "AI Fundamentals in EHS",

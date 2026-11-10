@@ -11,7 +11,7 @@ const ANNOUNCEMENT = {
   full: "Next live session: Copilot for EHS Professionals — Wed 9 Dec, 9am–5pm UK time",
   short: "Copilot live: 9 Dec, 9am–5pm UK",
   // Session details link to the Copilot page; the CTA goes to the Stripe Payment Link (EARLY997 promo prefilled).
-  detailsHref: "/copilot-for-ehs",
+  detailsHref: "/copilot-for-ehs#live-session",
   cta: "Book your place",
   ctaHref: "https://buy.stripe.com/dRmdR3f3A9cE03s8cx1Jm05?prefilled_promo_code=EARLY997",
 };

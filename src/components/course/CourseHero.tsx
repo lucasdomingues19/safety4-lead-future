@@ -34,6 +34,8 @@ interface CourseHeroProps {
   cta: CTA;
   secondaryCta?: CTA;
   guarantee?: string;
+  /** Replaces the default 'any device / lifetime access' lines (those suit self-paced courses, not live sessions). */
+  notes?: string[];
 }
 
 export const CourseHero = ({
@@ -50,6 +52,7 @@ export const CourseHero = ({
   cta,
   secondaryCta,
   guarantee,
+  notes,
 }: CourseHeroProps) => {
   return (
     <section className="pt-28 pb-16 md:pt-32 md:pb-20">
@@ -173,14 +176,27 @@ export const CourseHero = ({
                   ))}
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
-                  <Tablet className="w-4 h-4 text-primary shrink-0" />
-                  Access from any computer, tablet or mobile
-                </div>
-                <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
-                  <InfinityIcon className="w-4 h-4 text-primary shrink-0" />
-                  Lifetime access to course materials
-                </div>
+                {notes ? (
+                  <div className="mt-6 pt-6 border-t border-slate-100 space-y-2">
+                    {notes.map((n) => (
+                      <div key={n} className="flex items-center gap-2 text-xs text-slate-500">
+                        <Tablet className="w-4 h-4 text-primary shrink-0" />
+                        {n}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <div className="mt-6 pt-6 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
+                      <Tablet className="w-4 h-4 text-primary shrink-0" />
+                      Access from any computer, tablet or mobile
+                    </div>
+                    <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
+                      <InfinityIcon className="w-4 h-4 text-primary shrink-0" />
+                      Lifetime access to course materials
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

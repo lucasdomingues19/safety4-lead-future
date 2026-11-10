@@ -1,4 +1,14 @@
 import type { RouteBodyEntry as RouteBody } from "../route-bodies";
+const LIVE_UNTIL = Date.parse("2026-12-09T17:00:00Z"); // the 9 Dec 2026 live session ends
+const liveSessionSection = {
+  heading: "Join the live session on Wednesday 9 December 2026",
+  paragraphs: [
+    "One day, live on Microsoft Teams, 9am–5pm UK time. Built for EHS professionals who have, or soon will have, Microsoft 365 Copilot. No technical background needed.",
+    "You will use Microsoft 365 Copilot on real EHS tasks, build AI agents that take routine work off your plate, analyse EHS data with Copilot, and put risk and governance in place with a competent person always in charge.",
+    "£997 + VAT for the first 10 places, then £1,497 + VAT. Includes 12 months in the SafetyTech Global Network community.",
+  ],
+};
+
 export const bodies: RouteBody[] = [
   {
     path: "/elearning",
@@ -126,6 +136,7 @@ export const bodies: RouteBody[] = [
     path: "/copilot-for-ehs",
     h1: "Copilot for EHS Professionals",
     sections: [
+      ...(Date.now() < LIVE_UNTIL ? [liveSessionSection] : []),
       {
         heading: "",
         paragraphs: [
@@ -163,7 +174,7 @@ export const bodies: RouteBody[] = [
       {
         heading: "Option B — Self-Paced Program",
         paragraphs: [
-          "A lower-cost, self-directed route that scales easily across larger groups. Available from October/November 2026.",
+          "A lower-cost, self-directed route that scales easily across larger groups. Coming soon.",
           "Delivers the same core content without the live modules, weekly office hours, or dedicated project manager. Often used as a scalable foundation for larger populations, or alongside a live cohort for the core team.",
         ],
         bullets: [
@@ -203,16 +214,16 @@ export const bodies: RouteBody[] = [
         bullets: [
           "Live cohorts capped at 10–15 participants to preserve hands-on quality",
           "365 days' access to materials, recordings and the community space",
-          "Self-paced content available from October/November 2026",
-          "Live cohorts can begin sooner by arrangement",
+          "Self-paced option coming soon",
+          "Live cohorts are scheduled around your team",
           "Cohorts above 20 participants run as two groups",
           "Bespoke blends of live and self-paced available for larger populations",
         ],
       },
       {
-        heading: "Ready to give your team real Copilot competence?",
+        heading: "Training a team? Give them real Copilot competence.",
         paragraphs: [
-          "Live cohorts launch October 2026. Register your interest for early access and a quote scaled to your team.",
+          "Register your interest in group training and we'll confirm dates and a quote scaled to your team.",
         ],
       },
     ],

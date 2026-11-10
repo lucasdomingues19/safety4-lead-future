@@ -183,55 +183,154 @@ const modules = [
   },
 ];
 
+// The open live session. Change the details here, or leave it: after `endsAt` the page falls back to the
+// group-training version by itself (the prerendered HTML updates on the next deploy).
+const LIVE_SESSION = {
+  endsAt: "2026-12-09T17:00:00Z", // 9 Dec 2026, 17:00 UK time (GMT in December)
+  dateLong: "Wednesday 9 December 2026",
+  dateShort: "Wed 9 Dec 2026",
+  timeLabel: "9am–5pm UK time",
+  earlyPrice: "£997",
+  fullPrice: "£1,497",
+  earlyPlaces: 10,
+  bookHref: "https://buy.stripe.com/dRmdR3f3A9cE03s8cx1Jm05?prefilled_promo_code=EARLY997",
+};
+
 const CopilotEHS = () => {
   const location = useLocation();
+  const liveOpen = Date.now() < Date.parse(LIVE_SESSION.endsAt);
 
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
       title: "Copilot for EHS Professionals | SafetyTech Academy",
       description:
-        "Group training that turns Microsoft Copilot licences into genuine, audit-ready AI competence for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
+        "Hands-on Copilot training for EHS professionals, live on Microsoft Teams, and group training for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
       canonical: "https://www.safetytech.academy/copilot-for-ehs",
     });
   }, []);
 
-  // React Router doesn't auto-scroll to a hash target — do it manually so
-  // the hero's "Join the Waitlist" CTA (an internal Link to #waitlist)
-  // actually brings the form into view.
+  // React Router doesn't auto-scroll to a hash target — do it manually so internal links such as
+  // #waitlist and #live-session actually bring that section into view.
   useEffect(() => {
-    if (location.hash === "#waitlist") {
-      document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    const id = location.hash.replace("#", "");
+    if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [location.hash]);
 
   return (
     <div className="min-h-screen bg-white">
       <AudienceNav />
 
-      <CourseHero
-        eyebrow="B2B GROUP TRAINING · LAUNCHING OCTOBER 2026"
-        title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
-        subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
-        features={[
-          { icon: Users, label: "Live or Self-Paced" },
-          { icon: ShieldCheck, label: "Article 4 Aligned" },
-          { icon: Calendar, label: "10 Modules" },
-          { icon: Laptop, label: "365-Day Access" },
-        ]}
-        icon={iconCopilot}
-        badgeSrc={badgeCopilot}
-        price="Custom Pricing"
-        period="per participant"
-        meta={[
-          { icon: Users, label: "Format", value: "Live cohort or self-paced" },
-          { icon: Target, label: "Group size", value: "10–30+ participants" },
-          { icon: Calendar, label: "Launch", value: "October 2026" },
-        ]}
-        cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
-        secondaryCta={{ label: "Talk to Us", href: "/contact" }}
-        guarantee="Live cohorts launch October 2026 — those who register interest get early access."
-      />
+      {liveOpen ? (
+        <CourseHero
+          eyebrow={`LIVE ON MICROSOFT TEAMS · ${LIVE_SESSION.dateShort.toUpperCase()}`}
+          title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
+          subtitle="A one-day, hands-on live training for EHS professionals. Learn to use Microsoft 365 Copilot well in real EHS work, build AI agents, analyse EHS data, and keep risk and governance in the hands of a competent person. Also delivered as group training for teams."
+          features={[
+            { icon: Laptop, label: "Live on Microsoft Teams" },
+            { icon: Calendar, label: LIVE_SESSION.timeLabel },
+            { icon: ShieldCheck, label: "Article 4 Aligned" },
+            { icon: Users, label: "12 months in the Global Network" },
+          ]}
+          icon={iconCopilot}
+          badgeSrc={badgeCopilot}
+          price={LIVE_SESSION.earlyPrice}
+          originalPrice={LIVE_SESSION.fullPrice}
+          period={`first ${LIVE_SESSION.earlyPlaces} places`}
+          meta={[
+            { icon: Laptop, label: "Format", value: "Live on Microsoft Teams" },
+            { icon: Calendar, label: "Date", value: LIVE_SESSION.dateShort },
+            { icon: Calendar, label: "Time", value: LIVE_SESSION.timeLabel },
+            { icon: Users, label: "Includes", value: "12 months community" },
+          ]}
+          cta={{ label: "Book your place", href: LIVE_SESSION.bookHref, external: true }}
+          secondaryCta={{ label: "Training a team? Talk to us", href: "/copilot-for-ehs#waitlist" }}
+          guarantee={`${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT.`}
+          notes={["Joining details are emailed after you book"]}
+        />
+      ) : (
+        <CourseHero
+          eyebrow="B2B GROUP TRAINING"
+          title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
+          subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
+          features={[
+            { icon: Users, label: "Live or Self-Paced" },
+            { icon: ShieldCheck, label: "Article 4 Aligned" },
+            { icon: Calendar, label: "10 Modules" },
+            { icon: Laptop, label: "365-Day Access" },
+          ]}
+          icon={iconCopilot}
+          badgeSrc={badgeCopilot}
+          price="Custom Pricing"
+          period="per participant"
+          meta={[
+            { icon: Users, label: "Format", value: "Live cohort or self-paced" },
+            { icon: Target, label: "Group size", value: "10–30+ participants" },
+            { icon: Calendar, label: "Start", value: "By arrangement" },
+          ]}
+          cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
+          secondaryCta={{ label: "Talk to Us", href: "/contact" }}
+          guarantee="Group cohorts are scheduled around your team."
+        />
+      )}
+
+      {liveOpen && (
+        <section id="live-session" className="py-10 md:py-14 border-t border-slate-200 bg-slate-50 scroll-mt-20">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <h2 className="mb-2 text-center">Join the live session on {LIVE_SESSION.dateLong}</h2>
+            <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
+              One day, live on Microsoft Teams. Built for EHS professionals who have, or soon will have, Microsoft 365
+              Copilot. You do not need a technical background.
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="rounded-[20px] border border-slate-200 bg-white p-6 md:p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">What you will do</h3>
+                <ul className="space-y-2.5">
+                  {[
+                    "Use Microsoft 365 Copilot on real EHS tasks",
+                    "Build AI agents that take routine work off your plate",
+                    "Analyse EHS data with Copilot",
+                    "Put risk and governance in place, with a competent person always in charge",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-slate-400 mt-5">
+                  In November we ran this training for 21 EHS professionals at an energy company. All 21 completed it.
+                </p>
+              </div>
+              <div className="rounded-[20px] border border-primary bg-white p-6 md:p-8">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">The details</h3>
+                <ul className="space-y-2.5 mb-6">
+                  {[
+                    `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
+                    "Live on Microsoft Teams. Joining details are emailed after you book.",
+                    `${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT`,
+                    "Includes 12 months in the SafetyTech Global Network community",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={LIVE_SESSION.bookHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
+                >
+                  Book your place
+                </a>
+                <p className="text-xs text-slate-400 mt-3 text-center">The discount is applied automatically at checkout.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Copilot across the everyday EHS toolkit */}
       <div className="container mx-auto px-4">
@@ -369,8 +468,7 @@ const CopilotEHS = () => {
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Option B — Self-Paced Program</h3>
               <p className="text-sm text-[#69697b] leading-relaxed mb-5">
-                A lower-cost, self-directed route that scales easily across larger groups. Available from
-                October/November 2026.
+                A lower-cost, self-directed route that scales easily across larger groups. Coming soon.
               </p>
               <ul className="space-y-2.5">
                 {[
@@ -467,8 +565,8 @@ const CopilotEHS = () => {
             {[
               "Live cohorts capped at 10–15 participants to preserve hands-on quality",
               "365 days' access to materials, recordings and the community space",
-              "Self-paced content available from October/November 2026",
-              "Live cohorts can begin sooner by arrangement",
+              "Self-paced option coming soon",
+              "Live cohorts are scheduled around your team",
               "Cohorts above 20 participants run as two groups",
               "Bespoke blends of live and self-paced available for larger populations",
             ].map((item) => (
@@ -484,9 +582,9 @@ const CopilotEHS = () => {
       {/* Waitlist */}
       <section id="waitlist" className="py-10 md:py-14 border-t border-slate-200 scroll-mt-20">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="mb-4">Ready to give your team real Copilot competence?</h2>
+          <h2 className="mb-4">Training a team? Give them real Copilot competence.</h2>
           <p className="text-[#69697b] leading-relaxed mb-8 max-w-xl mx-auto">
-            Live cohorts launch October 2026. Register your interest for early access and a quote scaled to your team.
+            Register your interest in group training and we'll confirm dates and a quote scaled to your team.
           </p>
           <CopilotWaitlistForm />
           <p className="text-sm text-[#69697b] mt-6">
