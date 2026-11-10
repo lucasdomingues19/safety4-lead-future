@@ -12,6 +12,7 @@ import fugroLogo from "@/assets/fugro-logo.png";
 import abbLogo from "@/assets/abb-logo.png";
 import bardLogo from "@/assets/bard-logo.png";
 import bvLogo from "@/assets/bureau-veritas-logo.jpg";
+import expandLogo from "@/assets/expand-energy-logo.svg";
 
 const logos = [
   { src: legoLogo, alt: "LEGO" },
@@ -28,6 +29,7 @@ const logos = [
   { src: abbLogo, alt: "ABB" },
   { src: bardLogo, alt: "Bard" },
   { src: bvLogo, alt: "Bureau Veritas" },
+  { src: expandLogo, alt: "Expand Energy" },
 ];
 
 export const TrustedByBanner = () => {
