@@ -211,7 +211,7 @@ const CopilotEHS = () => {
 
       <CourseHero
         eyebrow="B2B GROUP TRAINING · ENROLL YOUR TEAM"
-        title={<>Microsoft Copilot for <span className="text-primary">EHS & Sustainability</span></>}
+        title={<>Microsoft Copilot for <span className="text-primary">EHS Professionals</span></>}
         subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
         features={[
           { icon: Users, label: "Live or Self-Paced" },
