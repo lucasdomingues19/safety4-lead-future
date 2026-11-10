@@ -11,7 +11,7 @@ const navLinks = [
     children: [
       { label: "All Courses", href: "/courses", category: "main" },
       { label: "FOR COMPANIES", category: "header", divider: true },
-      { label: "Microsoft Copilot for EHS & Sustainability", href: "/copilot-for-ehs" },
+      { label: "Copilot for EHS Professionals", href: "/copilot-for-ehs" },
       { label: "FOR PROFESSIONALS", category: "header", divider: true },
       { label: "Safety 4.0 Accelerator (Cohort)", href: "/accelerator" },
       { label: "IOSH-approved Safety 4.0", href: "/elearning" },

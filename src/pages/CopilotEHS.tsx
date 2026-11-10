@@ -189,7 +189,7 @@ const CopilotEHS = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Microsoft Copilot for EHS & Sustainability | SafetyTech Academy",
+      title: "Copilot for EHS Professionals | SafetyTech Academy",
       description:
         "Group training that turns Microsoft Copilot licences into genuine, audit-ready AI competence for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
       canonical: "https://www.safetytech.academy/copilot-for-ehs",
@@ -211,7 +211,7 @@ const CopilotEHS = () => {
 
       <CourseHero
         eyebrow="B2B GROUP TRAINING · LAUNCHING OCTOBER 2026"
-        title={<>Microsoft Copilot for <span className="text-primary">EHS & Sustainability</span></>}
+        title={<>Copilot for <span className="text-primary">EHS Professionals</span></>}
         subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
         features={[
           { icon: Users, label: "Live or Self-Paced" },

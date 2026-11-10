@@ -60,7 +60,7 @@ export const bodies: RouteBody[] = [
         ],
       },
       {
-        heading: "Microsoft Copilot for EHS & Sustainability",
+        heading: "Copilot for EHS Professionals",
         paragraphs: [
           "Practical, audit-ready Copilot training for EHS & sustainability teams — built for the EU AI Act Article 4 obligation.",
         ],

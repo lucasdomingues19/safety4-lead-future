@@ -124,7 +124,7 @@ export const bodies: RouteBody[] = [
   },
   {
     path: "/copilot-for-ehs",
-    h1: "Microsoft Copilot for EHS & Sustainability",
+    h1: "Copilot for EHS Professionals",
     sections: [
       {
         heading: "",

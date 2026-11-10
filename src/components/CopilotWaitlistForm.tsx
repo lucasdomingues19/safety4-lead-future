@@ -31,7 +31,7 @@ export const CopilotWaitlistForm = () => {
             source: "contact_form",
             inquiry_type: "Copilot Waitlist",
             role: company.trim() || null,
-            message: "Joined the waitlist for Microsoft Copilot for EHS & Sustainability (launching October 2026).",
+            message: "Joined the waitlist for Copilot for EHS Professionals (launching October 2026).",
           }),
         },
       );

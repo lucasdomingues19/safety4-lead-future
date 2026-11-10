@@ -126,7 +126,7 @@ export interface CourseMeta {
 
 export const courses: CourseMeta[] = [
   {
-    name: "Microsoft Copilot for EHS & Sustainability",
+    name: "Copilot for EHS Professionals",
     href: "/copilot-for-ehs",
     description: "Practical, audit-ready Copilot training for EHS & sustainability teams — built for the EU AI Act Article 4 obligation.",
     Illustration: CopilotIllustration,

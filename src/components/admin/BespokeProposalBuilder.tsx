@@ -64,7 +64,7 @@ const sectionTemplates = {
 const proposalTemplates: Record<"expand_energy" | "copilot_inperson_day", BespokeProposal> = {
   copilot_inperson_day: {
     organisation: "[Organisation]",
-    title: "Copilot for EHS & Sustainability",
+    title: "Copilot for EHS Professionals",
     contact_name: "[Contact name]",
     contact_role: "[Contact role]",
     contact_email: "",
