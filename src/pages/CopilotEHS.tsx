@@ -189,7 +189,7 @@ const CopilotEHS = () => {
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
-      title: "Microsoft Copilot for EHS & Sustainability | SafetyTech Academy",
+      title: "Microsoft Copilot for EHS Professionals | SafetyTech Academy",
       description:
         "Group training that turns Microsoft Copilot licences into genuine, audit-ready AI competence for EHS and sustainability teams — aligned to the EU AI Act Article 4 obligation.",
       canonical: "https://www.safetytech.academy/copilot-for-ehs",
@@ -210,8 +210,8 @@ const CopilotEHS = () => {
       <AudienceNav />
 
       <CourseHero
-        eyebrow="B2B GROUP TRAINING · LAUNCHING OCTOBER 2026"
-        title={<>Microsoft Copilot for <span className="text-primary">EHS & Sustainability</span></>}
+        eyebrow="B2B GROUP TRAINING · ENROLL YOUR TEAM"
+        title={<>Microsoft Copilot for <span className="text-primary">EHS Professionals</span></>}
         subtitle="Your team already has the Copilot licence. Under the EU AI Act, organisations now have a legal duty to ensure adequate AI literacy — Article 4 has applied since February 2025, enforced from August 2026. This program builds the practical, audit-ready competence to use Copilot safely in risk assessments, incident reporting and compliance work."
         features={[
           { icon: Users, label: "Live or Self-Paced" },
@@ -226,11 +226,11 @@ const CopilotEHS = () => {
         meta={[
           { icon: Users, label: "Format", value: "Live cohort or self-paced" },
           { icon: Target, label: "Group size", value: "10–30+ participants" },
-          { icon: Calendar, label: "Launch", value: "October 2026" },
+          { icon: Calendar, label: "Next live session", value: "9 Dec 2026" },
         ]}
         cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
         secondaryCta={{ label: "Talk to Us", href: "/contact" }}
-        guarantee="Live cohorts launch October 2026 — those who register interest get early access."
+        guarantee="Next live session: Wed 9 December 2026, 9am–5pm UK time."
       />
 
       {/* Copilot across the everyday EHS toolkit */}
@@ -486,7 +486,7 @@ const CopilotEHS = () => {
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <h2 className="mb-4">Ready to give your team real Copilot competence?</h2>
           <p className="text-[#69697b] leading-relaxed mb-8 max-w-xl mx-auto">
-            Live cohorts launch October 2026. Register your interest for early access and a quote scaled to your team.
+            Next live session: Wednesday 9 December 2026, 9am–5pm UK time. Register your interest for a quote scaled to your team.
           </p>
           <CopilotWaitlistForm />
           <p className="text-sm text-[#69697b] mt-6">
