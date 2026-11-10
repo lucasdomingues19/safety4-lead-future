@@ -5,7 +5,7 @@ const liveSessionSection = {
   paragraphs: [
     "Not booking for a team? Individual places are open for one day, live on Microsoft Teams, 9am–5pm UK time. Built for EHS professionals who have, or soon will have, Microsoft 365 Copilot. No technical background needed.",
     "You will use Microsoft 365 Copilot on real EHS tasks, build AI agents that take routine work off your plate, analyse EHS data with Copilot, and put risk and governance in place with a competent person always in charge.",
-    "£997 + VAT for the first 10 places, then £1,497 + VAT. Includes 12 months in the SafetyTech Global Network community.",
+    "Individual price: £997 + VAT for the first 10 places, then £1,497 + VAT. Includes 12 months in the SafetyTech Global Network community.",
   ],
 };
 
@@ -153,7 +153,7 @@ export const bodies: RouteBody[] = [
       {
         heading: "Two ways to run the program",
         paragraphs: [
-          "Pricing scales with group size, from 10 to 30+ participants. Register your interest and we'll confirm a quote for your team.",
+          "Groups run from 10 to 30+ participants, and pricing is agreed on consultation. Register your interest and we'll confirm a quote for your team.",
         ],
       },
       {

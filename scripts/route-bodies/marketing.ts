@@ -67,7 +67,7 @@ export const bodies: RouteBody[] = [
         bullets: [
           "12-module live or self-paced curriculum",
           "EU AI Act Article 4 aligned",
-          "Group pricing for 10–30+ participants",
+          "Group training for 10–30+ participants",
         ],
       },
       {

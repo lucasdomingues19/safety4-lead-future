@@ -134,10 +134,10 @@ export const courses: CourseMeta[] = [
     icon: iconCopilot,
     iconWhite: iconWhiteCopilot,
     level: "Group Training",
-    price: "Custom Pricing",
+    price: "On consultation",
     period: "",
     popular: false,
-    features: ["12-module live or self-paced curriculum", "EU AI Act Article 4 aligned", "Group pricing for 10–30+ participants"],
+    features: ["12-module live or self-paced curriculum", "EU AI Act Article 4 aligned", "Group training for 10–30+ participants"],
     cta: "Register Interest",
   },
   {

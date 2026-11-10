@@ -157,8 +157,8 @@ export const courses: CourseFact[] = [
     // The open live session is promoted until it has happened (9 Dec 2026), then this reverts to group pricing only.
     priceNote:
       Date.now() < Date.parse("2026-12-09T17:00:00Z")
-        ? "Group training for teams is priced on request. Individual places on the open live session (Microsoft Teams, Wednesday 9 December 2026): £997 + VAT for the first 10 places, then £1,497 + VAT."
-        : "Priced per team on request",
+        ? "Group training for teams is priced on consultation. Individual places on the open live session (Microsoft Teams, Wednesday 9 December 2026): £997 + VAT for the first 10 places, then £1,497 + VAT."
+        : "Priced per team, on consultation",
     credential: "Certificate of completion",
     recognizedBy: [],
     teaches: ["Microsoft Copilot for EHS workflows", "EU AI Act Article 4 AI literacy", "Safe, auditable AI use"],
