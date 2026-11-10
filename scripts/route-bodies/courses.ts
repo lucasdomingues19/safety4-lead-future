@@ -212,7 +212,7 @@ export const bodies: RouteBody[] = [
       {
         heading: "Ready to give your team real Copilot competence?",
         paragraphs: [
-          "Live cohorts launch October 2026. Register your interest for early access and a quote scaled to your team.",
+          "Next live session: Wednesday 9 December 2026, 9am–5pm UK time. Register your interest for a quote scaled to your team.",
         ],
       },
     ],

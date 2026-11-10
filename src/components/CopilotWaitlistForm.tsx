@@ -31,7 +31,7 @@ export const CopilotWaitlistForm = () => {
             source: "contact_form",
             inquiry_type: "Copilot Waitlist",
             role: company.trim() || null,
-            message: "Joined the waitlist for Microsoft Copilot for EHS & Sustainability (launching October 2026).",
+            message: "Joined the waitlist for Microsoft Copilot for EHS Professionals.",
           }),
         },
       );
@@ -58,7 +58,7 @@ export const CopilotWaitlistForm = () => {
         <CheckCircle className="w-10 h-10 text-primary mx-auto mb-3" />
         <h3 className="text-lg font-bold text-slate-900 mb-1">Thanks, we've noted your interest</h3>
         <p className="text-sm text-[#69697b]">
-          We'll be in touch with early access and pricing ahead of the October 2026 launch.
+          We'll be in touch with dates and pricing for your team.
         </p>
       </div>
     );

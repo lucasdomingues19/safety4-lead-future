@@ -147,7 +147,7 @@ export const courses: CourseFact[] = [
   {
     id: "copilot-for-ehs",
     path: "/copilot-for-ehs",
-    name: "Microsoft Copilot for EHS & Sustainability",
+    name: "Microsoft Copilot for EHS Professionals",
     description:
       "Group training that turns Microsoft 365 Copilot licences into audit-ready AI competence for EHS and sustainability teams, aligned to the EU AI Act Article 4 AI-literacy obligation.",
     audience: "EHS and sustainability teams with Microsoft 365 Copilot",
