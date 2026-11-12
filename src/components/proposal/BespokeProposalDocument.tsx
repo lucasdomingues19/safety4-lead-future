@@ -57,6 +57,8 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
     ? new Date(valid_until).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : null;
   const ordered = [...sections].sort((a, b) => a.order - b.order);
+  // A UK customer pays VAT: when the proposal's text says "+ VAT" the terms must say VAT is charged, not that it is not applicable.
+  const vatCharged = sections.some((s) => JSON.stringify(s.content ?? {}).includes("+ VAT"));
 
   return (
     <div className="bespoke-doc mx-auto max-w-4xl bg-white text-[#0b0b2c]">
@@ -225,7 +227,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           {[
             ["Validity", `This proposal is valid until ${validUntil ?? "the date shown on the cover"}.`],
             ["Participants", `The price covers the number of seats stated. Seats are for named participants from ${organisation}.`],
-            ["Price and VAT", "Prices are in pounds sterling. VAT is not applicable to this proposal."],
+            ["Price and VAT", vatCharged ? "Prices are in pounds sterling and exclude VAT. VAT is charged at the applicable rate and added to the invoice." : "Prices are in pounds sterling. VAT is not applicable to this proposal."],
             ["Payment", "Invoiced on approval, payable within 30 days by bank transfer or card."],
             ["Travel and accommodation", "Billed at cost and not included in the price."],
             ["Refunds and cancellations", "Agreed in writing before the training day is confirmed."],
