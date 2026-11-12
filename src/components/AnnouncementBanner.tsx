@@ -10,10 +10,10 @@ const ANNOUNCEMENT = {
   endsAt: "2026-12-09T17:00:00Z",
   full: "Next live session: Copilot for EHS Professionals — Wed 9 Dec, 9am–5pm UK time",
   short: "Copilot live: 9 Dec, 9am–5pm UK",
-  // Session details link to the Copilot page; the CTA goes to the Stripe Payment Link (EARLY997 promo prefilled).
+  // Session details link to the Copilot page; the CTA goes to the contact page (the price is on consultation).
   detailsHref: "/copilot-for-ehs#live-session",
-  cta: "Book your place",
-  ctaHref: "https://buy.stripe.com/dRmdR3f3A9cE03s8cx1Jm05?prefilled_promo_code=EARLY997",
+  cta: "Request your place",
+  ctaHref: "/contact",
 };
 
 // Must match the banner's height class (h-10) so the spacer keeps page content clear of the fixed nav.
@@ -53,15 +53,13 @@ export const AnnouncementBanner = ({ onDismiss }: { onDismiss: () => void }) => 
         <span className="hidden md:inline">{ANNOUNCEMENT.full}</span>
         <span className="md:hidden">{ANNOUNCEMENT.short}</span>
       </Link>
-      <a
-        href={ANNOUNCEMENT.ctaHref}
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        to={ANNOUNCEMENT.ctaHref}
         className="shrink-0 rounded bg-white text-primary px-2.5 py-1 text-xs font-semibold whitespace-nowrap hover:bg-white/90"
       >
         <span className="hidden sm:inline">{ANNOUNCEMENT.cta} →</span>
-        <span className="sm:hidden">Book →</span>
-      </a>
+        <span className="sm:hidden">Enquire →</span>
+      </Link>
       <button
         onClick={onDismiss}
         aria-label="Dismiss announcement"

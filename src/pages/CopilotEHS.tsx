@@ -190,7 +190,6 @@ const LIVE_SESSION = {
   dateLong: "Wednesday 9 December 2026",
   dateShort: "Wed 9 Dec 2026",
   timeLabel: "9am–5pm UK time",
-  bookHref: "https://buy.stripe.com/dRmdR3f3A9cE03s8cx1Jm05?prefilled_promo_code=EARLY997",
 };
 
 const CopilotEHS = () => {
@@ -240,7 +239,7 @@ const CopilotEHS = () => {
         cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
         secondaryCta={
           liveOpen
-            ? { label: `Book live session · ${LIVE_SESSION.dateShort.replace(" 2026", "")}`, href: LIVE_SESSION.bookHref, external: true }
+            ? { label: `Ask about the live session · ${LIVE_SESSION.dateShort.replace(" 2026", "")}`, href: "/contact" }
             : { label: "Talk to Us", href: "/contact" }
         }
         guarantee={liveOpen ? `Group cohorts are scheduled around your team. Individual places are open on the ${LIVE_SESSION.dateShort} live session.` : "Group cohorts are scheduled around your team."}
@@ -441,7 +440,7 @@ const CopilotEHS = () => {
                 <ul className="space-y-2.5 mb-6">
                   {[
                     `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
-                    "Live on Microsoft Teams. Joining details are emailed after you book.",
+                    "Live on Microsoft Teams. Joining details are emailed once your place is confirmed.",
                     "Price: on consultation",
                     "Includes 12 months in the SafetyTech Global Network community",
                   ].map((item) => (
@@ -452,14 +451,12 @@ const CopilotEHS = () => {
                   ))}
                 </ul>
                 <a
-                  href={LIVE_SESSION.bookHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/contact"
                   className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
                 >
-                  Book your place
+                  Request your place
                 </a>
-                <p className="text-xs text-slate-400 mt-3 text-center">The discount is applied automatically at checkout.</p>
+                <p className="text-xs text-slate-400 mt-3 text-center">We will reply with the price and how to book.</p>
               </div>
             </div>
           </div>

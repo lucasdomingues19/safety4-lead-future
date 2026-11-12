@@ -61,7 +61,7 @@ If you want to see where your organisation stands first, the free [AI in EHS Gov
 
 Your team already has the license. This is the training to go with it — role-specific, hands-on, and built to keep the judgement that makes you competent in the first place.
 
-[See the live session and book your place →](/copilot-for-ehs#live-session)
+[See the live session and request your place →](/copilot-for-ehs#live-session)
 
 Training a whole team? [Register your interest in group training](/copilot-for-ehs#waitlist).
 
