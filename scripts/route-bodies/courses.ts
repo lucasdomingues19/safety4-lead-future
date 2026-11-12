@@ -5,7 +5,7 @@ const liveSessionSection = {
   paragraphs: [
     "Not booking for a team? Individual places are open for one day, live on Microsoft Teams, 9am–5pm UK time. Built for EHS professionals who have, or soon will have, Microsoft 365 Copilot. No technical background needed.",
     "You will use Microsoft 365 Copilot on real EHS tasks, build AI agents that take routine work off your plate, analyse EHS data with Copilot, and put risk and governance in place with a competent person always in charge.",
-    "Individual price: £997 + VAT for the first 10 places, then £1,497 + VAT. Includes 12 months in the SafetyTech Global Network community.",
+    "Price: on consultation. Includes 12 months in the SafetyTech Global Network community.",
   ],
 };
 
