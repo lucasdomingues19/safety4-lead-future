@@ -190,9 +190,6 @@ const LIVE_SESSION = {
   dateLong: "Wednesday 9 December 2026",
   dateShort: "Wed 9 Dec 2026",
   timeLabel: "9am–5pm UK time",
-  earlyPrice: "£997",
-  fullPrice: "£1,497",
-  earlyPlaces: 10,
   bookHref: "https://buy.stripe.com/dRmdR3f3A9cE03s8cx1Jm05?prefilled_promo_code=EARLY997",
 };
 
@@ -445,7 +442,7 @@ const CopilotEHS = () => {
                   {[
                     `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
                     "Live on Microsoft Teams. Joining details are emailed after you book.",
-                    `Individual price: ${LIVE_SESSION.earlyPrice} + VAT for the first ${LIVE_SESSION.earlyPlaces} places, then ${LIVE_SESSION.fullPrice} + VAT`,
+                    "Price: on consultation",
                     "Includes 12 months in the SafetyTech Global Network community",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
