@@ -55,6 +55,7 @@ export const ProposalDocument = ({ proposal, preview }: Props) => {
         valid_until={proposal.valid_until ?? undefined}
         token={proposal.token}
         created_at={proposal.created_at}
+        currency={proposal.currency ?? undefined}
       />
     );
   }

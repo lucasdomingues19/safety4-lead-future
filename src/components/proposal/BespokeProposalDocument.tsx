@@ -1,3 +1,4 @@
+import { formatMoney } from "@/lib/proposals";
 import React from "react";
 import logo from "@/assets/brand-logo.png";
 
@@ -19,6 +20,7 @@ interface BespokeProposalDocumentProps {
   token: string;
   created_at: string;
   title?: string;
+  currency?: string;
 }
 
 const linkify = (text: string) =>
@@ -40,7 +42,12 @@ const firstNumber = (text: string) => {
   return m ? Number(m[0].replace(/,/g, "")) : null;
 };
 
-const money = (n: number) => `£${n.toLocaleString("en-GB")}`;
+const CURRENCY_NAMES: Record<string, string> = {
+  GBP: "pounds sterling",
+  AUD: "Australian dollars",
+  USD: "US dollars",
+  EUR: "euros",
+};
 
 export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = ({
   organisation,
@@ -51,7 +58,10 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
   valid_until,
   created_at,
   title = "Training proposal",
+  currency = "GBP",
 }) => {
+  const money = (n: number) => formatMoney(n, currency);
+  const currencyName = CURRENCY_NAMES[currency] ?? currency;
   const issued = new Date(created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
   const validUntil = valid_until
     ? new Date(valid_until).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
@@ -214,7 +224,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           <p className="font-bold text-[#0b0b2c]">Lucas Domingues</p>
           <p>MSc, CMIOSH · Founder, SafetyTech Academy</p>
           <p className="mt-4 text-xs text-slate-500">
-            Commercial in confidence. Prices are in pounds sterling. Any VAT is shown in the total line.
+            Commercial in confidence. Prices are in {currencyName}.{currency === "GBP" ? " Any VAT is shown in the total line." : ""}
           </p>
         </footer>
       </div>
@@ -227,7 +237,11 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           {[
             ["Validity", `This proposal is valid until ${validUntil ?? "the date shown on the cover"}.`],
             ["Participants", `The price covers the number of seats stated. Seats are for named participants from ${organisation}.`],
-            ["Price and VAT", vatCharged ? "Prices are in pounds sterling and exclude VAT. VAT is charged at the applicable rate and added to the invoice." : "Prices are in pounds sterling. VAT is not applicable to this proposal."],
+            currency === "GBP"
+              ? ["Price and VAT", vatCharged ? "Prices are in pounds sterling and exclude VAT. VAT is charged at the applicable rate and added to the invoice." : "Prices are in pounds sterling. VAT is not applicable to this proposal."]
+              : currency === "AUD"
+                ? ["Price and GST", "Prices are in Australian dollars and exclude GST. GST is added to the invoice where it applies."]
+                : ["Price and taxes", `Prices are in ${currencyName} and exclude any applicable sales taxes.`],
             ["Payment", "Invoiced on approval, payable within 30 days by bank transfer or card."],
             ["Travel and accommodation", "Billed at cost and not included in the price."],
             ["Refunds and cancellations", "Agreed in writing before the training day is confirmed."],
