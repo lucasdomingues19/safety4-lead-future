@@ -206,6 +206,7 @@ const ProposalPage = ({ token: tokenProp }: { token?: string }) => {
           valid_until={proposal.valid_until ?? undefined}
           token={proposal.token}
           created_at={proposal.created_at}
+          currency={proposal.currency ?? undefined}
         />
       ) : (
         <ProposalDocument proposal={proposal} />
