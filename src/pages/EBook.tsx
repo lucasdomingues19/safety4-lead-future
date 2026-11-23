@@ -8,11 +8,13 @@ import { Footer } from "@/components/Footer";
 import bookCover from "@/assets/book-cover-safety-4-leader.png";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
+import { MarketingConsent } from "@/components/MarketingConsent";
 
 const EBook = () => {
   const [formData, setFormData] = useState({ name: "", email: "", company: "", phone: "" });
   const [submitting, setSubmitting] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [consent, setConsent] = useState(false);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // Lead first, then the download. The lead is saved in the same place as the brochure leads.
@@ -28,6 +30,7 @@ const EBook = () => {
           company: formData.company.trim() || null,
           phone: formData.phone.trim() || null,
           source: "ebook_download",
+          marketing_consent: consent,
         },
       });
       if (error) throw error;
@@ -155,6 +158,8 @@ const EBook = () => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
                     />
                   </div>
+
+                  <MarketingConsent id="ebook-consent" checked={consent} onChange={setConsent} />
 
                   <button type="submit" disabled={submitting} className="w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700">
                     {submitting ? "Saving..." : "Get eBook"}

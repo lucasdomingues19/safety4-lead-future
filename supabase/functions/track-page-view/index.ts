@@ -221,6 +221,31 @@ serve(async (req) => {
       );
     }
 
+    // Engagement ping: sent only after a real scroll/tap/key press while the tab is
+    // visible, so link scanners and bots never produce one. Updates the visit's
+    // time on page; stores nothing new about the visitor.
+    if ((data as any).kind === 'engagement') {
+      const ok = () => new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      const seconds = Math.max(0, Math.min(3600, Math.round(Number((data as any).seconds) || 0)));
+      const path = typeof data.page_path === 'string' ? data.page_path.slice(0, 500) : '';
+      if (!path || !seconds) return ok();
+      let sid = typeof data.session_id === 'string' ? data.session_id.slice(0, 100) : '';
+      if (data.consented !== true) {
+        const eip = req.headers.get('cf-connecting-ip') || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip');
+        sid = await anonymousVisitorId(eip ?? 'unknown', userAgent || req.headers.get('user-agent') || '');
+      }
+      if (!sid || !checkRateLimit(`e:${sid}`)) return ok();
+      const db = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
+      const since = new Date(Date.now() - 2 * 3600 * 1000).toISOString();
+      const { data: row } = await db.from('page_views').select('id, duration')
+        .eq('session_id', sid).eq('page_path', path).gte('visited_at', since)
+        .order('visited_at', { ascending: false }).limit(1).maybeSingle();
+      if (row && (row.duration ?? 0) < seconds) {
+        await db.from('page_views').update({ duration: seconds, last_active: new Date().toISOString() }).eq('id', row.id);
+      }
+      return ok();
+    }
+
     // Validate input
     const validation = validatePageViewData(data);
     if (!validation.valid) {

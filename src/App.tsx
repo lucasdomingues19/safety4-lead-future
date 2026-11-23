@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 const WhatsAppButton = lazy(() => import("./components/WhatsAppButton").then(m => ({ default: m.WhatsAppButton })));
 const ChatWidget = lazy(() => import("./components/ChatWidget").then(m => ({ default: m.ChatWidget })));
 const GovernanceReadinessGate = lazy(() => import("./components/GovernanceReadinessGate"));
+const ExitIntentOffer = lazy(() => import("./components/ExitIntentOffer"));
 const CookieConsent = lazy(() => import("./components/CookieConsent"));
 
 // Lazy load pages for better performance
@@ -116,6 +117,7 @@ const GlobalWidgets = () => {
       {consent}
       <WhatsAppButton />
       <GovernanceReadinessGate />
+      {!/^\/(ebook|scorecard|contact|enrol|auth|checkout|admin|governance-readiness)(\/|$)/.test(pathname) && <ExitIntentOffer />}
       <ChatWidget />
     </Suspense>
   );

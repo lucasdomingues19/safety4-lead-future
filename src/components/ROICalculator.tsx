@@ -132,6 +132,7 @@ export function ROICalculator() {
           email: email.trim(),
           phone: `${phoneCode} ${phone.trim()}`,
           source: "roi_calculator",
+          marketing_consent: newsConsent,
           message: `ROI Calculator | Team: ${team}, Salary: $${sal}, TRI: ${tri}, Fatalities: ${fatal}, Annual value: ${money(annualSav)}, 3yr ROI: ${roi3}%, Payback: ${payback} weeks | Newsletter consent: ${newsConsent ? "Yes" : "No"}`
         }
       });
