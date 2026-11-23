@@ -17,10 +17,10 @@ export const FreeResourcesSection = () => (
         <Link
           to="/scorecard"
           onClick={() => trackClick("home_free_scorecard")}
-          className="group flex flex-col sm:flex-row gap-6 rounded-[20px] border border-slate-200 bg-[#FAFAFA] p-6 md:p-8 hover:border-primary hover:shadow-lg transition-all"
+          className="group flex gap-4 sm:gap-6 rounded-[20px] border border-slate-200 bg-[#FAFAFA] p-6 md:p-8 hover:border-primary hover:shadow-lg transition-all"
         >
-          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-primary">
-            <Gauge className="h-12 w-12 text-white" strokeWidth={1.75} aria-hidden="true" />
+          <div className="flex h-16 w-16 sm:h-24 sm:w-24 shrink-0 items-center justify-center rounded-2xl bg-primary">
+            <Gauge className="h-8 w-8 sm:h-12 sm:w-12 text-white" strokeWidth={1.75} aria-hidden="true" />
           </div>
           <div className="flex flex-col">
             <h3 className="text-xl font-bold text-slate-900 mb-2">EHS AI Readiness Scorecard</h3>
@@ -36,14 +36,14 @@ export const FreeResourcesSection = () => (
         <Link
           to="/ebook"
           onClick={() => trackClick("home_free_ebook")}
-          className="group flex flex-col sm:flex-row gap-6 rounded-[20px] border border-slate-200 bg-[#FAFAFA] p-6 md:p-8 hover:border-primary hover:shadow-lg transition-all"
+          className="group flex gap-4 sm:gap-6 rounded-[20px] border border-slate-200 bg-[#FAFAFA] p-6 md:p-8 hover:border-primary hover:shadow-lg transition-all"
         >
           <img
             src={bookCover}
             alt="Become the Safety 4.0 Leader guide cover"
             loading="lazy"
             decoding="async"
-            className="h-32 w-24 shrink-0 rounded-lg object-cover shadow-md"
+            className="h-[88px] w-16 sm:h-32 sm:w-24 shrink-0 rounded-lg object-cover shadow-md"
           />
           <div className="flex flex-col">
             <h3 className="text-xl font-bold text-slate-900 mb-2">Free guide: Become the Safety 4.0 Leader</h3>
