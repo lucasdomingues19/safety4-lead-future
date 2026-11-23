@@ -83,3 +83,6 @@ verify_jwt = false
 
 [functions.report-mailer]
 verify_jwt = false
+
+[functions.marketing-unsubscribe]
+verify_jwt = false
