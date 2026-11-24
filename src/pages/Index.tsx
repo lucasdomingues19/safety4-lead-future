@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
+import { EbookDownloadSection } from "@/components/EbookDownloadSection";
 import { Link } from "react-router-dom";
 import { HeroSection } from "@/components/HeroSection";
 import { ProfessionalCredentialsSection } from "@/components/ProfessionalCredentialsSection";
@@ -67,6 +68,8 @@ const Index = () => {
         <HeroSection />
 
         <TrustedByBanner />
+
+        <EbookDownloadSection />
 
         {/* Introduction video — full-bleed brand band, matches the reference's testimonial section */}
         <section className="relative bg-primary py-10 md:py-14">

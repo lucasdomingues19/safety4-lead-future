@@ -127,7 +127,7 @@ export const B2BEHSAssessment = () => {
   };
 
   const handleUserDataSubmit = async () => {
-    if (!userData.firstName || !userData.lastName || !userData.email || !userData.phone || !userData.organizationName) {
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.organizationName) {
       toast.error("Please complete all required fields");
       return;
     }
@@ -141,14 +141,17 @@ export const B2BEHSAssessment = () => {
             "Content-Type": "application/json",
             apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
           },
+          // capture-lead needs a single `name` (sending firstName/lastName was rejected,
+          // so nobody could finish the scorecard from July to November 2026).
           body: JSON.stringify({
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            email: userData.email,
-            phone: `${userData.phoneCode}${userData.phone}`,
-            organizationName: userData.organizationName,
+            name: `${userData.firstName} ${userData.lastName}`.trim(),
+            email: userData.email.trim(),
+            phone: userData.phone.trim() ? `${userData.phoneCode}${userData.phone.trim()}` : null,
+            company: userData.organizationName.trim(),
             source: "ehs-assessment",
-            metadata: { assessment_type: "b2b-ehs-maturity" },
+            inquiry_type: "EHS AI Readiness Scorecard",
+            message: `Scorecard result: ${overallScore}% (${rankInfo.label}). ${categoryScores.map((c) => `${c.category} ${c.score}%`).join(", ")}`,
+            marketing_consent: userData.emailConsent === true,
           }),
         }
       );
@@ -354,7 +357,7 @@ export const B2BEHSAssessment = () => {
                 </div>
                 <div className="col-span-2">
                   <Label htmlFor="phone" className="block text-sm font-medium mb-2">
-                    Phone Number *
+                    Phone number (optional)
                   </Label>
                   <Input
                     id="phone"

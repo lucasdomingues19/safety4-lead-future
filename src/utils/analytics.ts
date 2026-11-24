@@ -176,6 +176,54 @@ const getCountryCode = async (): Promise<string> => {
   }
 };
 
+// ---- Engagement: real time on page, without cookies ----
+// Counts seconds only while the tab is visible AND after the visitor has really
+// interacted (scrolled, tapped, pressed a key). Link scanners that open every URL
+// in an email never interact, so they never send one. Nothing is stored on the device.
+const ENGAGEMENT_MILESTONES = [10, 30, 60, 180, 600];
+const engagement = { path: "", seconds: 0, next: 0, human: false, started: false };
+
+const sendEngagement = (seconds: number) => {
+  const consented = hasAnalyticsConsent();
+  try {
+    fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-page-view`, {
+      method: "POST",
+      keepalive: true,
+      headers: { "Content-Type": "application/json", apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+      body: JSON.stringify({
+        kind: "engagement",
+        seconds,
+        page_path: engagement.path,
+        consented,
+        session_id: consented ? getSessionId() : "anonymous",
+        user_agent: navigator.userAgent,
+        ...getBotChallengeFields(),
+      }),
+    }).catch(() => {});
+  } catch { /* never break the page over analytics */ }
+};
+
+const startEngagementTracking = (pagePath: string) => {
+  engagement.path = pagePath;
+  engagement.seconds = 0;
+  engagement.next = 0;
+  if (engagement.started) return;
+  engagement.started = true;
+  const markHuman = () => { engagement.human = true; };
+  for (const ev of ["scroll", "pointerdown", "keydown", "touchstart", "wheel"]) {
+    window.addEventListener(ev, markHuman, { passive: true, capture: true });
+  }
+  window.setInterval(() => {
+    if (!engagement.human || document.visibilityState !== "visible") return;
+    engagement.seconds += 1;
+    const target = ENGAGEMENT_MILESTONES[engagement.next];
+    if (target !== undefined && engagement.seconds >= target) {
+      engagement.next += 1;
+      sendEngagement(engagement.seconds);
+    }
+  }, 1000);
+};
+
 // Track page view with validation and rate limiting
 export const trackPageView = async (pagePath: string) => {
   if (isDevEnvironment() || isExcludedBrowser()) return;
@@ -233,6 +281,8 @@ export const trackPageView = async (pagePath: string) => {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       console.error('Analytics tracking error:', errorData);
+    } else {
+      startEngagementTracking(pagePath);
     }
   } catch (error) {
     console.error('Analytics tracking failed:', error);

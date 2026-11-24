@@ -1,3 +1,4 @@
+import { MarketingConsent } from "@/components/MarketingConsent";
 import AudienceNav from "@/components/AudienceNav";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Mail, Phone, MapPin, Clock } from "lucide-react";
@@ -16,6 +17,7 @@ const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  const [consent, setConsent] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -62,7 +64,8 @@ const Contact = () => {
             source: 'contact_form',
             message: formData.message,
             role: formData.role,
-            inquiry_type: formData.inquiryType
+            inquiry_type: formData.inquiryType,
+            marketing_consent: consent
           }),
         }
       );
@@ -107,6 +110,7 @@ const Contact = () => {
       });
 
       // Reset form
+      setConsent(false);
       setFormData({
         firstName: "",
         lastName: "",
@@ -266,6 +270,8 @@ const Contact = () => {
                     required
                   />
                 </div>
+
+                <MarketingConsent id="contact-consent" checked={consent} onChange={setConsent} />
 
                 <Button 
                   type="submit" 

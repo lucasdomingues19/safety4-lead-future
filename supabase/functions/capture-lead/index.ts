@@ -23,7 +23,31 @@ interface LeadData {
   company?: string;
   event_id?: string;
   event_title?: string;
+  marketing_consent?: boolean; // ticked "send me tips and course news"
   _hp?: string; // Honeypot field
+}
+
+// Opted-in leads join the Kit newsletter through the public "Website opt-in" form
+// (no secret key needed). Kit's own confirmation email is off for this form because
+// consent is captured here with an unticked box. Never blocks saving the lead.
+const KIT_FORM_URL = "https://app.kit.com/forms/10232126/subscriptions";
+async function addToKit(email: string, name: string) {
+  try {
+    const first = name.trim().split(/\s+/)[0] ?? "";
+    const body = new URLSearchParams({ email_address: email, "fields[first_name]": first });
+    const ctl = new AbortController();
+    const timer = setTimeout(() => ctl.abort(), 5000);
+    const res = await fetch(KIT_FORM_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+      body,
+      signal: ctl.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) console.error("[capture-lead] Kit sign-up failed:", res.status, (await res.text()).slice(0, 200));
+  } catch (e) {
+    console.error("[capture-lead] Kit sign-up error:", e instanceof Error ? e.message : e);
+  }
 }
 
 // Known bot user agent patterns
@@ -207,6 +231,8 @@ serve(async (req) => {
       company: typeof data.company === 'string' ? data.company.trim().slice(0, 200) || null : null,
       event_id: typeof data.event_id === 'string' && /^[0-9a-f-]{36}$/i.test(data.event_id) ? data.event_id : null,
       event_title: typeof data.event_title === 'string' ? data.event_title.trim().slice(0, 200) || null : null,
+      marketing_consent: data.marketing_consent === true,
+      marketing_consent_at: data.marketing_consent === true ? new Date().toISOString() : null,
     };
 
     const { error } = await supabase.from('leads').insert(sanitizedData);
@@ -216,7 +242,8 @@ serve(async (req) => {
       throw error;
     }
 
-    console.log('Lead captured successfully:', { email: sanitizedData.email, source: sanitizedData.source });
+    if (sanitizedData.marketing_consent) await addToKit(sanitizedData.email, sanitizedData.name);
+    console.log('Lead captured successfully:', { source: sanitizedData.source, consent: sanitizedData.marketing_consent });
 
     return new Response(
       JSON.stringify({ success: true }),
