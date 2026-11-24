@@ -55,6 +55,18 @@ export function useCommunityEvents(space: "academy" | "global-network", userId?:
 }
 
 // ---------- small pieces ----------
+// Event descriptions are plain text; turn https:// links into clickable links (nothing else is rendered as HTML).
+const URL_RE = /(https:\/\/[^\s<>()]+[^\s<>().,;:!?'"])/g;
+const Linkified = ({ text }: { text: string }) => (
+  <>
+    {text.split(URL_RE).map((part, i) =>
+      i % 2 === 1
+        ? <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="break-all font-semibold text-[#3434ff] underline underline-offset-2">{part}</a>
+        : part,
+    )}
+  </>
+);
+
 const DateTile = ({ iso, live }: { iso: string; live?: boolean }) => {
   const d = formatDay(iso);
   return (
@@ -243,7 +255,7 @@ export function EventDialog({
             <button onClick={onClose} className="rounded-full p-2 text-[#94a3b8] hover:bg-[#f5f7fa]" aria-label="Close"><X size={18} /></button>
           </div>
 
-          {event.description && <p className="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-[#475569]">{event.description}</p>}
+          {event.description && <p className="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-[#475569]"><Linkified text={event.description} /></p>}
 
           <div className="mt-6 flex flex-wrap gap-2.5">
             {status === "live" && event.join_url && (
