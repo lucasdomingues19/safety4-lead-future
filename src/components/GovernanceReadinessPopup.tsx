@@ -3,15 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { X, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { claimPopupSlot, releasePopupSlot } from "@/lib/popupManager";
+import { trackEvent } from "@/utils/analytics";
+
+// The site's one pop-up. It opens after 8 seconds, or earlier on desktop when the
+// pointer leaves through the top of the window (heading for the tab bar or close
+// button), whichever comes first. popupManager keeps it to once per visit.
+const DELAY_MS = 8000;
+const MIN_MS_BEFORE_EXIT = 3000;
 
 export const GovernanceReadinessPopup = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (claimPopupSlot("governance_readiness")) setIsOpen(true);
-    }, 8000);
+    const show = (trigger: "timer" | "exit") => {
+      if (!claimPopupSlot("governance_readiness")) return;
+      setIsOpen(true);
+      trackEvent("governance_popup_shown", { trigger });
+    };
+    const timer = setTimeout(() => show("timer"), DELAY_MS);
+
+    const since = Date.now();
+    const desktop = window.matchMedia("(pointer: fine) and (min-width: 768px)").matches;
+    const onOut = (e: MouseEvent) => {
+      if (e.relatedTarget || e.clientY > 8 || Date.now() - since < MIN_MS_BEFORE_EXIT) return;
+      show("exit");
+    };
+    if (desktop) document.addEventListener("mouseout", onOut);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -22,6 +40,7 @@ export const GovernanceReadinessPopup = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       clearTimeout(timer);
+      document.removeEventListener("mouseout", onOut);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);

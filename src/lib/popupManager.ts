@@ -5,7 +5,7 @@
 const ACTIVE_KEY = "popup_active_owner";
 const SHOWN_KEY = "popup_shown_owner";
 
-export type PopupOwner = "governance_readiness" | "newsletter" | "exit_guide";
+export type PopupOwner = "governance_readiness" | "newsletter";
 
 /** Try to reserve the popup slot for this session. Returns false if taken. */
 export const claimPopupSlot = (owner: PopupOwner): boolean => {
