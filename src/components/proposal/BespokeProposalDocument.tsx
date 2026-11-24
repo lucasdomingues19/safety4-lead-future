@@ -85,6 +85,11 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
           .bespoke-doc footer { break-before: auto; }
           .bespoke-doc > div:last-child { padding-bottom: 0 !important; }
           .bespoke-terms { break-before: page; page-break-before: always; }
+          /* Keep the terms and their footer on one sheet (they used to spill a near-empty last page). */
+          .bespoke-terms { padding-top: 0 !important; padding-bottom: 0 !important; }
+          .bespoke-terms ol { margin-top: 1.25rem !important; }
+          .bespoke-terms ol > li + li { margin-top: 0.75rem !important; }
+          .bespoke-terms > p:last-child { margin-top: 1.25rem !important; }
         }
       `}</style>
 
