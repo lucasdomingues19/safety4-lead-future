@@ -6,6 +6,7 @@ import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { trackPageView } from "@/utils/analytics";
 import { setPageSEO } from "@/utils/seo";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import EventRegistrationModal from "@/components/EventRegistrationModal";
 import { supabase } from "@/integrations/supabase/client";
 import copilotHseCard from "@/assets/event-copilot-hse-card.webp";
@@ -93,7 +94,7 @@ const Events = () => {
                   <div className="absolute -bottom-12 -left-8 w-36 h-36 bg-white/10 rounded-full" aria-hidden="true" />
                   <FileSearch className="relative w-14 h-14 text-white" strokeWidth={1.5} aria-hidden="true" />
                   <div className="relative">
-                    <p className="text-white/70 text-xs font-semibold uppercase tracking-[0.2em] mb-2">Free live session</p>
+                    <p className="text-white/70 text-xs font-semibold uppercase tracking-[0.2em] mb-2">Live session · {INCIDENT_EVENT.price}</p>
                     <p className="text-white text-2xl md:text-3xl font-bold leading-tight">{INCIDENT_EVENT.dateShort} · 3 PM UK</p>
                   </div>
                 </div>
@@ -101,7 +102,7 @@ const Events = () => {
                 <div className="flex flex-col justify-between">
                   <div>
                     <span className="inline-block bg-primary/10 text-primary text-xs font-bold uppercase tracking-[0.08em] px-3 py-1.5 rounded-full mb-4">
-                      Live session · Free
+                      Live session · {INCIDENT_EVENT.price}
                     </span>
                     <h3 className="text-2xl font-bold text-[#0b0b2c] mb-3">{INCIDENT_EVENT.title}</h3>
                     <p className="text-[#69697b] mb-6 leading-relaxed">{INCIDENT_EVENT.summary}</p>
@@ -123,7 +124,7 @@ const Events = () => {
                   </div>
 
                   <span className="inline-flex items-center gap-2 bg-primary text-white font-semibold px-6 py-3 rounded-[8px] group-hover:bg-[#2a2ad6] transition-colors duration-300 w-fit">
-                    View event & register free
+                    View event & book
                     <ArrowRight size={18} />
                   </span>
                 </div>
@@ -239,21 +240,12 @@ const Events = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 bg-gradient-to-r from-primary to-[#2a2ad6] rounded-[20px] p-12 text-white text-center">
+        <div className="mt-20 bg-gradient-to-r from-primary to-[#2a2ad6] rounded-[20px] p-6 py-10 md:p-12 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Can't find the event you're looking for?</h2>
           <p className="text-lg text-white/80 mb-6 max-w-2xl mx-auto">
             Subscribe to our newsletter to get notified about new events and exclusive invitations to upcoming masterclasses.
           </p>
-          <div className="flex gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-[8px] text-[#0b0b2c] placeholder-[#69697b]"
-            />
-            <button className="bg-white text-primary font-semibold px-6 py-3 rounded-[8px] hover:bg-gray-50 transition-colors duration-300">
-              Subscribe
-            </button>
-          </div>
+          <NewsletterSignup placement="Events page" />
         </div>
       </div>
 

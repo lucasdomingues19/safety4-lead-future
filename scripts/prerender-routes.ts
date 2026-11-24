@@ -187,9 +187,9 @@ const staticRoutes: RouteSeo[] = [
   },
   {
     path: "/events/incident-investigations-copilot",
-    title: "Incident Investigations with Copilot: free live session | SafetyTech Academy",
+    title: "Incident Investigations with Copilot: live session | SafetyTech Academy",
     description:
-      "Free live session with Lucas Domingues on using Microsoft 365 Copilot for incident investigations. Wednesday 9 December 2026, 3:00 PM UK time, online.",
+      "Live session with Lucas Domingues on using Microsoft 365 Copilot for incident investigations. Wednesday 9 December 2026, 3:00 PM UK time, online. £59.",
   },
   {
     path: "/events/copilot-hse",

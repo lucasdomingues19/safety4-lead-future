@@ -63,7 +63,7 @@ Your team already has the license. This is the training to go with it — role-s
 
 [See the team training and register your interest →](/copilot-for-ehs#waitlist)
 
-Want a taste first? Join the free live session [Incident Investigations with Copilot](/events/incident-investigations-copilot) on Wednesday 9 December, 3pm UK time.
+Want a taste first? Join the live session [Incident Investigations with Copilot](/events/incident-investigations-copilot) on Wednesday 9 December, 3pm UK time.
 
 ## Frequently asked questions
 

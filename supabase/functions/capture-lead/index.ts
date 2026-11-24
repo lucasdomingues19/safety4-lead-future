@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { sendEventConfirmation } from '../_shared/eventEmail.ts';
+import { addToKit } from '../_shared/kit.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,7 +24,6 @@ interface LeadData {
   company?: string;
   event_id?: string;
   event_title?: string;
-  event?: string; // event slug, for the registration confirmation email
   marketing_consent?: boolean; // ticked "send me tips and course news"
   _hp?: string; // Honeypot field
 }
@@ -32,25 +31,6 @@ interface LeadData {
 // Opted-in leads join the Kit newsletter through the public "Website opt-in" form
 // (no secret key needed). Kit's own confirmation email is off for this form because
 // consent is captured here with an unticked box. Never blocks saving the lead.
-const KIT_FORM_URL = "https://app.kit.com/forms/10232126/subscriptions";
-async function addToKit(email: string, name: string) {
-  try {
-    const first = name.trim().split(/\s+/)[0] ?? "";
-    const body = new URLSearchParams({ email_address: email, "fields[first_name]": first });
-    const ctl = new AbortController();
-    const timer = setTimeout(() => ctl.abort(), 5000);
-    const res = await fetch(KIT_FORM_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
-      body,
-      signal: ctl.signal,
-    });
-    clearTimeout(timer);
-    if (!res.ok) console.error("[capture-lead] Kit sign-up failed:", res.status, (await res.text()).slice(0, 200));
-  } catch (e) {
-    console.error("[capture-lead] Kit sign-up error:", e instanceof Error ? e.message : e);
-  }
-}
 
 // Known bot user agent patterns
 const BOT_PATTERNS = [
@@ -245,10 +225,6 @@ serve(async (req) => {
     }
 
     if (sanitizedData.marketing_consent) await addToKit(sanitizedData.email, sanitizedData.name);
-    if (sanitizedData.source === 'event_registration' && typeof data.event === 'string') {
-      const err = await sendEventConfirmation(data.event, sanitizedData.email, sanitizedData.name);
-      if (err) console.error('Event confirmation email not sent:', err);
-    }
     console.log('Lead captured successfully:', { source: sanitizedData.source, consent: sanitizedData.marketing_consent });
 
     return new Response(

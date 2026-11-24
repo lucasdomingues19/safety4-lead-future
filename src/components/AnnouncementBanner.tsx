@@ -8,10 +8,10 @@ import { INCIDENT_EVENT } from "@/data/events";
 const ANNOUNCEMENT = {
   id: "incident-investigations-2026-12-09",
   endsAt: INCIDENT_EVENT.endsAt,
-  full: `Free live session: ${INCIDENT_EVENT.title} · ${INCIDENT_EVENT.dateShort}, 3pm UK time`,
-  short: `Free live: ${INCIDENT_EVENT.dateShort}, 3pm UK`,
+  full: `Live session: ${INCIDENT_EVENT.title} · ${INCIDENT_EVENT.dateShort}, 3pm UK time`,
+  short: `Live: Copilot for investigations, ${INCIDENT_EVENT.dateShort}`,
   detailsHref: INCIDENT_EVENT.path,
-  cta: "Register free",
+  cta: "Book your place",
   ctaHref: `${INCIDENT_EVENT.path}#register`,
 };
 
@@ -57,7 +57,7 @@ export const AnnouncementBanner = ({ onDismiss }: { onDismiss: () => void }) => 
         className="shrink-0 rounded bg-white text-primary px-2.5 py-1 text-xs font-semibold whitespace-nowrap hover:bg-white/90"
       >
         <span className="hidden sm:inline">{ANNOUNCEMENT.cta} →</span>
-        <span className="sm:hidden">Register →</span>
+        <span className="sm:hidden">Book →</span>
       </Link>
       <button
         onClick={onDismiss}

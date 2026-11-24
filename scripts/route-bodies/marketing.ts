@@ -437,12 +437,12 @@ export const bodies: RouteBody[] = [
       {
         heading: "",
         paragraphs: [
-          "A free live session on using Microsoft 365 Copilot to run better incident investigations: from rough notes and witness statements to a clear timeline, a root-cause analysis and a report you can stand behind. Led by Lucas Domingues, founder of SafetyTech Academy.",
+          "A live session on using Microsoft 365 Copilot to run better incident investigations: from rough notes and witness statements to a clear timeline, a root-cause analysis and a report you can stand behind. Led by Lucas Domingues, founder of SafetyTech Academy.",
         ],
         bullets: [
           "Wednesday 9 December 2026",
           "3:00 PM UK time (GMT): 10:00 AM New York, 4:00 PM Berlin, 7:00 PM Dubai",
-          "Live online, free. Register on this page; the joining link is sent by email.",
+          "Live online. £59 (+ VAT where applicable). Book on this page; the joining link is sent by email.",
         ],
       },
       {

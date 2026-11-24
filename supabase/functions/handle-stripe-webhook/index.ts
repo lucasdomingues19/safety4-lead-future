@@ -5,6 +5,8 @@ import { sendPurchaseEmail } from "../_shared/purchaseEmail.ts";
 import { communityGrantOf, fulfilCommunityPurchase } from "../_shared/community.ts";
 import { createWelcomeToken } from "../_shared/welcomeToken.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
+import { EVENTS, sendEventConfirmation } from "../_shared/eventEmail.ts";
+import { addToKit } from "../_shared/kit.ts";
 
 // Stripe webhook (backup to confirm-course-checkout).
 // Point the Stripe endpoint at .../functions/v1/handle-stripe-webhook and
@@ -71,6 +73,31 @@ serve(async (req) => {
           const { data: tc } = await db.from("courses").select("title").eq("id", meta.course_id).maybeSingle();
           await recordPurchase(db, session.id, { userId: meta.user_id, courseId: meta.course_id, organisationId: r.orgId, quantity: Number(meta.seats), title: `${tc?.title ?? "Course"} (team seats)` });
           console.log("Team seats granted via webhook", { ref: session.id, granted: r.granted });
+          break;
+        }
+        if (meta.kind === "event") {
+          // A paid live-event booking: save it as a lead and send the confirmation once.
+          if (session.payment_status !== "paid") { console.log("Event checkout not paid yet", session.id); break; }
+          const ev = EVENTS[meta.event];
+          const email = String(session.customer_details?.email ?? session.customer_email ?? "").trim().toLowerCase();
+          if (!ev || !email) { console.error("Event booking missing event or email", session.id); break; }
+          const { data: seen } = await db.from("email_log").select("id").is("user_id", null).eq("kind", "event").eq("dedupe_key", session.id).maybeSingle();
+          if (seen) { console.log("Event booking already handled", session.id); break; }
+          await db.from("email_log").insert({ user_id: null, kind: "event", dedupe_key: session.id, status: "sending" });
+          const name = String(meta.name || session.customer_details?.name || "").trim() || email;
+          const consent = meta.marketing_consent === "1";
+          const paid = `${(session.amount_total ?? 0) / 100} ${String(session.currency ?? "").toUpperCase()}`;
+          const { error: le } = await db.from("leads").insert({
+            name, email, company: meta.company || null, source: "event_registration",
+            inquiry_type: `Event booking: ${ev.title} (${ev.short})`.slice(0, 100),
+            message: `Paid ${paid}. Stripe checkout ${session.id}.`,
+            marketing_consent: consent, marketing_consent_at: consent ? new Date().toISOString() : null,
+          });
+          if (le) console.error("event lead insert failed:", le.message);
+          if (consent) await addToKit(email, name);
+          const err = await sendEventConfirmation(meta.event, email, name);
+          await db.from("email_log").update(err ? { status: "failed", error: String(err).slice(0, 300) } : { status: "sent" }).is("user_id", null).eq("kind", "event").eq("dedupe_key", session.id);
+          console.log("Event booked", { event: meta.event, emailed: !err });
           break;
         }
         if (meta.kind === "bundle") {
