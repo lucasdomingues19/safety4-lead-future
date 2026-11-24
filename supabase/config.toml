@@ -86,3 +86,6 @@ verify_jwt = false
 
 [functions.marketing-unsubscribe]
 verify_jwt = false
+
+[functions.create-event-checkout]
+verify_jwt = false

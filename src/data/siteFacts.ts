@@ -151,14 +151,10 @@ export const courses: CourseFact[] = [
     description:
       "Group training that turns Microsoft 365 Copilot licences into audit-ready AI competence for EHS and sustainability teams, aligned to the EU AI Act Article 4 AI-literacy obligation.",
     audience: "EHS and sustainability teams with Microsoft 365 Copilot",
-    format: "Group training for teams, delivered live on Microsoft Teams, with open live sessions for individuals",
+    format: "Group training for teams, delivered live on Microsoft Teams",
     courseMode: "online",
     level: "Team training",
-    // The open live session is promoted until it has happened (9 Dec 2026), then this reverts to group pricing only.
-    priceNote:
-      Date.now() < Date.parse("2026-12-09T17:00:00Z")
-        ? "Priced on consultation. An open live session for individuals runs on Microsoft Teams on Wednesday 9 December 2026."
-        : "Priced per team, on consultation",
+    priceNote: "Priced per team, on consultation",
     credential: "Certificate of completion",
     recognizedBy: [],
     teaches: ["Microsoft Copilot for EHS workflows", "EU AI Act Article 4 AI literacy", "Safe, auditable AI use"],

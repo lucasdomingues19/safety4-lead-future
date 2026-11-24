@@ -57,7 +57,7 @@ const staticRoutes: RouteSeo[] = [
     jsonLd: [courseLd("copilot-for-ehs")],
     title: "Copilot for EHS Professionals | SafetyTech Academy",
     description:
-      "Group Copilot training for EHS and sustainability teams, with open live sessions for individuals on Microsoft Teams — aligned to the EU AI Act Article 4 obligation.",
+      "Group Copilot training for EHS and sustainability teams, delivered live on Microsoft Teams and aligned to the EU AI Act Article 4 obligation.",
   },
   {
     path: "/syllabus",
@@ -186,10 +186,16 @@ const staticRoutes: RouteSeo[] = [
       "Check that a SafetyTech Academy certificate is genuine. Enter the certificate number to confirm the holder, course and date of completion.",
   },
   {
-    path: "/events/copilot-hse",
-    title: "Copilot in HSE — Live Crash Course | SafetyTech Academy",
+    path: "/events/incident-investigations-copilot",
+    title: "Incident Investigations with Copilot: live session | SafetyTech Academy",
     description:
-      "Join Lucas Domingues for a live hands-on crash course on Microsoft 365 Copilot for HSE. Wednesday 30 September 2026, 3:00 PM UK time on Zoom.",
+      "Live session with Lucas Domingues on using Microsoft 365 Copilot for incident investigations. Wednesday 9 December 2026, 3:00 PM UK time, online. £59.",
+  },
+  {
+    path: "/events/copilot-hse",
+    title: "Copilot in EHS — Past event | SafetyTech Academy",
+    description:
+      "The live Microsoft 365 Copilot crash course for EHS ran on Thursday 15 October 2026. Upcoming sessions are listed on our Events page.",
   },
 ];
 

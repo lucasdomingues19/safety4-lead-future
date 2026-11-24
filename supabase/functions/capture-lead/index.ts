@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { addToKit } from '../_shared/kit.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -30,25 +31,6 @@ interface LeadData {
 // Opted-in leads join the Kit newsletter through the public "Website opt-in" form
 // (no secret key needed). Kit's own confirmation email is off for this form because
 // consent is captured here with an unticked box. Never blocks saving the lead.
-const KIT_FORM_URL = "https://app.kit.com/forms/10232126/subscriptions";
-async function addToKit(email: string, name: string) {
-  try {
-    const first = name.trim().split(/\s+/)[0] ?? "";
-    const body = new URLSearchParams({ email_address: email, "fields[first_name]": first });
-    const ctl = new AbortController();
-    const timer = setTimeout(() => ctl.abort(), 5000);
-    const res = await fetch(KIT_FORM_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
-      body,
-      signal: ctl.signal,
-    });
-    clearTimeout(timer);
-    if (!res.ok) console.error("[capture-lead] Kit sign-up failed:", res.status, (await res.text()).slice(0, 200));
-  } catch (e) {
-    console.error("[capture-lead] Kit sign-up error:", e instanceof Error ? e.message : e);
-  }
-}
 
 // Known bot user agent patterns
 const BOT_PATTERNS = [

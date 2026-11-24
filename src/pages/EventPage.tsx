@@ -23,9 +23,9 @@ const NEXT: EventDetails = {
   dateLabel: "Thursday 15 October 2026",
   seoDate: "Thursday 15 October 2026, 3:00 PM UK time",
   banner: eventBannerNext,
-  zoomUrl: "https://us06web.zoom.us/meeting/register/eQ3c-ybhRNqgFq85LLY4gQ",
+  zoomUrl: null,
   canonical: "https://www.safetytech.academy/events/copilot-hse",
-  past: false,
+  past: true,
 };
 
 const PAST: EventDetails = {
@@ -81,7 +81,7 @@ const EventPage = ({ past = false }: { past?: boolean }) => {
                 {ev.past ? "Live Crash Course · Past event" : "Live Crash Course · Free"}
               </span>
               <h1 className="mb-5 leading-[1.05] text-[#0b0b2c]">
-                <span className="text-primary">Copilot</span> in {ev.past ? "HSE" : "EHS"}
+                <span className="text-primary">Copilot</span> in {ev.name.replace("Copilot in ", "")}
               </h1>
               <p className="text-lg text-[#69697b] leading-relaxed max-w-xl">
                 A live, hands-on session on using Microsoft 365 Copilot for real EHS work — drafting
@@ -149,7 +149,7 @@ const EventPage = ({ past = false }: { past?: boolean }) => {
             </p>
             <p className="text-[#69697b] leading-relaxed mb-12">
               {ev.past
-                ? "This session took place on 30 September 2026. Upcoming sessions are listed on the Events page."
+                ? `This session took place on ${ev.dateLabel}. Upcoming sessions are listed on the Events page.`
                 : "Hosted live on Zoom by Lucas Domingues (MSc, CMIOSH), founder of SafetyTech Academy. Spaces are limited — register to save your seat and receive the Zoom link by email."}
             </p>
 
