@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
+import { INCIDENT_EVENT } from "@/data/events";
 
 // Site-wide announcement shown above the main nav (rendered by AudienceNav).
 // To change or retire it, edit ANNOUNCEMENT below. It hides itself after `endsAt`.
 const ANNOUNCEMENT = {
-  id: "copilot-live-2026-12-09",
-  // 9 Dec 2026, 17:00 UK time (GMT in December)
-  endsAt: "2026-12-09T17:00:00Z",
-  full: "Next live session: Copilot for EHS Professionals — Wed 9 Dec, 9am–5pm UK time",
-  short: "Copilot live: 9 Dec, 9am–5pm UK",
-  // Session details link to the Copilot page; the CTA goes to the contact page (the price is on consultation).
-  detailsHref: "/copilot-for-ehs#live-session",
-  cta: "Request your place",
-  ctaHref: "/contact",
+  id: "incident-investigations-2026-12-09",
+  endsAt: INCIDENT_EVENT.endsAt,
+  full: `Free live session: ${INCIDENT_EVENT.title} · ${INCIDENT_EVENT.dateShort}, 3pm UK time`,
+  short: `Free live: ${INCIDENT_EVENT.dateShort}, 3pm UK`,
+  detailsHref: INCIDENT_EVENT.path,
+  cta: "Register free",
+  ctaHref: `${INCIDENT_EVENT.path}#register`,
 };
 
 // Must match the banner's height class (h-10) so the spacer keeps page content clear of the fixed nav.
@@ -58,7 +57,7 @@ export const AnnouncementBanner = ({ onDismiss }: { onDismiss: () => void }) => 
         className="shrink-0 rounded bg-white text-primary px-2.5 py-1 text-xs font-semibold whitespace-nowrap hover:bg-white/90"
       >
         <span className="hidden sm:inline">{ANNOUNCEMENT.cta} →</span>
-        <span className="sm:hidden">Enquire →</span>
+        <span className="sm:hidden">Register →</span>
       </Link>
       <button
         onClick={onDismiss}

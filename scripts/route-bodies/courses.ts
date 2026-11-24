@@ -1,14 +1,4 @@
 import type { RouteBodyEntry as RouteBody } from "../route-bodies";
-const LIVE_UNTIL = Date.parse("2026-12-09T17:00:00Z"); // the 9 Dec 2026 live session ends
-const liveSessionSection = {
-  heading: "Open live session: Wednesday 9 December 2026",
-  paragraphs: [
-    "Not booking for a team? Individual places are open for one day, live on Microsoft Teams, 9am–5pm UK time. Built for EHS professionals who have, or soon will have, Microsoft 365 Copilot. No technical background needed.",
-    "You will use Microsoft 365 Copilot on real EHS tasks, build AI agents that take routine work off your plate, analyse EHS data with Copilot, and put risk and governance in place with a competent person always in charge.",
-    "Price: on consultation. Includes 12 months in the SafetyTech Global Network community.",
-  ],
-};
-
 export const bodies: RouteBody[] = [
   {
     path: "/elearning",
@@ -208,7 +198,6 @@ export const bodies: RouteBody[] = [
           "The training pays for itself quickly — even a conservative time saving adds up fast across a team.",
         ],
       },
-      ...(Date.now() < LIVE_UNTIL ? [liveSessionSection] : []),
       {
         heading: "Delivery details",
         bullets: [

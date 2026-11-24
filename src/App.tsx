@@ -48,6 +48,7 @@ const GuidePage = lazy(() => import("./pages/Guide"));
 const ProposalPage = lazy(() => import("./pages/Proposal"));
 const Events = lazy(() => import("./pages/Events"));
 const EventPage = lazy(() => import("./pages/EventPage"));
+const IncidentInvestigationsEvent = lazy(() => import("./pages/IncidentInvestigationsEvent"));
 const Brochure = lazy(() => import("./pages/BrochureInteractive"));
 
 // Learning platform (LMS)
@@ -191,6 +192,7 @@ const App = () => (
             <Route path="/governance-readiness" element={<GovernanceReadiness />} />
             <Route path="/guides" element={<GuidesHub />} />
             <Route path="/guides/:slug" element={<GuidePage />} />
+            <Route path="/events/incident-investigations-copilot" element={<IncidentInvestigationsEvent />} />
             <Route path="/events/copilot-hse" element={<EventPage />} />
             <Route path="/events/copilot-hse-30-september" element={<EventPage past />} />
             <Route path="/events" element={<Events />} />

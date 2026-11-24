@@ -183,31 +183,21 @@ const modules = [
   },
 ];
 
-// The open live session. Change the details here, or leave it: after `endsAt` the page falls back to the
-// group-training version by itself (the prerendered HTML updates on the next deploy).
-const LIVE_SESSION = {
-  endsAt: "2026-12-09T17:00:00Z", // 9 Dec 2026, 17:00 UK time (GMT in December)
-  dateLong: "Wednesday 9 December 2026",
-  dateShort: "Wed 9 Dec 2026",
-  timeLabel: "9am–5pm UK time",
-};
-
 const CopilotEHS = () => {
   const location = useLocation();
-  const liveOpen = Date.now() < Date.parse(LIVE_SESSION.endsAt);
 
   useEffect(() => {
     trackPageView(window.location.pathname);
     setPageSEO({
       title: "Copilot for EHS Professionals | SafetyTech Academy",
       description:
-        "Group Copilot training for EHS and sustainability teams, with open live sessions for individuals on Microsoft Teams — aligned to the EU AI Act Article 4 obligation.",
+        "Group Copilot training for EHS and sustainability teams, delivered live on Microsoft Teams and aligned to the EU AI Act Article 4 obligation.",
       canonical: "https://www.safetytech.academy/copilot-for-ehs",
     });
   }, []);
 
   // React Router doesn't auto-scroll to a hash target — do it manually so internal links such as
-  // #waitlist and #live-session actually bring that section into view.
+  // #waitlist actually bring that section into view.
   useEffect(() => {
     const id = location.hash.replace("#", "");
     if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -237,12 +227,8 @@ const CopilotEHS = () => {
           { icon: Calendar, label: "Start", value: "By arrangement" },
         ]}
         cta={{ label: "Register Interest", href: "/copilot-for-ehs#waitlist" }}
-        secondaryCta={
-          liveOpen
-            ? { label: `Ask about the live session · ${LIVE_SESSION.dateShort.replace(" 2026", "")}`, href: "/contact" }
-            : { label: "Talk to Us", href: "/contact" }
-        }
-        guarantee={liveOpen ? `Group cohorts are scheduled around your team. Individual places are open on the ${LIVE_SESSION.dateShort} live session.` : "Group cohorts are scheduled around your team."}
+        secondaryCta={{ label: "Talk to Us", href: "/contact" }}
+        guarantee="Group cohorts are scheduled around your team."
       />
 
 
@@ -406,62 +392,6 @@ const CopilotEHS = () => {
           </div>
         </div>
       </section>
-
-      {liveOpen && (
-        <section id="live-session" className="py-10 md:py-14 border-t border-slate-200 bg-slate-50 scroll-mt-20">
-          <div className="container mx-auto px-4 max-w-5xl">
-            <h2 className="mb-2 text-center">Open live session: {LIVE_SESSION.dateLong}</h2>
-            <p className="text-[#69697b] text-center max-w-2xl mx-auto mb-10">
-              Not booking for a team? Individual places are open for one day, live on Microsoft Teams. Built for EHS
-              professionals who have, or soon will have, Microsoft 365 Copilot. You do not need a technical background.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-[20px] border border-slate-200 bg-white p-6 md:p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4">What you will do</h3>
-                <ul className="space-y-2.5">
-                  {[
-                    "Use Microsoft 365 Copilot on real EHS tasks",
-                    "Build AI agents that take routine work off your plate",
-                    "Analyse EHS data with Copilot",
-                    "Put risk and governance in place, with a competent person always in charge",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-xs text-slate-400 mt-5">
-                  In November we ran this training for 21 EHS professionals at an energy company. All 21 completed it.
-                </p>
-              </div>
-              <div className="rounded-[20px] border border-primary bg-white p-6 md:p-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4">The details</h3>
-                <ul className="space-y-2.5 mb-6">
-                  {[
-                    `${LIVE_SESSION.dateLong}, ${LIVE_SESSION.timeLabel}`,
-                    "Live on Microsoft Teams. Joining details are emailed once your place is confirmed.",
-                    "Price: on consultation",
-                    "Includes 12 months in the SafetyTech Global Network community",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 w-full px-6 py-[18px] bg-primary text-white font-medium text-sm uppercase tracking-[0.08em] rounded hover:bg-primary/90 transition-colors"
-                >
-                  Request your place
-                </a>
-                <p className="text-xs text-slate-400 mt-3 text-center">We will reply with the price and how to book.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* The ten modules */}
       <section className="py-10 md:py-14 border-t border-slate-200 bg-slate-50">

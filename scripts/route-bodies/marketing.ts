@@ -431,6 +431,39 @@ export const bodies: RouteBody[] = [
     ],
   },
   {
+    path: "/events/incident-investigations-copilot",
+    h1: "Incident Investigations with Copilot",
+    sections: [
+      {
+        heading: "",
+        paragraphs: [
+          "A free live session on using Microsoft 365 Copilot to run better incident investigations: from rough notes and witness statements to a clear timeline, a root-cause analysis and a report you can stand behind. Led by Lucas Domingues, founder of SafetyTech Academy.",
+        ],
+        bullets: [
+          "Wednesday 9 December 2026",
+          "3:00 PM UK time (GMT): 10:00 AM New York, 4:00 PM Berlin, 7:00 PM Dubai",
+          "Live online, free. Register on this page; the joining link is sent by email.",
+        ],
+      },
+      {
+        heading: "What you'll cover",
+        bullets: [
+          "Turn rough notes, witness statements and photos into a clear, dated timeline",
+          "Use Copilot as a thinking partner for root-cause analysis (5 Whys, fishbone), while the investigator decides the cause",
+          "Draft the investigation report and SMART corrective actions in Word, in your own company format",
+          "Keep it audit-ready: checking AI output, protecting personal data and who signs off",
+          "Q&A: bring an investigation you are working on (anonymised)",
+        ],
+      },
+      {
+        heading: "Who it's for",
+        paragraphs: [
+          "EHS professionals who lead or review incident investigations and have, or will soon have, Microsoft 365 Copilot. You do not need a technical background.",
+        ],
+      },
+    ],
+  },
+  {
     path: "/events/copilot-hse",
     h1: "Copilot in EHS",
     sections: [
@@ -440,7 +473,7 @@ export const bodies: RouteBody[] = [
           "A live, hands-on session on using Microsoft 365 Copilot for real EHS work — drafting policies, structuring incident data and summarising safety meetings. Led by Lucas Domingues, founder of SafetyTech Academy.",
         ],
         bullets: [
-          "Thursday 15 October 2026",
+          "Past event: Thursday 15 October 2026",
           "3:00 PM UK time (BST)",
           "Live online · Zoom",
         ],
@@ -449,7 +482,7 @@ export const bodies: RouteBody[] = [
         heading: "About the event",
         paragraphs: [
           "Your team already has Microsoft 365 Copilot. Most EHS professionals haven't been shown how to actually use it on safety-critical work. This live crash course closes that gap in one session — practical, hands-on, and specific to EHS: drafting policies in Word, structuring incident data in Excel, summarising safety conversations in Teams, and building presentations in PowerPoint.",
-          "Hosted live on Zoom by Lucas Domingues (MSc, CMIOSH), founder of SafetyTech Academy. Spaces are limited — register to save your seat and receive the Zoom link by email.",
+          "This session took place on Thursday 15 October 2026. Upcoming sessions, including Incident Investigations with Copilot on Wednesday 9 December 2026, are listed on the Events page.",
         ],
       },
       {

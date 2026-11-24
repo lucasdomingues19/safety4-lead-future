@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { sendEventConfirmation } from '../_shared/eventEmail.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,6 +24,7 @@ interface LeadData {
   company?: string;
   event_id?: string;
   event_title?: string;
+  event?: string; // event slug, for the registration confirmation email
   marketing_consent?: boolean; // ticked "send me tips and course news"
   _hp?: string; // Honeypot field
 }
@@ -243,6 +245,10 @@ serve(async (req) => {
     }
 
     if (sanitizedData.marketing_consent) await addToKit(sanitizedData.email, sanitizedData.name);
+    if (sanitizedData.source === 'event_registration' && typeof data.event === 'string') {
+      const err = await sendEventConfirmation(data.event, sanitizedData.email, sanitizedData.name);
+      if (err) console.error('Event confirmation email not sent:', err);
+    }
     console.log('Lead captured successfully:', { source: sanitizedData.source, consent: sanitizedData.marketing_consent });
 
     return new Response(
