@@ -77,7 +77,8 @@ serve(async (req) => {
         }
         if (meta.kind === "event") {
           // A paid live-event booking: save it as a lead and send the confirmation once.
-          if (session.payment_status !== "paid") { console.log("Event checkout not paid yet", session.id); break; }
+          // "no_payment_required" = a 100%-off code brought the total to £0.
+          if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required") { console.log("Event checkout not paid yet", session.id); break; }
           const ev = EVENTS[meta.event];
           const email = String(session.customer_details?.email ?? session.customer_email ?? "").trim().toLowerCase();
           if (!ev || !email) { console.error("Event booking missing event or email", session.id); break; }
@@ -90,7 +91,7 @@ serve(async (req) => {
           const { error: le } = await db.from("leads").insert({
             name, email, company: meta.company || null, source: "event_registration",
             inquiry_type: `Event booking: ${ev.title} (${ev.short})`.slice(0, 100),
-            message: `Paid ${paid}. Stripe checkout ${session.id}.`,
+            message: `Paid ${paid}${session.payment_status === "no_payment_required" ? " (100% discount code)" : ""}. Stripe checkout ${session.id}.`,
             marketing_consent: consent, marketing_consent_at: consent ? new Date().toISOString() : null,
           });
           if (le) console.error("event lead insert failed:", le.message);
