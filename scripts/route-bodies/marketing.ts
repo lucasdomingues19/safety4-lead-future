@@ -442,7 +442,7 @@ export const bodies: RouteBody[] = [
         bullets: [
           "Wednesday 9 December 2026",
           "3:00 PM UK time (GMT): 10:00 AM New York, 4:00 PM Berlin, 7:00 PM Dubai",
-          "Live online. £59 (+ VAT where applicable). Book on this page; the joining link is sent by email.",
+          "Live on Microsoft Teams. £59 (+ VAT where applicable). Book on this page; the joining link is sent by email.",
         ],
       },
       {

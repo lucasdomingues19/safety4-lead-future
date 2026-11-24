@@ -65,7 +65,7 @@ export async function sendEventConfirmation(slug: string, to: string, name: stri
 <h1 style="margin:0 0 16px;font-size:24px;line-height:1.25">${esc(ev.title)}</h1>
 <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#4E4E65">Hi ${first}, thanks for booking your place on this live session with Lucas Domingues. Your payment receipt comes separately from Stripe.</p>
 <p style="margin:0 0 4px;font-size:15px;line-height:1.6"><strong>When:</strong> ${esc(ev.when)}</p>
-<p style="margin:0 0 16px;font-size:15px;line-height:1.6"><strong>Where:</strong> live online. We'll email your joining link before the session.</p>
+<p style="margin:0 0 16px;font-size:15px;line-height:1.6"><strong>Where:</strong> live on Microsoft Teams. We'll email your joining link before the session.</p>
 <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#4E4E65">A calendar invite is attached so the time is in your diary. If you're working on an investigation, bring it along (anonymised) for the Q&amp;A.</p>
 <a href="${ev.url}" style="display:inline-block;background:#3434FF;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:6px;font-size:14px;font-weight:bold">See the session details</a>
 </div>

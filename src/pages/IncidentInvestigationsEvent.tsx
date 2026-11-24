@@ -5,6 +5,7 @@ import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
 import { MarketingConsent } from "@/components/MarketingConsent";
 import { INCIDENT_EVENT as EV, eventIsOver } from "@/data/events";
+import eventBanner from "@/assets/event-incident-investigations-banner.png";
 import { setPageSEO } from "@/utils/seo";
 import { trackEvent, trackPageView } from "@/utils/analytics";
 
@@ -141,6 +142,9 @@ const IncidentInvestigationsEvent = () => {
 
       <section className="bg-[#f7f8fc] pt-28 pb-16 md:pt-32 md:pb-20">
         <div className="container mx-auto px-4">
+          <div className="mx-auto mb-12 max-w-6xl overflow-hidden rounded-[20px] shadow-lg md:mb-16">
+            <img src={eventBanner} alt="Incident Investigations with Copilot, live session with Lucas Domingues on Wednesday 9 December 2026" className="h-auto w-full object-cover" />
+          </div>
           <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1fr_420px] lg:gap-16">
             <div>
               <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.2em] text-primary">
