@@ -12,6 +12,8 @@ export interface LiveEvent {
   when: string;
   short: string;
   url: string;
+  /** Teams details live in secrets EVENT_JOIN_<joinKey>_URL / _ID / _PASSCODE (the repo is public). */
+  joinKey: string;
 }
 
 export const EVENTS: Record<string, LiveEvent> = {
@@ -24,6 +26,7 @@ export const EVENTS: Record<string, LiveEvent> = {
     when: "Wednesday 9 December 2026, 3:00 PM UK time (GMT)",
     short: "Wed 9 Dec, 3pm UK",
     url: "https://www.safetytech.academy/events/incident-investigations-copilot",
+    joinKey: "INCIDENT_INVESTIGATIONS",
   },
 };
 
@@ -31,7 +34,16 @@ const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const stamp = (iso: string) => iso.replace(/[-:]/g, "").replace(/\.\d{3}/, "");
 
-const ics = (slug: string, ev: LiveEvent) =>
+interface Join { url: string; id: string; passcode: string }
+const joinOf = (ev: LiveEvent): Join | null => {
+  const url = Deno.env.get(`EVENT_JOIN_${ev.joinKey}_URL`) ?? "";
+  if (!/^https:\/\/teams\.microsoft\.com\//.test(url)) return null;
+  return { url, id: Deno.env.get(`EVENT_JOIN_${ev.joinKey}_ID`) ?? "", passcode: Deno.env.get(`EVENT_JOIN_${ev.joinKey}_PASSCODE`) ?? "" };
+};
+// iCalendar text values escape backslash, semicolon, comma and newlines.
+const icsText = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+
+const ics = (slug: string, ev: LiveEvent, join: Join | null) =>
   [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -43,8 +55,11 @@ const ics = (slug: string, ev: LiveEvent) =>
     `DTSTART:${stamp(ev.startsAt)}`,
     `DTEND:${stamp(ev.endsAt)}`,
     `SUMMARY:${ev.title} (SafetyTech Academy)`,
-    "DESCRIPTION:Live session with Lucas Domingues. Your joining link will be emailed before the session.",
-    `URL:${ev.url}`,
+    `DESCRIPTION:${icsText(join
+      ? `Live session with Lucas Domingues on Microsoft Teams.\nJoin: ${join.url}\nMeeting ID: ${join.id}\nPasscode: ${join.passcode}`
+      : "Live session with Lucas Domingues on Microsoft Teams. Your joining link will be emailed before the session.")}`,
+    `LOCATION:${icsText(join ? `Microsoft Teams: ${join.url}` : "Microsoft Teams")}`,
+    `URL:${join?.url ?? ev.url}`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
@@ -57,6 +72,15 @@ export async function sendEventConfirmation(slug: string, to: string, name: stri
   const key = Deno.env.get("RESEND_API_KEY");
   if (!key) return "RESEND_API_KEY missing";
   const first = esc(name.trim().split(/\s+/)[0] || "there");
+  const join = joinOf(ev);
+  const where = join
+    ? `<p style="margin:0 0 4px;font-size:15px;line-height:1.6"><strong>Where:</strong> live on Microsoft Teams</p>
+<div style="margin:16px 0 20px;padding:16px;border-radius:10px;background:#F5F7FF">
+<a href="${esc(join.url)}" style="display:inline-block;background:#3434FF;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:bold">Join the session on Teams</a>
+<p style="margin:12px 0 0;font-size:14px;line-height:1.6;color:#4E4E65">Meeting ID: <strong>${esc(join.id)}</strong><br>Passcode: <strong>${esc(join.passcode)}</strong></p>
+<p style="margin:8px 0 0;font-size:12px;line-height:1.5;color:#69697B">This link is for you. Please don't share it.</p>
+</div>`
+    : `<p style="margin:0 0 16px;font-size:15px;line-height:1.6"><strong>Where:</strong> live on Microsoft Teams. We'll email your joining link before the session.</p>`;
 
   const html = `<!doctype html><html><body style="margin:0;background:#f7f8fc;font-family:Arial,Helvetica,sans-serif;color:#0b0b2c">
 <div style="max-width:560px;margin:0 auto;padding:32px 24px">
@@ -65,7 +89,7 @@ export async function sendEventConfirmation(slug: string, to: string, name: stri
 <h1 style="margin:0 0 16px;font-size:24px;line-height:1.25">${esc(ev.title)}</h1>
 <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#4E4E65">Hi ${first}, thanks for booking your place on this live session with Lucas Domingues. Your payment receipt comes separately from Stripe.</p>
 <p style="margin:0 0 4px;font-size:15px;line-height:1.6"><strong>When:</strong> ${esc(ev.when)}</p>
-<p style="margin:0 0 16px;font-size:15px;line-height:1.6"><strong>Where:</strong> live on Microsoft Teams. We'll email your joining link before the session.</p>
+${where}
 <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#4E4E65">A calendar invite is attached so the time is in your diary. If you're working on an investigation, bring it along (anonymised) for the Q&amp;A.</p>
 <a href="${ev.url}" style="display:inline-block;background:#3434FF;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:6px;font-size:14px;font-weight:bold">See the session details</a>
 </div>
@@ -80,7 +104,7 @@ export async function sendEventConfirmation(slug: string, to: string, name: stri
     subject: `You're booked: ${ev.title} (${ev.short})`,
     html,
     text: htmlToText(html),
-    attachments: [{ filename: "invite.ics", content: btoa(ics(slug, ev)), content_type: "text/calendar" }],
+    attachments: [{ filename: "invite.ics", content: btoa(ics(slug, ev, join)), content_type: "text/calendar" }],
   });
   return res.ok ? null : `resend ${res.status}`;
 }

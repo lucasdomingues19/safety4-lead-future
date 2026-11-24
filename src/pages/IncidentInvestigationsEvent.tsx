@@ -41,7 +41,7 @@ const BookedPanel = () => {
         <CheckCircle2 className="h-6 w-6 shrink-0 text-primary" aria-hidden="true" />
         <div>
           <p className="font-semibold text-[#0b0b2c]">You're booked. Thank you!</p>
-          <p className="text-sm text-[#69697b]">Your confirmation is on its way by email, with your receipt from Stripe. The joining link follows before the session.</p>
+          <p className="text-sm text-[#69697b]">Your confirmation, with the Microsoft Teams joining link, is on its way by email. Your receipt comes from Stripe.</p>
         </div>
       </div>
       <a href={ics} download="incident-investigations-with-copilot.ics"
@@ -110,7 +110,7 @@ const BookingForm = ({ cancelled }: { cancelled: boolean }) => {
         {sending ? "Opening secure checkout…" : `Book your place · ${EV.price}`}
         {!sending && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
       </button>
-      <p className="text-xs text-slate-400">Secure payment by Stripe. You'll get a receipt and invoice, and a booking confirmation by email.</p>
+      <p className="text-xs text-slate-400">Secure payment by Stripe. Your confirmation email includes the Teams joining link, plus a receipt and invoice.</p>
     </form>
   );
 };
