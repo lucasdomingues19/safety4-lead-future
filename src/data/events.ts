@@ -14,7 +14,7 @@ export const INCIDENT_EVENT = {
   dateShort: "Wed 9 Dec",
   timeLabel: "3:00 PM UK time (GMT)",
   otherZones: "10:00 AM New York · 4:00 PM Berlin · 7:00 PM Dubai",
-  location: "Live on Microsoft Teams · joining link sent by email",
+  location: "Live on Microsoft Teams · joining link in your confirmation email",
   summary:
     "A live session on using Microsoft 365 Copilot to run better incident investigations: from rough notes and witness statements to a clear timeline, a root-cause analysis and a report you can stand behind. Led by Lucas Domingues, founder of SafetyTech Academy.",
   agenda: [

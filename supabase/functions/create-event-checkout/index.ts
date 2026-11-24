@@ -50,7 +50,7 @@ serve(async (req) => {
       "line_items[0][price_data][currency]": ev.currency,
       "line_items[0][price_data][unit_amount]": String(ev.priceCents),
       "line_items[0][price_data][product_data][name]": `Live session: ${ev.title}`,
-      "line_items[0][price_data][product_data][description]": `${ev.when}. Live online with Lucas Domingues; the joining link is emailed before the session.`,
+      "line_items[0][price_data][product_data][description]": `${ev.when}. Live on Microsoft Teams with Lucas Domingues; the joining link is in your confirmation email.`,
       "payment_intent_data[description]": `Live session: ${ev.title} (${ev.short})`,
       success_url: `${SITE_URL}${path}?booked=1`,
       cancel_url: `${SITE_URL}${path}?cancelled=1#register`,
@@ -63,7 +63,7 @@ serve(async (req) => {
       "invoice_creation[enabled]": "true",
       ...(Deno.env.get("STRIPE_ACCOUNT_TAX_ID") ? { "invoice_creation[invoice_data][account_tax_ids][0]": Deno.env.get("STRIPE_ACCOUNT_TAX_ID")! } : {}),
       "invoice_creation[invoice_data][description]": `Live session: ${ev.title}, ${ev.when}`,
-      "custom_text[submit][message]": "You'll get a booking confirmation by email straight away, and your joining link before the session.",
+      "custom_text[submit][message]": "Your booking confirmation, with the Microsoft Teams joining link, arrives by email straight away.",
     };
 
     let session: { id: string; url: string };
