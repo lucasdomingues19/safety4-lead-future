@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, Clock, MapPin, ArrowRight, FileSearch } from "lucide-react";
+import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react";
 import { INCIDENT_EVENT, eventIsOver } from "@/data/events";
 import AudienceNav from "@/components/AudienceNav";
 import { Footer } from "@/components/Footer";
@@ -11,6 +11,7 @@ import EventRegistrationModal from "@/components/EventRegistrationModal";
 import { supabase } from "@/integrations/supabase/client";
 import copilotHseCard from "@/assets/event-copilot-hse-card.webp";
 import copilotNextCard from "@/assets/event-copilot-hse-15oct-card.webp";
+import incidentCard from "@/assets/event-incident-investigations-card.webp";
 
 const pastEvents = [
   { to: "/events/copilot-hse", img: copilotNextCard, title: "Copilot in EHS", when: "Thursday 15 October 2026 · Live on Zoom" },
@@ -89,14 +90,12 @@ const Events = () => {
               className="group block bg-white rounded-[20px] border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300"
             >
               <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
-                <div className="relative min-h-[240px] md:h-full rounded-[12px] overflow-hidden bg-primary flex flex-col justify-between p-6 md:p-8 group-hover:scale-[1.02] transition-transform duration-300">
-                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full" aria-hidden="true" />
-                  <div className="absolute -bottom-12 -left-8 w-36 h-36 bg-white/10 rounded-full" aria-hidden="true" />
-                  <FileSearch className="relative w-14 h-14 text-white" strokeWidth={1.5} aria-hidden="true" />
-                  <div className="relative">
-                    <p className="text-white/70 text-xs font-semibold uppercase tracking-[0.2em] mb-2">Live session · {INCIDENT_EVENT.price}</p>
-                    <p className="text-white text-2xl md:text-3xl font-bold leading-tight">{INCIDENT_EVENT.dateShort} · 3 PM UK</p>
-                  </div>
+                <div className="relative h-64 md:h-full rounded-[12px] overflow-hidden bg-[#202059] group-hover:scale-[1.02] transition-transform duration-300 flex-shrink-0">
+                  <img
+                    src={incidentCard}
+                    alt="Incident Investigations with Copilot, live session with Lucas Domingues"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 <div className="flex flex-col justify-between">
@@ -119,7 +118,7 @@ const Events = () => {
                     </div>
                     <div className="flex items-center gap-3 text-[#0b0b2c]">
                       <MapPin size={20} className="text-primary flex-shrink-0" />
-                      <span className="font-medium">Live online</span>
+                      <span className="font-medium">Live online · Microsoft Teams</span>
                     </div>
                   </div>
 
