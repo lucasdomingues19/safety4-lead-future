@@ -66,7 +66,10 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
   const validUntil = valid_until
     ? new Date(valid_until).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
     : null;
-  const ordered = [...sections].sort((a, b) => a.order - b.order);
+  // A text section with id "terms-cancellation" replaces the default cancellation term in the
+  // Terms and conditions (and is not shown in the body), so one proposal can carry its own terms.
+  const cancellationTerm = sections.find((s) => s.id === "terms-cancellation")?.content?.body?.trim();
+  const ordered = [...sections].filter((s) => s.id !== "terms-cancellation").sort((a, b) => a.order - b.order);
   // A UK customer pays VAT: when the proposal's text says "+ VAT" the terms must say VAT is charged, not that it is not applicable.
   const vatCharged = sections.some((s) => JSON.stringify(s.content ?? {}).includes("+ VAT"));
 
@@ -244,7 +247,7 @@ export const BespokeProposalDocument: React.FC<BespokeProposalDocumentProps> = (
                 : ["Price and taxes", `Prices are in ${currencyName} and exclude any applicable sales taxes.`],
             ["Payment", "Invoiced on approval, payable within 30 days by bank transfer or card."],
             ["Travel and accommodation", "Billed at cost and not included in the price."],
-            ["Refunds and cancellations", "Agreed in writing before the training day is confirmed."],
+            ["Refunds and cancellations", cancellationTerm || "Agreed in writing before the training day is confirmed."],
             ["Certificates", "A certificate of attendance is issued for attendance. It is not an accredited qualification."],
             ["Course materials", `Materials are for the participants' use within ${organisation} and may not be shared outside it without written consent.`],
             ["Personal data", "Participants' personal data is used only to deliver the training, in line with our Privacy Policy."],
