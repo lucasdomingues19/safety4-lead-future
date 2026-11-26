@@ -43,7 +43,7 @@ export const Footer = () => {
                 { to: "/elearning", label: "IOSH-approved Safety 4.0" },
                 { to: "/ai-fundamentals", label: "AI Fundamentals in EHS" },
                 { to: "/accelerator", label: "Safety 4.0 Accelerator" },
-                { to: "/pricing", label: "Pricing & Plans" },
+                { to: "/courses", label: "Pricing & Plans" },
                 { to: "/elearning#accreditation", label: "IOSH & CPD Certification" },
                 { to: "/case-studies", label: "Case Studies" },
               ].map((item) => (

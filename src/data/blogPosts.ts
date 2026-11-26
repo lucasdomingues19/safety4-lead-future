@@ -53,7 +53,7 @@ It's also no longer just a productivity question. Under the EU AI Act's Article 
 
 ## What actually fixes it
 
-Not a ten-minute video and a link to Microsoft's docs — that's the most common failure mode, and it's why licenses sit unused. What works is role-specific, hands-on training built around the real workflow: how a Copilot draft fits into an incident investigation, a risk assessment, an audit. That's the gap SafetyTech Academy is closing through our [AI Fundamentals in EHS course](/ai-fundamentals) and [IOSH-approved Safety 4.0 training](/#pricing).
+Not a ten-minute video and a link to Microsoft's docs — that's the most common failure mode, and it's why licenses sit unused. What works is role-specific, hands-on training built around the real workflow: how a Copilot draft fits into an incident investigation, a risk assessment, an audit. That's the gap SafetyTech Academy is closing through our [AI Fundamentals in EHS course](/ai-fundamentals) and [IOSH-approved Safety 4.0 training](/elearning).
 
 If you want to see where your organisation stands first, the free [AI in EHS Governance Readiness assessment](/governance-readiness) scores your AI literacy and oversight gaps in about five minutes.
 

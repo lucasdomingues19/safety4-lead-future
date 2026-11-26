@@ -30,6 +30,15 @@ function seoPrerenderPlugin(supabaseUrl: string, supabaseKey: string): Plugin {
         .replace(/<\/head>/, `${ldTags("site", [organizationLd(), websiteLd()])}\n  </head>`);
       fs.writeFileSync(templatePath, template.replace(/<\/head>/, `${ldTags("/", [courseListLd()])}\n  </head>`));
 
+      // Fallback for routes with no prerendered page (app screens, 404s): the homepage HTML
+      // without its canonical and hreflang tags, so such pages never tell Google they are the
+      // homepage. Each page sets its own canonical in the browser (setPageSEO).
+      const shell = template
+        .replace(/\s*<!--[^>]*canonical[^>]*-->/i, "")
+        .replace(/\s*<link rel="canonical"[^>]*>/g, "")
+        .replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, "");
+      fs.writeFileSync(path.join(dist, "app-shell.html"), shell);
+
       const routes = await getPrerenderRoutes(supabaseUrl, supabaseKey);
 
       for (const route of routes) {

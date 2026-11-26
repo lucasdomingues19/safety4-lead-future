@@ -9,7 +9,7 @@
         }
       ],
       "destination": "https://www.safetytech.academy/brochure",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/offers/:path*",
@@ -20,7 +20,7 @@
         }
       ],
       "destination": "https://www.safetytech.academy/enrol",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/forms/:path*",
@@ -31,7 +31,7 @@
         }
       ],
       "destination": "https://www.safetytech.academy/copilot-for-ehs#waitlist",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/newsletters/:path*",
@@ -42,7 +42,7 @@
         }
       ],
       "destination": "https://www.safetytech.academy/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/products/communities/:path*",
@@ -53,7 +53,7 @@
         }
       ],
       "destination": "https://www.safetytech.academy/learn?view=community",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/:path(.*)",
@@ -64,7 +64,7 @@
         }
       ],
       "destination": "https://www.safetytech.academy/learn",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/:path(.*)",
@@ -87,6 +87,36 @@
       ],
       "destination": "https://www.safetytech.academy/:path",
       "permanent": true
+    },
+    {
+      "source": "/pricing",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/offer",
+      "destination": "/courses",
+      "permanent": true
+    },
+    {
+      "source": "/certification",
+      "destination": "/elearning#accreditation",
+      "permanent": true
+    },
+    {
+      "source": "/teacher/lucas-domingues",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/assess-readiness",
+      "destination": "/scorecard",
+      "permanent": true
+    },
+    {
+      "source": "/syllabus",
+      "destination": "/elearning",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -96,7 +126,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/app-shell.html"
     }
   ],
   "headers": [
@@ -147,7 +177,7 @@
       ]
     },
     {
-      "source": "/(learn|admin|student|proposal_)(.*)",
+      "source": "/(learn|admin|student|proposal_|auth|linkedin-callback|support)(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",

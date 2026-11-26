@@ -31,8 +31,6 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Admin = lazy(() => import("./pages/Admin"));
 const Scorecard = lazy(() => import("./pages/Scorecard"));
 const Syllabus = lazy(() => import("./pages/Syllabus"));
-const Offer = lazy(() => import("./pages/Offer"));
-const Pricing = lazy(() => import("./pages/Pricing"));
 const Courses = lazy(() => import("./pages/Courses"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const ForProfessionals = lazy(() => import("./pages/ForProfessionals"));
@@ -177,8 +175,8 @@ const App = () => (
             <Route path="/assess-readiness" element={<Scorecard />} />
             <Route path="/elearning" element={<Syllabus />} />
             <Route path="/syllabus" element={<Syllabus />} />
-            <Route path="/offer" element={<Offer />} />
-            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/offer" element={<Navigate to="/courses" replace />} />
+            <Route path="/pricing" element={<Navigate to="/courses" replace />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/for-professionals" element={<ForProfessionals />} />
