@@ -192,6 +192,23 @@ const staticRoutes: RouteSeo[] = [
       "Live session with Lucas Domingues on using Microsoft 365 Copilot for incident investigations. Wednesday 9 December 2026, 3:00 PM UK time, online. £59.",
   },
   {
+    path: "/events",
+    title: "Upcoming Events — SafetyTech Academy",
+    description:
+      "Live online sessions and masterclasses on AI, Safety 4.0 and modern EHS leadership, led by Lucas Domingues.",
+  },
+  {
+    path: "/events/copilot-hse-30-september",
+    title: "Copilot in HSE — Past event | SafetyTech Academy",
+    description:
+      "The live Microsoft 365 Copilot crash course for HSE ran on Wednesday 30 September 2026. Upcoming sessions are listed on our Events page.",
+  },
+  {
+    path: "/brochure",
+    title: "SafetyTech Academy Brochure",
+    description: "Our courses in AI and Safety 4.0 for EHS professionals: IOSH-approved eLearning, AI Fundamentals, the Safety 4.0 Accelerator and Copilot team training.",
+  },
+  {
     path: "/events/copilot-hse",
     title: "Copilot in EHS — Past event | SafetyTech Academy",
     description:

@@ -1,4 +1,5 @@
 import type { RouteBodyEntry as RouteBody } from "../route-bodies";
+import { INCIDENT_EVENT, eventIsOver } from "../../src/data/events";
 export const bodies: RouteBody[] = [
   {
     path: "/enrol",
@@ -460,6 +461,61 @@ export const bodies: RouteBody[] = [
         paragraphs: [
           "EHS professionals who lead or review incident investigations and have, or will soon have, Microsoft 365 Copilot. You do not need a technical background.",
         ],
+      },
+    ],
+  },
+  {
+    path: "/events",
+    h1: "Upcoming Events",
+    sections: [
+      {
+        heading: "",
+        paragraphs: [
+          "Join our community of safety leaders for interactive masterclasses, hands-on workshops and expert-led discussions on AI, Safety 4.0 and modern EHS practice.",
+        ],
+      },
+      ...(eventIsOver(INCIDENT_EVENT.endsAt)
+        ? []
+        : [
+            {
+              heading: INCIDENT_EVENT.title,
+              paragraphs: [INCIDENT_EVENT.summary, `${INCIDENT_EVENT.dateLabel}, ${INCIDENT_EVENT.timeLabel}. Live on Microsoft Teams. ${INCIDENT_EVENT.price} ${INCIDENT_EVENT.priceNote}.`],
+              links: [{ href: INCIDENT_EVENT.path, label: "View the event and book your place" }],
+            },
+          ]),
+      {
+        heading: "Past events",
+        links: [
+          { href: "/events/copilot-hse", label: "Copilot in EHS", text: "Thursday 15 October 2026, live on Zoom" },
+          { href: "/events/copilot-hse-30-september", label: "Copilot in HSE", text: "Wednesday 30 September 2026, live on Zoom" },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/events/copilot-hse-30-september",
+    h1: "Copilot in HSE",
+    sections: [
+      {
+        heading: "",
+        paragraphs: [
+          "A live, hands-on session on using Microsoft 365 Copilot for real EHS work: drafting policies, structuring incident data and summarising safety meetings. Led by Lucas Domingues, founder of SafetyTech Academy.",
+          "This session took place on Wednesday 30 September 2026. Upcoming sessions are listed on the Events page.",
+        ],
+        links: [{ href: "/events", label: "See upcoming events" }],
+      },
+    ],
+  },
+  {
+    path: "/brochure",
+    h1: "SafetyTech Academy Brochure",
+    sections: [
+      {
+        heading: "",
+        paragraphs: [
+          "Explore our safety training courses: IOSH-approved Safety 4.0 eLearning, Fundamentals of AI in EHS, the Safety 4.0 Accelerator and Copilot for EHS Professionals team training.",
+        ],
+        links: [{ href: "/courses", label: "See all courses and prices" }],
       },
     ],
   },

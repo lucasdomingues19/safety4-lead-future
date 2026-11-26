@@ -43,7 +43,7 @@ const Events = () => {
     trackPageView(window.location.pathname);
     setPageSEO({
       title: "Upcoming Events — SafetyTech Academy",
-      description: "Join our upcoming webinars and masterclasses on AI, Safety 4.0, and modern EHS leadership. Free online events with industry experts.",
+      description: "Live online sessions and masterclasses on AI, Safety 4.0 and modern EHS leadership, led by Lucas Domingues.",
       canonical: "https://www.safetytech.academy/events",
     });
   }, []);
